@@ -1,0 +1,203 @@
+{
+  "correct": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": true,
+      "measured_pass": true,
+      "rows": [
+        {
+          "pair": {
+            "object": "Z_fault_target",
+            "support": "Support"
+          },
+          "normalized_vertical_gap": 0.0,
+          "footprint_overlap_approx": true,
+          "measured_pass": true
+        }
+      ],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": true,
+      "crossings": [],
+      "narrow_phase_pairs": 0,
+      "mesh_count": 3,
+      "tested_mesh_count": 3,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "detached": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": false,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [
+        {
+          "parent": "Assembly",
+          "child": "Z_fault_target"
+        }
+      ],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": true,
+      "measured_pass": true,
+      "rows": [
+        {
+          "pair": {
+            "object": "Z_fault_target",
+            "support": "Support"
+          },
+          "normalized_vertical_gap": 0.0,
+          "footprint_overlap_approx": true,
+          "measured_pass": true
+        }
+      ],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": true,
+      "crossings": [],
+      "narrow_phase_pairs": 0,
+      "mesh_count": 3,
+      "tested_mesh_count": 3,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "broken_support": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": true,
+      "measured_pass": false,
+      "rows": [
+        {
+          "pair": {
+            "object": "Z_fault_target",
+            "support": "Support"
+          },
+          "normalized_vertical_gap": 0.31524416249564025,
+          "footprint_overlap_approx": true,
+          "measured_pass": false
+        }
+      ],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": true,
+      "crossings": [],
+      "narrow_phase_pairs": 0,
+      "mesh_count": 3,
+      "tested_mesh_count": 3,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "shared_material_bad_edit": {
+    "pass": false,
+    "checked_objects": 4,
+    "changed_fields": {
+      "A_good": [
+        "materials"
+      ]
+    },
+    "added_objects": [],
+    "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+  },
+  "independent_local_edit": {
+    "applicable": true,
+    "measured_pass": true,
+    "non_target": {
+      "pass": true,
+      "checked_objects": 3,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "target": [
+      "A_good",
+      "Z_fault_target"
+    ],
+    "type": "mechanical_not_text"
+  },
+  "correct_group_move": {
+    "applicable": true,
+    "measured_pass": true,
+    "relative_matrix_error": 0.0,
+    "non_target": {
+      "pass": true,
+      "checked_objects": 2,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "declared_integrity": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "type": "mechanical_not_text"
+  },
+  "triangle_crossing": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": true,
+      "measured_pass": true,
+      "rows": [
+        {
+          "pair": {
+            "object": "Z_fault_target",
+            "support": "Support"
+          },
+          "normalized_vertical_gap": 0.0,
+          "footprint_overlap_approx": true,
+          "measured_pass": true
+        }
+      ],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": false,
+      "crossings": [
+        {
+          "objects": [
+            "Z_fault_target",
+            "Intruder"
+          ],
+          "triangle_pairs": 10
+        }
+      ],
+      "narrow_phase_pairs": 1,
+      "mesh_count": 4,
+      "tested_mesh_count": 4,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  }
+}

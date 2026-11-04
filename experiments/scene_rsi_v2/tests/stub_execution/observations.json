@@ -1,0 +1,74 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "fixture",
+        "object_id": null,
+        "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+        "probe": "camera_focal"
+      },
+      "execution": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      },
+      "visual_metrics": null,
+      "quality_delta": null,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    },
+    {
+      "request": {
+        "scene_id": "fixture",
+        "object_id": "Z_fault_target",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "execution": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      },
+      "visual_metrics": null,
+      "quality_delta": null,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "fixture",
+        "test": "hierarchy_parts",
+        "reason": "Risk: camera"
+      },
+      "result": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      }
+    },
+    {
+      "request": {
+        "scene_id": "fixture",
+        "test": "material_preservation",
+        "reason": "Risk: camera"
+      },
+      "result": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      }
+    },
+    {
+      "request": {
+        "scene_id": "fixture",
+        "test": "composite_move",
+        "reason": "Risk: camera"
+      },
+      "result": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      }
+    }
+  ]
+}

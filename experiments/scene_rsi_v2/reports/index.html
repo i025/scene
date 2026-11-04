@@ -1,0 +1,203 @@
+<html lang="zh"><meta charset="utf-8"><title>Scene-RSI V2</title><style>body{font:16px sans-serif;max-width:1300px;margin:auto}img{max-width:100%}pre{white-space:pre-wrap}</style><h1>Scene-RSI V2 真实结果</h1><p>Exploratory；两次独立研发；不将机制运行等同于科研结论。</p><a href="REPORT_ZH.md">中文报告</a> · <a href="../metrics/summary.json">原始汇总</a><pre>{
+  &quot;state&quot;: {
+    &quot;phase&quot;: &quot;running_scene&quot;,
+    &quot;method&quot;: &quot;fixed_h0&quot;,
+    &quot;run_id&quot;: &quot;r1&quot;,
+    &quot;candidate_id&quot;: &quot;H0&quot;,
+    &quot;scene_id&quot;: &quot;commons_105241439&quot;,
+    &quot;split&quot;: &quot;development&quot;,
+    &quot;folder&quot;: &quot;__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/development/commons_105241439&quot;
+  },
+  &quot;summary&quot;: [
+    {
+      &quot;run_id&quot;: &quot;r1&quot;,
+      &quot;method&quot;: &quot;fixed_h0&quot;,
+      &quot;scheduled&quot;: 6,
+      &quot;recorded&quot;: 0,
+      &quot;completed&quot;: 0,
+      &quot;execution_success_rate&quot;: 0.0,
+      &quot;conditional_Q&quot;: null,
+      &quot;task_utility_v2&quot;: null,
+      &quot;functional_passes&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;not_run&quot;: 6
+    },
+    {
+      &quot;run_id&quot;: &quot;r1&quot;,
+      &quot;method&quot;: &quot;scene_rsi_v2&quot;,
+      &quot;scheduled&quot;: 6,
+      &quot;recorded&quot;: 0,
+      &quot;completed&quot;: 0,
+      &quot;execution_success_rate&quot;: 0.0,
+      &quot;conditional_Q&quot;: null,
+      &quot;task_utility_v2&quot;: null,
+      &quot;functional_passes&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;not_run&quot;: 6
+    },
+    {
+      &quot;run_id&quot;: &quot;r2&quot;,
+      &quot;method&quot;: &quot;fixed_h0&quot;,
+      &quot;scheduled&quot;: 6,
+      &quot;recorded&quot;: 0,
+      &quot;completed&quot;: 0,
+      &quot;execution_success_rate&quot;: 0.0,
+      &quot;conditional_Q&quot;: null,
+      &quot;task_utility_v2&quot;: null,
+      &quot;functional_passes&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;not_run&quot;: 6
+    },
+    {
+      &quot;run_id&quot;: &quot;r2&quot;,
+      &quot;method&quot;: &quot;scene_rsi_v2&quot;,
+      &quot;scheduled&quot;: 6,
+      &quot;recorded&quot;: 0,
+      &quot;completed&quot;: 0,
+      &quot;execution_success_rate&quot;: 0.0,
+      &quot;conditional_Q&quot;: null,
+      &quot;task_utility_v2&quot;: null,
+      &quot;functional_passes&quot;: 0,
+      &quot;failed&quot;: 0,
+      &quot;not_run&quot;: 6
+    }
+  ],
+  &quot;ledger&quot;: {
+    &quot;cli_sessions&quot;: 8,
+    &quot;initial_sandbox_failures&quot;: 0,
+    &quot;observable_cli_turns&quot;: 8,
+    &quot;observable_model_rounds&quot;: null,
+    &quot;tool_calls&quot;: 0,
+    &quot;known_input_tokens&quot;: 282107,
+    &quot;known_output_tokens&quot;: 26049,
+    &quot;usage_unknown_sessions&quot;: 1,
+    &quot;render_attempts_upper_bound&quot;: 14,
+    &quot;renders_completed&quot;: 12,
+    &quot;device&quot;: &quot;CPU+GPU&quot;,
+    &quot;device_mapping_record_counts&quot;: {
+      &quot;CPU&quot;: 12,
+      &quot;GPU&quot;: 2
+    },
+    &quot;max_cli_sessions&quot;: 420,
+    &quot;max_render_frames&quot;: 1500
+  }
+}</pre><h2>figure2_diagnostic</h2><img src="../figures/figure2_diagnostic.png"><h2>figure3_calibration</h2><img src="../figures/figure3_calibration.png"><h2>figure3_edits</h2><img src="../figures/figure3_edits.png"><h2>figure4_evolution</h2><img src="../figures/figure4_evolution.png"><h2>figure5_meta</h2><img src="../figures/figure5_meta.png"><h2>statistics</h2><img src="../figures/statistics.png"><h2>诊断原始证据</h2><pre>{
+  &quot;trace&quot;: &quot;candidates/smoke/scene_rsi_v2/C1/stage2.json&quot;,
+  &quot;scene&quot;: &quot;commons_109923183&quot;,
+  &quot;decision&quot;: {
+    &quot;shared_module&quot;: &quot;representation_and_verification&quot;,
+    &quot;decision&quot;: &quot;No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause&quot;,
+    &quot;best_probe&quot;: {
+      &quot;scene_id&quot;: &quot;commons_109923183&quot;,
+      &quot;object_id&quot;: &quot;Box&quot;,
+      &quot;hypothesis&quot;: &quot;Generated dominant object scale may explain part of the visual mismatch; camera held fixed&quot;,
+      &quot;probe&quot;: &quot;object_scale&quot;
+    },
+    &quot;observed_deltas&quot;: [
+      -0.007090498531655831,
+      -0.0011931767982444885
+    ],
+    &quot;regression_failures&quot;: [],
+    &quot;observation_count&quot;: 2,
+    &quot;unmeasured_regressions&quot;: [],
+    &quot;instruction&quot;: &quot;Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.&quot;,
+    &quot;scope&quot;: &quot;Cross-image reconstruction; no scene IDs, paths or per-image parameter tables&quot;,
+    &quot;candidate_type_allowed&quot;: [
+      &quot;H-only&quot;,
+      &quot;M-only&quot;,
+      &quot;H+M&quot;
+    ]
+  },
+  &quot;probes&quot;: [
+    {
+      &quot;request&quot;: {
+        &quot;scene_id&quot;: &quot;commons_109923183&quot;,
+        &quot;object_id&quot;: null,
+        &quot;hypothesis&quot;: &quot;Framing may be sensitive to focal length; geometry held fixed&quot;,
+        &quot;probe&quot;: &quot;camera_focal&quot;
+      },
+      &quot;execution&quot;: {
+        &quot;probe&quot;: &quot;camera_focal&quot;,
+        &quot;target_selection&quot;: {
+          &quot;object&quot;: null,
+          &quot;mesh_names&quot;: [],
+          &quot;group_name&quot;: null
+        },
+        &quot;interpretation&quot;: &quot;Controlled observation, not proof of causal attribution or true 3D accuracy&quot;,
+        &quot;focal_length_before&quot;: 49.0,
+        &quot;focal_length_after&quot;: 53.900001525878906,
+        &quot;geometry_unchanged&quot;: true,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;images&quot;: [
+          &quot;probe_camera_focal.png&quot;
+        ],
+        &quot;render_attempts&quot;: 1
+      },
+      &quot;visual_metrics&quot;: {
+        &quot;valid&quot;: true,
+        &quot;ssim&quot;: 0.19497894302246918,
+        &quot;lpips&quot;: 0.8672244548797607,
+        &quot;dino&quot;: 0.5371708273887634,
+        &quot;psnr&quot;: 13.05406497438019,
+        &quot;overall&quot;: 0.3654466339456967
+      },
+      &quot;quality_delta&quot;: -0.007090498531655831,
+      &quot;interpretation&quot;: &quot;Controlled sensitivity, not unique causal attribution&quot;
+    },
+    {
+      &quot;request&quot;: {
+        &quot;scene_id&quot;: &quot;commons_109923183&quot;,
+        &quot;object_id&quot;: &quot;Box&quot;,
+        &quot;hypothesis&quot;: &quot;Generated dominant object scale may explain part of the visual mismatch; camera held fixed&quot;,
+        &quot;probe&quot;: &quot;object_scale&quot;
+      },
+      &quot;execution&quot;: {
+        &quot;probe&quot;: &quot;object_scale&quot;,
+        &quot;target_selection&quot;: {
+          &quot;object&quot;: &quot;Box&quot;,
+          &quot;mesh_names&quot;: [
+            &quot;Box&quot;
+          ],
+          &quot;group_name&quot;: null
+        },
+        &quot;interpretation&quot;: &quot;Controlled observation, not proof of causal attribution or true 3D accuracy&quot;,
+        &quot;scale_before&quot;: [
+          12.0,
+          12.0,
+          0.11999999731779099
+        ],
+        &quot;scale_after&quot;: [
+          13.200000762939453,
+          13.200000762939453,
+          0.13199999928474426
+        ],
+        &quot;scale_factor&quot;: 1.1,
+        &quot;pivot_world_scene_units&quot;: [
+          0.0,
+          0.0,
+          -0.07999999821186066
+        ],
+        &quot;pivot_rule&quot;: &quot;Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero&quot;,
+        &quot;fixed_camera&quot;: true,
+        &quot;non_target_preserved&quot;: true,
+        &quot;status&quot;: &quot;completed&quot;,
+        &quot;images&quot;: [
+          &quot;probe_object_scale.png&quot;
+        ],
+        &quot;render_attempts&quot;: 1
+      },
+      &quot;visual_metrics&quot;: {
+        &quot;valid&quot;: true,
+        &quot;ssim&quot;: 0.20252086306622422,
+        &quot;lpips&quot;: 0.875221848487854,
+        &quot;dino&quot;: 0.5734657049179077,
+        &quot;psnr&quot;: 12.844961305111122,
+        &quot;overall&quot;: 0.37134395567910805
+      },
+      &quot;quality_delta&quot;: -0.0011931767982444885,
+      &quot;interpretation&quot;: &quot;Controlled sensitivity, not unique causal attribution&quot;
+    }
+  ],
+  &quot;diff&quot;: &quot;candidates/smoke/scene_rsi_v2/C1/changes.diff&quot;,
+  &quot;phase&quot;: &quot;smoke_excluded_from_formal&quot;
+}</pre></html>

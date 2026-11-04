@@ -1,0 +1,151 @@
+{
+  "A_budget_contract": true,
+  "B_explicit_target_runner": true,
+  "C_observation_feedback": true,
+  "M_controls_executed_regression_menu": true,
+  "D_gate_truth_table": [
+    {
+      "required": false,
+      "applicable": false,
+      "measured_pass": null,
+      "gate_pass": true
+    },
+    {
+      "required": false,
+      "applicable": false,
+      "measured_pass": false,
+      "gate_pass": true
+    },
+    {
+      "required": false,
+      "applicable": false,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    {
+      "required": false,
+      "applicable": true,
+      "measured_pass": null,
+      "gate_pass": true
+    },
+    {
+      "required": false,
+      "applicable": true,
+      "measured_pass": false,
+      "gate_pass": true
+    },
+    {
+      "required": false,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    {
+      "required": true,
+      "applicable": false,
+      "measured_pass": null,
+      "gate_pass": false
+    },
+    {
+      "required": true,
+      "applicable": false,
+      "measured_pass": false,
+      "gate_pass": false
+    },
+    {
+      "required": true,
+      "applicable": false,
+      "measured_pass": true,
+      "gate_pass": false
+    },
+    {
+      "required": true,
+      "applicable": true,
+      "measured_pass": null,
+      "gate_pass": false
+    },
+    {
+      "required": true,
+      "applicable": true,
+      "measured_pass": false,
+      "gate_pass": false
+    },
+    {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    }
+  ],
+  "E_M_only_valid_and_used": true,
+  "H_improvement_from_M_only": false,
+  "positive_decision": {
+    "shared_module": "camera",
+    "decision": "Generalize sensitivity evidence in shared reconstruction reasoning; do not copy probe parameters per scene",
+    "best_probe": {
+      "scene_id": "fixture",
+      "object_id": null,
+      "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+      "probe": "camera_focal"
+    },
+    "observed_deltas": [
+      0.1
+    ],
+    "regression_failures": [],
+    "observation_count": 1,
+    "unmeasured_regressions": [],
+    "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+    "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ]
+  },
+  "negative_decision": {
+    "shared_module": "representation_and_verification",
+    "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+    "best_probe": {
+      "scene_id": "fixture",
+      "object_id": null,
+      "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+      "probe": "camera_focal"
+    },
+    "observed_deltas": [
+      -0.1
+    ],
+    "regression_failures": [],
+    "observation_count": 1,
+    "unmeasured_regressions": [],
+    "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+    "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ]
+  },
+  "next_descendant_decision": {
+    "shared_module": "camera_calibration_descendant",
+    "decision": "Generalize sensitivity evidence in shared reconstruction reasoning; do not copy probe parameters per scene",
+    "best_probe": {
+      "scene_id": "fixture",
+      "object_id": null,
+      "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+      "probe": "camera_focal"
+    },
+    "observed_deltas": [
+      0.1
+    ],
+    "regression_failures": [],
+    "observation_count": 1,
+    "unmeasured_regressions": [],
+    "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+    "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ]
+  }
+}

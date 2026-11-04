@@ -1,0 +1,205 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "commons_109923183",
+        "object_id": null,
+        "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+        "probe": "camera_focal"
+      },
+      "execution": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": null,
+          "mesh_names": [],
+          "group_name": null
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 49.0,
+        "focal_length_after": 53.900001525878906,
+        "geometry_unchanged": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.19497894302246918,
+        "lpips": 0.8672244548797607,
+        "dino": 0.5371708273887634,
+        "psnr": 13.05406497438019,
+        "overall": 0.3654466339456967
+      },
+      "quality_delta": -0.007090498531655831,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    },
+    {
+      "request": {
+        "scene_id": "commons_109923183",
+        "object_id": "Box",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "execution": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "Box",
+          "mesh_names": [
+            "Box"
+          ],
+          "group_name": null
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          12.0,
+          12.0,
+          0.11999999731779099
+        ],
+        "scale_after": [
+          13.200000762939453,
+          13.200000762939453,
+          0.13199999928474426
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          0.0,
+          0.0,
+          -0.07999999821186066
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.20252086306622422,
+        "lpips": 0.875221848487854,
+        "dino": 0.5734657049179077,
+        "psnr": 12.844961305111122,
+        "overall": 0.37134395567910805
+      },
+      "quality_delta": -0.0011931767982444885,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "commons_109923183",
+        "test": "hierarchy_parts",
+        "reason": "Risk: camera,material,parts"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 37,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "commons_109923183",
+        "test": "material_preservation",
+        "reason": "Risk: camera,material,parts"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 3789,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": [
+          "Ball.269",
+          "Ball.270",
+          "Ball.271",
+          "Ball.272",
+          "Ball.273",
+          "Ball.274",
+          "Ball.275",
+          "Ball.276",
+          "Ball.277",
+          "Ball.278",
+          "Ball.279",
+          "Ball.280",
+          "Ball.281",
+          "Ball.282",
+          "Ball.283",
+          "Ball.284",
+          "Ball.285",
+          "Ball.286",
+          "Ball.287",
+          "Ball.288",
+          "Ball.289",
+          "Ball.290",
+          "Ball.291",
+          "Ball.292",
+          "Rod.265",
+          "Rod.266",
+          "Rod.267",
+          "Rod.268",
+          "Rod.269",
+          "Rod.270",
+          "Rod.271",
+          "Rod.272",
+          "Rod.273",
+          "Rod.274",
+          "Rod.275",
+          "Rod.276",
+          "Rod.277",
+          "Rod.278",
+          "Rod.279",
+          "Rod.280",
+          "Rod.281",
+          "Rod.282",
+          "Rod.283",
+          "Rod.284",
+          "Rod.285",
+          "Rod.286",
+          "Rod.287"
+        ],
+        "type": "mechanical_not_text"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "commons_109923183",
+        "test": "composite_move",
+        "reason": "Risk: camera,material,parts"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 7.450580596923828e-09,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 3741,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 37,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}
