@@ -113,6 +113,8 @@ def main():
         return text.encode('utf-8')
 
     def keep_in_git(rel, size):
+        if rel.name in ('system.txt','proposer.txt','LICENSE','codex-help.txt','codex-exec-help.txt','codex-version.txt'):
+            return True
         if rel.parts[0] in ('reports','figures'):
             return rel.suffix in TEXT or rel.suffix in ('.png', '.jpg')
         if rel.suffix in ('.py', '.sh', '.md', '.diff', '.yaml', '.yml', '.csv'):
