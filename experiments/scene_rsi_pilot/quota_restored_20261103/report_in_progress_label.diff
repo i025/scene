@@ -1,0 +1,20 @@
+--- before/report.py
++++ after/report.py
+@@ -551,6 +551,8 @@
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "final_inference_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "external_test_plan.md", "config.json", "manifest.json", "protocol.md", "cli_checks/initial_sandbox_failures.json", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>主对照登记计划 '+display(summary['main_all_scheduled'])+' 个槽位；状态 '+html.escape(display(summary['main_scheduled_counts']))+'。包含未运行与失败，不能用完成数替代计划数。各额外阶段的计划另列。</p>')
++    if summary['main_scheduled_counts'].get('pending',0):
++        panels.append('<p class="missing">进行中：主对照还有 '+str(summary['main_scheduled_counts']['pending'])+' 个待运行槽位。本页仅汇总已保存产物，尚非完整终测结论。</p>')
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+     if analysis:
+         panels.append('<p>CLI失败分类（来自保存的实际错误）：'+html.escape(display(analysis.get('cli_failure_counts',{})))+'。可用场景可能经历过失败的中间模型调用；场景最终可用率与调用成功率分别统计，原始错误见 calls.csv。</p>')
+@@ -712,6 +714,8 @@
+     lines += ['', '[逐项来源](geometry_relations.csv) · [比例源数据](blend_open_rates.csv)']
+     lines += ['', '重建执行失败分类：'+display(execution_failure_counts)+'。单位为执行尝试，不含smoke、诊断probe和机械检查；一个场景可有多种失败，不能当独立场景数。来源 [execution_attempts.csv](execution_attempts.csv)。', '']
+     lines += ['', f"主对照登记计划：{display(summary['main_all_scheduled'])}；逐状态计数：{display(summary['main_scheduled_counts'])}。来源为 [main_scheduled.csv](main_scheduled.csv)，包括失败、待运行与提案拒绝后未运行的槽位；额外阶段另计。", '']
++    if summary['main_scheduled_counts'].get('pending',0):
++        lines += ['', '进行中：主对照仍有 '+str(summary['main_scheduled_counts']['pending'])+' 个待运行槽位，当前汇总不是完整终测结论。', '']
+     lines += ["", f"主视觉指标字段：`{primary}`。缺失值不填零；失败保留在端到端分母中，条件质量另列。", "",
+               "![视觉质量](quality.png)", "[源数据](quality.csv)", "", "![累计成本](cost.png)", "[源数据](cost.csv)", "", "![功能检查](functional.png)", "[源数据](functional.csv)", "",
+               "## 选择、有效改进与元回放", "", "选择结果与原始候选档案原样保存在 summary.json；报告不根据 Test 重新选择。完整有效改进和有效配对数需要已冻结选择及对应 H0/候选功能和终测记录；当前脚本不从单个视觉分数推断。没有元回放实测数据时不绘跨代收益曲线。", "",

@@ -1,0 +1,21 @@
+--- before/run.sh
++++ final/run.sh
+@@ -10,6 +10,7 @@
+ case "${1:-resume}" in
+   smoke) "$PYTHON_BIN" "$SCRIPT_DIR/runner.py" smoke ;;
+   pilot) "$PYTHON_BIN" "$SCRIPT_DIR/pilot.py" ;;
++  external-followup) "$PYTHON_BIN" "$SCRIPT_DIR/external.py" --phase external_followup ;;
+   evaluate|report) "$PYTHON_BIN" "$SCRIPT_DIR/analyze.py"; "$PYTHON_BIN" "$SCRIPT_DIR/report.py" --root "$SCRIPT_DIR" ;;
+   resume-service)
+     "$PYTHON_BIN" "$SCRIPT_DIR/service_resume.py"
+@@ -26,8 +27,9 @@
+     "$PYTHON_BIN" "$SCRIPT_DIR/extras.py"
+     "$PYTHON_BIN" "$SCRIPT_DIR/replay.py"
+     "$PYTHON_BIN" "$SCRIPT_DIR/external.py"
++    "$PYTHON_BIN" "$SCRIPT_DIR/external.py" --phase external_followup
+     "$PYTHON_BIN" "$SCRIPT_DIR/analyze.py"
+     "$PYTHON_BIN" "$SCRIPT_DIR/report.py" --root "$SCRIPT_DIR"
+     ;;
+-  *) echo 'Usage: bash run.sh smoke|pilot|evaluate|report|resume|resume-service' >&2; exit 2 ;;
++  *) echo 'Usage: bash run.sh smoke|pilot|evaluate|report|resume|resume-service|external-followup' >&2; exit 2 ;;
+ esac

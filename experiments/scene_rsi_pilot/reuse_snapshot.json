@@ -1,0 +1,23 @@
+{
+  "version_label": "local-sceneevolve-20261102-unmodified-baseline-with-cpu2-transport-audit",
+  "source": "__SCENEEVOLVE_REPRO__/SceneEvolve_Code",
+  "copied_modules": [
+    "render.py",
+    "data.py",
+    "gpu_watch.py",
+    "evidence.py",
+    "processes.py",
+    "inner_loop.py",
+    "runtime.py",
+    "benchmark.py",
+    "metric_worker.py",
+    "codex_wrapper.py",
+    "evaluate.py",
+    "sceneharness.py",
+    "llm.py"
+  ],
+  "modifications": [
+    "processes/runtime threads 4->2",
+    "do not infer actual_model from request"
+  ]
+}

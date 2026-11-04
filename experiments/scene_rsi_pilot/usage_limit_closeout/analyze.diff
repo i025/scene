@@ -1,0 +1,15 @@
+--- before/analyze.py
++++ after/analyze.py
+@@ -209,8 +209,10 @@
+         calls.append({'method':method,'run_id':run,'role':s.get('role'),'requested_model':s.get('requested_model'),'reported_model':s.get('actual_model'),'effort':s.get('reasoning_effort'),'status':s.get('status'),'exit_code':s.get('exit_code'),'error':s.get('error'),'seconds':s.get('seconds'),'started':s.get('started'),'finished':s.get('finished'),'input_tokens':s.get('input_tokens') if isinstance(s.get('input_tokens'),int) else None,'output_tokens':s.get('output_tokens') if isinstance(s.get('output_tokens'),int) else None,'observable_model_rounds':s.get('observable_model_turns'),'observable_cli_turns':s.get('observable_cli_turns'),'tools':s.get('tool_calls',len(s.get('tool_events',[]))),'source':str(path.relative_to(ROOT))})
+         calls[-1]['preserved_service_attempt']='retired' in path.relative_to(ROOT).parts
+         event_path=path.with_name('events.jsonl')
+-        routing_failure=s.get('status')=='failed' and event_path.exists() and 'workspace routing discovery failed' in event_path.read_text()
+-        calls[-1]['failure_category']='cli_workspace_routing_failure' if routing_failure else 'timeout' if 'TimeoutExpired' in str(s.get('error')) else 'other_cli_failure' if s.get('status')=='failed' else None
++        events_text=event_path.read_text() if event_path.exists() else ''
++        routing_failure=s.get('status')=='failed' and 'workspace routing discovery failed' in events_text
++        usage_limit=s.get('status')=='failed' and 'hit your usage limit' in events_text
++        calls[-1]['failure_category']='cli_usage_limit' if usage_limit else 'cli_workspace_routing_failure' if routing_failure else 'timeout' if 'TimeoutExpired' in str(s.get('error')) else 'other_cli_failure' if s.get('status')=='failed' else None
+     write_csv(out/'calls.csv',calls,list(calls[0]) if calls else [])
+     selection_access=[]
+     for run in ('r1','r2'):

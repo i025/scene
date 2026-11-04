@@ -1,0 +1,84 @@
+{
+  "headers": [
+    "Reference",
+    "Parent H output",
+    "Actual intervention",
+    "Shared candidate on same dev"
+  ],
+  "cells": [
+    {
+      "row": 0,
+      "column": 0,
+      "path": "results/r2/fixed_h0/H0/development/commons_118588033/reference.png",
+      "label": "commons_118588033\nr2 / C1"
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "path": "results/r2/fixed_h0/H0/development/commons_118588033/final.png",
+      "label": "Parent / Q=0.39655\nParent device=CPU"
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "path": "candidates/r2/scene_rsi_pilot/C1/probes/1_camera_focal/probe_camera_focal.png",
+      "label": "camera_focal / Q=0.39264\nCPU -> GPU (mixed devices)"
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "path": null,
+      "label": "scene_rsi_pilot\nCandidate evaluation pending"
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "path": "results/r2/fixed_h0/H0/development/commons_118588033/reference.png",
+      "label": "commons_118588033\nr2 / C1"
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "path": "results/r2/fixed_h0/H0/development/commons_118588033/final.png",
+      "label": "Parent / Q=0.39655\nParent device=CPU"
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "path": "candidates/r2/scene_rsi_pilot/C1/probes/2_object_scale/probe_object_scale.png",
+      "label": "object_scale / Q=0.39504\nCPU -> GPU (mixed devices)"
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "path": null,
+      "label": "scene_rsi_pilot\nCandidate evaluation pending"
+    }
+  ],
+  "independent_unit": "scene, not image/view",
+  "device_comparisons": [
+    {
+      "scene_id": "commons_118588033",
+      "probe": "camera_focal",
+      "baseline_device": "CPU",
+      "probe_device": "GPU",
+      "device_matched": false,
+      "interpretation": "Mixed or unknown devices add a numerical confound; do not interpret the score delta as an isolated causal effect"
+    },
+    {
+      "scene_id": "commons_118588033",
+      "probe": "object_scale",
+      "baseline_device": "CPU",
+      "probe_device": "GPU",
+      "device_matched": false,
+      "interpretation": "Mixed or unknown devices add a numerical confound; do not interpret the score delta as an isolated causal effect"
+    }
+  ],
+  "observations_source": "candidates/r2/scene_rsi_pilot/C1/diagnostic_observations.json",
+  "proposal_source": "candidates/r2/scene_rsi_pilot/C1/proposal_result.json",
+  "shared_diff": null,
+  "rejected_not_executed_diff": "candidates/r2/scene_rsi_pilot/C1/rejected_proposal/changes.diff",
+  "diagnosis": null,
+  "rationale": null,
+  "interpretation": "Intervention sensitivity and later shared-code outcome are shown separately. This is not proof that the probe caused a gain; other development cases and terminal results remain necessary."
+}

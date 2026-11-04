@@ -1,0 +1,243 @@
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/render.py
++++ __EXPERIMENT_ROOT__/backend/render.py
+@@ -1,4 +1,5 @@
+ import argparse
++import ast
+ import json
+ from pathlib import Path
+ import runpy
+@@ -13,10 +14,14 @@
+     if not any(o.type == 'MESH' and len(o.data.polygons) for o in scene.objects):
+         raise ValueError('Scene has no mesh geometry')
+     scene.render.threads_mode = 'FIXED'
+-    scene.render.threads = 4
++    scene.render.threads = 2
+     scene.render.engine = settings['engine']
+     scene.render.resolution_x, scene.render.resolution_y = settings['width'], settings['height']
+     scene.render.resolution_percentage = 100
++    scene.view_settings.view_transform = settings.get('view_transform', 'AgX')
++    scene.view_settings.look = settings.get('look', 'None')
++    scene.view_settings.exposure = settings.get('exposure', 0)
++    scene.view_settings.gamma = settings.get('gamma', 1)
+     scene.render.use_border = False
+     scene.render.use_compositing = False
+     scene.render.use_sequencer = False
+@@ -25,6 +30,8 @@
+         scene.cycles.seed = settings['seed']
+         scene.cycles.device = 'CPU'
+         scene.cycles.use_adaptive_sampling = False
++        scene.cycles.use_denoising = settings.get('denoise', False)
++        scene.cycles.use_animated_seed = False
+     scene.render.image_settings.file_format = 'PNG'
+     scene.render.image_settings.color_mode = 'RGB'
+     scene.render.image_settings.color_depth = '8'
+@@ -48,6 +55,14 @@
+     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
+     sys.path.insert(0, str(Path(__file__).resolve().parent))
+     if args.code:
++        tree=ast.parse(args.code.read_text())
++        for node in ast.walk(tree):
++            if isinstance(node,(ast.Import,ast.ImportFrom)):
++                names=[a.name.split('.')[0] for a in node.names] if isinstance(node,ast.Import) else [(node.module or '').split('.')[0]]
++                if any(n not in {'sceneact','bpy','math','mathutils','numpy','random','itertools','collections'} for n in names):raise ValueError('Scene program import outside frozen contract')
++            if isinstance(node,ast.Call):
++                if isinstance(node.func,ast.Name) and node.func.id in {'exec','eval','open','__import__','compile'}:raise ValueError('Scene program external execution/file IO is prohibited')
++                if isinstance(node.func,ast.Attribute) and node.func.attr in {'render','save_as_mainfile','open_mainfile','load'}:raise ValueError('Scene program must not render, save or load external files')
+         runpy.run_path(str(args.code), run_name='__sceneact_build__')
+     else:
+         import bpy
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/processes.py
++++ __EXPERIMENT_ROOT__/backend/processes.py
+@@ -7,7 +7,7 @@
+     environment = os.environ.copy()
+     environment['CUDA_VISIBLE_DEVICES'] = cuda_visible
+     for key in ('OMP_NUM_THREADS', 'MKL_NUM_THREADS', 'OPENBLAS_NUM_THREADS'):
+-        environment[key] = '4'
++        environment[key] = '2'
+     return environment
+ 
+ 
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/runtime.py
++++ __EXPERIMENT_ROOT__/backend/runtime.py
+@@ -52,16 +52,18 @@
+ 
+     def execute(self, code):
+         """Execute a complete scene program and render it; one budget unit, even on failure."""
++        from budget import guard
++        guard('render')
+         self.check('executions')
+         self.executions += 1
+         self.save_usage()
+         folder = self.output_dir / 'steps' / f'{self.executions:03d}'
+         folder.mkdir(parents=True)
+         (folder / 'build.py').write_text(code)
+-        settings = {**self.config['render'], 'device': 'CPU', 'threads': 4, 'width': self.task['width'], 'height': self.task['height']}
++        settings = {**self.config['render'], 'device': 'CPU', 'threads': 2, 'width': self.task['width'], 'height': self.task['height']}
+         write_json(folder / 'render_settings.json', settings)
+         command = [self.config['blender']['executable'], '--background', '-noaudio', '--factory-startup',
+-                   '--threads', '4', '--python-exit-code', '1', '--python', str(ROOT / 'render.py'), '--',
++                   '--threads', '2', '--python-exit-code', '1', '--python', str(ROOT / 'render.py'), '--',
+                    '--code', str(folder / 'build.py'), '--settings', str(folder / 'render_settings.json'),
+                    '--output-dir', str(folder)]
+         self.log({'event': 'execute', 'step': self.executions, 'code': code, 'command': command})
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/codex_wrapper.py
++++ __EXPERIMENT_ROOT__/backend/codex_wrapper.py
+@@ -3,6 +3,7 @@
+ import os
+ from pathlib import Path
+ import re
++import shutil
+ import time
+ 
+ from data import ROOT, write_json
+@@ -43,10 +44,19 @@
+ 
+ def call(prompt, settings, folder, images=(), *, role, timeout=None, schema=None, log=None):
+     """One fresh CLI session; preserve exact input, CLI events and unknown accounting."""
++    from budget import guard
++    guard('cli')
+     folder = Path(folder).resolve()
+     folder.mkdir(parents=True, exist_ok=True)
+-    workspace = folder / 'workspace'
+-    workspace.mkdir(exist_ok=True)
++    workspace = ROOT.parents[2] / 'work' / 'cli_staging' / str(time.time_ns())
++    workspace.mkdir(parents=True, exist_ok=True)
++    original_images = list(map(str, images))
++    staged_images = []
++    for index, source in enumerate(images, 1):
++        target = workspace / f'image_{index:03d}{Path(source).suffix}'
++        shutil.copy2(source, target)
++        staged_images.append(str(target))
++    images = staged_images
+     prompt_path = folder / 'prompt.txt'
+     prompt_path.write_text(prompt)
+     response = folder / 'response.txt'
+@@ -56,7 +66,7 @@
+         write_json(schema_path, schema)
+     args = command(settings, workspace, response, images, schema_path)
+     request = {'role': role, 'requested_model': settings.get('model', settings.get('name')),
+-               'reasoning_effort': settings['reasoning_effort'], 'images': list(map(str, images)),
++               'reasoning_effort': settings['reasoning_effort'], 'images': list(map(str, images)), 'original_images_for_audit': original_images,
+                'command': args, 'fresh_session': True, 'sandbox': 'read-only',
+                'prompt_bytes': len(prompt.encode('utf-8')), 'call_dir': str(folder)}
+     write_json(folder / 'request.json', request)
+@@ -78,6 +88,8 @@
+         session['seconds'] = time.monotonic() - started
+         session['finished'] = time.time()
+         tool_events = []
++        usage_events = []
++        turns_started = 0
+         events_path = folder / 'events.jsonl'
+         for line in events_path.read_text().splitlines() if events_path.exists() else []:
+             try:
+@@ -89,7 +101,10 @@
+                 session['actual_model_source'] = 'CLI JSON event'
+             if event.get('type') == 'thread.started':
+                 session['thread_id'] = event.get('thread_id', 'unknown')
++            if event.get('type') == 'turn.started':
++                turns_started += 1
+             if event.get('type') == 'turn.completed':
++                usage_events.append(event.get('usage', {}))
+                 usage = event.get('usage', {})
+                 for key in ('input_tokens', 'output_tokens', 'cached_input_tokens'):
+                     session[key] = usage.get(key, 'unknown')
+@@ -98,6 +113,15 @@
+             item = event.get('item', {})
+             if item.get('type') in ('command_execution', 'file_change', 'mcp_tool_call', 'web_search'):
+                 tool_events.append(event)
++        session['usage_events'] = usage_events
++        session['cli_sessions'] = 1
++        session['observable_cli_turns'] = turns_started or None
++        session['observable_model_turns'] = None
++        session['model_rounds_note'] = 'CLI turn events do not expose every underlying inference round; unknown'
++        session['tool_calls'] = len(tool_events)
++        for key in ('input_tokens', 'output_tokens', 'cached_input_tokens'):
++            session[key] = sum(u[key] for u in usage_events) if usage_events and all(isinstance(u.get(key), int) for u in usage_events) else None
++        session['total_tokens'] = session['input_tokens'] + session['output_tokens'] if isinstance(session['input_tokens'], int) and isinstance(session['output_tokens'], int) else None
+         session['tool_events'] = tool_events
+         # Some CLI versions emit the selected model only in their stderr startup header.
+         stderr_path = folder / 'stderr.log'
+@@ -107,8 +131,8 @@
+             session['actual_model'] = selected.group(1)
+             session['actual_model_source'] = 'CLI stderr startup header'
+         if session['actual_model'] == 'unknown' and session.get('exit_code') == 0:
+-            session['actual_model'] = request['requested_model']
+-            session['actual_model_source'] = 'inferred from successful explicit --model selection; not independently reported'
++            session['actual_model'] = 'unknown'
++            session['actual_model_source'] = 'not independently reported; requested_model is recorded separately'
+         session['status'] = 'complete' if not error and session.get('exit_code') == 0 else 'failed'
+         write_json(folder / 'session.json', session)
+     if log:
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/budget.py
++++ __EXPERIMENT_ROOT__/backend/budget.py
+@@ -0,0 +1,28 @@
++"""Single-process observable budget accounting; no content fingerprints."""
++import json
++from pathlib import Path
++ROOT=Path(__file__).resolve().parent.parent
++
++def current():
++    sessions=list(ROOT.rglob('request.json'))
++    sessions=[p for p in sessions if p.parent.joinpath('session.json').exists()]
++    frames=len(list(ROOT.rglob('steps/*/build.py')))
++    complete_frames=len(list(ROOT.rglob('steps/*/final.png')))
++    for p in ROOT.rglob('render_ledger.json'):
++        if p.is_symlink():continue
++        d=json.loads(p.read_text());frames+=d.get('render_attempts',0);complete_frames+=d.get('renders_completed',0)
++    tokens_in=tokens_out=turns=tools=0;unknown=0
++    for p in sessions:
++        s=json.loads(p.with_name('session.json').read_text())
++        if isinstance(s.get('total_tokens'),int):
++            tokens_in+=s['input_tokens'];tokens_out+=s['output_tokens']
++        else:unknown+=1
++        turns+=s.get('observable_cli_turns') or sum('"turn.started"' in l for l in p.with_name('events.jsonl').read_text().splitlines()) if p.with_name('events.jsonl').exists() else 0
++        tools+=s.get('tool_calls',len(s.get('tool_events',[])))
++    return {'cli_sessions':len(sessions)+2,'initial_sandbox_failures':2,'observable_cli_turns':turns,'observable_model_rounds':None,'tool_calls':tools,'known_input_tokens':tokens_in,'known_output_tokens':tokens_out,'usage_unknown_sessions':unknown+2,'render_attempts_upper_bound':frames,'renders_completed':complete_frames,'device':'CPU','max_cli_sessions':600,'max_render_frames':1500}
++
++def guard(kind,amount=1):
++    value=current()
++    (ROOT/'ledger.json').write_text(json.dumps(value,indent=2))
++    key,limit=('cli_sessions',600) if kind=='cli' else ('render_attempts_upper_bound',1500)
++    if value[key]+amount>limit:raise RuntimeError('Global budget exhausted: '+kind)
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/evaluate.py
++++ __EXPERIMENT_ROOT__/backend/evaluate.py
+@@ -17,8 +17,8 @@
+ 
+ 
+ def zero(reason):
+-    return {'valid': False, 'ssim': 0.0, 'lpips': 1.0, 'dino': -1.0,
+-            'psnr': 0.0, 'overall': 0.0, 'error': reason}
++    return {'valid': False, 'ssim': None, 'lpips': None, 'dino': None,
++            'psnr': None, 'overall': None, 'error': reason}
+ 
+ 
+ @lru_cache(maxsize=2)
+@@ -29,7 +29,7 @@
+         weights = Path(alexnet_weights).resolve()
+         if not weights.is_file():
+             raise FileNotFoundError(weights)
+-        hub = ROOT.parent / 'work' / 'metric-torch-hub'
++        hub = ROOT.parents[2] / 'work' / 'metric-torch-hub'
+         checkpoint = hub / 'checkpoints' / 'alexnet-owt-7be5be79.pth'
+         checkpoint.parent.mkdir(parents=True, exist_ok=True)
+         if not checkpoint.exists():
+@@ -46,7 +46,7 @@
+     report = output_dir / 'validated.json'
+     report.unlink(missing_ok=True)
+     command = [config['blender']['executable'], '--background', '-noaudio', '--factory-startup',
+-               '--disable-autoexec', '--threads', '4', '--python-exit-code', '1', '--python', str(ROOT / 'render.py'),
++               '--disable-autoexec', '--threads', '2', '--python-exit-code', '1', '--python', str(ROOT / 'render.py'),
+                '--', '--scene', str(blend), '--output-dir', str(output_dir), '--validate-only']
+     with (output_dir / 'validation.log').open('w') as log:
+         try:
+--- __SCENEEVOLVE_REPRO__/SceneEvolve_Code/llm.py
++++ __EXPERIMENT_ROOT__/backend/llm.py
+@@ -26,7 +26,7 @@
+                 if part['type'] == 'image_file':
+                     images.append(str(Path(part['path']).resolve()))
+                     content.append({'type': 'image_attachment', 'attachment_index': len(images),
+-                                    'original_path': images[-1], 'part_index': part_index})
++                                    'part_index': part_index})
+                 else:
+                     content.append(part)
+             mapped['content'] = content

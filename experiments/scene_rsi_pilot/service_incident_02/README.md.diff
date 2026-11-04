@@ -1,0 +1,18 @@
+--- before/README.md
++++ README.md
+@@ -32,3 +32,15 @@
+ 2026-11-03续跑资源再次切换：GPU1出现其他计算进程后，本实验当前子任务已自动选CPU并继续收尾；之后只允许已核对空闲的GPU2（UUID GPU-158426a4-6684-7863-8cbe-ed6595f97683）。仍逐次检查空闲、CUDA UUID隔离和Cycles PCI映射，至多一张GPU、忙时CPU，相同渲染质量；不改其他任务。实际使用以各产物actual_device.json为准。
+ 
+ 资源策略澄清：0–3是用户空闲卡授权下的候选池（UUID见quota_restored_20261103/idle_gpu_pool.json），下一子进程只选择其中一张经两次空闲检查的设备；不是同时占用四张。保持单重任务、最多一张GPU，其他任务进入则后续用其他获准空闲卡或CPU。具体实际设备逐产物记录。
++
++2026-11-04停止快照：主对照搜索和终测、固定文字编辑与独立评审已结束。消融终测7成功、1路由服务失败、4待运行；冻结元回放与BlenderWorld外部任务未启动。该次有限队列已经退出，累计533/600会话。`service_incident_02/closeout.json`保存当时停止状态，`quota_restored_20261103/session_jump_373_to_529.json`逐项解释373→529的156次会话。普通`resume`保留路由停止标记并阻止新调用。
++
++服务恢复后，只使用以下明确的续跑命令：
++
++```bash
++bash outputs/scene_rsi_pilot/run.sh resume-service
++```
++
++这是需要显式执行的恢复入口，本次收尾没有执行它。它最多新增一次已计费的gpt-6.1-sol/medium连接检查，成功后继续尚未运行的槽位；已有失败场景、H/M、选择与总预算不改。检查再次失败则保留停止标记，同一入口不会反复提交连接检查。后续可选阶段仍按实际剩余预算判定，不保证都能运行。单独重建离线报告继续使用`report`。
++
++后续用户明确要求继续后，`resume-service`的一次连接检查已经成功，队列09继续尚未运行的槽位。实时执行状态见`service_incident_02/execution_09.json`和`state.json`，最终结果见各阶段状态；这是同一600会话预算内的续跑，失败任务没有重开。消融缓存续跑的冻结时间戳修正记录见`service_incident_02/ablation_freeze_resume_audit.json`。

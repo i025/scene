@@ -1,0 +1,127 @@
+{
+  "initial_diagnoses": [],
+  "probes": [
+    {
+      "scene_id": "commons_109923183",
+      "probe": "camera_focal",
+      "result": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": "apron_-1",
+          "kind": "group",
+          "mesh_names": [
+            "Ball.062",
+            "Ball.063",
+            "Ball.064",
+            "Ball.065",
+            "Ball.066",
+            "Ball.067",
+            "Ball.068",
+            "Rod.063",
+            "Rod.064",
+            "Rod.065",
+            "Rod.066",
+            "Rod.067",
+            "Rod.068"
+          ],
+          "group_name": "apron_-1",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 50.0,
+        "focal_length_after": 55.0,
+        "geometry_unchanged": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.2906670476425839,
+        "lpips": 0.8029810786247253,
+        "dino": 0.44751980900764465,
+        "psnr": 12.940111283413554,
+        "overall": 0.40381529117389364
+      },
+      "baseline_visual_metrics": {
+        "valid": true,
+        "ssim": 0.2793354333323723,
+        "lpips": 0.8057103157043457,
+        "dino": 0.4518187344074249,
+        "psnr": 13.021653531440418,
+        "overall": 0.3998448282772464
+      }
+    },
+    {
+      "scene_id": "commons_109923183",
+      "probe": "object_scale",
+      "result": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "apron_-1",
+          "kind": "group",
+          "mesh_names": [
+            "Ball.062",
+            "Ball.063",
+            "Ball.064",
+            "Ball.065",
+            "Ball.066",
+            "Ball.067",
+            "Ball.068",
+            "Rod.063",
+            "Rod.064",
+            "Rod.065",
+            "Rod.066",
+            "Rod.067",
+            "Rod.068"
+          ],
+          "group_name": "apron_-1",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scale_after": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          0.05500000715255737,
+          -0.4429999887943268,
+          0.5450000166893005
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.27966244825904263,
+        "lpips": 0.8071886301040649,
+        "dino": 0.4230823814868927,
+        "psnr": 13.00936208306804,
+        "overall": 0.39467166963280803
+      },
+      "baseline_visual_metrics": {
+        "valid": true,
+        "ssim": 0.2793354333323723,
+        "lpips": 0.8057103157043457,
+        "dino": 0.4518187344074249,
+        "psnr": 13.021653531440418,
+        "overall": 0.3998448282772464
+      }
+    }
+  ]
+}

@@ -1,0 +1,353 @@
+--- before/report.py
++++ after/report.py
+@@ -378,7 +378,7 @@
+                                "缺失指标保持 null；质量均值仅在 valid 且有数值的记录上计算。",
+                                "功能图的单位是检查项，不能当独立场景样本；遗漏检查不算通过。",
+                                "重建成本图不包括未记录在 scene record 中的提案、评审、诊断和重试；总预算以 ledger 为准。",
+-                               "本轮全部使用CPU；CLI耗时含不可观测的服务排队，service_queue_seconds为null。CLI耗时与重建总耗时互有包含，不可相加当总墙钟时间或据此断言算法加速。",
++                               "前段使用CPU；用户随后授权空闲GPU，后续Blender按逐次占用检查仅使用GPU 0的UUID，忙时继续CPU，质量设置不变。混合设备耗时不能解释为算法效率差异；1200秒期限也可能带来不同执行机会，属于本轮限制。CLI内部服务排队不可观测，service_queue_seconds为null，CLI耗时与重建总耗时互有包含。",
+                                "图像已在历史联系表/人物审阅中暴露，本轮是 exploratory。",
+                                "主对照仅两次独立研发重复；展示全部点与配对差异，不作普遍优势或元能力单调提高的结论。",
+                                "CLI只记录请求模型，未独立返回可验证的实际路由；远端模型采样种子不可控，本地seed仅控制数据/程序/渲染。",
+@@ -430,9 +430,9 @@
+         extra_frames=sum(read(p,{}).get('renders_completed',0) for p in directory.glob('*/render_ledger.json') if not p.is_symlink())
+         frame_count=len(list(directory.glob('steps/*/final.png')))+extra_frames
+         choice=next((c for c in (selections or []) if c['method']==row['method'] and c['run_id']==row['run_id']),None)
+-        item = {**{k: row.get(k) for k in ("method", "run_id", "scene_id", "split", "candidate_id", "parent_id", "H_version", "M_version", "model_roles", "status", "failure_type", "device", "seconds", "resource_wait_seconds", "service_queue_seconds", "usage", "record_path", "reuse_of")}, **row["metrics"], 'selected_for_run': row['candidate_id']==choice['candidate_id'] if choice else None, 'actual_render_frames':frame_count}
++        item = {**{k: row.get(k) for k in ("method", "run_id", "scene_id", "split", "candidate_id", "parent_id", "H_version", "M_version", "model_roles", "status", "failure_type", "device", "device_mapping", "render_device_history", "functional_device_mapping", "seconds", "resource_wait_seconds", "service_queue_seconds", "usage", "record_path", "reuse_of")}, **row["metrics"], 'selected_for_run': row['candidate_id']==choice['candidate_id'] if choice else None, 'actual_render_frames':frame_count}
+         flat.append(item)
+-    write_csv(out / "scenes.csv", flat, ["method", "run_id", "scene_id", "split", "candidate_id", "parent_id", "H_version", "M_version", "model_roles", "status", "failure_type", "valid", *METRICS, "selected_for_run", "actual_render_frames", "device", "seconds", "resource_wait_seconds", "service_queue_seconds", "usage", "reuse_of", "record_path"])
++    write_csv(out / "scenes.csv", flat, ["method", "run_id", "scene_id", "split", "candidate_id", "parent_id", "H_version", "M_version", "model_roles", "status", "failure_type", "valid", *METRICS, "selected_for_run", "actual_render_frames", "device", "device_mapping", "render_device_history", "functional_device_mapping", "seconds", "resource_wait_seconds", "service_queue_seconds", "usage", "reuse_of", "record_path"])
+     visible_funcs=funcs if selection_frozen else [f for f in funcs if f.get('split') not in ('selection','test')]
+     plots(out, visible_rows, costs, visible_funcs, primary)
+     sheets=contact_sheets(root,out,rows,manifest_rows(manifest),selections or [])
+@@ -462,6 +462,15 @@
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+     if not selection_frozen:panels.append('<p class="missing">中期报告：Selection/Test 的逐图指标、图像和结构细节在统一选择冻结后再展示；当前仅汇总登记状态。主对照尚未完成。</p>')
++    gpu_checks=[]
++    for folder in sorted((root/'smoke').glob('gpu_*_check')):
++        execution=read(folder/'render_ledger.json',{})
++        mapping=read(folder/'actual_device.json',{})
++        comparison=read(folder/'comparison.json',{})
++        gpu_checks.append({'check':folder.name,'exit_code':execution.get('exit_code'),'frames':execution.get('renders_completed'),'seconds':execution.get('seconds'),'backend':mapping.get('backend'),'gpu_uuid':mapping.get('gpu_uuid'),'mean_absolute_RGB_difference_0_1':comparison.get('mean_absolute_RGB_difference_0_1')})
++        panels.append('<details><summary>GPU smoke：'+html.escape(folder.name)+'</summary><pre>'+html.escape(json.dumps(gpu_checks[-1],ensure_ascii=False,indent=2))+'</pre>'+media(folder/'final.png','实际 GPU smoke 输出')+link(folder/'stderr.log','原始错误日志')+'</details>')
++    write_csv(out/'gpu_checks.csv',gpu_checks,['check','exit_code','frames','seconds','backend','gpu_uuid','mean_absolute_RGB_difference_0_1'])
++    if gpu_checks:panels.append('<p>设备检查排除正式对照，失败也计入渲染预算。'+link(root/'gpu_adaptation.md','设备适配记录')+' · '+link(out/'gpu_checks.csv','GPU smoke 源数据')+'</p>')
+     if not summary["formal_records"]:
+         panels.append('<p class="missing">主对照尚未产生正式记录；下面图表仅为已完成 smoke 或未运行状态，不构成方法比较。</p>')
+     for name, title in (("quality", "视觉质量：全部实测点"), ("cost", "重建记录累计成本"), ("functional", "已测功能检查"), ("effective_improvement", "冻结选择后的配对终测收益")):
+@@ -582,7 +591,7 @@
+     lines += ["", f"主视觉指标字段：`{primary}`。缺失值不填零；失败保留在端到端分母中，条件质量另列。", "",
+               "![视觉质量](quality.png)", "[源数据](quality.csv)", "", "![累计成本](cost.png)", "[源数据](cost.csv)", "", "![功能检查](functional.png)", "[源数据](functional.csv)", "",
+               "## 选择、有效改进与元回放", "", "选择结果与原始候选档案原样保存在 summary.json；报告不根据 Test 重新选择。完整有效改进和有效配对数需要已冻结选择及对应 H0/候选功能和终测记录；当前脚本不从单个视觉分数推断。没有元回放实测数据时不绘跨代收益曲线。", "",
+-              "## 资源与复用", "", f"设备配置：{display(config.get('render'))}；CPU 配置：{display(config.get('pilot', {}).get('cpu_threads'))}。实际逐记录设备保存在 scenes.csv，等待与执行成本以原账本字段为准。", "",
++              "## 资源与复用", "", f"资源策略：{display(config.get('resources'))}；渲染配置：{display(config.get('render'))}；CPU 配置：{display(config.get('pilot', {}).get('cpu_threads'))}。实际逐记录设备保存在 scenes.csv，等待与执行成本以原账本字段为准。", "",
+               "复用配置完整保存在 [config.json](../config.json)；数据来源保存在 [manifest.json](../manifest.json)。旧 scenespec M0–M3 为已知米尺度布局策略，不直接证明图像重建或本轮元策略改进。", "",
+               "## 局限与待运行", ""]
+     if analysis:
+--- before/pilot.py
++++ after/pilot.py
+@@ -18,6 +18,7 @@
+ from codex_wrapper import call
+ from strategies import initialize,COMMON
+ from model_evidence import compact_structure,compact_trajectory,bound_payload
++from devices import inspection_config
+ 
+ METHODS=['sceneevolve_cli','generic_rsi','scene_rsi_pilot']
+ 
+@@ -59,12 +60,13 @@
+     result_file=dest/({'mechanical':'mechanical','inspect':'scene_structure','views':'views','probe':'probe'}[mode]+'.json')
+     if result_file.exists():return read(result_file)
+     guard('render',{'inspect':0,'mechanical':3,'views':2,'probe':1}[mode])
+-    args=[cfg['blender']['executable'],'--background','--disable-autoexec','--threads','2','--python-exit-code','2','--python',str(ROOT/'inspect_blend.py'),'--','--blend',str(folder/'scene.blend'),'--output-dir',str(dest),'--mode',mode,'--settings',str(ROOT/'config.json')]
++    settings_path, environment = inspection_config(cfg, dest)
++    args=[cfg['blender']['executable'],'--background','--disable-autoexec','--threads','2','--python-exit-code','2','--python',str(ROOT/'inspect_blend.py'),'--','--blend',str(folder/'scene.blend'),'--output-dir',str(dest),'--mode',mode,'--settings',str(settings_path)]
+     if probe:args+=['--probe',probe]
+     start=time.monotonic()
+     with (dest/'stdout.log').open('w') as out,(dest/'stderr.log').open('w') as err:
+         try:
+-            result=subprocess.run(args,stdout=out,stderr=err,env=cpu_environment(),timeout=cfg['blender']['timeout'])
++            result=subprocess.run(args,stdout=out,stderr=err,env=environment,timeout=cfg['blender']['timeout'])
+             status={'exit_code':result.returncode,'seconds':time.monotonic()-start}
+         except subprocess.TimeoutExpired:
+             status={'exit_code':None,'seconds':time.monotonic()-start,'error':'blender_timeout'}
+@@ -126,6 +128,10 @@
+         else:
+             failure_type='generated_program_or_execution_failure'
+     row={'method':method,'run_id':run_id,'scene_id':scene['scene_id'],'split':scene['split'],'candidate_id':candidate,'parent_id':parent,'H_version':str(source.relative_to(ROOT)),'M_version':meta,'model_roles':{'student':'gpt-6.1-sol/medium','meta':'gpt-6-astra/medium','editor':'gpt-6.1-sol/medium','judge':'gpt-6-astra/medium'},'status':'complete' if metrics['valid'] else 'failed','metrics':metrics,'functional':checks,'target_object':checks['target_object'],'device':'CPU','seconds':time.monotonic()-start,'usage':usage,'runtime_status':status,'failure_type':failure_type,'resource_wait_seconds':0,'service_queue_seconds':None,'folder':str(folder),'selected':None}
++    row['device_mapping']=read(folder/'actual_device.json',{'device':'CPU','note':'Original CPU-only renderer before user-authorized GPU adaptation'})
++    row['device']=row['device_mapping']['device']
++    row['render_device_history']=[read(p) for p in sorted(folder.glob('steps/*/actual_device.json'))]
++    row['functional_device_mapping']=read(folder/'functional/actual_device.json')
+     if finished_generation:
+         row['seconds']+=status.get('seconds',0)
+         row['resumed_external_evaluation']=True
+--- before/analyze.py
++++ after/analyze.py
+@@ -139,7 +139,7 @@
+                 ledgers += [p for j in range(1,k+1) for p in (ROOT/'candidates'/run/method/f'C{j}').glob('probes/*/render_ledger.json')]
+                 attempts=sum(len(list(f.glob('steps/*/build.py'))) for f in folders)+sum(read(p).get('render_attempts',0) for p in ledgers)
+                 frames=sum(len(list(f.glob('steps/*/final.png'))) for f in folders)+sum(read(p).get('renders_completed',0) for p in ledgers)
+-                rd.append({'method':method,'run_id':run,'candidate_id':f'C{k}','candidate_status':item['status'],'candidate_selection_Q':item.get('selection',{}).get('endpoint_quality'),'retained_selection_Q':selected_quality,'selection_gain_from_H0':selected_quality-base,'cumulative_cli_sessions_including_shared_H0':len(cumulative),'cumulative_known_tokens':known,'usage_unknown_calls':sum(c['input_tokens'] is None for c in cumulative),'cumulative_cli_seconds':sum(c['seconds'] or 0 for c in cumulative),'cumulative_reconstruction_seconds':sum(r['seconds'] for r in reconstruction),'cumulative_render_attempts_upper_bound':attempts,'cumulative_render_frames':frames,'device':'CPU','shared_H0_cli_sessions':len(shared),'accepted':item['accepted'],'terminal_joint_pass':None})
++                rd.append({'method':method,'run_id':run,'candidate_id':f'C{k}','candidate_status':item['status'],'candidate_selection_Q':item.get('selection',{}).get('endpoint_quality'),'retained_selection_Q':selected_quality,'selection_gain_from_H0':selected_quality-base,'cumulative_cli_sessions_including_shared_H0':len(cumulative),'cumulative_known_tokens':known,'usage_unknown_calls':sum(c['input_tokens'] is None for c in cumulative),'cumulative_cli_seconds':sum(c['seconds'] or 0 for c in cumulative),'cumulative_reconstruction_seconds':sum(r['seconds'] for r in reconstruction),'cumulative_render_attempts_upper_bound':attempts,'cumulative_render_frames':frames,'device':'+'.join(sorted({r.get('device','CPU') for r in reconstruction} | {h['device'] for r in reconstruction for h in r.get('render_device_history',[])} | {r.get('functional_device_mapping',{}).get('device','CPU') for r in reconstruction if r.get('functional_device_mapping')})),'shared_H0_cli_sessions':len(shared),'accepted':item['accepted'],'terminal_joint_pass':None})
+     fields=['method','run_id','candidate_id','candidate_status','candidate_selection_Q','retained_selection_Q','selection_gain_from_H0','cumulative_cli_sessions_including_shared_H0','cumulative_known_tokens','usage_unknown_calls','cumulative_cli_seconds','cumulative_reconstruction_seconds','cumulative_render_attempts_upper_bound','cumulative_render_frames','device','shared_H0_cli_sessions','accepted','terminal_joint_pass']
+     write_csv(out/'rd_cost_gain.csv',rd,fields)
+     fig,ax=plt.subplots(figsize=(9,4))
+--- before/config.json
++++ after/config.json
+@@ -65,7 +65,7 @@
+     "max_render_frames": 1500,
+     "heavy_concurrency": 1,
+     "cpu_threads": 2,
+-    "device": "CPU",
++    "device": "cpu_if_busy (authorized GPU 0 UUID only)",
+     "repeats": 2,
+     "K": 2,
+     "smoke_resolution_long_edge": 256,
+@@ -112,5 +112,22 @@
+         "selection_basis": "Both original preselected test cases are workbench scenes by source metadata; all matching non-root groups and named mesh components, with descendants"
+       }
+     }
++  },
++  "resources": {
++    "policy": "cpu_if_busy",
++    "user_authorized_idle_gpu": true,
++    "authorization": "2026-11-02 user: 现在有空闲的gpu就用呗",
++    "gpu_allowlist": [
++      "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359"
++    ],
++    "max_gpus": 1,
++    "cpu_threads": 2,
++    "heavy_concurrency": 1,
++    "scheduler_observation": "No scheduler commands or allocation context found at GPU switch",
++    "gpu_backend": "CUDA",
++    "metrics_device": "cpu",
++    "per_job_idle_check": true,
++    "gpu_kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
++    "gpu_kernel_label": "local_a100_cuda122_v1"
+   }
+-}
++}--- before/supplement.py
++++ after/supplement.py
+@@ -8,6 +8,7 @@
+ import sys
+ import time
+ from pilot import ROOT,read,config,write_json,call,cpu_environment,current,guard
++from devices import inspection_config
+ from model_evidence import compact_structure
+ 
+ EDITOR_INSTRUCTION='把场景中按共同规则标识的工作台/工作桌组合表面改为蓝色 RGBA=(0.02,0.08,0.8,1)，粗糙度0.45；包括其现有父子结构归属的部件。保持目标几何以及所有非目标对象的几何、材质、变换和依赖关系。'
+@@ -49,9 +50,10 @@
+             if isinstance(n,ast.Name) and n.id in ['exec','eval','open','__import__']:raise ValueError('Editor forbidden operation')
+             if isinstance(n,ast.Attribute) and n.attr in ['save_as_mainfile','render','open_mainfile']:raise ValueError('Editor may not render/save/open')
+         (dest/'edit.py').write_text(code);shutil.copy2(folder/'final.png',dest/'before.png');guard('render')
+-        args=[config()['blender']['executable'],'--background','--disable-autoexec','--threads','2','--python-exit-code','2','--python',str(ROOT/'text_edit_worker.py'),'--','--blend',str(folder/'scene.blend'),'--output',str(dest),'--settings',str(ROOT/'config.json'),'--targets',str(dest/'targets.json'),'--code',str(dest/'edit.py')]
++        settings_path, environment=inspection_config(config(),dest)
++        args=[config()['blender']['executable'],'--background','--disable-autoexec','--threads','2','--python-exit-code','2','--python',str(ROOT/'text_edit_worker.py'),'--','--blend',str(folder/'scene.blend'),'--output',str(dest),'--settings',str(settings_path),'--targets',str(dest/'targets.json'),'--code',str(dest/'edit.py')]
+         with (dest/'stdout.log').open('w') as out,(dest/'stderr.log').open('w') as err:
+-            proc=subprocess.run(args,stdout=out,stderr=err,timeout=config()['blender']['timeout'],env=cpu_environment())
++            proc=subprocess.run(args,stdout=out,stderr=err,timeout=config()['blender']['timeout'],env=environment)
+         status={'status':'complete' if proc.returncode==0 else 'failed','exit_code':proc.returncode,'instruction':EDITOR_INSTRUCTION,'seconds':time.monotonic()-started}
+     except (ValueError,RuntimeError,OSError,subprocess.TimeoutExpired) as error:
+         status={'status':'failed','error':str(error),'instruction':EDITOR_INSTRUCTION,'seconds':time.monotonic()-started}
+--- before/text_edit_worker.py
++++ after/text_edit_worker.py
+@@ -21,6 +21,6 @@
+             links=list(output.inputs['Surface'].links) if output else []
+             shader=links[0].from_node if len(links)==1 else None
+             success &= bool(shader and shader.type=='BSDF_PRINCIPLED' and not shader.inputs['Base Color'].is_linked and not shader.inputs['Roughness'].is_linked and abs(shader.inputs['Roughness'].default_value-0.45)<1e-6)
+-ledger={'render_attempts':0,'renders_completed':0,'images':[]};render(a.output,'after.png',ledger)
++ledger={'render_attempts':0,'renders_completed':0,'images':[],'device_mapping':json.loads((a.output/'actual_device.json').read_text())};render(a.output,'after.png',ledger)
+ bpy.ops.wm.save_as_mainfile(filepath=str(a.output/'edited.blend'))
+ write_json(a.output/'text_edit.json',{'test_type':'fixed_sol_text_instruction_editing','applicable':True,'passed':success and geometry and non['pass'],'target_success':success,'target_geometry_preserved':geometry,'non_target_preservation':non,'targets':targets,'editor_calls':1,'repair_calls':0,'render_attempts':1})
+--- before/inspect_blend.py
++++ after/inspect_blend.py
+@@ -17,6 +17,8 @@
+ 
+ import bpy
+ from mathutils import Matrix, Vector
++sys.path.insert(0, str(Path(__file__).resolve().parent / 'backend'))
++from devices import configure_cycles
+ 
+ 
+ STRUCTURAL_WORDS = {"floor", "wall", "walls", "ceiling", "ground"}
+@@ -229,7 +231,7 @@
+     settings = settings.get("render", settings)
+     scene = bpy.context.scene
+     scene.render.engine = "CYCLES"
+-    scene.cycles.device = "CPU"
++    device = configure_cycles(scene, settings)
+     scene.render.threads_mode = "FIXED"
+     scene.render.threads = 2
+     scene.cycles.samples = int(settings.get("samples", 32))
+@@ -261,7 +263,7 @@
+     scene.render.use_compositing = False
+     scene.render.use_sequencer = False
+     return {
+-        "engine": "CYCLES", "device": "CPU", "threads": 2,
++        "engine": "CYCLES", "device": device['device'], "device_mapping": device, "threads": 2,
+         "resolution": [scene.render.resolution_x, scene.render.resolution_y],
+         "samples": scene.cycles.samples, "seed": scene.cycles.seed,
+         "use_adaptive_sampling": scene.cycles.use_adaptive_sampling,
+--- before/backend/render.py
++++ after/backend/render.py
+@@ -26,9 +26,10 @@
+     scene.render.use_compositing = False
+     scene.render.use_sequencer = False
+     if scene.render.engine == 'CYCLES':
++        from devices import configure_cycles
+         scene.cycles.samples = settings['samples']
+         scene.cycles.seed = settings['seed']
+-        scene.cycles.device = 'CPU'
++        configure_cycles(scene, settings, output_dir / 'actual_device.json')
+         scene.cycles.use_adaptive_sampling = False
+         scene.cycles.use_denoising = settings.get('denoise', False)
+         scene.cycles.use_animated_seed = False
+--- before/backend/runtime.py
++++ after/backend/runtime.py
+@@ -7,6 +7,7 @@
+ from data import ROOT, write_json
+ from llm import ImageLLM, image_message
+ from processes import cpu_environment
++from devices import render_settings
+ 
+ 
+ class BudgetExceeded(RuntimeError):
+@@ -60,7 +61,8 @@
+         folder = self.output_dir / 'steps' / f'{self.executions:03d}'
+         folder.mkdir(parents=True)
+         (folder / 'build.py').write_text(code)
+-        settings = {**self.config['render'], 'device': 'CPU', 'threads': 2, 'width': self.task['width'], 'height': self.task['height']}
++        settings, environment = render_settings(self.config, folder)
++        settings.update(threads=2, width=self.task['width'], height=self.task['height'])
+         write_json(folder / 'render_settings.json', settings)
+         command = [self.config['blender']['executable'], '--background', '-noaudio', '--factory-startup',
+                    '--threads', '2', '--python-exit-code', '1', '--python', str(ROOT / 'render.py'), '--',
+@@ -72,7 +74,7 @@
+             with (folder / 'stdout.log').open('w') as stdout, (folder / 'stderr.log').open('w') as stderr:
+                 subprocess.run(command, cwd=folder, stdout=stdout, stderr=stderr, check=True,
+                                timeout=min(self.config['blender']['timeout'], self.remaining()['seconds']),
+-                               env=cpu_environment())
++                               env=environment)
+             with Image.open(folder / 'final.png') as image:
+                 image.load()
+                 if image.size != (self.task['width'], self.task['height']):
+@@ -95,6 +97,8 @@
+             raise ValueError('Cannot submit a failed step')
+         for name in ('scene.blend', 'final.png', 'build.py', 'camera.json'):
+             shutil.copyfile(folder / name, self.output_dir / name)
++        if (folder / 'actual_device.json').exists():
++            shutil.copyfile(folder / 'actual_device.json', self.output_dir / 'actual_device.json')
+         write_json(self.output_dir / 'selected.json', {'step': step})
+         self.log({'event': 'select', 'step': step})
+ 
+--- before/backend/budget.py
++++ after/backend/budget.py
+@@ -19,7 +19,14 @@
+         else:unknown+=1
+         turns+=s.get('observable_cli_turns') or sum('"turn.started"' in l for l in p.with_name('events.jsonl').read_text().splitlines()) if p.with_name('events.jsonl').exists() else 0
+         tools+=s.get('tool_calls',len(s.get('tool_events',[])))
+-    return {'cli_sessions':len(sessions)+2,'initial_sandbox_failures':2,'observable_cli_turns':turns,'observable_model_rounds':None,'tool_calls':tools,'known_input_tokens':tokens_in,'known_output_tokens':tokens_out,'usage_unknown_sessions':unknown+2,'render_attempts_upper_bound':frames,'renders_completed':complete_frames,'device':'CPU','max_cli_sessions':600,'max_render_frames':1500}
++    device_counts={}
++    for p in ROOT.rglob('actual_device.json'):
++        if p.is_symlink():continue
++        device=json.loads(p.read_text())['device']
++        device_counts[device]=device_counts.get(device,0)+1
++    # Original jobs predate per-render mapping and were explicitly CPU-only.
++    devices={'CPU',*device_counts}
++    return {'cli_sessions':len(sessions)+2,'initial_sandbox_failures':2,'observable_cli_turns':turns,'observable_model_rounds':None,'tool_calls':tools,'known_input_tokens':tokens_in,'known_output_tokens':tokens_out,'usage_unknown_sessions':unknown+2,'render_attempts_upper_bound':frames,'renders_completed':complete_frames,'device':'+'.join(sorted(devices)),'device_mapping_record_counts':device_counts,'max_cli_sessions':600,'max_render_frames':1500}
+ 
+ def guard(kind,amount=1):
+     value=current()
+--- /dev/null
++++ after/backend/devices.py
+@@ -0,0 +1,88 @@
++"""One explicitly authorized idle GPU per Blender child; CPU when busy."""
++import json
++import os
++from pathlib import Path
++import subprocess
++import time
++from processes import cpu_environment
++
++
++def render_settings(config, folder):
++    settings = dict(config['render'])
++    policy = config.get('resources', {})
++    selection = {'time': time.time(), 'device': 'CPU', 'reason': 'CPU policy',
++                 'gpu_uuid': None, 'gpu_index': None, 'gpu_bus_id': None}
++    if policy.get('policy') == 'cpu_if_busy' and policy.get('user_authorized_idle_gpu'):
++        if any(os.environ.get(k) for k in ('SLURM_JOB_ID', 'PBS_JOBID', 'LSB_JOBID')):
++            selection['reason'] = 'Scheduler context changed; no new GPU allocation verified'
++        else:
++            try:
++                inventory = subprocess.check_output(['nvidia-smi', '--query-gpu=index,uuid,pci.bus_id,memory.used,utilization.gpu', '--format=csv,noheader,nounits'], text=True, timeout=10)
++                processes = subprocess.check_output(['nvidia-smi', '--query-compute-apps=gpu_uuid,pid', '--format=csv,noheader,nounits'], text=True, timeout=10)
++                occupied = {line.split(',')[0].strip() for line in processes.splitlines() if line.strip()}
++                observations = []
++                for line in inventory.splitlines():
++                    index, uuid, bus, memory, utilization = [x.strip() for x in line.split(',')]
++                    if uuid not in policy['gpu_allowlist']:
++                        continue
++                    observations.append({'index': int(index), 'uuid': uuid, 'pci_bus_id': bus,
++                                         'memory_used_mib': memory, 'utilization_percent': utilization,
++                                         'active_compute_process': uuid in occupied})
++                    if selection['device'] == 'CPU' and uuid not in occupied and memory.isdigit() and utilization.isdigit() and int(memory) <= 16 and int(utilization) == 0:
++                        selection.update(device='GPU', reason='Authorized device idle at launch',
++                                         gpu_uuid=uuid, gpu_index=int(index), gpu_bus_id=bus)
++                selection['observations'] = observations
++                if selection['device'] == 'CPU':
++                    selection['reason'] = 'Authorized GPU pool busy or utilization unavailable; continue CPU'
++            except (OSError, subprocess.SubprocessError) as error:
++                selection.update(reason='GPU status query failed; continue CPU', error=repr(error))
++    settings.update({k: selection[k] for k in ('device', 'gpu_uuid', 'gpu_index', 'gpu_bus_id')})
++    settings['gpu_backend'] = policy.get('gpu_backend', 'CUDA')
++    settings['gpu_kernel_root'] = policy.get('gpu_kernel_root')
++    settings['actual_device_path'] = str(Path(folder) / 'actual_device.json')
++    (Path(folder) / 'device_selection.json').write_text(json.dumps(selection, indent=2))
++    return settings, cpu_environment(selection['gpu_uuid'] or '')
++
++
++def inspection_config(config, folder):
++    settings, environment = render_settings(config, folder)
++    path = Path(folder) / 'runtime_config.json'
++    path.write_text(json.dumps({**config, 'render': settings}, indent=2))
++    return path, environment
++
++
++def configure_cycles(scene, settings, output=None):
++    import bpy
++    actual = {'device': 'CPU', 'cuda_visible_devices': os.environ.get('CUDA_VISIBLE_DEVICES', ''),
++              'gpu_uuid': None, 'gpu_index': None, 'enabled_cycles_devices': []}
++    if settings.get('device') == 'GPU':
++        if os.environ.get('CUDA_VISIBLE_DEVICES') != settings['gpu_uuid']:
++            raise RuntimeError('Blender CUDA visibility differs from authorized device UUID')
++        if settings.get('gpu_kernel_root'):
++            import _cycles
++            kernel_root = Path(settings['gpu_kernel_root'])
++            _cycles.init(str(kernel_root), str(kernel_root / 'cache'), bpy.app.background)
++            actual['kernel_root'] = str(kernel_root)
++        preferences = bpy.context.preferences.addons['cycles'].preferences
++        backend = settings.get('gpu_backend', 'CUDA')
++        preferences.compute_device_type = backend
++        preferences.refresh_devices()
++        available = [d for d in preferences.devices if d.type == backend]
++        if len(available) != 1:
++            raise RuntimeError('Expected exactly one UUID-isolated GPU device')
++        parts = settings['gpu_bus_id'].lower().split(':')
++        bus = '0000:' + parts[-2] + ':' + parts[-1].split('.')[0]
++        if bus not in available[0].id.lower():
++            raise RuntimeError('Cycles PCI device differs from observed authorized GPU')
++        for device in preferences.devices:
++            device.use = device == available[0]
++        scene.cycles.device = 'GPU'
++        actual.update(device='GPU', gpu_uuid=settings['gpu_uuid'], gpu_index=settings['gpu_index'],
++                      gpu_bus_id=settings['gpu_bus_id'], backend=backend,
++                      enabled_cycles_devices=[{'name': available[0].name, 'id': available[0].id, 'type': available[0].type}])
++    else:
++        scene.cycles.device = 'CPU'
++    path = output or settings.get('actual_device_path')
++    if path:
++        Path(path).write_text(json.dumps(actual, indent=2))
++    return actual

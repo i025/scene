@@ -1,0 +1,52 @@
+{
+  "time": 1793774084.4449112,
+  "status": "completed_with_failures",
+  "active": false,
+  "worker_record": "external_followup_preuse/execution_12.json",
+  "worker_exit_code": 0,
+  "stages": {
+    "supplement": "completed_with_failures",
+    "extras": "completed_with_failures",
+    "replay": "complete",
+    "external": "complete",
+    "external_followup": "complete"
+  },
+  "record_status_counts": {
+    "complete": 113,
+    "failed": 12
+  },
+  "formal_record_status_counts": {
+    "complete": 112,
+    "failed": 11
+  },
+  "ledger": {
+    "cli_sessions": 596,
+    "initial_sandbox_failures": 2,
+    "observable_cli_turns": 594,
+    "observable_model_rounds": null,
+    "tool_calls": 0,
+    "known_input_tokens": 26027542,
+    "known_output_tokens": 1933817,
+    "usage_unknown_sessions": 87,
+    "render_attempts_upper_bound": 715,
+    "renders_completed": 660,
+    "device": "CPU+GPU",
+    "device_mapping_record_counts": {
+      "CPU": 282,
+      "GPU": 176
+    },
+    "max_cli_sessions": 600,
+    "max_render_frames": 1500
+  },
+  "last_service_error": {
+    "reason": "workspace routing discovery failed",
+    "session": "__EXPERIMENT_ROOT__/external_followup_judgments/anon_02/judge_call/session.json",
+    "time": 1793773716.6494496,
+    "automatic_retries": 0
+  },
+  "failure_retry_performed": false,
+  "pending_scheduled_optional_slots": 0,
+  "limits": "Replay is one-start one-proposal-per-M feasibility only; external stages exploratory/adapted; larger replay and full mechanisms not implemented.",
+  "continuation_command": "bash outputs/scene_rsi_pilot/run.sh resume",
+  "continuation_semantics": "Uses completed/failed caches; does not reopen failed scenes or judges, expand scope or remove service stop marker."
+}

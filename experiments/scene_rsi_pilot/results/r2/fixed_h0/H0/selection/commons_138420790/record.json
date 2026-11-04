@@ -1,0 +1,58 @@
+{
+  "method": "fixed_h0",
+  "run_id": "r2",
+  "scene_id": "commons_138420790",
+  "split": "selection",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "backend/harnesses/baseline",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.32196555512722885,
+    "lpips": 0.7429758310317993,
+    "dino": 0.7164841890335083,
+    "psnr": 10.926221165843351,
+    "overall": 0.47907727287072793
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "chrome faucet",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "chrome faucet",
+  "device": "CPU",
+  "seconds": 455.49513952899724,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 134583,
+    "output_tokens": 16704,
+    "cached_input_tokens": 32768,
+    "total_tokens": 151287,
+    "seconds": 391.6205415362492,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 432.340798814781
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/selection/commons_138420790",
+  "selected": null
+}

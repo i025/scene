@@ -1,0 +1,169 @@
+{
+  "common_config_snapshot": {
+    "dataset": {
+      "seed": 42,
+      "manifest": "__EXPERIMENT_ROOT__/manifest.json",
+      "source_root": "__COMMONS_DATA_ROOT__",
+      "split_authority": "manifest.json; pilot sizes 2 development / 2 selection / 4 test; smoke IDs specified by runner.py",
+      "historical_exposure": "exploratory"
+    },
+    "model": {
+      "name": "gpt-6.1-sol",
+      "reasoning_effort": "medium",
+      "timeout": 600,
+      "command": "__SERVER_USER_ROOT__/.local/bin/codex"
+    },
+    "proposer": {
+      "model": "gpt-6-astra",
+      "reasoning_effort": "medium",
+      "timeout": 2400,
+      "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+      "contact_sheet_size": 256,
+      "contact_sheet_rows": 4
+    },
+    "blender": {
+      "executable": "__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender",
+      "timeout": 600,
+      "threads": 2
+    },
+    "render": {
+      "engine": "CYCLES",
+      "samples": 16,
+      "seed": 42,
+      "device": "CPU",
+      "threads": 2,
+      "view_transform": "AgX",
+      "look": "None",
+      "exposure": 0,
+      "gamma": 1,
+      "denoise": false
+    },
+    "budget": {
+      "model_calls": 5,
+      "executions": 3,
+      "seconds": 1200
+    },
+    "benchmark": {
+      "concurrency": 1
+    },
+    "metrics": {
+      "device": "cpu",
+      "dino_model": "__SCENEEVOLVE_REPRO__/work/model-cache/dinov2-base",
+      "lpips_net": "alex",
+      "timeout": 600,
+      "alexnet_weights": "__SCENEEVOLVE_REPRO__/work/model-cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth",
+      "lpips_model_path": "__SCENEEVOLVE_REPRO__/work/.venv/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth"
+    },
+    "evolution": {
+      "rounds": 2,
+      "proposals_per_round": 2
+    },
+    "results_dir": "__EXPERIMENT_ROOT__",
+    "pilot": {
+      "name": "scene_rsi_pilot",
+      "status": "preparing",
+      "max_cli_sessions": 600,
+      "max_render_frames": 1500,
+      "heavy_concurrency": 1,
+      "cpu_threads": 2,
+      "device": "cpu_if_busy (authorized GPU 0 UUID only)",
+      "repeats": 2,
+      "K": 2,
+      "smoke_resolution_long_edge": 256,
+      "formal_resolution_long_edge": 512,
+      "data_exposure": "exploratory; existing source contact sheets were viewed historically",
+      "quality_tolerance": 0.01,
+      "primary_metric": "overall",
+      "development_scenes": 2,
+      "selection_scenes": 2,
+      "test_scenes": 4,
+      "scheduled_main_reconstructions": 88,
+      "max_probes_per_candidate": 2,
+      "text_edit_test_scene_orders": [
+        0,
+        1
+      ],
+      "independent_judge": "all completed terminal outputs, supplemental only",
+      "retry_policy": "No automatic service retries; transient failure may be retried once only through explicit saved attempt with same global caps. Invalid scene programs only use common inner budget.",
+      "text_edit_targets": {
+        "commons_155212263": {
+          "expected_category": "workbench_or_worktable_assembly",
+          "name_tokens": [
+            "workbench",
+            "worktable",
+            "bench",
+            "desk",
+            "table",
+            "benchtop",
+            "tabletop"
+          ],
+          "selection_basis": "Both original preselected test cases are workbench scenes by source metadata; all matching non-root groups and named mesh components, with descendants"
+        },
+        "commons_16007442": {
+          "expected_category": "workbench_or_worktable_assembly",
+          "name_tokens": [
+            "workbench",
+            "worktable",
+            "bench",
+            "desk",
+            "table",
+            "benchtop",
+            "tabletop"
+          ],
+          "selection_basis": "Both original preselected test cases are workbench scenes by source metadata; all matching non-root groups and named mesh components, with descendants"
+        }
+      }
+    },
+    "resources": {
+      "policy": "cpu_if_busy",
+      "user_authorized_idle_gpu": true,
+      "authorization": "2026-11-02 user: 现在有空闲的gpu就用呗",
+      "gpu_allowlist": [
+        "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359"
+      ],
+      "max_gpus": 1,
+      "cpu_threads": 2,
+      "heavy_concurrency": 1,
+      "scheduler_observation": "No scheduler commands or allocation context found at GPU switch",
+      "gpu_backend": "CUDA",
+      "metrics_device": "cpu",
+      "per_job_idle_check": true,
+      "gpu_kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+      "gpu_kernel_label": "local_a100_cuda122_v1"
+    },
+    "candidate_validation": {
+      "version": "v2_ast_standard_library",
+      "allowed_imports": [
+        "ast",
+        "json",
+        "re",
+        "math",
+        "random",
+        "statistics",
+        "collections",
+        "itertools",
+        "pathlib"
+      ],
+      "amendment": "Correct common false rejection of pure Python AST source parsing; raw proposals reused without model resampling",
+      "source_snapshot": "validation_correction_v2"
+    }
+  },
+  "tasks": [
+    "bw_0005",
+    "bw_0011"
+  ],
+  "methods": {
+    "fixed_h0": "__EXPERIMENT_ROOT__/backend/harnesses/baseline",
+    "scene_rsi_pilot": "__EXPERIMENT_ROOT__/backend/harnesses/baseline"
+  },
+  "selection": "predeclared main r1 Selection winner, never main Test winner",
+  "generation_input": "reference plus original public query appended by a common task-input adapter to system.txt; hidden rubric only in judge",
+  "render": "pilot 512-long-edge Cycles16, common cpu_if_busy authorized-single-GPU policy, three fixed views; replaces official higher resolution/eight-view adaptive protocol",
+  "judge": "fresh anonymous gpt-6-astra/medium; original rubric meanings/importance weights and 8 dimensions; no official blind-description passes",
+  "formula": "0.5*(weighted binary rubric percent + 10*mean(dimension scores 1..10))",
+  "evaluation": "adapted; not official leaderboard",
+  "identical_H0_policy": "If selected Ours source is H0, reuse the same current-task reconstruction/views/functionals and record zero extra generation cost; judge remains a fresh supplemental call, not an algorithm comparison",
+  "hash_validation": "not executed; direct local blend loading",
+  "historical_exposure": "gallery/index screening possible, not new blind data",
+  "time": 1793640874.8707108
+}

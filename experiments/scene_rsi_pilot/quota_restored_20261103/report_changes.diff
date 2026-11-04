@@ -1,0 +1,77 @@
+--- before/report.py
++++ after/report.py
+@@ -404,7 +404,7 @@
+                                "缺失指标保持 null；质量均值仅在 valid 且有数值的记录上计算。",
+                                "功能图的单位是检查项，不能当独立场景样本；遗漏检查不算通过。",
+                                "重建成本图不包括未记录在 scene record 中的提案、评审、诊断和重试；总预算以 ledger 为准。",
+-                               "前段使用CPU；用户随后授权空闲GPU，后续Blender按逐次占用检查仅使用GPU 0的UUID，忙时继续CPU，质量设置不变。混合设备耗时不能解释为算法效率差异；1200秒期限也可能带来不同执行机会，属于本轮限制。CLI内部服务排队不可观测，service_queue_seconds为null，CLI耗时与重建总耗时互有包含。",
++                               "前段使用CPU；用户随后授权空闲GPU，后续Blender按逐次占用检查使用一张获准空闲卡，先GPU0，额度恢复后因0号卡占用改用GPU1，忙时继续CPU，质量设置不变。混合设备耗时不能解释为算法效率差异；1200秒期限也可能带来不同执行机会，属于本轮限制。CLI内部服务排队不可观测，service_queue_seconds为null，CLI耗时与重建总耗时互有包含。",
+                                "图像已在历史联系表/人物审阅中暴露，本轮是 exploratory。",
+                                "主对照仅两次独立研发重复；展示全部点与配对差异，不作普遍优势或元能力单调提高的结论。",
+                                "CLI只记录请求模型，未独立返回可验证的实际路由；远端模型采样种子不可控。清单顺序和Cycles种子固定；runner未统一预置生成程序的Python/random/numpy随机状态，程序自身随机设置以保存源码为准。",
+@@ -417,21 +417,32 @@
+     incident=read(root/'service_incident_01/recovery_prepared.json')
+     incident_summary=None
+     if incident:
+-        prior=read(root/'service_incident_01/failed_scene_attempts.json',[])
++        prior=[];recovery_runs=[]
++        for recovery_id in ['service_incident_01','quota_restored_20261103']:
++            recovery=read(root/recovery_id/'recovery_prepared.json')
++            if not recovery:continue
++            recovery_runs.append({'id':recovery_id,'physical_failures':recovery['physical_scene_attempts_preserved'],'outcome_slots':recovery['failed_scene_attempts_preserved']})
++            for r in read(root/recovery_id/'failed_scene_attempts.json',[]):
++                original=Path(r['folder']).relative_to(root)
++                prior.append({**r,'preserved_record_source':str(Path(recovery_id)/'retired'/original/'record.json')})
+         attempt_rows=[]
+         for phase,attempts in [('preserved_service_failure',prior),('current_task_outcome',[r for r in rows if r.get('split')!='smoke'])]:
+             for r in attempts:
+                 original=Path(r['folder']).relative_to(root)
+-                source=root/'service_incident_01/retired'/original/'record.json' if phase=='preserved_service_failure' else root/original/'record.json'
++                source=root/r['preserved_record_source'] if phase=='preserved_service_failure' else root/original/'record.json'
+                 attempt_rows.append({**{k:r.get(k) for k in ('method','run_id','scene_id','split','candidate_id','status','failure_type')},'attempt_phase':phase,'physically_executed':not bool(r.get('reuse_of')),'source':str(source.relative_to(root))})
+         write_csv(out/'service_attempts.csv',attempt_rows,list(attempt_rows[0]) if attempt_rows else [])
+         physical=[r for r in attempt_rows if r['physically_executed']]
+-        incident_summary={'original_service_failed_physical_attempts':incident['physical_scene_attempts_preserved'],'original_service_failed_outcome_slots_including_reuse':incident['failed_scene_attempts_preserved'],'physical_formal_reconstruction_attempts_including_preserved_failures':len(physical),'physical_formal_successes':sum(r['status'] in COMPLETE for r in physical),'physical_attempt_success_rate_including_service_failures':sum(r['status'] in COMPLETE for r in physical)/len(physical) if physical else None,'max_service_retry':1,'valid_test_outputs_before_recovery':0,'interpretation':'Task outcome rates in ordinary tables and physical attempt rates including preserved failures are different denominators; all CLI failures remain in calls.csv and ledger.'}
++        incident_summary={'original_service_failed_physical_attempts':sum(r['physical_failures'] for r in recovery_runs),'original_service_failed_outcome_slots_including_reuse':len(prior),'recovery_history':recovery_runs,'physical_formal_reconstruction_attempts_including_preserved_failures':len(physical),'physical_formal_successes':sum(r['status'] in COMPLETE for r in physical),'physical_attempt_success_rate_including_service_failures':sum(r['status'] in COMPLETE for r in physical)/len(physical) if physical else None,'automatic_retries':0,'routing_recovery_attempts_allowed':1,'quota_restoration_user_authorized':len(recovery_runs)>1,'valid_test_outputs_before_each_recovery':0,'interpretation':'Task outcome rates and physical attempt rates including both preserved failure waves are different denominators; all CLI failures remain in calls.csv and ledger.'}
+         summary['service_recovery']=incident_summary
+         summary['limitations'].append('出现集中CLI路由故障后，原始32个主终测槽均无输出；冻结选择和失败档案保留，对无输出服务失败统一开放一次恢复，研发完成后重冻选择。原始失败不能当算法退化，恢复也不能抹去失败分母；service_attempts.csv单列全部物理尝试。恢复后消融规模按原预算阶梯重新冻结，属于显式协议补充。')
+     quota=read(root/'model_usage_limit.json')
++    restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+     selected_quality=[]
++    if restoration:
++        summary['quota_restoration']=restoration
++        summary['limitations'].append('用户在2026-11-03明确告知CLI额度已恢复并要求补完；两个模型真实图片核验成功后，统一补无输出额度失败。此前35次额度失败和43次路由失败均保留，48次历史物理重建失败仍进入尝试分母。已有33条有效产物（包括被服务打断但保有有效场景的记录）不重新采样。恢复前没有有效主Test反馈，随后重新冻结选择。该恢复属于公开协议补充。')
+     if quota:
+         summary['model_usage_limit']=quota;summary['local_closeout']=closeout
+         summary['valid_main_test_comparison_available']=False
+@@ -512,16 +523,19 @@
+ 
+     panels = ["<h1>scene_rsi_pilot：真实产物实验报告</h1>",
+               f"<p>正式记录 {summary['formal_records']}；smoke 记录 {summary['smoke_records']}；完成记录 {summary['completed']}。缺失显示 pending/null。所有 smoke 排除正式对照。</p>",
+-              "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
++              "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "final_inference_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
++    panels.append('<p>最终推理成本同时报告实际新增工作与同一H0输出对应的原始推理成本。复用H0的新增调用为0，但不表示该算法推理免费；source_equivalent列仅归属解释，不能再加入物理总账重复计费。</p>')
+     if quota:
+         panels.append('<h2>当前结论范围：模型额度阻断</h2><p>主Test没有任何有效渲染或配对，不能给出终测增益或方法优劣结论。以下真实对照联系表覆盖全部Development、两次运行；补充多视角与机械编辑展示首个Development场景，不是终测或文字指令编辑成绩。显示规则在额度故障后设定并明确记录。旧失败与成本全部保留。</p>'+link(root/'model_usage_limit.json','CLI原始额度错误位置')+' · '+link(root/'usage_limit_closeout/closeout.json','本地收尾状态')+' · '+link(out/'selection_quality.csv','Selection选择结果（非终测）'))
+         for name,title in [('selected_development.png','Selection所选系统在全部Development上的真实输出（H0复用明确标注）'),('raw_c1_development.png','全部Development的原始C1与H0；失败留空'),('development_multiview.png','固定侧面和俯视；无新视角真值'),('development_mechanical_edits.png','预定义机械材质编辑与组合移动；不是文本编辑')]:
+             panels.append('<h3>'+title+'</h3>'+media(out/name,title))
+         panels.append(link(out/'selected_development.csv','所选H联系表来源')+' · '+link(out/'raw_c1_development.csv','原始C1联系表来源')+' · '+link(out/'development_multiview.csv','多视角逐格来源')+' · '+link(out/'development_mechanical_edits.csv','机械编辑测量')+' · '+link(root/'usage_limit_closeout/display_rule.json','补充展示规则与复现脚本说明'))
+     if incident_summary:
+-        panels.append('<h2>服务故障与一次恢复</h2><p>旧终测全部无有效输出；已有有效场景没有重采样。以下分母包含保留的服务失败，不能用只看当前成功文件的比例替代。</p><pre>'+html.escape(json.dumps(incident_summary,ensure_ascii=False,indent=2))+'</pre>'+link(out/'service_attempts.csv','全部场景尝试 CSV')+' · '+link(root/'service_incident_01/recovery_prepared.json','恢复清单与原始档案映射')+' · '+link(root/'service_incident_01/routing_failures.json','CLI 路由失败清单'))
++        panels.append('<h2>服务故障与恢复</h2><p>旧终测全部无有效输出；已有有效场景没有重采样。以下分母包含保留的服务失败，不能用只看当前成功文件的比例替代。</p><pre>'+html.escape(json.dumps(incident_summary,ensure_ascii=False,indent=2))+'</pre>'+link(out/'service_attempts.csv','全部场景尝试 CSV')+' · '+link(root/'service_incident_01/recovery_prepared.json','恢复清单与原始档案映射')+' · '+link(root/'service_incident_01/routing_failures.json','CLI 路由失败清单'))
++    if restoration:
++        panels.append('<p>用户已通知额度恢复，当前按共同规则补跑；历史失败继续计入成本和尝试分母。'+link(root/'quota_restored_20261103/recovery_prepared.json','用户授权恢复与文件映射')+' · '+link(root/'quota_restored_20261103/failed_scene_attempts.json','额度失败场景原记录')+'</p>')
+     if not selection_frozen:panels.append('<p class="missing">中期报告：Selection/Test 的逐图指标、图像和结构细节在统一选择冻结后再展示；当前仅汇总登记状态。主对照尚未完成。</p>')
+     gpu_checks=[]
+     for folder in sorted((root/'smoke').glob('gpu_*_check')):
+@@ -662,6 +676,7 @@
+               "## 选择、有效改进与元回放", "", "选择结果与原始候选档案原样保存在 summary.json；报告不根据 Test 重新选择。完整有效改进和有效配对数需要已冻结选择及对应 H0/候选功能和终测记录；当前脚本不从单个视觉分数推断。没有元回放实测数据时不绘跨代收益曲线。", "",
+               "## 资源与复用", "", f"资源策略：{display(config.get('resources'))}；渲染配置：{display(config.get('render'))}；CPU 配置：{display(config.get('pilot', {}).get('cpu_threads'))}。实际逐记录设备保存在 scenes.csv，等待与执行成本以原账本字段为准。", "",
+               "复用配置完整保存在 [config.json](../config.json)；数据来源保存在 [manifest.json](../manifest.json)。旧 scenespec M0–M3 为已知米尺度布局策略，不直接证明图像重建或本轮元策略改进。", "",
++              "[最终推理成本](final_inference_cost.csv)同时列实际新增调用和同一H0产物对应的原始推理成本；source_equivalent列只解释成本归属，不重复计费。混合设备时长不用于算法效率比较。", "",
+               "## 局限与待运行", ""]
+     if analysis:
+         lines += ['', '## 主对照配对结果', '', '|方法|重复|有效配对/计划|条件Q差|功能通过数差|完整有效改进|', '|---|---|---:|---:|---:|---|']

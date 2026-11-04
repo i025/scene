@@ -1,0 +1,68 @@
+--- before/report.py
++++ report.py
+@@ -318,6 +318,21 @@
+                 folder=root/row['directory']/'text_edit';check=read(folder/'text_edit.json',{})
+                 grid.append([(folder/'before.png',row['method']+'\n'+scene['scene_id']),(folder/'after.png','Text instruction: blue material\n'+run+'; one call / no repairs')])
+             save('text_edit_'+run+'_'+scene['scene_id'],['Before text editor','After text editor'],grid)
++    ablation_choices=read(root/'ablation_selection_freeze.json',{}).get('choices',[])
++    ablation_protocol=read(root/'ablation_protocol.json',{})
++    if ablation_choices and ablation_protocol.get('K')==1 and ablation_protocol.get('scope')=='matched_main_scope':
++        reference_choice=read(root/'ablation_reference_selection.json')
++        for run in dict.fromkeys(c['run_id'] for c in ablation_choices):
++            conditions=[reference_choice]+[c for c in ablation_choices if c['run_id']==run]
++            grid=[]
++            for sid in ablation_protocol['scene_ids']['test']:
++                matched=[next((r for r in rows if r['scene_id']==sid and r['split']=='test' and all(r[k]==c[k] for k in ('method','run_id','candidate_id'))),None) for c in conditions]
++                reference_row=next((r for r in matched if r),None)
++                cells=[(root/reference_row['directory']/'reference.png' if reference_row else None,sid+'\n'+run)]
++                for row in matched:
++                    cells.append((root/row['directory']/'final.png' if row and row['status'] in COMPLETE else None,f"{row['candidate_id']} / {row['status']}\nQ={display(row['metrics']['overall'])}" if row else 'pending'))
++                grid.append(cells)
++            save('ablation_comparison_'+run,['Reference','Matched Ours K1 reference',*[c['method'] for c in conditions[1:]]],grid)
+     for candidate in sorted((root/'candidates').glob('r[12]/*/C*')):
+         observations=read(candidate/'diagnostic_observations.json',{})
+         probes=observations.get('probes',[])
+@@ -465,6 +480,9 @@
+         summary['limitations'].append('用户在获知533/600及剩余任务后明确要求继续，新增一次已计费的sol/medium连接检查通过，随后仅运行尚未执行的槽位；原路由失败场景保留，没有重新采样。服务恢复检查不算研究方法的改进。实际阶段结果以状态文件和逐场景记录为准。')
+     if (root/'service_incident_02/ablation_freeze_resume_audit.json').exists():
+         summary['limitations'].append('消融缓存续跑曾重写选择冻结文件的时间戳，三个所选C1均与停止前档案一致，选择代码未读取Test。最早时间戳未独立保留，不补造；现已改为比较选择一致性并保留现有冻结时间，不改模型、H/M、评分或结果。详见service_incident_02/ablation_freeze_resume_audit.json。')
++    if (root/'service_incident_03/closeout.json').exists():
++        summary['latest_service_closeout']=read(root/'service_incident_03/closeout.json')
++        summary['limitations'].append('队列09新增13次会话：连接检查1次、学生12次；其中1次学生调用超时但保留有效场景，最后1次学生调用路由失败。消融12个终测槽已全部尝试，10成功、2服务失败；没有重采样。累计546/600时再次停止，冻结元回放与BlenderWorld仍未启动。服务故障与预算不足是不同原因，剩余54次不代表服务已可用。')
+     quota=read(root/'model_usage_limit.json')
+     restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+@@ -573,6 +591,8 @@
+         panels.append('<p class="missing">CLI路由故障：队列已退出，当前没有实验在后台运行。已完成主对照与补充测试；'+html.escape(service_progress)+link(root/'service_incident_02/closeout.json','实际停止记录')+' · '+link(root/'quota_restored_20261103/session_jump_373_to_529.json','373→529会话逐项对账')+'</p>')
+     if (root/'service_incident_02/user_continuation.json').exists():
+         panels.append('<p>用户明确要求继续后，单次连接检查通过，仅补尚未运行的槽位，原失败保留。'+link(root/'service_incident_02/execution_09.json','队列09实际运行状态')+' · '+link(root/'service_incident_02/user_continuation.json','续跑规则与连接检查费用')+' · '+link(root/'service_incident_02/ablation_freeze_resume_audit.json','消融冻结时间戳记录')+'</p>')
++    if (root/'service_incident_03/closeout.json').exists():
++        panels.append('<p>队列09已经退出；累计546/600。消融终测10/12成功、2服务失败、0未运行；元回放与外部任务待服务恢复。'+link(root/'service_incident_03/closeout.json','最新停止记录与本次13次调用对账')+'</p>')
+     if summary['main_scheduled_counts'].get('pending',0):
+         panels.append('<p class="missing">进行中：主对照还有 '+str(summary['main_scheduled_counts']['pending'])+' 个待运行槽位。本页仅汇总已保存产物，尚非完整终测结论。</p>')
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+@@ -667,6 +687,8 @@
+             panels.append('<h3>'+title+'</h3>'+media(out/f'{name}.png',title)+link(out/f'{name}.csv','图的源数据'))
+     if additional.get('external'):
+         panels.append('<p>'+link(out/'blenderworld_adapted.csv','BlenderWorld adapted evaluation 数据；非官方榜单分数')+'</p>')
++    for coverage in additional.get('ablation_coverage',[]):
++        panels.append('<p class="missing">'+html.escape(coverage['run_id'])+'：全部消融条件与匹配参考共同有效的场景数为 '+str(coverage['common_valid_count'])+'。各条件的有效配对场景不同，不能跨条件比较条件均值来宣称机制收益。'+link(out/'ablation_pair_coverage.csv','配对覆盖源数据')+'</p>')
+     for row in extra_rows:
+         label=' / '.join(str(row.get(k)) for k in ('run_id','method','candidate_id','split','scene_id'))
+         panels.append('<h3>'+html.escape(label)+'</h3>'+row_card(row))
+@@ -770,11 +792,15 @@
+         lines += ['', '文字驱动编辑计划16例，实际14次固定编辑器调用，11例通过目标与非目标功能检查：端到端11/16、已执行条件比例11/14。两例缺少有效原始重建，三例编辑虽执行但未通过功能要求。独立视觉评审实际27次新会话，5例因缺少有效重建未评审；评分仅作补充，不替代几何真值。', '', '[文字编辑逐例数据](text_edit.csv) · [独立评审逐例数据](independent_judgments.csv)']
+         for instruction in instructions:
+             lines += ['', '实际统一文字指令：'+instruction]
++    if (root/'service_incident_03/closeout.json').exists():
++        lines += ['', '本次继续新增13次会话（连接检查1、学生12），累计546/600。消融12个终测槽均已尝试，10成功、2路由服务失败；一次内层学生超时仍保留此前有效产物。未重采样失败场景，元回放与外部任务因服务故障未启动。', '', '[最新停止与13次调用逐项对账](../service_incident_03/closeout.json)']
+     if additional.get('ablation'):
+         lines += ['', '消融各条件均独立生成候选。下表包含全部预定终测槽，未完成或失败的指标保持null；配对差仅在两端有效时计算。本阶段再次使用主实验 Test，不构成新的盲测，服务故障使结果不完整。', '', '|方法|重复|场景|Q|相对H0差|相对匹配Ours差|功能通过|', '|---|---|---|---:|---:|---:|---|']
+         for point in additional['ablation']:
+             lines.append('|'+ '|'.join(display(point[k]) for k in ('method','run_id','scene_id','Q','paired_gain_H0','paired_difference_reference','functional_pass'))+'|')
+         lines += ['', '![独立生成消融](ablation_terminal.png)', '[源数据](ablation_terminal.csv)']
++        for coverage in additional.get('ablation_coverage',[]):
++            lines += ['', coverage['run_id']+'：全部消融条件与匹配参考共同有效的场景数为 '+str(coverage['common_valid_count'])+'。有效配对集合不同，不能跨条件比较条件均值来宣称机制收益；[配对覆盖数据](ablation_pair_coverage.csv)。']
+     if additional.get('replay'):
+         lines += ['', '冻结回放比较 M_initial 与 M_descendant 从同一 H_start 研发后的收益；历史图像筛选暴露仍使其属于探索性实验。有限起点和重复不能支持普遍或单调元能力提升。', '', '|M|起点|提案重复|场景|候选|相同H_start上的Q增益|功能不退化|CLI会话（不含共享起点）|', '|---|---|---:|---|---|---:|---|---:|']
+         for point in additional['replay']:

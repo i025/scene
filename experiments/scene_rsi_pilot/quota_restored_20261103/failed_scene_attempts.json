@@ -1,0 +1,3362 @@
+[
+  {
+    "method": "ours_without_probes",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.26767996372655,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646971298372399/stderr.log\n",
+      "seconds": 8.273200180847198
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_probes/H0/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_probes",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.312670219223946,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646926592260564/stderr.log\n",
+      "seconds": 8.318352090194821
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_probes/H0/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_probes",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.359895062167197,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646876202156674/stderr.log\n",
+      "seconds": 8.36558885499835
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_probes/H0/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_probes",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 11.57603828329593,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647019682605119/stderr.log\n",
+      "seconds": 11.581801899708807
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_probes/H0/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_regression_guidance",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.26767996372655,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646971298372399/stderr.log\n",
+      "seconds": 8.273200180847198
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_regression_guidance/H0/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_regression_guidance",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.312670219223946,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646926592260564/stderr.log\n",
+      "seconds": 8.318352090194821
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_regression_guidance/H0/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_regression_guidance",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.359895062167197,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646876202156674/stderr.log\n",
+      "seconds": 8.36558885499835
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_regression_guidance/H0/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "ours_without_regression_guidance",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 11.57603828329593,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647019682605119/stderr.log\n",
+      "seconds": 11.581801899708807
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_regression_guidance/H0/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_same_structured_evidence",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.26767996372655,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646971298372399/stderr.log\n",
+      "seconds": 8.273200180847198
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/generic_same_structured_evidence/H0/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_same_structured_evidence",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.312670219223946,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646926592260564/stderr.log\n",
+      "seconds": 8.318352090194821
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/generic_same_structured_evidence/H0/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_same_structured_evidence",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.359895062167197,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646876202156674/stderr.log\n",
+      "seconds": 8.36558885499835
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/generic_same_structured_evidence/H0/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_same_structured_evidence",
+    "run_id": "ablation_r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 11.57603828329593,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647019682605119/stderr.log\n",
+      "seconds": 11.581801899708807
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/ablation_r1/generic_same_structured_evidence/H0/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "external",
+    "scene_id": "bw_0011",
+    "split": "external",
+    "candidate_id": "selected",
+    "parent_id": null,
+    "H_version": "external_inputs/bw_0011/fixed_h0",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.677188768982887,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/external_inputs/bw_0011/fixed_h0/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0011/student_calls/001_1793647160374321605/stderr.log\n",
+      "seconds": 8.683242226019502
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/external/scene_rsi_pilot/selected/external/bw_0011",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0011",
+    "reuse_basis": "Selected source is the identical H0; same task/public query/config. Independent judge call remains supplemental variability, not an algorithm difference.",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "external",
+    "scene_id": "bw_0005",
+    "split": "external",
+    "candidate_id": "selected",
+    "parent_id": null,
+    "H_version": "external_inputs/bw_0005/fixed_h0",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 9.178707644809037,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/external_inputs/bw_0005/fixed_h0/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0005/student_calls/001_1793647150847365848/stderr.log\n",
+      "seconds": 9.184776860754937
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/external/scene_rsi_pilot/selected/external/bw_0005",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0005",
+    "reuse_basis": "Selected source is the identical H0; same task/public query/config. Independent judge call remains supplemental variability, not an algorithm difference.",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "external",
+    "scene_id": "bw_0011",
+    "split": "external",
+    "candidate_id": "selected",
+    "parent_id": null,
+    "H_version": "external_inputs/bw_0011/fixed_h0",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.78792825480923,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.677188768982887,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/external_inputs/bw_0011/fixed_h0/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0011/student_calls/001_1793647160374321605/stderr.log\n",
+      "seconds": 8.683242226019502
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0011",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "external",
+    "scene_id": "bw_0005",
+    "split": "external",
+    "candidate_id": "selected",
+    "parent_id": null,
+    "H_version": "external_inputs/bw_0005/fixed_h0",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 9.290693657007068,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 9.178707644809037,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/external_inputs/bw_0005/fixed_h0/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0005/student_calls/001_1793647150847365848/stderr.log\n",
+      "seconds": 9.184776860754937
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0005",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r2",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 12.825523477979004,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646997838507543/stderr.log\n",
+      "seconds": 12.831210989970714
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/generic_rsi/H0/test/commons_163096530",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_163096530",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r2",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.91479742480442,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646953314672943/stderr.log\n",
+      "seconds": 8.920543184969574
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/generic_rsi/H0/test/commons_16007442",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_16007442",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r2",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.31401077285409,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646909017177767/stderr.log\n",
+      "seconds": 8.31967529002577
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/generic_rsi/H0/test/commons_155212263",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_155212263",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r2",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.621132079977542,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647049410157322/stderr.log\n",
+      "seconds": 8.624435791745782
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/generic_rsi/H0/test/commons_199974832",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r2",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 12.825523477979004,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646997838507543/stderr.log\n",
+      "seconds": 12.831210989970714
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/scene_rsi_pilot/H0/test/commons_163096530",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_163096530",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r2",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.91479742480442,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646953314672943/stderr.log\n",
+      "seconds": 8.920543184969574
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/scene_rsi_pilot/H0/test/commons_16007442",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_16007442",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r2",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.31401077285409,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646909017177767/stderr.log\n",
+      "seconds": 8.31967529002577
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/scene_rsi_pilot/H0/test/commons_155212263",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_155212263",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r2",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.621132079977542,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647049410157322/stderr.log\n",
+      "seconds": 8.624435791745782
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/scene_rsi_pilot/H0/test/commons_199974832",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r2",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r2/sceneevolve_cli/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.48639938281849,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.367051701061428,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r2/sceneevolve_cli/C1/policy.py\", line 96, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_163096530/student_calls/001_1793647010995751483/stderr.log\n",
+      "seconds": 8.372613331303
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r2",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r2/sceneevolve_cli/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.536766165867448,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.414544006809592,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r2/sceneevolve_cli/C1/policy.py\", line 96, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_16007442/student_calls/001_1793646962556635215/stderr.log\n",
+      "seconds": 8.420872437767684
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r2",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r2/sceneevolve_cli/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.73733009537682,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.611723741982132,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r2/sceneevolve_cli/C1/policy.py\", line 96, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_155212263/student_calls/001_1793646917651593092/stderr.log\n",
+      "seconds": 8.61805824469775
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r2",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r2/sceneevolve_cli/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 9.037694167345762,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.919591953977942,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r2/sceneevolve_cli/C1/policy.py\", line 96, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_199974832/student_calls/001_1793647058352599119/stderr.log\n",
+      "seconds": 8.925914975814521
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/sceneevolve_cli/C1/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r2",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 12.947954922914505,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 12.825523477979004,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646997838507543/stderr.log\n",
+      "seconds": 12.831210989970714
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r2",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 9.037869376130402,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.91479742480442,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646953314672943/stderr.log\n",
+      "seconds": 8.920543184969574
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r2",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.43609463982284,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.31401077285409,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646909017177767/stderr.log\n",
+      "seconds": 8.31967529002577
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r2",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.737112232018262,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.621132079977542,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647049410157322/stderr.log\n",
+      "seconds": 8.624435791745782
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r1",
+    "scene_id": "commons_138420790",
+    "split": "selection",
+    "candidate_id": "C2",
+    "parent_id": "__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1",
+    "H_version": "candidates/r1/generic_rsi/C2",
+    "M_version": "__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/meta.py",
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 9.489043991081417,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 9.366637888364494,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C2/policy.py\", line 92, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/generic_rsi/C2/selection/commons_138420790/student_calls/001_1793646825834402005/stderr.log\n",
+      "seconds": 9.373208232223988
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C2/selection/commons_138420790",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r1",
+    "scene_id": "commons_133800864",
+    "split": "selection",
+    "candidate_id": "C2",
+    "parent_id": "__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1",
+    "H_version": "candidates/r1/generic_rsi/C2",
+    "M_version": "__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/meta.py",
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.387173963710666,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.260897932108492,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C2/policy.py\", line 92, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/generic_rsi/C2/selection/commons_133800864/student_calls/001_1793646817222901441/stderr.log\n",
+      "seconds": 8.267405579797924
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C2/selection/commons_133800864",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r1/generic_rsi/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.837353324051946,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.719160443171859,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/policy.py\", line 34, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_163096530/student_calls/001_1793646988784155486/stderr.log\n",
+      "seconds": 8.725355092901736
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r1/generic_rsi/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.637493316084146,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.521512762177736,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/policy.py\", line 34, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_16007442/student_calls/001_1793646944474400531/stderr.log\n",
+      "seconds": 8.527984842192382
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r1/generic_rsi/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 15.002850690856576,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 14.88014573790133,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/policy.py\", line 34, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_155212263/student_calls/001_1793646893819343990/stderr.log\n",
+      "seconds": 14.886237536091357
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "generic_rsi",
+    "run_id": "r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "C1",
+    "parent_id": null,
+    "H_version": "candidates/r1/generic_rsi/C1",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.587673637084663,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.467131331097335,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/policy.py\", line 34, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_199974832/student_calls/001_1793647040623076217/stderr.log\n",
+      "seconds": 8.473385212011635
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.26767996372655,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646971298372399/stderr.log\n",
+      "seconds": 8.273200180847198
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_pilot/H0/test/commons_163096530",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.312670219223946,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646926592260564/stderr.log\n",
+      "seconds": 8.318352090194821
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_pilot/H0/test/commons_16007442",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 8.359895062167197,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646876202156674/stderr.log\n",
+      "seconds": 8.36558885499835
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_pilot/H0/test/commons_155212263",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "scene_rsi_pilot",
+    "run_id": "r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 0,
+    "usage": {
+      "calls": 0,
+      "executions": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "reuse_original_usage": {
+        "calls": 1,
+        "input_tokens": "unknown",
+        "output_tokens": "unknown",
+        "cached_input_tokens": "unknown",
+        "total_tokens": "unknown",
+        "seconds": 11.57603828329593,
+        "cost_usd": "unknown",
+        "executions": 0
+      }
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647019682605119/stderr.log\n",
+      "seconds": 11.581801899708807
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_pilot/H0/test/commons_199974832",
+    "selected": true,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "reuse_of": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832",
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "C2",
+    "parent_id": null,
+    "H_version": "candidates/r1/sceneevolve_cli/C2",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.687061655335128,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.565529038198292,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/sceneevolve_cli/C2/policy.py\", line 110, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_163096530/student_calls/001_1793646979894024397/stderr.log\n",
+      "seconds": 8.571059715934098
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "C2",
+    "parent_id": null,
+    "H_version": "candidates/r1/sceneevolve_cli/C2",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 9.03731302684173,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.913603810127825,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/sceneevolve_cli/C2/policy.py\", line 110, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_16007442/student_calls/001_1793646935229744968/stderr.log\n",
+      "seconds": 8.92028477229178
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "C2",
+    "parent_id": null,
+    "H_version": "candidates/r1/sceneevolve_cli/C2",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.737505742814392,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.611501379869878,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/sceneevolve_cli/C2/policy.py\", line 110, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_155212263/student_calls/001_1793646884882544385/stderr.log\n",
+      "seconds": 8.618021791800857
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "sceneevolve_cli",
+    "run_id": "r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "C2",
+    "parent_id": null,
+    "H_version": "candidates/r1/sceneevolve_cli/C2",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.837654680013657,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.718917163088918,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/sceneevolve_cli/C2/policy.py\", line 110, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_199974832/student_calls/001_1793647031583271527/stderr.log\n",
+      "seconds": 8.72641692776233
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r1",
+    "scene_id": "commons_163096530",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.38641952117905,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.26767996372655,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/student_calls/001_1793646971298372399/stderr.log\n",
+      "seconds": 8.273200180847198
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r1",
+    "scene_id": "commons_16007442",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.436599993146956,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.312670219223946,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442/student_calls/001_1793646926592260564/stderr.log\n",
+      "seconds": 8.318352090194821
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_16007442",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r1",
+    "scene_id": "commons_155212263",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 8.486485743895173,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.359895062167197,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263/student_calls/001_1793646876202156674/stderr.log\n",
+      "seconds": 8.36558885499835
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_155212263",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "r1",
+    "scene_id": "commons_199974832",
+    "split": "test",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "backend/harnesses/baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "functional": {
+      "functional_pass": false,
+      "structure_pass": false,
+      "material_pass": false,
+      "composite_pass": false,
+      "target_object": "unknown"
+    },
+    "target_object": "unknown",
+    "device": "CPU",
+    "seconds": 11.694640993140638,
+    "usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 11.57603828329593,
+      "cost_usd": "unknown",
+      "executions": 0
+    },
+    "runtime_status": {
+      "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/backend/harnesses/baseline/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832/student_calls/001_1793647019682605119/stderr.log\n",
+      "seconds": 11.581801899708807
+    },
+    "failure_type": "cli_usage_limit",
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_199974832",
+    "selected": null,
+    "device_mapping": {
+      "device": "CPU",
+      "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+    },
+    "render_device_history": [],
+    "functional_device_mapping": null,
+    "observed_model_service_failure": "cli_usage_limit",
+    "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+  }
+]

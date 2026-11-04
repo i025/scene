@@ -1,0 +1,45 @@
+{
+  "probe": "object_scale",
+  "target_selection": {
+    "object": "arm gold-1",
+    "kind": "group",
+    "mesh_names": [
+      "Ball.119",
+      "Ball.120",
+      "Ball.121",
+      "Ball.122",
+      "Ball.123",
+      "Rod.119",
+      "Rod.120",
+      "Rod.121",
+      "Rod.122"
+    ],
+    "group_name": "arm gold-1",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+  "scale_before": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "scale_after": [
+    1.100000023841858,
+    1.100000023841858,
+    1.100000023841858
+  ],
+  "scale_factor": 1.1,
+  "pivot_world_scene_units": [
+    -0.9249999523162842,
+    -0.4807043671607971,
+    1.3389999866485596
+  ],
+  "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+  "fixed_camera": true,
+  "non_target_preserved": true,
+  "status": "completed",
+  "images": [
+    "probe_object_scale.png"
+  ],
+  "render_attempts": 1
+}

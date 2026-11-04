@@ -1,0 +1,144 @@
+"""Budget-gated, predeclared ablations; never decides continuation from winners."""
+from pathlib import Path
+import ast
+import json
+import shutil
+import time
+import pilot
+from pilot import ROOT,read,write_json,config,current,propose,run_scene,summarize,better
+from strategies import GENERIC,OURS
+
+VARIANTS=['generic_same_structured_evidence','ours_without_probes','ours_without_regression_guidance']
+
+def generic_evidence_source():
+    """Reuse the evidence fields without exposing the unused Ours instruction."""
+    node=next(n for n in ast.parse(OURS).body if isinstance(n,ast.FunctionDef))
+    node.name='structured_evidence'
+    def probe_assignment(statement):
+        return isinstance(statement,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='probes' for t in statement.targets)
+    node.body=[statement for statement in node.body if not probe_assignment(statement)]
+    for statement in ast.walk(node):
+        if isinstance(statement,ast.For):
+            statement.body=[item for item in statement.body if not probe_assignment(item)]
+    returned=node.body[-1]
+    pairs=[(key,value) for key,value in zip(returned.value.keys,returned.value.values)
+           if key.value in ('diagnoses','regression_priorities')]
+    returned.value=ast.Dict(keys=[key for key,value in pairs],values=[value for key,value in pairs])
+    return GENERIC.replace('def plan(packet):','def generic_plan(packet):')+'\n'+ast.unparse(node)+'''\ndef plan(packet):
+    generic = generic_plan(packet)
+    evidence = structured_evidence(packet)
+    generic['diagnoses'] = evidence['diagnoses']
+    generic['regression_priorities'] = evidence['regression_priorities']
+    return generic
+'''
+
+def initial_sources():
+    folder=ROOT/'ablation_initial';folder.mkdir(exist_ok=True)
+    combined=generic_evidence_source()
+    without_probe=OURS.replace("'probes': probes, 'diagnoses'", "'probes': [], 'diagnoses'")
+    without_probe=without_probe.replace("'instruction': 'Improve shared H", "'instruction': 'Active diagnostics are disabled in this ablation. You MUST return requested_probes=[]; use existing evidence only. Improve shared H")
+    without_probe=without_probe.replace('awaiting controlled intervention','disabled by frozen ablation').replace('camera_focal and object_scale','disabled; passive evidence only').replace('Use probe sensitivity and dependency regression evidence','Use passive visual/geometric and dependency regression evidence').replace('using the controlled probe results and fixed functional regression evidence','using existing visual/geometric observations and fixed functional regression evidence')
+    # Preserve diagnostic evidence and the Ours research instruction while masking regression feedback.
+    without_regression=OURS.replace("'regression_guidance': True", "'regression_guidance': False").replace("'instruction': 'Improve shared H", "'instruction': 'Functional regression feedback is withheld in this ablation. Use raw geometry and diagnostic evidence; the final evaluator still applies identical functional gates. Improve shared H")
+    without_regression=without_regression.replace("'regression_priorities': priorities", "'regression_priorities': []").replace('using the controlled probe results and fixed functional regression evidence','using the controlled probe results and raw geometry').replace('Use probe sensitivity and dependency regression evidence','Use probe sensitivity and raw geometric evidence').replace('Use target modules/dependencies and modification risks to prioritize object structure, local material non-target preservation and composite movement checks.','The final fixed functional evaluator remains external; no measured functional regression feedback is supplied to guide this proposal.')
+    for name,text in zip(VARIANTS+['ours_ablation_reference'],[combined,without_probe,without_regression,OURS]):
+        p=folder/name;p.mkdir(exist_ok=True)
+        if not (p/'meta.py').exists():(p/'meta.py').write_text(text)
+    return folder
+
+
+def reuse_h0(method,run,original_run,scene):
+    source=ROOT/'results'/original_run/'fixed_h0'/'H0'/'test'/scene['scene_id']
+    folder=ROOT/'results'/run/method/'H0'/'test'/scene['scene_id'];folder.mkdir(parents=True,exist_ok=True)
+    if (folder/'record.json').exists():return read(folder/'record.json')
+    row=read(source/'record.json')
+    row={**row,'method':method,'run_id':run,'folder':str(folder),'reuse_of':str(source),'seconds':0,'usage':{'calls':0,'executions':0,'input_tokens':0,'output_tokens':0,'total_tokens':0,'reuse_original_usage':row['usage']}}
+    for name in ['reference.png','final.png','scene.blend','build.py','camera.json']:
+        if (source/name).exists() and not (folder/name).exists():(folder/name).symlink_to(source/name)
+    if (source/'functional').exists():
+        (folder/'functional').mkdir(exist_ok=True)
+        for f in (source/'functional').iterdir():
+            if f.is_file() and f.name!='text_edit.json' and not (folder/'functional'/f.name).exists():(folder/'functional'/f.name).symlink_to(f)
+    write_json(folder/'record.json',row);return row
+
+
+def main():
+    if (ROOT/'extras_status.json').exists() and read(ROOT/'extras_status.json').get('status')=='complete':return
+    if read(ROOT/'supplement_status.json',{}).get('status') not in ('complete','completed_with_failures'):
+        raise RuntimeError('Main and fixed supplementary tests must finish first')
+    sources=initial_sources();available=600-current()['cli_sessions']
+    prior=read(ROOT/'ablation_protocol.json')
+    minimal=prior.get('scope')=='minimum_four_condition_feasibility' if prior else 68<=available<146
+    repeats=prior['repeats'] if prior else 2 if available>=384 else 1 if available>=68 else 0
+    candidates=prior['K'] if prior else 2 if available>=192 else 1
+    required=68 if minimal else 192*repeats if candidates==2 else 146*repeats
+    methods=VARIANTS+['ours_ablation_reference'] if minimal else VARIANTS
+    scenes=read(ROOT/'manifest.json');dev=[s for s in scenes if s['split']=='development'];sel=[s for s in scenes if s['split']=='selection'];test=[s for s in scenes if s['split']=='test']
+    if minimal:dev,sel,test=dev[:1],sel[:1],test[:1]
+    protocol={'common_config_snapshot':config(),'stage':'independent_generation_ablations','scope':'minimum_four_condition_feasibility' if minimal else 'matched_main_scope','repeats':repeats,'K':candidates,'required_upper_bound_cli':required,'available_cli_at_freeze':available,'selection':'1/1/1 first manifest scene per split; all four conditions generate fresh H from the same r1 H0 evidence' if minimal else 'same2/2/4 scenes; per-repeat H0 evidence reused; all variants have independent fresh proposals and generated H','chosen_from_budget_not_results':True,'main_test_is_not_new_blind_data':True,'reference':'fresh Ours M_initial/H0 proposal, identical reduced inputs and budgets' if minimal else 'main Ours from matching repeat; for K1 use only original C1 plus H0, selected on original Selection and evaluate that H if it was not terminally evaluated; variant H generation is independent','methods':methods,'scene_ids':{key:[s['scene_id'] for s in values] for key,values in [('development',dev),('selection',sel),('test',test)]},'frozen_time':time.time()}
+    protocol['without_regression_feedback_mask']='Hide measured functional results and prior retention Boolean from proposal input; preserve raw geometry, visual Q and unchanged final evaluator/gates. Raw geometry can still support inferred risk.'
+    protocol['structured_evidence_control']='Reuse only initial Ours diagnoses/priorities formatter; Generic instruction and probe policy unchanged. Unused Ours instruction/probe-policy source omitted. Before first resumed ablation; audit quota_restored_20261103/ablation_evidence_control.'
+    if not prior:write_json(ROOT/'ablation_protocol.json',protocol)
+    if not repeats:
+        write_json(ROOT/'extras_status.json',{'status':'pending_budget','ablations':'pending: fewer than68 CLI sessions remain, below the smallest fresh four-condition1/1/1 K1 group upper bound','frozen_meta_replay':'pending: next priority after ablations, no result claimed','external_blenderworld':'pending: no official/adapted score produced','remaining_cli':available});return
+    baseline=ROOT/'backend/harnesses/baseline';archive=read(ROOT/'ablation_archive.json',[]);states={}
+    for i in range(1,repeats+1):
+        rid=f'r{i}';run=f'ablation_{rid}';bdev=[read(ROOT/'results'/rid/'fixed_h0'/'H0'/'development'/s['scene_id']/'record.json') for s in dev];bsel=[read(ROOT/'results'/rid/'fixed_h0'/'H0'/'selection'/s['scene_id']/'record.json') for s in sel]
+        for method in methods:states[(run,method)]={'source':baseline,'meta':sources/method/'meta.py','dev':bdev,'base':summarize(bsel),'best':summarize(bsel),'selected':'H0','selected_source':baseline}
+    for k in range(1,candidates+1):
+        for (run,method),state in states.items():
+            evidence=state['dev']
+            original_dev_packet=pilot.dev_packet
+            if method=='ours_without_regression_guidance':
+                def without_regression(rows):
+                    packet,images=original_dev_packet(rows)
+                    for item in packet:
+                        item['functional']={};item['regression']=None
+                        if item.get('structure'):
+                            item['structure']={key:value for key,value in item['structure'].items() if key not in ['structure_pass','structure_requirement','finite_matrices','empty_parent_group_available']}
+                    return packet,images
+                pilot.dev_packet=without_regression
+            original_inspect=pilot.inspect
+            if method=='ours_without_probes':
+                def no_probe(folder,mode='mechanical',probe=None,output=None):
+                    if mode=='probe':raise ValueError('Active probes disabled by frozen ablation')
+                    return original_inspect(folder,mode,probe,output)
+                pilot.inspect=no_probe
+            prior_rows=[a for a in archive if a['method']==method and a['run_id']==run and a['candidate_id']!=f'C{k}']
+            if method=='ours_without_regression_guidance':
+                prior_rows=[{**a,'accepted':None,'selection':{'endpoint_quality':a.get('selection',{}).get('endpoint_quality')},'development':{'endpoint_quality':a.get('development',{}).get('endpoint_quality')}} for a in prior_rows]
+            try:source,result=propose(method,run,k,state['source'],state['meta'],evidence,prior_rows,total_candidates=candidates)
+            except ValueError as error:
+                source=ROOT/'candidates'/run/method/f'C{k}';source.mkdir(parents=True,exist_ok=True)
+                result={'status':'ablation_constraint_failure','error':str(error)};write_json(source/'proposal_result.json',result)
+            finally:
+                pilot.inspect=original_inspect;pilot.dev_packet=original_dev_packet
+            if result['status']=='proposed':
+                drows=[run_scene(method,run,f'C{k}',s,source,meta=str(state['meta'])) for s in dev];srows=[run_scene(method,run,f'C{k}',s,source,meta=str(state['meta'])) for s in sel]
+                summary=summarize(srows);accepted=better(summary,state['base'],state['best'])
+                if accepted:state.update({'best':summary,'selected':f'C{k}','selected_source':source})
+                entry={'method':method,'run_id':run,'candidate_id':f'C{k}','status':'evaluated','development':summarize(drows),'selection':summary,'accepted':accepted}
+                state.update({'source':source,'meta':source/'meta.py','dev':drows})
+            else:entry={'method':method,'run_id':run,'candidate_id':f'C{k}','status':result['status'],'accepted':False,'error':result.get('error')}
+            archive=[a for a in archive if not(a['method']==method and a['run_id']==run and a['candidate_id']==f'C{k}')]+[entry];write_json(ROOT/'ablation_archive.json',archive)
+    if candidates==1 and not minimal:
+        main_entry=next((a for a in read(ROOT/'archive.json',[]) if a['method']=='scene_rsi_pilot' and a['run_id']=='r1' and a['candidate_id']=='C1'),{})
+        selected='C1' if main_entry.get('accepted') else 'H0'
+        source=ROOT/'candidates/r1/scene_rsi_pilot/C1' if selected=='C1' else baseline
+        write_json(ROOT/'ablation_reference_selection.json',{'method':'scene_rsi_pilot','run_id':'r1','candidate_id':selected,'source':str(source),'selection_only':True,'reference_generation_reused':True,'variant_generations_reused':False})
+        for scene in test:
+            if selected=='H0':reuse_h0('scene_rsi_pilot','r1','r1',scene)
+            else:run_scene('scene_rsi_pilot','r1',selected,scene,source)
+    choices=[{'run_id':r,'method':m,'candidate_id':s['selected'],'source':str(s['selected_source']),'selection':s['best']} for (r,m),s in states.items()]
+    frozen=read(ROOT/'ablation_selection_freeze.json')
+    if frozen:
+        if frozen['choices']!=choices:raise RuntimeError('Ablation resume choices differ from the frozen choices')
+    else:write_json(ROOT/'ablation_selection_freeze.json',{'choices':choices,'time':time.time(),'no_test_feedback_used':True})
+    for scene in test:
+        for choice in choices:
+            if choice['candidate_id']=='H0':reuse_h0(choice['method'],choice['run_id'],choice['run_id'].replace('ablation_',''),scene)
+            else:run_scene(choice['method'],choice['run_id'],choice['candidate_id'],scene,Path(choice['source']))
+    write_json(ROOT/'extras_status.json',{'status':'complete','scope':protocol['scope'],'ablations':'completed','repeats':repeats,'K':candidates,'frozen_meta_replay':'pending independent frozen-stage inputs and remaining budget audit','external_blenderworld':'pending','remaining_cli':600-current()['cli_sessions']})
+    write_json(ROOT/'state.json',{'phase':'extras_complete','time':time.time()})
+
+if __name__=='__main__':main()

@@ -1,0 +1,28 @@
+--- before/report.py
++++ report.py
+@@ -511,6 +511,9 @@
+     if (root/'service_incident_03/user_continuation_10.json').exists():
+         summary['latest_continuation']=read(root/'service_incident_03/user_continuation_10.json')
+         summary['limitations'].append('在既有继续授权下复查连接，一次sol/medium检查通过并计入预算，队列10继续未启动的元回放，已有失败不重采样。元回放按当时53次剩余预算选择预声明的单陌生起点、每个冻结M一次提案、1dev/1selection/1test最小可行性范围，不能据此宣称普遍元能力提升。')
++    if (root/'external_budget_adaptation/preuse_rule.json').exists():
++        summary['external_budget_adaptation']=read(root/'external_budget_adaptation/preuse_rule.json')
++        summary['limitations'].append('外部阶段原计划2任务、至少预留24次CLI；在外部调用/结果均为0且元回放Test尚未冻结前，公开增加独立阶段预算适配：余额≥24仍2任务，12–23仅固定顺序首任务bw_0005，两方法同规模，<12待运行。总上限、模型、H选择、内层预算、渲染和评分均不改；这是非原始预注册的预算适配。单任务只属可行性，原第二任务若未跑单列pending。')
+     quota=read(root/'model_usage_limit.json')
+     restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+@@ -717,6 +720,7 @@
+             panels.append('<h3>'+title+'</h3>'+media(out/f'{name}.png',title)+link(out/f'{name}.csv','图的源数据'))
+     if additional.get('external'):
+         panels.append('<p>'+link(out/'blenderworld_adapted.csv','BlenderWorld adapted evaluation 数据；非官方榜单分数')+'</p>')
++        panels.append('<p>外部实际范围：'+html.escape(stages['external'].get('scope','unknown'))+'；原计划中未运行任务：'+html.escape(display(stages['external'].get('pending_original_tasks',[])))+'。'+link(root/'external_budget_adaptation/preuse_rule.json','外部结果产生前的预算适配规则')+'</p>')
+     for coverage in additional.get('ablation_coverage',[]):
+         panels.append('<p class="missing">'+html.escape(coverage['run_id'])+'：全部消融条件与匹配参考共同有效的场景数为 '+str(coverage['common_valid_count'])+'。各条件的有效配对场景不同，不能跨条件比较条件均值来宣称机制收益。'+link(out/'ablation_pair_coverage.csv','配对覆盖源数据')+'</p>')
+     for row in extra_rows:
+@@ -845,6 +849,7 @@
+         for point in additional['external']:
+             lines.append('|'+ '|'.join(display(point[k]) for k in ('method','scene_id','reconstruction_status','Q','functional_pass','adapted_score_0_100'))+'|')
+         lines += ['', '[BlenderWorld 适配评测源数据](blenderworld_adapted.csv)']
++        lines += ['', '外部实际范围：'+display(stages['external'].get('scope'))+'；原计划未运行任务：'+display(stages['external'].get('pending_original_tasks',[]))+'。单任务不能支持一般优势；[外部结果前冻结的预算适配](../external_budget_adaptation/preuse_rule.json)。']
+     if incident_summary:
+         lines += ['', '## 服务故障与恢复分母', '', '故障期间没有有效主终测图像/指标。恢复前后的失败与成本均保留；当前任务结果与包含旧故障的物理尝试成功率分开报告。', '', '`'+display(incident_summary)+'`', '', '[全部场景尝试及原记录](service_attempts.csv) · [故障恢复清单](../service_incident_01/recovery_prepared.json)']
+     if quota:

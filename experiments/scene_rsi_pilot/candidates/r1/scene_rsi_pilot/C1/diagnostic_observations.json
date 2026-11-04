@@ -1,0 +1,131 @@
+{
+  "initial_diagnoses": [
+    {
+      "scene_id": "commons_109923183",
+      "object_id": "arm gold-1",
+      "code_location": "unknown",
+      "observation": "Reference/render disagreement; magnitude is measured by fixed visual metrics",
+      "observation_type": "measured_metric_with_unresolved_visual_cause",
+      "hypothesis": "Camera framing or object scale may contribute; this is a hypothesis, not attribution",
+      "probe": "camera_focal and object_scale",
+      "probe_result": "awaiting controlled intervention",
+      "planned_change": "Use probe sensitivity and dependency regression evidence to choose a shared H change"
+    }
+  ],
+  "probes": [
+    {
+      "scene_id": "commons_109923183",
+      "probe": "camera_focal",
+      "result": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": "arm gold-1",
+          "kind": "group",
+          "mesh_names": [
+            "Ball.119",
+            "Ball.120",
+            "Ball.121",
+            "Ball.122",
+            "Ball.123",
+            "Rod.119",
+            "Rod.120",
+            "Rod.121",
+            "Rod.122"
+          ],
+          "group_name": "arm gold-1",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 51.0,
+        "focal_length_after": 56.099998474121094,
+        "geometry_unchanged": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.2233997936325982,
+        "lpips": 0.8496556282043457,
+        "dino": 0.5761558413505554,
+        "psnr": 14.065431845972558,
+        "overall": 0.3872740287011767
+      },
+      "baseline_visual_metrics": {
+        "valid": true,
+        "ssim": 0.2249695304368097,
+        "lpips": 0.8505436182022095,
+        "dino": 0.5956401228904724,
+        "psnr": 14.06230700701162,
+        "overall": 0.39074865789327884
+      }
+    },
+    {
+      "scene_id": "commons_109923183",
+      "probe": "object_scale",
+      "result": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "arm gold-1",
+          "kind": "group",
+          "mesh_names": [
+            "Ball.119",
+            "Ball.120",
+            "Ball.121",
+            "Ball.122",
+            "Ball.123",
+            "Rod.119",
+            "Rod.120",
+            "Rod.121",
+            "Rod.122"
+          ],
+          "group_name": "arm gold-1",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scale_after": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          -0.9249999523162842,
+          -0.4807043671607971,
+          1.3389999866485596
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.22495261455341875,
+        "lpips": 0.8502752780914307,
+        "dino": 0.5960100889205933,
+        "psnr": 14.06220706802415,
+        "overall": 0.3908941269740949
+      },
+      "baseline_visual_metrics": {
+        "valid": true,
+        "ssim": 0.2249695304368097,
+        "lpips": 0.8505436182022095,
+        "dino": 0.5956401228904724,
+        "psnr": 14.06230700701162,
+        "overall": 0.39074865789327884
+      }
+    }
+  ]
+}

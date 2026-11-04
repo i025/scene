@@ -1,0 +1,205 @@
+--- parent/policy.py
++++ C1/policy.py
+@@ -3,26 +3,185 @@
+ import re
+ 
+ 
++GUIDANCE = '''
++Reconstruction procedure:
++Before writing the program, give a short visible-image specification: the main object
++silhouettes and their approximate normalized image bounds (origin top-left), major
++wall/floor boundaries, perspective directions, foreground cropping, and occlusion order.
++These are estimates from RGB, not measured calibration. Choose camera position, target
++and lens together to explain those observations. Put camera and major dimensions in
++clearly named parameters. Build all major visible objects in the first program; defer
++subpixel ornament until framing and large color regions agree. Preserve real 3D meshes
++and meaningful multipart Asset groups throughout revisions.
++
++Implementation facts to check before every execution:
++- fillet_box requires 0 < radius <= half the smallest size component, including thickness.
++  For a thin object, use an appropriately small radius or a different valid construction.
++- realize clears Blender, including the world. After realize, obtain bpy.context.scene;
++  if its world is None, assign bpy.data.worlds.new('World') before accessing world fields.
++  Set world.use_nodes=True before accessing its Background shader.
++- include replaces an existing child with the same key. Give repeated parts unique keys
++  within their parent, including every loop index, so earlier geometry is retained.
++- Use keyword arguments for rod endpoints. Every dimension must be positive and finite;
++  consecutive sweep points and rod endpoints must be distinct.
++- Transform pivots default to the object's bounding-box center. Specify pivot explicitly
++  when rotating an assembly about a different point.
++- SceneAct include keys name parent markers; generated mesh names may remain Box or Rod.
++  For material edits, traverse the intended marker's mesh descendants, or retain explicit
++  references, instead of assuming its include key is the mesh name. Copy shared materials
++  before changing only one object's appearance.
++- Create camera, lights, world and Blender material customization after realize. Keep
++  the supplied image aspect ratio. Do not change fixed runner limits or render settings
++  to obtain extra renders. Never call rendering, saving, external tools or file inspection.
++
++After a successful render, compare the reference and render explicitly. Identify at most
++three high-impact discrepancies, stating the affected image region and the proposed
++parameter change. Prioritize camera/framing, silhouette/occlusion, and broad color/light
++regions before fine detail. A global displacement suggests camera aim/shift; wrong
++perspective slopes suggest orientation; wrong near/far size ratios suggest camera
++position and focal length; a local mismatch suggests object geometry or placement.
++Avoid changing camera and many unrelated object dimensions without a stated reason.
++Return a complete standalone program for each revision, never a patch.
++Missing output is a failed attempt, not an image to critique. Fix the reported error and
++check the entire program for related errors before retrying. Do not invent render metrics.
++
++The harness may request a source audit before the first execution. This is a model-only
++review, not permission to run code. When asked to choose among successful renders, reply
++SELECT <step> using a supplied step number. Choose by reference agreement, not recency.
++DONE accepts the latest successful build. A selection is only valid for a successful
++execution with an available rendered image.
++'''
++
++
++def _text(response):
++    content = response.get('content') or ''
++    if isinstance(content, str):
++        return content
++    if isinstance(content, list):
++        return '\n'.join(item.get('text', '') for item in content
++                         if isinstance(item, dict) and item.get('type') == 'text')
++    return ''
++
++
++def _program(text):
++    blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S | re.I)
++    return blocks[-1] if blocks else None
++
++
+ def solve(task, runtime):
+     prompt = (Path(__file__).parent / 'system.txt').read_text()
+-    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [
+-        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +
+-         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}"},
+-        runtime.image(task['image'])]}]
+-    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:
++    messages = [
++        {'role': 'system', 'content': prompt + '\n' + GUIDANCE},
++        {'role': 'user', 'content': [
++            {'type': 'text', 'text':
++             'Reconstruct this RGB reference. Give the short image specification and '
++             'one complete program. Match camera, framing and visible geometry. '
++             f"Image dimensions: {task['width']} x {task['height']}. "
++             f'Budget: {runtime.remaining()}'},
++            runtime.image(task['image'])]}]
++    successful = []
++    audited = False
++    executions = 0
++
++    while True:
++        budget = runtime.remaining()
++        if budget['model_calls'] <= 0 or budget['seconds'] <= 0:
++            break
++        if budget['executions'] <= 0 and not successful:
++            break
+         response = runtime.ask(messages)
+         messages.append(response)
+-        text = response['content'] or ''
+-        blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S)
+-        if not blocks:
+-            if text.strip().upper() == 'DONE': return
+-            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})
++        text = _text(response)
++        selection = re.fullmatch(r'\s*SELECT\s+(\d+)\s*', text, re.I)
++        if selection:
++            step = int(selection.group(1))
++            if step in successful:
++                runtime.select(step)
++                return
++            messages.append({'role': 'user', 'content':
++                             f'Invalid selection. Successful steps: {successful}. '
++                             'Return an eligible SELECT step or a complete program if budget permits.'})
+             continue
+-        if runtime.remaining()['executions'] <= 0: return
+-        result = runtime.execute(blocks[-1])
+-        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +
+-                    '\nCompare the rendered camera view with the original reference. ' +
+-                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}
+-        content = [feedback]
+-        if result['image']: content.append(runtime.image(result['image']))
++        if text.strip().upper() == 'DONE':
++            if successful:
++                runtime.select(successful[-1])
++                return
++            messages.append({'role': 'user', 'content':
++                             'No successful rendered output exists. Return a complete corrected program.'})
++            continue
++
++        code = _program(text)
++        if code is None:
++            messages.append({'role': 'user', 'content':
++                             'Return one complete program in a python code block, '
++                             'or SELECT an eligible successful step.'})
++            continue
++        budget = runtime.remaining()
++        if budget['executions'] <= 0:
++            messages.append({'role': 'user', 'content':
++                             f'No executions remain. No new code can be submitted. '
++                             f'Choose among successful renders already shown: {successful}. '
++                             'Reply only SELECT <step>.'})
++            continue
++
++        # Spend one spare model turn preventing failures that would consume renders.
++        # Keep the proposed program and audit response intact in the conversation.
++        if (not audited and executions == 0 and budget['model_calls'] >= 4
++                and budget['seconds'] > 180):
++            audited = True
++            messages.append({'role': 'user', 'content':
++                'Before execution, audit the complete proposed source without running it. '
++                'Check all fillet radii against thickness, world initialization after realize, '
++                'duplicate include keys inside loops, API signatures, material targeting, '
++                'finite dimensions and camera placement. Also check the proposed camera '
++                'and large silhouettes against your RGB specification. Return the complete '
++                'corrected program, retaining sound geometry and avoiding extra ornament. '
++                'There has been no render yet; do not claim visual validation. '
++                f'Remaining: {budget}'})
++            continue
++
++        if runtime.remaining()['seconds'] <= 0:
++            break
++        result = runtime.execute(code)
++        executions += 1
++        valid = bool(result.get('ok') and result.get('image')
++                     and result.get('step') is not None)
++        if valid:
++            step = result['step']
++            successful.append(step)
++            runtime.select(step)
++        elif successful:
++            runtime.select(successful[-1])
++
++        budget = runtime.remaining()
++        details = json.dumps({k: v for k, v in result.items() if k != 'image'},
++                             default=str)
++        if valid and budget['executions'] > 0:
++            instruction = (
++                'Compare the reference with this actual render. State up to three '
++                'largest discrepancies and return a complete revised program addressing '
++                'them. Preserve already matching geometry. If further edits are unlikely '
++                'to help, SELECT the best successful step. ')
++        elif valid:
++            instruction = (
++                'No executions remain. Compare all successful renders in this conversation '
++                'with the reference and reply only SELECT <step>. Do not write unused code. ')
++        else:
++            instruction = (
++                'FAILED OUTPUT: this attempt has no confirmed successful rendered image. '
++                'Do not infer its visual appearance. Inspect the complete error and source; '
++                'fix the cause and related hazards in one complete revised program. ')
++        content = [{'type': 'text', 'text': details + '\n' + instruction +
++                    f'Successful steps: {successful}. Remaining: {budget}'}]
++        if valid:
++            content.extend([
++                {'type': 'text', 'text': 'Original RGB reference:'},
++                runtime.image(task['image']),
++                {'type': 'text', 'text': f"Rendered step {result['step']}:"},
++                runtime.image(result['image'])])
+         messages.append({'role': 'user', 'content': content})
++        if budget['executions'] <= 0 and len(successful) <= 1:
++            break
++
++    if successful:
++        runtime.select(successful[-1])

@@ -1,0 +1,23 @@
+{
+  "time": 1793638590.2096863,
+  "text_editor_calls_before_change": 0,
+  "test_results_seen": false,
+  "scope": "Only the unexecuted fixed text-editor checker; main mechanical metrics and candidate selection unchanged",
+  "reason": "Original text checker omitted mesh topology/modifier/constraint/camera-light parameters and did not reapply fixed render settings after generated editor code",
+  "change": "Direct parameter/topology/dependency snapshots; preserve world/camera; reapply common quality and original dimensions; all methods same one-call no-repair editor",
+  "not_measured": [
+    "animation",
+    "drivers",
+    "nested shader-group internals"
+  ],
+  "model_or_render_budget_changed": false,
+  "controls": {
+    "execution_hook": "supplement.main before any actual text-editor model call",
+    "source": "smoke/smoke_01 existing development-only scene",
+    "positive": "Mechanical blue edit preserves measured non-target parameters",
+    "negative": "Same edit plus camera lens change must fail preservation; renderer must restore samples16 and original size after deliberate setting changes",
+    "new_model_calls": 0,
+    "max_new_render_frames": 2,
+    "status": "not_run_yet"
+  }
+}

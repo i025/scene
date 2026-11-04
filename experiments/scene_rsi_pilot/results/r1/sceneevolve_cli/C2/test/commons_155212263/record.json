@@ -1,0 +1,98 @@
+{
+  "method": "sceneevolve_cli",
+  "run_id": "r1",
+  "scene_id": "commons_155212263",
+  "split": "test",
+  "candidate_id": "C2",
+  "parent_id": null,
+  "H_version": "candidates/r1/sceneevolve_cli/C2",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.15229487848447568,
+    "lpips": 0.7728930711746216,
+    "dino": 0.5558404326438904,
+    "psnr": 8.083184190592887,
+    "overall": 0.38577400787726646
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "Cropped right barrel",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "Cropped right barrel",
+  "device": "CPU",
+  "seconds": 333.5174118196592,
+  "usage": {
+    "calls": 3,
+    "input_tokens": "unknown",
+    "output_tokens": "unknown",
+    "cached_input_tokens": "unknown",
+    "total_tokens": "unknown",
+    "seconds": 268.24181653978303,
+    "cost_usd": "unknown",
+    "executions": 1
+  },
+  "runtime_status": {
+    "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/sceneevolve_cli/C2/policy.py\", line 110, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 155, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_155212263/student_calls/003_1793719010432340777/stderr.log\n",
+    "seconds": 321.64477049419656
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C2/test/commons_155212263",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "GPU",
+    "cuda_visible_devices": "GPU-6deac1db-e8b2-558c-0285-ff9639a06a43",
+    "gpu_uuid": "GPU-6deac1db-e8b2-558c-0285-ff9639a06a43",
+    "gpu_index": 3,
+    "enabled_cycles_devices": [
+      {
+        "name": "NVIDIA A100-PCIE-40GB",
+        "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:61:00",
+        "type": "CUDA"
+      }
+    ],
+    "gpu_idle_recheck": {
+      "time": 1793719028.299745,
+      "requested_uuid": "GPU-6deac1db-e8b2-558c-0285-ff9639a06a43",
+      "other_compute_pids": [],
+      "own_context": false,
+      "memory_used_mib": 3,
+      "utilization_percent": 0
+    },
+    "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+    "gpu_bus_id": "00000000:61:00.0",
+    "backend": "CUDA"
+  }
+}

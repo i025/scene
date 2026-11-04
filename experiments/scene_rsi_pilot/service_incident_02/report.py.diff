@@ -1,0 +1,83 @@
+--- before/report.py
++++ report.py
+@@ -391,6 +391,15 @@
+         primary = "overall"
+     analysis = read(root / "reports/analysis.json")
+     stages = {name: read(root / f'{source}_status.json', {'status':'pending'}) for name,source in (('supplement','supplement'),('ablation','extras'),('replay','replay'),('external','external'))}
++    ablation_choices=read(root/'ablation_selection_freeze.json',{}).get('choices',[])
++    ablation_ids=read(root/'ablation_protocol.json',{}).get('scene_ids',{}).get('test',[])
++    ablation_counts=Counter()
++    for choice in ablation_choices:
++        for sid in ablation_ids:
++            row=next((r for r in rows if all(r[k]==choice[k] for k in ('method','run_id','candidate_id')) and r['scene_id']==sid and r['split']=='test'),None)
++            ablation_counts[row['status'] if row else 'pending']+=1
++    service_progress=(f"消融终测{ablation_counts['complete']}成功、{ablation_counts['failed']}失败、{ablation_counts['pending']}待运行；"
++                      f"元回放状态{stages['replay']['status']}，外部任务状态{stages['external']['status']}。")
+     summary = {"paired_analysis": analysis, "report_kind": "measured_records_only", "primary_metric": primary,
+                "formal_records": sum(r.get("split") != "smoke" for r in rows),
+                "smoke_records": sum(r.get("split") == "smoke" for r in rows),
+@@ -447,6 +456,15 @@
+     if (root/'cli_checks/initial_sandbox_failures.json').exists():
+         summary['initial_cli_log_loss']=read(root/'cli_checks/initial_sandbox_failures.json')
+         summary['limitations'].append('初始两次隔离环境CLI失败的原始日志被第二次准备尝试误覆盖；只保留当时终端错误说明，不能补造原始日志、耗时或usage。两次仍计入600会话预算，token保持未知，详见cli_checks/initial_sandbox_failures.json。')
++    service_pause=read(root/'service_pause.json')
++    if service_pause:
++        summary['service_pause']=service_pause
++        summary['limitations'].append('2026-11-04消融终测再次遇到workspace routing discovery failed，有限队列以1退出。累计533/600会话时停止新提交；主对照与固定补充测试已结束，消融终测7成功、1失败、4待运行，元回放与外部任务尚未启动。失败场景保留，不重采样；service_incident_02/closeout.json保存阶段分母。')
++    if (root/'service_incident_02/user_continuation.json').exists():
++        summary['service_continuation']=read(root/'service_incident_02/user_continuation.json')
++        summary['limitations'].append('用户在获知533/600及剩余任务后明确要求继续，新增一次已计费的sol/medium连接检查通过，随后仅运行尚未执行的槽位；原路由失败场景保留，没有重新采样。服务恢复检查不算研究方法的改进。实际阶段结果以状态文件和逐场景记录为准。')
++    if (root/'service_incident_02/ablation_freeze_resume_audit.json').exists():
++        summary['limitations'].append('消融缓存续跑曾重写选择冻结文件的时间戳，三个所选C1均与停止前档案一致，选择代码未读取Test。最早时间戳未独立保留，不补造；现已改为比较选择一致性并保留现有冻结时间，不改模型、H/M、评分或结果。详见service_incident_02/ablation_freeze_resume_audit.json。')
+     quota=read(root/'model_usage_limit.json')
+     restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+@@ -551,6 +569,8 @@
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "final_inference_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "external_test_plan.md", "config.json", "manifest.json", "protocol.md", "cli_checks/initial_sandbox_failures.json", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>主对照登记计划 '+display(summary['main_all_scheduled'])+' 个槽位；状态 '+html.escape(display(summary['main_scheduled_counts']))+'。包含未运行与失败，不能用完成数替代计划数。各额外阶段的计划另列。</p>')
++    if service_pause:
++        panels.append('<p class="missing">CLI路由故障：队列已退出，当前没有实验在后台运行。已完成主对照与补充测试；'+html.escape(service_progress)+link(root/'service_incident_02/closeout.json','实际停止记录')+' · '+link(root/'quota_restored_20261103/session_jump_373_to_529.json','373→529会话逐项对账')+'</p>')
+     if summary['main_scheduled_counts'].get('pending',0):
+         panels.append('<p class="missing">进行中：主对照还有 '+str(summary['main_scheduled_counts']['pending'])+' 个待运行槽位。本页仅汇总已保存产物，尚非完整终测结论。</p>')
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+@@ -566,7 +586,7 @@
+     if incident_summary:
+         panels.append('<h2>服务故障与恢复</h2><p>旧终测全部无有效输出；已有有效场景没有重采样。以下分母包含保留的服务失败，不能用只看当前成功文件的比例替代。</p><pre>'+html.escape(json.dumps(incident_summary,ensure_ascii=False,indent=2))+'</pre>'+link(out/'service_attempts.csv','全部场景尝试 CSV')+' · '+link(root/'service_incident_01/recovery_prepared.json','恢复清单与原始档案映射')+' · '+link(root/'service_incident_01/routing_failures.json','CLI 路由失败清单'))
+     if restoration:
+-        panels.append('<p>用户已通知额度恢复，当前按共同规则补跑；历史失败继续计入成本和尝试分母。'+link(root/'quota_restored_20261103/recovery_prepared.json','用户授权恢复与文件映射')+' · '+link(root/'quota_restored_20261103/failed_scene_attempts.json','额度失败场景原记录')+'</p>')
++        panels.append('<p>用户通知额度恢复后已按共同规则补跑；历史失败继续计入成本和尝试分母，当前运行状态见本页停止记录。'+link(root/'quota_restored_20261103/recovery_prepared.json','用户授权恢复与文件映射')+' · '+link(root/'quota_restored_20261103/failed_scene_attempts.json','额度失败场景原记录')+'</p>')
+     if not selection_frozen:panels.append('<p class="missing">中期报告：Selection/Test 的逐图指标、图像和结构细节在统一选择冻结后再展示；当前仅汇总登记状态。主对照尚未完成。</p>')
+     gpu_checks=[]
+     for folder in sorted((root/'smoke').glob('gpu_*_check')):
+@@ -633,6 +653,9 @@
+     panels.append('<h2>消融、冻结元代理回放与外部任务</h2><p>只展示实际运行记录；主对照 Test 的再次使用不是新的盲测。BlenderWorld 为 adapted evaluation，不是官方榜单分数。</p>')
+     for name,status in stages.items():
+         panels.append('<details><summary>'+html.escape(name+': '+str(status.get('status')))+ '</summary><pre>'+html.escape(json.dumps(status,ensure_ascii=False,indent=2))+'</pre></details>')
++    supplement=stages['supplement']
++    if supplement.get('status') in ('complete','completed_with_failures'):
++        panels.append('<p>文字编辑：计划16例，实际14次编辑器调用，11例通过功能检查；端到端11/16，已执行条件比例11/14。独立视觉评审：27次新会话，5例因缺少有效重建未评审；评审只作补充。'+link(out/'text_edit.csv','逐例编辑数据')+' · '+link(out/'independent_judgments.csv','逐例独立评审')+'</p>')
+     additional=analysis.get('additional_stage_analysis',{}) if analysis else {}
+     for key,name,title in [('ablation','ablation_terminal','独立生成消融：相对匹配 Ours 的逐场景差异'),('replay','frozen_meta_replay','冻结元策略：相同陌生 H 起点上的全部实测收益')]:
+         if additional.get(key):
+@@ -697,6 +720,8 @@
+              "研究对象分为单场景程序P、跨图像共享流程H、以及可执行改进策略M。四组共同从本地SceneEvolve初始H0出发；Codex CLI的外层agent循环不是被研究的H。生成/固定编辑器请求gpt-6.1-sol，提案/独立匿名评审请求gpt-6-astra，均为medium。CLI未独立返回实际模型路由，不能用模型自报身份验证。", "",
+              "正式规模为2个Development、2个Selection、4个Test，两次独立研发、每次最多K=2共享候选。原4/4/8规模按最多5次内层调用估计已超过600会话上限，因此在正式结果产生前统一缩小。选择保留H0，先满足执行/功能不退化，再要求Selection端到端Q提升超过0.01；该实用阈值不是统计显著性界限。", "",
+              "## 真实测量", "", "|重复|方法|候选|划分|记录分母|完成|失败|端到端成功|条件主指标均值|指标有效样本|", "|---|---|---|---|---:|---:|---:|---:|---:|---:|"]
++    if service_pause:
++        lines[4:4]=[f"**当前停止：CLI路由故障，累计{ledger.get('cli_sessions')}/600会话；有限队列已经退出，没有实验在后台运行。** 主对照和编辑/评审已结束；"+service_progress, '', '[实际停止与阶段分母](../service_incident_02/closeout.json) · [373→529的156次会话逐项对账](../quota_restored_20261103/session_jump_373_to_529.json)', '']
+     for item in summaries:
+         cells = [item[k] for k in ("run_id", "method", "candidate_id", "split", "recorded_scheduled", "completed", "failed")]
+         cells += [f"{item['success_numerator']}/{item['success_denominator']}", item["conditional_quality"][primary], item["metric_sample_counts"][primary]]
+@@ -736,8 +761,10 @@
+     for name,status in stages.items():
+         source='extras' if name=='ablation' else name
+         lines.append('- '+name+': '+display(status.get('status'))+'；[原始状态](../'+source+'_status.json)。')
++    if supplement.get('status') in ('complete','completed_with_failures'):
++        lines += ['', '文字驱动编辑计划16例，实际14次固定编辑器调用，11例通过目标与非目标功能检查：端到端11/16、已执行条件比例11/14。两例缺少有效原始重建，三例编辑虽执行但未通过功能要求。独立视觉评审实际27次新会话，5例因缺少有效重建未评审；评分仅作补充，不替代几何真值。', '', '[文字编辑逐例数据](text_edit.csv) · [独立评审逐例数据](independent_judgments.csv)']
+     if additional.get('ablation'):
+-        lines += ['', '消融各条件均独立生成候选。下表只计真实终测配对；本阶段再次使用主实验 Test，不构成新的盲测。', '', '|方法|重复|场景|Q|相对H0差|相对匹配Ours差|功能通过|', '|---|---|---|---:|---:|---:|---|']
++        lines += ['', '消融各条件均独立生成候选。下表包含全部预定终测槽，未完成或失败的指标保持null；配对差仅在两端有效时计算。本阶段再次使用主实验 Test，不构成新的盲测，服务故障使结果不完整。', '', '|方法|重复|场景|Q|相对H0差|相对匹配Ours差|功能通过|', '|---|---|---|---:|---:|---:|---|']
+         for point in additional['ablation']:
+             lines.append('|'+ '|'.join(display(point[k]) for k in ('method','run_id','scene_id','Q','paired_gain_H0','paired_difference_reference','functional_pass'))+'|')
+         lines += ['', '![独立生成消融](ablation_terminal.png)', '[源数据](ablation_terminal.csv)']

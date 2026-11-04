@@ -1,0 +1,35 @@
+--- before/supplement.py
++++ after/supplement.py
+@@ -33,7 +33,7 @@
+     structure=compact_structure(raw_structure)
+     targets=structure.get('target',{}).get('mesh_names',[])
+     if not targets:
+-        write_json(dest/'status.json',{'status':'failed','reason':'required_edit_target_missing'});return
++        write_json(dest/'status.json',{'status':'failed','reason':'required_edit_target_missing','instruction':EDITOR_INSTRUCTION,'editor_calls':0});return
+     write_json(dest/'targets.json',targets)
+     prompt='You are the frozen Blender Python editor. Do not use tools. Return one complete Python code block that edits the currently open project. bpy is available. Do not open files, access the network, call models, render or save; a fixed external runner handles those. One call, no repair. Instruction: '+EDITOR_INSTRUCTION+'\nTarget mesh names: '+json.dumps(targets)+'\nScene structure: '+json.dumps(structure,ensure_ascii=False)
+     started=time.monotonic()
+@@ -65,6 +65,7 @@
+ def judge(row,index):
+     dest=ROOT/'judgments'/f'anon_{index:03d}';dest.mkdir(parents=True,exist_ok=True)
+     if (dest/'judgment.json').exists():return
++    write_json(dest/'mapping_for_report.json',{k:row[k] for k in ['method','run_id','candidate_id','scene_id']})
+     folder=Path(row['folder'])
+     if row['status']!='complete':
+         write_json(dest/'judgment.json',{'status':'not_evaluated','reason':'no_valid_render'});return
+@@ -91,8 +92,14 @@
+         if row['scene_id'] in test[:2]:
+             if row['status']=='complete':edit(row)
+             else:
+-                dest=Path(row['folder'])/'text_edit';dest.mkdir(exist_ok=True);write_json(dest/'status.json',{'status':'failed','reason':'reconstruction_failed','editor_calls':0})
++                dest=Path(row['folder'])/'text_edit';dest.mkdir(exist_ok=True);write_json(dest/'status.json',{'status':'failed','reason':'reconstruction_failed','editor_calls':0,'instruction':EDITOR_INSTRUCTION})
+     for i,row in enumerate(rows,1):judge(row,i)
++    edit_cases=[Path(row['folder'])/'text_edit' for row in rows if row['scene_id'] in test[:2]]
++    edit_states=[read(folder/'status.json',{}) for folder in edit_cases]
++    checks=[read(folder/'text_edit.json',{}) for folder in edit_cases]
++    judged=[read(ROOT/'judgments'/f'anon_{i:03d}'/'judgment.json',{}) for i in range(1,len(rows)+1)]
++    all_passed=all(c.get('passed') is True for c in checks) and all(j.get('status')=='complete' for j in judged)
++    write_json(ROOT/'supplement_status.json',{'status':'complete' if all_passed else 'completed_with_failures','scheduled_text_edit_cases':len(edit_cases),'text_editor_model_calls':sum((folder/'editor_call/session.json').exists() for folder in edit_cases),'text_edit_execution_statuses':{name:sum(s.get('status')==name for s in edit_states) for name in ['complete','failed']},'text_edit_functional_passes':sum(c.get('passed') is True for c in checks),'scheduled_independent_reviews':len(rows),'independent_judge_model_calls':sum((ROOT/'judgments'/f'anon_{i:03d}/judge_call/session.json').exists() for i in range(1,len(rows)+1)),'independent_review_statuses':{name:sum(j.get('status')==name for j in judged) for name in ['complete','failed','not_evaluated']},'note':'Traversal completion, instruction-edit functional success, model calls, and missing reconstructions are distinct counts. No extra retries.'})
+     write_json(ROOT/'ledger.json',current());write_json(ROOT/'state.json',{'phase':'supplement_complete','time':time.time()})
+ 
+ if __name__=='__main__':main()

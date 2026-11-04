@@ -1,0 +1,19 @@
+--- before/extras.py
++++ after/extras.py
+@@ -58,6 +58,7 @@
+     scenes=read(ROOT/'manifest.json');dev=[s for s in scenes if s['split']=='development'];sel=[s for s in scenes if s['split']=='selection'];test=[s for s in scenes if s['split']=='test']
+     if minimal:dev,sel,test=dev[:1],sel[:1],test[:1]
+     protocol={'common_config_snapshot':config(),'stage':'independent_generation_ablations','scope':'minimum_four_condition_feasibility' if minimal else 'matched_main_scope','repeats':repeats,'K':candidates,'required_upper_bound_cli':required,'available_cli_at_freeze':available,'selection':'1/1/1 first manifest scene per split; all four conditions generate fresh H from the same r1 H0 evidence' if minimal else 'same2/2/4 scenes; per-repeat H0 evidence reused; all variants have independent fresh proposals and generated H','chosen_from_budget_not_results':True,'main_test_is_not_new_blind_data':True,'reference':'fresh Ours M_initial/H0 proposal, identical reduced inputs and budgets' if minimal else 'main Ours from matching repeat; for K1 use only original C1 plus H0, selected on original Selection and evaluate that H if it was not terminally evaluated; variant H generation is independent','methods':methods,'scene_ids':{key:[s['scene_id'] for s in values] for key,values in [('development',dev),('selection',sel),('test',test)]},'frozen_time':time.time()}
++    protocol['without_regression_feedback_mask']='Hide measured functional results and prior retention Boolean from proposal input; preserve raw geometry, visual Q and unchanged final evaluator/gates. Raw geometry can still support inferred risk.'
+     if not prior:write_json(ROOT/'ablation_protocol.json',protocol)
+     if not repeats:
+         write_json(ROOT/'extras_status.json',{'status':'pending_budget','ablations':'pending: fewer than68 CLI sessions remain, below the smallest fresh four-condition1/1/1 K1 group upper bound','frozen_meta_replay':'pending: next priority after ablations, no result claimed','external_blenderworld':'pending: no official/adapted score produced','remaining_cli':available});return
+@@ -86,7 +87,7 @@
+                 pilot.inspect=no_probe
+             prior_rows=[a for a in archive if a['method']==method and a['run_id']==run and a['candidate_id']!=f'C{k}']
+             if method=='ours_without_regression_guidance':
+-                prior_rows=[{**a,'selection':{'endpoint_quality':a.get('selection',{}).get('endpoint_quality')},'development':{'endpoint_quality':a.get('development',{}).get('endpoint_quality')}} for a in prior_rows]
++                prior_rows=[{**a,'accepted':None,'selection':{'endpoint_quality':a.get('selection',{}).get('endpoint_quality')},'development':{'endpoint_quality':a.get('development',{}).get('endpoint_quality')}} for a in prior_rows]
+             try:source,result=propose(method,run,k,state['source'],state['meta'],evidence,prior_rows,total_candidates=candidates)
+             except ValueError as error:
+                 source=ROOT/'candidates'/run/method/f'C{k}';source.mkdir(parents=True,exist_ok=True)

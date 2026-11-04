@@ -1,0 +1,209 @@
+{
+  "task_id": "bw_0011",
+  "prompt": "我们这个洁净实验室项目下个月要给业主和监理做月度进度汇报，想照着这张效果图还原一版三维场景，好让各专业的收口关系看清楚、也留出标注空间。请严格沿用图里那个围合转角的开间进深比例：四周是带竖向拼缝的蓝色模块化金属墙板，墙脚用圆弧踢脚过渡到浅灰色自流平地面，吊顶是 T 型龙骨方块顶并嵌几盏 LED 平板灯，龙骨上方的结构梁、吊杆和管线也照图露出来。主要陈设按图补齐：左墙一台不锈钢框玻璃双开门储物柜、带内部多层搁板，中墙一整幅蒲公英摄影墙面，右墙一块显示时间日期的数字屏，其余小件按常规洁净室配置补全就行。重点是这几处主体别被挡住，蓝色喷涂钢板、拉丝不锈钢、玻璃和哑光顶地面这几种材质要一眼分得出来。灯光就靠吸顶 LED 平板做均匀照明，相机取和图一致的转角透视，用 Cycles 出一张 1920×1080 的写实图，工程 .blend 也留着方便后面改。尺寸按洁净室常规规格和画面比例估就行。忽略图里的数字标号",
+  "lang": "zh",
+  "mode": "prompt_image",
+  "attachments": [],
+  "image_file": "references/image_01.jpg",
+  "rubric_count": 11,
+  "rubrics": [
+    {
+      "id": "R01",
+      "category": "holistic",
+      "importance": "major",
+      "subject": "clean-laboratory identity, spatial organization, proportional scale, and setting completion",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The room must form a coherent and conventionally completed clean-laboratory corner whose organization and scale follow the reference within the allowed estimated dimensions.",
+      "pass_condition": "The author's final render clearly depicts a coherent three-dimensional clean laboratory interior with connected architectural and equipment systems suitable for a project progress presentation. The room preserves the reference-like enclosed corner, broad principal span, receding right return, and comparable opening-width-to-depth relationship. The room includes plausible supplementary cleanroom fixtures or accessories as needed to complete the setting without contradicting its clean-laboratory identity. The cabinet, central dandelion feature, digital display on the receding right return wall, open foreground floor and its coved wall interface, suspended ceiling, and open plenum retain the reference's recognizable relative organization and scale hierarchy. Inspection of the editable scene and final image shows mutually plausible conventional cleanroom dimensions and proportions without requiring millimeter-exact reproduction.",
+      "fail_condition": "One or more conditions stated in the pass condition are not satisfied.",
+      "category_v2": "holistic",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R02",
+      "category": "geometry",
+      "importance": "major",
+      "subject": "blue modular metal wall enclosure",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The editable enclosure and its visible rendered surfaces must form the specified blue modular metal-panel wall system with repeated vertical joints.",
+      "pass_condition": "The delivered Blender scene contains or validly resolves enclosing blue coated modular metal wall surfaces around the room with a repeated vertical seam system implemented through geometry or material mapping, and the author's final image visibly presents the principal walls as blue modular metal panels with readable vertical joints.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "geometry",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R03",
+      "category": "material",
+      "importance": "major",
+      "subject": "hygienic coved wall-to-floor finish system",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The visible wall bases and floor must form the requested rounded hygienic transition into a seamless light-gray self-leveling surface.",
+      "pass_condition": "A clearly rounded or concave coved skirting continuously mediates the visible principal wall-to-floor junctions, allowing only normal corner and built-in interruptions, and the connected floor reads as light gray, smooth, continuous, and self-leveling without conspicuous tile joints, plank joints, or coarse texture.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "material",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R04",
+      "category": "lighting",
+      "importance": "major",
+      "subject": "square-bay suspended grid, exposed plenum, distributed suspension system, and LED illumination",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The overhead assembly must combine the specified square-bay T-grid and integrated LED panels with visible open-plenum structure, distributed suspension hardware, and services, while the LED panels provide broadly even illumination.",
+      "pass_condition": "The visible suspended ceiling is a repeated orthogonal square-bay T-bar grid with several integrated square or rectangular luminous LED flat panels; non-light bays may remain open or use limited solid infill, and solid tiles are not required across every bay. The open plenum above and through the grid visibly includes identifiable structural beams, multiple suspension rods or hangers distributed across and visibly associated with the ceiling-grid system, and distinct routed pipes, conduits, or comparable service lines. The ceiling LED panels visibly act as the predominant lighting source and provide broadly even room illumination without large unintended dark zones or dominant unrelated side lighting.",
+      "fail_condition": "One or more conditions stated in the pass condition are not satisfied.",
+      "category_v2": "lighting",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R05",
+      "category": "geometry",
+      "importance": "major",
+      "subject": "left-wall stainless-steel and glass storage cabinet",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The left-wall cabinet must be a complete storage component with the specified construction, doors, shelves, placement, and material appearance.",
+      "pass_condition": "The left wall contains a complete three-dimensional storage cabinet with a visibly brushed stainless-steel frame, two distinct glass door leaves, and multiple clearly discernible horizontal shelf levels behind the glazing.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "geometry",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R06",
+      "category": "material",
+      "importance": "major",
+      "subject": "central dandelion photographic wall treatment",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The central feature must be a recognizable wall-scale dandelion photograph integrated into its designated wall area.",
+      "pass_condition": "Recognizable dandelion photography covers the full or near-full designated central wall feature area as an integrated wall treatment, allowing only narrow construction borders or panel divisions, and remains clearly distinct from the surrounding blue cladding.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "material",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R07",
+      "category": "function",
+      "importance": "major",
+      "subject": "right-return-wall time-and-date digital display",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The right-wall component must be recognizably electronic, plausibly mounted in the reference-consistent right return, and communicate both required information types.",
+      "pass_condition": "A rectangular electronic display is plausibly mounted on the receding right return wall, and its visible interface legibly communicates both a recognizable time and a recognizable date using numeric or written notation.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "function",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R08",
+      "category": "material",
+      "importance": "major",
+      "subject": "room-wide cleanroom material differentiation",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The completed room must present the four explicitly named surface classes as an immediately distinguishable and coordinated material system.",
+      "pass_condition": "Across the completed final image, blue painted or coated steel wall panels, directionally or softly brushed stainless-steel cabinet parts, reflective or transmissive cabinet glazing, and matte or low-sheen ceiling and floor surfaces are all immediately distinguishable from one another through appropriate color, roughness, reflection, transmission, and brushing responses.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "material",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R09",
+      "category": "composition",
+      "importance": "major",
+      "subject": "reference-like final composition, subject readability, and presentation readiness",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The author-designated final image must use the requested realistic corner view, keep the principal subjects and finish interfaces readable, preserve annotation space, and omit the reference callouts.",
+      "pass_condition": "The author's designated final image uses a reference-consistent corner perspective that simultaneously shows the broad principal wall, receding right wall, foreground floor, and overhead assembly. The left cabinet, central dandelion wall, and right digital display are all readily identifiable and are not substantially blocked by accessories, cropping, or other composition choices. Principal wall-to-floor, wall-to-ceiling, panel, cabinet, and corner finish junctions are clearly readable, and the composition retains useful uncluttered negative space for later annotations. The same image has coherent perspective and contact relationships, plausible light and shadow gradients, and materially credible responses that read as a realistic architectural-interior rendering rather than a flat diagram, unshaded viewport capture, or crude preview. The reference's numbered circular callout labels are not reproduced in the reconstructed scene or final image.",
+      "fail_condition": "One or more conditions stated in the pass condition are not satisfied.",
+      "category_v2": "composition",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R10",
+      "category": "function",
+      "importance": "major",
+      "subject": "editable Blender project and saved Cycles rendering configuration",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The retained project must open as an editable reconstruction and preserve the Cycles configuration corresponding to the designated final image.",
+      "pass_condition": "A delivered .blend file opens successfully and contains or validly resolves editable cleanroom geometry, materials, lighting, and camera needed for the reconstruction rather than being empty, unrelated, broken, or merely a flattened image; legitimate linked collections, library assets, and instancing are acceptable when their dependencies resolve. In that delivered project's original relevant scene, Cycles is saved as the active render engine, and inspection of the submitted final image together with the scene and, when needed, a targeted render using that original saved Cycles configuration finds the image consistent with the Cycles-configured scene rather than evidence of a different renderer.",
+      "fail_condition": "One or more conditions stated in the pass condition are not satisfied.",
+      "category_v2": "function",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R11",
+      "category": "function",
+      "importance": "secondary",
+      "subject": "actual final image file and requested pixel dimensions",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The delivered final image itself must open and have the exact requested resolution.",
+      "pass_condition": "The actual author-designated final image file opens successfully, and its file metadata reports exactly 1920 pixels in width and 1080 pixels in height; matching Blender resolution settings without a matching delivered image are insufficient.",
+      "fail_condition": "The condition stated in the pass condition is not satisfied.",
+      "category_v2": "function",
+      "importance_weight": 2,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    }
+  ]
+}

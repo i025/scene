@@ -1,0 +1,84 @@
+{
+  "headers": [
+    "Reference",
+    "Parent H output",
+    "Actual intervention",
+    "Shared candidate on same dev"
+  ],
+  "cells": [
+    {
+      "row": 0,
+      "column": 0,
+      "path": "results/r2/generic_rsi/C1/development/commons_109923183/reference.png",
+      "label": "commons_109923183\nr2 / C2"
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "path": "results/r2/generic_rsi/C1/development/commons_109923183/final.png",
+      "label": "Parent / Q=0.39984\nParent device=GPU"
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "path": "candidates/r2/generic_rsi/C2/probes/1_camera_focal/probe_camera_focal.png",
+      "label": "camera_focal / Q=0.40382\nGPU -> GPU"
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "path": "results/r2/generic_rsi/C2/development/commons_109923183/final.png",
+      "label": "generic_rsi\ncomplete / Q=0.45843"
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "path": "results/r2/generic_rsi/C1/development/commons_109923183/reference.png",
+      "label": "commons_109923183\nr2 / C2"
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "path": "results/r2/generic_rsi/C1/development/commons_109923183/final.png",
+      "label": "Parent / Q=0.39984\nParent device=GPU"
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "path": "candidates/r2/generic_rsi/C2/probes/2_object_scale/probe_object_scale.png",
+      "label": "object_scale / Q=0.39467\nGPU -> GPU"
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "path": "results/r2/generic_rsi/C2/development/commons_109923183/final.png",
+      "label": "generic_rsi\ncomplete / Q=0.45843"
+    }
+  ],
+  "independent_unit": "scene, not image/view",
+  "device_comparisons": [
+    {
+      "scene_id": "commons_109923183",
+      "probe": "camera_focal",
+      "baseline_device": "GPU",
+      "probe_device": "GPU",
+      "device_matched": true,
+      "interpretation": "Matched device class; intervention sensitivity still does not prove a causal reconstruction diagnosis"
+    },
+    {
+      "scene_id": "commons_109923183",
+      "probe": "object_scale",
+      "baseline_device": "GPU",
+      "probe_device": "GPU",
+      "device_matched": true,
+      "interpretation": "Matched device class; intervention sensitivity still does not prove a causal reconstruction diagnosis"
+    }
+  ],
+  "observations_source": "candidates/r2/generic_rsi/C2/diagnostic_observations.json",
+  "proposal_source": "candidates/r2/generic_rsi/C2/proposal_result.json",
+  "shared_diff": "candidates/r2/generic_rsi/C2/changes.diff",
+  "rejected_not_executed_diff": null,
+  "diagnosis": "Both supplied development reconstructions completed and passed prescribed edits. Each trajectory contains 4 requests, 4 responses, 4 completed CLI sessions, 3 successful executions and 4 selection events; together: 8 sessions, 8 observable responses and 6 reconstruction executions, with no logged failed builds or unexecuted final rewrites. Two additional controlled diagnostic renders exhausted the probe allowance. Primitive counts were 418→411→384 and 238→241→245, which do not validate a universal mesh budget. First builds represented the major objects, but the chaise retained weak panel/apron profiles, pillow shape and appearance; the compartment retained simplified furnishings, pipework and depth/lighting differences. The weakest measured valid result was the chaise, overall 0.3998448283 versus 0.4289284723. Its focal change 50→55 increased overall by 0.0039704629, with SSIM/LPIPS improving but DINO/PSNR worsening: limited framing evidence, not camera calibration. Scaling increased only the 13-mesh apron_-1 helper, reducing overall by 0.0051731586; attached edging and carvings were siblings, so this did not test whole-chaise scale or a complete decorated apron. The complete chaise ancestor includes its major parts. The compartment's tested Architecture group contains 21 meshes; its pass does not certify furniture edits, and source groups combine independent lockers and wall fittings without individual semantic subgroups. Compiler source confirms that the first chaise material-name filter misses its intended primitive meshes. Later shaders reach materials but use per-mesh Object coordinates; scaled floor geometry explains the oversized pattern mechanism, while the precise contribution to visual scores is unmeasured. Source confirms snap defaults to center with matching target anchor, and bind defaults to center/center. Semantic completeness and true contact/collision scores are null and unavailable; AABB candidate counts are not defects. No raw development archive entries or paired parent task results were supplied. C1 was not retained despite complete aggregate results; Selection aggregates provide no scene-level explanation.",
+  "rationale": "The changes address observed implementation semantics before adding visual guidance: semantic material targeting, shared shader coordinates, complete nested edit groups, and corrected snap/bind defaults. The controller retains successful renders, sends bounded context instead of accumulated program transcripts, prevents execution-free rewrites, and treats missing images as output failures. meta.plan distinguishes sessions from observable events, excludes unavailable scores from ranking, recognizes both probe/kind fields, and checks diagnostic target scope. No independent execution, rendering or evaluation was performed.",
+  "interpretation": "Intervention sensitivity and later shared-code outcome are shown separately. This is not proof that the probe caused a gain; other development cases and terminal results remain necessary."
+}

@@ -1,0 +1,108 @@
+{
+  "time": 1793717134.069427,
+  "M_before": "initial_meta/scene_rsi_pilot/meta.py",
+  "M_after": "candidates/r1/scene_rsi_pilot/C1/meta.py",
+  "source_diff": "candidates/r1/scene_rsi_pilot/C1/changes.diff",
+  "subsequent_proposal": "candidates/r1/scene_rsi_pilot/C2/proposal_call",
+  "actual_execution_source_matches": true,
+  "actually_used_for_proposal": true,
+  "new_executable_plan_outputs": {
+    "regression_counts": {
+      "returned_by_plan": true,
+      "included_in_actual_saved_proposal_prompt": true
+    },
+    "dependency_review": {
+      "returned_by_plan": true,
+      "included_in_actual_saved_proposal_prompt": true
+    },
+    "checks": {
+      "returned_by_plan": true,
+      "included_in_actual_saved_proposal_prompt": true
+    }
+  },
+  "diagnosis_count": 5,
+  "automatic_probe_count": 0,
+  "successful_subsequent_H_development_scenes": 2,
+  "interpretation": "Source-level strategy changes executed and their new outputs participated in the next proposal; this establishes a used strategy descendant, not improved meta-capability. Descendant returned zero automatic probes when explicit remaining-probe allowance was absent; no engineer correction to M.",
+  "generic_strategy_participation": [
+    {
+      "run_id": "r1",
+      "used_M": "candidates/r1/generic_rsi/C1/meta.py",
+      "actual_plan_probes": [
+        {
+          "scene_id": "commons_118588033",
+          "kind": "camera_focal"
+        },
+        {
+          "scene_id": "commons_109923183",
+          "kind": "camera_focal"
+        }
+      ],
+      "M_initial_expected_probes_from_its_saved_code_and_same_ordered_development": [
+        {
+          "scene_id": "commons_109923183",
+          "kind": "camera_focal"
+        },
+        {
+          "scene_id": "commons_109923183",
+          "kind": "object_scale"
+        }
+      ],
+      "probe_choices_differ_from_initial": true,
+      "actually_executed_probe_observations": [
+        {
+          "scene_id": "commons_118588033",
+          "probe": "camera_focal",
+          "status": "completed"
+        },
+        {
+          "scene_id": "commons_109923183",
+          "probe": "camera_focal",
+          "status": "completed"
+        }
+      ],
+      "new_instruction_in_actual_proposal_prompt": true,
+      "source": "candidates/r1/generic_rsi/C2/meta_execution.json"
+    },
+    {
+      "run_id": "r2",
+      "used_M": "candidates/r2/generic_rsi/C1/meta.py",
+      "actual_plan_probes": [
+        {
+          "scene_id": "commons_109923183",
+          "kind": "camera_focal"
+        },
+        {
+          "scene_id": "commons_109923183",
+          "kind": "object_scale"
+        }
+      ],
+      "M_initial_expected_probes_from_its_saved_code_and_same_ordered_development": [
+        {
+          "scene_id": "commons_109923183",
+          "kind": "camera_focal"
+        },
+        {
+          "scene_id": "commons_109923183",
+          "kind": "object_scale"
+        }
+      ],
+      "probe_choices_differ_from_initial": false,
+      "actually_executed_probe_observations": [
+        {
+          "scene_id": "commons_109923183",
+          "probe": "camera_focal",
+          "status": "completed"
+        },
+        {
+          "scene_id": "commons_109923183",
+          "probe": "object_scale",
+          "status": "completed"
+        }
+      ],
+      "new_instruction_in_actual_proposal_prompt": true,
+      "source": "candidates/r2/generic_rsi/C2/meta_execution.json"
+    }
+  ],
+  "generic_trace_recorded_time": 1793719379.0368888
+}

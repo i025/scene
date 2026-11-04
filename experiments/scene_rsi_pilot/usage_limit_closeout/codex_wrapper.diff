@@ -1,0 +1,20 @@
+--- before/codex_wrapper.py
++++ after/codex_wrapper.py
+@@ -20,6 +20,8 @@
+ 
+ 
+ def check_service_pause():
++    if (ROOT.parent / 'model_usage_limit.json').exists():
++        raise SystemExit('Codex CLI usage limit recorded; further model submissions are blocked. Resume can finish available local artifacts and reports.')
+     if (ROOT.parent / 'service_pause.json').exists():
+         raise SystemExit('CLI routing service unavailable; saved service_pause.json blocks further submissions. Preserve logs and resume only after connectivity recovery.')
+ 
+@@ -143,6 +145,8 @@
+         write_json(folder / 'session.json', session)
+         if session['status'] == 'failed' and events_path.exists() and 'workspace routing discovery failed' in events_path.read_text():
+             write_json(ROOT.parent / 'service_pause.json', {'reason': 'workspace routing discovery failed', 'session': str(folder / 'session.json'), 'time': time.time(), 'automatic_retries': 0})
++        if session['status'] == 'failed' and events_path.exists() and 'hit your usage limit' in events_path.read_text():
++            write_json(ROOT.parent / 'model_usage_limit.json', {'reason': 'Codex CLI usage limit', 'session': str(folder / 'session.json'), 'time': time.time(), 'automatic_retries': 0})
+     if log:
+         log({'event': 'codex_session', **session, 'call_dir': str(folder)})
+     if error:

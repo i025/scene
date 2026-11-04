@@ -1,0 +1,18 @@
+--- before/analyze.py
++++ after/analyze.py
+@@ -248,6 +248,15 @@
+         group=[c for c in calls if str(c['run_id'])==run and c['method']==method]
+         total_cost.append({'run_id':run,'method':method,'cli_sessions':len(group),'known_input_tokens':sum(c['input_tokens'] for c in group if isinstance(c['input_tokens'],int)),'known_output_tokens':sum(c['output_tokens'] for c in group if isinstance(c['output_tokens'],int)),'unknown_usage_calls':sum(not isinstance(c['input_tokens'],int) for c in group),'failed_calls':sum(c['status']=='failed' for c in group),'cli_wall_seconds':sum(c['seconds'] or 0 for c in group),'roles':{role:sum(c['role']==role for c in group) for role in {c['role'] for c in group}}})
+     write_csv(out/'method_total_cost.csv',total_cost,list(total_cost[0]) if total_cost else [])
++    inference=[]
++    for choice in choices:
++        for row in rows:
++            if row['split']!='test' or any(row[k]!=choice[k] for k in ('method','run_id','candidate_id')):continue
++            reused=bool(row.get('reuse_of'));original=read(Path(row['reuse_of'])/'record.json') if reused else row
++            actual=row['usage'];equivalent=original['usage']
++            numeric=lambda value:value if isinstance(value,(int,float)) else None
++            inference.append({'method':row['method'],'run_id':row['run_id'],'scene_id':row['scene_id'],'candidate_id':row['candidate_id'],'status':row['status'],'reused_identical_H0':reused,'physical_cli_sessions':numeric(actual.get('calls')),'physical_tokens':numeric(actual.get('total_tokens')),'physical_reconstruction_executions':numeric(actual.get('executions')),'physical_generation_seconds':0 if reused else numeric(row['runtime_status'].get('seconds')),'source_equivalent_cli_sessions':numeric(equivalent.get('calls')),'source_equivalent_tokens':numeric(equivalent.get('total_tokens')),'source_equivalent_reconstruction_executions':numeric(equivalent.get('executions')),'source_equivalent_generation_seconds':numeric(original['runtime_status'].get('seconds')),'source_device':original['device'],'source_record':str(Path(original['folder']).relative_to(ROOT)/'record.json'),'accounting_note':'Physical cost is billed once; source-equivalent cost describes the same final H0 inference when outcomes are reused, not additional billing or a speed comparison.'})
++    write_csv(out/'final_inference_cost.csv',inference,list(inference[0]) if inference else ['method','run_id','scene_id','candidate_id','status','physical_cli_sessions','source_equivalent_cli_sessions','source_record'])
+     additional=additional_stage_tables(out,rows,choices,calls)
+     result={'method_realization':{},'paired':paired,'complete_valid_improvement':improvement,'candidates':archive,'development_cost':costs,'untested_original_candidate_joint_terminal_pass':None,'M_descendants_actually_used':[]}
+     result['additional_stage_analysis']=additional

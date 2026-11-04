@@ -1,0 +1,24 @@
+--- inspect_blend_v1.py
++++ inspect_blend_v1.1_pivot.py
+@@ -483,10 +483,19 @@
+     elif name == "object_scale":
+         obj = bpy.data.objects[target["object"]]
+         report["scale_before"] = list(obj.scale)
+-        obj.scale *= 1.1
++        target_boxes = [world_bounds(bpy.data.objects[n]) for n in target["mesh_names"]]
++        target_box = bounds(point for box in target_boxes if box for point in [box["min"], box["max"]])
++        center = (Vector(target_box["min"]) + Vector(target_box["max"])) * 0.5
++        camera_before = scene.camera.matrix_world.copy() if scene.camera else None
++        original = obj.matrix_world.copy()
++        obj.matrix_world = Matrix.Translation(center) @ Matrix.Scale(1.1, 4) @ Matrix.Translation(-center) @ original
+         bpy.context.view_layer.update()
+         report["scale_after"] = list(obj.scale)
+-        report["fixed_camera"] = unchanged(before, snapshot_objects(),
++        report["scale_factor"] = 1.1
++        report["pivot_world_scene_units"] = list(center)
++        report["pivot_rule"] = "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero"
++        report["fixed_camera"] = bool(scene.camera and scene.camera.matrix_world == camera_before)
++        report["non_target_preserved"] = unchanged(before, snapshot_objects(),
+                                            {obj.name} | {child.name for child in descendants(obj)})["pass"]
+     elif name == "isolate":
+         kept = set(target["mesh_names"])

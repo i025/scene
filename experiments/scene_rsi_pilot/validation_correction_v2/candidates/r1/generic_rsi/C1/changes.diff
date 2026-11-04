@@ -1,0 +1,295 @@
+--- parent/policy.py
++++ C1/policy.py
+@@ -1,28 +1,110 @@
+ import json
++import re
+ from pathlib import Path
+-import re
+ 
+ 
+ def solve(task, runtime):
+     prompt = (Path(__file__).parent / 'system.txt').read_text()
+-    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [
+-        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +
+-         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}"},
+-        runtime.image(task['image'])]}]
+-    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:
++    messages = [
++        {'role': 'system', 'content': prompt},
++        {'role': 'user', 'content': [
++            {'type': 'text', 'text': (
++                'Reconstruct this RGB image. Match camera, framing, occlusions and major color regions. '
++                f"Image dimensions: {task['width']} x {task['height']}. "
++                f'Budget: {runtime.remaining()}. '
++                'First produce a complete economical scene with all major visible objects. '
++                'In brief code comments record approximate normalized image landmarks, camera assumptions, '
++                'and the principal uncertain proportions. Audit API constraints before returning code. '
++                'Keep camera, object dimensions and lighting parameters easy to revise. '
++                'Do not spend the first build on dense subpixel decoration.'
++            )},
++            runtime.image(task['image'])
++        ]}
++    ]
++    successful = []
++    calls = 0
++    executions = 0
++    while calls < 5:
++        budget = runtime.remaining()
++        if budget['model_calls'] <= 0 or budget['seconds'] <= 0:
++            break
++        can_build = executions < 3 and budget['executions'] > 0
++        if not can_build and not successful:
++            break
+         response = runtime.ask(messages)
++        calls += 1
+         messages.append(response)
+-        text = response['content'] or ''
++        text = response.get('content') or ''
++        if not isinstance(text, str):
++            text = ''
++        selection = re.fullmatch(r'SELECT\s+(\d+)\s*', text.strip(), re.I)
++        if selection:
++            step = int(selection.group(1))
++            if step in successful:
++                runtime.select(step)
++                return
++        if text.strip().upper() == 'DONE' and successful:
++            runtime.select(successful[-1])
++            return
+         blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S)
+-        if not blocks:
+-            if text.strip().upper() == 'DONE': return
+-            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})
++        if not can_build:
++            messages.append({'role': 'user', 'content': (
++                f'No executions remain. Select an observed successful build: {successful}. '
++                'Reply SELECT followed by its step number. Do not generate unexecutable revisions.'
++            )})
+             continue
+-        if runtime.remaining()['executions'] <= 0: return
+-        result = runtime.execute(blocks[-1])
+-        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +
+-                    '\nCompare the rendered camera view with the original reference. ' +
+-                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}
+-        content = [feedback]
+-        if result['image']: content.append(runtime.image(result['image']))
++        if len(blocks) != 1:
++            messages.append({'role': 'user', 'content': (
++                'Return exactly one complete Python program in one python code block. '
++                f'Alternatively SELECT an observed successful step from {successful}, or DONE if one exists. '
++                'No successful output means reconstruction failure, not completion.'
++            )})
++            continue
++        budget = runtime.remaining()
++        if budget['executions'] <= 0 or budget['seconds'] <= 0:
++            break
++        result = runtime.execute(blocks[0])
++        executions += 1
++        visible = bool(result.get('ok') and result.get('image'))
++        step = result.get('step')
++        if visible and isinstance(step, int):
++            successful.append(step)
++        report = {k: v for k, v in result.items() if k != 'image'}
++        remaining = runtime.remaining()
++        can_retry = executions < 3 and remaining['executions'] > 0
++        if not visible:
++            guidance = (
++                'BUILD/OUTPUT FAILURE: no successful rendered view is available for this attempt. '
++                'Do not claim a visual comparison. Read the error and audit the whole program for '
++                'related faults, especially fillet radii, missing World, repeated include keys, '
++                'zero-length rods and operations performed before realize. '
++                'Return a complete corrected program if executions remain; preserve the intended composition.'
++            )
++        elif can_retry:
++            guidance = (
++                'Compare this render with the original reference in the first user message. '
++                'In brief comments identify the three largest visible discrepancies and the parameter '
++                'changes intended to fix them. Check image borders, major object extents, floor/wall '
++                'boundaries, edge slopes, foreground/background size ratios, occlusions and broad tones. '
++                'If errors move coherently across the scene, correct camera orientation/framing; '
++                'if localized, correct the relevant object or placement. Do not change focal length '
++                'and object scale indiscriminately. Preserve already matching regions and editable groups. '
++                'Return one complete revised program, or SELECT an existing successful step if further '
++                'changes are unjustified. Add fine detail only after composition is credible.'
++            )
++        else:
++            guidance = (
++                'No executions remain. Compare the successful rendered builds already shown with the '
++                'reference. Reply SELECT followed by the best successful step number. '
++                'Prefer framing, silhouettes, visibility and broad colors over detail count. '
++                'Do not return a revised program.'
++            )
++        content = [{'type': 'text', 'text': (
++            json.dumps(report, default=str) + '\n' + guidance +
++            f'\nSuccessful steps: {successful}. Remaining: {remaining}'
++        )}]
++        if visible:
++            content.append(runtime.image(result['image']))
+         messages.append({'role': 'user', 'content': content})
++    if successful:
++        runtime.select(successful[-1])
+--- parent/system.txt
++++ C1/system.txt
+@@ -9,8 +9,58 @@
+ for geometry and relationships; bpy may customize lighting, materials and camera settings.
+ Do not render or save files in the program: the fixed runner saves and renders once after
+ execution, using your active camera. Do not access external files, network or other models.
+-When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+-is submitted automatically. Budget includes all planning, corrections and review calls.
++When satisfied after inspecting a rendering, reply exactly DONE. You may instead reply
++SELECT n to submit a previously successful execution step n shown in feedback. Otherwise
++the last successful build is submitted automatically. Budget includes planning, corrections
++and review calls: at most 5 fresh CLI sessions, 3 Blender executions and 1200 seconds.
++Do not invoke tools, other models, hidden agents or additional executions yourself.
++
++Procedure:
++Make the first build a complete, economical reconstruction, with all large visible objects,
++recognizable silhouettes, broad materials and lighting. Estimate several normalized image
++landmarks (x/width, y/height from top left), including subject extremes, contact points and
++architectural intersections. Record estimates and uncertainties in short code comments.
++Use perspective and visible edge directions to choose camera position and orientation;
++use image occupancy to refine framing. Keep focal length, camera pose, object dimensions,
++placement and light strengths as explicit parameters. Match cropped foreground objects
++and negative spaces as well as central objects. Do not assume every photograph is level,
++centered, symmetric or taken from a standard viewpoint.
++
++After an actual render, compare large regions first. A coherent displacement or slope
++error across multiple objects suggests a camera correction; an isolated silhouette or
++occlusion error suggests a local geometry/placement correction. Perspective, distance,
++focal length and scale are ambiguous from one image: use multiple landmarks and background
++alignment, not just one object's size. Revise the largest supported discrepancies while
++preserving matching regions. Do not spend executions making tiny decorations while major
++objects are missing or misplaced. Missing renders are failures, never evidence of quality.
++The runner controls rendering; do not rely on changing sampling or render settings to fix
++geometry, and do not change the fixed objective or resource limits.
++
++Implementation checks before every execution:
++- All primitive dimensions and radii must be finite and positive. fillet_box requires
++  0 < radius <= min(size)/2, including thin dimensions. For anisotropic rounding, create
++  a valid rounded volume and resize it deliberately; never pass an oversized radius.
++- Rod endpoints must differ; sweep_tube needs at least two points with no consecutive
++  duplicates. Avoid empty Boolean operands, expensive decorative CSG and singular scales.
++- include(name, node) REPLACES an existing child with that name. Use unique keys within
++  each parent, especially in loops. Layout functions return copies; attach their results.
++- Organize whole furniture/fixtures as meaningful Asset/Part assemblies with separate
++  component meshes and stable names. Keep semantic groups intact across revisions.
++- realize clears Blender using an empty factory scene. Create camera, lights, World and
++  Blender material customization AFTER realize. Never assume a World exists. Use:
++  sc = bpy.context.scene
++  if sc.world is None: sc.world = bpy.data.worlds.new('AmbientWorld')
++  sc.world.use_nodes = True
++  Then configure the Background node explicitly if needed.
++- SceneAct include names identify parent EMPTY objects; emitted meshes retain primitive
++  node names such as Box or Rod. For targeted Blender material edits, traverse the named
++  parent's mesh descendants, or set primitive node.name explicitly before realize.
++  Copy shared materials before changing only one object's finish.
++- Keep repeated details economical. Use a small reusable color palette and procedural
++  materials for subpixel surface texture. Geometry should express visible shape, structure
++  and editable parts. Many meshes alone do not establish semantic completeness.
++- AABB anchors are world-axis bounds, not surface contact or collision tests. Use explicit
++  pivots for intended rotations and check plausible support and occlusion in the image.
+ 
+ SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+ from sceneact import *
+@@ -36,8 +86,9 @@
+ node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+ node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+ along a unit direction; projected_width(node,direction) returns their difference.
+-snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+-A target can also be a world point; then omit target_anchor.
++snap(node, target, source_anchor='center', target_anchor=None, offset=(0,0,0)) returns a copy.
++For an Asset target, omitted target_anchor uses source_anchor. For a world-point target,
++omit target_anchor. To put a bottom on a top, specify both anchors explicitly.
+ abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+ center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+ offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+@@ -46,8 +97,10 @@
+ lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+ orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+ Layout functions return assemblies of independent copies.
+-scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
++scene.bind(source,target,source_anchor='center',target_anchor='center',offset=(0,0,0))
+ registers a persistent relation between scene members; scene.settle() updates dependencies.
++Use explicit bottom/top anchors for support. Constraint endpoints cannot be ancestors or
++ descendants of each other, and bindings must be acyclic.
+ realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+ set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+ area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+--- parent/meta.py
++++ C1/meta.py
+@@ -1,9 +1,68 @@
+-"""CLI/backend adaptation of the HyperAgents self-referential meta entry point."""
++"""Evidence-led planning using only the supplied development packet."""
++
++
+ def plan(packet):
+-    # Keep the complete explicit archive available and use the common probe menu.
+-    scenes = packet['development']
++    scenes = [s for s in packet.get('development', []) if isinstance(s, dict)]
++    observations = packet.get('controlled_probes', []) or []
++    used = packet.get('executed_probe_count', len(observations))
++    if not isinstance(used, (int, float)):
++        used = len(observations)
++    available = max(0, 2 - max(int(used), len(observations)))
++    seen = set()
++    for observation in observations:
++        if isinstance(observation, dict):
++            seen.add((observation.get('scene_id'), observation.get('probe')))
++    failures = 0
++    successes = 0
++    for scene in scenes:
++        trajectory = scene.get('trajectory') or {}
++        for event in trajectory.get('events', []):
++            if event.get('event') == 'execution_result':
++                if event.get('ok') is True:
++                    successes += 1
++                else:
++                    failures += 1
++    complete = [s for s in scenes if s.get('status') == 'complete'
++                and (s.get('metrics') or {}).get('valid') is True]
++
++    def score(scene):
++        value = (scene.get('metrics') or {}).get('overall')
++        return value if isinstance(value, (int, float)) else float('inf')
++
++    complete.sort(key=score)
+     probes = []
+-    if scenes and scenes[0]['status'] == 'complete':
+-        probes = [{'scene_id': scenes[0]['scene_id'], 'kind': kind} for kind in ['camera_focal', 'object_scale']]
+-    return {'probes': probes, 'regression_guidance': True,
+-            'instruction': 'Improve the shared task program H and your meta-program M. Inspect the entire supplied development archive, sources, execution errors, renders, geometry, and regression measurements. Design a general change to the reconstruction process under the fixed objective and limits. You may change meta.py planning, probe selection, evidence prioritization, and the next research instruction. Preserve callable plan(packet). The next candidate uses the latest valid meta program; this is an exploration branch, not acceptance of its task program. Do not specialize to scene identifiers.'}
++    # Execution starvation is directly observable; further renders cannot diagnose it.
++    if failures < max(1, successes):
++        for scene in complete:
++            if len(probes) >= available:
++                break
++            sid = scene.get('scene_id')
++            if not isinstance(sid, str):
++                continue
++            functional = scene.get('functional') or {}
++            kind = 'isolate' if functional.get('functional_pass') is False else 'camera_focal'
++            if (sid, kind) not in seen:
++                probes.append({'scene_id': sid, 'kind': kind})
++    instruction = (
++        'Improve the general shared reconstruction procedure and callable plan(packet), using the '
++        'entire supplied development archive, sources, execution traces, images, geometry summaries '
++        'and prescribed edit regressions. Do not explore external files or specialize to scene IDs. '
++        'First distinguish build failures, missing outputs, exhausted correction opportunities and '
++        'visual mismatch. Count actual execution_result events; regression render counts describe '
++        'a different operation and must not be substituted for reconstruction successes. '
++        'Check whether API safeguards recover first-build success and permit useful visual revisions. '
++        'Then assess framing, visible object coverage, silhouette, occlusion and broad tone before '
++        'fine detail. Compare all available development cases, including regressions and failures. '
++        'Interpret diagnostic interventions only at their actual target and pivot: a tiny component '
++        'scale change cannot identify whole-object scale error, and one focal perturbation cannot '
++        'establish an optimal camera or true geometry. Missing measurements remain unknown; missing '
++        'required output is failure. Structural/edit passes certify only the prescribed operations, '
++        'not semantic completeness, physical contact or metric 3D accuracy; AABBs are approximate. '
++        'Do not optimize names to manipulate target selection. Preserve meaningful assemblies. '
++        'Propose a falsifiable next change, state expected evidence and risks, and retain complete '
++        'working replacement files with the fixed APIs, roles, objective, splits and budgets. '
++        'Selection aggregates may inform retention only; do not request Selection images or labels. '
++        'The latest valid meta program governs the next exploration branch independently of task '
++        'program acceptance. No independent evaluation or rendering is permitted in the proposer session.'
++    )
++    return {'probes': probes, 'regression_guidance': True, 'instruction': instruction}

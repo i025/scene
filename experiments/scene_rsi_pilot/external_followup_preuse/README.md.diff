@@ -1,0 +1,24 @@
+--- before/README.md
++++ final/README.md
+@@ -1,4 +1,6 @@
+ # scene_rsi_pilot
++
++当前收尾（2026-11-04）：主对照、补充测试、三消融、最小冻结M回放及两个独立BlenderWorld阶段均已遍历；不是全部成功。累计596/600 CLI，实际完成660帧、尝试上界715/1500。有限队列12已退出，无后台实验。元回放两M均选回H_start、Test增益0；bw_0005两重建成功但H0评分服务失败；bw_0011的H0程序失败，Ours重建有效但评分服务失败。所有失败/null和超时保留。当前状态见state.json与service_incident_05/closeout.json；下文旧停止快照仅为历史。唯一续跑入口为 `bash outputs/scene_rsi_pilot/run.sh resume`，依ID复用已完成/失败记录，不会重开失败任务或扩展本轮范围。
+ 
+ 独立先导实验，复用本机SceneEvolve初始Harness、SceneAct、Blender4.2.10与本地指标权重；全部模型经已登录Codex CLI。原项目不修改。CPU最多2线程、单重任务。初始使用CPU；用户追加授权后，Blender逐次检查GPU 0 UUID的占用，空闲时使用一张卡，忙时继续CPU；数值指标仍在CPU运行。详见gpu_adaptation.md。
+ 
+@@ -41,10 +43,12 @@
+ bash outputs/scene_rsi_pilot/run.sh resume-service
+ ```
+ 
+-这是需要显式执行的恢复入口，本次收尾没有执行它。它最多新增一次已计费的gpt-6.1-sol/medium连接检查，成功后继续尚未运行的槽位；已有失败场景、H/M、选择与总预算不改。检查再次失败则保留停止标记，同一入口不会反复提交连接检查。后续可选阶段仍按实际剩余预算判定，不保证都能运行。单独重建离线报告继续使用`report`。
++这是该历史故障的显式恢复入口；该次收尾尚未执行，后续执行见下文。它最多新增一次已计费的gpt-6.1-sol/medium连接检查，成功后继续尚未运行的槽位；已有失败场景、H/M、选择与总预算不改。检查再次失败则保留停止标记，同一入口不会反复提交连接检查。后续可选阶段仍按实际剩余预算判定，不保证都能运行。单独重建离线报告继续使用`report`。
+ 
+ 后续用户明确要求继续后，`resume-service`的一次连接检查已经成功，队列09继续尚未运行的槽位。实时执行状态见`service_incident_02/execution_09.json`和`state.json`，最终结果见各阶段状态；这是同一600会话预算内的续跑，失败任务没有重开。消融缓存续跑的冻结时间戳修正记录见`service_incident_02/ablation_freeze_resume_audit.json`。
+ 
+-最新停止快照：队列09新增13次会话后，以路由服务错误退出，累计546/600。原4个待运行消融槽全部尝试，新增3个成功和1个路由失败；消融终测最终10/12成功、2服务失败。元回放、BlenderWorld尚未启动，原因是服务阻塞，剩余54次预算未消耗。`service_incident_03/closeout.json`保存本次逐调用对账；`resume-service`为新故障03保留一个需要显式执行的连接检查入口，本次没有执行它，也没有重开任何失败场景。已有消融完成状态包含失败，续跑会直接复用。
++历史停止快照（546次时）：队列09新增13次会话后，以路由服务错误退出，累计546/600。原4个待运行消融槽全部尝试，新增3个成功和1个路由失败；消融终测最终10/12成功、2服务失败。元回放、BlenderWorld尚未启动，原因是服务阻塞，剩余54次预算未消耗。`service_incident_03/closeout.json`保存本次逐调用对账；`resume-service`为新故障03保留一个需要显式执行的连接检查入口，该次停止快照尚未执行它；后续执行见下文，失败场景未重开。已有消融完成状态包含失败，续跑会直接复用。
+ 
+ 后续队列10已通过故障03的一次连接检查并启动元回放，实时状态见`service_incident_03/execution_10.json`和阶段状态。BlenderWorld随后按`config.json/external_stage`、纯余额缩放：≥24次运行原2任务，12–23次仅首任务bw_0005，<12待运行；H0与Ours同规模，不改模型、H选择、内层预算、渲染或评分。该独立外部阶段适配在外部调用/结果为0、元回放Test冻结前记录，非原始预注册，见`external_budget_adaptation/preuse_rule.json`；单任务只报告可行性，未跑bw_0011明确pending。总600/1500不扩大。
++
++后续队列10已完成冻结M回放，两份M均选回同一H_start，实际Test增益0；bw_0005的H0评分遇路由故障后，队列11仅检查一次连接并补尚未提交的Ours，保留H0失败评分。原外部阶段完成后仍有12次CLI，因此按任务自身结果前固定的`external_followup_preuse/rule.json`启动独立bw_0011后续阶段；条件仅为余额≥12、前阶段遍历完成，不读取胜负或评分。结果单独报告，不改上一阶段样本数、不冒充原预注册两任务组。`config.json/external_followup_stage`给出范围，`resume`自动按条件进入，也可运行`bash outputs/scene_rsi_pilot/run.sh external-followup`；已有记录缓存复用，不重开失败。

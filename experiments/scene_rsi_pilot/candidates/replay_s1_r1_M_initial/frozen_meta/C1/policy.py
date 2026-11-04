@@ -1,0 +1,243 @@
+import json
+from pathlib import Path
+import re
+
+
+GUIDANCE = '''
+Build a complete editable reconstruction immediately, then make bounded corrections.
+Aim initially for roughly 180 lines and 250 expanded primitive meshes. These are
+planning targets, not external limits. Include major visible objects and architecture;
+reduce distant ornament before removing recognizable parts or composite groups.
+Use only the supplied conversation and runtime interfaces. No tools, filesystem
+exploration, external assets, subprocesses, other models or independent rendering.
+Do not change rendering settings, backend, resolution, samples or resource limits.
+
+Evidence and parameter discipline:
+- Record at most six reference anchors as short code comments: normalized image
+  bounds, perspective-line convergence, floor boundary, foreground crop, and an
+  important opening or occlusion. These are visual estimates, not measurements.
+- Give major objects stable semantic Asset keys and separate camera, dimensions,
+  placement, finishes and lighting parameters. Keep these names across revisions.
+- For each proposed correction, add a short comment linking object key, builder or
+  parameter, observed discrepancy, hypothesis, predicted visible effect and risk.
+  Use unknown for unresolved mappings. Supplied metrics are measured evidence;
+  visual interpretations and general heuristics are hypotheses. Never invent scores.
+- A single intervention or score change establishes sensitivity, not identification
+  of the underlying cause. Do not infer that the opposite intervention will improve.
+
+Camera versus geometry:
+- Match perspective convergence and horizon before interpreting apparent size.
+  Compare near, middle and distant anchors, including objects outside the target.
+- At fixed pose, focal length changes image scale about the principal point; it
+  does not change viewpoint or reveal an occluded surface. Camera translation can
+  change relative sizes and occlusions. Rotation changes convergence placement.
+- A local size error with otherwise consistent anchors suggests local geometry;
+  shared errors suggest camera or layout. These are heuristics, not proof.
+- Change one dominant parameter family per revision when the cause is uncertain.
+  Do not simultaneously change lens, camera distance and object scale to fix one
+  apparent-size error. Preserve unrelated materials and geometry during that edit.
+- Choose scale pivots intentionally: geometry center for centered resizing, support
+  anchor when contact must remain fixed. An Asset origin need not be its center.
+
+Occlusion, structure and spatial dependencies:
+- Before adding an apparently missing part, inspect the current program: absent,
+  outside the frame, behind another object, overwritten include key, or too small?
+  Do not duplicate existing hidden geometry to compensate for a camera mismatch.
+- Preserve visible openings and negative spaces. A solid proxy body can hide a
+  correctly modeled interior; use separate panels around visible cavities.
+- Keep a composite's shell, legs, fittings and attached details under its Asset.
+  Separate independently movable objects, including loose contents when appropriate.
+  Moving a parent must carry its intended descendants without moving neighbors.
+- Express contact using actual support surfaces and explicit anchors. For horizontal
+  supports, bottom/top heights and footprint agreement are useful construction checks.
+  AABB overlap alone is not collision truth, especially for rotated or hollow objects.
+- snap and layout helpers return copies; include the returned node. include preserves
+  world position and may clone an already-owned node; use its returned reference.
+  Bind only endpoints already in the scene, never ancestor/descendant pairs; keep
+  dependencies acyclic. Pass source_anchor and target_anchor explicitly to snap/bind.
+  Their actual default anchors are center, despite shorthand examples in the API text.
+- Prefer parenting for rigid attachments and bindings for separate dependent objects.
+  After changing support size or placement, settle relations and check affected parts,
+  surrounding clearance and visible occlusion. Do not repair all AABB candidates blindly.
+
+Material locality and backend mapping:
+- Set semantic colors on SceneAct parts. paint affects the entire subtree; use the
+  narrowest intended part, not an assembly with several finishes.
+- Realized primitive mesh names are generic. Semantic include keys identify parent
+  markers; use the known hierarchy to identify descendants, not mesh-name substrings
+  or broad RGB thresholds. Do not assume a mesh is named after its include key.
+- Blender materials are shared by equal SceneAct finishes. For local shader changes,
+  copy a target material and reassign only the intended mesh slots before editing.
+  Do not accidentally alter a neighbor sharing the original material.
+- Separate lighting/exposure hypotheses from albedo hypotheses. Preserve non-target
+  finishes during a local correction; avoid global darkening to hide geometric errors.
+
+Execution requirements:
+- Keep geometry and relationships in SceneAct. Do not redefine constructors or bypass
+  SceneAct with another mesh generator. Keep separate meshes for meaningful parts.
+- realize(scene) clears Blender. Create camera, lights and shader customizations after
+  it. Before world-node access use:
+      sc = bpy.context.scene
+      if sc.world is None:
+          sc.world = bpy.data.worlds.new('Ambient')
+      sc.world.use_nodes = True
+- Every include key must be unique within its parent, including nested-loop indices.
+  Reusing a key replaces a child. Keep object keys stable across revisions.
+- fillet_box requires 0 < radius <= half the smallest dimension, including thickness.
+  Thin panels should usually be boxes. Expanded fillets contain many primitives.
+- rod endpoints must differ. sweep_tube creates rods and spheres; use sparse points.
+- Before realize, audit positive finite dimensions, nonempty expected groups, unique
+  keys, support dependencies and complete descendants. For a risky composite edit,
+  lightweight checks on an unattached clone may verify that descendants receive the
+  same translation and unrelated originals retain their geometry and finishes.
+  Such checks are construction checks, not the fixed evaluator or true 3D validation.
+- A failed execution or missing image is failure. Repair the reported error without
+  critiquing a nonexistent view. After timeout, simplify expanded repeated geometry.
+
+Return exactly one complete Python code block for a build or revision. Do not render
+or save in that program. After success, DONE retains the latest successful build;
+SELECT <step> retains a supplied successful step. Never select a failed step.
+'''
+
+
+REVIEW = '''
+Compare this actual render with the reference using the original anchors. Identify
+at most two high-impact discrepancies. Check camera versus local scale, visible
+openings versus omission, support relations, and local material preservation.
+For a revision, state in code comments the affected object key and code location,
+observation, hypothesis, intended parameter family and dependency risks. Unknown
+mappings remain unknown. Preserve correctly built groups and unrelated finishes.
+Prefer one dominant correction family when attribution is uncertain. Do not spend
+an execution just on tiny detail. Return a complete corrected program, DONE, or
+SELECT <successful step>. Previous successful builds remain available; the newest
+is not automatically the best. No invented measurements or additional diagnostics.
+'''
+
+
+FAILURE = '''
+EXECUTION FAILURE: no usable new reconstruction is available. Diagnose the actual
+reported error; do not infer visual quality from missing output. Audit world setup,
+positive dimensions, fillet radii, distinct rod endpoints, unique include keys and
+relation endpoints. Simplify repeated geometry after timeout. Return a complete
+repaired program, or retain a previous successful step with SELECT. DONE is valid
+only if a successful build already exists.
+'''
+
+
+def _text(response):
+    content = response.get('content') or ''
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        return '\n'.join(item.get('text', '') for item in content
+                         if isinstance(item, dict) and item.get('type') == 'text')
+    return ''
+
+
+def _chosen(text, successful):
+    match = re.fullmatch(r'SELECT\s+(\d+)\s*', text.strip(), re.I)
+    if match:
+        for step in successful:
+            if str(step) == match.group(1):
+                return step
+    return None
+
+
+def _selection_content(task, runtime, successful, images):
+    content = [
+        {'type': 'text', 'text':
+         'Final selection only. Compare the labeled successful renders below with '
+         'the reference. Choose the strongest overall reconstruction using framing, '
+         'silhouettes, openings, occlusions, large color regions and editable object '
+         'structure. Do not assume the newest is best. No new code, renders, tools '
+         'or invented scores. Return only SELECT <step> from ' + str(successful)},
+        {'type': 'text', 'text': 'Original reference'},
+        runtime.image(task['image'])]
+    for step in successful:
+        content.append({'type': 'text', 'text': 'Successful step ' + str(step)})
+        content.append(runtime.image(images[step]))
+    return content
+
+
+def solve(task, runtime):
+    # Read only the packaged system prompt; scene inputs come from task/runtime.
+    prompt = (Path(__file__).parent / 'system.txt').read_text()
+    messages = [
+        {'role': 'system', 'content': prompt + '\n' + GUIDANCE},
+        {'role': 'user', 'content': [
+            {'type': 'text', 'text':
+             'Reconstruct this RGB image as an editable SceneAct scene. Produce '
+             'a compact complete build now, with stable semantic groups, explicit '
+             'camera/dimension parameters and at most six visual anchor comments. '
+             f"Image dimensions: {task['width']} x {task['height']}. "
+             f'Available budget: {runtime.remaining()}'},
+            runtime.image(task['image'])]}]
+    successful = []
+    images = {}
+    selected = None
+
+    while True:
+        budget = runtime.remaining()
+        if (budget['model_calls'] <= 0 or budget['seconds'] <= 0
+                or budget['executions'] <= 0):
+            break
+        # Preserve a selection turn when there is already a genuine choice.
+        if len(successful) > 1 and budget['model_calls'] <= 1:
+            break
+        response = runtime.ask(messages)
+        messages.append(response)
+        text = _text(response)
+        choice = _chosen(text, successful)
+        if choice is not None:
+            runtime.select(choice)
+            return
+        if text.strip().upper() == 'DONE' and selected is not None:
+            runtime.select(selected)
+            return
+        blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S | re.I)
+        if len(blocks) != 1:
+            messages.append({'role': 'user', 'content':
+                'Return exactly one complete runnable Python code block, or '
+                'DONE/SELECT only to retain a successful build. '
+                f'Successful steps: {successful}. Remaining: {runtime.remaining()}'})
+            continue
+        budget = runtime.remaining()
+        if budget['executions'] <= 0 or budget['seconds'] <= 0:
+            break
+        result = runtime.execute(blocks[0])
+        valid = bool(result.get('ok') and result.get('image')
+                     and result.get('step') is not None)
+        if valid:
+            selected = result['step']
+            if selected not in successful:
+                successful.append(selected)
+            images[selected] = result['image']
+            runtime.select(selected)
+        elif selected is not None:
+            runtime.select(selected)
+        feedback = {k: v for k, v in result.items() if k != 'image'}
+        feedback['usable_render'] = valid
+        instruction = REVIEW if valid else FAILURE
+        budget = runtime.remaining()
+        if valid and budget['executions'] <= 0:
+            instruction = ('Execution budget exhausted. This is an actual successful '
+                           'render, available for final selection only. No revision '
+                           'can now be executed.')
+        content = [{'type': 'text', 'text':
+                    json.dumps(feedback, default=str) + '\n' + instruction +
+                    f'\nSuccessful steps: {successful}. Remaining: {budget}'}]
+        if valid:
+            content.append({'type': 'text', 'text': 'Render for step ' + str(selected)})
+            content.append(runtime.image(images[selected]))
+        messages.append({'role': 'user', 'content': content})
+
+    budget = runtime.remaining()
+    if len(successful) > 1 and budget['model_calls'] > 0 and budget['seconds'] > 30:
+        messages.append({'role': 'user', 'content':
+                         _selection_content(task, runtime, successful, images)})
+        response = runtime.ask(messages)
+        choice = _chosen(_text(response), successful)
+        if choice is not None:
+            selected = choice
+    if selected is not None:
+        runtime.select(selected)

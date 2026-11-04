@@ -1,0 +1,68 @@
+--- before/pilot.py
++++ v2/pilot.py
+@@ -33,7 +33,7 @@
+ 
+ def validate_source(text,kind):
+     tree=ast.parse(text)
+-    allowed={'json','re','math','random','statistics','collections','itertools','pathlib'}
++    allowed=set(config()['candidate_validation']['allowed_imports'])
+     forbidden={'exec','eval','compile','open','__import__','getattr','setattr','delattr','globals','locals'}
+     for node in ast.walk(tree):
+         if isinstance(node,(ast.Import,ast.ImportFrom)):
+--- before/config.json
++++ v2/config.json
+@@ -129,5 +129,21 @@
+     "per_job_idle_check": true,
+     "gpu_kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+     "gpu_kernel_label": "local_a100_cuda122_v1"
++  },
++  "candidate_validation": {
++    "version": "v2_ast_standard_library",
++    "allowed_imports": [
++      "ast",
++      "json",
++      "re",
++      "math",
++      "random",
++      "statistics",
++      "collections",
++      "itertools",
++      "pathlib"
++    ],
++    "amendment": "Correct common false rejection of pure Python AST source parsing; raw proposals reused without model resampling",
++    "source_snapshot": "validation_correction_v2"
+   }
+ }--- before/report.py
++++ v2/report.py
+@@ -406,7 +406,7 @@
+                                "机械编辑目标按固定名称/层级规则选取，实测可能选中Architecture等建筑组合；文本测试另按预定工作台类别匹配。名称匹配不等于语义真值，不能据此证明应有对象完整。",
+                                "机制A提供固定目标的焦距、尺度与隔离探测；尚无自动代码到语义对象定位器，未知映射不作归因。",
+                                "机制B实际执行共同的完整三项检查菜单，Ours使用回归证据和提示优先级；按修改模块自动选择回归子集尚未实现。",
+-                               "共同候选导入白名单未完整列入提案提示；实测Ours(r1/C1)的meta.py与Generic(r2/C1)的policy.py因使用ast被拒绝，属于共同接口适配局限，不能解释为对应研究机制无效。保留原始失败，不对单组人工修补或放宽规则。",
++                               "共同候选导入白名单未完整列入提案提示。三份跨组提案触发ast误拒绝后，在Test前统一修复验证器并复验全部原始回答；两份恢复资格并补跑完整评价，没有模型重采样或人工改写H/M。旧规则/失败/源码保留在validation_correction_v2。这是正式开发开始后的工程修复，不能冒充原始预注册规则；r2/Ours/C1的getattr限制仍导致拒绝。",
+                                "有效改进、配对数和元回放无完整证据时不推断，不预绘提升曲线。"]}
+     save_json(out / "summary.json", summary)
+     attempts=[]
+@@ -479,7 +479,7 @@
+     panels = ["<h1>scene_rsi_pilot：真实产物实验报告</h1>",
+               f"<p>正式记录 {summary['formal_records']}；smoke 记录 {summary['smoke_records']}；完成记录 {summary['completed']}。缺失显示 pending/null。所有 smoke 排除正式对照。</p>",
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv")) + "</p>",
+-              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
++              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+     if not selection_frozen:panels.append('<p class="missing">中期报告：Selection/Test 的逐图指标、图像和结构细节在统一选择冻结后再展示；当前仅汇总登记状态。主对照尚未完成。</p>')
+     gpu_checks=[]
+--- before/protocol.md
++++ v2/protocol.md
+@@ -87,3 +87,11 @@
+ ## 用户授权的资源适配补充
+ 
+ 冻结后的用户指令允许使用空闲GPU。自记录暂停边界后，所有方法统一采用 gpu_adaptation.md 的单卡 cpu_if_busy 策略，质量与研究协议不变。前文“设备始终CPU”描述初始协议；实际执行包含后续获准GPU，逐次设备记录用于解释结果。不得从混合硬件耗时得出算法速度结论。
++
++## 共同验证器修复 v2：允许标准库 AST 解析
++
++主研发过程中，Generic(r2/C1)、Ours(r1/C1,r2/C1)三份原始提案被共同验证器以 `Disallowed candidate import` 拒绝，其原因均为正常源码解析所需的标准库 `ast`。初始过度限制现修正为所有方法统一允许 ast；其余限制、评分、功能门槛、模型、预算和数据不变。此项是正式开发/Selection 已产生结果后、任何 Test 开始前的透明工程修复，不能声称原始预注册就含此规则。协议补充见 protocol_amendment_validator_v2.json，旧源码/配置/档案/错误全部保存在 validation_correction_v2/。
++
++对全部已产生提案重新执行同一验证规则，直接复用原 CLI 的最后原始回答；不重新调用模型，不人工编辑 H/M，不新增候选。修复后所有受影响候选统一执行完整的原开发与 Selection 流程；未受影响候选的源码与评价记录保持有效。由于修复时已有一个未受影响的 SceneEvolve C2 开发场景在运行，允许其内层正常完成并保留结果，之后回到交错队列补齐 C1。实际顺序在状态/调用日志中保留。初始失败不抹去，也不把它当研究机制无效的证据。
++
++早先决定保留全部误拒绝，后来跨组重复出现的证据表明该限制使研究比较失去意义，因此依据“固定 runner bug 统一修复并重跑所有受影响方法”的原则修正。新增标准库 ast 只能解析代码，不能绕过原来的文件、进程、模型和预算访问限制。固定提示词保持原样；导入契约未完整显式列出的局限仍需披露。

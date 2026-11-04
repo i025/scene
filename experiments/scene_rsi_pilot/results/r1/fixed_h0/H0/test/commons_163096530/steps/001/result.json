@@ -1,0 +1,8 @@
+{
+  "ok": false,
+  "step": 1,
+  "error": "CalledProcessError(1, ['__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender', '--background', '-noaudio', '--factory-startup', '--threads', '2', '--python-exit-code', '1', '--python', '__EXPERIMENT_ROOT__/backend/render.py', '--', '--code', '__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/steps/001/build.py', '--settings', '__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/steps/001/render_settings.json', '--output-dir', '__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/steps/001'])",
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 85, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 67, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/test/commons_163096530/steps/001/build.py\", line 246, in <module>\n    world.use_nodes=True\n    ^^^^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'use_nodes'\n",
+  "image": null
+}

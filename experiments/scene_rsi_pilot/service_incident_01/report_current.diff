@@ -1,0 +1,42 @@
+--- before/report.py
++++ after/report.py
+@@ -414,6 +414,21 @@
+                                "机制B实际执行共同的完整三项检查菜单，Ours使用回归证据和提示优先级；按修改模块自动选择回归子集尚未实现。",
+                                "共同候选导入白名单未完整列入提案提示。三份跨组提案触发ast误拒绝后，在Test前统一修复验证器并复验全部原始回答；两份恢复资格并补跑完整评价，没有模型重采样或人工改写H/M。旧规则/失败/源码保留在validation_correction_v2。这是正式开发开始后的工程修复，不能冒充原始预注册规则；r2/Ours/C1的getattr限制仍导致拒绝。",
+                                "有效改进、配对数和元回放无完整证据时不推断，不预绘提升曲线。"]}
++    incident=read(root/'service_incident_01/recovery_prepared.json')
++    incident_summary=None
++    if incident:
++        prior=read(root/'service_incident_01/failed_scene_attempts.json',[])
++        attempt_rows=[]
++        for phase,attempts in [('preserved_service_failure',prior),('current_task_outcome',[r for r in rows if r.get('split')!='smoke'])]:
++            for r in attempts:
++                original=Path(r['folder']).relative_to(root)
++                source=root/'service_incident_01/retired'/original/'record.json' if phase=='preserved_service_failure' else root/original/'record.json'
++                attempt_rows.append({**{k:r.get(k) for k in ('method','run_id','scene_id','split','candidate_id','status','failure_type')},'attempt_phase':phase,'physically_executed':not bool(r.get('reuse_of')),'source':str(source.relative_to(root))})
++        write_csv(out/'service_attempts.csv',attempt_rows,list(attempt_rows[0]) if attempt_rows else [])
++        physical=[r for r in attempt_rows if r['physically_executed']]
++        incident_summary={'original_service_failed_physical_attempts':incident['physical_scene_attempts_preserved'],'original_service_failed_outcome_slots_including_reuse':incident['failed_scene_attempts_preserved'],'physical_formal_reconstruction_attempts_including_preserved_failures':len(physical),'physical_formal_successes':sum(r['status'] in COMPLETE for r in physical),'physical_attempt_success_rate_including_service_failures':sum(r['status'] in COMPLETE for r in physical)/len(physical) if physical else None,'max_service_retry':1,'valid_test_outputs_before_recovery':0,'interpretation':'Task outcome rates in ordinary tables and physical attempt rates including preserved failures are different denominators; all CLI failures remain in calls.csv and ledger.'}
++        summary['service_recovery']=incident_summary
++        summary['limitations'].append('出现集中CLI路由故障后，原始32个主终测槽均无输出；冻结选择和失败档案保留，对无输出服务失败统一开放一次恢复，研发完成后重冻选择。原始失败不能当算法退化，恢复也不能抹去失败分母；service_attempts.csv单列全部物理尝试。恢复后消融规模按原预算阶梯重新冻结，属于显式协议补充。')
+     save_json(out / "summary.json", summary)
+     attempts=[]
+     for row in visible_rows:
+@@ -487,6 +502,8 @@
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
++    if incident_summary:
++        panels.append('<h2>服务故障与一次恢复</h2><p>旧终测全部无有效输出；已有有效场景没有重采样。以下分母包含保留的服务失败，不能用只看当前成功文件的比例替代。</p><pre>'+html.escape(json.dumps(incident_summary,ensure_ascii=False,indent=2))+'</pre>'+link(out/'service_attempts.csv','全部场景尝试 CSV')+' · '+link(root/'service_incident_01/recovery_prepared.json','恢复清单与原始档案映射')+' · '+link(root/'service_incident_01/routing_failures.json','CLI 路由失败清单'))
+     if not selection_frozen:panels.append('<p class="missing">中期报告：Selection/Test 的逐图指标、图像和结构细节在统一选择冻结后再展示；当前仅汇总登记状态。主对照尚未完成。</p>')
+     gpu_checks=[]
+     for folder in sorted((root/'smoke').glob('gpu_*_check')):
+@@ -657,6 +674,8 @@
+         for point in additional['external']:
+             lines.append('|'+ '|'.join(display(point[k]) for k in ('method','scene_id','reconstruction_status','Q','functional_pass','adapted_score_0_100'))+'|')
+         lines += ['', '[BlenderWorld 适配评测源数据](blenderworld_adapted.csv)']
++    if incident_summary:
++        lines += ['', '## 服务故障与恢复分母', '', '故障期间没有有效主终测图像/指标。恢复前后的失败与成本均保留；当前任务结果与包含旧故障的物理尝试成功率分开报告。', '', '`'+display(incident_summary)+'`', '', '[全部场景尝试及原记录](service_attempts.csv) · [故障恢复清单](../service_incident_01/recovery_prepared.json)']
+     lines += ['', '## 局限', '']
+     lines += ["- " + item for item in summary["limitations"]]
+     lines += ["", "## 重建报告", "", "```bash", f"bash '{root / 'run.sh'}' report", "```", "", "此命令使用已验证的本地Python环境，只重建数据表、图和报告，不启动模型、Blender 或补跑实验；实验续跑入口由 runner README 给出。", ""]

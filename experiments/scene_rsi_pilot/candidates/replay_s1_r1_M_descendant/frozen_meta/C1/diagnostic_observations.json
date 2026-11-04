@@ -1,0 +1,213 @@
+{
+  "initial_diagnoses": [
+    {
+      "scene_id": "commons_2238909",
+      "object_id": "bank_00",
+      "code_location": "unknown",
+      "observation": {
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "bank_00",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "dependencies": {
+          "target_meshes": [
+            "Box.006",
+            "Box.007",
+            "Box.008",
+            "Box.009",
+            "Box.010",
+            "Box.011",
+            "Box.012",
+            "Box.013",
+            "Box.014",
+            "Box.015",
+            "Box.016",
+            "Box.017",
+            "Box.018",
+            "Box.019",
+            "Box.020",
+            "Box.021",
+            "Box.022",
+            "Box.023",
+            "Box.024",
+            "Box.025",
+            "Box.026",
+            "Box.027",
+            "Box.028",
+            "Box.029",
+            "Box.030",
+            "Box.031",
+            "Box.032",
+            "Box.033",
+            "Box.034",
+            "Box.035",
+            "Box.036",
+            "Box.037",
+            "Box.038",
+            "Box.039",
+            "Box.040",
+            "Rod.003",
+            "Rod.004",
+            "Rod.005",
+            "Rod.006",
+            "Rod.007",
+            "Rod.008",
+            "Rod.009",
+            "Rod.010",
+            "Rod.011",
+            "Rod.012"
+          ],
+          "parent": "Archive corridor",
+          "observed_materials": [
+            "SceneActSurface_10",
+            "SceneActSurface_11",
+            "SceneActSurface_12",
+            "SceneActSurface_16",
+            "SceneActSurface_17",
+            "SceneActSurface_18",
+            "SceneActSurface_7",
+            "SceneActSurface_8",
+            "SceneActSurface_9"
+          ],
+          "observed_shared_material_meshes": [],
+          "coverage": {
+            "full_object_count": 1308,
+            "shown_count": 64,
+            "omitted_count": 1244,
+            "rule": "max64, target/first16 target meshes and ancestors, invalid meshes, named EMPTY groups, camera/lights, others; name tie order",
+            "raw_snapshot_retained": true,
+            "omitted": "Repeated shader-node trees, duplicate matrices and remaining detailed object rows; this summary does not certify omitted objects."
+          },
+          "limitation": "Projected rows cannot certify omitted dependencies; AABB relations are not true contact or collision."
+        }
+      },
+      "observation_type": "supplied_regression_and_structure",
+      "hypothesis": "Passing selected-target edits does not establish whole-object completeness or semantic support.",
+      "probe": "prescribed_material_and_move",
+      "probe_result": {
+        "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+        "target_selection": {
+          "object": "bank_00",
+          "kind": "group",
+          "mesh_names": [
+            "Box.006",
+            "Box.007",
+            "Box.008",
+            "Box.009",
+            "Box.010",
+            "Box.011",
+            "Box.012",
+            "Box.013",
+            "Box.014",
+            "Box.015",
+            "Box.016",
+            "Box.017",
+            "Box.018",
+            "Box.019",
+            "Box.020",
+            "Box.021",
+            "Box.022",
+            "Box.023",
+            "Box.024",
+            "Box.025",
+            "Box.026",
+            "Box.027",
+            "Box.028",
+            "Box.029",
+            "Box.030",
+            "Box.031",
+            "Box.032",
+            "Box.033",
+            "Box.034",
+            "Box.035",
+            "Box.036",
+            "Box.037",
+            "Box.038",
+            "Box.039",
+            "Box.040",
+            "Rod.003",
+            "Rod.004",
+            "Rod.005",
+            "Rod.006",
+            "Rod.007",
+            "Rod.008",
+            "Rod.009",
+            "Rod.010",
+            "Rod.011",
+            "Rod.012"
+          ],
+          "group_name": "bank_00",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "original_blend_unchanged": true,
+        "relation_tolerance": 1e-05,
+        "material": {
+          "applicable": true,
+          "target_success": true,
+          "target_geometry_unchanged": true,
+          "non_target_preservation": {
+            "pass": true,
+            "checked_objects": 1263,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+          "pass": true,
+          "edited_blend": "edited_material.blend"
+        },
+        "move": {
+          "applicable": true,
+          "displacement_scene_units": [
+            4.406898498535156,
+            0.0,
+            0.0
+          ],
+          "displacement_normalized": [
+            0.1,
+            0,
+            0
+          ],
+          "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+          "target_success": true,
+          "relation_max_abs_matrix_delta": 2.384185791015625e-07,
+          "part_relations_preserved": true,
+          "non_target_preservation": {
+            "pass": true,
+            "checked_objects": 1217,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "pass": true,
+          "edited_blend": "edited.blend"
+        },
+        "render_attempts": 3,
+        "renders_completed": 3
+      },
+      "planned_change": "Preserve working edit structure; review owner membership, copy-on-edit materials and relative transforms for changed modules."
+    },
+    {
+      "scene_id": "commons_2238909",
+      "object_id": "unknown",
+      "code_location": "unknown",
+      "observation": {
+        "support_truth": null,
+        "semantic_completeness": null
+      },
+      "observation_type": "explicit_unknowns",
+      "hypothesis": "A visually absent item could be omitted, overwritten, cropped, occluded or low contrast; support errors need specific surface evidence.",
+      "probe": "isolate",
+      "probe_result": "not_run",
+      "planned_change": "Check inventory and owner construction before duplication; derive support from the actual surface and retain uncertain mappings as unknown."
+    }
+  ],
+  "probes": []
+}

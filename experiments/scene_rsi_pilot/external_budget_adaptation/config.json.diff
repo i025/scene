@@ -1,0 +1,33 @@
+--- before/config.json
++++ config.json
+@@ -168,5 +168,30 @@
+     "max_cli_sessions_unchanged": 600,
+     "reselect_before_any_valid_main_test_feedback": true,
+     "additional_phase_scale_from_remaining_budget_only": true
++  },
++  "external_stage": {
++    "task_ids_in_fixed_order": [
++      "bw_0005",
++      "bw_0011"
++    ],
++    "cli_upper_bound_per_task_for_both_methods": 12,
++    "tiers": [
++      {
++        "minimum_remaining_cli": 24,
++        "task_count": 2
++      },
++      {
++        "minimum_remaining_cli": 12,
++        "task_count": 1
++      }
++    ],
++    "below_minimum": "pending_budget",
++    "one_task_scope": "feasibility_only_not_benchmark_advantage",
++    "methods": [
++      "fixed_h0",
++      "scene_rsi_pilot"
++    ],
++    "scope_selection": "Before external results, by remaining global CLI count only; fixed task order and equal sample counts across methods.",
++    "original_plan": "2tasks, minimum24 CLI; one-task tier is a disclosed new-stage budget adaptation."
+   }
+ }

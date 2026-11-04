@@ -1,0 +1,33 @@
+--- before/report.py
++++ after/report.py
+@@ -444,6 +444,9 @@
+         summary['limitations'].append('共同检查器在终测前修正type(exc).__name__日志的误拒绝，统一复核12份原始提案，仅Generic r2/C2新增合格并补跑相同Dev/Selection；没有重新采样或人工改H/M。原规则、失败、源码和diff见validation_correction_v3；这是研发后工程适配。')
+     if (root/'quota_restored_20261103/outer_termination_01.json').exists():
+         summary['limitations'].append('一次外层终端进程以143退出，来源未知；存活的内层场景按原预算完成后，从同一ID缓存续接外部评价，没有重新生成。有限实验随后在独立进程会话继续，执行记录见quota_restored_20261103/execution_08.json；总预算与评价规则不变。')
++    if (root/'cli_checks/initial_sandbox_failures.json').exists():
++        summary['initial_cli_log_loss']=read(root/'cli_checks/initial_sandbox_failures.json')
++        summary['limitations'].append('初始两次隔离环境CLI失败的原始日志被第二次准备尝试误覆盖；只保留当时终端错误说明，不能补造原始日志、耗时或usage。两次仍计入600会话预算，token保持未知，详见cli_checks/initial_sandbox_failures.json。')
+     quota=read(root/'model_usage_limit.json')
+     restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+@@ -545,9 +548,11 @@
+     panels = ["<h1>scene_rsi_pilot：真实产物实验报告</h1>",
+               f"<p>正式记录 {summary['formal_records']}；smoke 记录 {summary['smoke_records']}；完成记录 {summary['completed']}。缺失显示 pending/null。所有 smoke 排除正式对照。</p>",
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "final_inference_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+-              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "config.json", "manifest.json", "protocol.md", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
++              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "config.json", "manifest.json", "protocol.md", "cli_checks/initial_sandbox_failures.json", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>主对照登记计划 '+display(summary['main_all_scheduled'])+' 个槽位；状态 '+html.escape(display(summary['main_scheduled_counts']))+'。包含未运行与失败，不能用完成数替代计划数。各额外阶段的计划另列。</p>')
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
++    if analysis:
++        panels.append('<p>CLI失败分类（来自保存的实际错误）：'+html.escape(display(analysis.get('cli_failure_counts',{})))+'。可用场景可能经历过失败的中间模型调用；场景最终可用率与调用成功率分别统计，原始错误见 calls.csv。</p>')
+     panels.append('<p>最终推理成本同时报告实际新增工作与同一H0输出对应的原始推理成本。复用H0的新增调用为0，但不表示该算法推理免费；source_equivalent列仅归属解释，不能再加入物理总账重复计费。</p>')
+     if quota:
+         panels.append('<h2>当前结论范围：模型额度阻断</h2><p>主Test没有任何有效渲染或配对，不能给出终测增益或方法优劣结论。以下真实对照联系表覆盖全部Development、两次运行；补充多视角与机械编辑展示首个Development场景，不是终测或文字指令编辑成绩。显示规则在额度故障后设定并明确记录。旧失败与成本全部保留。</p>'+link(root/'model_usage_limit.json','CLI原始额度错误位置')+' · '+link(root/'usage_limit_closeout/closeout.json','本地收尾状态')+' · '+link(out/'selection_quality.csv','Selection选择结果（非终测）'))
+@@ -712,6 +717,7 @@
+               "[最终推理成本](final_inference_cost.csv)同时列实际新增调用和同一H0产物对应的原始推理成本；source_equivalent列只解释成本归属，不重复计费。混合设备时长不用于算法效率比较。", "",
+               "## 局限与待运行", ""]
+     if analysis:
++        lines += ['', 'CLI失败分类：'+display(analysis.get('cli_failure_counts',{}))+'。调用失败与最终场景失败是不同分母；已保存的原始错误在 [calls.csv](calls.csv)，初始两次不可恢复日志的说明另列。']
+         lines += ['', '## 主对照配对结果', '', '|方法|重复|有效配对/计划|条件Q差|功能通过数差|完整有效改进|', '|---|---|---:|---:|---:|---|']
+         for item in analysis.get('complete_valid_improvement',[]):
+             values=[item['method'],item['run_id'],f"{item['valid_pairs']}/{item['all_scheduled_pairs']}",item['conditional_gain'],item['functional_pass_count_difference'],item['complete_valid_improvement']]

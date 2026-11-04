@@ -1,0 +1,37 @@
+{
+  "time": 1793771391.0310495,
+  "task": "bw_0011",
+  "own_task_outputs_before_rule": 0,
+  "own_task_model_calls_before_rule": 0,
+  "previous_task_Ours_reconstruction_exists": true,
+  "previous_task_Ours_judgment_exists": true,
+  "new_phase_config": {
+    "task_ids_in_fixed_order": [
+      "bw_0011"
+    ],
+    "cli_upper_bound_per_task_for_both_methods": 12,
+    "tiers": [
+      {
+        "minimum_remaining_cli": 12,
+        "task_count": 1
+      }
+    ],
+    "below_minimum": "pending_budget",
+    "scope": "independent_followup_feasibility_only",
+    "methods": [
+      "fixed_h0",
+      "scene_rsi_pilot"
+    ],
+    "condition": "Only remaining CLI>=12 and previous external stage traversed; never depend on a score, quality, win/loss or judgment.",
+    "source_H_selection": "Same frozen H0 and mainr1 Selection-chosen Ours as previous external stage.",
+    "reporting": "Separate phase; never present as the original preregistered two-task stage."
+  },
+  "original_global_caps": {
+    "cli_sessions": 600,
+    "render_attempts": 1500
+  },
+  "not_original_preregistration": true,
+  "reason": "Use any remaining complete-pair budget to cover the second task in the original reserve order. Freeze this independent stage before its own inputs/results; keep preceding one-task stage and outcomes unchanged.",
+  "additional_model_calls": 0,
+  "additional_render_frames": 0
+}

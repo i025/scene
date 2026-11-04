@@ -1,0 +1,13 @@
+--- before/run.sh
++++ after/run.sh
+@@ -12,6 +12,10 @@
+   pilot) "$PYTHON_BIN" "$SCRIPT_DIR/pilot.py" ;;
+   evaluate|report) "$PYTHON_BIN" "$SCRIPT_DIR/analyze.py"; "$PYTHON_BIN" "$SCRIPT_DIR/report.py" --root "$SCRIPT_DIR" ;;
+   resume)
++    if [[ -f "$SCRIPT_DIR/model_usage_limit.json" ]]; then
++      "$PYTHON_BIN" "$SCRIPT_DIR/finish_available.py"
++      exit 0
++    fi
+     "$PYTHON_BIN" "$SCRIPT_DIR/runner.py" smoke
+     "$PYTHON_BIN" "$SCRIPT_DIR/pilot.py"
+     "$PYTHON_BIN" "$SCRIPT_DIR/supplement.py"

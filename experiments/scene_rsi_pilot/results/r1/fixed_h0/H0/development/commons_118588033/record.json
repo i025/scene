@@ -1,0 +1,58 @@
+{
+  "method": "fixed_h0",
+  "run_id": "r1",
+  "scene_id": "commons_118588033",
+  "split": "development",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "backend/harnesses/baseline",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.13387859743443997,
+    "lpips": 0.8927568197250366,
+    "dino": 0.605532169342041,
+    "psnr": 10.785203694224993,
+    "overall": 0.34796262079347456
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "bunk pillow_0025",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "bunk pillow_0025",
+  "device": "CPU",
+  "seconds": 387.2397311241366,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 121400,
+    "output_tokens": 13855,
+    "cached_input_tokens": 16384,
+    "total_tokens": 135255,
+    "seconds": 258.27639510203153,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 350.12075172690675
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/development/commons_118588033",
+  "selected": null
+}

@@ -1,0 +1,203 @@
+{
+  "initial_diagnoses": [
+    {
+      "scene_id": "commons_2238909",
+      "object_id": "bank_00",
+      "code_location": "unknown",
+      "observation": "Reference/render disagreement; magnitude is measured by fixed visual metrics",
+      "observation_type": "measured_metric_with_unresolved_visual_cause",
+      "hypothesis": "Camera framing or object scale may contribute; this is a hypothesis, not attribution",
+      "probe": "camera_focal and object_scale",
+      "probe_result": "awaiting controlled intervention",
+      "planned_change": "Use probe sensitivity and dependency regression evidence to choose a shared H change"
+    }
+  ],
+  "probes": [
+    {
+      "scene_id": "commons_2238909",
+      "probe": "camera_focal",
+      "result": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": "bank_00",
+          "kind": "group",
+          "mesh_names": [
+            "Box.006",
+            "Box.007",
+            "Box.008",
+            "Box.009",
+            "Box.010",
+            "Box.011",
+            "Box.012",
+            "Box.013",
+            "Box.014",
+            "Box.015",
+            "Box.016",
+            "Box.017",
+            "Box.018",
+            "Box.019",
+            "Box.020",
+            "Box.021",
+            "Box.022",
+            "Box.023",
+            "Box.024",
+            "Box.025",
+            "Box.026",
+            "Box.027",
+            "Box.028",
+            "Box.029",
+            "Box.030",
+            "Box.031",
+            "Box.032",
+            "Box.033",
+            "Box.034",
+            "Box.035",
+            "Box.036",
+            "Box.037",
+            "Box.038",
+            "Box.039",
+            "Box.040",
+            "Rod.003",
+            "Rod.004",
+            "Rod.005",
+            "Rod.006",
+            "Rod.007",
+            "Rod.008",
+            "Rod.009",
+            "Rod.010",
+            "Rod.011",
+            "Rod.012"
+          ],
+          "group_name": "bank_00",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 30.0,
+        "focal_length_after": 33.0,
+        "geometry_unchanged": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.1149971143272901,
+        "lpips": 0.939893364906311,
+        "dino": 0.7800819873809814,
+        "psnr": 12.538401575025128,
+        "overall": 0.35504824770382326
+      },
+      "baseline_visual_metrics": {
+        "valid": true,
+        "ssim": 0.1279548315517084,
+        "lpips": 0.9361538887023926,
+        "dino": 0.7974256873130798,
+        "psnr": 12.606121428166206,
+        "overall": 0.36350459550195185
+      }
+    },
+    {
+      "scene_id": "commons_2238909",
+      "probe": "object_scale",
+      "result": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "bank_00",
+          "kind": "group",
+          "mesh_names": [
+            "Box.006",
+            "Box.007",
+            "Box.008",
+            "Box.009",
+            "Box.010",
+            "Box.011",
+            "Box.012",
+            "Box.013",
+            "Box.014",
+            "Box.015",
+            "Box.016",
+            "Box.017",
+            "Box.018",
+            "Box.019",
+            "Box.020",
+            "Box.021",
+            "Box.022",
+            "Box.023",
+            "Box.024",
+            "Box.025",
+            "Box.026",
+            "Box.027",
+            "Box.028",
+            "Box.029",
+            "Box.030",
+            "Box.031",
+            "Box.032",
+            "Box.033",
+            "Box.034",
+            "Box.035",
+            "Box.036",
+            "Box.037",
+            "Box.038",
+            "Box.039",
+            "Box.040",
+            "Rod.003",
+            "Rod.004",
+            "Rod.005",
+            "Rod.006",
+            "Rod.007",
+            "Rod.008",
+            "Rod.009",
+            "Rod.010",
+            "Rod.011",
+            "Rod.012"
+          ],
+          "group_name": "bank_00",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "scale_after": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          2.5880000591278076,
+          -1.7249999046325684,
+          1.5499999523162842
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.12858978577621913,
+        "lpips": 0.9686647057533264,
+        "dino": 0.8096253871917725,
+        "psnr": 12.075005095652276,
+        "overall": 0.3549125912062596
+      },
+      "baseline_visual_metrics": {
+        "valid": true,
+        "ssim": 0.1279548315517084,
+        "lpips": 0.9361538887023926,
+        "dino": 0.7974256873130798,
+        "psnr": 12.606121428166206,
+        "overall": 0.36350459550195185
+      }
+    }
+  ]
+}

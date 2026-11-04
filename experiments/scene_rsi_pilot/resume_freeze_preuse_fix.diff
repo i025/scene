@@ -1,0 +1,64 @@
+--- previous_fixed_runner/pilot.py
++++ fixed_runner/pilot.py
+@@ -234,6 +234,12 @@
+ 
+ def main():
+     if not (ROOT/'protocol_frozen.json').exists():raise RuntimeError('Freeze protocol after successful smoke before pilot')
++    frozen=read(ROOT/'selection_freeze.json')
++    if frozen:
++        final_scenes=[s for s in read(ROOT/'manifest.json') if s['split']=='test']
++        if all((ROOT/'results'/c['run_id']/c['method']/c['candidate_id']/'test'/s['scene_id']/'record.json').exists() for c in frozen['choices'] for s in final_scenes):
++            write_json(ROOT/'state.json',{'phase':'main_complete','source':'resume_of_existing_completed_records','selection_freeze_preserved':True})
++            return
+     initialize(ROOT);cfg=config();scenes=read(ROOT/'manifest.json');dev=[s for s in scenes if s['split']=='development'];selection=[s for s in scenes if s['split']=='selection'];test=[s for s in scenes if s['split']=='test']
+     baseline=ROOT/'backend/harnesses/baseline';archive=read(ROOT/'archive.json',[])
+     states={}
+@@ -267,7 +273,10 @@
+     choices=[{'method':m,'run_id':r,'candidate_id':s['selected'],'source':str(s['selected_source']),'selection':s['best']} for (r,m),s in states.items()]
+     choices += [{'method':'fixed_h0','run_id':r,'candidate_id':'H0','source':str(baseline)} for r in ['r1','r2']]
+     write_json(ROOT/'selections.json',choices)
+-    write_json(ROOT/'selection_freeze.json',{'frozen':True,'time':time.time(),'choices':choices,'test_feedback_available_before_freeze':False})
++    if frozen:
++        if choices!=frozen['choices']:raise RuntimeError('Resume choices differ from original frozen Selection; refusing to overwrite')
++    else:
++        write_json(ROOT/'selection_freeze.json',{'frozen':True,'time':time.time(),'choices':choices,'test_feedback_available_before_freeze':False})
+     for scene in test:
+         for rid in ['r1','r2']:
+             for method in ['fixed_h0']+METHODS:
+--- before/replay.py
++++ after/replay.py
+@@ -28,13 +28,13 @@
+     if not starts:
+         write_json(ROOT/'replay_status.json',{'status':'pending_no_qualified_unfamiliar_start','message':'没有已执行成功、未出现在Ours显式研发档案中的预保留异方法H起点。'});return
+     available=600-current()['cli_sessions']
+-    if available<49:
++    existing_protocol=read(ROOT/'replay_protocol.json')
++    if available<49 and not existing_protocol:
+         write_json(ROOT/'replay_status.json',{'status':'pending_budget','required_cli_upper_bound':49,'remaining_cli':available,'scope':'smallest feasibility replay: one unfamiliar H, one proposal per frozen M, 1dev/1selection/1newtest'});return
+     # Prefer two distinct source programs and two independent proposals per M/start.
+     unique=[]
+     for source in starts:
+         if not any(all((source/name).read_text()==(other/name).read_text() for name in ['policy.py','system.txt']) for other in unique):unique.append(source)
+-    existing_protocol=read(ROOT/'replay_protocol.json')
+     full=(existing_protocol['scope']=='two_starts_two_repeats') if existing_protocol else available>=166 and len(unique)>=2
+     starts=unique[:2] if full else unique[:1];repeats=2 if full else 1
+     initial=ROOT/'initial_meta/scene_rsi_pilot/meta.py';reserved=[s for s in read(ROOT/'manifest.json') if s['split']=='reserved']
+--- before/external.py
++++ after/external.py
+@@ -40,13 +40,14 @@
+     if read(ROOT/'external_status.json',{}).get('status')=='complete':return
+     if not (ROOT/'selection_freeze.json').exists():raise RuntimeError('Main selection must be frozen')
+     available=600-current()['cli_sessions']
+-    if available<24:
++    prior_protocol=read(ROOT/'external_protocol.json')
++    if available<24 and not prior_protocol:
+         write_json(ROOT/'external_status.json',{'status':'pending_budget','required_upper_cli':24,'remaining_cli':available,'tasks':['bw_0005','bw_0011'],'official_score':None});return
+     chosen=next(c for c in read(ROOT/'selections.json') if c['method']=='scene_rsi_pilot' and c['run_id']=='r1')
+     sources={'fixed_h0':ROOT/'backend/harnesses/baseline','scene_rsi_pilot':Path(chosen['source'])}
+     module=ast.parse((BW/'blenderworld/evaluators/judge_blender_binary_rubrics.py').read_text())
+     dimensions=next(ast.literal_eval(node.value) for node in module.body if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='DIMENSIONS' for t in node.targets))
+-    write_json(ROOT/'external_protocol.json',{'tasks':['bw_0005','bw_0011'],'methods':{k:str(v) for k,v in sources.items()},'selection':'predeclared main r1 Selection winner, never main Test winner','generation_input':'reference plus original public query appended by a common task-input adapter to system.txt; hidden rubric only in judge','render':'pilot CPU512-long-edge Cycles16, three fixed views; replaces official higher resolution/eight-view adaptive protocol','judge':'fresh anonymous gpt-6-astra/medium; original rubric meanings/importance weights and 8 dimensions; no official blind-description passes','formula':'0.5*(weighted binary rubric percent + 10*mean(dimension scores 1..10))','evaluation':'adapted; not official leaderboard','hash_validation':'not executed; direct local blend loading','historical_exposure':'gallery/index screening possible, not new blind data','time':time.time()})
++    if not prior_protocol:write_json(ROOT/'external_protocol.json',{'tasks':['bw_0005','bw_0011'],'methods':{k:str(v) for k,v in sources.items()},'selection':'predeclared main r1 Selection winner, never main Test winner','generation_input':'reference plus original public query appended by a common task-input adapter to system.txt; hidden rubric only in judge','render':'pilot CPU512-long-edge Cycles16, three fixed views; replaces official higher resolution/eight-view adaptive protocol','judge':'fresh anonymous gpt-6-astra/medium; original rubric meanings/importance weights and 8 dimensions; no official blind-description passes','formula':'0.5*(weighted binary rubric percent + 10*mean(dimension scores 1..10))','evaluation':'adapted; not official leaderboard','hash_validation':'not executed; direct local blend loading','historical_exposure':'gallery/index screening possible, not new blind data','time':time.time()})
+     records=[]
+     for task_id in ['bw_0005','bw_0011']:
+         task_root=BW/'data/hf-snapshot'/task_id/'tests/dataset/tasks'/task_id

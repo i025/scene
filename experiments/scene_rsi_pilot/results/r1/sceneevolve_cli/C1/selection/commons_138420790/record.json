@@ -1,0 +1,58 @@
+{
+  "method": "sceneevolve_cli",
+  "run_id": "r1",
+  "scene_id": "commons_138420790",
+  "split": "selection",
+  "candidate_id": "C1",
+  "parent_id": "__EXPERIMENT_ROOT__/backend/harnesses/baseline",
+  "H_version": "candidates/r1/sceneevolve_cli/C1",
+  "M_version": "__EXPERIMENT_ROOT__/initial_meta/sceneevolve_cli/meta.py",
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.2983033445089949,
+    "lpips": 0.8098816871643066,
+    "dino": 0.6262641549110413,
+    "psnr": 9.458526309087212,
+    "overall": 0.43385124493340294
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "ceiling_structure",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "ceiling_structure",
+  "device": "CPU",
+  "seconds": 464.9686779519543,
+  "usage": {
+    "calls": 5,
+    "input_tokens": 214595,
+    "output_tokens": 19010,
+    "cached_input_tokens": 32768,
+    "total_tokens": 233605,
+    "seconds": 397.91763370204717,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 439.6515453872271
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/sceneevolve_cli/C1/selection/commons_138420790",
+  "selected": null
+}

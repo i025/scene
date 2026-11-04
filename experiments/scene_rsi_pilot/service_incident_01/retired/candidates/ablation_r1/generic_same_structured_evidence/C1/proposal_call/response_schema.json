@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "requested_probes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scene_id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "camera_focal",
+              "object_scale",
+              "isolate"
+            ]
+          }
+        },
+        "required": [
+          "scene_id",
+          "kind"
+        ]
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "enum": [
+              "policy.py",
+              "system.txt",
+              "meta.py"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "content"
+        ]
+      }
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "diagnosis": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "requested_probes",
+    "files",
+    "rationale",
+    "scope",
+    "diagnosis"
+  ]
+}

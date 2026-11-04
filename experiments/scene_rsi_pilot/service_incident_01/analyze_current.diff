@@ -1,0 +1,41 @@
+--- before/analyze.py
++++ after/analyze.py
+@@ -200,11 +200,17 @@
+     for path in sorted(ROOT.rglob('session.json')):
+         request=path.with_name('request.json')
+         if not request.exists():continue
+-        s=read(path);parts=path.relative_to(ROOT).parts;method=next((m for m in ['fixed_h0','sceneevolve_cli','generic_rsi','scene_rsi_pilot'] if m in parts),'preparation_or_supplement');run=next((r for r in ['r1','r2'] if r in parts),None)
++        s=read(path);parts=path.relative_to(ROOT).parts
++        if 'retired' in parts:parts=parts[parts.index('retired')+1:]
++        method=next((m for m in ['fixed_h0','sceneevolve_cli','generic_rsi','scene_rsi_pilot'] if m in parts),'preparation_or_supplement');run=next((r for r in ['r1','r2'] if r in parts),None)
+         if parts[0] in ('results','candidates'):run,method=parts[1:3]
+         mapping=read(path.parent.parent/'mapping_for_report.json',read(path.parent.parent/'mapping.json',{}))
+         method=mapping.get('method',method);run=mapping.get('run_id',run)
+         calls.append({'method':method,'run_id':run,'role':s.get('role'),'requested_model':s.get('requested_model'),'reported_model':s.get('actual_model'),'effort':s.get('reasoning_effort'),'status':s.get('status'),'exit_code':s.get('exit_code'),'error':s.get('error'),'seconds':s.get('seconds'),'started':s.get('started'),'finished':s.get('finished'),'input_tokens':s.get('input_tokens') if isinstance(s.get('input_tokens'),int) else None,'output_tokens':s.get('output_tokens') if isinstance(s.get('output_tokens'),int) else None,'observable_model_rounds':s.get('observable_model_turns'),'observable_cli_turns':s.get('observable_cli_turns'),'tools':s.get('tool_calls',len(s.get('tool_events',[]))),'source':str(path.relative_to(ROOT))})
++        calls[-1]['preserved_service_attempt']='retired' in path.relative_to(ROOT).parts
++        event_path=path.with_name('events.jsonl')
++        routing_failure=s.get('status')=='failed' and event_path.exists() and 'workspace routing discovery failed' in event_path.read_text()
++        calls[-1]['failure_category']='cli_workspace_routing_failure' if routing_failure else 'timeout' if 'TimeoutExpired' in str(s.get('error')) else 'other_cli_failure' if s.get('status')=='failed' else None
+     write_csv(out/'calls.csv',calls,list(calls[0]) if calls else [])
+     selection_access=[]
+     for run in ('r1','r2'):
+@@ -212,7 +218,7 @@
+             for candidate in (['H0'] if method=='fixed_h0' else ['C1','C2']):
+                 prefix=f'results/{run}/{method}/{candidate}/selection/'
+                 measured=[r for r in rows if r['run_id']==run and r['method']==method and r['candidate_id']==candidate and r['split']=='selection']
+-                sessions=[c for c in calls if c['source'].startswith(prefix)]
++                sessions=[c for c in calls if c['source'].startswith(prefix) or '/retired/'+prefix in c['source']]
+                 selection_access.append({'method':method,'run_id':run,'candidate_id':candidate,'scheduled_selection_scenes':2,'completed_fixed_evaluation_records':len(measured),'generator_cli_sessions':len(sessions),'observed_cli_turns':sum(c['observable_cli_turns'] or 0 for c in sessions),'underlying_model_rounds':None,'scope':'Reference images accessed only by fixed reconstruction/evaluation pipeline; counts are logged sessions, not internal image-view events'})
+     write_csv(out/'selection_access.csv',selection_access,list(selection_access[0]))
+     exports=[]
+@@ -225,7 +231,9 @@
+         payload,_=json.JSONDecoder().raw_decode(text.split(marker,1)[1])
+         entries=[a for a in payload.get('archive',[]) if isinstance(a.get('selection'),dict)]
+         images=payload.get('attached_images',[])
+-        exports.append({'method':call_record['method'],'run_id':call_record['run_id'],'proposer_session':call_record['source'],'selection_aggregate_entries_disclosed':len(entries),'selection_scene_evaluations_represented':sum(a['selection']['all_scheduled'] for a in entries),'raw_selection_image_attachments':sum('/selection/' in str(p) for p in images),'raw_main_test_image_attachments':sum('/test/' in str(p) for p in images),'attachment_check_basis':'Explicit attached_images paths in saved proposer payload','source_prompt':str(prompt_path.relative_to(ROOT))})
++        counts=[a['selection'].get('all_scheduled') for a in entries]
++        known_counts=[n for n in counts if isinstance(n,int)]
++        exports.append({'method':call_record['method'],'run_id':call_record['run_id'],'proposer_session':call_record['source'],'selection_aggregate_entries_disclosed':len(entries),'selection_scene_evaluations_represented':sum(known_counts) if len(known_counts)==len(counts) else None,'selection_scene_count_known_lower_bound':sum(known_counts),'selection_aggregate_entries_without_scene_count':len(counts)-len(known_counts),'raw_selection_image_attachments':sum('/selection/' in str(p) for p in images),'raw_main_test_image_attachments':sum('/test/' in str(p) for p in images),'attachment_check_basis':'Explicit attached_images paths in saved proposer payload; compact aggregate entries may omit all_scheduled, which is unknown rather than zero','source_prompt':str(prompt_path.relative_to(ROOT))})
+     write_csv(out/'selection_feedback_exports.csv',exports,list(exports[0]) if exports else ['method','run_id','proposer_session','selection_aggregate_entries_disclosed'])
+     costs=[]
+     for run in ['r1','r2']:

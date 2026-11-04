@@ -1,0 +1,14 @@
+{
+  "time": 1793712227.9752154,
+  "authorization": "User instruction to use an idle GPU; original resource check found devices0-3 idle and no scheduler context",
+  "gpu_uuid_pool": [
+    "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+    "GPU-c6683db1-d2aa-97b9-c1b4-e497bd7ff0c5",
+    "GPU-158426a4-6684-7863-8cbe-ed6595f97683",
+    "GPU-6deac1db-e8b2-558c-0285-ff9639a06a43"
+  ],
+  "concurrency": "One heavy task, one GPU maximum; candidates in pool are alternatives, never enabled together",
+  "selection": "At launch and before render require no other compute process, near-zero memory and zero utilization; otherwise CPU",
+  "mapping": "CUDA_VISIBLE_DEVICES is one UUID and Cycles must expose exactly one matching PCI device",
+  "reason": "Avoid repeated manual reassignment as unrelated jobs use previous idle devices; rendering quality, budget and evaluator unchanged"
+}

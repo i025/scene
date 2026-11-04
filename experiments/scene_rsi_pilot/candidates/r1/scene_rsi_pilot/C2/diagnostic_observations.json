@@ -1,0 +1,380 @@
+{
+  "initial_diagnoses": [
+    {
+      "scene_id": "commons_109923183",
+      "object_id": "unknown",
+      "code_location": "trajectory.execution_result.stderr",
+      "observation": [
+        {
+          "step": 1,
+          "stderr": ""
+        },
+        {
+          "step": 3,
+          "stderr": ""
+        }
+      ],
+      "observation_type": "measured_execution_failure",
+      "hypothesis": "Pre-execution review may prevent repeated API errors.",
+      "probe": "none",
+      "probe_result": "not_run",
+      "planned_change": "Audit all primitive bounds, world initialization and naming before spending an execution."
+    },
+    {
+      "scene_id": "commons_109923183",
+      "object_id": "apron_-1",
+      "code_location": "unknown",
+      "observation": {
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "apron_-1",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "dependencies": {
+          "target_meshes": [
+            "Ball.249",
+            "Ball.250",
+            "Ball.251",
+            "Ball.252",
+            "Ball.253",
+            "Ball.254",
+            "Ball.255",
+            "Ball.256",
+            "Ball.257",
+            "Ball.258",
+            "Ball.259",
+            "Ball.260",
+            "Ball.261",
+            "Ball.262",
+            "Ball.263",
+            "Ball.264",
+            "Ball.265",
+            "Ball.266",
+            "Ball.267",
+            "Ball.268",
+            "Ball.269",
+            "Ball.270",
+            "Ball.271",
+            "Rod.278",
+            "Rod.279",
+            "Rod.280",
+            "Rod.281",
+            "Rod.282",
+            "Rod.283",
+            "Rod.284",
+            "Rod.285",
+            "Rod.286",
+            "Rod.287",
+            "Rod.288",
+            "Rod.289",
+            "Rod.290",
+            "Rod.291",
+            "Rod.292",
+            "Rod.293",
+            "Rod.294",
+            "Rod.295",
+            "Rod.296",
+            "Rod.297",
+            "Rod.298",
+            "Rod.299"
+          ],
+          "parent": "chaise",
+          "observed_materials": [
+            "SceneActSurface_114"
+          ],
+          "observed_shared_material_meshes": [],
+          "coverage": {
+            "full_object_count": 2490,
+            "shown_count": 64,
+            "omitted_count": 2426,
+            "rule": "max64, target/first16 target meshes and ancestors, invalid meshes, named EMPTY groups, camera/lights, others; name tie order",
+            "raw_snapshot_retained": true,
+            "omitted": "Repeated shader-node trees, duplicate matrices and remaining detailed object rows; this summary does not certify omitted objects."
+          },
+          "limitation": "Projected rows cannot certify omitted dependencies; AABB relations are not true contact or collision."
+        }
+      },
+      "observation_type": "supplied_regression_and_structure",
+      "hypothesis": "Passing selected-target edits does not establish whole-object completeness or semantic support.",
+      "probe": "prescribed_material_and_move",
+      "probe_result": {
+        "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+        "target_selection": {
+          "object": "apron_-1",
+          "kind": "group",
+          "mesh_names": [
+            "Ball.249",
+            "Ball.250",
+            "Ball.251",
+            "Ball.252",
+            "Ball.253",
+            "Ball.254",
+            "Ball.255",
+            "Ball.256",
+            "Ball.257",
+            "Ball.258",
+            "Ball.259",
+            "Ball.260",
+            "Ball.261",
+            "Ball.262",
+            "Ball.263",
+            "Ball.264",
+            "Ball.265",
+            "Ball.266",
+            "Ball.267",
+            "Ball.268",
+            "Ball.269",
+            "Ball.270",
+            "Ball.271",
+            "Rod.278",
+            "Rod.279",
+            "Rod.280",
+            "Rod.281",
+            "Rod.282",
+            "Rod.283",
+            "Rod.284",
+            "Rod.285",
+            "Rod.286",
+            "Rod.287",
+            "Rod.288",
+            "Rod.289",
+            "Rod.290",
+            "Rod.291",
+            "Rod.292",
+            "Rod.293",
+            "Rod.294",
+            "Rod.295",
+            "Rod.296",
+            "Rod.297",
+            "Rod.298",
+            "Rod.299"
+          ],
+          "group_name": "apron_-1",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "original_blend_unchanged": true,
+        "relation_tolerance": 1e-05,
+        "material": {
+          "applicable": true,
+          "target_success": true,
+          "target_geometry_unchanged": true,
+          "non_target_preservation": {
+            "pass": true,
+            "checked_objects": 2445,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+          "pass": true,
+          "edited_blend": "edited_material.blend"
+        },
+        "move": {
+          "applicable": true,
+          "displacement_scene_units": [
+            1.7573821544647217,
+            0.0,
+            0.0
+          ],
+          "displacement_normalized": [
+            0.1,
+            0,
+            0
+          ],
+          "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+          "target_success": true,
+          "relation_max_abs_matrix_delta": 1.1920928955078125e-07,
+          "part_relations_preserved": true,
+          "non_target_preservation": {
+            "pass": true,
+            "checked_objects": 2399,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "pass": true,
+          "edited_blend": "edited.blend"
+        },
+        "render_attempts": 3,
+        "renders_completed": 3
+      },
+      "planned_change": "Preserve working edit structure; review owner membership, copy-on-edit materials and relative transforms for changed modules."
+    },
+    {
+      "scene_id": "commons_109923183",
+      "object_id": "unknown",
+      "code_location": "unknown",
+      "observation": {
+        "support_truth": null,
+        "semantic_completeness": null
+      },
+      "observation_type": "explicit_unknowns",
+      "hypothesis": "A visually absent item could be omitted, overwritten, cropped, occluded or low contrast; support errors need specific surface evidence.",
+      "probe": "isolate",
+      "probe_result": "not_run",
+      "planned_change": "Check inventory and owner construction before duplication; derive support from the actual surface and retain uncertain mappings as unknown."
+    },
+    {
+      "scene_id": "commons_118588033",
+      "object_id": "architecture",
+      "code_location": "program:line 64",
+      "observation": {
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "architecture",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "dependencies": {
+          "target_meshes": [
+            "Box",
+            "Box.001",
+            "Box.002",
+            "Box.003",
+            "Box.004",
+            "Box.005",
+            "Box.006",
+            "Box.007",
+            "Box.008",
+            "Box.009",
+            "Box.010",
+            "Box.011",
+            "Box.012",
+            "Box.013",
+            "Box.014",
+            "Box.015",
+            "Box.016",
+            "Box.017",
+            "Box.018"
+          ],
+          "parent": "Shipboard compartment",
+          "observed_materials": [
+            "SceneActSurface_0",
+            "SceneActSurface_1",
+            "SceneActSurface_2",
+            "SceneActSurface_3",
+            "SceneActSurface_4",
+            "SceneActSurface_5",
+            "SceneActSurface_6",
+            "SceneActSurface_7"
+          ],
+          "observed_shared_material_meshes": [],
+          "coverage": {
+            "full_object_count": 466,
+            "shown_count": 64,
+            "omitted_count": 402,
+            "rule": "max64, target/first16 target meshes and ancestors, invalid meshes, named EMPTY groups, camera/lights, others; name tie order",
+            "raw_snapshot_retained": true,
+            "omitted": "Repeated shader-node trees, duplicate matrices and remaining detailed object rows; this summary does not certify omitted objects."
+          },
+          "limitation": "Projected rows cannot certify omitted dependencies; AABB relations are not true contact or collision."
+        }
+      },
+      "observation_type": "supplied_regression_and_structure",
+      "hypothesis": "Passing selected-target edits does not establish whole-object completeness or semantic support.",
+      "probe": "prescribed_material_and_move",
+      "probe_result": {
+        "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+        "target_selection": {
+          "object": "architecture",
+          "kind": "group",
+          "mesh_names": [
+            "Box",
+            "Box.001",
+            "Box.002",
+            "Box.003",
+            "Box.004",
+            "Box.005",
+            "Box.006",
+            "Box.007",
+            "Box.008",
+            "Box.009",
+            "Box.010",
+            "Box.011",
+            "Box.012",
+            "Box.013",
+            "Box.014",
+            "Box.015",
+            "Box.016",
+            "Box.017",
+            "Box.018"
+          ],
+          "group_name": "architecture",
+          "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+        },
+        "original_blend_unchanged": true,
+        "relation_tolerance": 1e-05,
+        "material": {
+          "applicable": true,
+          "target_success": true,
+          "target_geometry_unchanged": true,
+          "non_target_preservation": {
+            "pass": true,
+            "checked_objects": 447,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+          "pass": true,
+          "edited_blend": "edited_material.blend"
+        },
+        "move": {
+          "applicable": true,
+          "displacement_scene_units": [
+            1.3271987438201904,
+            0.0,
+            0.0
+          ],
+          "displacement_normalized": [
+            0.1,
+            0,
+            0
+          ],
+          "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+          "target_success": true,
+          "relation_max_abs_matrix_delta": 0.0,
+          "part_relations_preserved": true,
+          "non_target_preservation": {
+            "pass": true,
+            "checked_objects": 427,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "pass": true,
+          "edited_blend": "edited.blend"
+        },
+        "render_attempts": 3,
+        "renders_completed": 3
+      },
+      "planned_change": "Preserve working edit structure; review owner membership, copy-on-edit materials and relative transforms for changed modules."
+    },
+    {
+      "scene_id": "commons_118588033",
+      "object_id": "unknown",
+      "code_location": "unknown",
+      "observation": {
+        "support_truth": null,
+        "semantic_completeness": null
+      },
+      "observation_type": "explicit_unknowns",
+      "hypothesis": "A visually absent item could be omitted, overwritten, cropped, occluded or low contrast; support errors need specific surface evidence.",
+      "probe": "isolate",
+      "probe_result": "not_run",
+      "planned_change": "Check inventory and owner construction before duplication; derive support from the actual surface and retain uncertain mappings as unknown."
+    }
+  ],
+  "probes": []
+}

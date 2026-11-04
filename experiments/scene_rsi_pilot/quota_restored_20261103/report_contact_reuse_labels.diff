@@ -1,0 +1,13 @@
+--- before/report.py
++++ after/report.py
+@@ -295,7 +295,9 @@
+             cells=[(reference,scene['scene_id']+'\n'+run)]
+             for method in METHODS:
+                 row=next((r for r in records if r['method']==method),None)
+-                cells.append((root/row['directory']/'final.png' if row and row['status'] in COMPLETE else None, f"{row['candidate_id']} / {row['status']}\nQ={display(row['metrics']['overall'])}" if row else 'pending'))
++                label=f"{row['candidate_id']} / {row['status']}\nQ={display(row['metrics']['overall'])}" if row else 'pending'
++                if row and row.get('reuse_of'):label+='\nreused H0'
++                cells.append((root/row['directory']/'final.png' if row and row['status'] in COMPLETE else None,label))
+             grid.append(cells)
+         save('comparison_'+run,['Reference',*METHODS],grid)
+         first=[r for r in selected if r['scene_id']==tests[0]['scene_id']]

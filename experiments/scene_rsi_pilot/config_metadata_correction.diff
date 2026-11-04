@@ -1,0 +1,27 @@
+--- inherited_unused_dataset_metadata
++++ actual_frozen_pilot_dataset_metadata
+@@ -1,15 +1,10 @@
+ {
+   "dataset": {
+     "seed": 42,
+-    "manifest": "__SCENEEVOLVE_REPRO__/SceneEvolve_Code/data/splits-mini.json",
+-    "sources": {
+-      "commons": {
+-        "images": "__SCENEEVOLVE_REPRO__/SceneEvolve_Code/data/mini",
+-        "pattern": "*.png",
+-        "search": 4,
+-        "final_test": 2
+-      }
+-    }
++    "manifest": "__EXPERIMENT_ROOT__/manifest.json",
++    "source_root": "__COMMONS_DATA_ROOT__",
++    "split_authority": "manifest.json; pilot sizes 2 development / 2 selection / 4 test; smoke IDs specified by runner.py",
++    "historical_exposure": "exploratory"
+   },
+   "model": {
+     "name": "gpt-6.1-sol",
+@@ -90,4 +85,4 @@
+     "independent_judge": "all completed terminal outputs, supplemental only",
+     "retry_policy": "No automatic service retries; transient failure may be retried once only through explicit saved attempt with same global caps. Invalid scene programs only use common inner budget."
+   }
+-}+}

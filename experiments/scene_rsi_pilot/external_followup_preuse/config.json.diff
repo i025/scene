@@ -1,0 +1,29 @@
+--- before/config.json
++++ final/config.json
+@@ -193,5 +193,26 @@
+     ],
+     "scope_selection": "Before external results, by remaining global CLI count only; fixed task order and equal sample counts across methods.",
+     "original_plan": "2tasks, minimum24 CLI; one-task tier is a disclosed new-stage budget adaptation."
++  },
++  "external_followup_stage": {
++    "task_ids_in_fixed_order": [
++      "bw_0011"
++    ],
++    "cli_upper_bound_per_task_for_both_methods": 12,
++    "tiers": [
++      {
++        "minimum_remaining_cli": 12,
++        "task_count": 1
++      }
++    ],
++    "below_minimum": "pending_budget",
++    "scope": "independent_followup_feasibility_only",
++    "methods": [
++      "fixed_h0",
++      "scene_rsi_pilot"
++    ],
++    "condition": "Only remaining CLI>=12 and previous external stage traversed; never depend on a score, quality, win/loss or judgment.",
++    "source_H_selection": "Same frozen H0 and mainr1 Selection-chosen Ours as previous external stage.",
++    "reporting": "Separate phase; never present as the original preregistered two-task stage."
+   }
+ }

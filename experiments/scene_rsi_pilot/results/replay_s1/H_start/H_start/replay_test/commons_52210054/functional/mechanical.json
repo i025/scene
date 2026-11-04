@@ -1,0 +1,69 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "Far lamp",
+    "kind": "group",
+    "mesh_names": [
+      "Rod.213",
+      "Rod.214",
+      "Rod.215",
+      "Rod.216",
+      "Rod.217",
+      "Rod.218",
+      "Rod.219",
+      "Rod.220",
+      "Rod.221",
+      "Rod.222",
+      "Rod.223",
+      "Rod.224",
+      "Rod.225"
+    ],
+    "group_name": "Far lamp",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 1144,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": true,
+    "displacement_scene_units": [
+      1.7409263849258423,
+      0.0,
+      0.0
+    ],
+    "displacement_normalized": [
+      0.1,
+      0,
+      0
+    ],
+    "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+    "target_success": true,
+    "relation_max_abs_matrix_delta": 5.960464477539063e-08,
+    "part_relations_preserved": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 1130,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "pass": true,
+    "edited_blend": "edited.blend"
+  },
+  "render_attempts": 3,
+  "renders_completed": 3
+}

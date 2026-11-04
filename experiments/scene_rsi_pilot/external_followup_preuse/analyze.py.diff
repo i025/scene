@@ -1,0 +1,22 @@
+--- before/analyze.py
++++ final/analyze.py
+@@ -96,14 +96,15 @@
+         fig.tight_layout();fig.savefig(out/'frozen_meta_replay.png',dpi=150);plt.close(fig)
+         tables['replay_paired']=differences
+         write_csv(out/'frozen_meta_paired.csv',differences,list(differences[0]) if differences else [])
+-    external=read(ROOT/'external_status.json',{})
+-    if external.get('status')=='complete':
++    for phase,table_name in [('external','blenderworld_adapted'),('external_followup','blenderworld_followup_adapted')]:
++        external=read(ROOT/(phase+'_status.json'),{})
++        if external.get('status')!='complete':continue
+         points=[]
+         for item in external['records']:
+             row=item['reconstruction'];judge=item['adapted_evaluation']
+             points.append({'method':item['method'],'scene_id':item['task_id'],'reconstruction_status':row['status'],'Q':row['metrics']['overall'],'functional_pass':row['functional']['functional_pass'],'judge_status':judge['status'],'adapted_score_0_100':judge.get('adapted_fused_score_0_100'),'rubric_score_0_100':judge.get('rubric_score_0_100'),'dimension_score_0_100':judge.get('dimension_score_0_100'),'official_score':None,'reuse_of':row.get('reuse_of'),'reuse_basis':row.get('reuse_basis'),'source':str(Path(row['folder']).relative_to(ROOT)/'record.json')})
+-        tables['external']=points
+-        write_csv(out/'blenderworld_adapted.csv',points,list(points[0]) if points else [])
++        tables[phase]=points
++        write_csv(out/(table_name+'.csv'),points,list(points[0]) if points else [])
+     (out/'additional_stage_analysis.json').write_text(json.dumps(tables,ensure_ascii=False,indent=2))
+     return tables
+ 

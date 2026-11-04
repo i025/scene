@@ -1,0 +1,13 @@
+--- before/extras.py
++++ after/extras.py
+@@ -63,8 +63,9 @@
+ 
+ 
+ def main():
+-    if read(ROOT/'state.json',{}).get('phase') not in ['supplement_complete','extras_complete']:raise RuntimeError('Main and fixed supplementary tests must finish first')
+     if (ROOT/'extras_status.json').exists() and read(ROOT/'extras_status.json').get('status')=='complete':return
++    if read(ROOT/'supplement_status.json',{}).get('status') not in ('complete','completed_with_failures'):
++        raise RuntimeError('Main and fixed supplementary tests must finish first')
+     sources=initial_sources();available=600-current()['cli_sessions']
+     prior=read(ROOT/'ablation_protocol.json')
+     minimal=prior.get('scope')=='minimum_four_condition_feasibility' if prior else 68<=available<146

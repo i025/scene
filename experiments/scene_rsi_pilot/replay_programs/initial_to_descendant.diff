@@ -1,0 +1,180 @@
+--- M_initial.py
++++ M_descendant.py
+@@ -1,18 +1,162 @@
+-"""scene_rsi_pilot M_initial: bounded intervention and dependency regression guidance."""
++"""Evidence-driven probe allocation and dependency-aware regression planning.
++Consumes supplied development records only; performs no execution or rendering.
++"""
++import ast
++
++
++CHECKS = ('structure_pass', 'material_pass', 'composite_pass')
++GUIDANCE = {
++    'structure_pass': 'Check finite nonempty meshes, unique attachment slots, valid primitives and semantic ownership before detailing.',
++    'material_pass': 'Resolve target mesh descendants; copy shared materials for local changes; preserve non-target matrices, vertices, parents and material nodes.',
++    'composite_pass': 'Keep all expected attached components under their semantic owner; check relative transforms and non-target preservation under the prescribed move.'
++}
++
++
++def _location(program, target):
++    # Only an exact literal include slot is a proven static mapping.
++    # Dynamic names, helper expansion and Blender suffixes remain unknown.
++    if not isinstance(target, str) or target == 'unknown':
++        return 'unknown'
++    try:
++        tree = ast.parse(program)
++    except (SyntaxError, TypeError):
++        return 'unknown'
++    lines = []
++    for node in ast.walk(tree):
++        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
++                and node.func.attr == 'include' and node.args
++                and isinstance(node.args[0], ast.Constant)
++                and node.args[0].value == target):
++            lines.append(node.lineno)
++    return 'program:line ' + str(lines[0]) if len(lines) == 1 else 'unknown'
++
++
++def _dependencies(scene, target):
++    rows = scene.get('structure', {}).get('objects', [])
++    by_name = {r.get('name'): r for r in rows}
++    regression = scene.get('regression', {})
++    selection = regression.get('target_selection') or scene.get('structure', {}).get('target', {})
++    meshes = selection.get('mesh_names', [])
++    materials = sorted({m for name in meshes for m in by_name.get(name, {}).get('material_names', [])})
++    parent = by_name.get(target, {}).get('parent', 'unknown')
++    peers = sorted({r['name'] for r in rows if r.get('name') not in meshes
++                    and r.get('type') == 'MESH'
++                    and set(r.get('material_names', [])).intersection(materials)})
++    return {'target_meshes': meshes, 'parent': parent,
++            'observed_materials': materials, 'observed_shared_material_meshes': peers,
++            'coverage': scene.get('structure', {}).get('evidence_projection', 'unknown'),
++            'limitation': 'Projected rows cannot certify omitted dependencies; AABB relations are not true contact or collision.'}
++
++
+ def plan(packet):
+-    scenes = packet['development']
++    scenes = packet.get('development', [])
++    controlled = packet.get('controlled_probes', []) or []
++    diagnostics = []
++    candidates = []
++    counts = {key: {'pass': 0, 'fail': 0, 'unknown': 0} for key in CHECKS}
++    risks = {key: 0 for key in CHECKS}
++    work = []
++
++    for scene in scenes:
++        sid = scene.get('scene_id', 'unknown')
++        functional = scene.get('functional') or {}
++        target = scene.get('target_object') or functional.get('target_object') or 'unknown'
++        location = _location(scene.get('program', ''), target)
++        deps = _dependencies(scene, target)
++        results = [p for p in controlled if p.get('scene_id') == sid]
++        events = scene.get('trajectory', {}).get('events', [])
++        errors = [e for e in events if e.get('event') == 'execution_result' and e.get('ok') is False]
++        complete = scene.get('status') == 'complete' and scene.get('metrics', {}).get('valid') is not False
++        for key in CHECKS:
++            value = functional.get(key)
++            counts[key]['pass' if value is True else 'fail' if value is False else 'unknown'] += 1
++        risks['structure_pass'] += len(errors)
++        risks['material_pass'] += bool(deps['observed_shared_material_meshes'])
++        risks['composite_pass'] += deps['parent'] != 'unknown'
++        base = {'scene_id': sid, 'object_id': target, 'code_location': location}
++        if not complete:
++            diagnostics.append(dict(base, observation='No complete valid output is established by the supplied status/metrics.',
++                                    observation_type='output_failure', hypothesis='unknown', probe='none',
++                                    probe_result='not_run', planned_change='Prioritize general build/output recovery; do not invent visual measurements.'))
++        if errors:
++            diagnostics.append(dict(base, object_id='unknown', code_location='trajectory.execution_result.stderr',
++                                    observation=[{'step': e.get('step'), 'stderr': e.get('stderr', 'unknown')} for e in errors],
++                                    observation_type='measured_execution_failure', hypothesis='Pre-execution review may prevent repeated API errors.',
++                                    probe='none', probe_result='not_run', planned_change='Audit all primitive bounds, world initialization and naming before spending an execution.'))
++        diagnostics.append(dict(base, observation={'functional': functional, 'dependencies': deps},
++                                observation_type='supplied_regression_and_structure',
++                                hypothesis='Passing selected-target edits does not establish whole-object completeness or semantic support.',
++                                probe='prescribed_material_and_move', probe_result=scene.get('regression', 'unknown'),
++                                planned_change='Preserve working edit structure; review owner membership, copy-on-edit materials and relative transforms for changed modules.'))
++        for probe in results:
++            result = probe.get('result') or {}
++            actual_target = result.get('target_selection', {}).get('object', 'unknown')
++            before = probe.get('baseline_visual_metrics') or {}
++            after = probe.get('visual_metrics') or {}
++            delta = {k: after[k] - before[k] for k in after.keys() & before.keys()
++                     if type(after[k]) in (float, int) and type(before[k]) in (float, int)}
++            kind = probe.get('probe', 'unknown')
++            diagnostics.append({
++                'scene_id': sid, 'object_id': actual_target,
++                'code_location': 'program:set_view' if kind == 'camera_focal' and 'set_view(' in scene.get('program', '') else _location(scene.get('program', ''), actual_target),
++                'observation': {'baseline': before, 'after': after, 'delta': delta, 'intervention': result},
++                'observation_type': 'controlled_observation' if result.get('status') == 'completed' else 'probe_failure_or_unknown',
++                'hypothesis': 'Camera versus semantic-object scale remains unresolved; selected child coverage and intervention scope must be checked.',
++                'probe': kind, 'probe_result': result.get('status', 'unknown'),
++                'planned_change': 'Use multiple architectural/depth anchors for camera review and the complete semantic owner for size review; do not copy a probe factor into shared H.'})
++        diagnostics.append(dict(base, object_id='unknown', code_location='unknown',
++                                observation={'support_truth': functional.get('support_collision_truth'),
++                                             'semantic_completeness': functional.get('semantic_object_completeness')},
++                                observation_type='explicit_unknowns',
++                                hypothesis='A visually absent item could be omitted, overwritten, cropped, occluded or low contrast; support errors need specific surface evidence.',
++                                probe='isolate', probe_result='not_run' if not any(p.get('probe') == 'isolate' for p in results) else 'see_controlled_observation',
++                                planned_change='Check inventory and owner construction before duplication; derive support from the actual surface and retain uncertain mappings as unknown.'))
++        work.append(dict(base, dependencies=deps, target_modules=scene.get('target_modules', 'unknown'),
++                         modification_risks={'structure': 'Owner regrouping can detach geometry or change the fixed selected target.',
++                                             'material': 'Shared finishes can spread a local shader edit.',
++                                             'composite': 'Loose or externally created parts may fail to follow the owner; constraints can undo motion.'}))
++        if complete and sid != 'unknown':
++            candidates.append((sid, results, scene))
++
++    # Never assume that absent result records imply unused probes.
++    # An explicit count or allowance is required to allocate fresh diagnostics.
++    supplied_count = packet.get('already_executed_probe_count')
++    used = max(len(controlled), supplied_count if isinstance(supplied_count, int) else len(controlled))
++    allowance = packet.get('remaining_probe_budget')
++    if isinstance(allowance, int):
++        available = max(0, min(2 - used, allowance))
++    elif isinstance(supplied_count, int):
++        available = max(0, 2 - used)
++    else:
++        available = 0
+     probes = []
+-    diagnoses = []
+-    for scene in scenes:
+-        if scene['status'] != 'complete':
+-            diagnoses.append({'scene_id': scene['scene_id'], 'object_id': 'unknown', 'code_location': 'unknown', 'observation': 'No valid output; consult execution log', 'observation_type': 'measured', 'hypothesis': 'unknown', 'probe': 'none', 'probe_result': 'not_run', 'planned_change': 'Investigate general runtime failure before visual diagnosis'})
++    # Prefer completing a paired sensitivity comparison; isolation is appropriate
++    # only when an explicit visibility ambiguity is present in the packet.
++    for sid, results, scene in candidates:
++        seen = {p.get('probe') for p in results}
++        desired = ['isolate'] if scene.get('occlusion_omission_ambiguity') is True else ['camera_focal', 'object_scale']
++        if desired != ['isolate'] and not seen and available < 2:
+             continue
+-        target = scene.get('target_object', 'unknown')
+-        # Paired one-factor interventions distinguish camera from geometry sensitivity.
+-        probes = [{'scene_id': scene['scene_id'], 'kind': kind} for kind in ['camera_focal', 'object_scale']]
+-        diagnoses.append({'scene_id': scene['scene_id'], 'object_id': target, 'code_location': 'unknown', 'observation': 'Reference/render disagreement; magnitude is measured by fixed visual metrics', 'observation_type': 'measured_metric_with_unresolved_visual_cause', 'hypothesis': 'Camera framing or object scale may contribute; this is a hypothesis, not attribution', 'probe': 'camera_focal and object_scale', 'probe_result': 'awaiting controlled intervention', 'planned_change': 'Use probe sensitivity and dependency regression evidence to choose a shared H change'})
+-        break
+-    failures = {key: sum(not row.get('functional', {}).get(key, False) for row in scenes) for key in ['structure_pass', 'material_pass', 'composite_pass']}
+-    priorities = sorted(failures, key=lambda key: (-failures[key], key))
+-    return {'probes': probes, 'diagnoses': diagnoses, 'regression_priorities': priorities, 'regression_guidance': True,
+-            'instruction': 'Improve shared H and executable M using the controlled probe results and fixed functional regression evidence. Cover camera/object scale confusion, support/spatial relations, and occlusion/omission as applicable. Keep measured facts separate from visual hypotheses and historical heuristics. Link scene_id, object_id, code_location, observation, hypothesis, probe, probe_result, planned_change; unknown mappings must remain unknown. Do not assert causality from a single score delta. Use target modules/dependencies and modification risks to prioritize object structure, local material non-target preservation and composite movement checks. All final objectives and acceptance remain fixed. Modify meta.py only when an executable strategy change is justified; a memory append alone is not meta improvement. Return a reusable H, never a per-scene patched P.'}
++        for kind in desired:
++            if available <= 0:
++                break
++            if kind not in seen:
++                probes.append({'scene_id': sid, 'kind': kind})
++                available -= 1
++        if probes:
++            break
++    priorities = sorted(CHECKS, key=lambda k: (-counts[k]['fail'], -risks[k], CHECKS.index(k)))
++    return {
++        'probes': probes, 'diagnoses': diagnostics,
++        'regression_priorities': priorities, 'regression_counts': counts,
++        'regression_guidance': True, 'dependency_review': work,
++        'checks': [{'kind': key, 'guidance': GUIDANCE[key]} for key in priorities],
++        'instruction': (
++            'Improve shared H using supplied evidence only. Recover build/output failures before visual diagnosis. '
++            'Use controlled results as scope-limited sensitivity evidence, never causal attribution from one delta. '
++            'Review camera against multiple anchors, object scale at its semantic owner, actual support surfaces, '
++            'and construction versus occlusion for missing items. Keep measured facts, visual hypotheses and '
++            'historical heuristics separate. Preserve local material non-target state and composite movement. '
++            'Unknown mappings stay unknown. Do not modify SceneAct, model roles, evaluator, objectives, '
++            'acceptance, splits or resource limits. Return reusable H, not a patched per-scene generator.')
++    }

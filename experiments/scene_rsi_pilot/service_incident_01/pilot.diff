@@ -1,0 +1,44 @@
+--- before/pilot.py
++++ after/pilot.py
+@@ -15,7 +15,7 @@
+ from data import write_json
+ from processes import cpu_environment,run_group
+ from budget import current,guard
+-from codex_wrapper import call
++from codex_wrapper import call,check_service_pause
+ from strategies import initialize,COMMON
+ from model_evidence import compact_structure,compact_trajectory,bound_payload
+ from devices import inspection_config
+@@ -93,6 +93,7 @@
+     return {'id':scene['scene_id'],'image':str(folder/'reference.png'),'width':im.width,'height':im.height}
+ 
+ def run_scene(method,run_id,candidate,scene,source,parent=None,meta=None):
++    check_service_pause()
+     from inner_loop import run
+     from evaluate import score
+     folder=ROOT/'results'/run_id/method/candidate/scene['split']/scene['scene_id']
+@@ -138,6 +139,7 @@
+     write_json(folder/'record.json',row)
+     if (folder/'build.py').exists() and not (folder/'scene.py').exists():(folder/'scene.py').symlink_to('build.py')
+     write_json(ROOT/'ledger.json',current())
++    check_service_pause()
+     print(json.dumps({k:row[k] for k in ['method','run_id','scene_id','candidate_id','split','status','metrics']},ensure_ascii=False),flush=True)
+     return row
+ 
+@@ -164,6 +166,7 @@
+     return packet,images
+ 
+ def propose(method,run_id,k,parent_source,meta_source,parent_dev,archive,total_candidates=2):
++    check_service_pause()
+     cid=f'C{k}';folder=ROOT/'candidates'/run_id/method/cid;result_path=folder/'proposal_result.json'
+     if result_path.exists():return folder,read(result_path)
+     folder.mkdir(parents=True,exist_ok=True)
+@@ -265,7 +268,7 @@
+         result.update({'M_strategy_structure_changed':strategy_changed,'status':'proposed','M_changed':(folder/'meta.py').read_text()!=sources['meta.py'],'parent_source':str(parent_source),'used_M':str(meta_source)})
+     except (ValueError,SyntaxError,RuntimeError,OSError,subprocess.TimeoutExpired) as error:
+         result={'status':'proposal_failed','error':str(error),'M_changed':False,'parent_source':str(parent_source),'used_M':str(meta_source)}
+-    write_json(result_path,result);write_json(ROOT/'ledger.json',current());return folder,result
++    write_json(result_path,result);write_json(ROOT/'ledger.json',current());check_service_pause();return folder,result
+ 
+ def main():
+     if not (ROOT/'protocol_frozen.json').exists():raise RuntimeError('Freeze protocol after successful smoke before pilot')

@@ -1,0 +1,79 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "base",
+    "kind": "group",
+    "mesh_names": [
+      "Ball.062",
+      "Ball.063",
+      "Ball.064",
+      "Ball.065",
+      "Ball.066",
+      "Ball.067",
+      "Ball.068",
+      "Ball.069",
+      "Box.004",
+      "Box.005",
+      "Box.006",
+      "Rod.064",
+      "Rod.065",
+      "Rod.066",
+      "Rod.067",
+      "Rod.068",
+      "Rod.069",
+      "Rod.070",
+      "Rod.071",
+      "Rod.072",
+      "Rod.073",
+      "Rod.074",
+      "Rod.075"
+    ],
+    "group_name": "base",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 747,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": true,
+    "displacement_scene_units": [
+      0.4432338774204254,
+      0.0,
+      0.0
+    ],
+    "displacement_normalized": [
+      0.1,
+      0,
+      0
+    ],
+    "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+    "target_success": true,
+    "relation_max_abs_matrix_delta": 1.4901161193847656e-08,
+    "part_relations_preserved": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 723,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "pass": true,
+    "edited_blend": "edited.blend"
+  },
+  "render_attempts": 3,
+  "renders_completed": 3
+}

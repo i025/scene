@@ -1,0 +1,173 @@
+{
+  "task_id": "bw_0005",
+  "prompt": "We're handling the interior fit-out for this Montessori classroom, and I need a render to walk the owner and site supervisor through the layout at next month's progress review — clean enough that we can add markups on it. Please follow the room in the image: a bright rectangular space with a full row of large windows along the back wall for daylight, light walls and a light wood floor. Estimate the ceiling height from the image proportions, and don't change the layout. The main pieces are several waist-high open wooden low cabinets and shelves running along the walls and through the middle of the room; on the shelves, lay out Montessori materials loosely with trays, small wooden boxes and geometric blocks — no need to match every item. Put one or two light-wood activity tables with child-sized stools in the center and a round rug on the floor, and fill in any other usual furnishings within the reference image. Keep all the wood a warm natural tone with a matte grain, cream walls, light wood flooring; size everything so everything stays in scale with kids. The key thing is that the overall layout and how the furniture relates reads at a glance, with the main pieces not buried under clutter, so it's easy to follow and leaves room for callouts. Use daylight from the windows as the key light — warm-white, soft, slightly directional — plus a soft even ambient fill for a bright, airy feel. Put the camera in a corner and shoot a slightly wide-angle panorama covering most of the layout. Render with Cycles at 1920×1080, sampling and denoising tuned clean, and hand over the saved.blend too.",
+  "lang": "en",
+  "mode": "prompt_image",
+  "attachments": [],
+  "image_file": "references/image_01.jpg",
+  "rubric_count": 9,
+  "rubrics": [
+    {
+      "id": "R01",
+      "category": "space_layout",
+      "importance": "major",
+      "subject": "reference_based_room_shell_and_plan",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The room shell, reference-derived proportions, major furnishing zones, and supporting classroom contents collectively preserve the depicted classroom plan.",
+      "pass_condition": "The final render shows a bright, conventionally rectangular Montessori classroom with multiple large windows forming a substantially continuous row across the back-wall zone. The ceiling-to-room proportion is a credible estimate from the reference, and the major room and furniture layout is not materially redesigned. Perimeter low storage, freestanding middle or foreground storage, central and rear activity areas, and visible circulation retain the broad relative organization shown in the classroom inset. Reasonable ancillary classroom furnishings visible in the reference are represented as a plausible supporting layer, while indistinct minor objects may be generalized.",
+      "fail_condition": "Fail if any required clause is not satisfied: the room is not a bright recognizable rectangle, the back wall lacks a full row of large windows, the ceiling proportion is implausible relative to the reference, the major zones are materially rearranged or missing, circulation no longer follows the broad reference organization, or the room lacks a reasonable supporting layer of usual reference-visible furnishings.",
+      "category_v2": "space_layout",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R02",
+      "category": "layout",
+      "importance": "major",
+      "subject": "low_open_storage_system",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The classroom has a complete child-accessible low-storage system in both perimeter and middle-room zones.",
+      "pass_condition": "Several distinct main storage units are visibly wooden, waist-high at child scale, and open-fronted with readable accessible shelves or cabinet compartments, and these units form both wall-side runs and at least one freestanding storage zone extending through the middle of the classroom.",
+      "fail_condition": "Fail if there are not several qualifying units, if the principal storage is adult-height, non-wooden, or closed-fronted, if shelf or compartment openings are not readable, or if qualifying storage occurs only along the walls or only in the middle instead of both required zones.",
+      "category_v2": "layout",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R03",
+      "category": "function",
+      "importance": "major",
+      "subject": "montessori_shelf_material_system",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The storage contains a generalized but recognizable, properly supported Montessori learning-material assortment.",
+      "pass_condition": "The shelves contain a loosely organized Montessori assortment with at least one recognizable tray, at least one recognizable small wooden box, and recognizable geometric blocks, with all three specified material types resting on or within the shelving as usable contents rather than appearing as unrelated floor clutter; item-for-item reproduction of the reference is not required.",
+      "fail_condition": "Fail if a recognizable tray, a recognizable small wooden box, or recognizable geometric blocks are absent; if a non-wooden or non-box container is substituted for the required small wooden box; if the assortment does not read as Montessori shelf contents; or if the objects are unsupported, primarily scattered on the floor, or otherwise unrelated to the shelves.",
+      "category_v2": "function",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R04",
+      "category": "layout",
+      "importance": "major",
+      "subject": "child_scaled_central_activity_system",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "The central activity furniture, rug, and overall classroom scale form a coherent young-child environment.",
+      "pass_condition": "Exactly one or two principal light-wood activity tables occupy the central area, with visibly child-sized stools positioned in a plausible usable relationship around or beside the table or tables. A circular or clearly near-circular rug lies flat on and is visibly supported by the classroom floor as part of the activity arrangement. The room, shelves, tables, stools, learning materials, windows, and circulation have mutually credible young-child proportions, with low accessible furniture and usable clearances rather than incompatible adult and child scales.",
+      "fail_condition": "Fail if the number of principal activity tables is outside one or two, the table group is not central or not light wood, associated child-sized stools are absent or unusably placed, the rug is absent, insufficiently round, floating, or not laid on the floor, or any principal scale inconsistency prevents the room from reading as a coherent young-child environment.",
+      "category_v2": "layout",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R05",
+      "category": "material",
+      "importance": "major",
+      "subject": "coordinated_classroom_surface_system",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "All principal wooden elements, walls, and flooring use the requested coordinated warm, matte, light natural finish system.",
+      "pass_condition": "All clearly identifiable wooden furniture and wooden learning materials consistently read as warm natural wood with low sheen, and sufficiently large visible wood surfaces show discernible grain rather than flat plastic color. Visible walls are predominantly cream or a closely related light neutral, and the classroom floor visibly reads as pale or light natural wood rather than dark wood, carpet, tile, or another unrelated finish.",
+      "fail_condition": "Fail if identifiable principal wood is predominantly cool, painted, glossy, plastic-like, inconsistently colored, or lacks readable grain on sufficiently large surfaces, or if the visible walls are not predominantly cream or light neutral, or if the floor does not read as light natural wood.",
+      "category_v2": "material",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R06",
+      "category": "composition",
+      "importance": "major",
+      "subject": "markup_ready_corner_overview",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The saved final camera and author’s final render provide a corner-based, mildly wide, uncluttered overview suited to layout review and callouts.",
+      "pass_condition": "The author’s final render makes the overall layout and major furniture relationships readable at a glance, keeps principal pieces from being buried under clutter, preserves understandable circulation, and leaves sufficient calm or open image areas for review callouts and markups. Project inspection confirms that the saved final camera is positioned in or near a room corner and uses perspective optics consistent with a slightly wide-angle view, while the author’s final render is broadly horizontal, looks across the room, covers most major furniture zones, and avoids severe fisheye distortion.",
+      "fail_condition": "Fail if the final view is cluttered or spatial relationships are difficult to follow, principal furniture is obscured, no practical calm area remains for markups, the saved camera is not corner-based, its optics are not mildly wide perspective, the author’s final image omits much of the layout, or severe distortion prevents clear reading.",
+      "category_v2": "composition",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R07",
+      "category": "lighting",
+      "importance": "major",
+      "subject": "daylight_and_ambient_lighting_system",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "render",
+      "criterion": "Window daylight acts as the soft directional key while ambient fill produces a bright, airy, evenly legible classroom.",
+      "pass_condition": "The back windows visibly function as the principal warm-white key light, with soft illumination and gentle directional shading or shadows showing influence from the window side rather than an unrelated dominant source. Soft, even ambient fill keeps architecture, shelf interiors, furniture, and room surfaces broadly legible away from the windows, avoids harshly black areas, and produces an overall bright and airy balance.",
+      "fail_condition": "Fail if the windows do not read as the principal key, the key is harsh or strongly off-color, gentle direction from the window side is absent, or the ambient fill is missing, uneven, or excessive such that the requested bright, soft, airy, and broadly legible result is not achieved.",
+      "category_v2": "lighting",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R08",
+      "category": "function",
+      "importance": "major",
+      "subject": "finished_image_delivery",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The actual author-delivered finished render is readable and exactly 1920 by 1080 pixels.",
+      "pass_condition": "An author-delivered finished render file opens successfully, and inspection of its actual file metadata reports an exact raster size of 1920 by 1080 pixels.",
+      "fail_condition": "Fail if no author-delivered finished render is available, the file cannot be opened as an image, or its actual metadata reports any dimensions other than exactly 1920 by 1080 pixels.",
+      "category_v2": "function",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R09",
+      "category": "function",
+      "importance": "major",
+      "subject": "editable_blender_project_and_render_configuration",
+      "requirement_source": "prompt_explicit",
+      "evidence_type": "scene_summary",
+      "criterion": "The readable editable Blender project contains the relevant final scene and uses the requested Cycles, sampling, and denoising configuration to produce a clean render.",
+      "pass_condition": "Inspection of the original delivered .blend confirms that its active final-render engine is Cycles rather than an evaluator override. The original saved final-render configuration has sampling set for a clean result and active denoising that actually affects the final output, and the author’s final render has no conspicuous sampling grain, fireflies, or materially damaging denoising artifacts. The delivered .blend exists, opens successfully, and contains the relevant editable classroom scene, assets, materials, lighting, saved final camera, and final-render setup.",
+      "fail_condition": "Fail if any required clause is not satisfied: the original project does not use Cycles as its active final engine, final sampling or effective output denoising is absent, the author’s final image has conspicuous noise or denoising damage, or the .blend is missing, unreadable, unrelated, or lacks the relevant editable classroom scene or final setup.",
+      "category_v2": "function",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    }
+  ]
+}

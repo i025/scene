@@ -1,0 +1,56 @@
+--- before/extras.py
++++ after/extras.py
+@@ -1,5 +1,6 @@
+ """Budget-gated, predeclared ablations; never decides continuation from winners."""
+ from pathlib import Path
++import ast
+ import json
+ import shutil
+ import time
+@@ -9,15 +10,31 @@
+ 
+ VARIANTS=['generic_same_structured_evidence','ours_without_probes','ours_without_regression_guidance']
+ 
++def generic_evidence_source():
++    """Reuse the evidence fields without exposing the unused Ours instruction."""
++    node=next(n for n in ast.parse(OURS).body if isinstance(n,ast.FunctionDef))
++    node.name='structured_evidence'
++    def probe_assignment(statement):
++        return isinstance(statement,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='probes' for t in statement.targets)
++    node.body=[statement for statement in node.body if not probe_assignment(statement)]
++    for statement in ast.walk(node):
++        if isinstance(statement,ast.For):
++            statement.body=[item for item in statement.body if not probe_assignment(item)]
++    returned=node.body[-1]
++    pairs=[(key,value) for key,value in zip(returned.value.keys,returned.value.values)
++           if key.value in ('diagnoses','regression_priorities')]
++    returned.value=ast.Dict(keys=[key for key,value in pairs],values=[value for key,value in pairs])
++    return GENERIC.replace('def plan(packet):','def generic_plan(packet):')+'\n'+ast.unparse(node)+'''\ndef plan(packet):
++    generic = generic_plan(packet)
++    evidence = structured_evidence(packet)
++    generic['diagnoses'] = evidence['diagnoses']
++    generic['regression_priorities'] = evidence['regression_priorities']
++    return generic
++'''
++
+ def initial_sources():
+     folder=ROOT/'ablation_initial';folder.mkdir(exist_ok=True)
+-    combined=GENERIC.replace('def plan(packet):','def generic_plan(packet):')+'\n'+OURS.replace('def plan(packet):','def structured_plan(packet):')+'''\ndef plan(packet):
+-    generic = generic_plan(packet)
+-    evidence = structured_plan(packet)
+-    generic['diagnoses'] = evidence.get('diagnoses', [])
+-    generic['regression_priorities'] = evidence.get('regression_priorities', [])
+-    return generic
+-'''
++    combined=generic_evidence_source()
+     without_probe=OURS.replace("'probes': probes, 'diagnoses'", "'probes': [], 'diagnoses'")
+     without_probe=without_probe.replace("'instruction': 'Improve shared H", "'instruction': 'Active diagnostics are disabled in this ablation. You MUST return requested_probes=[]; use existing evidence only. Improve shared H")
+     without_probe=without_probe.replace('awaiting controlled intervention','disabled by frozen ablation').replace('camera_focal and object_scale','disabled; passive evidence only').replace('Use probe sensitivity and dependency regression evidence','Use passive visual/geometric and dependency regression evidence').replace('using the controlled probe results and fixed functional regression evidence','using existing visual/geometric observations and fixed functional regression evidence')
+@@ -59,6 +76,7 @@
+     if minimal:dev,sel,test=dev[:1],sel[:1],test[:1]
+     protocol={'common_config_snapshot':config(),'stage':'independent_generation_ablations','scope':'minimum_four_condition_feasibility' if minimal else 'matched_main_scope','repeats':repeats,'K':candidates,'required_upper_bound_cli':required,'available_cli_at_freeze':available,'selection':'1/1/1 first manifest scene per split; all four conditions generate fresh H from the same r1 H0 evidence' if minimal else 'same2/2/4 scenes; per-repeat H0 evidence reused; all variants have independent fresh proposals and generated H','chosen_from_budget_not_results':True,'main_test_is_not_new_blind_data':True,'reference':'fresh Ours M_initial/H0 proposal, identical reduced inputs and budgets' if minimal else 'main Ours from matching repeat; for K1 use only original C1 plus H0, selected on original Selection and evaluate that H if it was not terminally evaluated; variant H generation is independent','methods':methods,'scene_ids':{key:[s['scene_id'] for s in values] for key,values in [('development',dev),('selection',sel),('test',test)]},'frozen_time':time.time()}
+     protocol['without_regression_feedback_mask']='Hide measured functional results and prior retention Boolean from proposal input; preserve raw geometry, visual Q and unchanged final evaluator/gates. Raw geometry can still support inferred risk.'
++    protocol['structured_evidence_control']='Reuse only initial Ours diagnoses/priorities formatter; Generic instruction and probe policy unchanged. Unused Ours instruction/probe-policy source omitted. Before first resumed ablation; audit quota_restored_20261103/ablation_evidence_control.'
+     if not prior:write_json(ROOT/'ablation_protocol.json',protocol)
+     if not repeats:
+         write_json(ROOT/'extras_status.json',{'status':'pending_budget','ablations':'pending: fewer than68 CLI sessions remain, below the smallest fresh four-condition1/1/1 K1 group upper bound','frozen_meta_replay':'pending: next priority after ablations, no result claimed','external_blenderworld':'pending: no official/adapted score produced','remaining_cli':available});return

@@ -1,0 +1,8 @@
+--- before/README.md
++++ README.md
+@@ -46,3 +46,5 @@
+ 后续用户明确要求继续后，`resume-service`的一次连接检查已经成功，队列09继续尚未运行的槽位。实时执行状态见`service_incident_02/execution_09.json`和`state.json`，最终结果见各阶段状态；这是同一600会话预算内的续跑，失败任务没有重开。消融缓存续跑的冻结时间戳修正记录见`service_incident_02/ablation_freeze_resume_audit.json`。
+ 
+ 最新停止快照：队列09新增13次会话后，以路由服务错误退出，累计546/600。原4个待运行消融槽全部尝试，新增3个成功和1个路由失败；消融终测最终10/12成功、2服务失败。元回放、BlenderWorld尚未启动，原因是服务阻塞，剩余54次预算未消耗。`service_incident_03/closeout.json`保存本次逐调用对账；`resume-service`为新故障03保留一个需要显式执行的连接检查入口，本次没有执行它，也没有重开任何失败场景。已有消融完成状态包含失败，续跑会直接复用。
++
++后续队列10已通过故障03的一次连接检查并启动元回放，实时状态见`service_incident_03/execution_10.json`和阶段状态。BlenderWorld随后按`config.json/external_stage`、纯余额缩放：≥24次运行原2任务，12–23次仅首任务bw_0005，<12待运行；H0与Ours同规模，不改模型、H选择、内层预算、渲染或评分。该独立外部阶段适配在外部调用/结果为0、元回放Test冻结前记录，非原始预注册，见`external_budget_adaptation/preuse_rule.json`；单任务只报告可行性，未跑bw_0011明确pending。总600/1500不扩大。

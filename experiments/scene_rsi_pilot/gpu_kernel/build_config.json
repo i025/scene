@@ -1,0 +1,18 @@
+{
+  "source_root": "__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/4.2/scripts/addons_core/cycles/source",
+  "compiler": "/usr/local/cuda-12.2/bin/nvcc",
+  "version": "12.2.140",
+  "architecture": "sm_80",
+  "options": [
+    "-m64",
+    "--cubin",
+    "--gpu-architecture=sm_80",
+    "--use_fast_math",
+    "-DNVCC"
+  ],
+  "source_entry": "kernel/device/cuda/kernel.cu",
+  "source_modified": false,
+  "cycles_version": "Blender 4.2.10 existing runtime",
+  "label": "local_a100_cuda122_v1",
+  "purpose": "Existing runtime lacks sm_80 cubin; bundled PTX is unsupported by installed driver 535.247.01"
+}

@@ -1,0 +1,84 @@
+--- prior_fixed/pilot.py
++++ restart_fixed/pilot.py
+@@ -176,6 +176,7 @@
+         if not isinstance(requested,list) or len(requested)>2:raise ValueError('Meta probe menu budget is at most two')
+         for p in requested:
+             if not isinstance(p,dict) or p.get('kind') not in ('camera_focal','object_scale','isolate') or p.get('scene_id') not in {r['scene_id'] for r in parent_dev}:raise ValueError('Meta probe is outside frozen development/menu contract')
++        json.dumps(plan)
+     except Exception as error:
+         result={'status':'meta_execution_failed','error':repr(error),'M_changed':False,'used_M':str(meta_source)}
+         write_json(result_path,result);return folder,result
+@@ -256,7 +257,7 @@
+                 if isinstance(node,ast.Constant) and isinstance(node.value,str):node.value='<string>'
+         strategy_changed=ast.dump(before_meta)!=ast.dump(after_meta)
+         result.update({'M_strategy_structure_changed':strategy_changed,'status':'proposed','M_changed':(folder/'meta.py').read_text()!=sources['meta.py'],'parent_source':str(parent_source),'used_M':str(meta_source)})
+-    except (ValueError,RuntimeError,OSError,subprocess.TimeoutExpired) as error:
++    except (ValueError,SyntaxError,RuntimeError,OSError,subprocess.TimeoutExpired) as error:
+         result={'status':'proposal_failed','error':str(error),'M_changed':False,'parent_source':str(parent_source),'used_M':str(meta_source)}
+     write_json(result_path,result);write_json(ROOT/'ledger.json',current());return folder,result
+ 
+--- prior_fixed/replay.py
++++ restart_fixed/replay.py
+@@ -0,0 +1,62 @@
++"""Smallest frozen-M replay, gated by a real used descendant and new reserved scenes."""
++from pathlib import Path
++import json
++import time
++import pilot
++from pilot import ROOT,read,write_json,current,run_scene,propose,summarize,better
++
++
++def main():
++    existing=read(ROOT/'replay_status.json',{})
++    if existing.get('status')=='complete':return
++    if not (ROOT/'selection_freeze.json').exists():raise RuntimeError('Main selection must be frozen first')
++    desc=None
++    for rid in ['r1','r2']:
++        proposal=read(ROOT/'candidates'/rid/'scene_rsi_pilot'/'C1'/'proposal_result.json',{})
++        invocation=read(ROOT/'candidates'/rid/'scene_rsi_pilot'/'C2'/'meta_execution.json',{})
++        candidate=ROOT/'candidates'/rid/'scene_rsi_pilot'/'C1'/'meta.py'
++        subsequent=next((a for a in read(ROOT/'archive.json',[]) if a['method']=='scene_rsi_pilot' and a['run_id']==rid and a['candidate_id']=='C2'),{})
++        if proposal.get('M_strategy_structure_changed') and invocation.get('source')==str(candidate) and subsequent.get('development',{}).get('completed',0)>0:
++            desc=candidate;break
++    if desc is None:
++        write_json(ROOT/'replay_status.json',{'status':'pending_no_executed_strategy_descendant','message':'本轮未获得可用元策略后代；只有提示字符串变化也不算结构策略后代。','entrypoint':'bash run.sh resume'});return
++    starts=[];archive=read(ROOT/'archive.json',[])
++    for method in ['sceneevolve_cli','generic_rsi']:
++        entry=next((a for a in archive if a['method']==method and a['run_id']=='r2' and a['candidate_id']=='C1'),{})
++        source=ROOT/'candidates'/'r2'/method/'C1'
++        if entry.get('development',{}).get('completed',0)>0:starts.append(source)
++    if not starts:
++        write_json(ROOT/'replay_status.json',{'status':'pending_no_qualified_unfamiliar_start','message':'没有已执行成功、未出现在Ours显式研发档案中的预保留异方法H起点。'});return
++    available=600-current()['cli_sessions']
++    if available<49:
++        write_json(ROOT/'replay_status.json',{'status':'pending_budget','required_cli_upper_bound':49,'remaining_cli':available,'scope':'smallest feasibility replay: one unfamiliar H, one proposal per frozen M, 1dev/1selection/1newtest'});return
++    # Fixed ordering, never choose a start or descendant by main Test performance.
++    start=starts[0];initial=ROOT/'initial_meta/scene_rsi_pilot/meta.py';reserved=[s for s in read(ROOT/'manifest.json') if s['split']=='reserved'][:3]
++    if len(reserved)<3:raise RuntimeError('Need three reserved independent scene groups')
++    scenes=[{**s,'split':split} for s,split in zip(reserved,['replay_development','replay_selection','replay_test'])]
++    protocol={'scope':'feasibility_only_one_start_one_proposal_per_M','M_initial':str(initial),'M_descendant':str(desc),'H_start':str(start),'scenes':scenes,'K':1,'meta_frozen':True,'explicit_memory':'Both receive only the same H_start development trajectory and source. No external historical archive. Learned rules inside frozen M source remain part of M.','main_test_reused':False,'historical_exposure':'exploratory source images were historically screened','budget_upper_cli':49,'time':time.time()}
++    write_json(ROOT/'replay_protocol.json',protocol)
++    base_dev=run_scene('H_start','replay','H_start',scenes[0],start)
++    base_sel=run_scene('H_start','replay','H_start',scenes[1],start)
++    choices=[];original_common=pilot.COMMON
++    pilot.COMMON += '\nFROZEN META REPLAY: meta.py is immutable in this stage. Do not return a change to meta.py. Only shared policy.py/system.txt may change. This is K=1 and there is no future M modification. Both frozen M versions start from the identical unfamiliar H and explicit development evidence.'
++    try:
++        for label,meta in [('M_initial',initial),('M_descendant',desc)]:
++            source,result=propose(label,'replay',1,start,meta,[base_dev],[])
++            valid=result['status']=='proposed' and (source/'meta.py').read_text()==meta.read_text()
++            chosen=start;cid='H_start';summary=None
++            if valid:
++                run_scene(label,'replay','C1',scenes[0],source,meta=str(meta))
++                selection=run_scene(label,'replay','C1',scenes[1],source,meta=str(meta));summary=summarize([selection])
++                if better(summary,summarize([base_sel]),summarize([base_sel])):chosen=source;cid='C1'
++            choices.append({'method':label,'candidate_id':cid,'source':str(chosen),'M_source':str(meta),'proposal_valid_with_frozen_M':valid,'selection':summary})
++    finally:pilot.COMMON=original_common
++    write_json(ROOT/'replay_selection_freeze.json',{'choices':choices,'time':time.time(),'test_unseen':True})
++    base_test=run_scene('H_start','replay','H_start',scenes[2],start);results=[]
++    for choice in choices:
++        result=base_test if choice['candidate_id']=='H_start' else run_scene(choice['method'],'replay',choice['candidate_id'],scenes[2],Path(choice['source']),meta=choice['M_source'])
++        valid=result['metrics']['valid'] and base_test['metrics']['valid']
++        results.append({**choice,'test_result_record':result,'paired_valid':valid,'gain_over_same_H_start':result['metrics']['overall']-base_test['metrics']['overall'] if valid else None,'functional_non_degradation':int(result['functional']['functional_pass'])>=int(base_test['functional']['functional_pass'])})
++    write_json(ROOT/'replay_status.json',{'status':'complete','scope':'one-start/one-proposal feasibility only; no general meta-capability claim','results':results,'base_test':base_test,'remaining_cli':600-current()['cli_sessions']})
++
++if __name__=='__main__':main()

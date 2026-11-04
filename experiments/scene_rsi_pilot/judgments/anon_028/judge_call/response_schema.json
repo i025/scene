@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4
+    },
+    "observations": {
+      "type": "string"
+    },
+    "uncertain_3d_hypotheses": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "score",
+    "observations",
+    "uncertain_3d_hypotheses"
+  ]
+}

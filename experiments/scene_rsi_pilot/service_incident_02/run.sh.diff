@@ -1,0 +1,20 @@
+--- before/run.sh
++++ run.sh
+@@ -11,6 +11,10 @@
+   smoke) "$PYTHON_BIN" "$SCRIPT_DIR/runner.py" smoke ;;
+   pilot) "$PYTHON_BIN" "$SCRIPT_DIR/pilot.py" ;;
+   evaluate|report) "$PYTHON_BIN" "$SCRIPT_DIR/analyze.py"; "$PYTHON_BIN" "$SCRIPT_DIR/report.py" --root "$SCRIPT_DIR" ;;
++  resume-service)
++    "$PYTHON_BIN" "$SCRIPT_DIR/service_resume.py"
++    exec bash "$SCRIPT_DIR/run.sh" resume
++    ;;
+   resume)
+     if [[ -f "$SCRIPT_DIR/model_usage_limit.json" ]]; then
+       "$PYTHON_BIN" "$SCRIPT_DIR/finish_available.py"
+@@ -25,5 +29,5 @@
+     "$PYTHON_BIN" "$SCRIPT_DIR/analyze.py"
+     "$PYTHON_BIN" "$SCRIPT_DIR/report.py" --root "$SCRIPT_DIR"
+     ;;
+-  *) echo 'Usage: bash run.sh smoke|pilot|evaluate|report|resume' >&2; exit 2 ;;
++  *) echo 'Usage: bash run.sh smoke|pilot|evaluate|report|resume|resume-service' >&2; exit 2 ;;
+ esac

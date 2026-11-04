@@ -1,0 +1,31 @@
+--- before/codex_wrapper.py
++++ after/codex_wrapper.py
+@@ -17,6 +17,11 @@
+     'computer_use', 'image_generation', 'memories', 'skill_search',
+     'workspace_dependencies', 'sleep_tool', 'view_image',
+ )
++
++
++def check_service_pause():
++    if (ROOT.parent / 'service_pause.json').exists():
++        raise SystemExit('CLI routing service unavailable; saved service_pause.json blocks further submissions. Preserve logs and resume only after connectivity recovery.')
+ 
+ 
+ def command(settings, workspace, response, images, schema=None):
+@@ -45,6 +50,7 @@
+ def call(prompt, settings, folder, images=(), *, role, timeout=None, schema=None, log=None):
+     """One fresh CLI session; preserve exact input, CLI events and unknown accounting."""
+     from budget import guard
++    check_service_pause()
+     guard('cli')
+     folder = Path(folder).resolve()
+     folder.mkdir(parents=True, exist_ok=True)
+@@ -135,6 +141,8 @@
+             session['actual_model_source'] = 'not independently reported; requested_model is recorded separately'
+         session['status'] = 'complete' if not error and session.get('exit_code') == 0 else 'failed'
+         write_json(folder / 'session.json', session)
++        if session['status'] == 'failed' and events_path.exists() and 'workspace routing discovery failed' in events_path.read_text():
++            write_json(ROOT.parent / 'service_pause.json', {'reason': 'workspace routing discovery failed', 'session': str(folder / 'session.json'), 'time': time.time(), 'automatic_retries': 0})
+     if log:
+         log({'event': 'codex_session', **session, 'call_dir': str(folder)})
+     if error:

@@ -1,0 +1,73 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "appliances",
+    "kind": "group",
+    "mesh_names": [
+      "Ball.032",
+      "Ball.033",
+      "Ball.034",
+      "Ball.035",
+      "Ball.036",
+      "Ball.037",
+      "Rod.043",
+      "Rod.044",
+      "Rod.045",
+      "Rod.046",
+      "Rod.047",
+      "Rod.048",
+      "Rod.049",
+      "Rod.050",
+      "Rod.051",
+      "Rod.052",
+      "Rod.053"
+    ],
+    "group_name": "appliances",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 418,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": true,
+    "displacement_scene_units": [
+      0.5255473256111145,
+      0.0,
+      0.0
+    ],
+    "displacement_normalized": [
+      0.1,
+      0,
+      0
+    ],
+    "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+    "target_success": true,
+    "relation_max_abs_matrix_delta": 5.960464477539063e-08,
+    "part_relations_preserved": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 399,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "pass": true,
+    "edited_blend": "edited.blend"
+  },
+  "render_attempts": 3,
+  "renders_completed": 3
+}

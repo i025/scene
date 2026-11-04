@@ -1,0 +1,35 @@
+{
+  "object": "predeclared_workbench_assemblies",
+  "mesh_names": [
+    "Box",
+    "Box.001",
+    "Box.155",
+    "Box.156",
+    "Box.157",
+    "Rod.001",
+    "Rod.002",
+    "Rod.003",
+    "Rod.004",
+    "Rod.005"
+  ],
+  "group_names": [
+    "brown workbench",
+    "left bench power supply"
+  ],
+  "expected": true,
+  "identity_basis": "Fixed name-token/parent-chain approximation; not semantic ground truth",
+  "rule": {
+    "expected_category": "workbench_or_worktable_assembly",
+    "name_tokens": [
+      "workbench",
+      "worktable",
+      "bench",
+      "desk",
+      "table",
+      "benchtop",
+      "tabletop"
+    ],
+    "selection_basis": "Both original preselected test cases are workbench scenes by source metadata; all matching non-root groups and named mesh components, with descendants"
+  },
+  "missing_target_is_failure": true
+}

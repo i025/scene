@@ -1,0 +1,20 @@
+--- before/report.py
++++ after/report.py
+@@ -548,7 +548,7 @@
+     panels = ["<h1>scene_rsi_pilot：真实产物实验报告</h1>",
+               f"<p>正式记录 {summary['formal_records']}；smoke 记录 {summary['smoke_records']}；完成记录 {summary['completed']}。缺失显示 pending/null。所有 smoke 排除正式对照。</p>",
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "final_inference_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+-              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "config.json", "manifest.json", "protocol.md", "cli_checks/initial_sandbox_failures.json", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
++              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "external_test_plan.md", "config.json", "manifest.json", "protocol.md", "cli_checks/initial_sandbox_failures.json", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>主对照登记计划 '+display(summary['main_all_scheduled'])+' 个槽位；状态 '+html.escape(display(summary['main_scheduled_counts']))+'。包含未运行与失败，不能用完成数替代计划数。各额外阶段的计划另列。</p>')
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+     if analysis:
+@@ -713,7 +713,7 @@
+               "![视觉质量](quality.png)", "[源数据](quality.csv)", "", "![累计成本](cost.png)", "[源数据](cost.csv)", "", "![功能检查](functional.png)", "[源数据](functional.csv)", "",
+               "## 选择、有效改进与元回放", "", "选择结果与原始候选档案原样保存在 summary.json；报告不根据 Test 重新选择。完整有效改进和有效配对数需要已冻结选择及对应 H0/候选功能和终测记录；当前脚本不从单个视觉分数推断。没有元回放实测数据时不绘跨代收益曲线。", "",
+               "## 资源与复用", "", f"资源策略：{display(config.get('resources'))}；渲染配置：{display(config.get('render'))}；CPU 配置：{display(config.get('pilot', {}).get('cpu_threads'))}。实际逐记录设备保存在 scenes.csv，等待与执行成本以原账本字段为准。", "",
+-              "[复用清单](../reuse_inventory.md) · [基线映射及独立消融适配](../baseline_mapping.md) · [运行入口](../README.md)。复用配置完整保存在 [config.json](../config.json)；数据来源保存在 [manifest.json](../manifest.json)。旧 scenespec M0–M3 为已知米尺度布局策略，不直接证明图像重建或本轮元策略改进。", "",
++              "[复用清单](../reuse_inventory.md) · [基线映射及独立消融适配](../baseline_mapping.md) · [运行入口](../README.md) · [外部任务与未运行的严格盲测方案](../external_test_plan.md)。复用配置完整保存在 [config.json](../config.json)；数据来源保存在 [manifest.json](../manifest.json)。旧 scenespec M0–M3 为已知米尺度布局策略，不直接证明图像重建或本轮元策略改进。", "",
+               "[最终推理成本](final_inference_cost.csv)同时列实际新增调用和同一H0产物对应的原始推理成本；source_equivalent列只解释成本归属，不重复计费。混合设备时长不用于算法效率比较。", "",
+               "## 局限与待运行", ""]
+     if analysis:

@@ -1,0 +1,533 @@
+{
+  "status": "complete",
+  "scope": "feasibility_only_one_start_one_proposal_per_M",
+  "interpretation": "All points and paired differences only; this is not evidence of general monotonic meta-capability improvement.",
+  "results": [
+    {
+      "method": "M_initial",
+      "run_id": "replay_s1_r1",
+      "start_id": "s1",
+      "proposal_repeat": 1,
+      "candidate_id": "H_start",
+      "source": "__EXPERIMENT_ROOT__/candidates/r2/sceneevolve_cli/C1",
+      "M_source": "__EXPERIMENT_ROOT__/initial_meta/scene_rsi_pilot/meta.py",
+      "proposal_folder": "__EXPERIMENT_ROOT__/candidates/replay_s1_r1_M_initial/frozen_meta/C1",
+      "proposal_valid_with_frozen_M": true,
+      "selection": {
+        "all_scheduled": 1,
+        "completed": 1,
+        "success_rate": 1.0,
+        "functional_passes": 1,
+        "conditional_quality": 0.49154907961753463,
+        "endpoint_quality": 0.49154907961753463,
+        "measured_metrics_missing": 0
+      },
+      "test_result_record": {
+        "method": "H_start",
+        "run_id": "replay_s1",
+        "scene_id": "commons_52210054",
+        "split": "replay_test",
+        "candidate_id": "H_start",
+        "parent_id": null,
+        "H_version": "candidates/r2/sceneevolve_cli/C1",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.13684240746632878,
+          "lpips": 0.6933209896087646,
+          "dino": 0.6950913667678833,
+          "psnr": 12.237729280454431,
+          "overall": 0.43035570041383525
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "Far lamp",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "Far lamp",
+        "device": "CPU",
+        "seconds": 528.7382292500697,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 277605,
+          "output_tokens": 16831,
+          "cached_input_tokens": 32768,
+          "total_tokens": 294436,
+          "seconds": 393.6637506200932,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 496.1185508398339
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/replay_s1/H_start/H_start/replay_test/commons_52210054",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "baseline_test_record": {
+        "method": "H_start",
+        "run_id": "replay_s1",
+        "scene_id": "commons_52210054",
+        "split": "replay_test",
+        "candidate_id": "H_start",
+        "parent_id": null,
+        "H_version": "candidates/r2/sceneevolve_cli/C1",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.13684240746632878,
+          "lpips": 0.6933209896087646,
+          "dino": 0.6950913667678833,
+          "psnr": 12.237729280454431,
+          "overall": 0.43035570041383525
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "Far lamp",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "Far lamp",
+        "device": "CPU",
+        "seconds": 528.7382292500697,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 277605,
+          "output_tokens": 16831,
+          "cached_input_tokens": 32768,
+          "total_tokens": 294436,
+          "seconds": 393.6637506200932,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 496.1185508398339
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/replay_s1/H_start/H_start/replay_test/commons_52210054",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "reused_H_start": true,
+      "paired_valid": true,
+      "gain_over_same_H_start": 0.0,
+      "functional_non_degradation": true
+    },
+    {
+      "method": "M_descendant",
+      "run_id": "replay_s1_r1",
+      "start_id": "s1",
+      "proposal_repeat": 1,
+      "candidate_id": "H_start",
+      "source": "__EXPERIMENT_ROOT__/candidates/r2/sceneevolve_cli/C1",
+      "M_source": "__EXPERIMENT_ROOT__/candidates/r1/scene_rsi_pilot/C1/meta.py",
+      "proposal_folder": "__EXPERIMENT_ROOT__/candidates/replay_s1_r1_M_descendant/frozen_meta/C1",
+      "proposal_valid_with_frozen_M": true,
+      "selection": {
+        "all_scheduled": 1,
+        "completed": 1,
+        "success_rate": 1.0,
+        "functional_passes": 1,
+        "conditional_quality": 0.48350322857518596,
+        "endpoint_quality": 0.48350322857518596,
+        "measured_metrics_missing": 0
+      },
+      "test_result_record": {
+        "method": "H_start",
+        "run_id": "replay_s1",
+        "scene_id": "commons_52210054",
+        "split": "replay_test",
+        "candidate_id": "H_start",
+        "parent_id": null,
+        "H_version": "candidates/r2/sceneevolve_cli/C1",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.13684240746632878,
+          "lpips": 0.6933209896087646,
+          "dino": 0.6950913667678833,
+          "psnr": 12.237729280454431,
+          "overall": 0.43035570041383525
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "Far lamp",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "Far lamp",
+        "device": "CPU",
+        "seconds": 528.7382292500697,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 277605,
+          "output_tokens": 16831,
+          "cached_input_tokens": 32768,
+          "total_tokens": 294436,
+          "seconds": 393.6637506200932,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 496.1185508398339
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/replay_s1/H_start/H_start/replay_test/commons_52210054",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "baseline_test_record": {
+        "method": "H_start",
+        "run_id": "replay_s1",
+        "scene_id": "commons_52210054",
+        "split": "replay_test",
+        "candidate_id": "H_start",
+        "parent_id": null,
+        "H_version": "candidates/r2/sceneevolve_cli/C1",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.13684240746632878,
+          "lpips": 0.6933209896087646,
+          "dino": 0.6950913667678833,
+          "psnr": 12.237729280454431,
+          "overall": 0.43035570041383525
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "Far lamp",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "Far lamp",
+        "device": "CPU",
+        "seconds": 528.7382292500697,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 277605,
+          "output_tokens": 16831,
+          "cached_input_tokens": 32768,
+          "total_tokens": 294436,
+          "seconds": 393.6637506200932,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 496.1185508398339
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/replay_s1/H_start/H_start/replay_test/commons_52210054",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "reused_H_start": true,
+      "paired_valid": true,
+      "gain_over_same_H_start": 0.0,
+      "functional_non_degradation": true
+    }
+  ],
+  "base_tests": {
+    "s1": {
+      "method": "H_start",
+      "run_id": "replay_s1",
+      "scene_id": "commons_52210054",
+      "split": "replay_test",
+      "candidate_id": "H_start",
+      "parent_id": null,
+      "H_version": "candidates/r2/sceneevolve_cli/C1",
+      "M_version": null,
+      "model_roles": {
+        "student": "gpt-6.1-sol/medium",
+        "meta": "gpt-6-astra/medium",
+        "editor": "gpt-6.1-sol/medium",
+        "judge": "gpt-6-astra/medium"
+      },
+      "status": "complete",
+      "metrics": {
+        "valid": true,
+        "ssim": 0.13684240746632878,
+        "lpips": 0.6933209896087646,
+        "dino": 0.6950913667678833,
+        "psnr": 12.237729280454431,
+        "overall": 0.43035570041383525
+      },
+      "functional": {
+        "structure_pass": true,
+        "material_pass": true,
+        "composite_required": true,
+        "composite_pass": true,
+        "functional_pass": true,
+        "target_object": "Far lamp",
+        "semantic_object_completeness": null,
+        "support_collision_truth": null,
+        "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+      },
+      "target_object": "Far lamp",
+      "device": "CPU",
+      "seconds": 528.7382292500697,
+      "usage": {
+        "calls": 4,
+        "input_tokens": 277605,
+        "output_tokens": 16831,
+        "cached_input_tokens": 32768,
+        "total_tokens": 294436,
+        "seconds": 393.6637506200932,
+        "cost_usd": "unknown",
+        "executions": 3
+      },
+      "runtime_status": {
+        "error": null,
+        "seconds": 496.1185508398339
+      },
+      "failure_type": null,
+      "resource_wait_seconds": 0,
+      "service_queue_seconds": null,
+      "folder": "__EXPERIMENT_ROOT__/results/replay_s1/H_start/H_start/replay_test/commons_52210054",
+      "selected": null,
+      "device_mapping": {
+        "device": "CPU",
+        "cuda_visible_devices": "",
+        "gpu_uuid": null,
+        "gpu_index": null,
+        "enabled_cycles_devices": []
+      },
+      "render_device_history": [
+        {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      ],
+      "functional_device_mapping": {
+        "device": "CPU",
+        "cuda_visible_devices": "",
+        "gpu_uuid": null,
+        "gpu_index": null,
+        "enabled_cycles_devices": []
+      }
+    }
+  },
+  "remaining_cli": 23
+}

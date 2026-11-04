@@ -1,0 +1,13 @@
+--- before/analyze.py
++++ after/analyze.py
+@@ -225,7 +225,9 @@
+         payload,_=json.JSONDecoder().raw_decode(text.split(marker,1)[1])
+         entries=[a for a in payload.get('archive',[]) if isinstance(a.get('selection'),dict)]
+         images=payload.get('attached_images',[])
+-        exports.append({'method':call_record['method'],'run_id':call_record['run_id'],'proposer_session':call_record['source'],'selection_aggregate_entries_disclosed':len(entries),'selection_scene_evaluations_represented':sum(a['selection']['all_scheduled'] for a in entries),'raw_selection_image_attachments':sum('/selection/' in str(p) for p in images),'raw_main_test_image_attachments':sum('/test/' in str(p) for p in images),'attachment_check_basis':'Explicit attached_images paths in saved proposer payload','source_prompt':str(prompt_path.relative_to(ROOT))})
++        counts=[a['selection'].get('all_scheduled') for a in entries]
++        known_counts=[n for n in counts if isinstance(n,int)]
++        exports.append({'method':call_record['method'],'run_id':call_record['run_id'],'proposer_session':call_record['source'],'selection_aggregate_entries_disclosed':len(entries),'selection_scene_evaluations_represented':sum(known_counts) if len(known_counts)==len(counts) else None,'selection_scene_count_known_lower_bound':sum(known_counts),'selection_aggregate_entries_without_scene_count':len(counts)-len(known_counts),'raw_selection_image_attachments':sum('/selection/' in str(p) for p in images),'raw_main_test_image_attachments':sum('/test/' in str(p) for p in images),'attachment_check_basis':'Explicit attached_images paths in saved proposer payload; compact aggregate entries may omit all_scheduled, which is unknown rather than zero','source_prompt':str(prompt_path.relative_to(ROOT))})
+     write_csv(out/'selection_feedback_exports.csv',exports,list(exports[0]) if exports else ['method','run_id','proposer_session','selection_aggregate_entries_disclosed'])
+     costs=[]
+     for run in ['r1','r2']:

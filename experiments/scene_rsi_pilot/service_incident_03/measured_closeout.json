@@ -1,0 +1,234 @@
+{
+  "main_schedule": {
+    "complete": 78,
+    "failed": 6,
+    "not_run_proposal_failed": 4
+  },
+  "formal_records": 112,
+  "all_record_statuses_including_smoke": {
+    "complete": 103,
+    "failed": 11
+  },
+  "paired_main_results": [
+    {
+      "method": "sceneevolve_cli",
+      "run_id": "r1",
+      "all_scheduled_pairs": 4,
+      "valid_pairs": 2,
+      "conditional_gain": 0.02566693097076775,
+      "functional_pass_count_difference": 2,
+      "complete_valid_improvement": false
+    },
+    {
+      "method": "sceneevolve_cli",
+      "run_id": "r2",
+      "all_scheduled_pairs": 4,
+      "valid_pairs": 3,
+      "conditional_gain": 0.056908766957327495,
+      "functional_pass_count_difference": 1,
+      "complete_valid_improvement": false
+    },
+    {
+      "method": "generic_rsi",
+      "run_id": "r1",
+      "all_scheduled_pairs": 4,
+      "valid_pairs": 2,
+      "conditional_gain": 0.02474161311881143,
+      "functional_pass_count_difference": 2,
+      "complete_valid_improvement": false
+    },
+    {
+      "method": "generic_rsi",
+      "run_id": "r2",
+      "all_scheduled_pairs": 4,
+      "valid_pairs": 3,
+      "conditional_gain": 0.0,
+      "functional_pass_count_difference": 0,
+      "complete_valid_improvement": false
+    },
+    {
+      "method": "scene_rsi_pilot",
+      "run_id": "r1",
+      "all_scheduled_pairs": 4,
+      "valid_pairs": 2,
+      "conditional_gain": 0.00983150282277273,
+      "functional_pass_count_difference": 2,
+      "complete_valid_improvement": false
+    },
+    {
+      "method": "scene_rsi_pilot",
+      "run_id": "r2",
+      "all_scheduled_pairs": 4,
+      "valid_pairs": 3,
+      "conditional_gain": 0.0,
+      "functional_pass_count_difference": 0,
+      "complete_valid_improvement": false
+    }
+  ],
+  "ablation": {
+    "status": "completed_with_failures",
+    "scope": "matched_main_scope",
+    "ablations": "all12 terminal slots attempted;10 valid reconstructions,2 routing service failures",
+    "repeats": 1,
+    "K": 1,
+    "scheduled_test_scenes": 12,
+    "test_status_counts": {
+      "complete": 10,
+      "failed": 2
+    },
+    "slots": [
+      {
+        "method": "generic_same_structured_evidence",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_155212263",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_155212263/record.json"
+      },
+      {
+        "method": "generic_same_structured_evidence",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_16007442",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_16007442/record.json"
+      },
+      {
+        "method": "generic_same_structured_evidence",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_163096530",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_163096530/record.json"
+      },
+      {
+        "method": "generic_same_structured_evidence",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_199974832",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_199974832/record.json"
+      },
+      {
+        "method": "ours_without_probes",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_155212263",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/ours_without_probes/C1/test/commons_155212263/record.json"
+      },
+      {
+        "method": "ours_without_probes",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_16007442",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/ours_without_probes/C1/test/commons_16007442/record.json"
+      },
+      {
+        "method": "ours_without_probes",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_163096530",
+        "split": "test",
+        "status": "failed",
+        "source": "results/ablation_r1/ours_without_probes/C1/test/commons_163096530/record.json"
+      },
+      {
+        "method": "ours_without_probes",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_199974832",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/ours_without_probes/C1/test/commons_199974832/record.json"
+      },
+      {
+        "method": "ours_without_regression_guidance",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_155212263",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_155212263/record.json"
+      },
+      {
+        "method": "ours_without_regression_guidance",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_16007442",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_16007442/record.json"
+      },
+      {
+        "method": "ours_without_regression_guidance",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_163096530",
+        "split": "test",
+        "status": "complete",
+        "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_163096530/record.json"
+      },
+      {
+        "method": "ours_without_regression_guidance",
+        "run_id": "ablation_r1",
+        "candidate_id": "C1",
+        "scene_id": "commons_199974832",
+        "split": "test",
+        "status": "failed",
+        "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_199974832/record.json"
+      }
+    ],
+    "failed_scenes_resampled": false,
+    "remaining_cli": 54,
+    "service_pause": "service_pause.json",
+    "note": "Stage traversal completed; this does not imply every reconstruction or functional test passed. Fixed selections unchanged. No meta replay or external evaluation has started.",
+    "time": 1793758750.5644574
+  },
+  "ablation_pair_coverage": [
+    {
+      "run_id": "ablation_r1",
+      "conditions": [
+        "generic_same_structured_evidence",
+        "ours_without_probes",
+        "ours_without_regression_guidance"
+      ],
+      "common_valid_scene_ids": [],
+      "common_valid_count": 0,
+      "interpretation": "Different valid scene sets cannot support a cross-condition mean comparison."
+    }
+  ],
+  "ledger": {
+    "cli_sessions": 546,
+    "initial_sandbox_failures": 2,
+    "observable_cli_turns": 544,
+    "observable_model_rounds": null,
+    "tool_calls": 0,
+    "known_input_tokens": 23164315,
+    "known_output_tokens": 1765039,
+    "usage_unknown_sessions": 84,
+    "render_attempts_upper_bound": 645,
+    "renders_completed": 594,
+    "device": "CPU+GPU",
+    "device_mapping_record_counts": {
+      "CPU": 229,
+      "GPU": 176
+    },
+    "max_cli_sessions": 600,
+    "max_render_frames": 1500
+  },
+  "active_experiment": false,
+  "pending": [
+    "frozen_meta_replay",
+    "blenderworld_external"
+  ],
+  "pending_reason": "service routing failure",
+  "resume_command": "bash __EXPERIMENT_ROOT__/run.sh resume-service"
+}

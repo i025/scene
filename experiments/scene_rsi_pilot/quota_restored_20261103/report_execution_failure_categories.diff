@@ -1,0 +1,30 @@
+--- before/report.py
++++ after/report.py
+@@ -476,8 +476,9 @@
+                 if event['event'] in ('execute','execution_result'):timing.setdefault(event['step'],{})[event['event']]=event['time']
+         for path in sorted(directory.glob('steps/*/result.json')):
+             result=read(path);clock=timing.get(result['step'],{})
+-            attempts.append({**{k:row[k] for k in ('method','run_id','candidate_id','scene_id','split')},'step':result['step'],'execution_success':result['ok'],'error':result['error'],'seconds':clock['execution_result']-clock['execute'] if all(k in clock for k in ('execute','execution_result')) else None,'render_written':(path.parent/'final.png').exists(),'blend_written':(path.parent/'scene.blend').exists(),'source':str(path.relative_to(root))})
+-    write_csv(out/'execution_attempts.csv',attempts,['method','run_id','candidate_id','scene_id','split','step','execution_success','error','seconds','render_written','blend_written','source'])
++            attempts.append({**{k:row[k] for k in ('method','run_id','candidate_id','scene_id','split')},'step':result['step'],'execution_success':result['ok'],'error':result['error'],'execution_failure_category':None if result['ok'] else 'blender_timeout' if 'TimeoutExpired' in str(result['error']) else 'program_or_blender_execution_error','seconds':clock['execution_result']-clock['execute'] if all(k in clock for k in ('execute','execution_result')) else None,'render_written':(path.parent/'final.png').exists(),'blend_written':(path.parent/'scene.blend').exists(),'source':str(path.relative_to(root))})
++    write_csv(out/'execution_attempts.csv',attempts,['method','run_id','candidate_id','scene_id','split','step','execution_success','error','execution_failure_category','seconds','render_written','blend_written','source'])
++    execution_failure_counts=dict(Counter(a['execution_failure_category'] for a in attempts if a['split']!='smoke' and a['execution_failure_category']))
+     geometry=[]
+     for row in visible_rows:
+         path=root/row['directory']/'functional/scene_structure.json'
+@@ -553,6 +554,7 @@
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+     if analysis:
+         panels.append('<p>CLI失败分类（来自保存的实际错误）：'+html.escape(display(analysis.get('cli_failure_counts',{})))+'。可用场景可能经历过失败的中间模型调用；场景最终可用率与调用成功率分别统计，原始错误见 calls.csv。</p>')
++    panels.append('<p>重建执行失败分类：'+html.escape(display(execution_failure_counts))+'。单位为执行尝试，不含smoke、诊断probe或机械检查；一个场景可有多种失败，实际错误见execution_attempts.csv。</p>')
+     panels.append('<p>最终推理成本同时报告实际新增工作与同一H0输出对应的原始推理成本。复用H0的新增调用为0，但不表示该算法推理免费；source_equivalent列仅归属解释，不能再加入物理总账重复计费。</p>')
+     if quota:
+         panels.append('<h2>当前结论范围：模型额度阻断</h2><p>主Test没有任何有效渲染或配对，不能给出终测增益或方法优劣结论。以下真实对照联系表覆盖全部Development、两次运行；补充多视角与机械编辑展示首个Development场景，不是终测或文字指令编辑成绩。显示规则在额度故障后设定并明确记录。旧失败与成本全部保留。</p>'+link(root/'model_usage_limit.json','CLI原始额度错误位置')+' · '+link(root/'usage_limit_closeout/closeout.json','本地收尾状态')+' · '+link(out/'selection_quality.csv','Selection选择结果（非终测）'))
+@@ -708,6 +710,7 @@
+         values=[item['run_id'],item['method'],item['candidate_id'],f"{item['confirmed_opened']}/{item['all_scheduled']}",item['not_checked'],item['conditional_inspected_open_rate']]
+         lines.append('|'+ '|'.join(display(value) for value in values)+'|')
+     lines += ['', '[逐项来源](geometry_relations.csv) · [比例源数据](blend_open_rates.csv)']
++    lines += ['', '重建执行失败分类：'+display(execution_failure_counts)+'。单位为执行尝试，不含smoke、诊断probe和机械检查；一个场景可有多种失败，不能当独立场景数。来源 [execution_attempts.csv](execution_attempts.csv)。', '']
+     lines += ['', f"主对照登记计划：{display(summary['main_all_scheduled'])}；逐状态计数：{display(summary['main_scheduled_counts'])}。来源为 [main_scheduled.csv](main_scheduled.csv)，包括失败、待运行与提案拒绝后未运行的槽位；额外阶段另计。", '']
+     lines += ["", f"主视觉指标字段：`{primary}`。缺失值不填零；失败保留在端到端分母中，条件质量另列。", "",
+               "![视觉质量](quality.png)", "[源数据](quality.csv)", "", "![累计成本](cost.png)", "[源数据](cost.csv)", "", "![功能检查](functional.png)", "[源数据](functional.csv)", "",

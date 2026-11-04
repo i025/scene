@@ -1,0 +1,88 @@
+{
+  "method": "fixed_h0",
+  "run_id": "external",
+  "scene_id": "bw_0005",
+  "split": "external",
+  "candidate_id": "selected",
+  "parent_id": null,
+  "H_version": "external_inputs/bw_0005/fixed_h0",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.09384476669652568,
+    "lpips": 0.9558075070381165,
+    "dino": 0.4364806115627289,
+    "psnr": 8.14702198931683,
+    "overall": 0.2854258551465912
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "back left cabinet",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "back left cabinet",
+  "device": "CPU",
+  "seconds": 403.9053393639624,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 164170,
+    "output_tokens": 13013,
+    "cached_input_tokens": 32768,
+    "total_tokens": 177183,
+    "seconds": 309.0177004910074,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 366.41853473102674
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0005",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    },
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  }
+}

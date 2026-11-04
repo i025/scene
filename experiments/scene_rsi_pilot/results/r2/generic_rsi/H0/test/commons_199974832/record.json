@@ -1,0 +1,69 @@
+{
+  "method": "generic_rsi",
+  "run_id": "r2",
+  "scene_id": "commons_199974832",
+  "split": "test",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "backend/harnesses/baseline",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "failed",
+  "metrics": {
+    "valid": false,
+    "ssim": null,
+    "lpips": null,
+    "dino": null,
+    "psnr": null,
+    "overall": null,
+    "error": "Missing scene.blend or final.png"
+  },
+  "functional": {
+    "functional_pass": false,
+    "structure_pass": false,
+    "material_pass": false,
+    "composite_pass": false,
+    "target_object": "unknown"
+  },
+  "target_object": "unknown",
+  "device": "CPU",
+  "seconds": 0,
+  "usage": {
+    "calls": 0,
+    "executions": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "reuse_original_usage": {
+      "calls": 2,
+      "input_tokens": 30455,
+      "output_tokens": 11534,
+      "cached_input_tokens": 16384,
+      "total_tokens": 41989,
+      "seconds": 192.20757398335263,
+      "cost_usd": "unknown",
+      "executions": 2
+    }
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 1200.0409540170804
+  },
+  "failure_type": "budget_or_scene_timeout",
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r2/generic_rsi/H0/test/commons_199974832",
+  "selected": true,
+  "device_mapping": {
+    "device": "CPU",
+    "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+  },
+  "render_device_history": [],
+  "functional_device_mapping": null,
+  "reuse_of": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/test/commons_199974832"
+}

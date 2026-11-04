@@ -1,0 +1,58 @@
+{
+  "method": "fixed_h0",
+  "run_id": "r1",
+  "scene_id": "commons_138420790",
+  "split": "selection",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "backend/harnesses/baseline",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.274447779162615,
+    "lpips": 0.8255451917648315,
+    "dino": 0.6810910105705261,
+    "psnr": 9.416560236555002,
+    "overall": 0.42981603089434883
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "arched_tap",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "arched_tap",
+  "device": "CPU",
+  "seconds": 397.6172430231236,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 113539,
+    "output_tokens": 15714,
+    "cached_input_tokens": 32768,
+    "total_tokens": 129253,
+    "seconds": 349.2034894200042,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 371.05207035085186
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/selection/commons_138420790",
+  "selected": null
+}

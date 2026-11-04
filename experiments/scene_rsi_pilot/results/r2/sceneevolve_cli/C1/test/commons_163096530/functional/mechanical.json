@@ -1,0 +1,95 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "architecture",
+    "kind": "group",
+    "mesh_names": [
+      "Box",
+      "Box.001",
+      "Box.002",
+      "Box.003",
+      "Box.004",
+      "Box.005",
+      "Box.006",
+      "Box.007",
+      "Box.008",
+      "Box.009",
+      "Box.010",
+      "Box.011",
+      "Box.012",
+      "Box.013",
+      "Box.014",
+      "Box.015",
+      "Box.016",
+      "Box.017",
+      "Box.018",
+      "Box.019",
+      "Box.020",
+      "Box.021",
+      "Box.022",
+      "Box.023",
+      "Box.024",
+      "Box.025",
+      "Box.026",
+      "Box.027",
+      "Box.028",
+      "Box.029",
+      "Box.030",
+      "Box.031",
+      "Box.032",
+      "Box.033",
+      "Box.034",
+      "Box.035",
+      "Box.036",
+      "Box.037",
+      "Box.038"
+    ],
+    "group_name": "architecture",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 1085,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": true,
+    "displacement_scene_units": [
+      1.2797633409500122,
+      0.0,
+      0.0
+    ],
+    "displacement_normalized": [
+      0.1,
+      0,
+      0
+    ],
+    "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+    "target_success": true,
+    "relation_max_abs_matrix_delta": 2.384185791015625e-07,
+    "part_relations_preserved": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 1045,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "pass": true,
+    "edited_blend": "edited.blend"
+  },
+  "render_attempts": 3,
+  "renders_completed": 3
+}

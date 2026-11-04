@@ -1,0 +1,84 @@
+{
+  "headers": [
+    "Reference",
+    "Parent H output",
+    "Actual intervention",
+    "Shared candidate on same dev"
+  ],
+  "cells": [
+    {
+      "row": 0,
+      "column": 0,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/reference.png",
+      "label": "commons_109923183\nr1 / C1"
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/final.png",
+      "label": "Parent / Q=0.39075\nParent device=CPU"
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "path": "candidates/r1/scene_rsi_pilot/C1/probes/1_camera_focal/probe_camera_focal.png",
+      "label": "camera_focal / Q=0.38727\nCPU -> CPU"
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "path": "results/r1/scene_rsi_pilot/C1/development/commons_109923183/final.png",
+      "label": "scene_rsi_pilot\ncomplete / Q=0.41003"
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/reference.png",
+      "label": "commons_109923183\nr1 / C1"
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/final.png",
+      "label": "Parent / Q=0.39075\nParent device=CPU"
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "path": "candidates/r1/scene_rsi_pilot/C1/probes/2_object_scale/probe_object_scale.png",
+      "label": "object_scale / Q=0.39089\nCPU -> CPU"
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "path": "results/r1/scene_rsi_pilot/C1/development/commons_109923183/final.png",
+      "label": "scene_rsi_pilot\ncomplete / Q=0.41003"
+    }
+  ],
+  "independent_unit": "scene, not image/view",
+  "device_comparisons": [
+    {
+      "scene_id": "commons_109923183",
+      "probe": "camera_focal",
+      "baseline_device": "CPU",
+      "probe_device": "CPU",
+      "device_matched": true,
+      "interpretation": "Matched device class; intervention sensitivity still does not prove a causal reconstruction diagnosis"
+    },
+    {
+      "scene_id": "commons_109923183",
+      "probe": "object_scale",
+      "baseline_device": "CPU",
+      "probe_device": "CPU",
+      "device_matched": true,
+      "interpretation": "Matched device class; intervention sensitivity still does not prove a causal reconstruction diagnosis"
+    }
+  ],
+  "observations_source": "candidates/r1/scene_rsi_pilot/C1/diagnostic_observations.json",
+  "proposal_source": "candidates/r1/scene_rsi_pilot/C1/proposal_result.json",
+  "shared_diff": "candidates/r1/scene_rsi_pilot/C1/changes.diff",
+  "rejected_not_executed_diff": null,
+  "diagnosis": "Measured: both development scenes passed structure, material and composite tests for their selected groups, after two failed build attempts each: invalid fillet radius followed by missing world initialization. These passes do not establish semantic completeness or true support/collision. For commons_109923183, camera_focal changed lens 51 to approximately 56.1 with geometry unchanged; overall changed 0.390748658 to 0.387274029, with mixed component metrics. object_scale enlarged only arm gold-1 by 1.1 around its AABB center, preserving camera and non-targets; overall changed to 0.390894127. This does not test whole-chaise scale. Its source mapping is the dynamic chaise.include('arm gold'+str(side), ...) loop; camera maps to set_view. Exact generated mesh-to-line mappings remain unknown. Planned changes are multi-anchor camera review and explicit semantic ownership, without adopting either probe factor. For commons_118588033, bunk pillow_0025 maps to the first bunk-pillow construction through the serial add helper; exact static line mapping remains unknown. Its prescribed edits passed, but the flat scene-level construction motivates whole-object ownership checks. Visual hypotheses: foreground cabinetry and benches appear absent or cropped in the compartment render; construction exists, so framing/occlusion must be checked before duplication. The chaise's shape and viewpoint still differ from the reference. No isolation probe or true contact labels resolve those hypotheses. Source inspection also shows chaise upholstery created outside its SceneAct owner and mesh-name filters that can miss semantic EMPTY descendants. These motivate composite membership and local material-selection safeguards, not claims of measured regression failure.",
+  "rationale": "The shared policy adds one observable pre-execution review, distinguishes execution/output failure from visual feedback, and supports selection among successful renders within the existing budget. Instructions address repeated primitive/world errors, ownership, support, visibility and material isolation. M now consumes completed probes, tracks unknown regression evidence separately from failures, builds dependency reviews and allocates probes only with an explicit remaining allowance. SceneAct API documentation intentionally corrects snap/bind defaults to match the supplied implementation.",
+  "interpretation": "Intervention sensitivity and later shared-code outcome are shown separately. This is not proof that the probe caused a gain; other development cases and terminal results remain necessary."
+}

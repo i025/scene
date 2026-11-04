@@ -1,0 +1,17 @@
+--- previous/pilot.py
++++ fixed/pilot.py
+@@ -112,7 +112,13 @@
+     failed_calls=[read(p) for p in folder.glob('student_calls/*/session.json') if read(p).get('status')=='failed']
+     failure_type=None
+     if not metrics['valid']:
+-        failure_type='cli_service_or_process_failure' if failed_calls else ('budget_or_timeout' if 'timeout' in str(status).lower() or 'budget' in str(status).lower() else 'generated_program_or_execution_failure')
++        reason=str(status).lower()
++        if 'budget' in reason or 'outer_scene_deadline' in reason or status.get('seconds',0)>=cfg['budget']['seconds']-1:
++            failure_type='budget_or_scene_timeout'
++        elif failed_calls:
++            failure_type='model_call_timeout' if any('TimeoutExpired' in str(c.get('error')) for c in failed_calls) else 'cli_service_or_process_failure_unresolved'
++        else:
++            failure_type='generated_program_or_execution_failure'
+     row={'method':method,'run_id':run_id,'scene_id':scene['scene_id'],'split':scene['split'],'candidate_id':candidate,'parent_id':parent,'H_version':str(source.relative_to(ROOT)),'M_version':meta,'model_roles':{'student':'gpt-6.1-sol/medium','meta':'gpt-6-astra/medium','editor':'gpt-6.1-sol/medium','judge':'gpt-6-astra/medium'},'status':'complete' if metrics['valid'] else 'failed','metrics':metrics,'functional':checks,'target_object':checks['target_object'],'device':'CPU','seconds':time.monotonic()-start,'usage':usage,'runtime_status':status,'failure_type':failure_type,'resource_wait_seconds':0,'service_queue_seconds':None,'folder':str(folder),'selected':None}
+     if finished_generation:
+         row['seconds']+=status.get('seconds',0)

@@ -1,0 +1,50 @@
+{
+  "render_attempts": 3,
+  "renders_completed": 3,
+  "images": [
+    "before.png",
+    "after_material.png",
+    "after_move.png"
+  ],
+  "settings": {
+    "engine": "CYCLES",
+    "device": "GPU",
+    "device_mapping": {
+      "device": "GPU",
+      "cuda_visible_devices": "GPU-158426a4-6684-7863-8cbe-ed6595f97683",
+      "gpu_uuid": "GPU-158426a4-6684-7863-8cbe-ed6595f97683",
+      "gpu_index": 2,
+      "enabled_cycles_devices": [
+        {
+          "name": "NVIDIA A100-PCIE-40GB",
+          "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:41:00",
+          "type": "CUDA"
+        }
+      ],
+      "gpu_idle_recheck": {
+        "time": 1793715246.9677527,
+        "requested_uuid": "GPU-158426a4-6684-7863-8cbe-ed6595f97683",
+        "other_compute_pids": [],
+        "own_context": false,
+        "memory_used_mib": 3,
+        "utilization_percent": 0
+      },
+      "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+      "gpu_bus_id": "00000000:41:00.0",
+      "backend": "CUDA"
+    },
+    "threads": 2,
+    "resolution": [
+      384,
+      512
+    ],
+    "samples": 16,
+    "seed": 42,
+    "use_adaptive_sampling": false,
+    "denoise": false,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0.0,
+    "gamma": 1.0
+  }
+}

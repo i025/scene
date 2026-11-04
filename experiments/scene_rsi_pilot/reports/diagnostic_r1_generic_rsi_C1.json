@@ -1,0 +1,84 @@
+{
+  "headers": [
+    "Reference",
+    "Parent H output",
+    "Actual intervention",
+    "Shared candidate on same dev"
+  ],
+  "cells": [
+    {
+      "row": 0,
+      "column": 0,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/reference.png",
+      "label": "commons_109923183\nr1 / C1"
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/final.png",
+      "label": "Parent / Q=0.39075\nParent device=CPU"
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "path": "candidates/r1/generic_rsi/C1/probes/1_camera_focal/probe_camera_focal.png",
+      "label": "camera_focal / Q=0.38727\nCPU -> CPU"
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "path": "results/r1/generic_rsi/C1/development/commons_109923183/final.png",
+      "label": "generic_rsi\ncomplete / Q=0.43389"
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/reference.png",
+      "label": "commons_109923183\nr1 / C1"
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "path": "results/r1/fixed_h0/H0/development/commons_109923183/final.png",
+      "label": "Parent / Q=0.39075\nParent device=CPU"
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "path": "candidates/r1/generic_rsi/C1/probes/2_object_scale/probe_object_scale.png",
+      "label": "object_scale / Q=0.39089\nCPU -> CPU"
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "path": "results/r1/generic_rsi/C1/development/commons_109923183/final.png",
+      "label": "generic_rsi\ncomplete / Q=0.43389"
+    }
+  ],
+  "independent_unit": "scene, not image/view",
+  "device_comparisons": [
+    {
+      "scene_id": "commons_109923183",
+      "probe": "camera_focal",
+      "baseline_device": "CPU",
+      "probe_device": "CPU",
+      "device_matched": true,
+      "interpretation": "Matched device class; intervention sensitivity still does not prove a causal reconstruction diagnosis"
+    },
+    {
+      "scene_id": "commons_109923183",
+      "probe": "object_scale",
+      "baseline_device": "CPU",
+      "probe_device": "CPU",
+      "device_matched": true,
+      "interpretation": "Matched device class; intervention sensitivity still does not prove a causal reconstruction diagnosis"
+    }
+  ],
+  "observations_source": "candidates/r1/generic_rsi/C1/diagnostic_observations.json",
+  "proposal_source": "candidates/r1/generic_rsi/C1/proposal_result.json",
+  "shared_diff": "candidates/r1/generic_rsi/C1/changes.diff",
+  "rejected_not_executed_diff": null,
+  "diagnosis": "Both runs failed first on excessive fillet radius and then on a missing World after realize; only execution 3 rendered successfully, so neither received an executable visual correction. Repeated include keys also silently replaced objects in the initial compartment program, and mesh-name material targeting missed SceneAct parent names. Final renders retain substantial framing, coverage, silhouette and tonal differences despite passing prescribed structural/material/move checks. Baseline overall scores are 0.390749 and 0.347963. The +10% focal probe reduced the first score to 0.387274; scaling only its small trim group yielded 0.390894, insufficient evidence for whole-object scale correction. Archive arrays are empty, and omitted geometry rows are not certified by their summaries.",
+  "rationale": "Recover the two visual-correction opportunities lost in each supplied trajectory by documenting actual constructor and Blender initialization constraints. Add explicit failure feedback, landmark-guided revisions, bounded orchestration and selection among observed successful builds. Correct snap/bind defaults to match the supplied implementation. Meta planning prioritizes execution failures before spending diagnostic renders and spreads eligible camera probes across development cases.",
+  "interpretation": "Intervention sensitivity and later shared-code outcome are shown separately. This is not proof that the probe caused a gain; other development cases and terminal results remain necessary."
+}

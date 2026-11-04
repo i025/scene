@@ -1,0 +1,37 @@
+--- before_boundary_check/pilot.py
++++ shared_boundary_check/pilot.py
+@@ -46,6 +46,12 @@
+             if '/srv/' in node.value or '/home/' in node.value or 'commons_' in node.value:raise ValueError('Hardcoded data identifier/path in candidate')
+     required='solve' if kind=='policy.py' else 'plan'
+     if not any(isinstance(n,ast.FunctionDef) and n.name==required for n in tree.body):raise ValueError('Missing '+required)
++    permitted_system_paths={ast.dump(ast.parse(expr,mode='eval').body) for expr in ("Path(__file__).parent / 'system.txt'","Path(__file__).with_name('system.txt')")}
++    for node in ast.walk(tree):
++        if isinstance(node,ast.Name) and node.id.startswith('__') and node.id!='__file__':raise ValueError('Candidate built-in introspection outside contract')
++        if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute):
++            if node.func.attr in ('open','read_bytes'):raise ValueError('Candidate file access outside contract')
++            if node.func.attr=='read_text' and (kind!='policy.py' or ast.dump(node.func.value) not in permitted_system_paths):raise ValueError('Only literal candidate system.txt read is permitted')
+ 
+ def inspect(folder,mode='mechanical',probe=None,output=None):
+     cfg=config();dest=output or folder/('functional' if mode=='mechanical' else mode)
+@@ -165,7 +171,11 @@
+     signal.alarm(10)
+     try:
+         meta=load_module(meta_source);plan=meta.plan(packet)
+-        if not isinstance(plan,dict) or 'instruction' not in plan:raise ValueError('Invalid meta plan')
++        if not isinstance(plan,dict) or not isinstance(plan.get('instruction'),str):raise ValueError('Invalid meta plan')
++        requested=plan.get('probes',[])
++        if not isinstance(requested,list) or len(requested)>2:raise ValueError('Meta probe menu budget is at most two')
++        for p in requested:
++            if not isinstance(p,dict) or p.get('kind') not in ('camera_focal','object_scale','isolate') or p.get('scene_id') not in {r['scene_id'] for r in parent_dev}:raise ValueError('Meta probe is outside frozen development/menu contract')
+     except Exception as error:
+         result={'status':'meta_execution_failed','error':repr(error),'M_changed':False,'used_M':str(meta_source)}
+         write_json(result_path,result);return folder,result
+--- before_boundary_check/backend/runtime.py
++++ shared_boundary_check/backend/runtime.py
+@@ -99,4 +99,6 @@
+         self.log({'event': 'select', 'step': step})
+ 
+     def image(self, path):
++        if not Path(path).resolve().is_relative_to(self.output_dir.resolve()):
++            raise ValueError('Runtime image must belong to the current scene input/render directory')
+         return image_message(path)

@@ -1,0 +1,41 @@
+{
+  "time": 1793763645.8344142,
+  "external_model_calls_before_rule": 0,
+  "external_results_before_rule": 0,
+  "replay_selection_freeze_exists_before_rule": false,
+  "original_plan": "two fixed tasks, upper24CLI minimum",
+  "adapted_rule": {
+    "task_ids_in_fixed_order": [
+      "bw_0005",
+      "bw_0011"
+    ],
+    "cli_upper_bound_per_task_for_both_methods": 12,
+    "tiers": [
+      {
+        "minimum_remaining_cli": 24,
+        "task_count": 2
+      },
+      {
+        "minimum_remaining_cli": 12,
+        "task_count": 1
+      }
+    ],
+    "below_minimum": "pending_budget",
+    "one_task_scope": "feasibility_only_not_benchmark_advantage",
+    "methods": [
+      "fixed_h0",
+      "scene_rsi_pilot"
+    ],
+    "scope_selection": "Before external results, by remaining global CLI count only; fixed task order and equal sample counts across methods.",
+    "original_plan": "2tasks, minimum24 CLI; one-task tier is a disclosed new-stage budget adaptation."
+  },
+  "all_common_models_H_selection_render_metric_and_inner_budgets_unchanged": true,
+  "global_caps_unchanged": {
+    "cli_sessions": 600,
+    "render_attempts": 1500
+  },
+  "not_original_preregistration": true,
+  "reason": "Complete the smallest fair external pair within the fixed cap when budget cannot cover two tasks. Independent stage rule fixed before any external result and before replay Test results.",
+  "additional_model_calls": 0,
+  "additional_render_frames": 0
+}

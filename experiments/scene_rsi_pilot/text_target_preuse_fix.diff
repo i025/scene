@@ -1,0 +1,77 @@
+--- prior/config.json
++++ text_target/config.json
+@@ -83,6 +83,34 @@
+       1
+     ],
+     "independent_judge": "all completed terminal outputs, supplemental only",
+-    "retry_policy": "No automatic service retries; transient failure may be retried once only through explicit saved attempt with same global caps. Invalid scene programs only use common inner budget."
++    "retry_policy": "No automatic service retries; transient failure may be retried once only through explicit saved attempt with same global caps. Invalid scene programs only use common inner budget.",
++    "text_edit_targets": {
++      "commons_155212263": {
++        "expected_category": "workbench_or_worktable_assembly",
++        "name_tokens": [
++          "workbench",
++          "worktable",
++          "bench",
++          "desk",
++          "table",
++          "benchtop",
++          "tabletop"
++        ],
++        "selection_basis": "Both original preselected test cases are workbench scenes by source metadata; all matching non-root groups and named mesh components, with descendants"
++      },
++      "commons_16007442": {
++        "expected_category": "workbench_or_worktable_assembly",
++        "name_tokens": [
++          "workbench",
++          "worktable",
++          "bench",
++          "desk",
++          "table",
++          "benchtop",
++          "tabletop"
++        ],
++        "selection_basis": "Both original preselected test cases are workbench scenes by source metadata; all matching non-root groups and named mesh components, with descendants"
++      }
++    }
+   }
+ }
+--- prior/supplement.py
++++ text_target/supplement.py
+@@ -2,6 +2,7 @@
+ from pathlib import Path
+ import ast
+ import json
++import re
+ import shutil
+ import subprocess
+ import sys
+@@ -9,12 +10,26 @@
+ from pilot import ROOT,read,config,write_json,call,cpu_environment,current,guard
+ from model_evidence import compact_structure
+ 
+-EDITOR_INSTRUCTION='把指定目标对象的表面改为蓝色 RGBA=(0.02,0.08,0.8,1)，粗糙度0.45；保持目标几何以及所有非目标对象的几何、材质、变换和依赖关系。'
++EDITOR_INSTRUCTION='把场景中按共同规则标识的工作台/工作桌组合表面改为蓝色 RGBA=(0.02,0.08,0.8,1)，粗糙度0.45；包括其现有父子结构归属的部件。保持目标几何以及所有非目标对象的几何、材质、变换和依赖关系。'
++
++def text_target(structure,scene_id):
++    rule=config()['pilot']['text_edit_targets'][scene_id]
++    aliases=set(rule['name_tokens'])
++    def named(obj):
++        normalized=re.sub(r'([a-z])([A-Z])',r'\1_\2',obj['name']).lower()
++        return bool(set(re.findall(r'[a-z]+',normalized)) & aliases)
++    objects=structure.get('objects',[])
++    groups={o['name'] for o in objects if o['type']=='EMPTY' and o.get('parent') is not None and named(o)}
++    meshes=[o['name'] for o in objects if o['type']=='MESH' and o.get('finite_nonempty_mesh') and (named(o) or groups.intersection(o.get('parent_chain',[])))]
++    return {'object':'predeclared_workbench_assemblies','mesh_names':sorted(meshes),'group_names':sorted(groups),'expected':True,'identity_basis':'Fixed name-token/parent-chain approximation; not semantic ground truth','rule':rule,'missing_target_is_failure':True}
+ 
+ def edit(row):
+     folder=Path(row['folder']);dest=folder/'text_edit';dest.mkdir(exist_ok=True)
+     if (dest/'status.json').exists():return
+-    structure=compact_structure(read(folder/'functional/scene_structure.json',{}))
++    raw_structure=read(folder/'functional/scene_structure.json',{})
++    target=text_target(raw_structure,row['scene_id']);write_json(dest/'target_mapping.json',target)
++    raw_structure['target']=target
++    structure=compact_structure(raw_structure)
+     targets=structure.get('target',{}).get('mesh_names',[])
+     if not targets:
+         write_json(dest/'status.json',{'status':'failed','reason':'required_edit_target_missing'});return

@@ -1,0 +1,122 @@
+--- before/report.py
++++ final/report.py
+@@ -347,17 +347,18 @@
+                 cells.append((dest/'final.png' if row['metrics']['valid'] else None,caption))
+             grid.append(cells)
+         save('frozen_meta_comparison',['Reference','Common unfamiliar H_start','Frozen initial M selected H','Frozen descendant M selected H'],grid)
+-    external=read(root/'external_status.json',{})
+-    if external.get('status')=='complete':
++    for phase,sheet_name in [('external','blenderworld_adapted_comparison'),('external_followup','blenderworld_followup_adapted_comparison')]:
++        external=read(root/(phase+'_status.json'),{})
++        if external.get('status')!='complete':continue
+         grid=[]
+-        for sid in read(root/'external_protocol.json')['tasks']:
++        for sid in read(root/(phase+'_protocol.json'))['tasks']:
+             results=[p for p in external['records'] if p['task_id']==sid];first=results[0]['reconstruction']
+             cells=[(Path(first['folder'])/'reference.png',sid+'\nAdapted evaluation')]
+             for method in ['fixed_h0','scene_rsi_pilot']:
+                 item=next(p for p in results if p['method']==method);row=item['reconstruction'];judge=item['adapted_evaluation']
+                 cells.append((Path(row['folder'])/'final.png' if row['metrics']['valid'] else None,method+' / '+row['status']+'\nQ='+display(row['metrics']['overall'])+'; adapted score='+display(judge.get('adapted_fused_score_0_100'))))
+             grid.append(cells)
+-        save('blenderworld_adapted_comparison',['Reference','H0','Main Selection chosen Ours'],grid)
++        save(sheet_name,['Reference','H0','Main Selection chosen Ours'],grid)
+     for candidate in sorted((root/'candidates').glob('r[12]/*/C*')):
+         observations=read(candidate/'diagnostic_observations.json',{})
+         probes=observations.get('probes',[])
+@@ -430,7 +431,7 @@
+     if primary not in METRICS:
+         primary = "overall"
+     analysis = read(root / "reports/analysis.json")
+-    stages = {name: read(root / f'{source}_status.json', {'status':'pending'}) for name,source in (('supplement','supplement'),('ablation','extras'),('replay','replay'),('external','external'))}
++    stages = {name: read(root / f'{source}_status.json', {'status':'pending'}) for name,source in (('supplement','supplement'),('ablation','extras'),('replay','replay'),('external','external'),('external_followup','external_followup'))}
+     ablation_choices=read(root/'ablation_selection_freeze.json',{}).get('choices',[])
+     ablation_ids=read(root/'ablation_protocol.json',{}).get('scene_ids',{}).get('test',[])
+     ablation_counts=Counter()
+@@ -439,7 +440,7 @@
+             row=next((r for r in rows if all(r[k]==choice[k] for k in ('method','run_id','candidate_id')) and r['scene_id']==sid and r['split']=='test'),None)
+             ablation_counts[row['status'] if row else 'pending']+=1
+     service_progress=(f"消融终测{ablation_counts['complete']}成功、{ablation_counts['failed']}失败、{ablation_counts['pending']}待运行；"
+-                      f"元回放状态{stages['replay']['status']}，外部任务状态{stages['external']['status']}。")
++                      f"元回放状态{stages['replay']['status']}，外部任务状态{stages['external']['status']}，独立外部后续状态{stages['external_followup']['status']}。")
+     summary = {"paired_analysis": analysis, "report_kind": "measured_records_only", "primary_metric": primary,
+                "formal_records": sum(r.get("split") != "smoke" for r in rows),
+                "smoke_records": sum(r.get("split") == "smoke" for r in rows),
+@@ -499,7 +500,7 @@
+     service_pause=read(root/'service_pause.json')
+     if service_pause:
+         summary['service_pause']=service_pause
+-        summary['limitations'].append('2026-11-04消融终测再次遇到workspace routing discovery failed，有限队列以1退出。累计533/600会话时停止新提交；主对照与固定补充测试已结束，消融终测7成功、1失败、4待运行，元回放与外部任务尚未启动。失败场景保留，不重采样；service_incident_02/closeout.json保存阶段分母。')
++        summary['limitations'].append('保留最近一次workspace routing discovery failed停止标记及原始会话路径；它表示一次实际服务错误，不表示所有后续阶段均未运行，也不证明当前服务持续不可用。完成状态与失败分母以各阶段记录为准，不自动重试失败任务。')
+     if (root/'service_incident_02/user_continuation.json').exists():
+         summary['service_continuation']=read(root/'service_incident_02/user_continuation.json')
+         summary['limitations'].append('用户在获知533/600及剩余任务后明确要求继续，新增一次已计费的sol/medium连接检查通过，随后仅运行尚未执行的槽位；原路由失败场景保留，没有重新采样。服务恢复检查不算研究方法的改进。实际阶段结果以状态文件和逐场景记录为准。')
+@@ -514,6 +515,18 @@
+     if (root/'external_budget_adaptation/preuse_rule.json').exists():
+         summary['external_budget_adaptation']=read(root/'external_budget_adaptation/preuse_rule.json')
+         summary['limitations'].append('外部阶段原计划2任务、至少预留24次CLI；在外部调用/结果均为0且元回放Test尚未冻结前，公开增加独立阶段预算适配：余额≥24仍2任务，12–23仅固定顺序首任务bw_0005，两方法同规模，<12待运行。总上限、模型、H选择、内层预算、渲染和评分均不改；这是非原始预注册的预算适配。单任务只属可行性，原第二任务若未跑单列pending。')
++    if (root/'external_followup_preuse/rule.json').exists():
++        summary['external_followup_rule']=read(root/'external_followup_preuse/rule.json')
++        summary['limitations'].append('为利用首外部阶段结束后的完整配对余额，对原预留bw_0011单独冻结后续阶段：仅余额≥12时运行相同H0/Ours、相同模型与5调用/3执行/1200秒上限、相同评分；不足则pending。规则在该任务任何调用/结果前记录，不根据bw_0005胜负决定，结果单独列，不冒充原预注册两任务阶段或严格盲测。总600不扩大。')
++    if (root/'service_incident_04/execution_11.json').exists():
++        summary['latest_service_closeout']=read(root/'service_incident_04/closeout_before_recovery.json')
++        summary['latest_service_recovery_execution']=read(root/'service_incident_04/execution_11.json')
++        summary['limitations'].append('队列10已完成冻结M回放；随后bw_0005的H0匿名评分遇路由故障，分数保留null。故障04仅做一次连接检查，队列11完成尚未提交的Ours重建和评分；没有重试H0评分或重采样失败场景。历史停止快照不代表当前服务状态。')
++    if stages['external'].get('status')=='complete':
++        summary['limitations'].append('bw_0005的实际参考是带标题、人物和课堂照片的拼贴图；按共同预处理保留完整参考，没有事后裁剪。该任务的全图Q同时受不可由三维场景表达的文字与人物影响，不能解释为几何恢复精度。')
++    if (root/'service_incident_05/closeout.json').exists():
++        summary['latest_service_closeout']=read(root/'service_incident_05/closeout.json')
++        summary['limitations'].append('独立bw_0011阶段已遍历两方法：H0生成程序失败；Ours保留第二次有效渲染，第三次学生调用600秒超时，随后独立评分路由失败。两种失败均保留，不额外重试；该任务没有有效Q配对或完整适配评分配对。队列12以0退出只表示流程正常收尾，不表示所有实验成功。')
+     quota=read(root/'model_usage_limit.json')
+     restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+@@ -619,13 +632,15 @@
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("README.md", "reuse_inventory.md", "baseline_mapping.md", "external_test_plan.md", "config.json", "manifest.json", "protocol.md", "cli_checks/initial_sandbox_failures.json", "quota_restored_20261103/ablation_evidence_control/preuse_check.json", "quota_restored_20261103/ablation_regression_mask_preuse.json", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "quota_restored_20261103/meta_program_participation.json", "quota_restored_20261103/outer_termination_01.json", "quota_restored_20261103/execution_08.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>主对照登记计划 '+display(summary['main_all_scheduled'])+' 个槽位；状态 '+html.escape(display(summary['main_scheduled_counts']))+'。包含未运行与失败，不能用完成数替代计划数。各额外阶段的计划另列。</p>')
+     if service_pause:
+-        panels.append('<p class="missing">CLI路由故障：队列已退出，当前没有实验在后台运行。已完成主对照与补充测试；'+html.escape(service_progress)+link(root/'service_incident_02/closeout.json','实际停止记录')+' · '+link(root/'quota_restored_20261103/session_jump_373_to_529.json','373→529会话逐项对账')+'</p>')
++        panels.append('<p class="missing">最近一次CLI路由失败已登记；各阶段遍历完成与成功率分开报告。'+html.escape(service_progress)+link(root/'service_pause.json','最近一次原始服务错误')+' · '+link(root/'quota_restored_20261103/session_jump_373_to_529.json','373→529会话逐项对账')+'</p>')
+     if (root/'service_incident_02/user_continuation.json').exists():
+         panels.append('<p>用户明确要求继续后，单次连接检查通过，仅补尚未运行的槽位，原失败保留。'+link(root/'service_incident_02/execution_09.json','队列09实际运行状态')+' · '+link(root/'service_incident_02/user_continuation.json','续跑规则与连接检查费用')+' · '+link(root/'service_incident_02/ablation_freeze_resume_audit.json','消融冻结时间戳记录')+'</p>')
+     if (root/'service_incident_03/closeout.json').exists():
+         panels.append('<p>历史停止快照：队列09以路由错误退出时累计546/600，消融终测10/12成功、2服务失败、0未运行；当时元回放与外部任务尚未启动。'+link(root/'service_incident_03/closeout.json','队列09停止记录与13次调用对账')+'</p>')
+     if (root/'service_incident_03/user_continuation_10.json').exists():
+         panels.append('<p>既有继续授权下，复查连接通过后已启动队列10；后续阶段按实际余额运行，原失败保留。'+link(root/'service_incident_03/execution_10.json','最新队列10执行状态')+' · '+link(root/'service_incident_03/user_continuation_10.json','连接恢复与元回放范围')+'</p>')
++    if (root/'service_incident_04/execution_11.json').exists():
++        panels.append('<p>后续恢复：元回放已经完成。bw_0005的H0评分失败后，一次连接检查通过，队列11完成尚未提交的Ours；H0评分保留null。'+link(root/'service_incident_04/execution_11.json','队列11实际执行状态')+' · '+link(root/'external_followup_preuse/execution_12.json','独立bw_0011队列12实际执行状态')+'</p>')
+     if summary['main_scheduled_counts'].get('pending',0):
+         panels.append('<p class="missing">进行中：主对照还有 '+str(summary['main_scheduled_counts']['pending'])+' 个待运行槽位。本页仅汇总已保存产物，尚非完整终测结论。</p>')
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+@@ -720,7 +735,9 @@
+             panels.append('<h3>'+title+'</h3>'+media(out/f'{name}.png',title)+link(out/f'{name}.csv','图的源数据'))
+     if additional.get('external'):
+         panels.append('<p>'+link(out/'blenderworld_adapted.csv','BlenderWorld adapted evaluation 数据；非官方榜单分数')+'</p>')
+-        panels.append('<p>外部实际范围：'+html.escape(stages['external'].get('scope','unknown'))+'；原计划中未运行任务：'+html.escape(display(stages['external'].get('pending_original_tasks',[])))+'。'+link(root/'external_budget_adaptation/preuse_rule.json','外部结果产生前的预算适配规则')+'</p>')
++        panels.append('<p>原外部阶段范围：'+html.escape(stages['external'].get('scope','unknown'))+'；该阶段未纳入任务：'+html.escape(display(stages['external'].get('pending_original_tasks',[])))+'，独立后续阶段另列，不能据此判断该任务目前仍未运行。'+link(root/'external_budget_adaptation/preuse_rule.json','外部结果产生前的预算适配规则')+'</p>')
++    if additional.get('external_followup'):
++        panels.append('<p>独立外部后续阶段：bw_0011，单独报告，未并入上一阶段的预注册范围。'+link(out/'blenderworld_followup_adapted.csv','后续阶段数据')+' · '+link(root/'external_followup_preuse/rule.json','该任务结果前冻结的条件规则')+'</p>')
+     for coverage in additional.get('ablation_coverage',[]):
+         panels.append('<p class="missing">'+html.escape(coverage['run_id'])+'：全部消融条件与匹配参考共同有效的场景数为 '+str(coverage['common_valid_count'])+'。各条件的有效配对场景不同，不能跨条件比较条件均值来宣称机制收益。'+link(out/'ablation_pair_coverage.csv','配对覆盖源数据')+'</p>')
+     for row in extra_rows:
+@@ -782,7 +799,7 @@
+              "正式规模为2个Development、2个Selection、4个Test，两次独立研发、每次最多K=2共享候选。原4/4/8规模按最多5次内层调用估计已超过600会话上限，因此在正式结果产生前统一缩小。选择保留H0，先满足执行/功能不退化，再要求Selection端到端Q提升超过0.01；该实用阈值不是统计显著性界限。", "",
+              "## 真实测量", "", "|重复|方法|候选|划分|记录分母|完成|失败|端到端成功|条件主指标均值|指标有效样本|", "|---|---|---|---|---:|---:|---:|---:|---:|---:|"]
+     if service_pause:
+-        lines[4:4]=[f"**当前停止：CLI路由故障，累计{ledger.get('cli_sessions')}/600会话；有限队列已经退出，没有实验在后台运行。** 主对照和编辑/评审已结束；"+service_progress, '', '[实际停止与阶段分母](../service_incident_02/closeout.json) · [373→529的156次会话逐项对账](../quota_restored_20261103/session_jump_373_to_529.json)', '']
++        lines[4:4]=[f"**累计{ledger.get('cli_sessions')}/600会话；最近一次CLI路由失败仍保留。** 各阶段遍历完成与实验成功分开记录；"+service_progress, '', '[最近一次服务错误及原始会话](../service_pause.json) · [373→529的156次会话逐项对账](../quota_restored_20261103/session_jump_373_to_529.json)', '']
+     for item in summaries:
+         cells = [item[k] for k in ("run_id", "method", "candidate_id", "split", "recorded_scheduled", "completed", "failed")]
+         cells += [f"{item['success_numerator']}/{item['success_denominator']}", item["conditional_quality"][primary], item["metric_sample_counts"][primary]]
+@@ -849,7 +866,12 @@
+         for point in additional['external']:
+             lines.append('|'+ '|'.join(display(point[k]) for k in ('method','scene_id','reconstruction_status','Q','functional_pass','adapted_score_0_100'))+'|')
+         lines += ['', '[BlenderWorld 适配评测源数据](blenderworld_adapted.csv)']
+-        lines += ['', '外部实际范围：'+display(stages['external'].get('scope'))+'；原计划未运行任务：'+display(stages['external'].get('pending_original_tasks',[]))+'。单任务不能支持一般优势；[外部结果前冻结的预算适配](../external_budget_adaptation/preuse_rule.json)。']
++        lines += ['', '原外部阶段范围：'+display(stages['external'].get('scope'))+'；该阶段未纳入任务：'+display(stages['external'].get('pending_original_tasks',[]))+'，是否随后运行见独立后续阶段，不能当作当前全局pending列表。单任务不能支持一般优势；[外部结果前冻结的预算适配](../external_budget_adaptation/preuse_rule.json)。']
++    if additional.get('external_followup'):
++        lines += ['', '## 独立外部后续阶段 bw_0011', '', '该阶段在自身任何调用/结果前冻结，仅按剩余12次完整配对预算决定启动，不改变上一外部阶段样本数。相同H0/Ours及模型、渲染、评分；仍是adapted evaluation、非官方分数和非严格盲测。', '', '|方法|场景|重建状态|Q|功能通过|适配评分/100|', '|---|---|---|---:|---|---:|']
++        for point in additional['external_followup']:
++            lines.append('|'+ '|'.join(display(point[k]) for k in ('method','scene_id','reconstruction_status','Q','functional_pass','adapted_score_0_100'))+'|')
++        lines += ['', '[后续阶段数据](blenderworld_followup_adapted.csv) · [运行前冻结规则](../external_followup_preuse/rule.json)']
+     if incident_summary:
+         lines += ['', '## 服务故障与恢复分母', '', '故障期间没有有效主终测图像/指标。恢复前后的失败与成本均保留；当前任务结果与包含旧故障的物理尝试成功率分开报告。', '', '`'+display(incident_summary)+'`', '', '[全部场景尝试及原记录](service_attempts.csv) · [故障恢复清单](../service_incident_01/recovery_prepared.json)']
+     if quota:

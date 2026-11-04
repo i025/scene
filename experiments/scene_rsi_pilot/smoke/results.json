@@ -1,0 +1,86 @@
+[
+  {
+    "method": "fixed_h0",
+    "run_id": "smoke",
+    "scene_id": "smoke_01",
+    "split": "smoke",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "proposer": "gpt-6-astra/medium"
+    },
+    "status": "complete",
+    "metrics": {
+      "valid": true,
+      "ssim": 0.2845401888475589,
+      "lpips": 0.5346366167068481,
+      "dino": 0.6689932942390442,
+      "psnr": 9.496973556586356,
+      "overall": 0.5281334064200777
+    },
+    "device": "CPU",
+    "seconds": 258.1382402749732,
+    "formal": false,
+    "usage": {
+      "calls": 4,
+      "input_tokens": 84516,
+      "output_tokens": 12372,
+      "cached_input_tokens": 8192,
+      "total_tokens": 96888,
+      "seconds": 211.7162248645909,
+      "cost_usd": "unknown",
+      "executions": 3
+    },
+    "functional": {
+      "structure_pass": false,
+      "material_pass": true,
+      "composite_required": true,
+      "composite_pass": true,
+      "functional_pass": false,
+      "target_object": "curved faucet",
+      "semantic_object_completeness": null,
+      "support_collision_truth": null,
+      "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+    }
+  },
+  {
+    "method": "fixed_h0",
+    "run_id": "smoke",
+    "scene_id": "smoke_02",
+    "split": "smoke",
+    "candidate_id": "H0",
+    "parent_id": null,
+    "H_version": "baseline",
+    "M_version": null,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "proposer": "gpt-6-astra/medium"
+    },
+    "status": "failed",
+    "metrics": {
+      "valid": false,
+      "ssim": null,
+      "lpips": null,
+      "dino": null,
+      "psnr": null,
+      "overall": null,
+      "error": "Missing scene.blend or final.png"
+    },
+    "device": "CPU",
+    "seconds": 1200.0362944230437,
+    "formal": false,
+    "usage": {
+      "calls": 3,
+      "input_tokens": 49441,
+      "output_tokens": 11957,
+      "cached_input_tokens": 0,
+      "total_tokens": 61398,
+      "seconds": 199.2999218851328,
+      "cost_usd": "unknown",
+      "executions": 3
+    }
+  }
+]

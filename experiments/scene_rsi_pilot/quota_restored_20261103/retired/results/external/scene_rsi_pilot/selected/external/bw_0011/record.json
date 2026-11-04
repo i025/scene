@@ -1,0 +1,72 @@
+{
+  "method": "scene_rsi_pilot",
+  "run_id": "external",
+  "scene_id": "bw_0011",
+  "split": "external",
+  "candidate_id": "selected",
+  "parent_id": null,
+  "H_version": "external_inputs/bw_0011/fixed_h0",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "failed",
+  "metrics": {
+    "valid": false,
+    "ssim": null,
+    "lpips": null,
+    "dino": null,
+    "psnr": null,
+    "overall": null,
+    "error": "Missing scene.blend or final.png"
+  },
+  "functional": {
+    "functional_pass": false,
+    "structure_pass": false,
+    "material_pass": false,
+    "composite_pass": false,
+    "target_object": "unknown"
+  },
+  "target_object": "unknown",
+  "device": "CPU",
+  "seconds": 0,
+  "usage": {
+    "calls": 0,
+    "executions": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "reuse_original_usage": {
+      "calls": 1,
+      "input_tokens": "unknown",
+      "output_tokens": "unknown",
+      "cached_input_tokens": "unknown",
+      "total_tokens": "unknown",
+      "seconds": 8.677188768982887,
+      "cost_usd": "unknown",
+      "executions": 0
+    }
+  },
+  "runtime_status": {
+    "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/external_inputs/bw_0011/fixed_h0/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 151, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0011/student_calls/001_1793647160374321605/stderr.log\n",
+    "seconds": 8.683242226019502
+  },
+  "failure_type": "cli_usage_limit",
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/external/scene_rsi_pilot/selected/external/bw_0011",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+  },
+  "render_device_history": [],
+  "functional_device_mapping": null,
+  "reuse_of": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0011",
+  "reuse_basis": "Selected source is the identical H0; same task/public query/config. Independent judge call remains supplemental variability, not an algorithm difference.",
+  "observed_model_service_failure": "cli_usage_limit",
+  "failure_type_before_classification": "cli_service_or_process_failure_unresolved"
+}

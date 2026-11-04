@@ -1,0 +1,37 @@
+{
+  "source": "__EXPERIMENT_ROOT__/initial_meta/scene_rsi_pilot/meta.py",
+  "plan": {
+    "probes": [
+      {
+        "scene_id": "commons_109923183",
+        "kind": "camera_focal"
+      },
+      {
+        "scene_id": "commons_109923183",
+        "kind": "object_scale"
+      }
+    ],
+    "diagnoses": [
+      {
+        "scene_id": "commons_109923183",
+        "object_id": "arm gold-1",
+        "code_location": "unknown",
+        "observation": "Reference/render disagreement; magnitude is measured by fixed visual metrics",
+        "observation_type": "measured_metric_with_unresolved_visual_cause",
+        "hypothesis": "Camera framing or object scale may contribute; this is a hypothesis, not attribution",
+        "probe": "camera_focal and object_scale",
+        "probe_result": "awaiting controlled intervention",
+        "planned_change": "Use probe sensitivity and dependency regression evidence to choose a shared H change"
+      }
+    ],
+    "regression_priorities": [
+      "composite_pass",
+      "material_pass",
+      "structure_pass"
+    ],
+    "regression_guidance": true,
+    "instruction": "Improve shared H and executable M using the controlled probe results and fixed functional regression evidence. Cover camera/object scale confusion, support/spatial relations, and occlusion/omission as applicable. Keep measured facts separate from visual hypotheses and historical heuristics. Link scene_id, object_id, code_location, observation, hypothesis, probe, probe_result, planned_change; unknown mappings must remain unknown. Do not assert causality from a single score delta. Use target modules/dependencies and modification risks to prioritize object structure, local material non-target preservation and composite movement checks. All final objectives and acceptance remain fixed. Modify meta.py only when an executable strategy change is justified; a memory append alone is not meta improvement. Return a reusable H, never a per-scene patched P."
+  },
+  "actually_used_for_proposal": true,
+  "phase": "before_proposal"
+}

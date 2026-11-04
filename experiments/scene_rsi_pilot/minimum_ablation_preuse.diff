@@ -1,0 +1,96 @@
+--- previous/pilot.py
++++ optional_stage_budget/pilot.py
+@@ -157,14 +157,14 @@
+         packet.append(entry)
+     return packet,images
+ 
+-def propose(method,run_id,k,parent_source,meta_source,parent_dev,archive):
++def propose(method,run_id,k,parent_source,meta_source,parent_dev,archive,total_candidates=2):
+     cid=f'C{k}';folder=ROOT/'candidates'/run_id/method/cid;result_path=folder/'proposal_result.json'
+     if result_path.exists():return folder,read(result_path)
+     folder.mkdir(parents=True,exist_ok=True)
+     for name in ['policy.py','system.txt']:shutil.copy2(parent_source/name,folder/name)
+     shutil.copy2(meta_source,folder/'meta.py')
+     dev,images=dev_packet(parent_dev)
+-    packet={'development':dev,'archive':archive,'sceneevolve_teacher_template':(ROOT/'backend/prompt-templates/proposer.txt').read_text(),'iteration':k,'remaining_candidates':2-k}
++    packet={'development':dev,'archive':archive,'sceneevolve_teacher_template':(ROOT/'backend/prompt-templates/proposer.txt').read_text(),'iteration':k,'remaining_candidates':total_candidates-k}
+     def meta_timeout(signum,frame):
+         raise TimeoutError('Meta program exceeded 10 CPU/wall seconds')
+     previous_handler=signal.signal(signal.SIGALRM,meta_timeout)
+--- previous/extras.py
++++ optional_stage_budget/extras.py
+@@ -24,7 +24,7 @@
+     # Preserve diagnostic evidence and the Ours research instruction while masking regression feedback.
+     without_regression=OURS.replace("'regression_guidance': True", "'regression_guidance': False").replace("'instruction': 'Improve shared H", "'instruction': 'Functional regression feedback is withheld in this ablation. Use raw geometry and diagnostic evidence; the final evaluator still applies identical functional gates. Improve shared H")
+     without_regression=without_regression.replace("'regression_priorities': priorities", "'regression_priorities': []").replace('using the controlled probe results and fixed functional regression evidence','using the controlled probe results and raw geometry').replace('Use probe sensitivity and dependency regression evidence','Use probe sensitivity and raw geometric evidence').replace('Use target modules/dependencies and modification risks to prioritize object structure, local material non-target preservation and composite movement checks.','The final fixed functional evaluator remains external; no measured functional regression feedback is supplied to guide this proposal.')
+-    for name,text in zip(VARIANTS,[combined,without_probe,without_regression]):
++    for name,text in zip(VARIANTS+['ours_ablation_reference'],[combined,without_probe,without_regression,OURS]):
+         p=folder/name;p.mkdir(exist_ok=True)
+         if not (p/'meta.py').exists():(p/'meta.py').write_text(text)
+     return folder
+@@ -50,17 +50,21 @@
+     if (ROOT/'extras_status.json').exists() and read(ROOT/'extras_status.json').get('status')=='complete':return
+     sources=initial_sources();available=600-current()['cli_sessions']
+     prior=read(ROOT/'ablation_protocol.json')
+-    repeats=prior['repeats'] if prior else 2 if available>=384 else 1 if available>=146 else 0
++    minimal=prior.get('scope')=='minimum_four_condition_feasibility' if prior else 68<=available<146
++    repeats=prior['repeats'] if prior else 2 if available>=384 else 1 if available>=68 else 0
+     candidates=prior['K'] if prior else 2 if available>=192 else 1
+-    required=192*repeats if candidates==2 else 146*repeats
+-    protocol={'stage':'independent_generation_ablations','repeats':repeats,'K':candidates,'required_upper_bound_cli':required,'available_cli_at_freeze':available,'selection':'same2/2/4 scenes; per-repeat H0 evidence reused; all variants have independent fresh proposals and generated H','chosen_from_budget_not_results':True,'main_test_is_not_new_blind_data':True,'reference':'main Ours from matching repeat; for K1 use only original C1 plus H0, selected on original Selection and evaluate that H if it was not terminally evaluated; variant H generation is independent','methods':VARIANTS,'frozen_time':time.time()}
++    required=68 if minimal else 192*repeats if candidates==2 else 146*repeats
++    methods=VARIANTS+['ours_ablation_reference'] if minimal else VARIANTS
++    scenes=read(ROOT/'manifest.json');dev=[s for s in scenes if s['split']=='development'];sel=[s for s in scenes if s['split']=='selection'];test=[s for s in scenes if s['split']=='test']
++    if minimal:dev,sel,test=dev[:1],sel[:1],test[:1]
++    protocol={'stage':'independent_generation_ablations','scope':'minimum_four_condition_feasibility' if minimal else 'matched_main_scope','repeats':repeats,'K':candidates,'required_upper_bound_cli':required,'available_cli_at_freeze':available,'selection':'1/1/1 first manifest scene per split; all four conditions generate fresh H from the same r1 H0 evidence' if minimal else 'same2/2/4 scenes; per-repeat H0 evidence reused; all variants have independent fresh proposals and generated H','chosen_from_budget_not_results':True,'main_test_is_not_new_blind_data':True,'reference':'fresh Ours M_initial/H0 proposal, identical reduced inputs and budgets' if minimal else 'main Ours from matching repeat; for K1 use only original C1 plus H0, selected on original Selection and evaluate that H if it was not terminally evaluated; variant H generation is independent','methods':methods,'scene_ids':{key:[s['scene_id'] for s in values] for key,values in [('development',dev),('selection',sel),('test',test)]},'frozen_time':time.time()}
+     if not prior:write_json(ROOT/'ablation_protocol.json',protocol)
+     if not repeats:
+-        write_json(ROOT/'extras_status.json',{'status':'pending_budget','ablations':'pending: insufficient remaining cap for smallest matched three-variant K1/one-repeat group plus matched Ours first-candidate terminal evaluation (146 CLI upper bound)','frozen_meta_replay':'pending: next priority after ablations, no result claimed','external_blenderworld':'pending: no official/adapted score produced','remaining_cli':available});return
+-    scenes=read(ROOT/'manifest.json');dev=[s for s in scenes if s['split']=='development'];sel=[s for s in scenes if s['split']=='selection'];test=[s for s in scenes if s['split']=='test'];baseline=ROOT/'backend/harnesses/baseline';archive=read(ROOT/'ablation_archive.json',[]);states={}
++        write_json(ROOT/'extras_status.json',{'status':'pending_budget','ablations':'pending: fewer than68 CLI sessions remain, below the smallest fresh four-condition1/1/1 K1 group upper bound','frozen_meta_replay':'pending: next priority after ablations, no result claimed','external_blenderworld':'pending: no official/adapted score produced','remaining_cli':available});return
++    baseline=ROOT/'backend/harnesses/baseline';archive=read(ROOT/'ablation_archive.json',[]);states={}
+     for i in range(1,repeats+1):
+         rid=f'r{i}';run=f'ablation_{rid}';bdev=[read(ROOT/'results'/rid/'fixed_h0'/'H0'/'development'/s['scene_id']/'record.json') for s in dev];bsel=[read(ROOT/'results'/rid/'fixed_h0'/'H0'/'selection'/s['scene_id']/'record.json') for s in sel]
+-        for method in VARIANTS:states[(run,method)]={'source':baseline,'meta':sources/method/'meta.py','dev':bdev,'base':summarize(bsel),'best':summarize(bsel),'selected':'H0','selected_source':baseline}
++        for method in methods:states[(run,method)]={'source':baseline,'meta':sources/method/'meta.py','dev':bdev,'base':summarize(bsel),'best':summarize(bsel),'selected':'H0','selected_source':baseline}
+     for k in range(1,candidates+1):
+         for (run,method),state in states.items():
+             evidence=state['dev']
+@@ -83,7 +87,7 @@
+             prior_rows=[a for a in archive if a['method']==method and a['run_id']==run and a['candidate_id']!=f'C{k}']
+             if method=='ours_without_regression_guidance':
+                 prior_rows=[{**a,'selection':{'endpoint_quality':a.get('selection',{}).get('endpoint_quality')},'development':{'endpoint_quality':a.get('development',{}).get('endpoint_quality')}} for a in prior_rows]
+-            try:source,result=propose(method,run,k,state['source'],state['meta'],evidence,prior_rows)
++            try:source,result=propose(method,run,k,state['source'],state['meta'],evidence,prior_rows,total_candidates=candidates)
+             except ValueError as error:
+                 source=ROOT/'candidates'/run/method/f'C{k}';source.mkdir(parents=True,exist_ok=True)
+                 result={'status':'ablation_constraint_failure','error':str(error)};write_json(source/'proposal_result.json',result)
+@@ -97,7 +101,7 @@
+                 state.update({'source':source,'meta':source/'meta.py','dev':drows})
+             else:entry={'method':method,'run_id':run,'candidate_id':f'C{k}','status':result['status'],'accepted':False,'error':result.get('error')}
+             archive=[a for a in archive if not(a['method']==method and a['run_id']==run and a['candidate_id']==f'C{k}')]+[entry];write_json(ROOT/'ablation_archive.json',archive)
+-    if candidates==1:
++    if candidates==1 and not minimal:
+         main_entry=next((a for a in read(ROOT/'archive.json',[]) if a['method']=='scene_rsi_pilot' and a['run_id']=='r1' and a['candidate_id']=='C1'),{})
+         selected='C1' if main_entry.get('accepted') else 'H0'
+         source=ROOT/'candidates/r1/scene_rsi_pilot/C1' if selected=='C1' else baseline
+@@ -110,7 +114,7 @@
+         for choice in choices:
+             if choice['candidate_id']=='H0':reuse_h0(choice['method'],choice['run_id'],choice['run_id'].replace('ablation_',''),scene)
+             else:run_scene(choice['method'],choice['run_id'],choice['candidate_id'],scene,Path(choice['source']))
+-    write_json(ROOT/'extras_status.json',{'status':'complete','ablations':'completed','repeats':repeats,'K':candidates,'frozen_meta_replay':'pending independent frozen-stage inputs and remaining budget audit','external_blenderworld':'pending','remaining_cli':600-current()['cli_sessions']})
++    write_json(ROOT/'extras_status.json',{'status':'complete','scope':protocol['scope'],'ablations':'completed','repeats':repeats,'K':candidates,'frozen_meta_replay':'pending independent frozen-stage inputs and remaining budget audit','external_blenderworld':'pending','remaining_cli':600-current()['cli_sessions']})
+     write_json(ROOT/'state.json',{'phase':'extras_complete','time':time.time()})
+ 
+ if __name__=='__main__':main()
+--- previous/replay.py
++++ optional_stage_budget/replay.py
+@@ -42,7 +42,7 @@
+     pilot.COMMON += '\nFROZEN META REPLAY: meta.py is immutable in this stage. Do not return a change to meta.py. Only shared policy.py/system.txt may change. This is K=1 and there is no future M modification. Both frozen M versions start from the identical unfamiliar H and explicit development evidence.'
+     try:
+         for label,meta in [('M_initial',initial),('M_descendant',desc)]:
+-            source,result=propose(label,'replay',1,start,meta,[base_dev],[])
++            source,result=propose(label,'replay',1,start,meta,[base_dev],[],total_candidates=1)
+             valid=result['status']=='proposed' and (source/'meta.py').read_text()==meta.read_text()
+             chosen=start;cid='H_start';summary=None
+             if valid:

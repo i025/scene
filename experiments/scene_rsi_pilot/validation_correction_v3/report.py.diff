@@ -1,0 +1,20 @@
+--- before/report.py
++++ after/report.py
+@@ -436,6 +436,8 @@
+         incident_summary={'original_service_failed_physical_attempts':sum(r['physical_failures'] for r in recovery_runs),'original_service_failed_outcome_slots_including_reuse':len(prior),'recovery_history':recovery_runs,'physical_formal_reconstruction_attempts_including_preserved_failures':len(physical),'physical_formal_successes':sum(r['status'] in COMPLETE for r in physical),'physical_attempt_success_rate_including_service_failures':sum(r['status'] in COMPLETE for r in physical)/len(physical) if physical else None,'automatic_retries':0,'routing_recovery_attempts_allowed':1,'quota_restoration_user_authorized':len(recovery_runs)>1,'valid_test_outputs_before_each_recovery':0,'interpretation':'Task outcome rates and physical attempt rates including both preserved failure waves are different denominators; all CLI failures remain in calls.csv and ledger.'}
+         summary['service_recovery']=incident_summary
+         summary['limitations'].append('出现集中CLI路由故障后，原始32个主终测槽均无输出；冻结选择和失败档案保留，对无输出服务失败统一开放一次恢复，研发完成后重冻选择。原始失败不能当算法退化，恢复也不能抹去失败分母；service_attempts.csv单列全部物理尝试。恢复后消融规模按原预算阶梯重新冻结，属于显式协议补充。')
++    if (root/'protocol_amendment_validator_v3.json').exists():
++        summary['limitations'].append('共同检查器在终测前修正type(exc).__name__日志的误拒绝，统一复核12份原始提案，仅Generic r2/C2新增合格并补跑相同Dev/Selection；没有重新采样或人工改H/M。原规则、失败、源码和diff见validation_correction_v3；这是研发后工程适配。')
+     quota=read(root/'model_usage_limit.json')
+     restoration=read(root/'quota_restored_20261103/recovery_prepared.json')
+     closeout=read(root/'usage_limit_closeout/closeout.json')
+@@ -524,7 +526,7 @@
+     panels = ["<h1>scene_rsi_pilot：真实产物实验报告</h1>",
+               f"<p>正式记录 {summary['formal_records']}；smoke 记录 {summary['smoke_records']}；完成记录 {summary['completed']}。缺失显示 pending/null。所有 smoke 排除正式对照。</p>",
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "final_inference_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+-              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
++              "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "protocol_amendment_validator_v3.json", "validation_correction_v3/revalidation.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
+     panels.append('<p>最终推理成本同时报告实际新增工作与同一H0输出对应的原始推理成本。复用H0的新增调用为0，但不表示该算法推理免费；source_equivalent列仅归属解释，不能再加入物理总账重复计费。</p>')
+     if quota:

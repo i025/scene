@@ -1,0 +1,28 @@
+--- before/config.json
++++ after/config.json
+@@ -131,7 +131,7 @@
+     "gpu_kernel_label": "local_a100_cuda122_v1"
+   },
+   "candidate_validation": {
+-    "version": "v2_ast_standard_library",
++    "version": "v3_type_name_logging",
+     "allowed_imports": [
+       "ast",
+       "json",
+@@ -143,8 +143,8 @@
+       "itertools",
+       "pathlib"
+     ],
+-    "amendment": "Correct common false rejection of pure Python AST source parsing; raw proposals reused without model resampling",
+-    "source_snapshot": "validation_correction_v2"
++    "amendment": "Common v2 rules plus narrowly allow type(value).__name__ for ordinary logging; revalidate all original raw proposals without model resampling",
++    "source_snapshot": "validation_correction_v3"
+   },
+   "service_recovery": {
+     "id": "service_incident_01",
+@@ -166,4 +166,4 @@
+     "reselect_before_any_valid_main_test_feedback": true,
+     "additional_phase_scale_from_remaining_budget_only": true
+   }
+-}
++}

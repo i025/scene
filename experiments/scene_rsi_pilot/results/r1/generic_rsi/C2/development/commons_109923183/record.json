@@ -1,0 +1,180 @@
+{
+  "method": "generic_rsi",
+  "run_id": "r1",
+  "scene_id": "commons_109923183",
+  "split": "development",
+  "candidate_id": "C2",
+  "parent_id": "__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1",
+  "H_version": "candidates/r1/generic_rsi/C2",
+  "M_version": "__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/meta.py",
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.33301842940457616,
+    "lpips": 0.728413462638855,
+    "dino": 0.5541927218437195,
+    "psnr": 14.18806802822748,
+    "overall": 0.46056710922919364
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "apron_lower_bead",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "apron_lower_bead",
+  "device": "GPU",
+  "seconds": 293.5319654243067,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 191761,
+    "output_tokens": 18128,
+    "cached_input_tokens": 32768,
+    "total_tokens": 209889,
+    "seconds": 265.1537103257142,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 287.1838150350377
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C2/development/commons_109923183",
+  "selected": null,
+  "device_mapping": {
+    "device": "GPU",
+    "cuda_visible_devices": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+    "gpu_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+    "gpu_index": 0,
+    "enabled_cycles_devices": [
+      {
+        "name": "NVIDIA A100-PCIE-40GB",
+        "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:01:00",
+        "type": "CUDA"
+      }
+    ],
+    "gpu_idle_recheck": {
+      "time": 1793646695.4622035,
+      "requested_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "other_compute_pids": [],
+      "own_context": false,
+      "memory_used_mib": 0,
+      "utilization_percent": 0
+    },
+    "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+    "gpu_bus_id": "00000000:01:00.0",
+    "backend": "CUDA"
+  },
+  "render_device_history": [
+    {
+      "device": "GPU",
+      "cuda_visible_devices": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "gpu_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "gpu_index": 0,
+      "enabled_cycles_devices": [
+        {
+          "name": "NVIDIA A100-PCIE-40GB",
+          "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:01:00",
+          "type": "CUDA"
+        }
+      ],
+      "gpu_idle_recheck": {
+        "time": 1793646522.2022114,
+        "requested_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+        "other_compute_pids": [],
+        "own_context": false,
+        "memory_used_mib": 0,
+        "utilization_percent": 0
+      },
+      "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+      "gpu_bus_id": "00000000:01:00.0",
+      "backend": "CUDA"
+    },
+    {
+      "device": "GPU",
+      "cuda_visible_devices": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "gpu_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "gpu_index": 0,
+      "enabled_cycles_devices": [
+        {
+          "name": "NVIDIA A100-PCIE-40GB",
+          "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:01:00",
+          "type": "CUDA"
+        }
+      ],
+      "gpu_idle_recheck": {
+        "time": 1793646611.2044914,
+        "requested_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+        "other_compute_pids": [],
+        "own_context": false,
+        "memory_used_mib": 0,
+        "utilization_percent": 0
+      },
+      "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+      "gpu_bus_id": "00000000:01:00.0",
+      "backend": "CUDA"
+    },
+    {
+      "device": "GPU",
+      "cuda_visible_devices": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "gpu_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "gpu_index": 0,
+      "enabled_cycles_devices": [
+        {
+          "name": "NVIDIA A100-PCIE-40GB",
+          "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:01:00",
+          "type": "CUDA"
+        }
+      ],
+      "gpu_idle_recheck": {
+        "time": 1793646695.4622035,
+        "requested_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+        "other_compute_pids": [],
+        "own_context": false,
+        "memory_used_mib": 0,
+        "utilization_percent": 0
+      },
+      "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+      "gpu_bus_id": "00000000:01:00.0",
+      "backend": "CUDA"
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "GPU",
+    "cuda_visible_devices": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+    "gpu_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+    "gpu_index": 0,
+    "enabled_cycles_devices": [
+      {
+        "name": "NVIDIA A100-PCIE-40GB",
+        "id": "CUDA_NVIDIA A100-PCIE-40GB_0000:01:00",
+        "type": "CUDA"
+      }
+    ],
+    "gpu_idle_recheck": {
+      "time": 1793646716.6489284,
+      "requested_uuid": "GPU-f099fdbd-adf2-6157-3462-4145bc2a8359",
+      "other_compute_pids": [],
+      "own_context": false,
+      "memory_used_mib": 3,
+      "utilization_percent": 0
+    },
+    "kernel_root": "__EXPERIMENT_ROOT__/gpu_kernel",
+    "gpu_bus_id": "00000000:01:00.0",
+    "backend": "CUDA"
+  }
+}

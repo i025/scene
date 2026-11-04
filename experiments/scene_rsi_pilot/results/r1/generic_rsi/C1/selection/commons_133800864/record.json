@@ -1,0 +1,58 @@
+{
+  "method": "generic_rsi",
+  "run_id": "r1",
+  "scene_id": "commons_133800864",
+  "split": "selection",
+  "candidate_id": "C1",
+  "parent_id": "__EXPERIMENT_ROOT__/backend/harnesses/baseline",
+  "H_version": "candidates/r1/generic_rsi/C1",
+  "M_version": "__EXPERIMENT_ROOT__/initial_meta/generic_rsi/meta.py",
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.2695765249083137,
+    "lpips": 0.8181477785110474,
+    "dino": 0.484984427690506,
+    "psnr": 12.414919671156264,
+    "overall": 0.3979736534141731
+  },
+  "functional": {
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "functional_pass": true,
+    "target_object": "base",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+  },
+  "target_object": "base",
+  "device": "CPU",
+  "seconds": 914.6427383832633,
+  "usage": {
+    "calls": 3,
+    "input_tokens": "unknown",
+    "output_tokens": "unknown",
+    "cached_input_tokens": "unknown",
+    "total_tokens": "unknown",
+    "seconds": 853.7533308677375,
+    "cost_usd": "unknown",
+    "executions": 2
+  },
+  "runtime_status": {
+    "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/candidates/r1/generic_rsi/C1/policy.py\", line 34, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 49, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 141, in call\n    raise error\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 81, in call\n    session['exit_code'] = run_group(\n                           ^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/processes.py\", line 36, in run_group\n    process.communicate(timeout=timeout)\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 1209, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 2141, in _communicate\n    self.wait(timeout=self._remaining_time(endtime))\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['__SERVER_USER_ROOT__/.local/bin/codex', 'exec', '--ephemeral', '--json', '--skip-git-repo-check', '--sandbox', 'read-only', '--cd', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793631100727401628', '--model', 'gpt-6.1-sol', '--output-last-message', '__EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/selection/commons_133800864/student_calls/003_1793631100690311353/response.txt', '-c', 'model_reasoning_effort=\"medium\"', '-c', 'approval_policy=\"never\"', '-c', 'web_search=\"disabled\"', '-c', 'mcp_servers={}', '--disable', 'shell_tool', '--disable', 'unified_exec', '--disable', 'apps', '--disable', 'plugins', '--disable', 'hooks', '--disable', 'multi_agent', '--disable', 'browser_use', '--disable', 'browser_use_external', '--disable', 'browser_use_full_cdp_access', '--disable', 'computer_use', '--disable', 'image_generation', '--disable', 'memories', '--disable', 'skill_search', '--disable', 'workspace_dependencies', '--disable', 'sleep_tool', '--disable', 'view_image', '--image', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793631100727401628/image_001.png', '--image', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793631100727401628/image_002.png', '--image', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793631100727401628/image_003.png', '-']' timed out after 599.9999636006542 seconds\n",
+    "seconds": 888.3415772211738
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/generic_rsi/C1/selection/commons_133800864",
+  "selected": null
+}

@@ -1,0 +1,24 @@
+{
+  "time": 1793625889.6023588,
+  "scope": "Metadata-only correction: formal runner has always used ROOT/manifest.json, never inherited config.dataset.manifest. No executed scene, model, metric, budget, split or render setting changed.",
+  "unused_inherited_dataset_config": {
+    "seed": 42,
+    "manifest": "__SCENEEVOLVE_REPRO__/SceneEvolve_Code/data/splits-mini.json",
+    "sources": {
+      "commons": {
+        "images": "__SCENEEVOLVE_REPRO__/SceneEvolve_Code/data/mini",
+        "pattern": "*.png",
+        "search": 4,
+        "final_test": 2
+      }
+    }
+  },
+  "actual_dataset_config": {
+    "seed": 42,
+    "manifest": "__EXPERIMENT_ROOT__/manifest.json",
+    "source_root": "__COMMONS_DATA_ROOT__",
+    "split_authority": "manifest.json; pilot sizes 2 development / 2 selection / 4 test; smoke IDs specified by runner.py",
+    "historical_exposure": "exploratory"
+  },
+  "affected_results": 0
+}

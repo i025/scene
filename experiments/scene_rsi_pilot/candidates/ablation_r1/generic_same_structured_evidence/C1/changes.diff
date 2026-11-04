@@ -1,0 +1,361 @@
+--- parent/policy.py
++++ C1/policy.py
+@@ -5,24 +5,94 @@
+ 
+ def solve(task, runtime):
+     prompt = (Path(__file__).parent / 'system.txt').read_text()
+-    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [
+-        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +
+-         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}"},
+-        runtime.image(task['image'])]}]
+-    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:
++    messages = [
++        {'role': 'system', 'content': prompt},
++        {'role': 'user', 'content': [
++            {'type': 'text', 'text': (
++                'Reconstruct this RGB image. Match camera, framing, visible geometry and materials. '
++                f"Image dimensions: {task['width']} x {task['height']}. "
++                f'Budget: {runtime.remaining()}. '
++                'In short code comments, record your estimated image-space anchors and camera assumptions. '
++                'Return a complete first build now, including all major visible objects. '
++                'Before returning, audit every fillet radius, repeated include key, world initialization, '
++                'and material assignment against the system instructions. '
++                'Keep fine decoration economical so executions remain available for visual correction.')},
++            runtime.image(task['image'])
++        ]}
++    ]
++    valid_steps = []
++    attempts = 0
++    calls = 0
++    while calls < 5:
++        budget = runtime.remaining()
++        if budget['model_calls'] <= 0 or budget['seconds'] <= 0:
++            return
++        if budget['executions'] <= 0 and len(valid_steps) < 2:
++            return
+         response = runtime.ask(messages)
++        calls += 1
+         messages.append(response)
+-        text = response['content'] or ''
++        text = response.get('content') or ''
++        selection = re.fullmatch(r'SELECT\s+(\d+)', text.strip(), re.I)
++        if selection:
++            step = int(selection.group(1))
++            if step in valid_steps:
++                runtime.select(step)
++                return
++            messages.append({'role': 'user', 'content': 'Select only a successful rendered step from ' + str(valid_steps) + '.'})
++            continue
++        if text.strip().upper() == 'DONE':
++            if valid_steps:
++                runtime.select(valid_steps[-1])
++                return
++            messages.append({'role': 'user', 'content': 'No valid rendered output exists. This is a reconstruction failure so far. Return a complete corrected program while execution budget remains.'})
++            continue
+         blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S)
+-        if not blocks:
+-            if text.strip().upper() == 'DONE': return
+-            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})
++        if len(blocks) != 1:
++            messages.append({'role': 'user', 'content': 'Return exactly one complete program in one python code block, DONE to keep the latest successful rendered build, or SELECT followed by a successful step number.'})
+             continue
+-        if runtime.remaining()['executions'] <= 0: return
+-        result = runtime.execute(blocks[-1])
+-        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +
+-                    '\nCompare the rendered camera view with the original reference. ' +
+-                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}
+-        content = [feedback]
+-        if result['image']: content.append(runtime.image(result['image']))
++        budget = runtime.remaining()
++        if attempts >= 3 or budget['executions'] <= 0 or budget['seconds'] <= 0:
++            if len(valid_steps) >= 2:
++                messages.append({'role': 'user', 'content': 'No executions remain. Compare the already supplied renders with the reference and reply SELECT n, choosing from ' + str(valid_steps) + '. Do not write more code.'})
++                continue
++            return
++        attempts += 1
++        result = runtime.execute(blocks[0])
++        rendered = result.get('ok') is True and bool(result.get('image'))
++        step = result.get('step')
++        if rendered and isinstance(step, int):
++            valid_steps.append(step)
++        report = {k: v for k, v in result.items() if k != 'image'}
++        report['usable_render'] = rendered
++        remaining = runtime.remaining()
++        if not rendered:
++            guidance = (
++                'FAILURE: no valid rendered output is available for this attempt. '
++                'Do not infer visual quality from this result. Read the traceback and repair the root cause. '
++                'Audit the entire program for the same error and the other documented API hazards. '
++                'Preserve the intended composition; return a complete runnable replacement.'
++            )
++            if valid_steps:
++                runtime.select(valid_steps[-1])
++        elif remaining['executions'] > 0 and attempts < 3:
++            guidance = (
++                'Compare this render directly with the original reference. In brief code comments identify '
++                'the largest two or three visible discrepancies and the parameter changes addressing them. '
++                'Check architectural line slopes, framing, object silhouettes, relative sizes, occlusion, '
++                'missing foreground objects, and large light/dark regions before small decoration. '
++                'A global framing error calls for camera changes; a local silhouette error calls for geometry. '
++                'Do not change focal length and object scale together without independent evidence. '
++                'Return a complete revised program if a substantial correction is supported. '
++                'Otherwise return DONE, or SELECT n to retain an earlier successful render.'
++            )
++        else:
++            guidance = (
++                'No more builds are available. Compare the successful renders already supplied with the '
++                'reference and reply SELECT n for the best existing build. Do not generate unexecutable code.'
++            )
++        content = [{'type': 'text', 'text': json.dumps(report, default=str) + '\n' + guidance +
++                    f'\nSuccessful rendered steps: {valid_steps}. Remaining: {remaining}'}]
++        if rendered:
++            content.append(runtime.image(result['image']))
+         messages.append({'role': 'user', 'content': content})
+--- parent/system.txt
++++ C1/system.txt
+@@ -10,7 +10,49 @@
+ Do not render or save files in the program: the fixed runner saves and renders once after
+ execution, using your active camera. Do not access external files, network or other models.
+ When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+-is submitted automatically. Budget includes all planning, corrections and review calls.
++is submitted automatically unless you reply SELECT n to select a supplied successful step.
++Budget includes all planning, corrections and review calls. There are at most five fresh
++CLI sessions, three Blender executions and 1200 seconds. Actual observable turns are logged;
++a session is not necessarily a single model turn. Use only the supplied interaction.
++
++Construction and review procedure:
++- Make the first build complete at the level of major silhouettes, visible object inventory,
++  architecture and lighting. Estimate a few normalized image coordinates for important
++  corners, silhouette extrema and contacts, with origin at the upper-left. These are visual
++  estimates, not measured calibration. Record them in brief code comments.
++- Put camera, main dimensions, placements and light powers in clearly named parameters.
++  Match perspective line directions and near/far size ratios before adjusting framing.
++  Preserve visible cropping and foreground occluders. Do not center everything by habit.
++- Spend complexity on visible contours and large color regions. Avoid thousands of tiny
++  decorative meshes or unique random materials before the first render is inspected.
++  Procedural material detail may represent fine texture; keep geometry genuinely editable.
++- Group each meaningful object with its constituent parts under an Asset or Part. Keep
++  unrelated objects separate. Do not optimize names or hierarchy for an evaluator target.
++- Review successful renders for the largest reference disagreements. Make a small number
++  of justified parameter changes per revision; preserve already matching regions. Missing
++  output is failure, not visual evidence. A runtime repair should not arbitrarily redesign
++  the scene. Do not claim unseen renders, semantic completeness or metric 3D accuracy.
++
++Mandatory API audit before every build:
++- fillet_box requires 0 < radius <= min(size)/2, including the thinnest dimension.
++  Use a smaller valid radius or another allowed construction for a thin rounded object.
++  All primitive dimensions and radii must be finite and positive. Rod endpoints must differ;
++  remove consecutive duplicate points from sweep paths. Do not patch the SceneAct library.
++- include replaces a child with the same key. Give repeated siblings unique keys, such as
++  an index within a meaningful parent. Return/use the attached node when ownership matters.
++- realize clears Blender, including its default world. Create the world AFTER realize:
++      sc = bpy.context.scene
++      if sc.world is None:
++          sc.world = bpy.data.worlds.new('Ambient world')
++      sc.world.use_nodes = True
++  Then obtain the Background node and set its inputs. Create camera and lights after realize.
++- SceneAct include keys name parent EMPTY objects; emitted meshes may be named Box, Rod,
++  or Ball. For material edits, find the intended named group and traverse its mesh descendants;
++  do not expect the semantic include key to appear in a mesh name. SceneAct can share a
++  material between equal finishes. Copy materials before editing only one object's surface.
++- Use explicit pivots when resizing or rotating assemblies around a particular point.
++  AABB anchors are approximate bounds, not true contact or collision tests. Relations must
++  be acyclic and their endpoints attached to the scene. Use explicit snap/bind anchors.
+ 
+ SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+ from sceneact import *
+@@ -36,8 +78,8 @@
+ node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+ node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+ along a unit direction; projected_width(node,direction) returns their difference.
+-snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+-A target can also be a world point; then omit target_anchor.
++snap(node, target, source_anchor='center', target_anchor=None, offset=(0,0,0)) returns a copy.
++For an Asset target, omitted target_anchor uses source_anchor. For a world point, omit target_anchor.
+ abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+ center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+ offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+@@ -46,7 +88,7 @@
+ lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+ orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+ Layout functions return assemblies of independent copies.
+-scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
++scene.bind(source,target,source_anchor='center',target_anchor='center',offset=(0,0,0))
+ registers a persistent relation between scene members; scene.settle() updates dependencies.
+ realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+ set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+--- parent/meta.py
++++ C1/meta.py
+@@ -1,29 +1,145 @@
+-"""CLI/backend adaptation of the HyperAgents self-referential meta entry point."""
+-def generic_plan(packet):
+-    # Keep the complete explicit archive available and use the common probe menu.
+-    scenes = packet['development']
++"""Evidence organization only; no model calls, file access or rendering."""
++
++KEYS = ('structure_pass', 'material_pass', 'composite_pass')
++
++
++def _rows(value):
++    if isinstance(value, list):
++        for item in value:
++            yield from _rows(item)
++    elif isinstance(value, dict):
++        if 'scene_id' in value and ('status' in value or 'trajectory' in value):
++            yield value
++        else:
++            for key in ('development', 'archive', 'archive_raw_development', 'scenes', 'results'):
++                if key in value:
++                    yield from _rows(value[key])
++
++
++def _diagnose(scene, origin):
++    events = (scene.get('trajectory') or {}).get('events', [])
++    failures = []
++    successes = []
++    for event in events:
++        if event.get('event') != 'execution_result':
++            continue
++        if event.get('ok') is False:
++            failures.append({
++                'step': event.get('step'),
++                'stderr': event.get('stderr'),
++                'error': event.get('error')
++            })
++        elif event.get('ok') is True:
++            successes.append(event.get('step'))
++    missing = scene.get('status') != 'complete' or (scene.get('metrics') or {}).get('valid') is False
++    return {
++        'scene_id': scene.get('scene_id'),
++        'origin': origin,
++        'object_id': scene.get('target_object', 'unknown'),
++        'observation_type': 'supplied_execution_and_measurement_evidence',
++        'observation': ('No valid final output: reconstruction failure.' if missing else
++                        'Completed output; inspect supplied reference/render pair for visual disagreement.'),
++        'execution_failures': failures,
++        'successful_execution_steps': successes,
++        'metrics': scene.get('metrics'),
++        'functional': scene.get('functional'),
++        'regression': scene.get('regression'),
++        'geometry_limits': (scene.get('structure') or {}).get('measurement_limit'),
++        'hypothesis': 'Preventable API failures may consume opportunities for visual correction; verify against the trajectory.',
++        'planned_change': 'Prioritize valid first builds and evidence-based visual revision while preserving edit operability.'
++    }
++
++
++def plan(packet):
++    current = list(_rows(packet.get('development', [])))
++    diagnoses = [_diagnose(row, 'development') for row in current]
++    for key in ('archive_raw_development', 'archive'):
++        diagnoses.extend(_diagnose(row, key) for row in _rows(packet.get(key, [])))
++
++    counts = {}
++    for key in KEYS:
++        values = [(row.get('functional') or {}).get(key) for row in current]
++        counts[key] = {
++            'pass': sum(value is True for value in values),
++            'fail': sum(value is False for value in values),
++            'unknown': sum(value is not True and value is not False for value in values)
++        }
++    priorities = sorted(KEYS, key=lambda key: (-counts[key]['fail'], key))
++
++    observed = packet.get('controlled_probes') or []
++    probe_evidence = []
++    used_pairs = set()
++    for probe in observed:
++        result = probe.get('result') or {}
++        kind = probe.get('probe', result.get('probe'))
++        used_pairs.add((probe.get('scene_id'), kind))
++        before = probe.get('baseline_visual_metrics') or {}
++        after = probe.get('visual_metrics') or {}
++        deltas = {}
++        if before.get('valid') is True and after.get('valid') is True:
++            for key in ('overall', 'ssim', 'lpips', 'dino', 'psnr'):
++                a, b = before.get(key), after.get(key)
++                if isinstance(a, (int, float)) and isinstance(b, (int, float)):
++                    deltas[key] = b - a
++        probe_evidence.append({
++            'scene_id': probe.get('scene_id'), 'kind': kind,
++            'status': result.get('status', 'unknown'),
++            'target_selection': result.get('target_selection'),
++            'metric_deltas': deltas,
++            'interpretation': 'One intervention on the specified target only. Missing metrics are unknown; a small response does not identify a global cause.'
++        })
++
++    declared = packet.get('already_executed_probe_count', 0)
++    used = max(len(observed), declared if isinstance(declared, int) else 0)
++    available = max(0, 2 - used)
++    complete = [row for row in current if row.get('status') == 'complete'
++                and (row.get('metrics') or {}).get('valid') is True]
++
++    def score(row):
++        value = (row.get('metrics') or {}).get('overall')
++        return value if isinstance(value, (int, float)) else float('inf')
++
++    complete.sort(key=score)
+     probes = []
+-    if scenes and scenes[0]['status'] == 'complete':
+-        probes = [{'scene_id': scenes[0]['scene_id'], 'kind': kind} for kind in ['camera_focal', 'object_scale']]
+-    return {'probes': probes, 'regression_guidance': True,
+-            'instruction': 'Improve the shared task program H and your meta-program M. Inspect the entire supplied development archive, sources, execution errors, renders, geometry, and regression measurements. Design a general change to the reconstruction process under the fixed objective and limits. You may change meta.py planning, probe selection, evidence prioritization, and the next research instruction. Preserve callable plan(packet). The next candidate uses the latest valid meta program; this is an exploration branch, not acceptance of its task program. Do not specialize to scene identifiers.'}
++    # Prefer global camera sensitivity across scenes before scaling an arbitrary small part.
++    for row in complete:
++        kind = 'isolate' if (row.get('functional') or {}).get('composite_pass') is False else 'camera_focal'
++        pair = (row.get('scene_id'), kind)
++        if len(probes) < available and pair not in used_pairs:
++            probes.append({'scene_id': pair[0], 'kind': pair[1]})
++            used_pairs.add(pair)
+ 
+-def structured_evidence(packet):
+-    scenes = packet['development']
+-    diagnoses = []
+-    for scene in scenes:
+-        if scene['status'] != 'complete':
+-            diagnoses.append({'scene_id': scene['scene_id'], 'object_id': 'unknown', 'code_location': 'unknown', 'observation': 'No valid output; consult execution log', 'observation_type': 'measured', 'hypothesis': 'unknown', 'probe': 'none', 'probe_result': 'not_run', 'planned_change': 'Investigate general runtime failure before visual diagnosis'})
+-            continue
+-        target = scene.get('target_object', 'unknown')
+-        diagnoses.append({'scene_id': scene['scene_id'], 'object_id': target, 'code_location': 'unknown', 'observation': 'Reference/render disagreement; magnitude is measured by fixed visual metrics', 'observation_type': 'measured_metric_with_unresolved_visual_cause', 'hypothesis': 'Camera framing or object scale may contribute; this is a hypothesis, not attribution', 'probe': 'camera_focal and object_scale', 'probe_result': 'awaiting controlled intervention', 'planned_change': 'Use probe sensitivity and dependency regression evidence to choose a shared H change'})
+-        break
+-    failures = {key: sum((not row.get('functional', {}).get(key, False) for row in scenes)) for key in ['structure_pass', 'material_pass', 'composite_pass']}
+-    priorities = sorted(failures, key=lambda key: (-failures[key], key))
+-    return {'diagnoses': diagnoses, 'regression_priorities': priorities}
+-def plan(packet):
+-    generic = generic_plan(packet)
+-    evidence = structured_evidence(packet)
+-    generic['diagnoses'] = evidence['diagnoses']
+-    generic['regression_priorities'] = evidence['regression_priorities']
+-    return generic
++    instruction = (
++        'Improve shared H and callable plan(packet) in M under the unchanged objective, roles, '
++        'SceneAct sources, evaluator, splits and resource limits. Inspect every supplied development '
++        'record and archive, including execution failures preceding completed outputs. Start with '
++        'the earliest preventable failure and determine whether successful renders arrived early '
++        'enough for a visual correction. Separate observed errors, visual estimates and hypotheses. '
++        'Use supplied source semantics to audit fillet limits, world initialization after realize, '
++        'include-key replacement, emitted mesh naming and material sharing. Inspect all supplied '
++        'reference/render pairs for framing, silhouette, occlusion and large tonal errors. '
++        'Interpret probes using their actual selected subtree, pivot and preserved variables; '
++        'never generalize a small decorative-part scale probe to whole-object scale. '
++        'Preserve functional successes; prescribed Blender edits prove operability only, not '
++        'semantic completeness, true collision, or metric recovery. Unknown measurements remain '
++        'unknown; missing output is failure. Propose a general process change with explicit risks '
++        'and a falsifiable expected effect, such as earlier first successful rendering and more '
++        'usable visual revisions. Do not hardcode scene IDs, paths or answers. Selection aggregates '
++        'inform retention only; no Selection images or labels may be inferred or accessed. '
++        'Return complete replacement files. This is an exploration branch, not acceptance of H. '
++        'Keep the full supplied evidence available; these diagnoses are an index, not a substitute. '
++        'No independent evaluation, filesystem exploration, external models or extra renders.'
++    )
++    return {
++        'probes': probes,
++        'regression_guidance': True,
++        'instruction': instruction,
++        'diagnoses': diagnoses,
++        'regression_priorities': priorities,
++        'functional_counts': counts,
++        'probe_evidence': probe_evidence,
++        'evidence_priority': ['missing_output', 'execution_failures', 'first_success_timing',
++                              'reference_render_disagreement', 'controlled_interventions',
++                              'functional_regressions'],
++        'archive_note': 'Only explicitly supplied archive records are available; empty archives provide no historical evidence.'
++    }

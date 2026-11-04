@@ -1,0 +1,311 @@
+{
+  "status": "complete",
+  "completion_scope": "all budget-selected slots attempted; inspect reconstruction/judge outcomes separately",
+  "evaluation": "adapted_evaluation_not_official",
+  "tasks": [
+    "bw_0005"
+  ],
+  "all_scheduled_reconstructions": 2,
+  "valid_reconstructions": 2,
+  "completed_judgments": 1,
+  "pending_original_tasks": [
+    "bw_0011"
+  ],
+  "scope": "feasibility_only_one_task",
+  "records": [
+    {
+      "method": "fixed_h0",
+      "task_id": "bw_0005",
+      "reconstruction": {
+        "method": "fixed_h0",
+        "run_id": "external",
+        "scene_id": "bw_0005",
+        "split": "external",
+        "candidate_id": "selected",
+        "parent_id": null,
+        "H_version": "external_inputs/bw_0005/fixed_h0",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.09384476669652568,
+          "lpips": 0.9558075070381165,
+          "dino": 0.4364806115627289,
+          "psnr": 8.14702198931683,
+          "overall": 0.2854258551465912
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "back left cabinet",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "back left cabinet",
+        "device": "CPU",
+        "seconds": 403.9053393639624,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 164170,
+          "output_tokens": 13013,
+          "cached_input_tokens": 32768,
+          "total_tokens": 177183,
+          "seconds": 309.0177004910074,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 366.41853473102674
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/external/fixed_h0/selected/external/bw_0005",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "adapted_evaluation": {
+        "status": "failed",
+        "error": "Codex external_anonymous_judge exited 1: __EXPERIMENT_ROOT__/external_judgments/anon_01/judge_call/stderr.log",
+        "adapted_fused_score_0_100": null
+      }
+    },
+    {
+      "method": "scene_rsi_pilot",
+      "task_id": "bw_0005",
+      "reconstruction": {
+        "method": "scene_rsi_pilot",
+        "run_id": "external",
+        "scene_id": "bw_0005",
+        "split": "external",
+        "candidate_id": "selected",
+        "parent_id": null,
+        "H_version": "external_inputs/bw_0005/scene_rsi_pilot",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.11971927560385599,
+          "lpips": 0.9392843246459961,
+          "dino": 0.5164906978607178,
+          "psnr": 7.469562682876484,
+          "overall": 0.31289343329607294
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "back_left_plant",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "back_left_plant",
+        "device": "CPU",
+        "seconds": 428.98068638378754,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 202690,
+          "output_tokens": 15152,
+          "cached_input_tokens": 32768,
+          "total_tokens": 217842,
+          "seconds": 350.3951202305034,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 397.326124929823
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/external/scene_rsi_pilot/selected/external/bw_0005",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "adapted_evaluation": {
+        "status": "complete",
+        "evaluation": "adapted_evaluation_not_official",
+        "rubric_score_0_100": 44.44444444444444,
+        "dimension_score_0_100": 65.0,
+        "adapted_fused_score_0_100": 54.72222222222222,
+        "rubric_scores": [
+          {
+            "id": "R01",
+            "score": 1,
+            "evidence": "The rectangular classroom has a continuous rear window row, credible room proportions, perimeter shelving, foreground storage, activity areas, circulation space, and supporting plants and learning materials."
+          },
+          {
+            "id": "R02",
+            "score": 1,
+            "evidence": "Several low wooden units have readable open compartments, including wall-side runs and a freestanding foreground island."
+          },
+          {
+            "id": "R03",
+            "score": 0,
+            "evidence": "Trays and geometric materials are visible, but a distinct small wooden box cannot be identified unambiguously in the noisy views."
+          },
+          {
+            "id": "R04",
+            "score": 1,
+            "evidence": "Two light-wood activity tables and associated small stools appear behind and beside the island. A round rug rests on the floor, and furniture proportions are coherent."
+          },
+          {
+            "id": "R05",
+            "score": 0,
+            "evidence": "Furniture is warm and matte and walls are light neutral, but discernible wood grain and a clearly natural-wood floor finish are not established."
+          },
+          {
+            "id": "R06",
+            "score": 0,
+            "evidence": "The horizontal overview shows major furniture relationships and open areas, but the supplied inspection does not establish the saved camera's corner position or perspective optics."
+          },
+          {
+            "id": "R07",
+            "score": 1,
+            "evidence": "Bright rear windows, soft warm illumination, gentle shading, and readable shelf interiors support a daylight-led scene with ambient fill."
+          },
+          {
+            "id": "R08",
+            "score": 0,
+            "evidence": "No actual author-delivered finished-render metadata establishes an exact 1920×1080 raster."
+          },
+          {
+            "id": "R09",
+            "score": 0,
+            "evidence": "The summary confirms that a blend opened, but does not verify original Cycles settings, final sampling, or effective denoising. The supplied views exhibit conspicuous sampling noise."
+          }
+        ],
+        "dimension_scores": [
+          {
+            "id": "scene_fidelity",
+            "score": 7,
+            "reason": "The main classroom arrangement is recognizable, though supporting contents and architectural details are simplified."
+          },
+          {
+            "id": "physics",
+            "score": 7,
+            "reason": "Furniture appears structurally coherent and floor-supported. No clear major collision is visible; the supplied AABB candidates do not establish mesh collisions."
+          },
+          {
+            "id": "style_color",
+            "score": 7,
+            "reason": "Low open shelving, small tables, stools, warm wood colors, and a red rug match the intended classroom vocabulary."
+          },
+          {
+            "id": "realism",
+            "score": 4,
+            "reason": "Heavy sampling grain, washed-out surfaces, and simplified details substantially reduce visual believability."
+          },
+          {
+            "id": "layout_spatial",
+            "score": 7,
+            "reason": "Rear windows, perimeter storage, foreground island, and adjacent activity zones preserve the broad reference organization."
+          },
+          {
+            "id": "proportion_scale",
+            "score": 8,
+            "reason": "Storage, tables, stools, and learning materials have mutually plausible child-oriented proportions."
+          },
+          {
+            "id": "lighting_material",
+            "score": 5,
+            "reason": "Soft daylight and warm matte colors are plausible, but noise and weak surface definition obscure grain and floor material."
+          },
+          {
+            "id": "completeness",
+            "score": 7,
+            "reason": "Most principal furnishings are visible, while distinct wooden boxes and some supporting reference details remain uncertain."
+          }
+        ]
+      }
+    }
+  ],
+  "remaining_cli": 12,
+  "budget_adaptation": "external_budget_adaptation/preuse_rule.json"
+}

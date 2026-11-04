@@ -1,0 +1,133 @@
+{
+  "phase": "blocked_service",
+  "active_model_process": false,
+  "service_pause": {
+    "reason": "workspace routing discovery failed",
+    "session": "__EXPERIMENT_ROOT__/results/ablation_r1/ours_without_regression_guidance/C1/test/commons_199974832/student_calls/001_1793758336757559800/session.json",
+    "time": 1793758356.5387533,
+    "automatic_retries": 0
+  },
+  "service_incident": "service_incident_03",
+  "completed_stages": [
+    "main_search_and_test",
+    "text_editor_and_independent_judge",
+    "ablation_all_scheduled_slots_with_failures"
+  ],
+  "incomplete_stages": [
+    "frozen_meta_replay",
+    "blenderworld_external"
+  ],
+  "cli_sessions": 546,
+  "max_cli_sessions": 600,
+  "time": 1793758750.565075,
+  "new_sessions": 13,
+  "new_sessions_by_role": {
+    "service_connectivity_check": 1,
+    "student": 12
+  },
+  "new_sessions_by_status": {
+    "complete": 11,
+    "failed": 2
+  },
+  "new_calls": [
+    {
+      "source": "service_incident_02/connection_check_001/session.json",
+      "role": "service_connectivity_check",
+      "status": "complete",
+      "seconds": 20.164760500192642,
+      "started": 1793755338.7095556
+    },
+    {
+      "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_163096530/student_calls/001_1793755360279998221/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 113.9551190091297,
+      "started": 1793755360.5875347
+    },
+    {
+      "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_163096530/student_calls/002_1793755525956345805/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 115.5507553233765,
+      "started": 1793755526.281457
+    },
+    {
+      "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_163096530/student_calls/003_1793755691798637271/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 100.9772821450606,
+      "started": 1793755692.0961144
+    },
+    {
+      "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_163096530/student_calls/004_1793755845332568387/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 20.009386687073857,
+      "started": 1793755845.6538503
+    },
+    {
+      "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_199974832/student_calls/001_1793755903416382723/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 130.89529857039452,
+      "started": 1793755903.7374992
+    },
+    {
+      "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_199974832/student_calls/002_1793756635277000019/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 107.99300997285172,
+      "started": 1793756635.6037562
+    },
+    {
+      "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_199974832/student_calls/003_1793756821268415108/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 125.42425070423633,
+      "started": 1793756821.5947273
+    },
+    {
+      "source": "results/ablation_r1/generic_same_structured_evidence/C1/test/commons_199974832/student_calls/004_1793757037282949531/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 20.363975974265486,
+      "started": 1793757037.5795734
+    },
+    {
+      "source": "results/ablation_r1/ours_without_probes/C1/test/commons_199974832/student_calls/001_1793757092696540733/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 127.51377306832,
+      "started": 1793757093.0173895
+    },
+    {
+      "source": "results/ablation_r1/ours_without_probes/C1/test/commons_199974832/student_calls/002_1793757220534030550/session.json",
+      "role": "student",
+      "status": "complete",
+      "seconds": 136.5047857677564,
+      "started": 1793757220.8526351
+    },
+    {
+      "source": "results/ablation_r1/ours_without_probes/C1/test/commons_199974832/student_calls/003_1793757842740803164/session.json",
+      "role": "student",
+      "status": "failed",
+      "seconds": 450.0932687530294,
+      "started": 1793757843.0675747
+    },
+    {
+      "source": "results/ablation_r1/ours_without_regression_guidance/C1/test/commons_199974832/student_calls/001_1793758336757559800/session.json",
+      "role": "student",
+      "status": "failed",
+      "seconds": 19.456529031973332,
+      "started": 1793758337.081056
+    }
+  ],
+  "ablation_test_status_counts": {
+    "complete": 10,
+    "failed": 2
+  },
+  "latest_failure_shanghai": "2026-11-04T10:12:36.538753+08:00",
+  "execution_record": "service_incident_02/execution_09.json",
+  "action": "Stop new model submissions after the single user-authorized connection check was followed by another routing error; all raw failures and partial valid outputs retained.",
+  "future_entry": "Explicit resume-service may perform one check for this new incident03; not executed by this closeout."
+}

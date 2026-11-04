@@ -1,0 +1,15 @@
+--- before/extras.py
++++ extras.py
+@@ -129,7 +129,11 @@
+         for scene in test:
+             if selected=='H0':reuse_h0('scene_rsi_pilot','r1','r1',scene)
+             else:run_scene('scene_rsi_pilot','r1',selected,scene,source)
+-    choices=[{'run_id':r,'method':m,'candidate_id':s['selected'],'source':str(s['selected_source']),'selection':s['best']} for (r,m),s in states.items()];write_json(ROOT/'ablation_selection_freeze.json',{'choices':choices,'time':time.time(),'no_test_feedback_used':True})
++    choices=[{'run_id':r,'method':m,'candidate_id':s['selected'],'source':str(s['selected_source']),'selection':s['best']} for (r,m),s in states.items()]
++    frozen=read(ROOT/'ablation_selection_freeze.json')
++    if frozen:
++        if frozen['choices']!=choices:raise RuntimeError('Ablation resume choices differ from the frozen choices')
++    else:write_json(ROOT/'ablation_selection_freeze.json',{'choices':choices,'time':time.time(),'no_test_feedback_used':True})
+     for scene in test:
+         for choice in choices:
+             if choice['candidate_id']=='H0':reuse_h0(choice['method'],choice['run_id'],choice['run_id'].replace('ablation_',''),scene)

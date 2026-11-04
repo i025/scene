@@ -1,0 +1,657 @@
+--- parent/policy.py
++++ C2/policy.py
+@@ -6,56 +6,101 @@
+ 
+ PROCEDURE = '''
+ Shared reconstruction procedure:
+-Produce a compact, complete first build immediately; do not spend a separate turn on planning.
+-In brief code comments record the dominant silhouettes, approximate normalized image bounds,
+-main perspective directions, occlusion order, and camera hypothesis. These are estimates,
+-not measured calibration. Put camera, major dimensions and placement parameters together.
+-First establish architecture, every prominent object, essential supports, large color regions,
+-and a plausible camera. Keep semantic objects as named Assets with all their constituent
+-parts inside them. Preserve separate meshes and editable material assignments.
+-
+-Reliability requirements derived from the actual SceneAct implementation:
+-- include(name,node) REPLACES an existing child with that name. Use unique indexed names
+-  inside loops. Include the returned node if subsequently editing an attachment that was cloned.
+-- fillet_box requires 0 < radius <= min(size)/2, INCLUDING thickness. Choose a valid radius
+-  explicitly; do not alter the library. It emits up to 23 primitive meshes per call.
+-- sweep_tube with N points emits N spheres and N-1 cylinders. Use few control points;
+-  adjacent points must differ. Use rod for straight members. Avoid dense ornamental sweeps.
+-- All dimensions and coordinates must be finite; dimensions and radii must be positive.
+-- realize clears Blender, including its world. After realize, before accessing world nodes:
++Return a complete first build immediately, with a short planning ledger in code comments.
++List every prominent object, including cropped foreground objects, its approximate normalized
++image bounds, visible supports, silhouette-defining parts and occlusion order. Record 5-8
++reference anchors distributed across foreground, subject and architecture, plus perspective
++line directions and a camera hypothesis. These are visual estimates, not calibration.
++Keep camera, major dimensions, placements, material palette and lighting parameters together.
++
++Compact means economical representation, not missing surfaces or semantic parts. Establish
++all major objects and their distinctive profiles in the first build. Allocate geometry to
++visible changes in contour, thickness, curvature and negative space before small ornament.
++Do not represent a broad shaped panel solely with a tubular outline; supply its filled body.
++Do not substitute an oval for a visibly angular cushion or a constant-radius rail for a broad
++shaped apron merely to reduce mesh count. Use short connected SceneAct assemblies to capture
++such profiles. Match silhouette and projected proportions before surface microdetail.
++
++Use a named Asset for each independently editable semantic object. Within it, group attached
++subassemblies with their trim, inlays, panels and fixtures. Moving a rail should carry its own
++attached edging; moving furniture should carry its frame, upholstery and supports. Separate
++independent nearby objects into their own Assets even if they share a wall or material.
++Use descriptive stable names, not names chosen to affect an evaluator's target ordering.
++Before realize, inspect source membership against the object ledger, including nested groups.
++A passing edit on a helper assembly does not certify a complete semantic object.
++Print a compact inventory of top-level child names and descendant primitive counts, and the
++whole-scene count: sum(n.solid is not None for n in scene.traverse()). Count expanded primitives,
++not helper calls. Numeric primitive targets are unvalidated planning heuristics, not quality
++criteria or hard limits. Remove repeated subpixel detail before simplifying major silhouettes.
++Prefer simple assemblies to Boolean operations; use restrained shaders for surface patterns.
++
++Implementation semantics to respect:
++- include(name,node) replaces a child with that name. Use unique loop names. Attaching a node
++  owned by a different parent clones it; use the returned node for subsequent attachment edits.
++- fillet_box requires 0 < radius <= min(size)/2, including thickness. It emits up to 23 meshes.
++  sweep_tube with N points emits N spheres and N-1 cylinders. Use rod for straight members;
++  use enough distinct control points for visible curves, without dense ornamental sweeps.
++- Dimensions, radii and coordinates must be finite; dimensions and radii must be positive.
++  Rod endpoints must differ. Avoid empty groups in bounding-box calculations.
++- Transform a complete group around an explicit meaningful pivot when preserving support or
++  attachment matters. Default pivots are world AABB centers, not necessarily asset origins.
++  AABB landmarks and support candidates do not establish true mesh contact or collision.
++- realize clears Blender and its world. Create all bpy materials, camera and lights afterward.
+   sc = bpy.context.scene
+   if sc.world is None:
+       sc.world = bpy.data.worlds.new('Ambient')
+   sc.world.use_nodes = True
+-  Then configure Background, camera and lighting. Do not retain pre-realize bpy references.
+-- All geometry must use SceneAct. bpy is for materials, lighting and camera customization;
+-  do not bypass the geometry interface with direct mesh or curve creation.
+-
+-Count expanded primitives, not helper calls. Aim for roughly 200-350 meshes initially and
+-keep revisions below roughly 500 unless essential visible structure requires more. These are
+-planning targets, not reasons to omit major objects or supports. Avoid thousands of floor
+-boards, fabric stitches or repeated tiny marks; use restrained procedural materials for
+-surface patterns. Use a small reusable material palette. Prefer simple assemblies over
+-Boolean operations. Before realize, print the actual primitive count using
+-sum(n.solid is not None for n in scene.traverse()). Never render additional views, save files,
+-or change the fixed runner's resolution, engine, sampling or other resource settings.
+-
+-After a successful rendering, compare it with the original using 5-8 stable visible anchors:
+-major object extremes, wall/floor intersections and distinctive foreground/background points.
+-Distinguish global perspective/framing errors from local object size or placement errors.
+-Correct camera using scene-wide evidence; change individual objects only for local residuals.
+-Keep camera fixed when revising material/light appearance. Prefer one coherent correction
+-family per revision, preserving already matched anchors. Do not add fine detail while major
+-silhouettes, occlusion, framing or brightness remain wrong. Never infer improvement without
+-an actual render. A noisy render alone does not authorize changing fixed renderer settings.
+-
+-On execution failure, there is no rendered view to compare. Repair the reported cause and
+-audit the other reliability requirements before returning a complete replacement. On timeout,
+-substantially simplify repeated surface detail and primitive expansion while retaining major
+-objects and semantic groups. With little time or the final execution, prioritize a valid,
+-compact scene over ornament. DONE is allowed only after a successful visible render.
+-The controller may request SELECT <step> to retain a previously successful rendered build.
+-Only the supplied successful step numbers are eligible; never select unexecuted code.
++  Do not retain pre-realize bpy references.
++- Geometry must use SceneAct. Do not create meshes or curves through bpy or change the library.
++
++Material assignment and pattern coordinates:
++SceneAct emits semantic attachment names on EMPTY markers; meshes retain primitive node names
++such as Box, Ball and Rod. Searching mesh names for attachment labels can silently match nothing.
++After realize, locate the intended semantic marker and traverse its descendants to find meshes.
++For each targeted assignment, count matched meshes and assert the expected set is nonempty.
++The compiler shares materials by exact RGBA finish. Copy a material before changing just one
++object's appearance; changing a shared material affects all its users. Assign copied materials
++only to intended descendants, preserving other objects. A palette match is appropriate only
++when every user of that finish should receive the same treatment.
++Generated coordinates normalize each primitive separately. Object texture coordinates without
++an explicit reference object are also local to each mesh, not continuous world coordinates.
++A scaled box can therefore stretch a supposedly small floor pattern over the entire floor.
++For continuous patterns across an assembly, use a common existing semantic EMPTY as the explicit
++ShaderNodeTexCoord.object and connect its Object output; account for that marker's transform.
++Choose pattern spacing in that shared coordinate frame from visible repetition in the image.
++Do not create geometry for fabric stitches or tiny floor seams. Keep floor seams restrained,
++cloth patterns low contrast, and the large material color regions faithful to the reference.
++
++Revision discipline:
++Compare the reference and actual render using the anchor ledger, recording both approximate
++positions and residual directions in code comments. Separate three questions:
++1. Camera: do architecture and multiple independent objects show a coherent framing or
++   perspective residual? Lens changes at fixed pose change framing; camera translation changes
++   depth-dependent ratios. Neither alone proves the true camera. Do not fit only the main object
++   while ignoring wall edges, foreground crops or background anchors.
++2. Geometry: with a plausible camera, which local contours, projected dimensions, supports or
++   occlusions remain wrong? Edit the entire relevant semantic group, or its complete subassembly.
++   Scaling a helper rail is not a test of whole-object scale. Avoid global scaling for local shape.
++3. Appearance: with camera and geometry fixed, compare large brightness/color regions, material
++   assignment, texture scale, roughness and light direction. Verify shader targeting and coordinate
++   semantics before compensating with color or light intensity. Avoid simultaneous large changes
++   to albedo and illumination unless there is a specific explanation.
++Choose the largest evidence-supported correction family per revision. Preserve matched anchors
++and all ledger objects; document any necessary coupled change. Prefer essential silhouette
++corrections to fine decoration. An unrendered rewrite has no demonstrated improvement.
++
++Failures and budgets:
++Five fresh CLI sessions, three Blender executions and 1200 seconds are hard limits. The external
++logger counts actual model events; one session need not equal one observable turn. Work only
++through the supplied controller. Do not use tools, other models, filesystem exploration or network.
++Never render extra views, save files or modify the fixed renderer's engine, resolution, sampling
++or resource settings. Noise alone is not a reason to change renderer settings.
++On failure, use the actual exception/logs to repair the cause and audit the semantics above.
++Missing output is failure; do not describe an unseen render. A timeout without stage logs does
++not identify the stalled stage. Simplifying repeated detail is a conservative recovery option,
++not proof that geometry caused the timeout. Preserve complete objects and supports when reducing
++cost. DONE is allowed only after inspecting a successful render. SELECT <step> may choose only
++one of the supplied successful rendered steps. In selection-only mode, generate no new code.
+ '''
+ 
+ 
+@@ -70,84 +115,138 @@
+ 
+ 
+ def solve(task, runtime):
++    # Read only this candidate's instruction file, not scene data or archives.
+     prompt = (Path(__file__).parent / 'system.txt').read_text() + '\n' + PROCEDURE
+-    messages = [
+-        {'role': 'system', 'content': prompt},
+-        {'role': 'user', 'content': [
+-            {'type': 'text', 'text':
+-             'Reconstruct this RGB image with an editable SceneAct hierarchy. Match camera and framing. '
+-             f"Image dimensions: {task['width']} x {task['height']}. "
+-             f'Budget: {runtime.remaining()}. Return one complete Python program now.'},
+-            runtime.image(task['image'])]}]
++    reference = runtime.image(task['image'])
+     successful = {}
++    latest_code = None
++    latest_report = None
++    last_visible = False
++    calls = 0
+     attempts = 0
+-    calls = 0
++    correction = ''
++
++    def retain_last():
++        if successful:
++            runtime.select(next(reversed(successful)))
++
+     while calls < 5:
+         budget = runtime.remaining()
+         if budget['model_calls'] <= 0 or budget['seconds'] <= 0:
+-            return
++            break
+         can_execute = attempts < 3 and budget['executions'] > 0
++        if not can_execute and len(successful) < 2:
++            break
++
++        # Reconstruct bounded context from observed artifacts. Do not repeatedly resend
++        # all old programs and renderer logs. Keep the latest program and a valid fallback.
++        content = [
++            {'type': 'text', 'text':
++             f"Reference: {task['width']} x {task['height']}. "
++             f'Budget remaining: {budget}. Controller ask invocations: {calls}; '
++             f'execution invocations: {attempts}. These are not inferred event counts.'},
++            reference]
++        if latest_code is not None and can_execute:
++            content.append({'type': 'text', 'text':
++                            'Latest attempted complete program:\n```python\n' + latest_code + '\n```'})
++        if latest_report is not None:
++            content.append({'type': 'text', 'text':
++                            'Latest execution/output report:\n' + json.dumps(latest_report, default=str)})
++        if successful and can_execute and not last_visible:
++            step = next(reversed(successful))
++            content.append({'type': 'text', 'text':
++                            f'Last visibly successful fallback program, step {step}:\n```python\n' +
++                            successful[step]['code'] + '\n```'})
++        for step, artifact in successful.items():
++            content.extend([
++                {'type': 'text', 'text': f'Observed successful render, step {step}:'},
++                artifact['image']])
++        if correction:
++            content.append({'type': 'text', 'text': correction})
++
+         if not can_execute:
+-            # No useful code-generation call remains. Review only when rollback is possible.
+-            if len(successful) < 2:
+-                return
+-            content = [{'type': 'text', 'text':
+-                        'No executions remain. Compare these successful builds against the original. '
+-                        'Choose the strongest overall camera, geometry, appearance and editable structure. '
+-                        'Reply exactly SELECT <step>. Do not generate code.'}]
+-            for step, path in successful.items():
+-                content.extend([{'type': 'text', 'text': f'Successful step {step}'},
+-                                runtime.image(path)])
+-            messages.append({'role': 'user', 'content': content})
+-        response = runtime.ask(messages)
++            instruction = (
++                'SELECTION ONLY: no executions remain. Compare the supplied renders against the '
++                'reference, considering framing, silhouettes, completeness and appearance. '
++                'Do not assume later is better. Reply exactly SELECT <step> from '
++                f'{list(successful)}. Do not generate code.')
++        elif latest_report is None:
++            instruction = (
++                'Reconstruct the reference with an editable SceneAct hierarchy. Return one complete '
++                'Python program now, with the compact object/anchor ledger in comments. '
++                'Audit attachment, material targeting and texture-coordinate semantics.')
++        elif last_visible:
++            instruction = (
++                'Review the observed render against the reference. In comments of a complete revised '
++                'program, identify camera, local geometry and appearance residuals separately, choose '
++                'the highest-priority correction and list anchors to preserve. Audit semantic group '
++                'membership. Return one complete program, DONE, or SELECT <successful step>.')
++        else:
++            instruction = (
++                'The latest attempt has no usable successful render. Diagnose only from its report. '
++                'Repair the observed cause, retaining all major objects and complete edit groups. '
++                'Return a complete program, or SELECT a supplied successful fallback. '
++                'Do not score or claim improvement for missing output.')
++        content.append({'type': 'text', 'text': instruction})
++        response = runtime.ask([
++            {'role': 'system', 'content': prompt},
++            {'role': 'user', 'content': content}])
+         calls += 1
+-        messages.append(response)
+         text = _text(response).strip()
+         choice = re.fullmatch(r'SELECT\s+(\d+)', text, re.I)
+         if choice and int(choice.group(1)) in successful:
+             runtime.select(int(choice.group(1)))
+             return
++        if text.upper() == 'DONE' and successful and can_execute:
++            retain_last()
++            return
+         if not can_execute:
+-            return
+-        if text.upper() == 'DONE' and successful:
+-            return
++            correction = f'Selection response was invalid. Reply exactly SELECT <step> from {list(successful)}.'
++            continue
++
+         blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S | re.I)
+         if len(blocks) != 1:
+-            messages.append({'role': 'user', 'content':
+-                             'Return exactly one complete program in a python code block. '
+-                             'No valid build exists yet.' if not successful else
+-                             'Return exactly one complete program, DONE, or SELECT <successful step>.'})
++            correction = ('Return exactly one complete program in one python code block. '
++                          f'Eligible successful steps: {list(successful)}. '
++                          'DONE requires an observed successful render.')
+             continue
+         code = blocks[0]
+         try:
+             ast.parse(code)
+         except SyntaxError as exc:
+-            messages.append({'role': 'user', 'content':
+-                             f'Python syntax failure before Blender execution: {exc}. '
+-                             'Return a corrected complete program. No execution was consumed.'})
++            correction = ('Syntax failure before Blender execution: ' + str(exc) +
++                          '\nCorrect this unexecuted program and return it in full:\n```python\n' +
++                          code + '\n```\nNo Blender execution was consumed.')
+             continue
+         budget = runtime.remaining()
+         if budget['executions'] <= 0 or budget['seconds'] <= 0:
+-            return
++            break
++        latest_code = code
++        correction = ''
+         attempts += 1
+-        result = runtime.execute(code)
+-        visible_success = bool(result.get('ok') and result.get('image'))
+-        if visible_success and isinstance(result.get('step'), int):
+-            successful[result['step']] = result['image']
+-        report = {k: v for k, v in result.items() if k != 'image'}
+-        if visible_success:
+-            instruction = (
+-                'Compare this render to the original. Identify the largest coherent mismatch, '
+-                'then return a complete revised program, DONE, or SELECT <successful step>. '
+-                'Preserve complete semantic groups and already matched features.')
++        try:
++            result = runtime.execute(code)
++        except Exception as exc:
++            result = {'ok': False, 'error': f'{type(exc).__name__}: {exc}',
++                      'output_failure': 'Execution interface raised; stage and artifact availability unknown.'}
++        if not isinstance(result, dict):
++            result = {'ok': False, 'error': 'Execution returned no structured output report.'}
++        latest_report = {k: v for k, v in result.items() if k != 'image'}
++        last_visible = False
++        step = result.get('step')
++        if result.get('ok') and result.get('image') and type(step) is int:
++            try:
++                rendered_image = runtime.image(result['image'])
++                if rendered_image is None:
++                    raise ValueError('Image interface returned no image')
++            except Exception as exc:
++                latest_report['output_failure'] = f'Cannot obtain rendered image: {type(exc).__name__}: {exc}'
++            else:
++                successful[step] = {'image': rendered_image, 'code': code}
++                last_visible = True
++        if not last_visible:
++            latest_report['usable_render'] = False
++            latest_report.setdefault('output_failure', 'No successful image with a selectable step was returned.')
+         else:
+-            instruction = (
+-                'Execution/output failure: no usable successful render is available for this attempt. '
+-                'Do not describe or score an unseen image. Repair the error and audit all reliability '
+-                'requirements. For timeout, reduce expanded primitive count and surface detail sharply. '
+-                'Return a compact complete program if executions remain.')
+-        content = [{'type': 'text', 'text': json.dumps(report, default=str) + '\n' + instruction +
+-                    f'\nSuccessful steps: {list(successful)}. Remaining: {runtime.remaining()}'}]
+-        if visible_success:
+-            content.append(runtime.image(result['image']))
+-        messages.append({'role': 'user', 'content': content})
++            latest_report['usable_render'] = True
++    retain_last()
+--- parent/system.txt
++++ C2/system.txt
+@@ -10,48 +10,69 @@
+ Do not render or save files in the program: the fixed runner saves and renders once after
+ execution, using your active camera. Do not access external files, network or other models.
+ When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+-is submitted automatically. Budget includes all planning, corrections and review calls.
++is submitted automatically unless the controller selects another successful step. When asked
++to choose among successful steps, reply exactly SELECT <step>. Never select unexecuted code.
++Budget includes all planning, corrections and review calls: five fresh CLI sessions, three
++Blender executions and 1200 seconds. Actual observable model events are logged externally.
+ 
+ SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+ from sceneact import *
+ Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+-parent.include(name, node) attaches an asset/part while preserving its world position.
++parent.include(name, node) attaches an asset/part while preserving its world position and
++returns the attached node. It replaces an existing same-name child. A node already owned by
++another parent is cloned; retrieve the returned attachment when editing it afterward.
+ parent.members[name] retrieves a child; parent.remove(name) detaches it.
+ node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+ box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+-rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+-rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+-fillet_box(size=(x,y,z), radius=r, center=(0,0,0), color=(1,1,1))
+-sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
++rod(radius, *, start=(x,y,z), end=(x,y,z), color=(1,1,1), opacity=1)
++rod(radius, *, length=h, center=(0,0,0), axis='+z', color=(1,1,1), opacity=1)
++fillet_box(size=(x,y,z), radius=r, center=(0,0,0), color=(1,1,1), opacity=1)
++sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1), opacity=1)
+ assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+ fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+ node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+-modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
++modify a node and its descendants. pivot is keyword-only for turn and resize.
++node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+ Default rotation/scale pivot is the geometry's world-space bounding-box center.
+ shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+-resized(node, factors, pivot=None) perform the same operations on independent copies.
+-node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
++resized(node, factors, pivot=None) perform the same operations on independent copies;
++pivot and euler are keyword-only.
++node.paint(color, opacity=1) applies color to the subtree; opacity is keyword-only.
++node.rgba reads its finish.
+ node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+ node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+ node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+ along a unit direction; projected_width(node,direction) returns their difference.
+-snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+-A target can also be a world point; then omit target_anchor.
++snap(node, target, source_anchor='center', target_anchor=None, offset=(0,0,0)) returns a copy.
++For an Asset target, omitted target_anchor uses source_anchor. A target can also be a world
++point; then omit target_anchor. For bottom-on-top placement specify both anchors explicitly.
+ abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+-center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+-offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
++center_on(node, target, axes=('x','y','z')) aligns selected center coordinates and returns a copy.
++offset_at(node, reference, offsets) returns a copy with selected coordinates positioned relative
++to the reference centroid or world point; None preserves a coordinate.
+ repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+ pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+ lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+ orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+-Layout functions return assemblies of independent copies.
+-scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+-registers a persistent relation between scene members; scene.settle() updates dependencies.
+-realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
++For orbit, orient and rotation_offset are keyword-only. Layout functions return assemblies
++of independent copies.
++scene.bind(source,target,source_anchor='center',target_anchor='center',offset=(0,0,0))
++registers a persistent relation between scene members and immediately settles it.
++Endpoints must belong to the scene and cannot be ancestors/descendants of each other.
++scene.settle() updates dependencies. Specify bottom/top anchors explicitly for support placement.
++realize(scene, clear=True) settles constraints and creates Blender geometry, clearing Blender first.
+ set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+ area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+ Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
++
++Compiler details relevant to editing and shading:
++Semantic attachment names label EMPTY parents. Emitted meshes use primitive node names;
++use descendant traversal beneath a semantic parent to target its meshes. Materials are cached
++by exact RGBA finish and may be shared across unrelated objects. Copy materials for local edits.
++Object texture coordinates need an explicit shared reference object for continuous patterns
++across separately transformed primitive meshes. Generated coordinates are per-mesh normalized.
++Bounds and Boolean support approximations do not establish true contact or collision.
+ 
+ Example:
+ from sceneact import *
+--- parent/meta.py
++++ C2/meta.py
+@@ -1,63 +1,178 @@
+-"""Evidence-driven planning using only the supplied development packet."""
++"""Plan only from supplied development evidence; never execute or explore data."""
++import json
+ import math
++import re
++
++
++def _number(value):
++    return (isinstance(value, (int, float)) and not isinstance(value, bool)
++            and math.isfinite(value))
+ 
+ 
+ def _failed(scene):
+-    return (scene.get('status') != 'complete' or
+-            (scene.get('metrics') or {}).get('valid') is not True)
++    if scene.get('status') != 'complete' or (scene.get('metrics') or {}).get('valid') is not True:
++        return True
++    if (scene.get('structure') or {}).get('blend_opened') is False:
++        return True
++    if 'attached_images' in scene and not scene['attached_images']:
++        return True
++    if 'program' in scene and not scene['program']:
++        return True
++    return False
+ 
+ 
+ def _score(scene):
+     value = (scene.get('metrics') or {}).get('overall')
+-    if isinstance(value, (int, float)) and math.isfinite(value):
+-        return float(value)
+-    return float('inf')
++    return float(value) if _number(value) else None
++
++
++def _probe_kind(probe):
++    return probe.get('kind') or probe.get('probe') or (probe.get('result') or {}).get('probe')
++
++
++def _events(scene):
++    trajectory = scene.get('trajectory') or {}
++    return trajectory.get('events') or [] if isinstance(trajectory, dict) else []
++
++
++def _response_text(event):
++    message = event.get('message') or {}
++    content = message.get('content') or ''
++    if isinstance(content, str):
++        return content
++    if isinstance(content, list):
++        return '\n'.join(part.get('text', '') for part in content if isinstance(part, dict))
++    return ''
++
++
++def _trajectory_audit(scene):
++    events = [e for e in _events(scene) if isinstance(e, dict)]
++    counts = {name: sum(e.get('event') == name for e in events)
++              for name in ('model_request', 'model_response', 'codex_session',
++                           'execute', 'execution_result', 'select')}
++    pending = []
++    unexecuted = 0
++    for event in events:
++        if event.get('event') == 'model_response':
++            blocks = re.findall(r'```python\s*\n(.*?)```', _response_text(event), re.S | re.I)
++            pending.extend(code.strip() for code in blocks)
++        elif event.get('event') == 'execute':
++            code = (event.get('code') or '').strip()
++            if code in pending:
++                index = pending.index(code)
++                unexecuted += index
++                pending = pending[index + 1:]
++    results = [e for e in events if e.get('event') == 'execution_result']
++    return {
++        'scene_id': scene.get('scene_id'),
++        'logged_counts': counts,
++        'explicit_failed_execution_results': sum(e.get('ok') is not True for e in results),
++        'execution_result_count_deficit': max(0, counts['execute'] - len(results)),
++        'unexecuted_code_blocks_in_logged_responses': unexecuted + len(pending),
++        'trajectory_available': bool(events),
++        'limit': 'Logged events only; request/session/response counts are distinct. Missing event payloads do not identify a stalled stage.'
++    }
++
++
++def _target_audit(scene):
++    structure = scene.get('structure') or {}
++    target = structure.get('target') or (scene.get('regression') or {}).get('target_selection') or {}
++    name = target.get('group_name') or target.get('object') or scene.get('target_object')
++    rows = structure.get('objects') or []
++    by_name = {r.get('name'): r for r in rows if isinstance(r, dict)}
++    row = by_name.get(name) or {}
++    parent = by_name.get(row.get('parent')) or {}
++    # A nested target is a reason to inspect scope, not evidence that membership is wrong.
++    nested = bool(parent.get('parent'))
++    functional = scene.get('functional') or {}
++    regression = scene.get('regression') or {}
++    broken = (functional.get('composite_pass') is False or
++              (regression.get('move') or {}).get('pass') is False or
++              (regression.get('material') or {}).get('pass') is False)
++    return {'scene_id': scene.get('scene_id'), 'target': name,
++            'nested_target': nested, 'explicit_edit_failure': broken,
++            'target_mesh_count': len(target.get('mesh_names') or []),
++            'semantic_completeness': functional.get('semantic_object_completeness'),
++            'instruction': 'Inspect source membership and siblings; helper or architecture edit passes do not certify whole-object completeness.'}
+ 
+ 
+ def plan(packet):
+-    scenes = packet.get('development') or []
++    scenes = [s for s in packet.get('development') or [] if isinstance(s, dict)]
+     failures = [s for s in scenes if _failed(s)]
+-    completed = [s for s in scenes if not _failed(s)]
+-    prior = packet.get('controlled_probes') or []
+-    used = max(len(prior), int(packet.get('executed_probe_count', 0) or 0))
++    valid = [s for s in scenes if not _failed(s)]
++    measured = [s for s in valid if _score(s) is not None]
++    weakest = min(measured, key=_score) if measured else None
++    prior = [p for p in packet.get('controlled_probes') or [] if isinstance(p, dict)]
++    declared = []
++    for key in ('executed_probe_count', 'already_executed_probe_count'):
++        value = packet.get(key)
++        if _number(value):
++            declared.append(max(0, int(value)))
++    attempts = sum(max(1, int((p.get('result') or {}).get('render_attempts') or 1))
++                   for p in prior)
++    used = max([attempts] + declared)
+     available = max(0, 2 - used)
++    seen = {(p.get('scene_id'), _probe_kind(p)) for p in prior}
+     probes = []
+-    # Invalid artifacts cannot support camera/scale diagnostics. Address execution first.
+-    if not failures and completed and available:
+-        scene = min(completed, key=_score)
+-        functional = scene.get('functional') or {}
+-        regression = scene.get('regression') or {}
+-        broken_group = (functional.get('composite_pass') is False or
+-                        (regression.get('move') or {}).get('pass') is False or
+-                        (regression.get('material') or {}).get('pass') is False)
+-        kinds = ['isolate', 'object_scale'] if broken_group else ['camera_focal', 'object_scale']
+-        seen = {(p.get('scene_id'), p.get('kind')) for p in prior if isinstance(p, dict)}
++    if weakest is not None and available:
++        target = _target_audit(weakest)
++        kinds = (['isolate', 'camera_focal'] if target['nested_target'] or target['explicit_edit_failure']
++                 else ['camera_focal', 'object_scale'])
+         for kind in kinds:
+-            key = (scene.get('scene_id'), kind)
++            key = (weakest.get('scene_id'), kind)
+             if key[0] and key not in seen and len(probes) < available:
+                 probes.append({'scene_id': key[0], 'kind': kind})
+-    priority = ('First investigate missing artifacts, exceptions, timeouts and wasted calls; '
+-                'preserve successful-scene quality while improving reliability.' if failures else
+-                'Investigate the weakest measured valid reconstruction using available controlled '
+-                'diagnostics; separate camera error, object geometry and appearance.')
++
++    probe_audit = []
++    for probe in prior:
++        result = probe.get('result') or {}
++        baseline = (probe.get('baseline_visual_metrics') or {}).get('overall')
++        observed = (probe.get('visual_metrics') or {}).get('overall')
++        usable = (result.get('status') == 'completed' and bool(result.get('images'))
++                  and (probe.get('visual_metrics') or {}).get('valid') is True)
++        probe_audit.append({
++            'scene_id': probe.get('scene_id'), 'kind': _probe_kind(probe),
++            'usable_output': usable,
++            'target': result.get('target_selection'),
++            'overall_delta': float(observed - baseline) if usable and _number(observed) and _number(baseline) else None,
++            'limit': 'Single controlled perturbation of the reported target; no optimum, whole-object scale or causal decomposition is established.'})
++
++    audit = {
++        'failed_or_missing_output_scenes': [s.get('scene_id') for s in failures],
++        'valid_scenes_with_unavailable_overall': [s.get('scene_id') for s in valid if _score(s) is None],
++        'weakest_measured_valid': weakest.get('scene_id') if weakest else None,
++        'logged_trajectories': [_trajectory_audit(s) for s in scenes],
++        'target_scope': [_target_audit(s) for s in scenes],
++        'controlled_observations': probe_audit,
++        'probe_budget_used': used,
++        'raw_archive_entries_supplied': len(packet.get('archive_raw_development') or [])
++    }
+     instruction = (
+-        'Improve shared policy.solve(task,runtime) and callable meta.plan(packet). Inspect all supplied '
+-        'development records, raw archive entries, source, execution trajectories, images, geometry and '
+-        'regression measurements; do not explore disk or obtain external evidence. ' + priority + ' '
+-        'Trace failures to implementation semantics before adding instructions. Count actual logged '
+-        'model events and executions, including failed builds and unexecuted final rewrites. Evaluate '
+-        'whether the compact first-build procedure preserves all major objects, complete semantic '
+-        'groups and sufficient silhouette detail. Treat primitive budgets as unvalidated heuristics. '
+-        'Report missing output as failure and null scores as unavailable. Distinguish direct evidence '
+-        'from causal hypotheses; timeouts without logs do not identify the exact stalled stage. '
+-        'Functional passes establish prescribed edit operability only; AABB overlap/support candidates '
+-        'are not collision or contact truth. Inspect group membership in source even when edits pass. '
+-        'Use paired development evidence when available; do not invent before/after gains or infer '
+-        'selection images/labels from aggregate retention results. Preserve SceneAct, roles, evaluator, '
+-        'objective, splits and budgets: five fresh CLI sessions, three executions, 1200 seconds. '
+-        'Use only runtime.ask, execute, select, remaining and image for model/execution interaction. '
+-        'Return complete replacement contents only for policy.py, system.txt and meta.py; preserve '
+-        'the complete system API unless explicitly correcting documented semantics. Do not specialize '
+-        'to scene IDs, paths or scene answers. Explain applicable scope and risks. The latest valid '
+-        'meta program guides the next exploration branch; this does not imply task-program acceptance.')
++        'Improve shared policy.solve(task,runtime) and callable meta.plan(packet) using only supplied '
++        'development records, raw archive entries, source, trajectories, images, geometry and regression '
++        'measurements. Do not explore disk or obtain external evidence. Investigate output failures and '
++        'the weakest measured valid reconstruction; separate camera, local geometry and appearance. '
++        'Trace behavior to implementation semantics before adding instructions, especially attachment '
++        'replacement/cloning, emitted mesh versus parent names, material sharing and texture-coordinate '
++        'frames. Audit all major objects, silhouette-defining surfaces and source group membership even '
++        'when prescribed edits pass. Keep complete semantic subassemblies with their attached trim. '
++        'Do not alter names merely to manipulate target selection. Treat primitive targets as unvalidated '
++        'heuristics. Count logged requests, responses, sessions and executions separately, including '
++        'failed builds and unexecuted rewrites; a session may contain multiple observable turns. '
++        'Missing output is failure, null scores are unavailable, and a timeout without logs does not '
++        'identify its stalled stage. Functional passes establish prescribed edit operability only; '
++        'AABB candidates are not true support/contact/collision measurements. Inspect the exact target '
++        'and intervention of every probe: helper scaling is not whole-object scaling. Report paired '
++        'metric changes only when both measurements exist; mixed metric directions are not universal '
++        'improvement. Use supplied paired development evidence without inventing candidate gains. '
++        'Selection aggregates inform retention only; infer no Selection images or labels. Preserve '
++        'SceneAct, roles, evaluator, objective, splits and limits: five fresh CLI sessions, three Blender '
++        'executions, 1200 seconds, and at most two actual diagnostic renders. Only runtime.ask, execute, '
++        'select, remaining and image may mediate model/execution interaction. No independent evaluation '
++        'or rendering in the proposer session. Return complete replacement contents only for policy.py, '
++        'system.txt and meta.py; preserve the complete system API except documented semantic corrections. '
++        'Do not specialize to scene IDs, paths or answers. Explain applicable scope, uncertainty and risks. '
++        'The latest valid meta program guides the next exploration branch without implying task-program '
++        'acceptance. Supplied-evidence audit follows; it is not an independent evaluation:\n' +
++        json.dumps(audit, ensure_ascii=False, default=str))
+     return {'probes': probes, 'regression_guidance': True, 'instruction': instruction}

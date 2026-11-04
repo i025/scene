@@ -1,0 +1,54 @@
+--- before/report.py
++++ after/report.py
+@@ -388,7 +388,7 @@
+     if primary not in METRICS:
+         primary = "overall"
+     analysis = read(root / "reports/analysis.json")
+-    stages = {name: read(root / f'{source}_status.json', {'status':'pending'}) for name,source in (('ablation','extras'),('replay','replay'),('external','external'))}
++    stages = {name: read(root / f'{source}_status.json', {'status':'pending'}) for name,source in (('supplement','supplement'),('ablation','extras'),('replay','replay'),('external','external'))}
+     summary = {"paired_analysis": analysis, "report_kind": "measured_records_only", "primary_metric": primary,
+                "formal_records": sum(r.get("split") != "smoke" for r in rows),
+                "smoke_records": sum(r.get("split") == "smoke" for r in rows),
+@@ -429,6 +429,19 @@
+         incident_summary={'original_service_failed_physical_attempts':incident['physical_scene_attempts_preserved'],'original_service_failed_outcome_slots_including_reuse':incident['failed_scene_attempts_preserved'],'physical_formal_reconstruction_attempts_including_preserved_failures':len(physical),'physical_formal_successes':sum(r['status'] in COMPLETE for r in physical),'physical_attempt_success_rate_including_service_failures':sum(r['status'] in COMPLETE for r in physical)/len(physical) if physical else None,'max_service_retry':1,'valid_test_outputs_before_recovery':0,'interpretation':'Task outcome rates in ordinary tables and physical attempt rates including preserved failures are different denominators; all CLI failures remain in calls.csv and ledger.'}
+         summary['service_recovery']=incident_summary
+         summary['limitations'].append('出现集中CLI路由故障后，原始32个主终测槽均无输出；冻结选择和失败档案保留，对无输出服务失败统一开放一次恢复，研发完成后重冻选择。原始失败不能当算法退化，恢复也不能抹去失败分母；service_attempts.csv单列全部物理尝试。恢复后消融规模按原预算阶梯重新冻结，属于显式协议补充。')
++    quota=read(root/'model_usage_limit.json')
++    closeout=read(root/'usage_limit_closeout/closeout.json')
++    selected_quality=[]
++    if quota:
++        summary['model_usage_limit']=quota;summary['local_closeout']=closeout
++        summary['valid_main_test_comparison_available']=False
++        summary['limitations'].append('统一服务恢复后又遭遇35次Codex CLI额度限制。旧停止器只识别路由错误，未及时停止额度失败，现已补齐；全部调用仍计费入账，不再重试。所有主Test缺失，终测条件增益为null、有效配对0/4。有效改进率的0表示没有取得完整有效结果，不能解释为任何方法质量较差。文本驱动编辑和独立评审均未实际调用；消融和外部任务只有失败尝试，尚无有效比较。')
++        for c in selections or []:
++            base=[r for r in rows if r.get('run_id')==c['run_id'] and r.get('method')=='fixed_h0' and r.get('split')=='selection']
++            base_q=average([r['metrics'].get(primary) for r in base])
++            chosen_q=c.get('selection',{}).get('conditional_quality',base_q)
++            selected_quality.append({'method':c['method'],'run_id':c['run_id'],'candidate_id':c['candidate_id'],'split':'selection_only','H0_Q':base_q,'chosen_Q':chosen_q,'difference_from_H0':chosen_q-base_q if chosen_q is not None and base_q is not None else None,'held_out_gain':None,'valid_held_out_pairs':0})
++        write_csv(out/'selection_quality.csv',selected_quality,list(selected_quality[0]))
+     save_json(out / "summary.json", summary)
+     attempts=[]
+     for row in visible_rows:
+@@ -502,6 +515,11 @@
+               "<p>" + " · ".join(link(out / name) for name in ("report.md", "scenes.csv", "summary.json", "quality.csv", "cost.csv", "functional.csv", "geometry_relations.csv", "text_edit.csv", "independent_judgments.csv", "main_scheduled.csv", "calls.csv", "execution_attempts.csv", "method_total_cost.csv", "selection_access.csv", "selection_feedback_exports.csv")) + "</p>",
+               "<p>冻结配置与档案：" + " · ".join(link(root / name) for name in ("config.json", "manifest.json", "protocol.md", "protocol_amendment_validator_v2.json", "validation_correction_v2/revalidation.json", "ledger.json", "archive.json", "selections.json") if (root / name).exists()) + "</p>"]
+     panels.append('<p>研究层次：P为单场景程序，H为跨图像共享重建流程，M为产生H/M修改的可执行策略。共同起点为本地SceneEvolve初始H0；CLI外层循环不计为H。生成与固定编辑器请求gpt-6.1-sol/medium；提案与独立匿名评审请求gpt-6-astra/medium。CLI实际路由未知，usage以原始返回为准。</p>')
++    if quota:
++        panels.append('<h2>当前结论范围：模型额度阻断</h2><p>主Test没有任何有效渲染或配对，不能给出终测增益或方法优劣结论。以下真实对照联系表覆盖全部Development、两次运行；补充多视角与机械编辑展示首个Development场景，不是终测或文字指令编辑成绩。显示规则在额度故障后设定并明确记录。旧失败与成本全部保留。</p>'+link(root/'model_usage_limit.json','CLI原始额度错误位置')+' · '+link(root/'usage_limit_closeout/closeout.json','本地收尾状态')+' · '+link(out/'selection_quality.csv','Selection选择结果（非终测）'))
++        for name,title in [('selected_development.png','Selection所选系统在全部Development上的真实输出（H0复用明确标注）'),('raw_c1_development.png','全部Development的原始C1与H0；失败留空'),('development_multiview.png','固定侧面和俯视；无新视角真值'),('development_mechanical_edits.png','预定义机械材质编辑与组合移动；不是文本编辑')]:
++            panels.append('<h3>'+title+'</h3>'+media(out/name,title))
++        panels.append(link(out/'selected_development.csv','所选H联系表来源')+' · '+link(out/'raw_c1_development.csv','原始C1联系表来源')+' · '+link(out/'development_multiview.csv','多视角逐格来源')+' · '+link(out/'development_mechanical_edits.csv','机械编辑测量')+' · '+link(root/'usage_limit_closeout/display_rule.json','补充展示规则与复现脚本说明'))
+     if incident_summary:
+         panels.append('<h2>服务故障与一次恢复</h2><p>旧终测全部无有效输出；已有有效场景没有重采样。以下分母包含保留的服务失败，不能用只看当前成功文件的比例替代。</p><pre>'+html.escape(json.dumps(incident_summary,ensure_ascii=False,indent=2))+'</pre>'+link(out/'service_attempts.csv','全部场景尝试 CSV')+' · '+link(root/'service_incident_01/recovery_prepared.json','恢复清单与原始档案映射')+' · '+link(root/'service_incident_01/routing_failures.json','CLI 路由失败清单'))
+     if not selection_frozen:panels.append('<p class="missing">中期报告：Selection/Test 的逐图指标、图像和结构细节在统一选择冻结后再展示；当前仅汇总登记状态。主对照尚未完成。</p>')
+@@ -676,6 +694,10 @@
+         lines += ['', '[BlenderWorld 适配评测源数据](blenderworld_adapted.csv)']
+     if incident_summary:
+         lines += ['', '## 服务故障与恢复分母', '', '故障期间没有有效主终测图像/指标。恢复前后的失败与成本均保留；当前任务结果与包含旧故障的物理尝试成功率分开报告。', '', '`'+display(incident_summary)+'`', '', '[全部场景尝试及原记录](service_attempts.csv) · [故障恢复清单](../service_incident_01/recovery_prepared.json)']
++    if quota:
++        lines += ['', '## 额度阻断与真实开发对照', '', '**主对照缺少全部有效终测：每组有效配对0/4，终测增益null。** 33条正式成功记录来自开发和Selection。文本编辑器/独立评审没有实际调用；机械编辑检查不能替代它们。消融及BlenderWorld均无有效比较。完整有效改进率的0只说明未得到完整结果，不说明方法质量较差。', '', '|方法|重复|所选H|H0 Selection Q|所选Selection Q|Selection差（非终测）|', '|---|---|---|---:|---:|---:|']
++        for point in selected_quality:lines.append('|'+ '|'.join(display(point[k]) for k in ('method','run_id','candidate_id','H0_Q','chosen_Q','difference_from_H0'))+'|')
++        lines += ['', '[来源CSV](selection_quality.csv)', '', '![所选系统的全部开发结果](selected_development.png)', '[逐格来源](selected_development.csv)', '', '![原始C1全部开发结果](raw_c1_development.png)', '', '![开发场景固定多视角](development_multiview.png)', '', '![预定义机械编辑](development_mechanical_edits.png)', '[目标与非目标保持数据](development_mechanical_edits.csv)', '', '以上补充展示在额度故障后确定，覆盖全部开发场景和重复；多视角/编辑固定为首个开发场景r1。已有相同H0只复用产物，不新增样本。可重跑脚本为 `finish_available.py`，同一个 `resume` 入口调用，不发起模型请求。']
+     lines += ['', '## 局限', '']
+     lines += ["- " + item for item in summary["limitations"]]
+     lines += ["", "## 重建报告", "", "```bash", f"bash '{root / 'run.sh'}' report", "```", "", "此命令使用已验证的本地Python环境，只重建数据表、图和报告，不启动模型、Blender 或补跑实验；实验续跑入口由 runner README 给出。", ""]

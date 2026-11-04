@@ -1,0 +1,24 @@
+{
+  "time": 1793755444.1132631,
+  "observation": "extras.py reissued the ablation freeze timestamp during cached resume. The three selected C1 identities match all pre-resume recorded slots; only Dev/Selection cached records are used to recompute choices. No test metrics are read by selection.",
+  "selected_choices": [
+    {
+      "method": "generic_same_structured_evidence",
+      "run_id": "ablation_r1",
+      "candidate_id": "C1"
+    },
+    {
+      "method": "ours_without_probes",
+      "run_id": "ablation_r1",
+      "candidate_id": "C1"
+    },
+    {
+      "method": "ours_without_regression_guidance",
+      "run_id": "ablation_r1",
+      "candidate_id": "C1"
+    }
+  ],
+  "cached_resume_freeze_time": 1793755360.0969403,
+  "earliest_freeze_time": "not independently retained; do not fabricate",
+  "correction": "On future resumes, compare choices with existing freeze and preserve its timestamp instead of overwriting. No candidate/model/scoring changes; no reconstruction reruns."
+}

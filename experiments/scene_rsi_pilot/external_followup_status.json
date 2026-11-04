@@ -1,0 +1,185 @@
+{
+  "status": "complete",
+  "phase": "external_followup",
+  "completion_scope": "all budget-selected slots attempted; inspect reconstruction/judge outcomes separately",
+  "evaluation": "adapted_evaluation_not_official",
+  "tasks": [
+    "bw_0011"
+  ],
+  "all_scheduled_reconstructions": 2,
+  "valid_reconstructions": 1,
+  "completed_judgments": 0,
+  "pending_original_tasks": [],
+  "scope": "independent_followup_feasibility_only",
+  "records": [
+    {
+      "method": "fixed_h0",
+      "task_id": "bw_0011",
+      "reconstruction": {
+        "method": "fixed_h0",
+        "run_id": "external_followup",
+        "scene_id": "bw_0011",
+        "split": "external_followup",
+        "candidate_id": "selected",
+        "parent_id": null,
+        "H_version": "external_followup_inputs/bw_0011/fixed_h0",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "failed",
+        "metrics": {
+          "valid": false,
+          "ssim": null,
+          "lpips": null,
+          "dino": null,
+          "psnr": null,
+          "overall": null,
+          "error": "Missing scene.blend or final.png"
+        },
+        "functional": {
+          "functional_pass": false,
+          "structure_pass": false,
+          "material_pass": false,
+          "composite_pass": false,
+          "target_object": "unknown"
+        },
+        "target_object": "unknown",
+        "device": "CPU",
+        "seconds": 1074.854149097111,
+        "usage": {
+          "calls": 4,
+          "input_tokens": 80334,
+          "output_tokens": 20633,
+          "cached_input_tokens": 32768,
+          "total_tokens": 100967,
+          "seconds": 471.0298193162307,
+          "cost_usd": "unknown",
+          "executions": 3
+        },
+        "runtime_status": {
+          "error": null,
+          "seconds": 1074.7069106991403
+        },
+        "failure_type": "generated_program_or_execution_failure",
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/external_followup/fixed_h0/selected/external_followup/bw_0011",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+        },
+        "render_device_history": [],
+        "functional_device_mapping": null
+      },
+      "adapted_evaluation": {
+        "status": "not_run",
+        "reason": "reconstruction_failed",
+        "adapted_fused_score_0_100": null
+      }
+    },
+    {
+      "method": "scene_rsi_pilot",
+      "task_id": "bw_0011",
+      "reconstruction": {
+        "method": "scene_rsi_pilot",
+        "run_id": "external_followup",
+        "scene_id": "bw_0011",
+        "split": "external_followup",
+        "candidate_id": "selected",
+        "parent_id": null,
+        "H_version": "external_followup_inputs/bw_0011/scene_rsi_pilot",
+        "M_version": null,
+        "model_roles": {
+          "student": "gpt-6.1-sol/medium",
+          "meta": "gpt-6-astra/medium",
+          "editor": "gpt-6.1-sol/medium",
+          "judge": "gpt-6-astra/medium"
+        },
+        "status": "complete",
+        "metrics": {
+          "valid": true,
+          "ssim": 0.33378600830067323,
+          "lpips": 0.6514137983322144,
+          "dino": 0.5610278844833374,
+          "psnr": 12.870872683778941,
+          "overall": 0.4876287174033758
+        },
+        "functional": {
+          "structure_pass": true,
+          "material_pass": true,
+          "composite_required": true,
+          "composite_pass": true,
+          "functional_pass": true,
+          "target_object": "architecture",
+          "semantic_object_completeness": null,
+          "support_collision_truth": null,
+          "interpretation": "Structural/edit operability only; expected composite absent counts failure, never N/A."
+        },
+        "target_object": "architecture",
+        "device": "CPU",
+        "seconds": 915.8159413998947,
+        "usage": {
+          "calls": 3,
+          "input_tokens": "unknown",
+          "output_tokens": "unknown",
+          "cached_input_tokens": "unknown",
+          "total_tokens": "unknown",
+          "seconds": 850.6855933810584,
+          "cost_usd": "unknown",
+          "executions": 2
+        },
+        "runtime_status": {
+          "error": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__EXPERIMENT_ROOT__/external_followup_inputs/bw_0011/scene_rsi_pilot/policy.py\", line 143, in solve\n    text = ask()\n           ^^^^^\n  File \"__EXPERIMENT_ROOT__/external_followup_inputs/bw_0011/scene_rsi_pilot/policy.py\", line 104, in ask\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 153, in call\n    raise error\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 89, in call\n    session['exit_code'] = run_group(\n                           ^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/processes.py\", line 36, in run_group\n    process.communicate(timeout=timeout)\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 1209, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 2141, in _communicate\n    self.wait(timeout=self._remaining_time(endtime))\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 1264, in wait\n    return self._wait(timeout=timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/miniforge3/envs/rest3d/lib/python3.11/subprocess.py\", line 2045, in _wait\n    raise TimeoutExpired(self.args, timeout)\nsubprocess.TimeoutExpired: Command '['__SERVER_USER_ROOT__/.local/bin/codex', 'exec', '--ephemeral', '--json', '--skip-git-repo-check', '--sandbox', 'read-only', '--cd', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793773060805433112', '--model', 'gpt-6.1-sol', '--output-last-message', '__EXPERIMENT_ROOT__/results/external_followup/scene_rsi_pilot/selected/external_followup/bw_0011/student_calls/003_1793773060419040166/response.txt', '-c', 'model_reasoning_effort=\"medium\"', '-c', 'approval_policy=\"never\"', '-c', 'web_search=\"disabled\"', '-c', 'mcp_servers={}', '--disable', 'shell_tool', '--disable', 'unified_exec', '--disable', 'apps', '--disable', 'plugins', '--disable', 'hooks', '--disable', 'multi_agent', '--disable', 'browser_use', '--disable', 'browser_use_external', '--disable', 'browser_use_full_cdp_access', '--disable', 'computer_use', '--disable', 'image_generation', '--disable', 'memories', '--disable', 'skill_search', '--disable', 'workspace_dependencies', '--disable', 'sleep_tool', '--disable', 'view_image', '--image', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793773060805433112/image_001.png', '--image', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793773060805433112/image_002.png', '--image', '__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/work/cli_staging/1793773060805433112/image_003.png', '-']' timed out after 599.9999884180725 seconds\n",
+          "seconds": 887.6335090319626
+        },
+        "failure_type": null,
+        "resource_wait_seconds": 0,
+        "service_queue_seconds": null,
+        "folder": "__EXPERIMENT_ROOT__/results/external_followup/scene_rsi_pilot/selected/external_followup/bw_0011",
+        "selected": null,
+        "device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        },
+        "render_device_history": [
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          },
+          {
+            "device": "CPU",
+            "cuda_visible_devices": "",
+            "gpu_uuid": null,
+            "gpu_index": null,
+            "enabled_cycles_devices": []
+          }
+        ],
+        "functional_device_mapping": {
+          "device": "CPU",
+          "cuda_visible_devices": "",
+          "gpu_uuid": null,
+          "gpu_index": null,
+          "enabled_cycles_devices": []
+        }
+      },
+      "adapted_evaluation": {
+        "status": "failed",
+        "error": "Codex external_anonymous_judge exited 1: __EXPERIMENT_ROOT__/external_followup_judgments/anon_02/judge_call/stderr.log",
+        "adapted_fused_score_0_100": null
+      }
+    }
+  ],
+  "remaining_cli": 4,
+  "budget_adaptation": "external_followup_preuse/rule.json"
+}

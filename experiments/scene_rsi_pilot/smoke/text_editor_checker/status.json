@@ -1,0 +1,30 @@
+{
+  "status": "complete",
+  "checks": [
+    {
+      "control": "positive",
+      "expected_edit_pass": true,
+      "observed_edit_pass": true,
+      "expected_result_observed": true,
+      "exit_code": 0,
+      "error": null,
+      "seconds": 2.119476822204888,
+      "editor_cli_calls": 0,
+      "source": "smoke/text_editor_checker/positive"
+    },
+    {
+      "control": "negative_camera_parameter",
+      "expected_edit_pass": false,
+      "observed_edit_pass": false,
+      "expected_result_observed": true,
+      "exit_code": 0,
+      "error": null,
+      "seconds": 2.3200319879688323,
+      "editor_cli_calls": 0,
+      "source": "smoke/text_editor_checker/negative_camera_parameter"
+    }
+  ],
+  "formal": false,
+  "model_calls": 0,
+  "note": "Mechanical engineering controls, not evidence of text-instruction editing ability. The deliberate negative camera change must fail preservation while fixed quality is restored."
+}

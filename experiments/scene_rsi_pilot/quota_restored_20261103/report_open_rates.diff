@@ -1,0 +1,46 @@
+--- before/report.py
++++ after/report.py
+@@ -476,6 +476,19 @@
+         relation=structure.get('approximate_relations',{})
+         geometry.append({**{k:row.get(k) for k in ('method','run_id','candidate_id','scene_id','split','status')},'blend_opened':structure.get('blend_opened'),'mesh_count':structure.get('mesh_count'),'finite_nonempty_mesh_count':structure.get('finite_nonempty_mesh_count'),'approximate_support_candidate_count':len(relation['approximate_support_candidates']) if 'approximate_support_candidates' in relation else None,'approximate_overlap_candidate_count':len(relation['approximate_overlap_candidates']) if 'approximate_overlap_candidates' in relation else None,'true_mesh_collision_pass':None,'true_3d_accuracy':None,'source':str(path.relative_to(root)) if path.exists() else None})
+     write_csv(out/'geometry_relations.csv',geometry,list(geometry[0]) if geometry else [])
++    open_rates=[]
++    test_ids=[s['scene_id'] for s in manifest_rows(manifest) if s.get('split')=='test']
++    for choice in selections or []:
++        checked=[g for g in geometry if g['split']=='test' and g['scene_id'] in test_ids
++                 and all(g[key]==choice[key] for key in ('method','run_id','candidate_id'))]
++        opened=sum(g['blend_opened'] is True for g in checked)
++        inspected=sum(g['blend_opened'] is not None for g in checked)
++        open_rates.append({**{key:choice[key] for key in ('method','run_id','candidate_id')},
++                           'all_scheduled':len(test_ids),'confirmed_opened':opened,'inspected':inspected,
++                           'not_checked':len(test_ids)-inspected,
++                           'confirmed_open_rate_lower_bound':opened/len(test_ids) if inspected and test_ids else None,
++                           'conditional_inspected_open_rate':opened/inspected if inspected else None})
++    write_csv(out/'blend_open_rates.csv',open_rates,['method','run_id','candidate_id','all_scheduled','confirmed_opened','inspected','not_checked','confirmed_open_rate_lower_bound','conditional_inspected_open_rate'])
+     edit_scenes=[s['scene_id'] for s in manifest_rows(manifest) if s.get('split')=='test'][:2]
+     edits=[]
+     for choice in selections or []:
+@@ -615,6 +628,9 @@
+         panels.append('<h3>'+html.escape(label)+'</h3>'+row_card(row))
+ 
+     panels.append("<h2>多视角、结构与编辑证据</h2><p>侧视/俯视没有真实新视角参考，不能证明不可见部分恢复正确。.blend 文件存在不等于已经验证可打开；可打开检查以 functional 原始记录为准。</p>")
++    panels.append('<p>'+link(out/'blend_open_rates.csv','所选系统的终测 .blend 可打开率')+'：确认可打开数以 Blender 实际载入记录为准；全部计划场景作分母，未检查单列，条件可打开率另报。全部未检查时保持 null。</p>')
++    for item in open_rates:
++        panels.append('<p>'+html.escape(f"{item['run_id']} / {item['method']} / {item['candidate_id']}: 确认可打开 {item['confirmed_opened']}/{item['all_scheduled']}；未检查 {item['not_checked']}；条件可打开率 {display(item['conditional_inspected_open_rate'])}")+'</p>')
+     evidence_count = 0
+     for row in visible_rows:
+         directory = root / row["directory"]
+@@ -673,6 +689,13 @@
+         lines.append("\n暂无任何测量记录。")
+     if not summary["formal_records"]:
+         lines.append("\n主对照尚未运行完成；smoke 图不能解释为方法胜负。")
++    lines += ['', '## 所选系统终测 .blend 可打开率', '',
++              '以 Blender 实际载入记录计数；未检查不冒充打不开。确认可打开数除以全部计划场景给出下界，已检查场景的条件比例另报。全部未检查时比例为 null。', '',
++              '|重复|方法|候选|确认可打开/计划|未检查|已检查条件比例|', '|---|---|---|---:|---:|---:|']
++    for item in open_rates:
++        values=[item['run_id'],item['method'],item['candidate_id'],f"{item['confirmed_opened']}/{item['all_scheduled']}",item['not_checked'],item['conditional_inspected_open_rate']]
++        lines.append('|'+ '|'.join(display(value) for value in values)+'|')
++    lines += ['', '[逐项来源](geometry_relations.csv) · [比例源数据](blend_open_rates.csv)']
+     lines += ["", f"主视觉指标字段：`{primary}`。缺失值不填零；失败保留在端到端分母中，条件质量另列。", "",
+               "![视觉质量](quality.png)", "[源数据](quality.csv)", "", "![累计成本](cost.png)", "[源数据](cost.csv)", "", "![功能检查](functional.png)", "[源数据](functional.csv)", "",
+               "## 选择、有效改进与元回放", "", "选择结果与原始候选档案原样保存在 summary.json；报告不根据 Test 重新选择。完整有效改进和有效配对数需要已冻结选择及对应 H0/候选功能和终测记录；当前脚本不从单个视觉分数推断。没有元回放实测数据时不绘跨代收益曲线。", "",

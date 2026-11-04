@@ -1,0 +1,56 @@
+--- before/analyze.py
++++ analyze.py
+@@ -11,11 +11,11 @@
+ METHODS=['fixed_h0','sceneevolve_cli','generic_rsi','scene_rsi_pilot']
+ 
+ def additional_stage_tables(out, rows, choices, calls):
+-    """Summarize completed optional stages without inventing pending measurements."""
++    """Export frozen optional-stage slots, including missing measurements."""
+     import matplotlib.pyplot as plt
+     tables={}
+     status=read(ROOT/'extras_status.json',{})
+-    if status.get('status')=='complete':
++    if (ROOT/'ablation_selection_freeze.json').exists():
+         protocol=read(ROOT/'ablation_protocol.json')
+         selected=read(ROOT/'ablation_selection_freeze.json')['choices']
+         points=[]
+@@ -33,16 +33,25 @@
+                 row=find(choice);base=find({'method':'fixed_h0','run_id':run,'candidate_id':'H0'});ref=find(reference)
+                 q=lambda r:r['metrics']['overall'] if r and r['metrics']['valid'] else None
+                 value,bq,rq=q(row),q(base),q(ref)
+-                points.append({'method':choice['method'],'run_id':choice['run_id'],'scene_id':sid,'candidate_id':choice['candidate_id'],'status':row['status'] if row else 'pending','Q':value,'H0_Q':bq,'reference_Q':rq,'reference_method':reference['method'],'paired_gain_H0':value-bq if value is not None and bq is not None else None,'paired_difference_reference':value-rq if value is not None and rq is not None else None,'functional_pass':row['functional']['functional_pass'] if row else None,'reference_functional_pass':ref['functional']['functional_pass'] if ref else None,'source':row['record_path'] if row else None,'reference_source':ref['record_path'] if ref else None})
++                points.append({'method':choice['method'],'run_id':choice['run_id'],'scene_id':sid,'candidate_id':choice['candidate_id'],'status':row['status'] if row else 'pending_service' if status.get('status')=='blocked_service' else 'pending','Q':value,'H0_Q':bq,'reference_Q':rq,'reference_method':reference['method'],'paired_gain_H0':value-bq if value is not None and bq is not None else None,'paired_difference_reference':value-rq if value is not None and rq is not None else None,'functional_pass':row['functional']['functional_pass'] if row else None,'reference_functional_pass':ref['functional']['functional_pass'] if ref else None,'source':row['record_path'] if row else None,'reference_source':ref['record_path'] if ref else None})
+         tables['ablation']=points
+         write_csv(out/'ablation_terminal.csv',points,list(points[0]) if points else [])
+         fig,ax=plt.subplots(figsize=(10,4))
+         labels=list(dict.fromkeys(p['method']+'/'+p['run_id'] for p in points))
++        tick_labels=[]
++        short_names={'generic_same_structured_evidence':'Generic + structured evidence',
++                     'ours_without_probes':'Ours without probes',
++                     'ours_without_regression_guidance':'Ours without regression guidance',
++                     'ours_ablation_reference':'Fresh Ours reference'}
+         for index,label in enumerate(labels):
+-            values=[p['paired_difference_reference'] for p in points if p['method']+'/'+p['run_id']==label and p['paired_difference_reference'] is not None]
++            group=[p for p in points if p['method']+'/'+p['run_id']==label]
++            values=[p['paired_difference_reference'] for p in group if p['paired_difference_reference'] is not None]
+             ax.scatter([index]*len(values),values)
+-        ax.axhline(0,color='gray');ax.set_xticks(range(len(labels)),labels,rotation=15,ha='right',fontsize=7)
+-        ax.set_ylabel('Paired Q difference from matched Ours reference');ax.set_title('Independent generation ablations; exploratory, valid pairs only')
++            method,run=label.split('/')
++            tick_labels.append(short_names.get(method,method)+'\n'+run+f'; {len(values)}/{len(group)} valid pairs')
++        ax.axhline(0,color='gray');ax.set_xticks(range(len(labels)),tick_labels,fontsize=8)
++        ax.set_ylabel('Delta Q vs matched Ours reference')
++        ax.set_title('Independent generation ablations: '+status.get('status','pending')+'\nBoth endpoints must be measured; missing pairs are omitted, not zero')
+         fig.tight_layout();fig.savefig(out/'ablation_terminal.png',dpi=150);plt.close(fig)
+     replay=read(ROOT/'replay_status.json',{})
+     if replay.get('status')=='complete':
+@@ -194,6 +203,9 @@
+     fig,ax=plt.subplots(figsize=(9,4));valid=[r for r in improvement if r['conditional_gain'] is not None]
+     if valid:
+         ax.scatter(range(len(valid)),[r['conditional_gain'] for r in valid]);ax.set_xticks(range(len(valid)),[r['method']+'/'+r['run_id'] for r in valid],rotation=20,ha='right',fontsize=8);ax.axhline(0,color='gray');ax.axhline(cfg['pilot']['quality_tolerance'],color='green',linestyle='--')
++        for i,point in enumerate(valid):
++            ax.annotate(f"{point['valid_pairs']}/{point['all_scheduled_pairs']} pairs",(i,point['conditional_gain']),xytext=(0,8),textcoords='offset points',ha='center',fontsize=8)
++        ax.margins(y=.2)
+     else:ax.text(.5,.5,'Terminal comparison pending: no paired outcomes',transform=ax.transAxes,ha='center')
+     ax.set_ylabel('Selected H minus common H0, paired Q');fig.tight_layout();fig.savefig(out/'effective_improvement.png',dpi=150);plt.close(fig)
+     calls=[]
