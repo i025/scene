@@ -1,6 +1,6 @@
 # 证据审查索引
 
-本索引组织可检查的证据，不预先判定方法有效。以下路径相对本文件。大文件需从 [Release](https://github.com/i025/scene/releases/tag/scene-rsi-pilot-2026-11-04) 解压到仓库根；成员清单、大小和上传状态见 [artifacts_index.csv](../artifacts_index.csv)。
+本索引组织可检查的证据，不预先判定方法有效。以下路径相对本文件。大文件现因GitHub403仅在[本地分包](LOCAL_ARTIFACTS.csv)，取得后解压到仓库根；Release未创建；成员清单、大小和上传状态见 [artifacts_index.csv](../artifacts_index.csv)。
 
 |主张/待审问题|对应代码|原始数据|图表|局限或缺失证据|
 |---|---|---|---|---|
@@ -19,12 +19,12 @@
 - 主表：[运行](../experiments/scene_rsi_pilot/metrics/runs.csv)、[12个主候选](../experiments/scene_rsi_pilot/metrics/candidates.csv)、[全部历史/当前提案及无结果准备目录](../experiments/scene_rsi_pilot/metrics/all_candidate_attempts.csv)、[125条场景记录](../experiments/scene_rsi_pilot/metrics/scene_metrics.csv)。125包含2个smoke及复用别名，不是125个独立场景。
 - 每张统计PNG通常由同名CSV/JSON提供来源；成本、配对、功能、消融、回放分别由原analyze.py/report.py绘制。诊断/比较/多视角/编辑联系表有同名JSON，文字/机械细节另在text_edit.csv、functional.csv。smoke_evidence取自smoke/*/record.json，不算正式统计。
 - 主图r1/r2按原清单全部4测试场景顺序，不挑赢家；固定多视角按预定首场景；编辑按预定前2场景；多视角不是独立样本。README案例包含成功和空白失败格。
-- 全部.blend、逐次step程序/图、几何JSON、真实图像附件、prompt、JSONL、stderr、response、usage在27个Release分包。索引说明其成员位置；不只覆盖胜者。
+- 全部.blend、逐次step程序/图、几何JSON、真实图像附件、prompt、JSONL、stderr、response、usage在27个待上传分包。索引说明其成员位置；不只覆盖胜者。
 - 原始日志保留本机未脱敏版本；公开副本替换账户路径、隐藏5条未用预留数据，不删除失败或成本。见[脱敏清单](REDACTIONS.json)。2次原始CLI日志未保存，不补造。
 
 ## 重算入口
 
-先从Release下载全部tar.gz并在仓库根解压，然后使用既有Python环境：
+先取得本地保存的全部27个tar.gz并在仓库根解压（Release当前未能创建），然后使用既有Python环境：
 
 ```bash
 python scripts/offline_report.py --output derived/offline_01

@@ -1,10 +1,12 @@
 # scene_rsi_pilot：首轮真实实验归档
 
+**上传受阻（GitHub403）**：本地归档和提交已完成，远端仍为空，Release未创建，27个分包当前仅保留本机。现有fine-grained PAT没有通过该仓库的实际写入；详见[上传记录](docs/UPLOAD_ATTEMPTS.json)与[本地分包清单](docs/LOCAL_ARTIFACTS.csv)。不把本地提交当作成功上传。
+
 研究问题是：如何跨图像改进“参考图像 → 可编辑3D场景程序与Blender工程”的共享流程 **H**，以及负责诊断、提案与修改H的策略程序 **M**。单场景程序 **P** 的修复另记，不把漂亮单例当成新共享算法。
 
 这是2026-11-02至11-04在共享服务器上实际执行的小规模、探索性先导实验。**没有证据支持普遍优势或元能力单调提高。** 本仓库归档已有实验；本次整理新增模型调用0、重建/终测/渲染0，没有使用GPU。真实源码、失败、拒绝、未选中候选和完整大产物均保留。
 
-[审查索引](docs/REVIEW_INDEX.md) · [事后as-run协议](docs/AS_RUN_PROTOCOL.md) · [中文完整报告](experiments/scene_rsi_pilot/reports/report.md) · [离线HTML](experiments/scene_rsi_pilot/reports/index.html) · [全部产物索引](artifacts_index.csv) · [Release完整附件](https://github.com/i025/scene/releases/tag/scene-rsi-pilot-2026-11-04) · [上传摘要](UPLOAD_SUMMARY.md)
+[审查索引](docs/REVIEW_INDEX.md) · [事后as-run协议](docs/AS_RUN_PROTOCOL.md) · [中文完整报告](experiments/scene_rsi_pilot/reports/report.md) · [离线HTML](experiments/scene_rsi_pilot/reports/index.html) · [全部产物索引](artifacts_index.csv) · [本地完整附件（尚未上传）](docs/LOCAL_ARTIFACTS.csv) · [上传摘要](UPLOAD_SUMMARY.md)
 
 ## 实际跑了什么
 
@@ -83,9 +85,9 @@ BlenderWorld为adapted evaluation、非官方榜单：bw_0005两重建Q为H0 **0
 
 ## 完整附件、许可与离线使用
 
-27个Release分包覆盖全部已有运行，包括历史服务失败、全部.blend、逐次程序、原始尺寸渲染/编辑图、大几何JSON、prompt/附件、stdout JSONL、stderr、退出码与usage。普通Git保留可直接审查的关键代码/表格/PNG，完整HTML的部分大文件链接在解压附件后可用。下载状态/大小以[产物索引](artifacts_index.csv)为准。
+27个待上传分包覆盖全部已有运行，包括历史服务失败、全部.blend、逐次程序、原始尺寸渲染/编辑图、大几何JSON、prompt/附件、stdout JSONL、stderr、退出码与usage。普通Git保留可直接审查的关键代码/表格/PNG，完整HTML的部分大文件链接在解压附件后可用。上传状态/大小以[产物索引](artifacts_index.csv)为准。
 
-下载所有分包到本地 `release-assets/`，在仓库根执行：
+当前附件在原服务器 `work/scene_archive/bundles/`，尚无实际下载URL。取得这27个分包并放入本地 `release-assets/` 后，在仓库根执行：
 
 ```bash
 for file in release-assets/*.tar.gz; do tar -xzf "$file"; done

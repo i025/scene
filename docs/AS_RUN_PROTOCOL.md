@@ -71,4 +71,4 @@ BlenderWorld只用bw_0005与独立后续bw_0011。原外部阶段余额23不足2
 
 原实验留在服务器不改；公开副本仅隐藏账户/资源路径（包括.blend中等长替换的账户路径字符串）、5条未用预留数据，省略缓存/权重/环境，详见REDACTIONS.json与DEPENDENCIES.md。源码快照保留实际运行版本及已有历史diff；公开路径标记是脱敏，不是新算法版本。归档新增脚本仅整理/离线重画，不替换实际H/M/评价器。已有2次原始CLI日志损失如实保留unknown。
 
-所有原始日志、全部.blend/程序/图片和大几何JSON按运行放Release；普通Git直接浏览关键表、实际源码与PNG。解压全部附件后可用 `python scripts/offline_report.py --output derived/offline_01` 在新目录重算，原历史报告不覆盖。统计图脚本/源表见REVIEW_INDEX.md。
+所有原始日志、全部.blend/程序/图片和大几何JSON按运行打包待上传Release（当前GitHub403，仅本地）；普通Git直接浏览关键表、实际源码与PNG。解压全部附件后可用 `python scripts/offline_report.py --output derived/offline_01` 在新目录重算，原历史报告不覆盖。统计图脚本/源表见REVIEW_INDEX.md。
