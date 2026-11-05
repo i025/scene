@@ -1,0 +1,148 @@
+{
+  "observations": {
+    "probes": [
+      {
+        "request": {
+          "scene_id": "case02",
+          "object_id": "Z_Chair",
+          "hypothesis": "The chair group may be uniformly underscaled. Test increasing Z_Chair scale around its floor-level origin while holding the camera and green block fixed; depth or placement differences remain possible, so scale is not uniquely established.",
+          "observation": "The red chair is roughly half as wide and tall in reconstruction image 2 as in reference image 1, while the green block remains approximately the same size and position.",
+          "code_module": "object_parameters",
+          "probe": "object_scale"
+        },
+        "execution": {
+          "probe": "object_scale",
+          "target_selection": {
+            "object": "Z_Chair",
+            "mesh_names": [
+              "ChairBack",
+              "ChairLeg",
+              "ChairLeg.001",
+              "ChairLeg.002",
+              "ChairLeg.003",
+              "ChairSeat"
+            ],
+            "group_name": "Z_Chair"
+          },
+          "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+          "scale_before": [
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929
+          ],
+          "scale_after": [
+            0.6050000190734863,
+            0.6050000190734863,
+            0.6050000190734863
+          ],
+          "scale_factor": 1.1,
+          "pivot_world_scene_units": [
+            0.0,
+            0.0,
+            0.8525000214576721
+          ],
+          "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+          "fixed_camera": true,
+          "non_target_preserved": true,
+          "status": "completed",
+          "images": [
+            "probe_object_scale.png"
+          ],
+          "render_attempts": 1
+        },
+        "quality_delta": 0.0005746547001528324,
+        "visual_metrics": {
+          "fixture_SSIM": 0.8848191242400433
+        }
+      }
+    ],
+    "regression": [
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "hierarchy_parts",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 1,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "material_preservation",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "non_target": {
+            "pass": true,
+            "checked_objects": 10,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "target": [
+            "B_Table"
+          ],
+          "type": "mechanical_not_text"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ]
+  },
+  "decision": {
+    "shared_module": "object_coverage_and_verification",
+    "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+    "failure_diagnoses": [],
+    "observed_deltas": [
+      0.0005746547001528324
+    ],
+    "regression_failures": [],
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "observation_count": 1,
+    "best_probe": {
+      "scene_id": "case02",
+      "object_id": "Z_Chair",
+      "hypothesis": "The chair group may be uniformly underscaled. Test increasing Z_Chair scale around its floor-level origin while holding the camera and green block fixed; depth or placement differences remain possible, so scale is not uniquely established.",
+      "observation": "The red chair is roughly half as wide and tall in reconstruction image 2 as in reference image 1, while the green block remains approximately the same size and position.",
+      "code_module": "object_parameters",
+      "probe": "object_scale"
+    },
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}

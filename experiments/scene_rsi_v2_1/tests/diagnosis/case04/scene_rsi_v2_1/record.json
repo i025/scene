@@ -1,0 +1,80 @@
+{
+  "method": "scene_rsi_v2_1",
+  "scene_id": "case04",
+  "status": "completed",
+  "probe_budget": 2,
+  "probes_executed": 1,
+  "targets": [
+    "Z_Chair"
+  ],
+  "correct_object": true,
+  "correct_or_related_module": true,
+  "probe_changes_decision": true,
+  "positive_sensitivity": false,
+  "valid_shared_patch": null,
+  "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+  "metric": "fixture_SSIM (not formal composite Q)",
+  "seconds": 5.850746097043157,
+  "decision": {
+    "shared_module": "structure_and_edit_contract",
+    "decision": "Repair the measured required structure/edit failure before improving appearance.",
+    "failure_diagnoses": [],
+    "observed_deltas": [
+      -0.08008887240509166
+    ],
+    "regression_failures": [
+      {
+        "request": {
+          "scene_id": "case04",
+          "test": "known_support",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": false,
+          "rows": [
+            {
+              "pair": {
+                "object": "ChairLeg",
+                "support": "A_floor"
+              },
+              "normalized_vertical_gap": 0.15136742839668887,
+              "footprint_overlap_approx": true,
+              "measured_pass": false
+            }
+          ],
+          "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+        }
+      }
+    ],
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case04",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "observation_count": 1,
+    "best_probe": {
+      "scene_id": "case04",
+      "object_id": "Z_Chair",
+      "hypothesis": "The chair assembly may be vertically displaced relative to the floor. The supplied leg bounds support a gap, but the images alone do not establish unique causality. Isolate the chair with the floor retained to inspect foot contact and the detached shadow.",
+      "observation": "The reconstructed chair sits about 24 pixels higher than in the reference: its back nearly touches the top edge and its feet appear suspended above the floor. The green block stays in approximately the same position.",
+      "code_module": "support_relations",
+      "probe": "isolate"
+    },
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}

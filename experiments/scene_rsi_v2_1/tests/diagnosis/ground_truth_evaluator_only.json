@@ -1,0 +1,89 @@
+[
+  {
+    "scene_id": "case01",
+    "module": "camera",
+    "object_id": null,
+    "related_object_ids": [],
+    "non_target_changed": null,
+    "fault": "camera",
+    "provided_to_M": false
+  },
+  {
+    "scene_id": "case02",
+    "module": "object_parameters",
+    "object_id": "Z_Chair",
+    "related_object_ids": [
+      "ChairSeat",
+      "ChairBack",
+      "ChairLeg",
+      "ChairLeg.001",
+      "ChairLeg.002",
+      "ChairLeg.003",
+      "Z_Chair"
+    ],
+    "non_target_changed": null,
+    "fault": "scale",
+    "provided_to_M": false
+  },
+  {
+    "scene_id": "case03",
+    "module": "object_coverage",
+    "object_id": "Z_Chair",
+    "related_object_ids": [
+      "ChairSeat",
+      "ChairBack",
+      "ChairLeg",
+      "ChairLeg.001",
+      "ChairLeg.002",
+      "ChairLeg.003",
+      "Z_Chair"
+    ],
+    "non_target_changed": null,
+    "fault": "visibility",
+    "provided_to_M": false
+  },
+  {
+    "scene_id": "case04",
+    "module": "support_relations",
+    "object_id": "Z_Chair",
+    "related_object_ids": [
+      "ChairSeat",
+      "ChairBack",
+      "ChairLeg",
+      "ChairLeg.001",
+      "ChairLeg.002",
+      "ChairLeg.003",
+      "Z_Chair"
+    ],
+    "non_target_changed": null,
+    "fault": "support",
+    "provided_to_M": false
+  },
+  {
+    "scene_id": "case05",
+    "module": "material_edit",
+    "object_id": "B_Table",
+    "related_object_ids": [
+      "ChairSeat",
+      "ChairBack",
+      "ChairLeg",
+      "ChairLeg.001",
+      "ChairLeg.002",
+      "ChairLeg.003",
+      "Z_Chair"
+    ],
+    "non_target_changed": {
+      "pass": false,
+      "checked_objects": 10,
+      "changed_fields": {
+        "B_Table": [
+          "materials"
+        ]
+      },
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "fault": "material",
+    "provided_to_M": false
+  }
+]

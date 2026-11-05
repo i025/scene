@@ -1,0 +1,583 @@
+[
+  {
+    "method": "fixed_heuristic",
+    "scene_id": "case01",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 2,
+    "targets": [
+      null,
+      "ChairBack"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": true,
+    "probe_changes_decision": true,
+    "positive_sensitivity": true,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 3.0782000608742237,
+    "decision": {
+      "shared_module": "camera",
+      "decision": "Generalize sensitivity evidence in shared reconstruction reasoning; do not copy probe parameters per scene",
+      "best_probe": {
+        "scene_id": "case01",
+        "object_id": null,
+        "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+        "probe": "camera_focal"
+      },
+      "observed_deltas": [
+        0.009384093778832758,
+        0.0012128090884592213
+      ],
+      "regression_failures": [],
+      "observation_count": 2,
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case01",
+            "test": "composite_move",
+            "reason": "Risk: camera,material,parts"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+      "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ]
+    }
+  },
+  {
+    "method": "scene_rsi_v2_1",
+    "scene_id": "case01",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 1,
+    "targets": [
+      null
+    ],
+    "correct_object": true,
+    "correct_or_related_module": true,
+    "probe_changes_decision": true,
+    "positive_sensitivity": true,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 5.434167404659092,
+    "decision": {
+      "shared_module": "camera",
+      "decision": "Sensitivity evidence supports studying this shared module; compare alternatives, not a unique cause or per-scene parameter copy.",
+      "failure_diagnoses": [],
+      "observed_deltas": [
+        0.009384093778832758
+      ],
+      "regression_failures": [],
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case01",
+            "test": "composite_move",
+            "reason": "Observed module and candidate diff risk"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "observation_count": 1,
+      "best_probe": {
+        "scene_id": "case01",
+        "object_id": null,
+        "hypothesis": "The shared size reduction suggests a camera framing mismatch. Increase focal length by approximately 1.5× with camera pose and geometry fixed, and compare both silhouettes and spacing. Camera distance or scene scale could also explain this; the images do not establish unique causality.",
+        "observation": "Both objects are substantially smaller in reconstruction 2: the chair is approximately 65 pixels tall versus 99 in reference 1, and the green block approximately 32 versus 48. More floor boundary is visible.",
+        "code_module": "camera",
+        "probe": "camera_focal"
+      },
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ],
+      "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+      "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+    }
+  },
+  {
+    "method": "fixed_heuristic",
+    "scene_id": "case02",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 2,
+    "targets": [
+      null,
+      "B_Table"
+    ],
+    "correct_object": false,
+    "correct_or_related_module": false,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 3.226600321009755,
+    "decision": {
+      "shared_module": "representation_and_verification",
+      "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+      "best_probe": {
+        "scene_id": "case02",
+        "object_id": "B_Table",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "observed_deltas": [
+        -0.05923481695637911,
+        -0.01781148270858357
+      ],
+      "regression_failures": [],
+      "observation_count": 2,
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case02",
+            "test": "composite_move",
+            "reason": "Risk: camera,material,parts"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+      "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ]
+    }
+  },
+  {
+    "method": "scene_rsi_v2_1",
+    "scene_id": "case02",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 1,
+    "targets": [
+      "Z_Chair"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": true,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 5.638177582994103,
+    "decision": {
+      "shared_module": "object_coverage_and_verification",
+      "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+      "failure_diagnoses": [],
+      "observed_deltas": [
+        0.0005746547001528324
+      ],
+      "regression_failures": [],
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case02",
+            "test": "composite_move",
+            "reason": "Observed module and candidate diff risk"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "observation_count": 1,
+      "best_probe": {
+        "scene_id": "case02",
+        "object_id": "Z_Chair",
+        "hypothesis": "The chair group may be uniformly underscaled. Test increasing Z_Chair scale around its floor-level origin while holding the camera and green block fixed; depth or placement differences remain possible, so scale is not uniquely established.",
+        "observation": "The red chair is roughly half as wide and tall in reconstruction image 2 as in reference image 1, while the green block remains approximately the same size and position.",
+        "code_module": "object_parameters",
+        "probe": "object_scale"
+      },
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ],
+      "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+      "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+    }
+  },
+  {
+    "method": "fixed_heuristic",
+    "scene_id": "case03",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 2,
+    "targets": [
+      null,
+      "ChairBack"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": false,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 3.2421637009829283,
+    "decision": {
+      "shared_module": "representation_and_verification",
+      "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+      "best_probe": {
+        "scene_id": "case03",
+        "object_id": "ChairBack",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "observed_deltas": [
+        -0.058637433716124066,
+        0.0
+      ],
+      "regression_failures": [],
+      "observation_count": 2,
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case03",
+            "test": "composite_move",
+            "reason": "Risk: camera,material,parts"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+      "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ]
+    }
+  },
+  {
+    "method": "scene_rsi_v2_1",
+    "scene_id": "case03",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 1,
+    "targets": [
+      "Z_Chair"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": true,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 5.622636597137898,
+    "decision": {
+      "shared_module": "object_coverage_and_verification",
+      "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+      "failure_diagnoses": [],
+      "observed_deltas": [
+        -0.07745758191671293
+      ],
+      "regression_failures": [],
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case03",
+            "test": "composite_move",
+            "reason": "Observed module and candidate diff risk"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "observation_count": 1,
+      "best_probe": {
+        "scene_id": "case03",
+        "object_id": "Z_Chair",
+        "hypothesis": "Chair render exclusion is strongly supported by hide_render=true on all six chair meshes. The images alone do not establish a unique cause; isolate the chair descendants and compare with their render visibility enabled to test this explanation.",
+        "observation": "The red chair visible left of the green block in image 1 is entirely absent in image 2, including within its approximate bounds in image 3.",
+        "code_module": "object_coverage",
+        "probe": "isolate"
+      },
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ],
+      "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+      "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+    }
+  },
+  {
+    "method": "fixed_heuristic",
+    "scene_id": "case04",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 2,
+    "targets": [
+      null,
+      "ChairBack"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": false,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 3.467952774837613,
+    "decision": {
+      "shared_module": "representation_and_verification",
+      "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+      "best_probe": {
+        "scene_id": "case04",
+        "object_id": "ChairBack",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "observed_deltas": [
+        -0.07969690304879407,
+        -0.010613435030522922
+      ],
+      "regression_failures": [],
+      "observation_count": 2,
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case04",
+            "test": "composite_move",
+            "reason": "Risk: camera,material,parts"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+      "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ]
+    }
+  },
+  {
+    "method": "scene_rsi_v2_1",
+    "scene_id": "case04",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 1,
+    "targets": [
+      "Z_Chair"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": true,
+    "probe_changes_decision": true,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 5.850746097043157,
+    "decision": {
+      "shared_module": "structure_and_edit_contract",
+      "decision": "Repair the measured required structure/edit failure before improving appearance.",
+      "failure_diagnoses": [],
+      "observed_deltas": [
+        -0.08008887240509166
+      ],
+      "regression_failures": [
+        {
+          "request": {
+            "scene_id": "case04",
+            "test": "known_support",
+            "reason": "Observed module and candidate diff risk"
+          },
+          "result": {
+            "applicable": true,
+            "measured_pass": false,
+            "rows": [
+              {
+                "pair": {
+                  "object": "ChairLeg",
+                  "support": "A_floor"
+                },
+                "normalized_vertical_gap": 0.15136742839668887,
+                "footprint_overlap_approx": true,
+                "measured_pass": false
+              }
+            ],
+            "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+          }
+        }
+      ],
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case04",
+            "test": "composite_move",
+            "reason": "Observed module and candidate diff risk"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "observation_count": 1,
+      "best_probe": {
+        "scene_id": "case04",
+        "object_id": "Z_Chair",
+        "hypothesis": "The chair assembly may be vertically displaced relative to the floor. The supplied leg bounds support a gap, but the images alone do not establish unique causality. Isolate the chair with the floor retained to inspect foot contact and the detached shadow.",
+        "observation": "The reconstructed chair sits about 24 pixels higher than in the reference: its back nearly touches the top edge and its feet appear suspended above the floor. The green block stays in approximately the same position.",
+        "code_module": "support_relations",
+        "probe": "isolate"
+      },
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ],
+      "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+      "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+    }
+  },
+  {
+    "method": "fixed_heuristic",
+    "scene_id": "case05",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 2,
+    "targets": [
+      null,
+      "ChairBack"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": false,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 3.4765444290824234,
+    "decision": {
+      "shared_module": "representation_and_verification",
+      "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+      "best_probe": {
+        "scene_id": "case05",
+        "object_id": "ChairBack",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "observed_deltas": [
+        -0.10941000277678692,
+        -0.025178338355563268
+      ],
+      "regression_failures": [],
+      "observation_count": 2,
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case05",
+            "test": "composite_move",
+            "reason": "Risk: camera,material,parts"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+      "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ]
+    }
+  },
+  {
+    "method": "scene_rsi_v2_1",
+    "scene_id": "case05",
+    "status": "completed",
+    "probe_budget": 2,
+    "probes_executed": 2,
+    "targets": [
+      "ChairSeat",
+      "B_Table"
+    ],
+    "correct_object": true,
+    "correct_or_related_module": true,
+    "probe_changes_decision": false,
+    "positive_sensitivity": false,
+    "valid_shared_patch": null,
+    "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+    "metric": "fixture_SSIM (not formal composite Q)",
+    "seconds": 6.606366705149412,
+    "decision": {
+      "shared_module": "object_coverage_and_verification",
+      "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+      "failure_diagnoses": [],
+      "observed_deltas": [
+        -0.12423800908946037,
+        -0.11829979762659593
+      ],
+      "regression_failures": [],
+      "unmeasured_regressions": [
+        {
+          "request": {
+            "scene_id": "case05",
+            "test": "composite_move",
+            "reason": "Observed module and candidate diff risk"
+          },
+          "result": {
+            "applicable": false,
+            "measured_pass": null
+          }
+        }
+      ],
+      "observation_count": 2,
+      "best_probe": {
+        "scene_id": "case05",
+        "object_id": "B_Table",
+        "hypothesis": "The supplied blue base color supports a material mismatch. Isolating B_Table under unchanged lighting would test whether the color discrepancy persists independently of nearby objects; exact causality remains uncertain.",
+        "observation": "The separate block on the right is blue in image 2 but green in image 1, with a similar visible silhouette and position.",
+        "code_module": "material_edit",
+        "probe": "isolate"
+      },
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ],
+      "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+      "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+    }
+  }
+]

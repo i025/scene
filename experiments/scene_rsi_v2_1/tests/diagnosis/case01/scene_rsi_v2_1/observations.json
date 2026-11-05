@@ -1,0 +1,85 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case01",
+        "object_id": null,
+        "hypothesis": "The shared size reduction suggests a camera framing mismatch. Increase focal length by approximately 1.5× with camera pose and geometry fixed, and compare both silhouettes and spacing. Camera distance or scene scale could also explain this; the images do not establish unique causality.",
+        "observation": "Both objects are substantially smaller in reconstruction 2: the chair is approximately 65 pixels tall versus 99 in reference 1, and the green block approximately 32 versus 48. More floor boundary is visible.",
+        "code_module": "camera",
+        "probe": "camera_focal"
+      },
+      "execution": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": null,
+          "mesh_names": [],
+          "group_name": null
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 31.200000762939453,
+        "focal_length_after": 34.31999969482422,
+        "geometry_unchanged": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "quality_delta": 0.009384093778832758,
+      "visual_metrics": {
+        "fixture_SSIM": 0.7905699395942319
+      }
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case01",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case01",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 10,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": [
+          "B_Table"
+        ],
+        "type": "mechanical_not_text"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case01",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": false,
+        "measured_pass": null
+      }
+    }
+  ]
+}

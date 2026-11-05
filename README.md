@@ -1,27 +1,31 @@
-# Scene-RSI V2：可执行三维诊断与功能保持
+# Scene-RSI：可编辑三维场景重建的 RSI 先导实验
 
-研究跨图像重建流程 H 及其元策略 M；P 是单场景程序，不算共享算法改进。V2 修复两阶段 M（选择探测 → 执行 → 观测进入 M → 共享修改）和 required/applicable/measured/gate 的功能回归，允许 H-only、M-only、H+M。
+V2.1修复绝对候选资格、失败诊断、真实对象定位与缺测统计。研究对象是共享重建流程H和元策略程序M；单图程序P单独记录。
 
-**当前是机制修复与烟测检查点，正式两次演化已启动但尚未完成；不能据此声称获得 Selection/Test 增益或元能力提升。** 只运行 Scene-RSI 与 H0 内部参照，不重跑其他方法。
+**运行中检查点：正式V2.1已启动，Selection/Test未完成，终测结果为pending/null。** 只运行Scene-RSI与H0内部参照，无新SceneEvolve/Generic。1开发/1选择/2终测，两个独立研发、K2，CPU单重任务2线程，无GPU。数据exploratory；烟测后本地冻结，非外部预注册。
 
-确定性夹具：正确组合、独立编辑和组合移动通过；脱离、缺件、破坏支撑、共享材质误改与表面交叉均被检出。真实开发烟测 H0 Q=0.3725，H-only 候选 Q=0.4173，双方功能检查通过；这两个值不是终测结果。烟测8次CLI，1次末轮反馈超时但有效场景产物保留。
+![真实故障与探测](experiments/scene_rsi_v2_1/figures/diagnostic_fixture_contact.png)
 
-![真实校准检查](experiments/scene_rsi_v2/figures/figure3_calibration.png)
-![真实烟测诊断（排除出正式样本）](experiments/scene_rsi_v2/figures/figure2_diagnostic.png)
+![诊断各阶段全部点](experiments/scene_rsi_v2_1/figures/diagnostic_comparison.png)
 
-- [冻结协议](docs/AS_RUN_PROTOCOL_V2.md)：4 Development / 4 Selection / 6 Test，两个研发重复，各K=2；保守404/420次CLI，1500帧硬上限。
-- [审查索引](docs/REVIEW_INDEX_V2.md) · [中文报告](experiments/scene_rsi_v2/reports/REPORT_ZH.md) · [离线HTML](experiments/scene_rsi_v2/reports/index.html)
-- [逐场景原始表](experiments/scene_rsi_v2/metrics/scene_metrics.csv) · [候选状态](experiments/scene_rsi_v2/metrics/candidates.csv) · [CLI实际用量](experiments/scene_rsi_v2/metrics/calls.csv)
-- [源码和真实入口](experiments/scene_rsi_v2/README.md) · [依赖/迁移](docs/DEPENDENCIES_V2.md) · [V2产物索引](artifacts_index_v2.csv)
+五夹具中，固定启发式/V2.1的对象或相关部件命中分别4/5、5/5，图像定位或决策模块命中1/5、5/5。**M第二阶段最终模块精确命中双方均1/5**，不能把视觉定位成功包装成整个闭环成功。V2.1多用5次定位CLI，实际成本不同。双方辅助共享helper修复各一次astra，换参数、名字和共享数据后均通过5/5；API契约提供提示，不是自然图像重建H改善或RSI优势。
 
-当前索引中的大产物仍为 pending，正式阶段完成后再打包上传；没有把本地已有文件冒称成已上传附件。已有2个正式H0开发任务失败，Selection/Test尚未开始。失败路径的功能记录已修复为未测量null与失败门槛分开；原记录、原冻结源码和修订diff保留，未重新调用模型生成这两项。
+![已知正确和损坏结构实测](experiments/scene_rsi_v2_1/figures/figure3_calibration.png)
 
-离线重算（解压附件后，使用已有环境）：
+真实厨柜图烟测：H0两次执行遇到圆角半径和空World错误，无有效Q。M根据轨迹提出H-only system.txt补丁，子代Q=0.556475909，必要功能通过。烟测不进入正式分数，不继承为新H0。所有失败和调用计入预算。正式收益尚未知。
+
+审查入口：[审查索引](docs/REVIEW_INDEX_V2_1.md) · [冻结协议](docs/AS_RUN_PROTOCOL_V2_1.md) · [中文报告](experiments/scene_rsi_v2_1/reports/REPORT_ZH.md) · [离线HTML](experiments/scene_rsi_v2_1/reports/index.html)。
+
+数据：[逐场景](experiments/scene_rsi_v2_1/metrics/scene_metrics.csv) · [候选](experiments/scene_rsi_v2_1/metrics/candidates.csv) · [Test状态](experiments/scene_rsi_v2_1/metrics/terminal_summary.csv) · [全部调用](experiments/scene_rsi_v2_1/metrics/calls.csv) · [诊断全部点](experiments/scene_rsi_v2_1/metrics/diagnostic_comparison.csv)。
+
+代码：[运行入口](experiments/scene_rsi_v2_1/README.md) · [依赖](docs/DEPENDENCIES_V2_1.md) · [H0](experiments/scene_rsi_v2_1/backend/harnesses/baseline) · [初始M](experiments/scene_rsi_v2_1/initial_meta/scene_rsi_v2_1/meta.py) · [候选](experiments/scene_rsi_v2_1/candidates) · [快照](experiments/scene_rsi_v2_1/code_snapshots)。
+
+大产物在正式流程结束后按运行打包，状态见[附件索引](artifacts_index_v2_1.csv)。包括失败与未选候选，不只保存赢家。未完成冻结M回放时不展示元能力提升图。第三方图像作者和许可在manifest；不上传权重、环境、缓存或凭证，不添加覆盖第三方代码的许可证。
+
+离线重画（已有依赖环境；先解压Release全部附件到仓库根）：
 
 ```bash
-python scripts/offline_v2.py --experiment experiments/scene_rsi_v2 --output derived/v2_replot
+OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 CUDA_VISIBLE_DEVICES= python scripts/offline_v2_1.py --experiment experiments/scene_rsi_v2_1 --output derived/v2_1_replot
 ```
 
-局限：数据有历史联系表曝光，exploratory；来源组物理独立性不完全可证。无三维真值；声明部件完整性不等于语义完整性；AABB支撑近似、三角表面交叉与真实语义碰撞分开。M0最大生成对象规则是覆盖启发式，未知参考对象映射；烟测真实尺度探测选中地板，不能当家具尺度诊断。机械操作不等于文字编辑。没有冻结M回放结果，不展示元能力提升曲线。
-
-V1 原代码、报告与数据完整保留：[V1 README](docs/README_V1.md) · [V1 Release](https://github.com/i025/scene/releases/tag/scene-rsi-pilot-2026-11-04)。其文档保留当时归档记录，V2结果与V1历史分开。
+旧实验完整保留：[V1](docs/README_V1.md) · [V2旧检查点](docs/README_V2_CHECKPOINT.md)。V2实际13条正式记录：开发4成功4失败、选择3成功2失败、Test0、正式候选0；另有2条旧V2烟测。旧running_scene为路由服务失败后的残留，不等于活进程。新分支补入当时未推送的V2证据，不以新规则回写旧分数。[状态核对](experiments/scene_rsi_v2_1/configs/v2_status_at_start.json)。

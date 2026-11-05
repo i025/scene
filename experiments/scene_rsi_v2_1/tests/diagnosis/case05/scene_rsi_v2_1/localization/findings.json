@@ -1,0 +1,20 @@
+[
+  {
+    "scene_id": "case05",
+    "object_id": "ChairSeat",
+    "observation": "The chair seat is blue in image 2 but orange-red in image 1; the back and legs remain orange-red.",
+    "hypothesis": "A material assignment or base-color mismatch is likely. Isolating ChairSeat would verify the affected surface; the images alone do not establish a unique cause.",
+    "probe": "isolate",
+    "code_module": "material_edit",
+    "confidence": "high"
+  },
+  {
+    "scene_id": "case05",
+    "object_id": "B_Table",
+    "observation": "The separate block on the right is blue in image 2 but green in image 1, with a similar visible silhouette and position.",
+    "hypothesis": "The supplied blue base color supports a material mismatch. Isolating B_Table under unchanged lighting would test whether the color discrepancy persists independently of nearby objects; exact causality remains uncertain.",
+    "probe": "isolate",
+    "code_module": "material_edit",
+    "confidence": "high"
+  }
+]

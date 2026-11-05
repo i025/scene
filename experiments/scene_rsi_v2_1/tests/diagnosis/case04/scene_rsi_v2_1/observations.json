@@ -1,0 +1,102 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case04",
+        "object_id": "Z_Chair",
+        "hypothesis": "The chair assembly may be vertically displaced relative to the floor. The supplied leg bounds support a gap, but the images alone do not establish unique causality. Isolate the chair with the floor retained to inspect foot contact and the detached shadow.",
+        "observation": "The reconstructed chair sits about 24 pixels higher than in the reference: its back nearly touches the top edge and its feet appear suspended above the floor. The green block stays in approximately the same position.",
+        "code_module": "support_relations",
+        "probe": "isolate"
+      },
+      "execution": {
+        "probe": "isolate",
+        "target_selection": {
+          "object": "Z_Chair",
+          "mesh_names": [
+            "ChairBack",
+            "ChairLeg",
+            "ChairLeg.001",
+            "ChairLeg.002",
+            "ChairLeg.003",
+            "ChairSeat"
+          ],
+          "group_name": "Z_Chair"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "kept_meshes": [
+          "ChairBack",
+          "ChairLeg",
+          "ChairLeg.001",
+          "ChairLeg.002",
+          "ChairLeg.003",
+          "ChairSeat"
+        ],
+        "hidden_meshes": [
+          "A_floor",
+          "B_Table"
+        ],
+        "status": "completed",
+        "images": [
+          "probe_isolate.png"
+        ],
+        "render_attempts": 1
+      },
+      "quality_delta": -0.08008887240509166,
+      "visual_metrics": {
+        "fixture_SSIM": 0.7878097683046675
+      }
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case04",
+        "test": "known_support",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": false,
+        "rows": [
+          {
+            "pair": {
+              "object": "ChairLeg",
+              "support": "A_floor"
+            },
+            "normalized_vertical_gap": 0.15136742839668887,
+            "footprint_overlap_approx": true,
+            "measured_pass": false
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case04",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case04",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": false,
+        "measured_pass": null
+      }
+    }
+  ]
+}

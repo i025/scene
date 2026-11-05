@@ -1,0 +1,11 @@
+[
+  {
+    "scene_id": "case03",
+    "object_id": "Z_Chair",
+    "observation": "The red chair visible left of the green block in image 1 is entirely absent in image 2, including within its approximate bounds in image 3.",
+    "hypothesis": "Chair render exclusion is strongly supported by hide_render=true on all six chair meshes. The images alone do not establish a unique cause; isolate the chair descendants and compare with their render visibility enabled to test this explanation.",
+    "probe": "isolate",
+    "code_module": "object_coverage",
+    "confidence": "high"
+  }
+]

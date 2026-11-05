@@ -1,0 +1,58 @@
+{
+  "method": "scene_rsi_v2_1",
+  "scene_id": "case05",
+  "status": "completed",
+  "probe_budget": 2,
+  "probes_executed": 2,
+  "targets": [
+    "ChairSeat",
+    "B_Table"
+  ],
+  "correct_object": true,
+  "correct_or_related_module": true,
+  "probe_changes_decision": false,
+  "positive_sensitivity": false,
+  "valid_shared_patch": null,
+  "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+  "metric": "fixture_SSIM (not formal composite Q)",
+  "seconds": 6.606366705149412,
+  "decision": {
+    "shared_module": "object_coverage_and_verification",
+    "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+    "failure_diagnoses": [],
+    "observed_deltas": [
+      -0.12423800908946037,
+      -0.11829979762659593
+    ],
+    "regression_failures": [],
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case05",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "observation_count": 2,
+    "best_probe": {
+      "scene_id": "case05",
+      "object_id": "B_Table",
+      "hypothesis": "The supplied blue base color supports a material mismatch. Isolating B_Table under unchanged lighting would test whether the color discrepancy persists independently of nearby objects; exact causality remains uncertain.",
+      "observation": "The separate block on the right is blue in image 2 but green in image 1, with a similar visible silhouette and position.",
+      "code_module": "material_edit",
+      "probe": "isolate"
+    },
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}

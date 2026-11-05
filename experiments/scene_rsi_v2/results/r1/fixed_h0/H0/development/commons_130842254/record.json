@@ -1,0 +1,715 @@
+{
+  "method": "fixed_h0",
+  "run_id": "r1",
+  "scene_id": "commons_130842254",
+  "split": "development",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "backend/harnesses/baseline",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.34856023385431545,
+    "lpips": 0.6462639570236206,
+    "dino": 0.6125648021697998,
+    "psnr": 10.247183915967303,
+    "overall": 0.5028595593051982
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "functional_pass": false,
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": null,
+    "target_object": "Box",
+    "geometry": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": false,
+        "measured_pass": null,
+        "rows": [],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": null,
+        "crossings": [
+          {
+            "objects": [
+              "Box",
+              "Box.001"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box",
+              "Box.002"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.003"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.004"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.031"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.032"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.035"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "left plaster arch"
+            ],
+            "triangle_pairs": 5
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.003"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.002",
+              "right plaster arch"
+            ],
+            "triangle_pairs": 14
+          },
+          {
+            "objects": [
+              "Box.005",
+              "Box.034"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.005",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.005",
+              "right hearth jamb"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.007"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.008"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.009"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.010"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.011"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.012"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.013"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.014"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.007",
+              "Box.009"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.007",
+              "Box.013"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.008",
+              "Box.009"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.009",
+              "Box.013"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.010",
+              "Box.012"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.010",
+              "Box.013"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.011",
+              "Box.012"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.013"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.014",
+              "Box.015"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Box.017"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Box.018"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.021",
+              "Box.023"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.022",
+              "Box.023"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.024",
+              "Box.029"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.024",
+              "Box.030"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Box.028"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Box.027"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.031",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.032",
+              "Box.035"
+            ],
+            "triangle_pairs": 10
+          },
+          {
+            "objects": [
+              "Box.033",
+              "Box.035"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.034",
+              "Box.035"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.034",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.035",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.003"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.004"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.005"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.006"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.007"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.001",
+              "Rod.003"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.001",
+              "Rod.004"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.001",
+              "Rod.005"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.001",
+              "Rod.006"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.001",
+              "Rod.007"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.002",
+              "Rod.003"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.002",
+              "Rod.004"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.002",
+              "Rod.005"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.002",
+              "Rod.006"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.002",
+              "Rod.007"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Rod.009",
+              "Rod.018"
+            ],
+            "triangle_pairs": 80
+          },
+          {
+            "objects": [
+              "Rod.011",
+              "Rod.018"
+            ],
+            "triangle_pairs": 80
+          },
+          {
+            "objects": [
+              "Rod.013",
+              "Rod.018"
+            ],
+            "triangle_pairs": 80
+          },
+          {
+            "objects": [
+              "Rod.013",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 32
+          },
+          {
+            "objects": [
+              "Rod.015",
+              "Rod.018"
+            ],
+            "triangle_pairs": 80
+          },
+          {
+            "objects": [
+              "Rod.015",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 32
+          },
+          {
+            "objects": [
+              "Rod.016",
+              "right hearth jamb"
+            ],
+            "triangle_pairs": 32
+          },
+          {
+            "objects": [
+              "Rod.016",
+              "great arch2"
+            ],
+            "triangle_pairs": 32
+          },
+          {
+            "objects": [
+              "Rod.017",
+              "Rod.018"
+            ],
+            "triangle_pairs": 80
+          },
+          {
+            "objects": [
+              "left plaster arch",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 3
+          },
+          {
+            "objects": [
+              "main plaster arch",
+              "left hearth jamb"
+            ],
+            "triangle_pairs": 3
+          },
+          {
+            "objects": [
+              "main plaster arch",
+              "right hearth jamb"
+            ],
+            "triangle_pairs": 3
+          },
+          {
+            "objects": [
+              "main plaster arch",
+              "great arch0"
+            ],
+            "triangle_pairs": 3
+          },
+          {
+            "objects": [
+              "main plaster arch",
+              "great arch1"
+            ],
+            "triangle_pairs": 3
+          },
+          {
+            "objects": [
+              "main plaster arch",
+              "great arch2"
+            ],
+            "triangle_pairs": 10
+          },
+          {
+            "objects": [
+              "right plaster arch",
+              "right hearth jamb"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "right plaster arch",
+              "right wall separation"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "right plaster arch",
+              "great arch0"
+            ],
+            "triangle_pairs": 5
+          },
+          {
+            "objects": [
+              "right plaster arch",
+              "great arch1"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "right hearth jamb",
+              "right wall separation"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "right hearth jamb",
+              "great arch0"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "right wall separation",
+              "great arch0"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "right wall separation",
+              "great arch1"
+            ],
+            "triangle_pairs": 9
+          },
+          {
+            "objects": [
+              "right wall separation",
+              "great arch2"
+            ],
+            "triangle_pairs": 5
+          }
+        ],
+        "narrow_phase_pairs": 95,
+        "mesh_count": 279,
+        "tested_mesh_count": 64,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+  },
+  "target_object": "Box",
+  "device": "CPU",
+  "seconds": 1151.2355465339497,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 106469,
+    "output_tokens": 19272,
+    "cached_input_tokens": 8192,
+    "total_tokens": 125741,
+    "seconds": 519.2769136819988,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 1131.385831000749
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/development/commons_130842254",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "task_utility_v2": 0.5028595593051982
+}

@@ -1,0 +1,140 @@
+{
+  "method": "scene_rsi_v2_1",
+  "run_id": "smoke",
+  "scene_id": "commons_29022664",
+  "split": "smoke",
+  "candidate_id": "C1",
+  "parent_id": null,
+  "H_version": "candidates/smoke/scene_rsi_v2_1/C1",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.4259303851184257,
+    "lpips": 0.6612378358840942,
+    "dino": 0.8094703555107117,
+    "psnr": 15.91590821421409,
+    "overall": 0.5564759089965624
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "functional_pass": true,
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "target_object": "arched spout",
+    "geometry": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 11,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": false,
+        "measured_pass": null,
+        "rows": [],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": null,
+        "crossings": [],
+        "narrow_phase_pairs": 0,
+        "mesh_count": 808,
+        "tested_mesh_count": 64,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+  },
+  "target_object": "arched spout",
+  "device": "CPU",
+  "seconds": 491.9847301780246,
+  "usage": {
+    "calls": 3,
+    "input_tokens": 155335,
+    "output_tokens": 9023,
+    "cached_input_tokens": 24576,
+    "total_tokens": 164358,
+    "seconds": 270.84022406628355,
+    "cost_usd": "unknown",
+    "executions": 2
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 455.56045384099707
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/smoke/scene_rsi_v2_1/C1/smoke/commons_29022664",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    },
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "task_utility_v2": 0.5564759089965624
+}

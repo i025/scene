@@ -1,0 +1,92 @@
+{
+  "method": "fixed_h0",
+  "run_id": "r2",
+  "scene_id": "commons_105241439",
+  "split": "development",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "backend/harnesses/baseline",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "failed",
+  "metrics": {
+    "valid": false,
+    "ssim": null,
+    "lpips": null,
+    "dino": null,
+    "psnr": null,
+    "overall": null,
+    "error": "Missing scene.blend or final.png"
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "material": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "composite": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      }
+    },
+    "functional_pass": false,
+    "structure_pass": false,
+    "material_pass": null,
+    "composite_pass": null,
+    "composite_required": true,
+    "target_object": "unknown",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Reconstruction failed: no edit/structure measurement exists; required gates fail, raw measurements remain null."
+  },
+  "target_object": "unknown",
+  "device": "CPU",
+  "seconds": 985.6244980841875,
+  "usage": {
+    "calls": 4,
+    "input_tokens": 74561,
+    "output_tokens": 15806,
+    "cached_input_tokens": 32768,
+    "total_tokens": 90367,
+    "seconds": 368.72178576653823,
+    "cost_usd": "unknown",
+    "executions": 3
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 985.4953788244165
+  },
+  "failure_type": "generated_program_or_execution_failure",
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h0/H0/development/commons_105241439",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+  },
+  "render_device_history": [],
+  "functional_device_mapping": null,
+  "task_utility_v2": 0.0
+}

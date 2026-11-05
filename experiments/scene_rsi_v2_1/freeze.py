@@ -1,0 +1,78 @@
+"""Freeze V2.1 after measured diagnostics and actual image smoke, before formal data."""
+from pathlib import Path
+import shutil,json,time,difflib
+import pilot
+ROOT=Path(__file__).resolve().parent
+
+def main():
+    if (ROOT/'protocol_frozen.json').exists():raise RuntimeError('Already frozen; preserve original')
+    assert pilot.read(ROOT/'tests/contracts.json')['first_seven_requirements_passed']
+    assert pilot.read(ROOT/'tests/report_contracts.json')['pending_not_zero']
+    assert (ROOT/'tests/calibration.json').exists()
+    comparisons=pilot.read(ROOT/'tests/diagnosis/comparison.json');assert len(comparisons)==10
+    transfer=pilot.read(ROOT/'tests/diagnosis/shared_patch_transfer.json')
+    assert all(transfer['scene_rsi_v2_1'].values()),'Controlled shared-code transfer must pass before evolution'
+    assert pilot.read(ROOT/'tests/real_smoke.json')['passed']
+    ledger=pilot.current();cfg=pilot.config()
+    forecast=ledger['cli_sessions']+20*3+4+4+8+8
+    if forecast>cfg['pilot']['max_cli_sessions']:raise RuntimeError('Insufficient complete-experiment budget; adjust before formal start')
+    cfg['pilot'].update(status='frozen',max_regression_tests_per_candidate=6,budget_forecast={'used_at_freeze':ledger['cli_sessions'],'main_reconstruction_upper':60,'proposals':4,'development_localizers':4,'text_editors':8,'judges':8,'cli_total_upper':forecast,'render_total_upper':ledger['render_attempts_upper_bound']+160},selection_rule='Every scheduled Selection task executes and every required check has applicable=True,measured_pass=True,gate_pass=True. Then rank eligible Q with >0.01 tolerance. Ineligible H0 is fallback only.')
+    pilot.write_json(ROOT/'config.json',cfg);pilot.write_json(ROOT/'configs/frozen_config.json',cfg)
+    snap=ROOT/'code_snapshots/v2_1_frozen';snap.mkdir()
+    for name in ['pilot.py','strategies.py','inspect_blend.py','regression.py','diagnostics.py','analyze.py','smoke.py','freeze.py','resume.py','supplement.py','text_edit_worker.py']:
+        shutil.copy2(ROOT/name,snap/name)
+    shutil.copytree(ROOT/'backend',snap/'backend',ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+    shutil.copytree(ROOT/'initial_meta',snap/'initial_meta')
+    diff=''
+    for p in (ROOT/'code_snapshots/v2_parent').glob('*.py'):
+        diff+=''.join(difflib.unified_diff(p.read_text().splitlines(True),(ROOT/p.name).read_text().splitlines(True),fromfile='V2/'+p.name,tofile='V2.1/'+p.name))
+    (ROOT/'code_snapshots/v2_to_v2_1.diff').write_text(diff)
+    protocol='''# Scene-RSI V2.1 冻结协议
+
+此文件由 freeze.py 在机制比较、辅助共享程序执行测试和真实图像烟测通过后、正式场景执行前保存。UTC epoch 见 protocol_frozen.json。旧 V2 停止现场和 13 条场景记录不改写；V1/V2 分数不重算成 V2.1。
+
+## 范围、数据与共同起点
+
+仅 scene_rsi_v2_1 与 fixed_h0 内部参照。r1/r2 两个独立研发，K=2；按候选轮次交错执行。纯 CPU 单重任务、2线程、CUDA_VISIBLE_DEVICES空。复用原 Blender4.2.10、Python3.11 venv、数值权重，无下载/安装/升级。H0逐字复制V2 baseline policy.py/system.txt，未继承任何历史后代。M0是本轮修复的两阶段程序。旧状态、选择、测试缓存均不继承。
+
+1 Development、1 Selection、2 Test，共4个来源组；manifest记录作者、许可、来源和分组。因V2仅13个记录已耗费数小时且本轮无GPU，冻结前缩小场景数，保留两个完整研发与K2。开发黄沙发、选择彩色咖啡馆、终测仓库和教堂，与V1/V2清单无ID重叠。同房间近似视角（如旧Topkapi/Auckland/Bergen/Gibberd）排除。标题分组不证明物理独立；历史联系表和人工曝光不能排除，exploratory，不宣称新盲测。烟测闭合厨柜不进入正式数据。未使用预留标签不发布。
+
+## 调用与渲染
+
+Codex CLI0.163.0，真实图像附件、新会话、只读、无工具/web/隐藏subagent。重建与固定编辑器gpt-6.1-sol medium；定位、提案和独立评审gpt-6-astra medium。actual_model未由CLI独立报告则unknown，不用模型自称验证。远端采样不受本地seed控制。
+
+所有方法/研发使用同一内层：最多3 CLI、2 Blender执行、600秒；单模型300秒、提案600秒。真实smoke用于预算估计，不继承smoke子代。全轮上限160新CLI、600帧，包含夹具定位与辅助修复共7调用、烟测、失败、所有修复与评审；实际上界见config预算预测。无自动服务重试，服务故障暂停留日志；无模型反复重采样直到成功。每候选最多2探测、6研发回归（前后各3）。外部最终评价固定。
+
+正式渲染512最长边、Cycles16、seed42、AgX/None/exposure0/gamma1、无降噪或自适应。夹具240x180/4samples，明确不进入正式分数。首次夹具探测错误继承16samples，双方测量都保留并统一重做4samples；定位CLI决策复用，无模型重采样，全部渲染计预算。
+
+## 两阶段诊断与失败
+
+M.plan_probes得到明确剩余/已用预算、菜单、真实ID/对象层级/投影、开发参考与输出、指标、轨迹/执行错误和历史。开发成功场景各至多一个独立astra定位会话，比较参考、渲染和真实对象投影边框；最多2条发现，unknown允许。投影框不是分割，不使用最大Mesh或首名作为错误归因。M代码实际读取visual_findings选择对象及探测。临时探测保留相机/几何受控项；尺度绕几何中心，焦距x1.1，隔离其他Mesh。隔离并不能自动恢复隐藏对象；定位与探测效果分开记录。探测 .blend 副本是原项目供数值有效性检查，改变发生在临时内存并以PNG和测量保存，不冒充保存了探测后工程。
+
+失败分为Codex失败/超时、程序生成失败、Blender执行失败、结构失败、成功但视觉差异、编辑/回归失败。没有有效blend时不请求几何探测；可执行M读取failure_evidence，第二阶段提出共享执行或生成模块修改。服务失败不直接视为重建能力差。实际探测/回归进入M.plan_patch，而非只追加给外层Prompt。前后stage、观测、代码与diff全部保留。
+
+H-only/M-only/H+M都有效。M-only不是H改善，可以控制后续提案；有效后代M用于下一候选，执行失败保留记录按固定规则保留上一可执行M。源码改变/接口执行不等于元能力变强。无同陌生H起点冻结M回放则不报告MetaImp。
+
+## 候选资格和选择
+
+每个预定Selection任务必须成功生成并测量；结构、局部材质非目标保持必需。预先标记expected_composite时组合移动和已声明部件完整性必需，教堂终测无组合硬要求。每项required/applicable/measured_pass/gate_pass分别保留；必需不可用或缺测不能通过，非必需失败不阻止。未知参考语义完整性、自然图像真实支撑或穿插不是通过，也不临时变硬约束。
+
+第一阶段，候选必须所有Selection任务成功且必要功能绝对通过；不能用H0功能0放宽。第二阶段，在合格流程间按固定Q排序，提高>0.01才替换；合格候选可以替换不合格H0，不要求其超越不合格H0的视觉分。平局保留先前。H0始终保留fallback，但明确标注不合格，不称功能合规。H0合格时参与同样排序。两个研发全部选择结束后写selection_freeze.json，才统一Test；Test不回流本轮研发。
+
+## 评价与统计
+
+Q继承(clipSSIM+1-clipLPIPS+(1+clipDINO)/2)/3，同时实测PSNR。缺失原始字段null；失败任务task_utility_v2=0单独字段，非测量Q。未开始/运行/完成/失败/超时/无效与选择状态区分。全部预定终测尚未结束时全分母成功率、效用、功能率为null/pending；报告已完成数和观察分母率，未执行不作0%。完成后的全分母包括失败；条件质量只用成功，配对质量只用双方成功。服务故障单列。仅2个研发/2个终测场景，不作普遍显著优势结论。
+
+结构支持声明部件、归一化AABB支撑近似、三角表面相交、局部材质保持和组合关系；自然图像无3D真值，三角交叉不等于不合理真实碰撞。机械操作与文字编辑分开。固定sol文字编辑每个终测产物一次、无额外修复，统一指令；匿名独立评审只补充、不参与选择。H0被选时同产物alias，不冒充独立重建。
+
+## 可控机制比较与证据边界
+
+五类已知故障（相机、家具尺度、隐藏/遗漏、支撑、共享材质误改），标签只供测评，不传入M定位。旧固定策略和V2.1同样最多2探测+3回归，工具和原始图像可用；分别记录实际调用，V2.1多花定位调用，不声称等实际成本。对象正确可计目标组或已知相关部件，广泛探测命中不证明定位精准；相机无对象。辅助共享helper修复双方各一个相同astra预算，给相同源码/API和原始图片，只有M证据组织不同。源码/API契约本身也提示故障，不是严格盲代码归因。用不同名字、参数和共享数据执行零渲染迁移测试。它是可控代码修复证据，不等于重建H在自然图像上的提升。
+
+Figure1按manifest全部终测顺序；Figure2首个正式诊断，否则明确smoke/夹具；Figure3全部正错夹具与真实编辑；Figure4所有候选Selection与保留轨迹；Figure5实际M源码和后续执行。失败留空，null不填曲线。每张统计图链接CSV/JSON与analyze.py；HTML本地相对资源。冻结输入后不因终测效果改变规模或预算。
+'''
+    (ROOT/'protocol.md').write_text(protocol)
+    pilot.write_json(ROOT/'protocol_frozen.json',{'time':time.time(),'version':'scene_rsi_v2_1','formal_results_exist':False,'budget_forecast':cfg['pilot']['budget_forecast'],'evidence':['tests/contracts.json','tests/calibration.json','tests/diagnosis/comparison.json','tests/diagnosis/shared_patch_transfer.json','tests/real_smoke.json']})
+    print(json.dumps(cfg['pilot']['budget_forecast']))
+
+if __name__=='__main__':main()

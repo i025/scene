@@ -1,0 +1,38 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "Box",
+    "kind": "single_mesh",
+    "mesh_names": [
+      "Box"
+    ],
+    "group_name": null,
+    "rule": "lexicographically first nonstructural finite mesh",
+    "group_not_applicable_reason": "No qualifying non-root EMPTY with at least two mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 831,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": false,
+    "pass": null,
+    "reason": "No qualifying non-root EMPTY with at least two mesh descendants"
+  },
+  "edited_blend_note": "No combination exists; edited.blend contains the material operation",
+  "render_attempts": 2,
+  "renders_completed": 2
+}

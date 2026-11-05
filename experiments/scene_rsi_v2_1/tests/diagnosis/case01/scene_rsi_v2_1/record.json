@@ -1,0 +1,56 @@
+{
+  "method": "scene_rsi_v2_1",
+  "scene_id": "case01",
+  "status": "completed",
+  "probe_budget": 2,
+  "probes_executed": 1,
+  "targets": [
+    null
+  ],
+  "correct_object": true,
+  "correct_or_related_module": true,
+  "probe_changes_decision": true,
+  "positive_sensitivity": true,
+  "valid_shared_patch": null,
+  "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+  "metric": "fixture_SSIM (not formal composite Q)",
+  "seconds": 5.434167404659092,
+  "decision": {
+    "shared_module": "camera",
+    "decision": "Sensitivity evidence supports studying this shared module; compare alternatives, not a unique cause or per-scene parameter copy.",
+    "failure_diagnoses": [],
+    "observed_deltas": [
+      0.009384093778832758
+    ],
+    "regression_failures": [],
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case01",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "observation_count": 1,
+    "best_probe": {
+      "scene_id": "case01",
+      "object_id": null,
+      "hypothesis": "The shared size reduction suggests a camera framing mismatch. Increase focal length by approximately 1.5× with camera pose and geometry fixed, and compare both silhouettes and spacing. Camera distance or scene scale could also explain this; the images do not establish unique causality.",
+      "observation": "Both objects are substantially smaller in reconstruction 2: the chair is approximately 65 pixels tall versus 99 in reference 1, and the green block approximately 32 versus 48. More floor boundary is visible.",
+      "code_module": "camera",
+      "probe": "camera_focal"
+    },
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}

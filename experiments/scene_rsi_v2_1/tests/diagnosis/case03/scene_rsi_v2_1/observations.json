@@ -1,0 +1,101 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case03",
+        "object_id": "Z_Chair",
+        "hypothesis": "Chair render exclusion is strongly supported by hide_render=true on all six chair meshes. The images alone do not establish a unique cause; isolate the chair descendants and compare with their render visibility enabled to test this explanation.",
+        "observation": "The red chair visible left of the green block in image 1 is entirely absent in image 2, including within its approximate bounds in image 3.",
+        "code_module": "object_coverage",
+        "probe": "isolate"
+      },
+      "execution": {
+        "probe": "isolate",
+        "target_selection": {
+          "object": "Z_Chair",
+          "mesh_names": [
+            "ChairBack",
+            "ChairLeg",
+            "ChairLeg.001",
+            "ChairLeg.002",
+            "ChairLeg.003",
+            "ChairSeat"
+          ],
+          "group_name": "Z_Chair"
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "kept_meshes": [
+          "ChairBack",
+          "ChairLeg",
+          "ChairLeg.001",
+          "ChairLeg.002",
+          "ChairLeg.003",
+          "ChairSeat"
+        ],
+        "hidden_meshes": [
+          "A_floor",
+          "B_Table"
+        ],
+        "status": "completed",
+        "images": [
+          "probe_isolate.png"
+        ],
+        "render_attempts": 1
+      },
+      "quality_delta": -0.07745758191671293,
+      "visual_metrics": {
+        "fixture_SSIM": 0.811581813840936
+      }
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case03",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case03",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 10,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": [
+          "B_Table"
+        ],
+        "type": "mechanical_not_text"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case03",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": false,
+        "measured_pass": null
+      }
+    }
+  ]
+}

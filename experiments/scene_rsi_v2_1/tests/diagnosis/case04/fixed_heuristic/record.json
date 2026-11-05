@@ -1,0 +1,55 @@
+{
+  "method": "fixed_heuristic",
+  "scene_id": "case04",
+  "status": "completed",
+  "probe_budget": 2,
+  "probes_executed": 2,
+  "targets": [
+    null,
+    "ChairBack"
+  ],
+  "correct_object": true,
+  "correct_or_related_module": false,
+  "probe_changes_decision": false,
+  "positive_sensitivity": false,
+  "valid_shared_patch": null,
+  "patch_status": "not_measured_in_fixture_stage; requires separate shared-code execution, never inferred from localization",
+  "metric": "fixture_SSIM (not formal composite Q)",
+  "seconds": 3.467952774837613,
+  "decision": {
+    "shared_module": "representation_and_verification",
+    "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+    "best_probe": {
+      "scene_id": "case04",
+      "object_id": "ChairBack",
+      "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+      "probe": "object_scale"
+    },
+    "observed_deltas": [
+      -0.07969690304879407,
+      -0.010613435030522922
+    ],
+    "regression_failures": [],
+    "observation_count": 2,
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case04",
+          "test": "composite_move",
+          "reason": "Risk: camera,material,parts"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+    "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ]
+  }
+}

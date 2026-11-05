@@ -1,0 +1,130 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case05",
+        "object_id": null,
+        "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+        "probe": "camera_focal"
+      },
+      "execution": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": null,
+          "mesh_names": [],
+          "group_name": null
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 48.0,
+        "focal_length_after": 52.79999923706055,
+        "geometry_unchanged": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "quality_delta": -0.10941000277678692,
+      "visual_metrics": {
+        "fixture_SSIM": 0.8247881435525648
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case05",
+        "object_id": "ChairBack",
+        "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+        "probe": "object_scale"
+      },
+      "execution": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "ChairBack",
+          "mesh_names": [
+            "ChairBack"
+          ],
+          "group_name": null
+        },
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          1.7000000476837158,
+          0.20000000298023224,
+          1.7999999523162842
+        ],
+        "scale_after": [
+          1.8700001239776611,
+          0.2200000137090683,
+          1.9800000190734863
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          0.0,
+          0.699999988079071,
+          2.200000047683716
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "quality_delta": -0.025178338355563268,
+      "visual_metrics": {
+        "fixture_SSIM": 0.9090198079737885
+      }
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case05",
+        "test": "hierarchy_parts",
+        "reason": "Risk: camera,material,parts"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case05",
+        "test": "material_preservation",
+        "reason": "Risk: camera,material,parts"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 10,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": [
+          "B_Table"
+        ],
+        "type": "mechanical_not_text"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case05",
+        "test": "composite_move",
+        "reason": "Risk: camera,material,parts"
+      },
+      "result": {
+        "applicable": false,
+        "measured_pass": null
+      }
+    }
+  ]
+}

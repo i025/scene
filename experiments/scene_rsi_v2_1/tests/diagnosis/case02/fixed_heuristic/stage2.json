@@ -1,0 +1,168 @@
+{
+  "observations": {
+    "probes": [
+      {
+        "request": {
+          "scene_id": "case02",
+          "object_id": null,
+          "hypothesis": "Framing may be sensitive to focal length; geometry held fixed",
+          "probe": "camera_focal"
+        },
+        "execution": {
+          "probe": "camera_focal",
+          "target_selection": {
+            "object": null,
+            "mesh_names": [],
+            "group_name": null
+          },
+          "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+          "focal_length_before": 48.0,
+          "focal_length_after": 52.79999923706055,
+          "geometry_unchanged": true,
+          "status": "completed",
+          "images": [
+            "probe_camera_focal.png"
+          ],
+          "render_attempts": 1
+        },
+        "quality_delta": -0.05923481695637911,
+        "visual_metrics": {
+          "fixture_SSIM": 0.8250096525835113
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case02",
+          "object_id": "B_Table",
+          "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+          "probe": "object_scale"
+        },
+        "execution": {
+          "probe": "object_scale",
+          "target_selection": {
+            "object": "B_Table",
+            "mesh_names": [
+              "B_Table"
+            ],
+            "group_name": null
+          },
+          "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+          "scale_before": [
+            1.0,
+            1.0,
+            1.2999999523162842
+          ],
+          "scale_after": [
+            1.100000023841858,
+            1.100000023841858,
+            1.4299999475479126
+          ],
+          "scale_factor": 1.1,
+          "pivot_world_scene_units": [
+            2.4000000953674316,
+            1.0,
+            0.6499999761581421
+          ],
+          "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+          "fixed_camera": true,
+          "non_target_preserved": true,
+          "status": "completed",
+          "images": [
+            "probe_object_scale.png"
+          ],
+          "render_attempts": 1
+        },
+        "quality_delta": -0.01781148270858357,
+        "visual_metrics": {
+          "fixture_SSIM": 0.8664329868313069
+        }
+      }
+    ],
+    "regression": [
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "hierarchy_parts",
+          "reason": "Risk: camera,material,parts"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 1,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "material_preservation",
+          "reason": "Risk: camera,material,parts"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "non_target": {
+            "pass": true,
+            "checked_objects": 10,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "target": [
+            "B_Table"
+          ],
+          "type": "mechanical_not_text"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "composite_move",
+          "reason": "Risk: camera,material,parts"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ]
+  },
+  "decision": {
+    "shared_module": "representation_and_verification",
+    "decision": "No meaningful improvement from tested perturbations; revise object coverage and verification rather than assert a unique scale/camera cause",
+    "best_probe": {
+      "scene_id": "case02",
+      "object_id": "B_Table",
+      "hypothesis": "Generated dominant object scale may explain part of the visual mismatch; camera held fixed",
+      "probe": "object_scale"
+    },
+    "observed_deltas": [
+      -0.05923481695637911,
+      -0.01781148270858357
+    ],
+    "regression_failures": [],
+    "observation_count": 2,
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case02",
+          "test": "composite_move",
+          "reason": "Risk: camera,material,parts"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "instruction": "Modify reusable H and/or executable two-stage M. Explain how actual observations motivated the change. Preserve fixed final functional gates. Sensitivity is not unique causal identification.",
+    "scope": "Cross-image reconstruction; no scene IDs, paths or per-image parameter tables",
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ]
+  }
+}

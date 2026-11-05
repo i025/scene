@@ -1,0 +1,179 @@
+{
+  "observations": {
+    "probes": [
+      {
+        "request": {
+          "scene_id": "case05",
+          "object_id": "ChairSeat",
+          "hypothesis": "A material assignment or base-color mismatch is likely. Isolating ChairSeat would verify the affected surface; the images alone do not establish a unique cause.",
+          "observation": "The chair seat is blue in image 2 but orange-red in image 1; the back and legs remain orange-red.",
+          "code_module": "material_edit",
+          "probe": "isolate"
+        },
+        "execution": {
+          "probe": "isolate",
+          "target_selection": {
+            "object": "ChairSeat",
+            "mesh_names": [
+              "ChairSeat"
+            ],
+            "group_name": null
+          },
+          "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+          "kept_meshes": [
+            "ChairSeat"
+          ],
+          "hidden_meshes": [
+            "A_floor",
+            "B_Table",
+            "ChairBack",
+            "ChairLeg",
+            "ChairLeg.001",
+            "ChairLeg.002",
+            "ChairLeg.003"
+          ],
+          "status": "completed",
+          "images": [
+            "probe_isolate.png"
+          ],
+          "render_attempts": 1
+        },
+        "quality_delta": -0.12423800908946037,
+        "visual_metrics": {
+          "fixture_SSIM": 0.8099601372398914
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case05",
+          "object_id": "B_Table",
+          "hypothesis": "The supplied blue base color supports a material mismatch. Isolating B_Table under unchanged lighting would test whether the color discrepancy persists independently of nearby objects; exact causality remains uncertain.",
+          "observation": "The separate block on the right is blue in image 2 but green in image 1, with a similar visible silhouette and position.",
+          "code_module": "material_edit",
+          "probe": "isolate"
+        },
+        "execution": {
+          "probe": "isolate",
+          "target_selection": {
+            "object": "B_Table",
+            "mesh_names": [
+              "B_Table"
+            ],
+            "group_name": null
+          },
+          "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+          "kept_meshes": [
+            "B_Table"
+          ],
+          "hidden_meshes": [
+            "A_floor",
+            "ChairBack",
+            "ChairLeg",
+            "ChairLeg.001",
+            "ChairLeg.002",
+            "ChairLeg.003",
+            "ChairSeat"
+          ],
+          "status": "completed",
+          "images": [
+            "probe_isolate.png"
+          ],
+          "render_attempts": 1
+        },
+        "quality_delta": -0.11829979762659593,
+        "visual_metrics": {
+          "fixture_SSIM": 0.8158983487027558
+        }
+      }
+    ],
+    "regression": [
+      {
+        "request": {
+          "scene_id": "case05",
+          "test": "hierarchy_parts",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 1,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case05",
+          "test": "material_preservation",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "non_target": {
+            "pass": true,
+            "checked_objects": 10,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "target": [
+            "B_Table"
+          ],
+          "type": "mechanical_not_text"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "case05",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ]
+  },
+  "decision": {
+    "shared_module": "object_coverage_and_verification",
+    "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+    "failure_diagnoses": [],
+    "observed_deltas": [
+      -0.12423800908946037,
+      -0.11829979762659593
+    ],
+    "regression_failures": [],
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "case05",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": false,
+          "measured_pass": null
+        }
+      }
+    ],
+    "observation_count": 2,
+    "best_probe": {
+      "scene_id": "case05",
+      "object_id": "B_Table",
+      "hypothesis": "The supplied blue base color supports a material mismatch. Isolating B_Table under unchanged lighting would test whether the color discrepancy persists independently of nearby objects; exact causality remains uncertain.",
+      "observation": "The separate block on the right is blue in image 2 but green in image 1, with a similar visible silhouette and position.",
+      "code_module": "material_edit",
+      "probe": "isolate"
+    },
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}

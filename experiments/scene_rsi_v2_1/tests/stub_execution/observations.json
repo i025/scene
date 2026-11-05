@@ -1,0 +1,60 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "fixture",
+        "object_id": "Z_chair",
+        "hypothesis": "Furniture scale",
+        "observation": "Chair too small in image",
+        "code_module": "object_parameters",
+        "probe": "object_scale"
+      },
+      "execution": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      },
+      "visual_metrics": null,
+      "quality_delta": null,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "fixture",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      }
+    },
+    {
+      "request": {
+        "scene_id": "fixture",
+        "test": "mesh_intersection",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      }
+    },
+    {
+      "request": {
+        "scene_id": "fixture",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "status": "not_applicable",
+        "applicable": false,
+        "measured_pass": null
+      }
+    }
+  ]
+}

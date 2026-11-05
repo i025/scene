@@ -1,0 +1,48 @@
+--- fixture_H0.py
++++ fixture_H1.py
+@@ -1,20 +1,35 @@
+-"""Small shared transformation helpers with deliberately injected bugs.
++"""Shared fixture transformation helpers."""
+ 
+-Separate from reconstruction H0; fixture-only repair transfer test.
+-"""
+ def frame(camera, nominal_lens):
+-    camera.data.lens=nominal_lens*.65
++    camera.data.lens = nominal_lens
++
+ 
+ def size(group, nominal_scale):
+-    group.scale=tuple(v*.55 for v in nominal_scale)
++    group.scale = tuple(nominal_scale)
++
+ 
+ def show(objects, visible):
+-    for obj in objects:obj.hide_render=True
++    for obj in objects:
++        obj.hide_render = not visible
++
+ 
+ def support(object, contact_z):
+-    object.location.z=contact_z+.9
++    object.location.z = contact_z
++
+ 
+ def local_material(object, rgba):
+-    material=object.data.materials[0]
+-    material.diffuse_color=rgba
+-    material.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=rgba
++    # Isolate slot assignments when geometry data is shared.
++    if object.data.users > 1:
++        object.data = object.data.copy()
++
++    # Read the effective material, including object-linked overrides.
++    slot = object.material_slots[0]
++    material = slot.material.copy()
++    slot.material = material
++
++    color = tuple(rgba)
++    material.diffuse_color = color
++    if material.use_nodes and material.node_tree is not None:
++        for node in material.node_tree.nodes:
++            if node.type == 'BSDF_PRINCIPLED':
++                node.inputs['Base Color'].default_value = color
