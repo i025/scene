@@ -47,7 +47,7 @@ M 的两阶段接口实际运行：`plan_probes → Blender 探测/回归 → pl
 
 源码：[实验入口](experiments/scene_rsi_v2_1/README.md) · [依赖与许可](docs/DEPENDENCIES_V2_1.md) · [共同 H0](experiments/scene_rsi_v2_1/backend/harnesses/baseline) · [实际 M0](experiments/scene_rsi_v2_1/initial_meta/scene_rsi_v2_1/meta.py) · [候选源码与 diff](experiments/scene_rsi_v2_1/candidates) · [实际版本快照](experiments/scene_rsi_v2_1/code_snapshots)。
 
-完整日志、全部现有 blend/渲染/场景程序按运行分包，覆盖失败与未选候选。[附件索引](artifacts_index_v2_1.csv) 只在上传确认后填写下载 URL；当前上传状态以该表及上传摘要为准。解压所有附件到仓库根后可离线重画，不下载权重、不调用模型、不渲染：
+完整日志、全部现有 blend/渲染/场景程序按运行分包，覆盖失败与未选候选。[附件索引](artifacts_index_v2_1.csv) 只在上传确认后填写下载 URL；本次推送因GitHub 401及凭据缓存为空而失败，分支和Release尚未上传；状态以该表及上传摘要为准。解压所有附件到仓库根后可离线重画，不下载权重、不调用模型、不渲染：
 
 ```bash
 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 CUDA_VISIBLE_DEVICES= python scripts/offline_v2_1.py --experiment experiments/scene_rsi_v2_1 --output derived/v2_1_replot

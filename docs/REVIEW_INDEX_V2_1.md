@@ -44,3 +44,5 @@
 - statistics/failure_stages：terminal_overview.csv、calls.csv、failure_stages.csv；全体预定终测、有效条件质量及边界失败分开。
 
 重画统一入口 scripts/offline_v2_1.py → analyze.py。原报告被修正时保存旧版于report_history，原record.json的实测分数不变。完整CLI附件、所有blend、失败/未选候选随各运行tar.gz；上传与缺失状态以artifacts_index_v2_1.csv和UPLOAD_SUMMARY_V2_1.md为准。
+
+术语：terminal_summary中completed计已结束的终态记录，包含失败；succeeded才是执行成功数。逐场景execution_state区分completed/timeout/failed等状态，不能混用。归档验证结果见V2_1_ARCHIVE_VALIDATION.json。
