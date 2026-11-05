@@ -1,0 +1,74 @@
+import json
+from pathlib import Path
+import re
+
+
+_REVIEW = '''Compare the reference and rendered image using the same normalized coordinates
+(origin top left). Before revising, write a short discrepancy ledger in program comments
+for the most consequential visible mismatches: reference estimate, rendered estimate,
+confidence, affected semantic object/component, and proposed change. Re-estimate from the
+images; do not copy the original inventory as if it measured the render.
+
+For each affected composite, compare its support/contact anchor, overall extent, component
+centers and sizes, and the gaps between components separately. Matching an outer bounding
+box does not establish matching occupied regions. Distinguish translation, overall scale,
+and internal arrangement: an offset center calls for placement analysis; incorrect relative
+component sizes or gaps call for component edits. Uniform scaling is justified only when
+several component landmarks support a common scale error. Preserve an already matched
+support anchor when changing height, and keep unrelated components fixed. Use named
+SceneAct Parts within the semantic Asset for independently adjustable component masses.
+
+Check large silhouettes, foreground overlap boundaries and exposed background regions
+before refining small repeated details. A camera change needs consistent evidence across
+multiple independent objects; a local discrepancy alone is insufficient. Choose a small
+coherent set of supported corrections, state the expected image-space effect, and preserve
+other geometry, materials and deterministic seeds. If evidence is ambiguous, mark it
+unknown and retain the current parameter rather than inventing a correction. Do not infer
+that reversing an unsuccessful adjustment must help. Return a complete revised program
+within the remaining execution budget, or DONE if no supported correction is warranted.
+'''
+
+
+def solve(task, runtime):
+    prompt = (Path(__file__).parent / 'system.txt').read_text()
+    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [
+        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +
+         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}" +
+         '\nFor composite objects, record a few visible component centers, extents and gaps '
+         'in addition to overall bounds. Separate placement parameters from component sizes '
+         'and spacing so the correction can address each independently. Estimate all values '
+         'from this reference; keep hidden geometry and ambiguous boundaries uncertain.'},
+        runtime.image(task['image'])]}]
+    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:
+        response = runtime.ask(messages)
+        messages.append(response)
+        text = response['content'] or ''
+        blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S)
+        if not blocks:
+            if text.strip().upper() == 'DONE':
+                return
+            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})
+            continue
+        if runtime.remaining()['executions'] <= 0:
+            return
+        result = runtime.execute(blocks[-1])
+        remaining = runtime.remaining()
+        report = json.dumps({k: v for k, v in result.items() if k != 'image'})
+        if remaining['executions'] <= 0:
+            return
+        if result.get('ok') and result.get('image'):
+            content = [
+                {'type': 'text', 'text': report + '\n' + _REVIEW +
+                 f'\nRemaining: {remaining}\nOriginal reference:'},
+                runtime.image(task['image']),
+                {'type': 'text', 'text': 'Current rendered camera view:'},
+                runtime.image(result['image'])]
+        else:
+            content = [{'type': 'text', 'text': report +
+                        '\nExecution or image availability failed. Use the reported error and '
+                        'traceback to diagnose the failure. No successful rendered comparison '
+                        'is established; do not invent visual findings. Return a complete '
+                        'corrected program, preserving unrelated scene decisions. If the '
+                        'cause is unavailable, explicitly retain that uncertainty. ' +
+                        f'Remaining: {remaining}'}]
+        messages.append({'role': 'user', 'content': content})

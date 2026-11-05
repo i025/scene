@@ -10,6 +10,7 @@ import re
 import shutil
 import tarfile
 import time
+from PIL import Image, PngImagePlugin
 
 TEXT = {'.py', '.sh', '.json', '.jsonl', '.txt', '.log', '.md', '.diff',
         '.yaml', '.yml', '.csv', '.html', '.css'}
@@ -44,6 +45,7 @@ def main():
     parser.add_argument('--repo', type=Path, required=True)
     parser.add_argument('--bundles', type=Path, required=True)
     parser.add_argument('--pack', action='store_true')
+    parser.add_argument('--only-bundle', help='Repack one named group; existing bundles are never overwritten')
     args = parser.parse_args()
     source, repo = args.source.resolve(), args.repo.resolve()
     destination = repo / EXPERIMENT
@@ -78,6 +80,22 @@ def main():
         data = path.read_bytes()
         if path.suffix not in TEXT:
             changes = 0
+            if path.suffix == '.png' and any(prefix.encode() in data for prefix in [str(home), '/home/' + home.name]):
+                # PNG text metadata must be encoded by its image writer. Byte replacement
+                # damages the container; retain decoded pixels and sanitize only metadata.
+                picture = Image.open(path)
+                metadata = PngImagePlugin.PngInfo()
+                for key, value in picture.info.items():
+                    if isinstance(value, str):
+                        for old, new in replacements:
+                            value = value.replace(old, new)
+                        metadata.add_text(key, value)
+                output = io.BytesIO()
+                picture.save(output, format='PNG', pnginfo=metadata, exif=b'')
+                data = output.getvalue()
+                assert Image.open(io.BytesIO(data)).tobytes() == picture.tobytes()
+                redactions.append({'path': str(EXPERIMENT / rel),
+                                   'changes': 'png_metadata_paths_sanitized_exif_removed_decoded_pixels_unchanged'})
             for prefix in [str(home).encode(), ('/home/' + home.name).encode()]:
                 replacement = prefix[:-len(home.name)] + b'_' * len(home.name)
                 changes += data.count(prefix)
@@ -117,6 +135,8 @@ def main():
             return True
         if rel.parts[0] in ('reports','figures'):
             return rel.suffix in TEXT or rel.suffix in ('.png', '.jpg')
+        if rel.parts[0] == 'metrics' and rel.suffix == '.json':
+            return True
         if rel.suffix in ('.py', '.sh', '.md', '.diff', '.yaml', '.yml', '.csv'):
             return True
         if rel.suffix == '.json' and size <= 262144:
@@ -153,13 +173,15 @@ def main():
                 public.parent.mkdir(parents=True, exist_ok=True)
                 public.write_bytes(data)
             inventory.append({'run_id': group, 'artifact_type': path.suffix.lstrip('.') or 'file',
-                              'relative_path': str(EXPERIMENT / rel), 'download_url': BASE_URL + group + '.tar.gz',
+                              'relative_path': str(EXPERIMENT / rel), 'download_url': '',
                               'size_bytes': size, 'git_status': 'included' if git_copy else 'release_only',
                               'upload_status': 'pending',
                               'not_uploaded_reason': 'source_symlink_target_missing' if path.is_symlink() and not path.resolve().exists() else '',
                               'bundle_name': group + '.tar.gz'})
     if args.pack:
         for group, files in sorted(groups.items()):
+            if args.only_bundle and group != args.only_bundle:
+                continue
             target = args.bundles / (group + '.tar.gz')
             if target.exists():
                 raise FileExistsError('Do not overwrite an existing bundle: ' + str(target))
@@ -186,7 +208,8 @@ def main():
             print(json.dumps({'bundle': target.name, 'files': total, 'bytes': target.stat().st_size}), flush=True)
             if target.stat().st_size >= 2_000_000_000:
                 raise ValueError('Bundle exceeds conservative release asset bound: ' + str(target))
-        (args.bundles / 'pack_redactions.json').write_text(json.dumps(redactions, ensure_ascii=False, indent=2))
+        name = 'pack_redactions_' + args.only_bundle + '.json' if args.only_bundle else 'pack_redactions.json'
+        (args.bundles / name).write_text(json.dumps(redactions, ensure_ascii=False, indent=2))
         return
     fields = ['run_id', 'artifact_type', 'relative_path', 'download_url', 'size_bytes', 'git_status',
               'upload_status', 'not_uploaded_reason', 'bundle_name']

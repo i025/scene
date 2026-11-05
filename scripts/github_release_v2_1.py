@@ -1,5 +1,6 @@
 """Publish archive bundles with existing Git credentials; never persist credentials."""
 import argparse
+import csv
 import json
 import os
 from pathlib import Path
@@ -14,6 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--bundles', type=Path, required=True)
     parser.add_argument('--state', type=Path, required=True)
+    parser.add_argument('--index', type=Path, default=Path('artifacts_index_v2_1.csv'))
     args = parser.parse_args()
     result = subprocess.run(['git', 'credential', 'fill'], input='protocol=https\nhost=github.com\n\n',
                             capture_output=True, text=True, timeout=20,
@@ -30,7 +32,7 @@ def main():
         response = session.post(api + '/releases', json={
             'tag_name': TAG, 'target_commitish': 'research/scene-rsi-v2.1', 'name': 'Scene-RSI V2.1 两阶段机制与演化实验',
             'prerelease': True, 'draft': False,
-            'body': 'V2 真实实验的完整脱敏证据，按运行分包；包含失败、拒绝和未选中候选。'
+            'body': 'V2.1 真实实验的完整脱敏证据，按运行分包；包含失败、拒绝和未选中候选。'
                     '不含模型权重、环境、缓存或未使用的预留数据。打包步骤没有新增模型调用或渲染。'
                     '\n解压全部 tar.gz 到仓库根目录。见 research/scene-rsi-v2.1 分支 README、docs/AS_RUN_PROTOCOL_V2_1.md、'
                     'docs/REVIEW_INDEX_V2_1.md 和 artifacts_index_v2_1.csv。无内容哈希验证。'}, timeout=30)
@@ -53,6 +55,16 @@ def main():
         state['assets'].append({'name': asset['name'], 'size_bytes': asset['size'],
                                 'url': asset['browser_download_url'], 'status': 'uploaded'})
         args.state.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n')
+        with args.index.open(newline='') as handle:
+            reader = csv.DictReader(handle)
+            fields, rows = reader.fieldnames, list(reader)
+        for row in rows:
+            if row['bundle_name'] == asset['name']:
+                row.update(download_url=asset['browser_download_url'], upload_status='uploaded', not_uploaded_reason='')
+        with args.index.open('w', newline='') as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(rows)
         print(json.dumps(state['assets'][-1]), flush=True)
     checked = session.get(api + '/releases/' + str(release['id']) + '/assets', timeout=30)
     checked.raise_for_status()

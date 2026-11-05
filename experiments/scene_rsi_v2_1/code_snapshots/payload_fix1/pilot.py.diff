@@ -1,0 +1,45 @@
+--- frozen/pilot.py
++++ payload_fix1/pilot.py
+@@ -17,7 +17,7 @@
+ from budget import current,guard
+ from codex_wrapper import call,check_service_pause
+ from strategies import initialize,COMMON
+-from model_evidence import compact_structure,compact_trajectory,bound_payload
++from model_evidence import compact_structure,compact_trajectory,bound_payload,projected_objects
+ from devices import inspection_config
+ 
+ METHODS=['scene_rsi_v2_1']
+@@ -201,11 +201,11 @@
+         meshes=[o for o in all_objects if o['type']=='MESH']
+         projected=sorted(meshes,key=lambda o: (o['world_geometry_aabb_approx'] or {'diagonal_scene_units':0})['diagonal_scene_units'],reverse=True)[:128]
+         entry['objects']=[{key:o[key] for key in ['name','type','parent','finite_nonempty_mesh','excluded_as_structural']} | {'world_geometry_aabb_approx':{'diagonal_scene_units':o['world_geometry_aabb_approx']['diagonal_scene_units']} if o['world_geometry_aabb_approx'] else None} for o in projected]
+-        entry['object_projection']='All real IDs and compact projected bounds retained; mapping supplied separately by budgeted visual localization; no largest-mesh attribution.'
++        entry['object_projection']='All real IDs retained. Detailed projected objects capped128: named groups, camera/lights, named geometry, then remaining names. Collector display order is not attribution; full raw structure remains saved.'
+         entry['regression']=read(folder/'functional/mechanical.json')
+         from diagnostics import failure_evidence
+         entry['failure_evidence']=failure_evidence(row)
+-        entry['objects']=[{key:o[key] for key in ['name','type','parent','parent_chain','finite_nonempty_mesh','excluded_as_structural','world_geometry_aabb_approx','projected_bbox_normalized_approx','hide_render']} for o in all_objects]
++        entry['objects']=projected_objects(all_objects)
+         for f in [folder/'reference.png',folder/'final.png']:
+             if f.exists():images.append(str(f))
+         entry['attached_images']=images[-(2 if (folder/'final.png').exists() else 1):]
+@@ -280,6 +280,7 @@
+     cid=f'C{k}';folder=ROOT/'candidates'/run_id/method/cid;result_path=folder/'proposal_result.json'
+     if result_path.exists():return folder,read(result_path)
+     folder.mkdir(parents=True,exist_ok=True)
++    write_json(ROOT/'state.json',{'phase':'planning_candidate','method':method,'run_id':run_id,'candidate_id':cid,'M_source':str(meta_source)})
+     sources={n:(parent_source/n).read_text() for n in ['policy.py','system.txt']}
+     sources['meta.py']=meta_source.read_text()
+     for n,s in sources.items():(folder/n).write_text(s)
+@@ -290,9 +291,11 @@
+         before=json.loads(json.dumps(context))
+         plan=meta_execute(meta_source,'plan_probes',context)
+         write_json(folder/'stage1.json',{'M_source':str(meta_source),'context':before,'decision':plan})
++        write_json(ROOT/'state.json',{'phase':'executing_diagnostics','method':method,'run_id':run_id,'candidate_id':cid})
+         observations=execute_plan(context,plan,parent_dev,folder)
+         decision=meta_execute(meta_source,'plan_patch',context,observations)
+         write_json(folder/'stage2.json',{'M_source':str(meta_source),'context_after_execution':context,'observations':observations,'decision':decision})
++        write_json(ROOT/'state.json',{'phase':'generating_candidate','method':method,'run_id':run_id,'candidate_id':cid})
+         api={str(p.relative_to(ROOT/'backend/sceneact')):p.read_text() for p in (ROOT/'backend/sceneact').glob('*.py')}
+         images += [str(p) for p in sorted((folder/'probes').glob('*/probe_*.png'))]
+         payload={'attached_image_order':images,'sources':sources,'sceneact_api':api,'context':before,'stage1':plan,'actual_observations':observations,'stage2_M_decision':decision}

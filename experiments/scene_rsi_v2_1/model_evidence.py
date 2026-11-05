@@ -3,6 +3,19 @@ import json
 import re
 
 
+def projected_objects(objects):
+    """Bound numeric detail; retain all real IDs separately in the context."""
+    def priority(obj):
+        numeric=re.fullmatch(r'[0-9.]+',obj['name']) is not None
+        if obj['type']=='EMPTY' and not numeric:return 0
+        if obj['type'] in ['CAMERA','LIGHT']:return 1
+        if not numeric and not re.fullmatch(r'(Box|Cylinder|Sphere)(\.\d+)?',obj['name']):return 2
+        return 3
+    selected=sorted(objects,key=lambda obj:(priority(obj),obj['name']))[:128]
+    keys=['name','type','parent','parent_chain','finite_nonempty_mesh','excluded_as_structural','world_geometry_aabb_approx','projected_bbox_normalized_approx','hide_render']
+    return [{key:obj[key] for key in keys} for obj in selected]
+
+
 def compact_structure(source):
     if not source:
         return source

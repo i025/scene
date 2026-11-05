@@ -12,3 +12,6 @@
 - 2026-11-06（客户端日期）检查Git缓存无可用凭据；不会将令牌写入仓库或聊天。最终上传以实际返回状态为准。
 
 - 五类夹具后明确定位器提示中的可执行探测参数（焦距x1.1、对象几何中心x1.1、隔离不取消目标隐藏），避免把无法执行的绕地面原点缩放等设想误写成已执行。夹具原定位决策和测量未改写，正式版本在冻结前说明这些边界。
+
+- 诊断对象汇总修正：材质夹具的故障非目标是B_Table，原始通用related_object_ids误含椅子部件，固定策略被宽泛计命中。原record不改，派生 fault_object_match_corrected 按非目标B_Table计数，固定3/5、V2.1 5/5（原宽泛4/5、5/5仍保留）。不是修改正式Selection/Q或Test；见configs/diagnostic_object_count_correction.json。材质参考为原始编辑前画面，也包含合法目标变化，不据此宣称唯一归因。
+- 旧配置smoke_resolution_long_edge=256未被pilot.task使用，实际烟测为512最长边/16samples，以真实图片和render_settings为准；正式质量未降低。

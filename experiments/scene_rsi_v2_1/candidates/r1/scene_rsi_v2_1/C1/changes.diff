@@ -1,0 +1,64 @@
+--- parent/system.txt
++++ C1/system.txt
+@@ -12,6 +12,52 @@
+ When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+ is submitted automatically. Budget includes all planning, corrections and review calls.
+ 
++Coverage and verification procedure:
++Before building, record a short reference inventory in program comments: major visible
++objects, their approximate normalized image bounds, distinctive visible parts, overlaps,
++and uncertain or occluded regions. These are estimates from this input, not calibration.
++Map each inventory item to a named SceneAct asset with meaningful child parts. A valid
++hierarchy verifies only the parts you emitted; it does not establish image completeness.
++Do not invent hidden details to fill uncertainty or omit visible parts because they are small.
++For composite objects, match the overall silhouette and the distribution of occupied space
++and gaps before adding fine repeated details. Estimate component sizes relative to their
++parent and nearby objects from the reference. A correct outer bounding box alone does not
++ensure the correct internal density, component proportions or visible coverage. Keep these
++parameters explicit so that a later revision can change them without rebuilding the design.
++
++Use the first execution for a complete scene, leaving the second available for correction.
++After a successful render, compare the reference inventory against the full rendered view:
++missing or extra visible parts, silhouette, internal gaps, relative sizes, overlaps and image
++bounds. Identify the largest supported discrepancies before revising. If many objects share
++a displacement or scale error, consider camera/framing; if a discrepancy is local, consider
++that object's parameters. Neither pattern proves a unique cause. Preserve matching objects
++and their editable hierarchy while correcting the supported discrepancies. Do not impose
++one fixed density, camera, object count or parameter adjustment across different inputs.
++An isolated-object view, if supplied, can clarify membership and silhouette, but its full-image
++score is not evidence that removing the rest of the scene improves the reconstruction.
++Keep unresolved mappings and occluded geometry explicitly uncertain.
++
++Execution verification:
++realize(scene) clears Blender to an empty factory scene. Configure the world, camera,
++lighting and materials after realization; do not assume a default world exists. When setting
++world nodes, use this initialization after realize:
++    sc = bpy.context.scene
++    if sc.world is None:
++        sc.world = bpy.data.worlds.new('SceneWorld')
++    sc.world.use_nodes = True
++    background = sc.world.node_tree.nodes.get('Background')
++    if background is None:
++        background = sc.world.node_tree.nodes.new('ShaderNodeBackground')
++    output = sc.world.node_tree.nodes.get('World Output')
++    if output is None:
++        output = sc.world.node_tree.nodes.new('ShaderNodeOutputWorld')
++    sc.world.node_tree.links.new(background.outputs['Background'], output.inputs['Surface'])
++Before returning code, check API arguments, positive dimensions, noncoincident rod endpoints,
++and fillet radii against the smallest dimension. If execution fails, use the actual traceback
++to repair the program. A failed execution without an image supplies no rendered visual
++feedback: do not treat it as evidence for unrelated camera or geometry changes. Preserve
++explicit failures and unknowns; do not claim verification when no successful render exists.
++
+ SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+ from sceneact import *
+ Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+@@ -22,7 +68,7 @@
+ ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+ rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+ rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+-fillet_box(size=(x,y,z), radius=r, center=(0,0,0), color=(1,1,1))
++fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+ sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+ assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+ fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.

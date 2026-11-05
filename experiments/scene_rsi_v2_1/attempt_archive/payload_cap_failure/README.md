@@ -1,0 +1,1 @@
+Four proposals failed before shared-candidate CLI submission at 600000-byte cap. Original traces, copied-parent sources, costs and initial H0 fallback selection retained. These are not successful H/M candidates. Original absolute call_dir/source paths are preserved; artifact_path_map.json resolves moved records. No Test scores or media were inspected or sent to research.

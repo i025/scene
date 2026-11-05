@@ -1,0 +1,93 @@
+--- frozen/analyze.py
++++ payload_fix1/analyze.py
+@@ -46,11 +46,22 @@
+     for item in comparisons:
+         label=next(t for t in truth if t['scene_id']==item['scene_id'])
+         item['M_second_stage_module_exact']=item['decision']['shared_module']==label['module']
++        # The material fixture's non-target fault is the separate block; chair parts
++        # are not related parts of that block. Preserve the earlier broad raw field.
++        allowed=[label['object_id']]+([] if label['module']=='material_edit' else label['related_object_ids'])
++        item['fault_object_match_corrected']=any(t in allowed for t in item['targets'])
+         item['module_match_scope']='correct_or_related_module includes visual localization; M second-stage exact match reported separately. Broad generic modules are not exact fault localization.'
++        dest=ROOT/'tests/diagnosis'/item['scene_id']/item['method']
++        processes=[read(p) for p in dest.glob('probes/*/process.json')]+[read(p) for p in dest.glob('regression/*/process.json')]
++        calls=[read(p) for p in dest.glob('localization/*/visual_call/session.json')]
++        item['measured_blender_seconds_aligned']=sum(p['seconds'] for p in processes)
++        item['localizer_cli_sessions']=len(calls)
++        item['localizer_cli_seconds']=sum(c['seconds'] for c in calls)
++        item['legacy_seconds_scope']='Raw case timer includes earlier strategy; use boundary process/CLI times. Includes no claim of algorithm speed; TLS wait occurred.'
+     csv_write(out/'diagnostic_comparison.csv',comparisons)
+     if not comparisons:return
+     f,axes=plt.subplots(1,4,figsize=(14,4))
+-    for i,key in enumerate(['correct_object','correct_or_related_module','M_second_stage_module_exact','probe_changes_decision']):
++    for i,key in enumerate(['fault_object_match_corrected','correct_or_related_module','M_second_stage_module_exact','probe_changes_decision']):
+         for j,method in enumerate(['fixed_heuristic','scene_rsi_v2_1']):
+             points=[r for r in comparisons if r['method']==method]
+             axes[i].scatter([j]*len(points),[k for k in range(len(points))],c=['#299269' if r[key] else '#c84747' for r in points],s=140)
+@@ -69,6 +80,8 @@
+     transfer=read(ROOT/'tests/diagnosis/shared_patch_transfer.json')
+     if transfer:
+         csv_write(out/'controlled_shared_patch.csv',[{'method':method,**tests} for method,tests in transfer.items()])
++        repair_calls=[read(p) for p in (ROOT/'tests/diagnosis').glob('repair_*/proposal_call/session.json')]
++        csv_write(out/'controlled_shared_patch_cost.csv',[{k:c.get(k) for k in ['call_dir','status','requested_model','actual_model','seconds','input_tokens','output_tokens','total_tokens']} for c in repair_calls])
+ 
+ def contact(rows,tests,dest):
+     size=(300,240);canvas=Image.new('RGB',(930,len(tests)*285),'white');draw=ImageDraw.Draw(canvas)
+@@ -105,7 +118,10 @@
+             item['candidate_state']='timeout' if 'Timeout' in error else 'invalid' if any(t in error for t in ['SyntaxError','ValueError','KeyError','TypeError']) else 'failed'
+         else:
+             session=read(dest/'proposal_call/session.json')
+-            item['candidate_state']='running' if session and session['status']=='running' else 'not_started'
++            proposal=read(dest/'proposal_result.json')
++            paused=read(ROOT/'state.json',{}).get('phase')=='paused_after_stage_failure'
++            item['candidate_state']='failed' if dest.exists() and paused else 'running' if dest.exists() and (proposal is None or proposal['status']=='proposed') else 'not_started'
++            item['state_basis']='Archive terminal result, candidate workspace/stages, and pipeline pause; source state.json is only the last runner event.'
+     csv_write(out/'candidates.csv',scheduled)
+     slots=[]
+     for rid in ['r1','r2']:
+@@ -140,6 +156,11 @@
+                 utility_difference=b['task_utility_v2']-a['task_utility_v2'] if a and b else None,
+                 complete_effective_improvement=bool(a and b and a['status']==b['status']=='complete' and b['functional']['functional_pass'] and b['metrics']['overall']>a['metrics']['overall']+.01) if a and b else None))
+     csv_write(out/'paired_test.csv',paired)
++    joint={'scheduled_pairs':len(paired),'recorded_pairs':sum(p['utility_difference'] is not None for p in paired),
++           'valid_quality_pairs':sum(p['both_completed'] for p in paired),
++           'complete_effective_improvement_rate':sum(p['complete_effective_improvement'] is True for p in paired)/len(paired) if paired and all(p['complete_effective_improvement'] is not None for p in paired) else None,
++           'unit':'scene/run pair; same scene across runs is not another independent scene'}
++    csv_write(out/'joint_improvement.csv',[joint])
+     if choices:
+       for rid in ['r1','r2']:contact([r for r in terminal if r['run_id']==rid],[s for s in manifest if s['split']=='test'],fig/f'figure1_{rid}.png')
+     plt.rcParams.update({'font.size':9})
+@@ -160,7 +181,7 @@
+         retained=[q]
+         for a in entries:retained.append(a['selection']['endpoint_quality'] if a['accepted'] else retained[-1])
+         ax.plot(xs,retained,'s-',label=rid+' retained H*')
+-        for a,x,y in zip(entries,xs[1:],ys[1:]):ax.annotate(f"{a['candidate_id']} {a['candidate_type']} accept={a['accepted']}\nCLI={a['ledger_after']['cli_sessions']}",(x,y),fontsize=7)
++        for a,x,y in zip(entries,xs[1:],ys[1:]):ax.annotate(f"{a['candidate_id']} {a['candidate_type']} accept={a['accepted']} Mchg={a['M_changed']}\nCLI={a['ledger_after']['cli_sessions']}",(x,y),fontsize=7)
+     ax.set(xlabel='Actual candidate index (raw Selection performance)',ylabel='End-to-end Q utility; failure=0');ax.legend();f.tight_layout();f.savefig(fig/'figure4_evolution.png',dpi=160);plt.close(f)
+     calibration=read(ROOT/'tests/calibration.json',{})
+     cal_rows=[]
+@@ -256,6 +277,8 @@
+         path=ROOT/'candidates'/record['run']/'scene_rsi_v2_1'/record['candidate']/'meta.py'
+         later=[p for p in stages if read(p.parent/'stage1.json')['M_source']==str(path)]
+         record['used_in_later_patch_proposal']=bool(record['M_changed'] and any((p.parent/'proposal_call/request.json').exists() for p in later))
++        record['later_valid_candidate_produced']=bool(record['M_changed'] and any(read(p.parent/'proposal_result.json',{}).get('status')=='proposed' for p in later))
++        record['later_usage_scope']='Separate executable M decisions, submitted proposal attempts, and valid produced H/M; no meta ability claim from source change alone.'
+         record['later_decision_traces']=[str(p.relative_to(ROOT)) for p in later] if record['M_changed'] else []
+     csv_write(out/'meta_participation.csv',meta_rows)
+     f,ax=plt.subplots(figsize=(11,max(2,len(meta_rows)*.7)));ax.axis('off')
+@@ -267,12 +290,12 @@
+         changes=list(difflib.unified_diff(before.splitlines(),after.splitlines(),fromfile='parent M',tofile='descendant M'))
+         f,ax=plt.subplots(figsize=(13,max(4,min(35,len(changes))*.17)));ax.axis('off');ax.text(0,1,'\n'.join(line[:150] for line in changes[:35]),va='top',family='monospace',fontsize=7)
+         ax.set_title('Real M source diff (first 35 lines; complete diff in candidate directory)');f.tight_layout();f.savefig(fig/'figure5_meta_diff.png',dpi=160);plt.close(f)
+-    data={'state':read(ROOT/'state.json'),'ledger':read(ROOT/'ledger.json'),'summary':summary,'paired':paired,'archive':archive,'meta':meta_rows,'diagnostic':diagnostic,'calibration':read(ROOT/'tests/calibration.json')}
++    data={'state':read(ROOT/'state.json'),'ledger':read(ROOT/'ledger.json'),'summary':summary,'paired':paired,'joint_improvement':joint,'archive':archive,'meta':meta_rows,'diagnostic':diagnostic,'calibration':read(ROOT/'tests/calibration.json')}
+     (out/'summary.json').write_text(json.dumps(data,ensure_ascii=False,indent=2))
+     text='# Scene-RSI V2.1 中文实验报告\n\n本轮只比较共享 H0 与 Scene-RSI V2.1，不重跑其他方法。数据为 exploratory，历史联系表曝光，不能宣称严格盲测。\n\n'
+     text+='## 实际状态与结果\n\n```json\n'+json.dumps({'state':data['state'],'summary':summary,'ledger':data['ledger']},ensure_ascii=False,indent=2)+'\n```\n\n'
+-    text+='## 机制证据与边界\n\nM 的 plan_probes 选择真实对象和测试，runner 执行，真实观测进入 M.plan_patch。见 candidates 下 stage1/stage2、observations、changes.diff。M-only 不计 H 改善；M 被执行不证明元能力提高。\n\n结构校准涵盖正确组合、脱离父对象、破坏支撑、共享材质误改、独立编辑和表面相交。自然图像无三维真值；声明部件完整性不等于参考对象完整性。支撑是归一化 AABB 近似，Mesh BVH 仅测三角表面相交，不能判断所有穿插、包含或合理接缝。\n\n主 Q 沿用 V1 公式；未测量指标为 null，失败效用单独为零。条件质量与全分母效用分别报告；多视角不计独立样本。只有 2 个研发重复，不作普遍优势或显著性结论。机械编辑与文字编辑分别保留，文字编辑只按预定少量终测场景执行。\n\n'
+-    text+='## 可控诊断比较\n\n五个夹具，绿色/红色分别是已执行测试中的命中/未命中；目标组或相关部件命中不等于精准视觉定位。V2.1新增5次定位调用，双方辅助共享程序各1次修复调用，实际成本并不相同。源代码API契约本身提供修复提示；辅助helper通过不代表自然图像重建H改进。家具尺度定位正确仍可能没有正向探测效果；隐藏对象的隔离实验不自动恢复可见性。原始来源为 tests/diagnosis/comparison.json、shared_patch_transfer.json，统计表 metrics/diagnostic_comparison.csv、controlled_shared_patch.csv，脚本 tests/diagnose.py 与 analyze.py。\n\n'
++    text+='## 机制证据与边界\n\nM 的 plan_probes 选择真实对象和测试，runner 执行，真实观测进入 M.plan_patch。见 candidates 下 stage1/stage2、observations、changes.diff。M-only 不计 H 改善；M 被执行不证明元能力提高。\n\n结构校准涵盖正确组合、脱离父对象、破坏支撑、共享材质误改、独立编辑和表面相交。自然图像无三维真值；声明部件完整性不等于参考对象完整性。支撑是归一化 AABB 近似，Mesh BVH 仅测三角表面相交，不能判断所有穿插、包含或合理接缝。\n\n主 Q 沿用 V1 公式；未测量指标为 null，执行失败效用单独为零，此Q效用不包含全部功能要求，功能合规另报。条件质量与全分母效用分别报告；多视角不计独立样本。只有 2 个研发重复，不作普遍优势或显著性结论。机械编辑与文字编辑分别保留，文字编辑只按预定少量终测场景执行。\n\n'
++    text+='## 可控诊断比较\n\n五个夹具，绿色/红色分别是已执行测试中的命中/未命中；目标组或相关部件命中不等于精准视觉定位。对象计数按材质非目标方块修正，旧宽泛字段保留，见configs/diagnostic_object_count_correction.json。图像定位模块命中和M第二阶段最终模块精确命中单列，后者双方均仅1/5。V2.1新增5次定位调用，双方辅助共享程序各1次修复调用，实际成本并不相同。源代码API契约本身提供修复提示；辅助helper通过不代表自然图像重建H改进。家具尺度定位正确仍可能没有正向探测效果；隐藏对象的隔离实验不自动恢复可见性。原始来源为 tests/diagnosis/comparison.json、shared_patch_transfer.json，统计表 metrics/diagnostic_comparison.csv、controlled_shared_patch.csv，脚本 tests/diagnose.py 与 analyze.py。\n\n'
+     text+='## 图与数据\n\n每张图由 analyze.py 从 metrics/scene_metrics.csv、candidates.csv、paired_test.csv、calls.csv、meta_participation.csv 与原始 JSON 重画。Figure1 按冻结顺序纳入全部测试场景；Figure2 采用按路径排序的首个正式诊断，无成功筛选；Figure3 采用首个有机械渲染的终测场景。\n'
+     for p in sorted(fig.glob('*.png')):text+=f'\n![{p.stem}](../figures/{p.name})\n'
+     (report/'REPORT_ZH.md').write_text(text)

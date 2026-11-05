@@ -1,4 +1,4 @@
-# V2 依赖与迁移
+# V2.1 依赖与迁移
 
 V2 复用 V1 的 SceneEvolve CLI/backend 适配代码及 SceneAct，源关系、原有许可见 V1 归档和 `experiments/scene_rsi_v2_1/backend/LICENSE`。不新增覆盖第三方代码或数据的总许可证。
 
@@ -16,6 +16,6 @@ DINOv2-base、AlexNet 和 LPIPS 权重不上传，已有本地路径见脱敏配
 
 复制 `config.json` 为本机配置并替换 Blender、Codex CLI、模型缓存和数据路径。runner 在本目录读 `config.json`；不改 H/M 或评价协议。离线重画无需模型、Blender、GPU、网络；相对图像保存在 Release 解压后的结果目录。`analyze.py` 中当前路径来自历史记录，迁移时需映射 `__EXPERIMENT_ROOT__` 到解压目录，不能改历史分数。
 
-正式复现命令见实验目录 README。续跑仍产生真实模型调用，需本机正常登录 CLI；不要把登录文件放进仓库。
+正式复现命令见实验目录 README。未完成阶段的续跑需本机正常登录 CLI；本轮已为supplement_complete，resume只执行离线汇总。不要把登录文件放进仓库。
 
 V2.1新增诊断仅使用已有Pillow、numpy、skimage、Matplotlib及Codex CLI；没有新增环境依赖。CPU-only。受控夹具由本仓库Blender程序生成，非外部图片。V2源码参考保留来源关系，不更改第三方许可。

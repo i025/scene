@@ -1,0 +1,444 @@
+{
+  "state": {
+    "phase": "running_scene",
+    "method": "fixed_h0",
+    "run_id": "r1",
+    "candidate_id": "H0",
+    "scene_id": "commons_187101683",
+    "split": "development",
+    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/development/commons_187101683"
+  },
+  "ledger": {
+    "cli_sessions": 14,
+    "initial_sandbox_failures": 0,
+    "observable_cli_turns": 14,
+    "observable_model_rounds": null,
+    "tool_calls": 0,
+    "known_input_tokens": 621684,
+    "known_output_tokens": 22866,
+    "usage_unknown_sessions": 0,
+    "render_attempts_upper_bound": 49,
+    "renders_completed": 47,
+    "device": "CPU",
+    "device_mapping_record_counts": {
+      "CPU": 96
+    },
+    "max_cli_sessions": 160,
+    "max_render_frames": 600
+  },
+  "summary": [
+    {
+      "run_id": "r1",
+      "method": "fixed_h0",
+      "scheduled": 2,
+      "recorded": 0,
+      "completed": 0,
+      "succeeded": 0,
+      "status": "not_started",
+      "execution_success_rate": null,
+      "observed_success_rate": null,
+      "conditional_Q": null,
+      "task_utility_v2": null,
+      "functional_passes": 0,
+      "functional_compliance_rate": null,
+      "failed": 0,
+      "timeout": 0,
+      "not_run": 2
+    },
+    {
+      "run_id": "r1",
+      "method": "scene_rsi_v2_1",
+      "scheduled": 2,
+      "recorded": 0,
+      "completed": 0,
+      "succeeded": 0,
+      "status": "not_started",
+      "execution_success_rate": null,
+      "observed_success_rate": null,
+      "conditional_Q": null,
+      "task_utility_v2": null,
+      "functional_passes": 0,
+      "functional_compliance_rate": null,
+      "failed": 0,
+      "timeout": 0,
+      "not_run": 2
+    },
+    {
+      "run_id": "r2",
+      "method": "fixed_h0",
+      "scheduled": 2,
+      "recorded": 0,
+      "completed": 0,
+      "succeeded": 0,
+      "status": "not_started",
+      "execution_success_rate": null,
+      "observed_success_rate": null,
+      "conditional_Q": null,
+      "task_utility_v2": null,
+      "functional_passes": 0,
+      "functional_compliance_rate": null,
+      "failed": 0,
+      "timeout": 0,
+      "not_run": 2
+    },
+    {
+      "run_id": "r2",
+      "method": "scene_rsi_v2_1",
+      "scheduled": 2,
+      "recorded": 0,
+      "completed": 0,
+      "succeeded": 0,
+      "status": "not_started",
+      "execution_success_rate": null,
+      "observed_success_rate": null,
+      "conditional_Q": null,
+      "task_utility_v2": null,
+      "functional_passes": 0,
+      "functional_compliance_rate": null,
+      "failed": 0,
+      "timeout": 0,
+      "not_run": 2
+    }
+  ],
+  "paired": [
+    {
+      "run_id": "r1",
+      "scene_id": "commons_189918915",
+      "both_completed": false,
+      "quality_difference": null,
+      "utility_difference": null,
+      "complete_effective_improvement": null
+    },
+    {
+      "run_id": "r1",
+      "scene_id": "commons_80372956",
+      "both_completed": false,
+      "quality_difference": null,
+      "utility_difference": null,
+      "complete_effective_improvement": null
+    },
+    {
+      "run_id": "r2",
+      "scene_id": "commons_189918915",
+      "both_completed": false,
+      "quality_difference": null,
+      "utility_difference": null,
+      "complete_effective_improvement": null
+    },
+    {
+      "run_id": "r2",
+      "scene_id": "commons_80372956",
+      "both_completed": false,
+      "quality_difference": null,
+      "utility_difference": null,
+      "complete_effective_improvement": null
+    }
+  ],
+  "archive": [],
+  "meta": [],
+  "diagnostic": {
+    "trace": "candidates/smoke/scene_rsi_v2_1/C1/stage2.json",
+    "scene": "commons_29022664",
+    "decision": {
+      "shared_module": "program_generation_and_verification",
+      "decision": "Use saved error/trajectory to change reusable execution or program-generation instructions. Service failures are not visual algorithm failures; do not perform geometry probes without valid blend.",
+      "failure_diagnoses": [
+        {
+          "category": "blender_execution_failure",
+          "runtime_status": {
+            "error": null,
+            "seconds": 296.042496514041
+          },
+          "failed_calls": [],
+          "execution_errors": [
+            {
+              "path": "__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/001/stderr.log",
+              "text": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 85, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 67, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/001/build.py\", line 71, in <module>\n    rim = fillet_box((.905,.542,.015),radius=.026,center=(.875,.030,.923),color=metal)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n"
+            },
+            {
+              "path": "__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/002/stderr.log",
+              "text": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 85, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 67, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/002/build.py\", line 250, in <module>\n    world.use_nodes = True\n    ^^^^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'use_nodes'\n"
+            }
+          ],
+          "execution_failures": [
+            {
+              "error": "CalledProcessError(1, ['__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender', '--background', '-noaudio', '--factory-startup', '--threads', '2', '--python-exit-code', '1', '--python', '__EXPERIMENT_ROOT__/backend/render.py', '--', '--code', '__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/001/build.py', '--settings', '__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/001/render_settings.json', '--output-dir', '__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/001'])",
+              "stdout": "",
+              "stderr": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 85, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 67, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/001/build.py\", line 71, in <module>\n    rim = fillet_box((.905,.542,.015),radius=.026,center=(.875,.030,.923),color=metal)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n"
+            },
+            {
+              "error": "CalledProcessError(1, ['__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender', '--background', '-noaudio', '--factory-startup', '--threads', '2', '--python-exit-code', '1', '--python', '__EXPERIMENT_ROOT__/backend/render.py', '--', '--code', '__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/002/build.py', '--settings', '__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/002/render_settings.json', '--output-dir', '__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/002'])",
+              "stdout": "",
+              "stderr": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 85, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 67, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"__EXPERIMENT_ROOT__/results/smoke/fixed_h0/H0/smoke/commons_29022664/steps/002/build.py\", line 250, in <module>\n    world.use_nodes = True\n    ^^^^^^^^^^^^^^^\nAttributeError: 'NoneType' object has no attribute 'use_nodes'\n"
+            }
+          ],
+          "related_modules": [
+            "policy.py",
+            "system.txt"
+          ],
+          "valid_blend": false,
+          "visual_quality": null,
+          "quality_interpretation": "Measured continuous Q; low quality localized by image evidence, not an arbitrary success threshold"
+        }
+      ],
+      "observed_deltas": [],
+      "regression_failures": [],
+      "unmeasured_regressions": [],
+      "observation_count": 0,
+      "best_probe": null,
+      "candidate_type_allowed": [
+        "H-only",
+        "M-only",
+        "H+M"
+      ],
+      "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+      "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+    },
+    "probes": [],
+    "diff": "candidates/smoke/scene_rsi_v2_1/C1/changes.diff",
+    "phase": "smoke_excluded_from_formal"
+  },
+  "calibration": {
+    "correct": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": true,
+        "measured_pass": true,
+        "rows": [
+          {
+            "pair": {
+              "object": "Z_fault_target",
+              "support": "Support"
+            },
+            "normalized_vertical_gap": 0.0,
+            "footprint_overlap_approx": true,
+            "measured_pass": true
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": true,
+        "crossings": [],
+        "narrow_phase_pairs": 0,
+        "mesh_count": 3,
+        "tested_mesh_count": 3,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "missing_declared_part": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": false,
+        "declared_groups": 1,
+        "missing": [
+          {
+            "parent": "Assembly",
+            "child": "Missing_required_part"
+          }
+        ],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": true,
+        "measured_pass": true,
+        "rows": [
+          {
+            "pair": {
+              "object": "Z_fault_target",
+              "support": "Support"
+            },
+            "normalized_vertical_gap": 0.0,
+            "footprint_overlap_approx": true,
+            "measured_pass": true
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": true,
+        "crossings": [],
+        "narrow_phase_pairs": 0,
+        "mesh_count": 3,
+        "tested_mesh_count": 3,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "detached": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": false,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [
+          {
+            "parent": "Assembly",
+            "child": "Z_fault_target"
+          }
+        ],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": true,
+        "measured_pass": true,
+        "rows": [
+          {
+            "pair": {
+              "object": "Z_fault_target",
+              "support": "Support"
+            },
+            "normalized_vertical_gap": 0.0,
+            "footprint_overlap_approx": true,
+            "measured_pass": true
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": true,
+        "crossings": [],
+        "narrow_phase_pairs": 0,
+        "mesh_count": 3,
+        "tested_mesh_count": 3,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "broken_support": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": true,
+        "measured_pass": false,
+        "rows": [
+          {
+            "pair": {
+              "object": "Z_fault_target",
+              "support": "Support"
+            },
+            "normalized_vertical_gap": 0.31524416249564025,
+            "footprint_overlap_approx": true,
+            "measured_pass": false
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": true,
+        "crossings": [],
+        "narrow_phase_pairs": 0,
+        "mesh_count": 3,
+        "tested_mesh_count": 3,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "shared_material_bad_edit": {
+      "pass": false,
+      "checked_objects": 4,
+      "changed_fields": {
+        "A_good": [
+          "materials"
+        ]
+      },
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "independent_local_edit": {
+      "applicable": true,
+      "measured_pass": true,
+      "non_target": {
+        "pass": true,
+        "checked_objects": 3,
+        "changed_fields": {},
+        "added_objects": [],
+        "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+      },
+      "target": [
+        "A_good",
+        "Z_fault_target"
+      ],
+      "type": "mechanical_not_text"
+    },
+    "correct_group_move": {
+      "applicable": true,
+      "measured_pass": true,
+      "relative_matrix_error": 0.0,
+      "non_target": {
+        "pass": true,
+        "checked_objects": 2,
+        "changed_fields": {},
+        "added_objects": [],
+        "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+      },
+      "declared_integrity": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "type": "mechanical_not_text"
+    },
+    "triangle_crossing": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 1,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": true,
+        "measured_pass": true,
+        "rows": [
+          {
+            "pair": {
+              "object": "Z_fault_target",
+              "support": "Support"
+            },
+            "normalized_vertical_gap": 0.0,
+            "footprint_overlap_approx": true,
+            "measured_pass": true
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": false,
+        "crossings": [
+          {
+            "objects": [
+              "Z_fault_target",
+              "Intruder"
+            ],
+            "triangle_pairs": 10
+          }
+        ],
+        "narrow_phase_pairs": 1,
+        "mesh_count": 4,
+        "tested_mesh_count": 4,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    }
+  }
+}

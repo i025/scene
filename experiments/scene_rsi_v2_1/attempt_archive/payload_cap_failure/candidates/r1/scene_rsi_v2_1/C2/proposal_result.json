@@ -1,0 +1,9 @@
+{
+  "status": "proposal_failed",
+  "error": "Proposal payload exceeds frozen 600000 byte cap",
+  "traceback": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/pilot.py\", line 300, in propose\n    if len(prompt.encode())>600000:raise ValueError('Proposal payload exceeds frozen 600000 byte cap')\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Proposal payload exceeds frozen 600000 byte cap\n",
+  "H_changed": false,
+  "M_changed": false,
+  "used_M": "__EXPERIMENT_ROOT__/initial_meta/scene_rsi_v2_1/meta.py",
+  "parent_source": "__EXPERIMENT_ROOT__/backend/harnesses/baseline"
+}

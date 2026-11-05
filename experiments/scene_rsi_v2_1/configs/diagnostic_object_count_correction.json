@@ -1,0 +1,20 @@
+{
+  "time": 1793898593.774261,
+  "scope": "Controlled diagnostic object-match summary only; formal selection/Q/datasets/M unchanged",
+  "bug": "Material fault non-target is B_Table; original generic related_object_ids incorrectly also listed chair parts, crediting fixed heuristic for probing ChairBack",
+  "correct_rule": "For material fixture require B_Table; for assembly faults allow actual assembly or its parts; camera null allowed",
+  "affected": "case05 fixed_heuristic correct_object: broad original True, corrected False",
+  "original_records_preserved": true,
+  "raw_original_totals": {
+    "fixed_heuristic": 4,
+    "scene_rsi_v2_1": 5
+  },
+  "corrected_totals": {
+    "fixed_heuristic": 3,
+    "scene_rsi_v2_1": 5
+  },
+  "n_fault_variants": 5,
+  "metric_name": "fault_object_match_corrected",
+  "selection_or_test_feedback": false,
+  "object_applicability_note": "Camera fault has no target object; object-localization denominator is four applicable faults. Legacy target-decision field includes camera null and is separately retained."
+}

@@ -1,0 +1,5955 @@
+{
+  "actual_diff_risks": [
+    "geometry"
+  ],
+  "M_source": "__EXPERIMENT_ROOT__/candidates/r1/scene_rsi_v2_1/C2/meta.py",
+  "test_plan": {
+    "probes": [],
+    "regressions": [
+      {
+        "scene_id": "commons_187101683",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      {
+        "scene_id": "commons_187101683",
+        "test": "mesh_intersection",
+        "reason": "Observed module and candidate diff risk"
+      },
+      {
+        "scene_id": "commons_187101683",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      }
+    ],
+    "budget_seen": 0,
+    "used_seen": 0,
+    "failure_diagnoses": [],
+    "no_probe_reason": "No confident mapping, valid blend, or remaining budget; use execution/coverage evidence",
+    "mapping_rule": "Actual image discrepancy plus projected IDs; never default to largest/first mesh"
+  },
+  "observations": {
+    "probes": [],
+    "regression": [
+      {
+        "request": {
+          "scene_id": "commons_187101683",
+          "test": "hierarchy_parts",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 30,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "commons_187101683",
+          "test": "mesh_intersection",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": null,
+          "crossings": [
+            {
+              "objects": [
+                "Box",
+                "Box.001"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Ball",
+                "Rod"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball",
+                "Rod.001"
+              ],
+              "triangle_pairs": 78
+            },
+            {
+              "objects": [
+                "Ball",
+                "Rod.002"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball",
+                "Box.003"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball",
+                "Box.004"
+              ],
+              "triangle_pairs": 96
+            },
+            {
+              "objects": [
+                "Ball",
+                "Box.005"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.003"
+              ],
+              "triangle_pairs": 76
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.004"
+              ],
+              "triangle_pairs": 106
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.003"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.004"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.005"
+              ],
+              "triangle_pairs": 49
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Ball.008"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.013"
+              ],
+              "triangle_pairs": 61
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.014"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.008"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Rod.001"
+              ],
+              "triangle_pairs": 84
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Rod.005"
+              ],
+              "triangle_pairs": 18
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Rod.006"
+              ],
+              "triangle_pairs": 104
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Box.003"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Box.004"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Box.005"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.003"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.005"
+              ],
+              "triangle_pairs": 17
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.007"
+              ],
+              "triangle_pairs": 105
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.003"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.004"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.005"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Ball.010"
+              ],
+              "triangle_pairs": 80
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.013"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.018"
+              ],
+              "triangle_pairs": 38
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.008"
+              ],
+              "triangle_pairs": 27
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Ball.016"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Ball.018"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.024"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.025"
+              ],
+              "triangle_pairs": 46
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.029"
+              ],
+              "triangle_pairs": 10
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Rod.002"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Rod.008"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Rod.009"
+              ],
+              "triangle_pairs": 79
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Box.003"
+              ],
+              "triangle_pairs": 63
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Box.004"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Box.005"
+              ],
+              "triangle_pairs": 51
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.004"
+              ],
+              "triangle_pairs": 111
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.008"
+              ],
+              "triangle_pairs": 38
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.010"
+              ],
+              "triangle_pairs": 77
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.003"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.004"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.005"
+              ],
+              "triangle_pairs": 49
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Ball.012"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.014"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.021"
+              ],
+              "triangle_pairs": 61
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.008"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Rod.006"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Rod.009"
+              ],
+              "triangle_pairs": 89
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Rod.011"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Box.003"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Box.004"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Box.005"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.007"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.010"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.011"
+              ],
+              "triangle_pairs": 16
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.003"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.004"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.005"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Ball.014"
+              ],
+              "triangle_pairs": 80
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.018"
+              ],
+              "triangle_pairs": 38
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.021"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.008"
+              ],
+              "triangle_pairs": 27
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Ball.020"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Ball.022"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.001"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.002"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.003"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.004"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod",
+                "Box.003"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod",
+                "Box.004"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod",
+                "Box.005"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Rod.002"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Rod.005"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Rod.006"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Box.003"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Box.005"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Rod.008"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Rod.009"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Box.004"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Box.005"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.004"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.005"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.007"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.003"
+              ],
+              "triangle_pairs": 33
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.005"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Ball.008"
+              ],
+              "triangle_pairs": 9
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Ball.010"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.013"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.014"
+              ],
+              "triangle_pairs": 5
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.018"
+              ],
+              "triangle_pairs": 13
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.008"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Ball.016"
+              ],
+              "triangle_pairs": 43
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.024"
+              ],
+              "triangle_pairs": 14
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.025"
+              ],
+              "triangle_pairs": 19
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.008"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.010"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.004"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.005"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Ball.008"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Ball.012"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.013"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.014"
+              ],
+              "triangle_pairs": 18
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.021"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.008"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Rod.006"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Rod.007"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Box.003"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Box.004"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Box.005"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Ball.016"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Ball.018"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Rod.025"
+              ],
+              "triangle_pairs": 16
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Rod.009"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Rod.011"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Box.004"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Box.005"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.010"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.011"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.004"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.005"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.010"
+              ],
+              "triangle_pairs": 56
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.014"
+              ],
+              "triangle_pairs": 56
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.013"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.018"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.021"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.008"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.016"
+              ],
+              "triangle_pairs": 82
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.018"
+              ],
+              "triangle_pairs": 64
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.020"
+              ],
+              "triangle_pairs": 82
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.022"
+              ],
+              "triangle_pairs": 64
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.024"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.025"
+              ],
+              "triangle_pairs": 53
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.026"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.029"
+              ],
+              "triangle_pairs": 25
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.030"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Rod.009"
+              ],
+              "triangle_pairs": 27
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Rod.010"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Box.003"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Box.004"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Box.005"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Rod.011"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Box.003"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Box.005"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.011"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.003"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.005"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Ball.012"
+              ],
+              "triangle_pairs": 9
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Ball.014"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.014"
+              ],
+              "triangle_pairs": 5
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.018"
+              ],
+              "triangle_pairs": 13
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.021"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.008"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Ball.020"
+              ],
+              "triangle_pairs": 43
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Box.003"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Box.004"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Box.005"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Ball.020"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Ball.022"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Box.004"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Box.005"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Ball.016"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Ball.020"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Rod.025"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Box.005"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.016"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.018"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.020"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.022"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Rod.025"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Rod.026"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Rod.030"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.008"
+              ],
+              "triangle_pairs": 10
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.010"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.012"
+              ],
+              "triangle_pairs": 10
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.014"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.013"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.014"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.018"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.021"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Box.008"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.016"
+              ],
+              "triangle_pairs": 50
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.020"
+              ],
+              "triangle_pairs": 50
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.024"
+              ],
+              "triangle_pairs": 25
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.025"
+              ],
+              "triangle_pairs": 25
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Rod.012"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Rod.013"
+              ],
+              "triangle_pairs": 97
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Rod.014"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Box.006"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Box.008"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Rod.012"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Rod.015"
+              ],
+              "triangle_pairs": 96
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Rod.016"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Box.006"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Box.008"
+              ],
+              "triangle_pairs": 90
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.013"
+              ],
+              "triangle_pairs": 103
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.017"
+              ],
+              "triangle_pairs": 17
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.018"
+              ],
+              "triangle_pairs": 105
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Box.006"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Box.008"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Ball.016"
+              ],
+              "triangle_pairs": 74
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Ball.018"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.024"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.025"
+              ],
+              "triangle_pairs": 70
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.029"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.015"
+              ],
+              "triangle_pairs": 100
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.017"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.019"
+              ],
+              "triangle_pairs": 104
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Box.006"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Box.008"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.024"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.029"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Rod.014"
+              ],
+              "triangle_pairs": 109
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Rod.020"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Rod.021"
+              ],
+              "triangle_pairs": 97
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Box.006"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Box.008"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Rod.016"
+              ],
+              "triangle_pairs": 108
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Rod.020"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Rod.022"
+              ],
+              "triangle_pairs": 97
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Box.006"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Box.008"
+              ],
+              "triangle_pairs": 90
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Rod.018"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Rod.021"
+              ],
+              "triangle_pairs": 102
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Rod.023"
+              ],
+              "triangle_pairs": 19
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Box.006"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Box.008"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Ball.020"
+              ],
+              "triangle_pairs": 74
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Ball.022"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Rod.019"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Rod.022"
+              ],
+              "triangle_pairs": 99
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Rod.023"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Box.006"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Box.008"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.013"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.014"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.015"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.016"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Box.006"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Box.007"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Box.008"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.014"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.017"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.018"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Box.006"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Ball.016"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Ball.018"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.024"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.025"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.029"
+              ],
+              "triangle_pairs": 17
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Rod.020"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Rod.021"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Box.007"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Box.008"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.016"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.017"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.019"
+              ],
+              "triangle_pairs": 33
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Box.006"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.024"
+              ],
+              "triangle_pairs": 45
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.029"
+              ],
+              "triangle_pairs": 19
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Rod.020"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Rod.022"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Box.007"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Box.008"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.018"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.019"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Box.006"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Box.007"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Box.008"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Ball.016"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Ball.018"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.024"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.025"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.029"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.021"
+              ],
+              "triangle_pairs": 33
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.023"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Box.007"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Box.008"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.016"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.018"
+              ],
+              "triangle_pairs": 73
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.020"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.022"
+              ],
+              "triangle_pairs": 73
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.024"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.025"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.026"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.029"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.030"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.022"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.023"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Box.007"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Box.008"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.024"
+              ],
+              "triangle_pairs": 63
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.029"
+              ],
+              "triangle_pairs": 59
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Rod.021"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Rod.022"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Box.006"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Box.007"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Box.008"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Rod.023"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Box.006"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Ball.020"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Ball.022"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Rod.023"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Box.006"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Box.006"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Box.007"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Box.008"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Ball.020"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Ball.022"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Box.007"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Box.008"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Ball.016"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Ball.020"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.024"
+              ],
+              "triangle_pairs": 50
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.025"
+              ],
+              "triangle_pairs": 13
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.029"
+              ],
+              "triangle_pairs": 18
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Box.008"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.016"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.018"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.020"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.022"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.024"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.025"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.026"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.029"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.030"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.016"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.018"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.020"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.022"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.024"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.025"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.029"
+              ],
+              "triangle_pairs": 11
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.030"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Ball.018"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.024"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.025"
+              ],
+              "triangle_pairs": 70
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.026"
+              ],
+              "triangle_pairs": 104
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.029"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.030"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Ball.019"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.024"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.027"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.028"
+              ],
+              "triangle_pairs": 102
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.029"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.024"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.025"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.026"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.029"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.030"
+              ],
+              "triangle_pairs": 105
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.024"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.027"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.028"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.029"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.020",
+                "Ball.022"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.020",
+                "Rod.026"
+              ],
+              "triangle_pairs": 109
+            },
+            {
+              "objects": [
+                "Ball.020",
+                "Rod.030"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.021",
+                "Ball.023"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.021",
+                "Rod.028"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball.022",
+                "Rod.026"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.022",
+                "Rod.030"
+              ],
+              "triangle_pairs": 111
+            },
+            {
+              "objects": [
+                "Ball.023",
+                "Rod.028"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.025"
+              ],
+              "triangle_pairs": 23
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.026"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.027"
+              ],
+              "triangle_pairs": 23
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.028"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.029"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.030"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Rod.025",
+                "Rod.026"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.025",
+                "Rod.029"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.025",
+                "Rod.030"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.026",
+                "Rod.029"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Rod.026",
+                "Rod.030"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.027",
+                "Rod.028"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.027",
+                "Rod.029"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Rod.028",
+                "Rod.029"
+              ],
+              "triangle_pairs": 16
+            },
+            {
+              "objects": [
+                "Rod.029",
+                "Rod.030"
+              ],
+              "triangle_pairs": 35
+            }
+          ],
+          "narrow_phase_pairs": 419,
+          "mesh_count": 555,
+          "tested_mesh_count": 64,
+          "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+        }
+      },
+      {
+        "request": {
+          "scene_id": "commons_187101683",
+          "test": "composite_move",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": true,
+          "relative_matrix_error": 0.0,
+          "non_target": {
+            "pass": true,
+            "checked_objects": 1140,
+            "changed_fields": {},
+            "added_objects": [],
+            "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+          },
+          "declared_integrity": {
+            "applicable": true,
+            "measured_pass": true,
+            "declared_groups": 30,
+            "missing": [],
+            "detached": [],
+            "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+          },
+          "type": "mechanical_not_text"
+        }
+      }
+    ]
+  },
+  "M_decision": {
+    "shared_module": "object_coverage_and_verification",
+    "decision": "Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.",
+    "failure_diagnoses": [],
+    "observed_deltas": [],
+    "regression_failures": [],
+    "unmeasured_regressions": [
+      {
+        "request": {
+          "scene_id": "commons_187101683",
+          "test": "mesh_intersection",
+          "reason": "Observed module and candidate diff risk"
+        },
+        "result": {
+          "applicable": true,
+          "measured_pass": null,
+          "crossings": [
+            {
+              "objects": [
+                "Box",
+                "Box.001"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Ball",
+                "Rod"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball",
+                "Rod.001"
+              ],
+              "triangle_pairs": 78
+            },
+            {
+              "objects": [
+                "Ball",
+                "Rod.002"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball",
+                "Box.003"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball",
+                "Box.004"
+              ],
+              "triangle_pairs": 96
+            },
+            {
+              "objects": [
+                "Ball",
+                "Box.005"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.003"
+              ],
+              "triangle_pairs": 76
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.004"
+              ],
+              "triangle_pairs": 106
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.003"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.004"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.005"
+              ],
+              "triangle_pairs": 49
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Ball.008"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.013"
+              ],
+              "triangle_pairs": 61
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Rod.014"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.001",
+                "Box.008"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Rod.001"
+              ],
+              "triangle_pairs": 84
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Rod.005"
+              ],
+              "triangle_pairs": 18
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Rod.006"
+              ],
+              "triangle_pairs": 104
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Box.003"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Box.004"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.002",
+                "Box.005"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.003"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.005"
+              ],
+              "triangle_pairs": 17
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.007"
+              ],
+              "triangle_pairs": 105
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.003"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.004"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.005"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Ball.010"
+              ],
+              "triangle_pairs": 80
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.013"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.018"
+              ],
+              "triangle_pairs": 38
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Box.008"
+              ],
+              "triangle_pairs": 27
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Ball.016"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Ball.018"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.024"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.025"
+              ],
+              "triangle_pairs": 46
+            },
+            {
+              "objects": [
+                "Ball.003",
+                "Rod.029"
+              ],
+              "triangle_pairs": 10
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Rod.002"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Rod.008"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Rod.009"
+              ],
+              "triangle_pairs": 79
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Box.003"
+              ],
+              "triangle_pairs": 63
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Box.004"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.004",
+                "Box.005"
+              ],
+              "triangle_pairs": 51
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.004"
+              ],
+              "triangle_pairs": 111
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.008"
+              ],
+              "triangle_pairs": 38
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.010"
+              ],
+              "triangle_pairs": 77
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.003"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.004"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.005"
+              ],
+              "triangle_pairs": 49
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Ball.012"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.014"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Rod.021"
+              ],
+              "triangle_pairs": 61
+            },
+            {
+              "objects": [
+                "Ball.005",
+                "Box.008"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Rod.006"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Rod.009"
+              ],
+              "triangle_pairs": 89
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Rod.011"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Box.003"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Box.004"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.006",
+                "Box.005"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.007"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.010"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.011"
+              ],
+              "triangle_pairs": 16
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.003"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.004"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.005"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Ball.014"
+              ],
+              "triangle_pairs": 80
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.018"
+              ],
+              "triangle_pairs": 38
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Rod.021"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Box.008"
+              ],
+              "triangle_pairs": 27
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Ball.020"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Ball.007",
+                "Ball.022"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.001"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.002"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.003"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod",
+                "Rod.004"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod",
+                "Box.003"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod",
+                "Box.004"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod",
+                "Box.005"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Rod.002"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Rod.005"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Rod.006"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Box.003"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.001",
+                "Box.005"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Rod.008"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Rod.009"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Box.004"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.002",
+                "Box.005"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.004"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.005"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.007"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.003"
+              ],
+              "triangle_pairs": 33
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.005"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Ball.008"
+              ],
+              "triangle_pairs": 9
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Ball.010"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.013"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.014"
+              ],
+              "triangle_pairs": 5
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.018"
+              ],
+              "triangle_pairs": 13
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Box.008"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Ball.016"
+              ],
+              "triangle_pairs": 43
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.024"
+              ],
+              "triangle_pairs": 14
+            },
+            {
+              "objects": [
+                "Rod.003",
+                "Rod.025"
+              ],
+              "triangle_pairs": 19
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.008"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.010"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.004"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.005"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Ball.008"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Ball.012"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.013"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.014"
+              ],
+              "triangle_pairs": 18
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Rod.021"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.004",
+                "Box.008"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Rod.006"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Rod.007"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Box.003"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Box.004"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Box.005"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Ball.016"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Ball.018"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.005",
+                "Rod.025"
+              ],
+              "triangle_pairs": 16
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Rod.009"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Rod.011"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Box.004"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.006",
+                "Box.005"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.010"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.011"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.003"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.004"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.005"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.010"
+              ],
+              "triangle_pairs": 56
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.014"
+              ],
+              "triangle_pairs": 56
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.013"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.018"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.021"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Box.008"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.016"
+              ],
+              "triangle_pairs": 82
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.018"
+              ],
+              "triangle_pairs": 64
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.020"
+              ],
+              "triangle_pairs": 82
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Ball.022"
+              ],
+              "triangle_pairs": 64
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.024"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.025"
+              ],
+              "triangle_pairs": 53
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.026"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.029"
+              ],
+              "triangle_pairs": 25
+            },
+            {
+              "objects": [
+                "Rod.007",
+                "Rod.030"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Rod.009"
+              ],
+              "triangle_pairs": 27
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Rod.010"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Box.003"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Box.004"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.008",
+                "Box.005"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Rod.011"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Box.003"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.009",
+                "Box.005"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.011"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.003"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.004"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.005"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Ball.012"
+              ],
+              "triangle_pairs": 9
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Ball.014"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.014"
+              ],
+              "triangle_pairs": 5
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.018"
+              ],
+              "triangle_pairs": 13
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Rod.021"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Box.008"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Rod.010",
+                "Ball.020"
+              ],
+              "triangle_pairs": 43
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Box.003"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Box.004"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Box.005"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Ball.020"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.011",
+                "Ball.022"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Box.004"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Box.005"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Ball.016"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Ball.020"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Rod.025"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Box.003",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Box.005"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.016"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.018"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.020"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Ball.022"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Rod.025"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Rod.026"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.004",
+                "Rod.030"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.008"
+              ],
+              "triangle_pairs": 10
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.010"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.012"
+              ],
+              "triangle_pairs": 10
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.014"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.013"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.014"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.018"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.021"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Box.008"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.016"
+              ],
+              "triangle_pairs": 50
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Ball.020"
+              ],
+              "triangle_pairs": 50
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.024"
+              ],
+              "triangle_pairs": 25
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.025"
+              ],
+              "triangle_pairs": 25
+            },
+            {
+              "objects": [
+                "Box.005",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Rod.012"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Rod.013"
+              ],
+              "triangle_pairs": 97
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Rod.014"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Box.006"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.008",
+                "Box.008"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Rod.012"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Rod.015"
+              ],
+              "triangle_pairs": 96
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Rod.016"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Box.006"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.009",
+                "Box.008"
+              ],
+              "triangle_pairs": 90
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.013"
+              ],
+              "triangle_pairs": 103
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.017"
+              ],
+              "triangle_pairs": 17
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.018"
+              ],
+              "triangle_pairs": 105
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Box.006"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Box.008"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Ball.016"
+              ],
+              "triangle_pairs": 74
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Ball.018"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.024"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.025"
+              ],
+              "triangle_pairs": 70
+            },
+            {
+              "objects": [
+                "Ball.010",
+                "Rod.029"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.015"
+              ],
+              "triangle_pairs": 100
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.017"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.019"
+              ],
+              "triangle_pairs": 104
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Box.006"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Box.008"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.024"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Ball.011",
+                "Rod.029"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Rod.014"
+              ],
+              "triangle_pairs": 109
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Rod.020"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Rod.021"
+              ],
+              "triangle_pairs": 97
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Box.006"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.012",
+                "Box.008"
+              ],
+              "triangle_pairs": 94
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Rod.016"
+              ],
+              "triangle_pairs": 108
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Rod.020"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Rod.022"
+              ],
+              "triangle_pairs": 97
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Box.006"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Box.007"
+              ],
+              "triangle_pairs": 92
+            },
+            {
+              "objects": [
+                "Ball.013",
+                "Box.008"
+              ],
+              "triangle_pairs": 90
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Rod.018"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Rod.021"
+              ],
+              "triangle_pairs": 102
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Rod.023"
+              ],
+              "triangle_pairs": 19
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Box.006"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Box.008"
+              ],
+              "triangle_pairs": 58
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Ball.020"
+              ],
+              "triangle_pairs": 74
+            },
+            {
+              "objects": [
+                "Ball.014",
+                "Ball.022"
+              ],
+              "triangle_pairs": 66
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Rod.019"
+              ],
+              "triangle_pairs": 110
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Rod.022"
+              ],
+              "triangle_pairs": 99
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Rod.023"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Box.006"
+              ],
+              "triangle_pairs": 93
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Box.007"
+              ],
+              "triangle_pairs": 91
+            },
+            {
+              "objects": [
+                "Ball.015",
+                "Box.008"
+              ],
+              "triangle_pairs": 60
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.013"
+              ],
+              "triangle_pairs": 29
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.014"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.015"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Rod.016"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Box.006"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Box.007"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.012",
+                "Box.008"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.014"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.017"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.018"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Box.006"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Ball.016"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Ball.018"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.024"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.025"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.013",
+                "Rod.029"
+              ],
+              "triangle_pairs": 17
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Rod.020"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Rod.021"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Box.007"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.014",
+                "Box.008"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.016"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.017"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.019"
+              ],
+              "triangle_pairs": 33
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Box.006"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.024"
+              ],
+              "triangle_pairs": 45
+            },
+            {
+              "objects": [
+                "Rod.015",
+                "Rod.029"
+              ],
+              "triangle_pairs": 19
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Rod.020"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Rod.022"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Box.007"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.016",
+                "Box.008"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.018"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.019"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Box.006"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Box.007"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Box.008"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Ball.016"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Ball.018"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.024"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.025"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.017",
+                "Rod.029"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.021"
+              ],
+              "triangle_pairs": 33
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.023"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Box.007"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Box.008"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.016"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.018"
+              ],
+              "triangle_pairs": 73
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.020"
+              ],
+              "triangle_pairs": 72
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Ball.022"
+              ],
+              "triangle_pairs": 73
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.024"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.025"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.026"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.029"
+              ],
+              "triangle_pairs": 37
+            },
+            {
+              "objects": [
+                "Rod.018",
+                "Rod.030"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.022"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.023"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Box.006"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Box.007"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Box.008"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.024"
+              ],
+              "triangle_pairs": 63
+            },
+            {
+              "objects": [
+                "Rod.019",
+                "Rod.029"
+              ],
+              "triangle_pairs": 59
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Rod.021"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Rod.022"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Box.006"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Box.007"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.020",
+                "Box.008"
+              ],
+              "triangle_pairs": 7
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Rod.023"
+              ],
+              "triangle_pairs": 30
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Box.006"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Ball.020"
+              ],
+              "triangle_pairs": 65
+            },
+            {
+              "objects": [
+                "Rod.021",
+                "Ball.022"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Rod.023"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Box.006"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Box.007"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.022",
+                "Box.008"
+              ],
+              "triangle_pairs": 22
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Box.006"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Box.007"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Box.008"
+              ],
+              "triangle_pairs": 8
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Ball.020"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.023",
+                "Ball.022"
+              ],
+              "triangle_pairs": 31
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Box.007"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Box.008"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Ball.016"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Ball.020"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.024"
+              ],
+              "triangle_pairs": 50
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.025"
+              ],
+              "triangle_pairs": 13
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.006",
+                "Rod.029"
+              ],
+              "triangle_pairs": 18
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Box.008"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.016"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.018"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.020"
+              ],
+              "triangle_pairs": 32
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Ball.022"
+              ],
+              "triangle_pairs": 42
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.024"
+              ],
+              "triangle_pairs": 62
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.025"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.026"
+              ],
+              "triangle_pairs": 4
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.029"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Box.007",
+                "Rod.030"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.016"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.018"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.020"
+              ],
+              "triangle_pairs": 54
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Ball.022"
+              ],
+              "triangle_pairs": 26
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.024"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.025"
+              ],
+              "triangle_pairs": 21
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.026"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.029"
+              ],
+              "triangle_pairs": 11
+            },
+            {
+              "objects": [
+                "Box.008",
+                "Rod.030"
+              ],
+              "triangle_pairs": 6
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Ball.018"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.024"
+              ],
+              "triangle_pairs": 39
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.025"
+              ],
+              "triangle_pairs": 70
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.026"
+              ],
+              "triangle_pairs": 104
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.029"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.016",
+                "Rod.030"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Ball.019"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.024"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.027"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.028"
+              ],
+              "triangle_pairs": 102
+            },
+            {
+              "objects": [
+                "Ball.017",
+                "Rod.029"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.024"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.025"
+              ],
+              "triangle_pairs": 28
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.026"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.029"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.018",
+                "Rod.030"
+              ],
+              "triangle_pairs": 105
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.024"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.027"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.028"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.019",
+                "Rod.029"
+              ],
+              "triangle_pairs": 52
+            },
+            {
+              "objects": [
+                "Ball.020",
+                "Ball.022"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.020",
+                "Rod.026"
+              ],
+              "triangle_pairs": 109
+            },
+            {
+              "objects": [
+                "Ball.020",
+                "Rod.030"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.021",
+                "Ball.023"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Ball.021",
+                "Rod.028"
+              ],
+              "triangle_pairs": 107
+            },
+            {
+              "objects": [
+                "Ball.022",
+                "Rod.026"
+              ],
+              "triangle_pairs": 41
+            },
+            {
+              "objects": [
+                "Ball.022",
+                "Rod.030"
+              ],
+              "triangle_pairs": 111
+            },
+            {
+              "objects": [
+                "Ball.023",
+                "Rod.028"
+              ],
+              "triangle_pairs": 40
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.025"
+              ],
+              "triangle_pairs": 23
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.026"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.027"
+              ],
+              "triangle_pairs": 23
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.028"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.029"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.024",
+                "Rod.030"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Rod.025",
+                "Rod.026"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.025",
+                "Rod.029"
+              ],
+              "triangle_pairs": 24
+            },
+            {
+              "objects": [
+                "Rod.025",
+                "Rod.030"
+              ],
+              "triangle_pairs": 35
+            },
+            {
+              "objects": [
+                "Rod.026",
+                "Rod.029"
+              ],
+              "triangle_pairs": 15
+            },
+            {
+              "objects": [
+                "Rod.026",
+                "Rod.030"
+              ],
+              "triangle_pairs": 34
+            },
+            {
+              "objects": [
+                "Rod.027",
+                "Rod.028"
+              ],
+              "triangle_pairs": 36
+            },
+            {
+              "objects": [
+                "Rod.027",
+                "Rod.029"
+              ],
+              "triangle_pairs": 20
+            },
+            {
+              "objects": [
+                "Rod.028",
+                "Rod.029"
+              ],
+              "triangle_pairs": 16
+            },
+            {
+              "objects": [
+                "Rod.029",
+                "Rod.030"
+              ],
+              "triangle_pairs": 35
+            }
+          ],
+          "narrow_phase_pairs": 419,
+          "mesh_count": 555,
+          "tested_mesh_count": 64,
+          "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+        }
+      }
+    ],
+    "observation_count": 0,
+    "best_probe": null,
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}

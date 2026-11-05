@@ -1,0 +1,58 @@
+{
+  "time": 1793909713.656847,
+  "offline_replot_from_extracted_release_bundles": true,
+  "new_model_calls": 0,
+  "new_render_frames": 0,
+  "original_and_recomputed_terminal_summaries_equal": true,
+  "original_and_recomputed_joint_metrics_equal": true,
+  "original_and_recomputed_ledger_equal": true,
+  "html_local_links_checked": 19,
+  "html_missing_local_links": [],
+  "blend_spot_checks": {
+    "purpose": "Archive file compatibility after equal-length account-path redaction; not a new experimental result.",
+    "new_model_calls": 0,
+    "new_render_frames": 0,
+    "read_only_file_opens": 8,
+    "results": [
+      {
+        "relative_path": "results/r1/fixed_h0/H0/development/commons_187101683/scene.blend",
+        "both_opened": true,
+        "recorded_structure_material_camera_unchanged": true,
+        "objects": 1757,
+        "materials": 26
+      },
+      {
+        "relative_path": "results/r1/scene_rsi_v2_1/C2/test/commons_189918915/scene.blend",
+        "both_opened": true,
+        "recorded_structure_material_camera_unchanged": true,
+        "objects": 2283,
+        "materials": 30
+      },
+      {
+        "relative_path": "results/r1/scene_rsi_v2_1/C2/test/commons_80372956/scene.blend",
+        "both_opened": true,
+        "recorded_structure_material_camera_unchanged": true,
+        "objects": 433,
+        "materials": 10
+      },
+      {
+        "relative_path": "tests/diagnosis/case04/scene.blend",
+        "both_opened": true,
+        "recorded_structure_material_camera_unchanged": true,
+        "objects": 11,
+        "materials": 14
+      }
+    ]
+  },
+  "initial_archive_format_failure": {
+    "time": 1793909299.8594828,
+    "stage": "offline archive verification",
+    "experimental_metrics_affected": false,
+    "source_images_affected": false,
+    "fault": "Raw account-path replacement in PNG text metadata damaged the container; PIL UnidentifiedImageError",
+    "correction": "Use PNG writer to sanitize textual metadata, remove EXIF, retain decoded pixels. Preserve initial bad archives locally, never upload them.",
+    "new_model_calls": 0,
+    "new_render_frames": 0
+  },
+  "scope": "Publication checks, not additional research results. No file-content hashes/checksums."
+}

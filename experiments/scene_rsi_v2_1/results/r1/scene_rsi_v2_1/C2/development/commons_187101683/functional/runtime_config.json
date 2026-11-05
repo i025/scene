@@ -1,0 +1,139 @@
+{
+  "dataset": {
+    "seed": 42,
+    "manifest": "__EXPERIMENT_ROOT__/manifest.json",
+    "source_root": "__COMMONS_DATA_ROOT__",
+    "split_authority": "V2 manifest; exploratory source-page groups; freeze before formal execution",
+    "historical_exposure": "exploratory"
+  },
+  "model": {
+    "name": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "timeout": 300,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex"
+  },
+  "proposer": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 600,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4
+  },
+  "blender": {
+    "executable": "__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 600,
+    "threads": 2
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 16,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 2,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false,
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "gpu_bus_id": null,
+    "gpu_backend": "CUDA",
+    "gpu_kernel_root": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_pilot/gpu_kernel",
+    "actual_device_path": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C2/development/commons_187101683/functional/actual_device.json"
+  },
+  "budget": {
+    "model_calls": 3,
+    "executions": 2,
+    "seconds": 600
+  },
+  "benchmark": {
+    "concurrency": 1
+  },
+  "metrics": {
+    "device": "cpu",
+    "dino_model": "__SCENEEVOLVE_REPRO__/work/model-cache/dinov2-base",
+    "lpips_net": "alex",
+    "timeout": 600,
+    "alexnet_weights": "__SCENEEVOLVE_REPRO__/work/model-cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth",
+    "lpips_model_path": "__SCENEEVOLVE_REPRO__/work/.venv/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth"
+  },
+  "evolution": {
+    "rounds": 2,
+    "proposals_per_round": 2
+  },
+  "results_dir": "__EXPERIMENT_ROOT__",
+  "pilot": {
+    "name": "scene_rsi_v2_1",
+    "status": "frozen",
+    "max_cli_sessions": 160,
+    "max_render_frames": 600,
+    "heavy_concurrency": 1,
+    "cpu_threads": 2,
+    "device": "CPU only",
+    "repeats": 2,
+    "K": 2,
+    "smoke_resolution_long_edge": 256,
+    "formal_resolution_long_edge": 512,
+    "data_exposure": "exploratory; existing source contact sheets were viewed historically",
+    "quality_tolerance": 0.01,
+    "primary_metric": "overall",
+    "development_scenes": 1,
+    "selection_scenes": 1,
+    "test_scenes": 2,
+    "scheduled_main_reconstructions": 20,
+    "max_probes_per_candidate": 2,
+    "text_edit_test_scene_orders": [
+      0,
+      1
+    ],
+    "independent_judge": "supplemental only",
+    "retry_policy": "No automatic service retries; transient failure may be retried once only through explicit saved attempt with same global caps. Invalid scene programs only use common inner budget.",
+    "text_edit_targets": {},
+    "max_regression_tests_per_candidate": 6,
+    "budget_forecast": {
+      "used_at_freeze": 14,
+      "main_reconstruction_upper": 60,
+      "proposals": 4,
+      "development_localizers": 4,
+      "text_editors": 8,
+      "judges": 8,
+      "cli_total_upper": 98,
+      "render_total_upper": 209
+    },
+    "scope_reason": "CPU-only single-heavy-job. V2 13 records consumed >2.7h before service stop; small 1/1/2 exploratory paired pilot preserves two repeats K2 and complete Test budget. Final freeze follows new real smoke.",
+    "selection_rule": "Every scheduled Selection task executes and every required check has applicable=True,measured_pass=True,gate_pass=True. Then rank eligible Q with >0.01 tolerance. Ineligible H0 is fallback only."
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "V2.1 user states GPUs unavailable; CPU only",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 2,
+    "heavy_concurrency": 1,
+    "scheduler_observation": "No scheduler commands or allocation context found at GPU switch",
+    "gpu_backend": "CUDA",
+    "metrics_device": "cpu",
+    "per_job_idle_check": true,
+    "gpu_kernel_root": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_pilot/gpu_kernel",
+    "gpu_kernel_label": "local_a100_cuda122_v1"
+  },
+  "candidate_validation": {
+    "version": "v3_type_name_logging",
+    "allowed_imports": [
+      "ast",
+      "json",
+      "re",
+      "math",
+      "random",
+      "statistics",
+      "collections",
+      "itertools",
+      "pathlib"
+    ],
+    "amendment": "Common v2 rules plus narrowly allow type(value).__name__ for ordinary logging; revalidate all original raw proposals without model resampling",
+    "source_snapshot": "validation_correction_v3"
+  }
+}

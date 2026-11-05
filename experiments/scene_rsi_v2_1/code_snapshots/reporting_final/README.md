@@ -1,0 +1,1 @@
+正式H/M与评价器仍以各候选和冻结快照为准。analyze.py为结束后报告修正；model_evidence.py/pilot.py的payload_fix1是已记录的运行修订。此目录不是事后生成的算法后代。旧报告与源码分别保存在report_history和code_snapshots。

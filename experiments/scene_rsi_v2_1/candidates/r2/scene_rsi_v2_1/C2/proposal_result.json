@@ -1,0 +1,37 @@
+{
+  "files": [
+    {
+      "path": "policy.py",
+      "content": "import json\nfrom pathlib import Path\nimport re\n\n\n_REVIEW = '''Compare the reference and rendered image using the same normalized coordinates\n(origin top left). Before revising, write a short discrepancy ledger in program comments\nfor the most consequential visible mismatches: reference estimate, rendered estimate,\nconfidence, affected semantic object/component, and proposed change. Re-estimate from the\nimages; do not copy the original inventory as if it measured the render.\n\nFor each affected composite, compare its support/contact anchor, overall extent, component\ncenters and sizes, and the gaps between components separately. Matching an outer bounding\nbox does not establish matching occupied regions. Distinguish translation, overall scale,\nand internal arrangement: an offset center calls for placement analysis; incorrect relative\ncomponent sizes or gaps call for component edits. Uniform scaling is justified only when\nseveral component landmarks support a common scale error. Preserve an already matched\nsupport anchor when changing height, and keep unrelated components fixed. Use named\nSceneAct Parts within the semantic Asset for independently adjustable component masses.\n\nCheck large silhouettes, foreground overlap boundaries and exposed background regions\nbefore refining small repeated details. A camera change needs consistent evidence across\nmultiple independent objects; a local discrepancy alone is insufficient. Choose a small\ncoherent set of supported corrections, state the expected image-space effect, and preserve\nother geometry, materials and deterministic seeds. If evidence is ambiguous, mark it\nunknown and retain the current parameter rather than inventing a correction. Do not infer\nthat reversing an unsuccessful adjustment must help. Return a complete revised program\nwithin the remaining execution budget, or DONE if no supported correction is warranted.\n'''\n\n\ndef solve(task, runtime):\n    prompt = (Path(__file__).parent / 'system.txt').read_text()\n    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [\n        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +\n         f\"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}\" +\n         '\\nFor composite objects, record a few visible component centers, extents and gaps '\n         'in addition to overall bounds. Separate placement parameters from component sizes '\n         'and spacing so the correction can address each independently. Estimate all values '\n         'from this reference; keep hidden geometry and ambiguous boundaries uncertain.'},\n        runtime.image(task['image'])]}]\n    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:\n        response = runtime.ask(messages)\n        messages.append(response)\n        text = response['content'] or ''\n        blocks = re.findall(r'```python\\s*\\n(.*?)```', text, re.S)\n        if not blocks:\n            if text.strip().upper() == 'DONE':\n                return\n            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})\n            continue\n        if runtime.remaining()['executions'] <= 0:\n            return\n        result = runtime.execute(blocks[-1])\n        remaining = runtime.remaining()\n        report = json.dumps({k: v for k, v in result.items() if k != 'image'})\n        if remaining['executions'] <= 0:\n            return\n        if result.get('ok') and result.get('image'):\n            content = [\n                {'type': 'text', 'text': report + '\\n' + _REVIEW +\n                 f'\\nRemaining: {remaining}\\nOriginal reference:'},\n                runtime.image(task['image']),\n                {'type': 'text', 'text': 'Current rendered camera view:'},\n                runtime.image(result['image'])]\n        else:\n            content = [{'type': 'text', 'text': report +\n                        '\\nExecution or image availability failed. Use the reported error and '\n                        'traceback to diagnose the failure. No successful rendered comparison '\n                        'is established; do not invent visual findings. Return a complete '\n                        'corrected program, preserving unrelated scene decisions. If the '\n                        'cause is unavailable, explicitly retain that uncertainty. ' +\n                        f'Remaining: {remaining}'}]\n        messages.append({'role': 'user', 'content': content})\n"
+    }
+  ],
+  "rationale": "Make coverage verification operational through a component discrepancy ledger and explicitly paired reference/render feedback. Separate placement, scale and internal arrangement before choosing corrections. Stop after the execution budget is exhausted instead of requesting an unusable revision.",
+  "scope": "H-only: replace policy.py. Keep system.txt and executable M unchanged, including plan_probes(context), plan_patch(context, observations), failure/unknown paths and descendant contract. No scene-specific parameters, additional tools, renders or budget changes.",
+  "evidence_alignment": "Follow M's object_coverage_and_verification decision. The scale probe changed quality by -0.00020869145138391332, providing no meaningful gain or unique attribution. The shared revision therefore asks for component and anchor comparisons rather than adopting or reversing that scale factor. Passing mechanical regressions does not establish visual completeness. This proposal has not been executed; no quality or meta-ability improvement is claimed.",
+  "status": "proposed",
+  "candidate_type": "H-only",
+  "H_changed": true,
+  "M_changed": false,
+  "parent_source": "__EXPERIMENT_ROOT__/candidates/r2/scene_rsi_v2_1/C1",
+  "used_M": "__EXPERIMENT_ROOT__/candidates/r2/scene_rsi_v2_1/C1/meta.py",
+  "M_contract_executed": true,
+  "M_descendant_executed": false,
+  "ledger_after": {
+    "cli_sessions": 46,
+    "initial_sandbox_failures": 0,
+    "observable_cli_turns": 46,
+    "observable_model_rounds": null,
+    "tool_calls": 0,
+    "known_input_tokens": 2374750,
+    "known_output_tokens": 105131,
+    "usage_unknown_sessions": 1,
+    "render_attempts_upper_bound": 86,
+    "renders_completed": 77,
+    "device": "CPU",
+    "device_mapping_record_counts": {
+      "CPU": 148
+    },
+    "max_cli_sessions": 160,
+    "max_render_frames": 600
+  }
+}

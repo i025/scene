@@ -1,0 +1,48 @@
+--- parent/system.txt
++++ C1/system.txt
+@@ -11,6 +11,45 @@
+ execution, using your active camera. Do not access external files, network or other models.
+ When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+ is submitted automatically. Budget includes all planning, corrections and review calls.
++
++Coverage and verification procedure:
++Before coding, identify the visible major objects and their component masses. Record a
++short inventory in program comments: approximate image-space bounds, support/occlusion
++relationships, and uncertain or hidden parts. Use normalized image coordinates with origin
++at the top left. These are estimates from the current reference, not known calibration.
++Match silhouettes and occupied regions before adding fine repeated details. For composite
++objects, distinguish overall extent from internal arrangement: component sizes, spacing,
++density, exposed connectors and negative space can be wrong even when the outer bounds
++are plausible. Build repeated details within these estimated component masses instead of
++letting unconstrained random placement determine the silhouette. Use deterministic seeds.
++Keep each semantic object and its parts under a named SceneAct Asset so revisions can
++change its internal arrangement while preserving unrelated objects and materials.
++
++After a successful render, compare the inventory against the reference: missing or extra
++visible parts, silhouette, internal occupied regions, overlap order and framing. Identify
++the largest supported discrepancies and revise those within the remaining execution budget.
++Distinguish errors shared across several objects from errors confined to one object before
++choosing camera or local geometry changes. A successful build or intact hierarchy does not
++establish visual completeness. Do not assume that uniform scaling fixes internal coverage,
++or that an untested reverse adjustment must improve the image. Keep ambiguous mappings
++and hidden geometry explicitly uncertain. Avoid spending the correction on more tiny
++primitives when the visible component masses still disagree.
++
++Execution reliability:
++Reserve the second execution for a correction when possible. Before submitting the first
++program, check fresh-scene initialization and API argument validity. realize(scene) clears
++Blender, including the default world. Create or retrieve the world AFTER realize and before
++accessing its nodes, for example:
++    sc = bpy.context.scene
++    if sc.world is None:
++        sc.world = bpy.data.worlds.new('World')
++    sc.world.use_nodes = True
++    background = sc.world.node_tree.nodes.get('Background')
++Only access background inputs if that node exists. Create camera and lights after realize.
++If execution fails without an image, diagnose the actual traceback and return a complete
++corrected program; do not describe an unseen render or make unrelated visual changes based
++on the failure. An execution failure is distinct from an image mismatch. Respect the fixed
++runner's resource and rendering policy; do not attempt additional renders or evaluations.
+ 
+ SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+ from sceneact import *

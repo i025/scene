@@ -1,0 +1,95 @@
+{
+  "actual_diff_risks": [
+    "geometry"
+  ],
+  "M_source": "__EXPERIMENT_ROOT__/candidates/r1/scene_rsi_v2_1/C1/meta.py",
+  "test_plan": {
+    "probes": [],
+    "regressions": [],
+    "budget_seen": 0,
+    "used_seen": 1,
+    "failure_diagnoses": [
+      {
+        "scene_id": "commons_187101683",
+        "category": "blender_execution_failure",
+        "runtime_status": {
+          "error": null,
+          "seconds": 600.0422308570705
+        },
+        "failed_calls": [],
+        "execution_errors": [
+          {
+            "path": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001/stderr.log",
+            "text": ""
+          }
+        ],
+        "execution_failures": [
+          {
+            "error": "TimeoutExpired(['__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender', '--background', '-noaudio', '--factory-startup', '--threads', '2', '--python-exit-code', '1', '--python', '__EXPERIMENT_ROOT__/backend/render.py', '--', '--code', '__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001/build.py', '--settings', '__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001/render_settings.json', '--output-dir', '__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001'], 480.76834137085825)",
+            "stdout": "",
+            "stderr": ""
+          }
+        ],
+        "related_modules": [
+          "policy.py",
+          "system.txt"
+        ],
+        "valid_blend": false,
+        "visual_quality": null,
+        "quality_interpretation": "Measured continuous Q; low quality localized by image evidence, not an arbitrary success threshold"
+      }
+    ],
+    "no_probe_reason": "No confident mapping, valid blend, or remaining budget; use execution/coverage evidence",
+    "mapping_rule": "Actual image discrepancy plus projected IDs; never default to largest/first mesh"
+  },
+  "observations": {
+    "probes": [],
+    "regression": []
+  },
+  "M_decision": {
+    "shared_module": "program_generation_and_verification",
+    "decision": "Use saved error/trajectory to change reusable execution or program-generation instructions. Service failures are not visual algorithm failures; do not perform geometry probes without valid blend.",
+    "failure_diagnoses": [
+      {
+        "category": "blender_execution_failure",
+        "runtime_status": {
+          "error": null,
+          "seconds": 600.0422308570705
+        },
+        "failed_calls": [],
+        "execution_errors": [
+          {
+            "path": "__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001/stderr.log",
+            "text": ""
+          }
+        ],
+        "execution_failures": [
+          {
+            "error": "TimeoutExpired(['__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender', '--background', '-noaudio', '--factory-startup', '--threads', '2', '--python-exit-code', '1', '--python', '__EXPERIMENT_ROOT__/backend/render.py', '--', '--code', '__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001/build.py', '--settings', '__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001/render_settings.json', '--output-dir', '__EXPERIMENT_ROOT__/results/r1/scene_rsi_v2_1/C1/development/commons_187101683/steps/001'], 480.76834137085825)",
+            "stdout": "",
+            "stderr": ""
+          }
+        ],
+        "related_modules": [
+          "policy.py",
+          "system.txt"
+        ],
+        "valid_blend": false,
+        "visual_quality": null,
+        "quality_interpretation": "Measured continuous Q; low quality localized by image evidence, not an arbitrary success threshold"
+      }
+    ],
+    "observed_deltas": [],
+    "regression_failures": [],
+    "unmeasured_regressions": [],
+    "observation_count": 0,
+    "best_probe": null,
+    "candidate_type_allowed": [
+      "H-only",
+      "M-only",
+      "H+M"
+    ],
+    "scope": "Shared H/M only; no task IDs or image-specific answer tables",
+    "instruction": "Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns."
+  }
+}
