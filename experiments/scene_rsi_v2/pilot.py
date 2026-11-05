@@ -105,6 +105,17 @@ def functional(folder,scene):
     write_json(folder/'functional/summary.json',record)
     return record
 
+def failed_functional(scene):
+    from regression import gate
+    checks={'structure':gate(True,False,None),'material':gate(True,False,None),
+            'composite':gate(scene['expected_composite'],False,None),
+            'declared_parts':gate(scene['expected_composite'],False,None)}
+    return {'checks':checks,'functional_pass':False,'structure_pass':False,
+            'material_pass':None,'composite_pass':None,'composite_required':scene['expected_composite'],
+            'target_object':'unknown','semantic_object_completeness':None,'support_collision_truth':None,
+            'interpretation':'Reconstruction failed: no edit/structure measurement exists; required gates fail, raw measurements remain null.'}
+
+
 def task(scene,folder):
     from PIL import Image,ImageOps
     folder.mkdir(parents=True,exist_ok=True)
@@ -136,7 +147,7 @@ def run_scene(method,run_id,candidate,scene,source,parent=None,meta=None):
     else:
         write_json(folder/'evaluation_resume.json',{'time':time.time(),'generation_reused':True,'reason':'Finished inner generation exists; continue external measurements without model resampling','prior_generation_seconds':read(folder/'status.json').get('seconds')})
     metrics=score(t['image'],folder,cfg)
-    checks=functional(folder,scene) if metrics['valid'] else {'functional_pass':False,'structure_pass':False,'material_pass':False,'composite_pass':False,'target_object':'unknown'}
+    checks=functional(folder,scene) if metrics['valid'] else failed_functional(scene)
     status=read(folder/'status.json');usage=read(folder/'usage.json',{'calls':None,'executions':None})
     failed_calls=[read(p) for p in folder.glob('student_calls/*/session.json') if read(p).get('status')=='failed']
     failure_type=None
@@ -282,6 +293,7 @@ def propose(method,run_id,k,parent_source,meta_source,parent_dev,archive,total_c
         changes={item['path']:item['content'] for item in result['files']}
         for n,s in changes.items():
             if n not in sources:raise ValueError('File outside candidate scope')
+            if any(tag in s for tag in ['/srv/','/home/','commons_']):raise ValueError('Hardcoded dataset path or task ID in shared candidate file')
             if n.endswith('.py'):validate_source(s,n)
         after={**sources,**changes};kind=candidate_type(sources,after)
         for n,s in after.items():(folder/n).write_text(s)

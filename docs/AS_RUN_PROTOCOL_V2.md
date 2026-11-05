@@ -41,3 +41,9 @@ Q沿用V1：(clip(SSIM,0,1)+1-clip(LPIPS,0,1)+(1+clip(DINO,-1,1))/2)/3；PSNR也
 ## 可视化与后续
 
 Figure1纳入按manifest顺序的全部Test场景/两个run；失败空缺。诊断板选择路径排序首个正式候选，不按成功选。编辑板首个可用Test机械产物，文字编辑另列。统计展示所有点，不将视角计独立重复。仅2研发重复，不做普遍优势/显著性或单调元能力提升结论。未完成相同陌生H起点冻结M回放前，不展示MetaImp曲线。没有恰当新任务或预算时记录pending，不扩展多方法实验。
+
+## Runner fix1 运行中修订（不冒称原始预注册）
+
+首个正式 Development 失败后发现失败路径未保存四字段检查，且把未执行编辑写为False。修复为 measured_pass=null、applicable=false、required gate=false；原始失败记录保留、所有受影响记录统一重新评价，不调用模型重建。H/M、指标公式、选择规则、数据与预算不变。第一份冻结源码保留在 v2_frozen，修订源码和diff见 code_snapshots/runner_fix1。此时未产生任何 Selection/Test 指标。
+
+同次修订把既有共享文件禁止硬编码任务ID/数据绝对路径的检查也应用于 system.txt（原来只检查Python字符串）；修订前尚无正式候选，不重新采样任何提案。

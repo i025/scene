@@ -45,7 +45,22 @@ def main():
     csv_write(out/'scene_metrics.csv',[{k:r.get(k) for k in ['method','run_id','candidate_id','scene_id','split','status','metrics','functional','task_utility_v2','failure_type','device','seconds','usage','H_version','M_version','alias_of']} for r in rows])
     scheduled=[next((a for a in archive if a['run_id']==rid and a['candidate_id']==f'C{k}'),{'method':'scene_rsi_v2','run_id':rid,'candidate_id':f'C{k}','status':'not_started','accepted':None}) for k in [1,2] for rid in ['r1','r2']]
     csv_write(out/'candidates.csv',scheduled)
-    csv_write(out/'calls.csv',[{k:c.get(k) for k in ['role','requested_model','actual_model','actual_model_source','reasoning_effort','status','exit_code','seconds','input_tokens','output_tokens','total_tokens','observable_cli_turns','observable_model_turns','tool_calls','call_dir']} for c in calls])
+    slots=[]
+    for rid in ['r1','r2']:
+        for method,cid,scenes in [('fixed_h0','H0',manifest)]+[('scene_rsi_v2',f'C{k}',[q for q in manifest if q['split']!='test']) for k in [1,2]]:
+            for scene in scenes:
+                row=next((r for r in rows if r['run_id']==rid and r['method']==method and r['candidate_id']==cid and r['scene_id']==scene['scene_id']),None)
+                candidate=next((a for a in scheduled if a['run_id']==rid and a['candidate_id']==cid),None)
+                slots.append({'method':method,'run_id':rid,'candidate_id':cid,'scene_id':scene['scene_id'],'split':scene['split'],'status':row['status'] if row else 'not_produced_candidate' if candidate and candidate['status']=='proposal_failed' else 'not_started_or_running','metrics':row['metrics'] if row else None,'failure_reason':candidate.get('error') if candidate else None})
+    frozen_choices=read(ROOT/'selection_freeze.json',{}).get('choices',[])
+    for rid in ['r1','r2']:
+        selected=next((c for c in frozen_choices if c['run_id']==rid and c['method']=='scene_rsi_v2'),None)
+        for scene in [q for q in manifest if q['split']=='test']:
+            row=next((r for r in rows if r['run_id']==rid and r['method']=='scene_rsi_v2' and r['split']=='test' and r['scene_id']==scene['scene_id'] and selected and r['candidate_id']==selected['candidate_id']),None)
+            slots.append({'method':'scene_rsi_v2','run_id':rid,'candidate_id':selected['candidate_id'] if selected else 'selection_pending','scene_id':scene['scene_id'],'split':'test','status':row['status'] if row else 'not_started_or_running','metrics':row['metrics'] if row else None,'failure_reason':None})
+    csv_write(out/'scheduled_slots.csv',slots)
+
+    csv_write(out/'calls.csv',[{k:c.get(k) for k in ['role','requested_model','actual_model','actual_model_source','reasoning_effort','status','exit_code','seconds','input_tokens','output_tokens','total_tokens','observable_cli_turns','observable_model_turns','tool_calls','call_dir','error','started','finished']} for c in calls])
     choices=read(ROOT/'selection_freeze.json',{}).get('choices',[])
     terminal=[r for r in rows if r['split']=='test' and any(all(r[k]==c[k] for k in ['method','run_id','candidate_id']) for c in choices)]
     summary=[]
@@ -82,7 +97,10 @@ def main():
         baseline=[r for r in rows if r['run_id']==rid and r['method']=='fixed_h0' and r['split']=='selection'];q=sum(r['task_utility_v2'] for r in baseline)/len(baseline) if baseline else None
         entries=sorted([a for a in archive if a['run_id']==rid and a['status']=='evaluated'],key=lambda a:int(a['candidate_id'][1:]))
         xs=[0]+[int(a['candidate_id'][1:]) for a in entries];ys=[q]+[a['selection']['endpoint_quality'] for a in entries]
-        ax.plot(xs,ys,'o-',label=rid)
+        ax.plot(xs,ys,'o:',label=rid+' raw candidate')
+        retained=[q]
+        for a in entries:retained.append(a['selection']['endpoint_quality'] if a['accepted'] else retained[-1])
+        ax.plot(xs,retained,'s-',label=rid+' retained H*')
         for a,x,y in zip(entries,xs[1:],ys[1:]):ax.annotate(f"{a['candidate_id']} {a['candidate_type']} accept={a['accepted']}\nCLI={a['ledger_after']['cli_sessions']}",(x,y),fontsize=7)
     ax.set(xlabel='Actual candidate index (raw Selection performance)',ylabel='End-to-end Q utility; failure=0');ax.legend();f.tight_layout();f.savefig(fig/'figure4_evolution.png',dpi=160);plt.close(f)
     calibration=read(ROOT/'tests/calibration.json',{})
@@ -97,6 +115,37 @@ def main():
         f,ax=plt.subplots(figsize=(9,3.8));ax.barh([r['fixture'] for r in cal_rows],[1 for r in cal_rows],color=['#37966f' if r['measured_pass'] else '#c74343' for r in cal_rows])
         for i,r in enumerate(cal_rows):ax.text(.1,i,'MEASURED PASS' if r['measured_pass'] else 'MEASURED FAIL (injected error)',va='center',color='white')
         ax.set(xticks=[],title='Known fixtures: actual check outcomes, not reconstruction accuracy');f.tight_layout();f.savefig(fig/'figure3_calibration.png',dpi=160);plt.close(f)
+    # Observable development costs; no invented prices or remote inference-round counts.
+    cost_points=[]
+    for rid in ['r1','r2']:
+        entries=sorted([a for a in archive if a['run_id']==rid and a['status']=='evaluated'],key=lambda a:int(a['candidate_id'][1:]))
+        best=None
+        for a in entries:
+            k=int(a['candidate_id'][1:]);included=[]
+            for c in calls:
+                path=Path(c['call_dir']);parts=path.parts
+                if rid not in parts:continue
+                if 'results' in parts:
+                    index=parts.index('results');candidate=parts[index+3];split=parts[index+4]
+                    if split not in ['development','selection']:continue
+                    if candidate!='H0' and int(candidate[1:])>k:continue
+                elif 'candidates' in parts:
+                    index=parts.index('candidates');candidate=parts[index+3]
+                    if int(candidate[1:])>k:continue
+                else:continue
+                included.append(c)
+            quality=a['selection']['endpoint_quality']
+            if best is None:
+                baseline=[r for r in rows if r['method']=='fixed_h0' and r['run_id']==rid and r['split']=='selection'];best=sum(r['task_utility_v2'] for r in baseline)/len(baseline) if baseline else None
+            if a['accepted']:best=quality
+            cost_points.append({'run_id':rid,'candidate_id':a['candidate_id'],'cli_sessions_cumulative':len(included),'known_input_tokens':sum(c['input_tokens'] for c in included if isinstance(c.get('input_tokens'),int)),'known_output_tokens':sum(c['output_tokens'] for c in included if isinstance(c.get('output_tokens'),int)),'usage_unknown_sessions':sum(c.get('total_tokens') is None for c in included),'selected_utility':best,'candidate_utility':quality,'H_accepted':a['accepted']})
+    csv_write(out/'development_cost_points.csv',cost_points)
+    if cost_points:
+        f,ax=plt.subplots(figsize=(8,4))
+        for rid in ['r1','r2']:
+            points=[p for p in cost_points if p['run_id']==rid];ax.plot([p['cli_sessions_cumulative'] for p in points],[p['selected_utility'] for p in points],'o-',label=rid+' retained')
+            ax.scatter([p['cli_sessions_cumulative'] for p in points],[p['candidate_utility'] for p in points],marker='x',label=rid+' candidate')
+        ax.set(xlabel='Cumulative CLI sessions within research run (H0 + proposals + Dev/Selection)',ylabel='Selection Q utility');ax.legend();f.tight_layout();f.savefig(fig/'cost_gain.png',dpi=160);plt.close(f)
     stages=sorted((ROOT/'candidates').glob('r*/scene_rsi_v2/C*/stage2.json'))
     diagnostic=None
     if not stages:stages=sorted((ROOT/'candidates').glob('smoke*/scene_rsi_v2/C*/stage2.json'))
@@ -144,9 +193,14 @@ def main():
     meta_rows=[]
     for p in sorted((ROOT/'candidates').glob('r*/scene_rsi_v2/C*/proposal_result.json')):
         result=read(p);meta_rows.append(dict(run=p.parts[-4],candidate=p.parent.name,status=result['status'],candidate_type=result.get('candidate_type'),M_changed=result['M_changed'],used_M=result['used_M'],descendant_executed=bool(result['M_changed'] and result.get('M_descendant_executed')),stage1=str((p.parent/'stage1.json').relative_to(ROOT)),stage2=str((p.parent/'stage2.json').relative_to(ROOT))))
+    for record in meta_rows:
+        path=ROOT/'candidates'/record['run']/'scene_rsi_v2'/record['candidate']/'meta.py'
+        later=[p for p in stages if read(p.parent/'stage1.json')['M_source']==str(path)]
+        record['used_in_later_patch_proposal']=bool(record['M_changed'] and any((p.parent/'proposal_call/request.json').exists() for p in later))
+        record['later_decision_traces']=[str(p.relative_to(ROOT)) for p in later] if record['M_changed'] else []
     csv_write(out/'meta_participation.csv',meta_rows)
     f,ax=plt.subplots(figsize=(11,max(2,len(meta_rows)*.7)));ax.axis('off')
-    for i,m in enumerate(meta_rows):ax.text(.01,1-(i+.5)/max(1,len(meta_rows)),f"{m['run']} {m['candidate']} | {m['candidate_type']} | M changed={m['M_changed']} | descendant executed={m['descendant_executed']}\nused M: {m['used_M'].split('/candidates/')[-1][-95:]}",va='center',fontsize=9)
+    for i,m in enumerate(meta_rows):ax.text(.01,1-(i+.5)/max(1,len(meta_rows)),f"{m['run']} {m['candidate']} | {m['candidate_type']} | M changed={m['M_changed']} | descendant executed={m['descendant_executed']} | later proposal={m['used_in_later_patch_proposal']}\nused M: {m['used_M'].split('/candidates/')[-1][-95:]}",va='center',fontsize=9)
     ax.set_title('Figure 5: executable M participation; not evidence of improved meta ability');f.tight_layout();f.savefig(fig/'figure5_meta.png',dpi=160);plt.close(f)
     changed=next((p for p in sorted((ROOT/'candidates').glob('r*/scene_rsi_v2/C*/proposal_result.json')) if read(p)['M_changed']),None)
     if changed:

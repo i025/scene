@@ -11,9 +11,9 @@
     "method": "fixed_h0",
     "run_id": "r1",
     "candidate_id": "H0",
-    "scene_id": "commons_105241439",
+    "scene_id": "commons_129095630",
     "split": "development",
-    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/development/commons_105241439"
+    "folder": "__EXPERIMENT_ROOT__/results/r1/fixed_h0/H0/development/commons_129095630"
   },
   "summary": [
     {
@@ -70,15 +70,15 @@
     }
   ],
   "ledger": {
-    "cli_sessions": 8,
+    "cli_sessions": 16,
     "initial_sandbox_failures": 0,
-    "observable_cli_turns": 8,
+    "observable_cli_turns": 16,
     "observable_model_rounds": null,
     "tool_calls": 0,
-    "known_input_tokens": 282107,
-    "known_output_tokens": 26049,
-    "usage_unknown_sessions": 1,
-    "render_attempts_upper_bound": 14,
+    "known_input_tokens": 397248,
+    "known_output_tokens": 59391,
+    "usage_unknown_sessions": 2,
+    "render_attempts_upper_bound": 19,
     "renders_completed": 12,
     "device": "CPU+GPU",
     "device_mapping_record_counts": {

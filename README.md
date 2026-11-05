@@ -14,7 +14,7 @@
 - [逐场景原始表](experiments/scene_rsi_v2/metrics/scene_metrics.csv) · [候选状态](experiments/scene_rsi_v2/metrics/candidates.csv) · [CLI实际用量](experiments/scene_rsi_v2/metrics/calls.csv)
 - [源码和真实入口](experiments/scene_rsi_v2/README.md) · [依赖/迁移](docs/DEPENDENCIES_V2.md) · [V2产物索引](artifacts_index_v2.csv)
 
-当前索引中的大产物仍为 pending，正式阶段完成后再打包上传；没有把本地已有文件冒称成已上传附件。
+当前索引中的大产物仍为 pending，正式阶段完成后再打包上传；没有把本地已有文件冒称成已上传附件。已有2个正式H0开发任务失败，Selection/Test尚未开始。失败路径的功能记录已修复为未测量null与失败门槛分开；原记录、原冻结源码和修订diff保留，未重新调用模型生成这两项。
 
 离线重算（解压附件后，使用已有环境）：
 

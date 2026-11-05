@@ -40,3 +40,11 @@ after={**before,'meta.py':child.read_text()};assert pilot.candidate_type(before,
 next_decision=pilot.meta_execute(child,'plan_patch',context,positive);assert next_decision['shared_module']=='camera_calibration_descendant'
 result={'A_budget_contract':True,'B_explicit_target_runner':True,'C_observation_feedback':True,'M_controls_executed_regression_menu':True,'D_gate_truth_table':truth,'E_M_only_valid_and_used':True,'H_improvement_from_M_only':False,'positive_decision':p,'negative_decision':n,'next_descendant_decision':next_decision}
 (ROOT/'tests/contracts.json').write_text(json.dumps(result,indent=2));print('CONTRACTS_A_B_C_E_PASS')
+
+failed=pilot.failed_functional({'expected_composite':True})
+assert all(check['measured_pass'] is None and check['gate_pass'] is False for check in failed['checks'].values())
+assert failed['material_pass'] is None and failed['composite_pass'] is None
+assert not failed['functional_pass']
+print('FAILED_SCENE_CONTRACT_PASS')
+
+(ROOT/'tests/failed_scene_contract.json').write_text(json.dumps({'required_composite':failed,'optional_composite':pilot.failed_functional({'expected_composite':False})},indent=2))
