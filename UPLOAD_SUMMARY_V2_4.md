@@ -2,9 +2,9 @@
 
 仓库：[i025/scene](https://github.com/i025/scene)；分支：`research/scene-rsi-v2.4`。
 
-归档提交：pending。
+归档提交：https://github.com/i025/scene/commit/4f23a8ba4513dc199f113f66b8ce969dd067b17c
 
-本地归档已整理；推送与 Release 上传状态尚未确认，不声称已上传。
+完整四包 Release 已有远端资产列表确认；提交链接由主任务核对。
 
 README、docs/REVIEW_INDEX_V2_4.md、docs/AS_RUN_PROTOCOL_V2_4.md、experiments/scene_rsi_v2_4/reports/REPORT_ZH.md 与 reports/index.html 是主要审查入口。核心数据位于 experiments/scene_rsi_v2_4/metrics/，真实图位于 figures/。
 
@@ -43,9 +43,12 @@ Active 正式完成 2 次探测；第二阶段 unresolved 2/2，启发式权重�
 
 ## 完整附件
 
-- 四个完整附件仍为 pending；本地工作目录 `work/scene_v2_4_archive/bundles/`。
+- [active.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.4-2026-11-06/active.tar.gz)，63897749 bytes
+- [fixed.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.4-2026-11-06/fixed.tar.gz)，67437377 bytes
+- [shared-evidence.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.4-2026-11-06/shared-evidence.tar.gz)，66406921 bytes
+- [structured.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.4-2026-11-06/structured.tar.gz)，56431924 bytes
 
-未上传项：全部上传状态尚未由本摘要确认；完整包和本地提交保留，不声称已上传。
+未上传项：以 artifacts_index_v2_4.csv 为准；本脚本仅确认四包远端回执，不替代主任务的代码/图片远端读取。
 
 离线重画：`python scripts/offline_v2_4.py --experiment experiments/scene_rsi_v2_4 --output derived/v2_4_review`。
 同一冻结现场唯一续跑入口（本次归档文档生成不执行）：`OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 CUDA_VISIBLE_DEVICES= "$SCENE_PYTHON" "$SCENE_PROJECT_ROOT/outputs/scene_rsi_v2_4/experiment.py" resume`。先将两个变量设为原实验环境 Python 与项目根目录；终态已存在时不新增研究，归档副本不能直接替代现场。
