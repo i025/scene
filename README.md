@@ -81,3 +81,5 @@ python scripts/offline_v2_2.py --output derived/v2_2_review_01
 ## 保留的旧实验
 
 [V2.1原README](docs/README_V2_1_CHECKPOINT_3a593b3.md)、[V2.1报告](experiments/scene_rsi_v2_1/reports/REPORT_ZH.md)、[V2报告](experiments/scene_rsi_v2/reports/REPORT_ZH.md)、[V1报告](experiments/scene_rsi_pilot/reports/report.md)。旧数据和分支没有覆盖、reset或改写。未新增覆盖第三方资源的仓库统一许可证。
+
+本轮已实际推送并核对远端：4/4 Release附件、230,909,420字节，完整3022项产物覆盖。实验归档提交[d4b327d](https://github.com/i025/scene/commit/d4b327df69656652eadc7fc6e1ba12de940aa47a)；最新上传状态见[上传摘要](UPLOAD_SUMMARY_V2_2.md)。

@@ -23,3 +23,12 @@
 Figure1按冻结manifest顺序全展示，失败空白并标注。Figure2/5 A源为A_scene_metrics.csv与A_paired_metrics.csv；Figure3/5 C源为C_diagnosis.csv和C_summary.json。Figure4按预定规则选首个V2.2正确模块且修复成功，再选首个实际模块错误/修复失败，模块失败与编码器修复成功明确分开。所有统计图由analyze.py重画；实际案例选择记录在metrics/diagnostic_case_selection.json。
 
 完整日志、全部blend与失败产物见仓库 artifacts_index_v2_2.csv 对应Release包。HTML使用相对路径和本地资源；中文报告在reports/REPORT_ZH.md。原始记录不可因汇总/归档改写。实际上传与可访问性以UPLOAD_SUMMARY_V2_2.md及远端核对收据为准。
+
+## 完成后观察（非预先宣判）
+
+- 固定H执行与必需功能：4/12→10/12；条件Q 0.444996→0.441361；4双成功配对差+0.021329；效用0.148332→0.367801，来源A_summary/paired_metrics。
+- 对象top1双方6/8；第二阶段精确模块2/10→6/10、相关模块8/10→6/10。不能仅以新标签词汇得出整体优势。
+- 事前预测方向区分0/5双方相同；观测改变模块6/10双方相同。机制执行证据与有效诊断证据不同。
+- 源修复和有限helper迁移双方10/10，强API提示形成天花板；未观察到修复成功率收益。
+- 全轮94 CLI、已知input2397787/output243045、5usage未知；163渲染尝试上界/148完成帧；CPU2线程0GPU，无自动M后代。
+- 全部4Release包和核心10项远端内容已实际匿名读取。3022产物路径覆盖见V2_2_ARCHIVE_COVERAGE；公开PNG/blend检查及上传状态见对应V2_2收据。
