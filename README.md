@@ -4,9 +4,9 @@
 
 本轮已实际运行 **10个故障配置 × 3种诊断策略 × 每组一次共享修复**，并在另一模板/资产组合上验证。共享H来自实际SceneAct Blender编译器，附少量支撑/可见性/编辑接口。三组从每个任务相同H0出发。未重跑SceneEvolve、Hyperagents或多代RSI。
 
-本地归档已准备；推送和附件上传状态尚待确认，以最终摘要和上传凭据为准。
+代码与结果已推送，4个完整附件已上传并远端读取确认。
 
-分支：`research/scene-rsi-v2.3`；实验归档提交：待提交。
+分支：`research/scene-rsi-v2.3`；实验归档提交：https://github.com/i025/scene/commit/4ad6e675a066072a976ce99aef77ee3e9536e14f。
 
 ## 实际结果
 
@@ -43,7 +43,7 @@ M为工程实现，未自动进化，没有冻结陌生H起点上的MetaImp回�
 ## 原始证据和复核
 
 - [中文完整报告](experiments/scene_rsi_v2_3/reports/REPORT_ZH.md)、[本地HTML](experiments/scene_rsi_v2_3/reports/index.html)。HTML下载后本地打开，无外部CDN。
-- [冻结协议](docs/AS_RUN_PROTOCOL_V2_3.md)、[主张→代码→数据审查索引](docs/REVIEW_INDEX_V2_3.md)。
+- [冻结协议](docs/AS_RUN_PROTOCOL_V2_3.md)、[主张→代码→数据审查索引](docs/REVIEW_INDEX_V2_3.md)、[实际适配与未达成目标](docs/ADAPTATIONS_AND_LIMITS_V2_3.md)。
 - [逐任务原始CSV](experiments/scene_rsi_v2_3/metrics/scene_metrics.csv)、[候选表](experiments/scene_rsi_v2_3/metrics/candidates.csv)、[全部初诊/编码调用](experiments/scene_rsi_v2_3/metrics/calls.csv)、[事前预测与实际观测](experiments/scene_rsi_v2_3/metrics/probe_predictions.csv)、[原始汇总](experiments/scene_rsi_v2_3/metrics/summary.json)。
 - [全部大产物索引](artifacts_index_v2_3.csv)、[完整Release：4个包，覆盖全部三组、烟测、失败和工程记录](https://github.com/i025/scene/releases/tag/scene-rsi-v2.3-2026-11-06)。所有.blend、完整prompts/JSONL/stderr和场景程序均保留，不只存赢家。
 - 每张图的数据和脚本映射见 [figure_sources.json](experiments/scene_rsi_v2_3/metrics/figure_sources.json)。

@@ -1,10 +1,10 @@
 # Scene-RSI V2.3 归档与上传摘要
 
-本地归档已准备；推送和附件上传状态尚待确认，以最终摘要和上传凭据为准。
+代码与结果已推送，4个完整附件已上传并远端读取确认。
 
 分支：research/scene-rsi-v2.3
 
-实验归档提交：待提交
+实验归档提交：https://github.com/i025/scene/commit/4ad6e675a066072a976ce99aef77ee3e9536e14f
 
 ## 实际结果
 
@@ -84,3 +84,12 @@ OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 python scripts/offlin
 ```bash
 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 CUDA_VISIBLE_DEVICES= python experiments/scene_rsi_v2_3/experiment.py resume
 ```
+
+## 已确认附件
+
+- [active.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.3-2026-11-06/active.tar.gz)：5455976 bytes，已匿名读取确认。
+- [fixed.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.3-2026-11-06/fixed.tar.gz)：9695346 bytes，已匿名读取确认。
+- [shared-evidence.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.3-2026-11-06/shared-evidence.tar.gz)：8220300 bytes，已匿名读取确认。
+- [structured.tar.gz](https://github.com/i025/scene/releases/download/scene-rsi-v2.3-2026-11-06/structured.tar.gz)：5449507 bytes，已匿名读取确认。
+
+总计4包，28,821,129 bytes，全部1,756条索引记录上传状态为uploaded。原始实验未上传项0；模型权重/环境/缓存按要求排除。旧派生重复包仅服务器保留，非缺失的实验运行。
