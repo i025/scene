@@ -1,0 +1,104 @@
+{
+  "observation": "The desired image has a blue tabletop with green supports, backrest, and storage block; the current image makes all these surfaces blue. Their shapes, placement, and framing appear unchanged. Public edit evidence identifies six non-target meshes whose materials changed after editing Top.001.",
+  "object_id": "Top.001",
+  "initial_module": "edit_surface",
+  "initial_confidence": 0.98,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyBench",
+    "support_relation": "StudyBench",
+    "dependency_move": "StudyBench",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "edit_surface",
+      "object_id": "Top.001",
+      "explanation": "edit_surface mutates the existing shared material: material = original performs no copy. Copying the target mesh preserves references to its materials. The compiler caches materials by finish, explaining propagation to the four supports, backrest, and storage mesh.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width; only floating-point error is expected."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Emission multiplies the primitive world matrix by geometry_frame, including nonuniform scale. No geometry defect is evident."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The emitted world transform includes geometry_frame and primitive origin; the existing group translation matches offset plus final_move."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "All six furniture meshes exist, and the visibility function recursively sets hide_render on descendants."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.02,
+          "reason": "The function corrects the measured world-space bottom against the surface top. Expect a near-zero residual with Floor.001 as the surface, allowing approximate AABB and evaluation effects."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "All six furniture meshes have their named part markers under StudyBench; their transforms should follow the group."
+        },
+        "material_dependency": {
+          "lower": 5,
+          "upper": 7,
+          "reason": "Expect six non-target changes, matching the supplied direct comparison. The interval allows uncertainty about runtime ownership; shared material identities are not included in the snapshot."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "prepare_edit_mesh",
+      "object_id": "Top.001",
+      "explanation": "An alternative responsibility boundary is that prepare_edit_mesh should establish exclusive ownership of all editable data, including materials. It copies only the mesh datablock, leaving shared shader references. This explains the same leakage, although edit_surface is the more direct repair location.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "Material ownership does not affect direct sensor assignment; this probe does not distinguish H1 and H2."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Both explanations leave geometry-frame multiplication intact and predict the same small numerical residual."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Both explanations leave primitive origins and group movement intact."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Recursive visibility operates independently of mesh/material ownership; the same near-zero outcome is expected."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.02,
+          "reason": "With Floor.001 as the surface, world-space AABB correction should work under either explanation."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Copying mesh data does not change the observed named-part hierarchy; both hypotheses predict proper following."
+        },
+        "material_dependency": {
+          "lower": 5,
+          "upper": 7,
+          "reason": "The same six shared-material users should change. This outcome cannot distinguish whether isolation belongs in preparation or surface editing."
+        }
+      }
+    }
+  ],
+  "limitations": "These are predictions made without running tools. Intervals are plausible outcome ranges, not calibrated confidence intervals. The evidence strongly identifies shared-material mutation, but does not specify whether prepare_edit_mesh promises material isolation. Consequently, the two responsibility hypotheses are observationally equivalent under these probes. Current transforms alone cannot prove replay behavior at every scale. Visibility tests the H contract, not desired scene visibility; support tests approximate AABB contact. No image-quality increase would independently identify the faulty module."
+}

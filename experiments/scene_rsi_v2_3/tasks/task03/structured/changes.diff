@@ -1,0 +1,15 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -162,7 +162,11 @@
+ 
+ 
+ def prepare_edit_mesh(obj):
+-    obj.data = obj.data
++    # DATA-linked material assignments and vertex edits belong to the mesh.
++    # Detach shared data before either kind of local edit. Materials remain
++    # shared until edit_surface copies them; transforms and parenting stay intact.
++    if obj.data.users > 1:
++        obj.data = obj.data.copy()
+ 
+ 
+ def edit_surface(obj, rgba):

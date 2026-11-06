@@ -1,0 +1,44 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V2.3</title><style>body{max-width:1200px;margin:30px auto;font:16px sans-serif}img{max-width:100%}pre{white-space:pre-wrap}</style><h1>Scene-RSI V2.3 真实机制实验</h1><p><a href="REPORT_ZH.md">中文报告</a> · <a href="../metrics/scene_metrics.csv">逐任务原始数据</a> · <a href="../metrics/probe_predictions.csv">事前预测与观测</a> · <a href="../metrics/calls.csv">实际成本</a></p><h2>figure1_executed_pipeline.png</h2><img src="../figures/figure1_executed_pipeline.png"><h2>figure2_diagnosis.png</h2><img src="../figures/figure2_diagnosis.png"><h2>figure3_repair.png</h2><img src="../figures/figure3_repair.png"><h2>figure4_cases.png</h2><img src="../figures/figure4_cases.png"><h2>figure5_cost.png</h2><img src="../figures/figure5_cost.png"><h2>known_structure_edit_errors.png</h2><img src="../figures/known_structure_edit_errors.png"><h2>fixed_probe_counterpart.png</h2><img src="../figures/fixed_probe_counterpart.png"><h2>all_cases_contact.png</h2><img src="../figures/all_cases_contact.png"><pre># Scene-RSI V2.3 中文实验报告
+
+本轮是工程实现的三组领域诊断机制实验，不是新一轮多代 RSI。M 没有自动进化。共享 H 为真实 SceneAct Blender 编译器加少量支撑/编辑接口；不是自然图像重建流程的整体收益实验。
+
+## 实际结果
+
+|方法|完成/预定|精确模块|有效修复|迁移修复|新增回归|探测数|
+|---|---|---|---|---|---|---|
+|Fixed|10/10|0/10|10/10|10/10|0/10|20|
+|Structured|10/10|10/10|10/10|10/10|0/10|0|
+|Active|10/10|10/10|10/10|10/10|0/10|0|
+
+新增 CLI 会话 49/180；已知输入 token 1310660，输出 90982，usage 缺失 0；渲染尝试 153/600，完成 153。CPU 单重任务、2 线程，GPU 0。
+
+## 已观察到的结论
+
+三组有效共享修复和迁移均10/10，固定检查新增回归0/10。共同初诊在全部任务已精确命中模块10/10，三组对象Top-1均7/9。Active正式探测0次，Structured0次，Fixed20次（19次有数值读数）；Active/Fixed实际两次探测匹配子集为0。本轮没有获得主动探测带来共享研发优势的证据，也不足以支持论文贡献一。
+
+重要适配：本轮给三组共享了一个强模型初诊，实际是在相同初诊之上比较探测/更新，而非三个完整端到端诊断程序；这种共享消除了初始定位差异并使修复接近天花板。当前试验未产生可区分竞争解释的正式Active实验，不能把不探测的成功修复归因于主动机制。
+
+H轨迹：每个故障起点有三组各一次真实H-only编码提案，共30；全部在source和另一模板transfer执行。M轨迹：工程M保持不变，没有自动M后代或M-only候选。全部正式模型和候选执行失败0；准备期2个工程失败分列并保留日志。
+
+源码改动字段 changed_module_count 在原runner中实际统计函数文本不同区域，格式重排会放大数量。原字段未回写；补充 metrics/code_scope.csv 记录语法结构变化，二者都不能直接证明过度修复。过度修复的功能退化以固定回归检查为准。
+
+## 解释边界
+
+- 10 个注入故障来自两个参数化家具模板，迁移换到另一模板及资产组合、尺寸、相机、旋转和材质所有权。不是 10 个独立自然场景，更不是全重建 RSI 的一般优势。
+- 公共SceneAct计划包含目标三维参数，源码也完整可见，输入强于仅参考图像的重建任务；当前契约错误往往可静态发现。本轮不证明在视觉歧义故障上的下游研发优势。
+- 多个解释都符合观测时，冻结更新器将Fixed的最终模块置为unresolved；无观测的Structured/Active则可保留置信&gt;=0.7的初诊。因此最终模块标签差异还受该更新规则影响，不能把Fixed覆盖率下降直接解释为Active定位能力更强。另存三组共同初始模块命中。
+- 三组共享每任务一次初始图像/源码诊断，实际只调用一次并按三分之一分摊展示成本；对象 Top-1 因而本来就相同，不作为 Active 定位优势。后续 M 的探测与更新不同；每组仅一次同模型编码。
+- Fixed/Active 上限均为两个探测；报告实际执行数。若 Active 因无预测分歧而少用探测，不能称严格实际次数匹配。Structured 不探测，其较低成本单列。
+- 所有竞争解释区间命中率只是描述性值，排除错误解释反而可能降低该值；另列隐藏真模块假设的预测一致率与真假设缺席情况。错误高置信按初始confidence&gt;=0.7且初始模块错误定义，不把无概率的最终已定判断冒充校准后的自信。
+- 区分率依据事前不相交区间与真实标量是否排除某些竞争解释；不把单纯画面改善当唯一因果证据。错误/过窄预测也可能制造虚假排除，保留所有原始预测。
+- 有效修复要求 source 与独立 transfer 的固定必要检查全通过；transfer rate 只看 transfer。新增回归以原本通过的相同检查转为失败定义。源场景失败导致未测的指标保持 null，端到端失败效用另记零。
+- 辅助视觉值对应source场景，不是transfer的图像重建准确率。像素完全相同的PSNR为数学上的正无穷，保存为null并同时标记psnr_perfect_match=true；这与没有执行而缺测的null不同。
+- 最终结构/编辑是执行当前 H 的机械操作与可控程序真值比较；没有文字编辑器模型、真实自然图像三维真值或完整 Mesh 支撑碰撞真值。
+- 可修源码包含多数正确实现，编码器可能独立于诊断找到错误。若修复率相同，只能报告成本、回归和诊断差异，不能宣称下游研发优势。
+- 本轮不产生自动 M 后代，也未进行陌生 H 起点冻结元回放，不支持元能力递归提升。
+
+## 证据与重画
+
+全部原始点：../metrics/scene_metrics.csv；事前预测与观测：../metrics/probe_predictions.csv；实际调用：../metrics/calls.csv。脚本为 ../analyze.py，读取现有数据离线重算，不调用模型和 Blender。案例按注册任务顺序选首个成功与首个失败；无修复失败时明确展示诊断失败。
+
+每张图的统计单位是故障任务/方法，独立计数不是渲染视角。构造/烟测期间的工程失败日志完整保留，不回写 V2.2。</pre></html>

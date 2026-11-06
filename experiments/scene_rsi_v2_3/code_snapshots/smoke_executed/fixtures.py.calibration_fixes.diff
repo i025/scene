@@ -1,0 +1,77 @@
+--- smoke/fixtures.py
++++ formal/fixtures.py
+@@ -105,8 +105,11 @@
+ def signature(state):
+     objects={o.name:{'type':o.type,'parent':o.parent.name if o.parent else None,'matrix':ib.matrix_values(o.matrix_world),
+              'bounds':aabb([o]) if o.type=='MESH' else None,'visible':not o.hide_render,
+-             'projected':ib.projected_box(o),'vertices':len(o.data.vertices) if o.type=='MESH' else None} for o in bpy.context.scene.objects}
+-    return {'objects':objects,'camera':{'lens':state['camera'].data.lens,'sensor':state['camera'].data.sensor_width},
++             'projected':ib.projected_box(o),'vertices':len(o.data.vertices) if o.type=='MESH' else None,
++             'local_vertices':[list(v.co) for v in o.data.vertices] if o.type=='MESH' else None,
++             'polygons':[list(f.vertices) for f in o.data.polygons] if o.type=='MESH' else None,
++             'materials':[{k:v for k,v in ib.material_values(slot.material).items() if k!='name'} for slot in o.material_slots] if o.type=='MESH' else None} for o in bpy.context.scene.objects}
++    return {'objects':objects,'camera':{'lens':state['camera'].data.lens,'sensor':state['camera'].data.sensor_width,'shift_x':state['camera'].data.shift_x,'shift_y':state['camera'].data.shift_y,'pose':ib.matrix_values(state['camera'].matrix_world)},
+             'edit':state['edit']}
+ 
+ 
+@@ -149,6 +152,9 @@
+         if (dest/'public.json').exists():continue
+         broken,module,old,new=inject(index,source);(dest/'H0.py').write_text(broken)
+         spec=config(index%2,False)
++        if not smoke:
++            spec['width']+=.31;spec['lens']+=5;spec['offset'][0]-=.4
++            spec['peer_position']=[3.2,2.1,.7]
+         ref=build(load(ROOT/'fixtures/reference_renderer_evaluator_only.py'),spec)
+         ref_sig=signature(ref);render(dest,'reference.png')
+         write(dest/'reference_signature_evaluator_only.json',ref_sig)
+@@ -158,6 +164,14 @@
+              'spec':spec,'objects':damaged_sig['objects'],'camera':damaged_sig['camera'],'edit':damaged_sig['edit'],
+              'requirements':'Compile a reusable SceneAct scene plan, retain intended world transforms and visibility, support composite furniture, preserve dependencies under group movement and local edits. Use images as desired appearance; investigate any shared module.',
+              'valid_object_ids':list(damaged_sig['objects'])})
++        accepted_objects=([spec['target'],'Top',damaged_sig['edit']['target']] if index in [7,8,9] else [spec['screen'],spec['screen']+'.001'] if index==4 else ['Accent',spec['screen']] if index==5 else [])
++        if index in [1,2,3,6]:
++            for key,expected in ref_sig['objects'].items():
++                actual=damaged_sig['objects'].get(key)
++                if expected['type']=='MESH' and actual and (expected['bounds']!=actual['bounds'] or expected['parent']!=actual['parent']):
++                    accepted_objects+=[key,expected['parent'],actual['parent']]
++        if index in [8,9] and damaged_sig['edit']['non_target']:
++            accepted_objects+=list(damaged_sig['edit']['non_target']['changed_fields'])
+         truth.append({'scene_id':name,'family':index//2,'template':index%2,'fault_index':index,'exact_module':module,
+                       'related_modules':{'SceneCompiler.emit.geometry':['SceneCompiler.emit.geometry','SceneCompiler.emit.position'],
+                         'SceneCompiler.emit.position':['SceneCompiler.emit.position','SceneCompiler.emit.geometry'],
+@@ -165,7 +179,7 @@
+                         'set_render_visibility':['set_render_visibility','SceneCompiler.emit.coverage'],
+                         'support_on':['support_on','SceneCompiler.emit.parent'],
+                         'SceneCompiler.emit.parent':['SceneCompiler.emit.parent','support_on']}.get(module,[module]),
+-                      'object_ids':([spec['target'],'Top',damaged_sig['edit']['target']] if index in [1,2,3,6,7,8,9] else [spec['screen']] if index==4 else ['Accent',spec['screen']] if index==5 else []),
++                      'object_ids':list(dict.fromkeys(n for n in accepted_objects if n is not None)),
+                       'object_applicable':index!=0,'injection':{'before':old,'after':new},'labels_supplied_to_models':False})
+     write(ROOT/'configs'/('smoke_truth.json' if smoke else 'truth_evaluator_only.json'),truth)
+ 
+@@ -178,9 +192,11 @@
+     geometry=coverage and all(max(abs(got[n]['bounds'][k][i]-names[n]['bounds'][k][i]) for i in range(3) for k in ['min','max'])<1e-4 for n in mesh_names)
+     parenting=coverage and all(got[n]['parent']==names[n]['parent'] for n in mesh_names)
+     visibility=coverage and all(got[n]['visible']==names[n]['visible'] for n in mesh_names)
+-    camera=all(abs(actual['camera'][k]-reference['camera'][k])<1e-5 for k in ['lens','sensor'])
++    camera=all(abs(actual['camera'][k]-reference['camera'][k])<1e-5 for k in ['lens','sensor','shift_x','shift_y']) and max(abs(actual['camera']['pose'][i][j]-reference['camera']['pose'][i][j]) for i in range(4) for j in range(4))<1e-5
+     material=actual['edit']['applicable'] and actual['edit']['measured_pass'] is True
+-    return {'camera':camera,'geometry':geometry,'transforms':transforms,'coverage':coverage,'parenting':parenting,'visibility':visibility,'material':material}
++    mesh_integrity=coverage and all(got[n]['polygons']==names[n]['polygons'] and len(got[n]['local_vertices'])==len(names[n]['local_vertices']) and max(abs(a-b) for v,w in zip(got[n]['local_vertices'],names[n]['local_vertices']) for a,b in zip(v,w))<1e-5 for n in mesh_names)
++    surface_integrity=coverage and all(got[n]['materials']==names[n]['materials'] for n in mesh_names)
++    return {'mesh_integrity':mesh_integrity,'surface_integrity':surface_integrity,'camera':camera,'geometry':geometry,'transforms':transforms,'coverage':coverage,'parenting':parenting,'visibility':visibility,'material':material}
+ 
+ 
+ def check_case(case,candidate,dest):
+@@ -258,7 +274,11 @@
+     elif tool=='dependency_move':
+         group=target
+         if group is None:raise ValueError('Dependency probe requires a selected object')
+-        members=[o for o in bpy.context.scene.objects if o.type=='MESH' and (o.parent and o.parent.name in ['Top','Support0','Support1','Support2','Support3','Back'] or o.parent==group)]
++        if group.name!=spec['target']:
++            write(dest/'measurement.json',{'outcome':None,'details':{'applicable':False,'reason':'Selected object has no declared furniture part contract'},'requested_object_id':target_id,'tool':tool})
++            return
++        part_names=set(state['input_scene'].members[spec['target']].members)
++        members=[o for o in bpy.context.scene.objects if o.type=='MESH' and o.name.rsplit('.',1)[0] in part_names]
+         before={o.name:o.matrix_world.translation.copy() for o in members};matrix=group.matrix_world.copy();delta=Vector((.4,.1,0));matrix.translation+=delta;group.matrix_world=matrix;bpy.context.view_layer.update()
+         errors={o.name:(o.matrix_world.translation-before[o.name]-delta).length for o in members};parent_errors=[o.name for o in members if o.parent and o.parent.name!=o.name.rsplit('.',1)[0]]
+         outcome=max(sum(v>1e-4 for v in errors.values()),len(parent_errors))/len(errors) if errors else None

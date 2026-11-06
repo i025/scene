@@ -1,0 +1,64 @@
+--- smoke/experiment.py
++++ formal/experiment.py
+@@ -19,7 +19,7 @@
+ TEXT={'type':'string'};NUMBER={'type':'number'}
+ HYPOTHESIS=schema_object({'id':TEXT,'module':{'type':'string','enum':MODULES},'object_id':TEXT,'explanation':TEXT,
+     'predictions':schema_object({t:schema_object({'lower':NUMBER,'upper':NUMBER,'reason':TEXT}) for t in meta.MENU})})
+-FINDINGS=schema_object({'observation':TEXT,'object_id':TEXT,'initial_module':{'type':'string','enum':MODULES},'initial_confidence':NUMBER,'probe_targets':schema_object({t:TEXT for t in meta.MENU}),
++FINDINGS=schema_object({'observation':TEXT,'object_id':TEXT,'initial_module':{'type':'string','enum':MODULES},'initial_confidence':{'type':'number','minimum':0,'maximum':1},'probe_targets':schema_object({t:TEXT for t in meta.MENU}),
+     'hypotheses':{'type':'array','items':HYPOTHESIS,'minItems':2,'maxItems':3},'limitations':TEXT})
+ REPAIR=schema_object({'code':TEXT,'reason':TEXT,'diagnosis_agreement':TEXT,'changed_regions':{'type':'array','items':TEXT}})
+ TOOL_MEANING={
+@@ -44,13 +44,18 @@
+ def common_findings(case):
+     folder=ROOT/'tasks'/case;public=read(folder/'public.json');source=(folder/'H0.py').read_text()
+     prompt='You are diagnosing a reusable SceneAct-to-Blender compiler and editing pipeline from desired and faulty images. This is an engineered controlled mechanism test. You do not receive fault injection labels or original correct code. All three arms receive this identical initial report. Read the attached REAL images (first desired, second current). Identify an actual object/group using public IDs, or unknown if unmappable; camera-only may use unknown. Choose actual per-tool object IDs in probe_targets: dependency/support need the relevant furniture group, material needs one concrete mesh (not a multi-mesh group), visibility needs the suspected group. Camera and whole-plan geometry/position replay allow unknown. Provide at least two reasonable competing explanations, each associated with a module. For EVERY tool predict a numerical interval for the explicitly defined scalar outcome BEFORE any tool is run. Intervals must reflect uncertainty; do not invent certainty. Predict differences only justified by the supplied code and evidence. Two hypotheses predicting the same response are not distinguished by that tool. Do not assert a Q increase identifies cause. Output a tentative initial module and confidence, competing explanations and limitations.\n'+json.dumps({'tools':TOOL_MEANING,'public_evidence':public,'current_shared_H':source,'available_modules':MODULES},ensure_ascii=False)
+-    return saved_call(prompt,folder/'common_diagnosis',[folder/'reference.png',folder/'final.png'],'shared_initial_diagnosis',FINDINGS)
++    findings=saved_call(prompt,folder/'common_diagnosis',[folder/'reference.png',folder/'final.png'],'shared_initial_diagnosis',FINDINGS)
++    if not 0<=findings['initial_confidence']<=1:raise ValueError('Invalid external confidence')
++    for hypothesis in findings['hypotheses']:
++        for interval in hypothesis['predictions'].values():
++            if interval['lower']>interval['upper']:raise ValueError('Invalid external prediction interval')
++    return findings
+ 
+ 
+ def regions(code):
+     tree=ast.parse(code);result={}
+     for node in tree.body:
+-        if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)):result[node.name]=ast.get_source_segment(code,node)
++        if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef)):result[node.name+('('+ast.unparse(node.args.args[0].annotation)+')' if node.name=='_' else '')]=ast.get_source_segment(code,node)
+         if isinstance(node,ast.ClassDef):
+             for child in node.body:
+                 if isinstance(child,ast.FunctionDef):result[node.name+'.'+child.name]=ast.get_source_segment(code,child)
+@@ -67,7 +72,7 @@
+         if isinstance(node,ast.Name) and node.id in ['open','exec','eval','__import__','compile']:raise ValueError('File/execution primitive outside H scope')
+         if isinstance(node,ast.Attribute) and node.attr in ['render','save_as_mainfile','open_mainfile','load']:raise ValueError('Evaluator/file access outside H scope')
+         if isinstance(node,ast.Constant) and isinstance(node.value,str) and any(tag in node.value for tag in ['/srv/','/home/','task01','smoke01','reference.png','NovelDesk','StudyDesk','StudyBench','NovelBench']):raise ValueError('Case/path/asset-specific code')
+-    return [name for name in before if before[name]!=after[name]]
++    return [name for name in after if name not in before or before[name]!=after[name]]
+ 
+ 
+ def run_arm(case,method,findings):
+@@ -79,9 +84,11 @@
+          'initial_module':findings['initial_module'],'initial_confidence':findings['initial_confidence'],'probe_targets':findings['probe_targets'],
+          'remaining_probe_budget':2,'already_executed_probe_count':0,'available_probe_menu':meta.MENU,
+          'raw_evidence':public}
+-    plan=meta.plan_probes(copy.deepcopy(ctx))
++    if (dest/'stage1.json').exists():
++        saved=read(dest/'stage1.json');ctx=saved['context'];plan=saved['plan']
++    else:plan=meta.plan_probes(copy.deepcopy(ctx))
+     # This exact file is written before any selected experiment; never backfilled.
+-    write(dest/'stage1.json',{'context':ctx,'plan':plan,'saved_before_probe':time.time()})
++    if not (dest/'stage1.json').exists():write(dest/'stage1.json',{'context':ctx,'plan':plan,'saved_before_probe':time.time()})
+     observations=[]
+     for index,request in enumerate(plan['probes']):
+         pd=dest/'probes'/str(index+1);pd.mkdir(parents=True,exist_ok=True)
+@@ -124,7 +131,7 @@
+     for index,case in enumerate(cases):
+         write(ROOT/'state.json',{'phase':'running','scene_id':case,'ledger':current()})
+         try:findings=common_findings(case)
+-        except (RuntimeError,subprocess.TimeoutExpired) as error:
++        except (RuntimeError,subprocess.TimeoutExpired,ValueError) as error:
+             write(ROOT/'tasks'/case/'common_failure.json',{'status':'failed','reason':str(error),'dependent_arms':METHODS});continue
+         order=METHODS[index%3:]+METHODS[:index%3]
+         for method in order:

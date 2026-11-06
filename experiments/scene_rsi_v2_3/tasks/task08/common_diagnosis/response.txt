@@ -1,0 +1,104 @@
+{
+  "observation": "The desired image contains a blue panel above the bench; the current image lacks it. StudyPanel exists only as an EMPTY, with no emitted mesh. The compiler emits solids only when alpha >= 1.0, while the panel's specified alpha is 0.72. The bench, storage, and room otherwise appear aligned.",
+  "object_id": "StudyPanel",
+  "initial_module": "SceneCompiler.emit.coverage",
+  "initial_confidence": 0.98,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyBench",
+    "dependency_move": "StudyBench",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "SceneCompiler.emit.coverage",
+      "object_id": "StudyPanel",
+      "explanation": "The alpha threshold incorrectly excludes translucent solids from emission. This directly explains the missing panel mesh and image discrepancy.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width, 40.8."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.3,
+          "reason": "Emitted meshes use geometry_frame multiplication. Nonuniform scaling with rotation may expose transform decomposition effects; missing meshes need not increase this emitted-mesh metric."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The code retains primitive origins through geometry_frame and parents meshes under their markers; current furniture translation matches offset plus final_move."
+        },
+        "visibility_isolation": {
+          "lower": 1.99,
+          "upper": 2,
+          "reason": "StudyPanel has no emitted meshes, so the defined missing-emission outcome is 2. Visibility toggles cannot create geometry."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "With Floor.001 as the surface, support_on translates the furniture by its measured AABB gap. Numerical and evaluation tolerances remain."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "All six bench meshes have the expected named-part parents beneath StudyBench and should follow its movement."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Mesh and material copies should isolate the edit; the supplied Top.001 edit already passed. The interval allows an unexpected ownership interaction."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "set_render_visibility",
+      "object_id": "StudyPanel",
+      "explanation": "The panel's recorded hidden state could independently suppress its appearance if geometry were present. This is a much weaker competing explanation: the supplied visibility implementation obeys its toggle contract, and hidden state alone cannot explain the absent mesh. It could be a coexisting scene-state issue.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "A visibility-state explanation does not change the direct sensor assignment."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.3,
+          "reason": "The same geometry multiplication and nonuniform-transform uncertainty apply; this probe does not distinguish the explanations."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Visibility state does not alter the supplied position composition."
+        },
+        "visibility_isolation": {
+          "lower": 1.99,
+          "upper": 2,
+          "reason": "Given the actual meshless StudyPanel, this probe still returns the missing-emission sentinel. It cannot distinguish an additional hidden-state issue."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Bench support on Floor.001 is independent of the panel's visibility."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The observed bench hierarchy should preserve movement and named-part parenting under either explanation."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The same copying implementation and prior successful edit apply under both explanations."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-probe predictions; no tools were run. Intervals are plausible outcome ranges, not measured confidence bounds. The coverage explanation has direct code and object-inventory support; the visibility alternative is not sufficient by itself. Identical predictions do not distinguish hypotheses. Geometry replay measures emitted meshes and can miss omitted geometry. Support predictions assume the concrete floor mesh Floor.001, not its EMPTY wrapper. No image-quality increase would by itself establish causality."
+}

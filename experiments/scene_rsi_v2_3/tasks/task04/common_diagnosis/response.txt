@@ -1,0 +1,104 @@
+{
+  "observation": "The current image places the wall, blue Accent, and StudyStorage farther back and right in projection than the desired image. The supplied compiler multiplies every emitted mesh's world-space y translation by 1.45 without scaling its geometry or its group marker. StudyStorage.001 confirms this: its requested y=2.1 becomes 3.045. The blue wall rectangle is Accent, not the hidden StudyPanel.",
+  "object_id": "StudyStorage",
+  "initial_module": "SceneCompiler.emit.position",
+  "initial_confidence": 0.97,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "SceneCompiler.emit.position",
+      "object_id": "StudyStorage",
+      "explanation": "The unconditional world.translation.y *= 1.45 distorts scene placement. Objects farther along y move disproportionately, explaining the wall, Accent, and storage displacement while preserving individual mesh dimensions.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width, 40.8; only numerical rounding is expected."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The geometry-frame multiplication retains basis lengths under nonuniform scale; the subsequent mutation affects translation only."
+        },
+        "position_replay": {
+          "lower": 0.85,
+          "upper": 0.95,
+          "reason": "Wall y=7.25 implies an unmodified y=5 and a 2.25 displacement. Dividing by furniture width 2.51 gives approximately 0.896. The interval allows replay and transform-accounting uncertainty."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "StudyPanel has an emitted mesh, and the visibility function recursively toggles its descendants in both directions."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Using Floor.001 as the support surface, the function corrects the desk's world-space AABB bottom gap directly. The y mutation does not alter height."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The supplied hierarchy retains all five desk meshes under their named part markers and StudyDesk; group translation should propagate."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Zero changes are expected because mesh data and materials are copied, consistent with the existing edit check. One is retained as a conservative allowance for unreported ownership or execution effects."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "set_view",
+      "object_id": "unknown",
+      "explanation": "A camera aiming or framing discrepancy could contribute to the different room silhouette and apparent object positions. This is substantially weaker than H1: current lens and sensor match the specification, and the explicit y-placement defect remains real under this explanation. The desired camera target is not supplied.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "A pose or aiming discrepancy can coexist with correct sensor assignment. This probe measures sensor assignment only and does not distinguish this explanation from H1."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Camera pose does not change emitted mesh basis lengths; the supplied geometry implementation predicts the same result as H1."
+        },
+        "position_replay": {
+          "lower": 0.85,
+          "upper": 0.95,
+          "reason": "The visible y multiplier remains in the actual compiler regardless of whether camera framing also contributes. The same approximately 0.896 discrepancy is expected."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The recursive visibility contract is independent of camera pose and should pass."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "World-space AABB support against Floor.001 is independent of camera pose."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Camera framing does not affect the supplied desk parent hierarchy or following behavior."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The same copying implementation and prior successful isolation check apply; zero is expected with a conservative allowance of one."
+        }
+      }
+    }
+  ],
+  "limitations": "These are predictions made before running any tools. Position replay assumes the existing structural plan is retained and width means the specified 2.51. Support requires the concrete floor mesh Floor.001. The alternative camera explanation is not distinguished from H1 by these scalar probes: sensor calibration does not test pose, and the position defect exists under both. Image similarity improvement alone would not identify cause. Desired scene transforms and the complete plan are unavailable, limiting attribution of any residual visual mismatch."
+}

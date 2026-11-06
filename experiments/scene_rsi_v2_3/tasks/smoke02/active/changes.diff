@@ -1,0 +1,14 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -162,7 +162,10 @@
+ 
+ 
+ def prepare_edit_mesh(obj):
+-    obj.data = obj.data
++    # Mesh-owned material slots and vertices must be private before local edits.
++    # Material datablocks remain shared until edit_surface copies them below.
++    if obj.data.users > 1:
++        obj.data = obj.data.copy()
+ 
+ 
+ def edit_surface(obj, rgba):

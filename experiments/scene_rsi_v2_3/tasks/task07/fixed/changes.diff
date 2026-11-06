@@ -1,0 +1,37 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -166,10 +166,28 @@
+ 
+ 
+ def edit_surface(obj, rgba):
++    rgba = tuple(rgba)
++    if len(rgba) != 4:
++        raise ValueError('Surface color must contain four RGBA components')
++
++    # Isolate DATA-linked slots as well as geometry from shared meshes.
+     prepare_edit_mesh(obj)
+-    for slot in obj.material_slots:
+-        original = slot.material
+-        material = original
+-        slot.material = material
+-        material.diffuse_color = rgba
+-        material.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = rgba
++    originals = [slot.material for slot in obj.material_slots]
++    copies = {}
++    for slot, original in zip(obj.material_slots, originals):
++        if original is None:
++            continue
++        key = original.as_pointer()
++        if key not in copies:
++            # Material.copy also copies its embedded shader node tree.
++            # Keep the compiler's cached material and all other users intact.
++            material = original.copy()
++            material.diffuse_color = rgba
++            if material.use_nodes and material.node_tree is not None:
++                for node in material.node_tree.nodes:
++                    if node.type == 'BSDF_PRINCIPLED':
++                        node.inputs['Base Color'].default_value = rgba
++                        node.inputs['Alpha'].default_value = rgba[3]
++            copies[key] = material
++        # Preserve slot linkage and repeated-slot sharing within this object.
++        slot.material = copies[key]

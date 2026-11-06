@@ -1,0 +1,104 @@
+{
+  "observation": "The current image shows a wider, shallower floor and wider bench/back than desired. Public mesh matrices match the extra local-axis scaling in emit: Top.001 has width 4.2625 = 3.41 × 1.25. The same distortion affects structural and decorative meshes.",
+  "object_id": "StudyBench",
+  "initial_module": "SceneCompiler.emit.geometry",
+  "initial_confidence": 0.98,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyBench",
+    "dependency_move": "StudyBench",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "SceneCompiler.emit.geometry",
+      "object_id": "StudyBench",
+      "explanation": "The unconditional postmultiplication by Diagonal((1.25,.74,1,1)) stretches every emitted mesh's local x basis and compresses its local y basis while preserving its origin. This directly explains the appearance and recorded dimensions.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width, 40.8."
+        },
+        "geometry_replay": {
+          "lower": 3.1,
+          "upper": 3.35,
+          "reason": "The largest expected discrepancy is the structural x basis: inferred public width 11 × root scale 1.17 × extra scale error .25 = 3.2175. Interval allows replay/frame uncertainty."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Right multiplication by this diagonal changes basis lengths, not translation; the recorded group translation also matches offset plus final move."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "StudyPanel has an emitted mesh, and the visibility implementation recursively sets hide_render for both toggle directions."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "With Floor.001 as the surface and evaluated transforms, support_on corrects the descendant AABB bottom to floor top. Small residual allowance reflects approximate support and update timing."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "All six furniture mesh parts have their named marker parents, which are children of StudyBench; movement should propagate."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Expected count is zero: edit_surface copies mesh data and materials, and the supplied non-target comparison passed. The interval allows an unreported ownership edge case."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "set_view",
+      "object_id": "unknown",
+      "explanation": "A camera aim or framing mismatch could contribute to the changed floor silhouette and relative projected widths. This is substantially weaker: public lens and sensor agree with the specification, and the explicit geometry distortion remains independently present. This hypothesis concerns an additional camera contribution, not an explanation that removes the geometry defect.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "A pose/aim mismatch would still pass this sensor-assignment test; the supplied function assigns sensor directly."
+        },
+        "geometry_replay": {
+          "lower": 3.1,
+          "upper": 3.35,
+          "reason": "The explicit geometry multiplier remains active under this explanation, so the same approximately 3.2175 maximum discrepancy is expected."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Camera framing does not alter emitted world translations, and the shown emitter preserves origins."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The recursive visibility contract is independent of camera aim."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "AABB support against Floor.001 is independent of projection; the same evaluation assumptions apply."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Camera aim does not change the recorded named-part hierarchy or transform inheritance."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The same copying implementation and successful non-target comparison apply; zero remains the expected count."
+        }
+      }
+    }
+  ],
+  "limitations": "Predictions were made without running tools. The full public plan and desired camera pose are unavailable; the geometry magnitude uses dimensions inferred from the supplied matrices and explicit multiplier. These hypotheses predict identical probe responses: the probes can confirm contract behavior but cannot distinguish an additional camera-pose contribution. Sensor calibration does not test camera aim. Support assumes the concrete floor mesh Floor.001. No image-quality increase alone would establish cause."
+}

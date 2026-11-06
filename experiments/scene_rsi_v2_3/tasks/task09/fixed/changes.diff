@@ -1,0 +1,48 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -149,12 +149,40 @@
+         obj.hide_render = not visible
+ 
+ 
++def _world_z_bounds(root, depsgraph):
++    """Return evaluated world-space mesh bounds for an object or assembly."""
++    from mathutils import Vector
++    bottom = float('inf')
++    top = float('-inf')
++    for obj in [root, *root.children_recursive]:
++        if obj.type != 'MESH':
++            continue
++        evaluated = obj.evaluated_get(depsgraph)
++        if not evaluated.data.vertices:
++            continue
++        world = evaluated.matrix_world
++        for corner in evaluated.bound_box:
++            z = (world @ Vector(corner)).z
++            bottom = min(bottom, z)
++            top = max(top, z)
++    if bottom == float('inf'):
++        raise ValueError(f'No mesh geometry for support bounds: {root.name}')
++    return bottom, top
++
++
+ def support_on(group, surface):
+-    import bpy
+-    from mathutils import Vector
+-    meshes = [o for o in group.children_recursive if o.type == 'MESH']
+-    bottom = min(Vector(v).z for o in meshes for v in o.bound_box)
+-    top = max((surface.matrix_world @ Vector(v)).z for v in surface.bound_box)
++    """Align an assembly's world-space bottom with a support's world-space top.
++
++    Translate only the assembly root, preserving its hierarchy and the local
++    transforms of all parts. Visibility does not change physical bounds.
++    """
++    import bpy
++    if surface == group or surface in group.children_recursive:
++        raise ValueError('A support surface cannot move with the supported group')
++    bpy.context.view_layer.update()
++    depsgraph = bpy.context.evaluated_depsgraph_get()
++    bottom, _ = _world_z_bounds(group, depsgraph)
++    _, top = _world_z_bounds(surface, depsgraph)
+     matrix = group.matrix_world.copy()
+     matrix.translation.z += top - bottom
+     group.matrix_world = matrix

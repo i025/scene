@@ -1,0 +1,11 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -129,7 +129,7 @@
+ def set_view(position,target,lens=35,sensor=36,shift=(0,0)):
+     import bpy
+     data=bpy.data.cameras.new('SceneActView')
+-    data.lens,data.sensor_width=lens,36
++    data.lens,data.sensor_width=lens,sensor
+     data.shift_x,data.shift_y=shift
+     result=_aimed_object('SceneActView',data,position,target)
+     bpy.context.scene.camera=result

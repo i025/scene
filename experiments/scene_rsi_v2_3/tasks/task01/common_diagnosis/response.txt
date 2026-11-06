@@ -1,0 +1,104 @@
+{
+  "observation": "The current image adds an orange upright panel in front of the desk. Its color, bounds and projection identify StudyPanel.001. StudyPanel is marked invisible while its mesh remains visible. The supplied visibility function changes only the group EMPTY, leaving descendant meshes renderable.",
+  "object_id": "StudyPanel",
+  "initial_module": "set_render_visibility",
+  "initial_confidence": 0.97,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "set_render_visibility",
+      "object_id": "StudyPanel",
+      "explanation": "The intended panel-hiding operation affects only StudyPanel, an EMPTY. Blender mesh descendants retain their own render visibility, explaining the unwanted orange panel and the reported parent/mesh visibility mismatch.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width of 40.8; only numerical tolerance is expected."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Emission multiplies geometry_frame by the primitive world matrix, retaining primitive dimensions and nonuniform frame scale; no conflicting scale operation is shown."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The same matrix product retains primitive origin, and the supplied furniture hierarchy supports the final group move."
+        },
+        "visibility_isolation": {
+          "lower": 0.95,
+          "upper": 1.05,
+          "reason": "The single panel mesh should remain visible after both group toggles: visible fraction after False approximately 1, hidden fraction after True approximately 0."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.02,
+          "reason": "For StudyDesk supported on Floor.001, the function translates by the computed world AABB gap. Small residual uncertainty concerns evaluation timing and approximate bounds."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "All five desk meshes have the expected named part parents under StudyDesk, so movement should propagate without contract violations."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Zero non-target changes is strongly expected: mesh data and materials are copied, and the supplied Top.001 edit already passed. The interval conservatively allows one unexpected ownership-related change."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "SceneCompiler.emit.coverage",
+      "object_id": "StudyPanel",
+      "explanation": "A weaker alternative is that the panel should have been excluded during compilation, but emit unconditionally realizes every solid and member. This requires an unprovided plan-level exclusion contract. The independently visible group-toggle defect would still exist under this explanation.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "An unwanted emitted panel does not change the direct sensor assignment."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "An extra correctly dimensioned mesh need not produce a basis-length discrepancy; this scalar does not directly test intended inclusion."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Unwanted inclusion can coexist with correct translations relative to the current public plan."
+        },
+        "visibility_isolation": {
+          "lower": 0.95,
+          "upper": 1.05,
+          "reason": "The supplied visibility implementation still leaves the existing panel mesh visible through both group toggles. This prediction is identical to H1 and cannot distinguish them."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.02,
+          "reason": "The separate panel is outside StudyDesk, so its inclusion should not affect desk support on Floor.001."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The desk's documented part hierarchy remains correct regardless of whether the separate panel should exist."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The copying implementation and existing successful edit favor zero collateral changes, with the same ownership uncertainty as H1."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-execution predictions; no tools were run. The visibility defect is directly supported by code and object state, while the competing exclusion explanation lacks a supplied semantic contract. The listed scalar probes predict essentially the same responses under both explanations and therefore cannot distinguish them. Replay predictions assume the unavailable plan/frame implementation follows the stated contracts. Support assumes the surface is Floor.001, a concrete mesh. Improved image similarity alone would not establish cause."
+}

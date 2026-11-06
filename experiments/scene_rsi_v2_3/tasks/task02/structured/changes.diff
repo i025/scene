@@ -1,0 +1,13 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -73,8 +73,9 @@
+         if node.solid is not None:
+             obj=_mesh(node.solid)
+             bpy.context.view_layer.update()
++            # Compose the declared geometry frame with the primitive transform.
++            # Primitive dimensions already define its size; do not rescale here.
+             world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()
+-            world=world @ Matrix.Diagonal((.76,.76,.76,1))
+             obj.parent=marker
+             obj.matrix_world=world
+             obj.name=node.name

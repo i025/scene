@@ -1,0 +1,277 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "observation": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "string"
+    },
+    "initial_module": {
+      "type": "string",
+      "enum": [
+        "set_view",
+        "SceneCompiler.emit.geometry",
+        "SceneCompiler.emit.position",
+        "SceneCompiler.emit.coverage",
+        "SceneCompiler.emit.parent",
+        "set_render_visibility",
+        "support_on",
+        "prepare_edit_mesh",
+        "edit_surface",
+        "unresolved"
+      ]
+    },
+    "initial_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "probe_targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "camera_calibration": {
+          "type": "string"
+        },
+        "geometry_replay": {
+          "type": "string"
+        },
+        "position_replay": {
+          "type": "string"
+        },
+        "visibility_isolation": {
+          "type": "string"
+        },
+        "support_relation": {
+          "type": "string"
+        },
+        "dependency_move": {
+          "type": "string"
+        },
+        "material_dependency": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "camera_calibration",
+        "geometry_replay",
+        "position_replay",
+        "visibility_isolation",
+        "support_relation",
+        "dependency_move",
+        "material_dependency"
+      ]
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "module": {
+            "type": "string",
+            "enum": [
+              "set_view",
+              "SceneCompiler.emit.geometry",
+              "SceneCompiler.emit.position",
+              "SceneCompiler.emit.coverage",
+              "SceneCompiler.emit.parent",
+              "set_render_visibility",
+              "support_on",
+              "prepare_edit_mesh",
+              "edit_surface",
+              "unresolved"
+            ]
+          },
+          "object_id": {
+            "type": "string"
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "predictions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "camera_calibration": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              },
+              "geometry_replay": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              },
+              "position_replay": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              },
+              "visibility_isolation": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              },
+              "support_relation": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              },
+              "dependency_move": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              },
+              "material_dependency": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "lower",
+                  "upper",
+                  "reason"
+                ]
+              }
+            },
+            "required": [
+              "camera_calibration",
+              "geometry_replay",
+              "position_replay",
+              "visibility_isolation",
+              "support_relation",
+              "dependency_move",
+              "material_dependency"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "module",
+          "object_id",
+          "explanation",
+          "predictions"
+        ]
+      },
+      "minItems": 2,
+      "maxItems": 3
+    },
+    "limitations": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "observation",
+    "object_id",
+    "initial_module",
+    "initial_confidence",
+    "probe_targets",
+    "hypotheses",
+    "limitations"
+  ]
+}

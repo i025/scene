@@ -1,0 +1,294 @@
+[
+  {
+    "scene_id": "task01",
+    "family": 2,
+    "template": 0,
+    "fault_index": 4,
+    "exact_module": "set_render_visibility",
+    "related_modules": [
+      "set_render_visibility",
+      "SceneCompiler.emit.coverage"
+    ],
+    "object_ids": [
+      "StudyPanel",
+      "StudyPanel.001"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "for obj in [group, *group.children_recursive]:",
+      "after": "for obj in [group]:"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task02",
+    "family": 0,
+    "template": 1,
+    "fault_index": 1,
+    "exact_module": "SceneCompiler.emit.geometry",
+    "related_modules": [
+      "SceneCompiler.emit.geometry",
+      "SceneCompiler.emit.position"
+    ],
+    "object_ids": [
+      "Top.001",
+      "Top",
+      "Support0.001",
+      "Support0",
+      "Support1.001",
+      "Support1",
+      "Support2.001",
+      "Support2",
+      "Support3.001",
+      "Support3",
+      "Back.001",
+      "Back",
+      "Floor.001",
+      "Floor",
+      "Wall.001",
+      "Wall",
+      "StudyStorage.001",
+      "StudyStorage",
+      "StudyPanel.001",
+      "StudyPanel",
+      "Accent.001",
+      "Accent"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()",
+      "after": "world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()\n            world=world @ Matrix.Diagonal((.76,.76,.76,1))"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task03",
+    "family": 4,
+    "template": 0,
+    "fault_index": 8,
+    "exact_module": "prepare_edit_mesh",
+    "related_modules": [
+      "prepare_edit_mesh"
+    ],
+    "object_ids": [
+      "StudyDesk",
+      "Top",
+      "Top.001",
+      "StudyStorage.001"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "obj.data = obj.data.copy()",
+      "after": "obj.data = obj.data"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task04",
+    "family": 1,
+    "template": 0,
+    "fault_index": 2,
+    "exact_module": "SceneCompiler.emit.position",
+    "related_modules": [
+      "SceneCompiler.emit.position",
+      "SceneCompiler.emit.geometry"
+    ],
+    "object_ids": [
+      "Top.001",
+      "Top",
+      "Support0.001",
+      "Support0",
+      "Support1.001",
+      "Support1",
+      "Support2.001",
+      "Support2",
+      "Support3.001",
+      "Support3",
+      "Floor.001",
+      "Floor",
+      "Wall.001",
+      "Wall",
+      "StudyStorage.001",
+      "StudyStorage",
+      "StudyPanel.001",
+      "StudyPanel",
+      "Accent.001",
+      "Accent"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()",
+      "after": "world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()\n            world.translation.y *= 1.45"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task05",
+    "family": 3,
+    "template": 0,
+    "fault_index": 6,
+    "exact_module": "SceneCompiler.emit.parent",
+    "related_modules": [
+      "SceneCompiler.emit.parent",
+      "support_on"
+    ],
+    "object_ids": [
+      "Top.001",
+      "Top",
+      "StudyDesk",
+      "Support0.001",
+      "Support0",
+      "Support1.001",
+      "Support1",
+      "Support2.001",
+      "Support2",
+      "Support3.001",
+      "Support3",
+      "Floor.001",
+      "Floor",
+      "Room",
+      "Wall.001",
+      "Wall",
+      "StudyStorage.001",
+      "StudyStorage",
+      "StudyPanel.001",
+      "StudyPanel",
+      "Accent.001",
+      "Accent"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "obj.parent=marker",
+      "after": "obj.parent=parent"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task06",
+    "family": 0,
+    "template": 0,
+    "fault_index": 0,
+    "exact_module": "set_view",
+    "related_modules": [
+      "set_view"
+    ],
+    "object_ids": [],
+    "object_applicable": false,
+    "injection": {
+      "before": "data.lens,data.sensor_width=lens,sensor",
+      "after": "data.lens,data.sensor_width=lens,36"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task07",
+    "family": 4,
+    "template": 1,
+    "fault_index": 9,
+    "exact_module": "edit_surface",
+    "related_modules": [
+      "edit_surface"
+    ],
+    "object_ids": [
+      "StudyBench",
+      "Top",
+      "Top.001",
+      "Back.001",
+      "StudyStorage.001",
+      "Support0.001",
+      "Support1.001",
+      "Support2.001",
+      "Support3.001"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "material = original.copy()",
+      "after": "material = original"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task08",
+    "family": 2,
+    "template": 1,
+    "fault_index": 5,
+    "exact_module": "SceneCompiler.emit.coverage",
+    "related_modules": [
+      "SceneCompiler.emit.coverage",
+      "set_render_visibility"
+    ],
+    "object_ids": [
+      "Accent",
+      "StudyPanel"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "if node.solid is not None:",
+      "after": "if node.solid is not None and node.finish.rgba[3] >= 1.0:"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task09",
+    "family": 3,
+    "template": 1,
+    "fault_index": 7,
+    "exact_module": "support_on",
+    "related_modules": [
+      "support_on",
+      "SceneCompiler.emit.parent"
+    ],
+    "object_ids": [
+      "StudyBench",
+      "Top",
+      "Top.001"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "bottom = min((o.matrix_world @ Vector(v)).z for o in meshes for v in o.bound_box)",
+      "after": "bottom = min(Vector(v).z for o in meshes for v in o.bound_box)"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "task10",
+    "family": 1,
+    "template": 1,
+    "fault_index": 3,
+    "exact_module": "SceneCompiler.emit.geometry",
+    "related_modules": [
+      "SceneCompiler.emit.geometry",
+      "SceneCompiler.emit.position"
+    ],
+    "object_ids": [
+      "Top.001",
+      "Top",
+      "Support0.001",
+      "Support0",
+      "Support1.001",
+      "Support1",
+      "Support2.001",
+      "Support2",
+      "Support3.001",
+      "Support3",
+      "Back.001",
+      "Back",
+      "Floor.001",
+      "Floor",
+      "Wall.001",
+      "Wall",
+      "StudyStorage.001",
+      "StudyStorage",
+      "StudyPanel.001",
+      "StudyPanel",
+      "Accent.001",
+      "Accent"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()",
+      "after": "world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()\n            world=world @ Matrix.Diagonal((1.25,.74,1,1))"
+    },
+    "labels_supplied_to_models": false
+  }
+]

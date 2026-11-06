@@ -1,0 +1,12 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -73,8 +73,8 @@
+         if node.solid is not None:
+             obj=_mesh(node.solid)
+             bpy.context.view_layer.update()
++            # Preserve the complete planned transform, including translation.
+             world=Matrix(node.geometry_frame.tolist()) @ obj.matrix_world.copy()
+-            world.translation.y *= 1.45
+             obj.parent=marker
+             obj.matrix_world=world
+             obj.name=node.name

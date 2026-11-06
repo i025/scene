@@ -1,0 +1,45 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -149,12 +149,37 @@
+         obj.hide_render = not visible
+ 
+ 
++def _support_world_z_bounds(root, depsgraph):
++    """World-space vertical bounds for a mesh or composite mesh hierarchy."""
++    from mathutils import Vector
++    low = float('inf')
++    high = float('-inf')
++    for obj in [root, *root.children_recursive]:
++        if obj.type != 'MESH':
++            continue
++        evaluated = obj.evaluated_get(depsgraph)
++        if not evaluated.data.vertices:
++            continue
++        for corner in evaluated.bound_box:
++            z = (evaluated.matrix_world @ Vector(corner)).z
++            low = min(low, z)
++            high = max(high, z)
++    if low == float('inf'):
++        raise ValueError(f'No mesh geometry for support bounds: {root.name}')
++    return low, high
++
++
+ def support_on(group, surface):
+-    import bpy
+-    from mathutils import Vector
+-    meshes = [o for o in group.children_recursive if o.type == 'MESH']
+-    bottom = min(Vector(v).z for o in meshes for v in o.bound_box)
+-    top = max((surface.matrix_world @ Vector(v)).z for v in surface.bound_box)
++    """Translate a hierarchy vertically onto a surface's world-space top."""
++    import bpy
++    # A support inside the moved hierarchy would move by the same amount,
++    # making it impossible to close their relative gap by moving the group.
++    if surface == group or surface in group.children_recursive:
++        raise ValueError('Support surface must be outside the moved hierarchy')
++    bpy.context.view_layer.update()
++    depsgraph = bpy.context.evaluated_depsgraph_get()
++    bottom, _ = _support_world_z_bounds(group, depsgraph)
++    _, top = _support_world_z_bounds(surface, depsgraph)
+     matrix = group.matrix_world.copy()
+     matrix.translation.z += top - bottom
+     group.matrix_world = matrix

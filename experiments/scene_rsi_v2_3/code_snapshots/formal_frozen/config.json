@@ -1,0 +1,66 @@
+{
+  "model": {
+    "name": "gpt-6.1-sol",
+    "reasoning_effort": "medium",
+    "timeout": 300,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex"
+  },
+  "proposer": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 600,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4
+  },
+  "blender": {
+    "executable": "__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 600,
+    "threads": 2
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 16,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 2,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false,
+    "resolution": [
+      256,
+      192
+    ]
+  },
+  "budget": {
+    "model_calls": 3,
+    "executions": 2,
+    "seconds": 600
+  },
+  "benchmark": {
+    "concurrency": 1
+  },
+  "results_dir": "__EXPERIMENT_ROOT__",
+  "pilot": {
+    "name": "scene_rsi_v2_3",
+    "max_cli_sessions": 180,
+    "max_render_frames": 600,
+    "max_probes": 2,
+    "heavy_concurrency": 1,
+    "cpu_threads": 2,
+    "K": 1,
+    "formal_tasks": 10,
+    "smoke_tasks": 2,
+    "primary": "effective_shared_repair",
+    "retry_policy": "No automatic retry; a failed service call is retained and dependent work marked failed, not resampled."
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "max_gpus": 0,
+    "cpu_threads": 2,
+    "heavy_concurrency": 1,
+    "reason": "No scheduler allocation; nvidia-smi driver unavailable"
+  }
+}

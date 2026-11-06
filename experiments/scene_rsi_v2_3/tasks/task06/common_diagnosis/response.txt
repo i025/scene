@@ -1,0 +1,104 @@
+{
+  "observation": "The current image enlarges the desk, storage, wall accent and room together, cropping the floor and wall. This strongly suggests a narrower camera field of view. The public sensor request is 48, but the recorded sensor is 36; set_view explicitly hardcodes 36. The blue wall rectangle is Accent, not the hidden StudyPanel.",
+  "object_id": "SceneActView",
+  "initial_module": "set_view",
+  "initial_confidence": 0.98,
+  "probe_targets": {
+    "camera_calibration": "SceneActView",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "set_view",
+      "object_id": "SceneActView",
+      "explanation": "Ignoring the requested sensor narrows the field of view. At the same lens, 36 instead of 48 produces approximately 1.33 times the projected scale, consistent with the global enlargement.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0.1175,
+          "upper": 0.1178,
+          "reason": "Requested sensor is 48*0.85=40.8; the code returns 36. The defined residual is 4.8/40.8, approximately 0.117647."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Emission multiplies geometry_frame by the primitive world matrix and preserves that world matrix after parenting. Expected discrepancies are numerical."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The same matrix composition preserves primitive origins; the recorded desk translation also matches offset plus final_move."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "StudyPanel has an emitted mesh, and the visibility helper recursively sets hide_render on both group and descendants."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "With Floor.001 as the surface, the helper corrects the descendant AABB bottom to the floor top. Allowance covers evaluation and numerical uncertainty."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The five desk meshes belong to their named part markers, which belong to StudyDesk; they should follow group movement."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Mesh and material copies should isolate Top.001, supported by the supplied passing edit check. Zero is expected; the interval allows an unobserved ownership or execution issue."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "SceneCompiler.emit.geometry",
+      "object_id": "Room",
+      "explanation": "A scene-wide geometry/frame scale mismatch could also enlarge the room and furnishings relative to the camera. This is substantially weaker: the recorded dimensions match the specification and the supplied emitter preserves geometry_frame. A mismatch already embedded in public frames could evade replay against those same frames.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0.1175,
+          "upper": 0.1178,
+          "reason": "The supplied sensor hardcoding exists under this explanation too. Its measured residual establishes that contract violation, but does not exclude a concurrent geometry issue."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The supplied emitter should agree with public geometry_frame even if those frames encode an appearance mismatch. No alternative scale arithmetic is supported by the code."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "A geometry-scale explanation does not imply incorrect translations relative to public frames; the supplied position composition remains consistent."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Geometry scale does not change the recursive visibility contract or the observed existence of StudyPanel.001."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The AABB correction should work even for differently scaled geometry when supplied Floor.001."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "A scale mismatch does not imply a broken hierarchy; the recorded named part parenting is intact."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The same copy-before-edit implementation and passing isolation evidence apply. Zero remains expected."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-probe predictions; no tools were run. The competing geometry explanation is weak and not independently demonstrated. Identical prediction intervals do not distinguish hypotheses. The camera probe measures sensor compliance, not exclusive visual causation. Support assumes the concrete floor mesh Floor.001, not its empty group. Material counts are discrete. No image-quality increase alone would identify the cause."
+}

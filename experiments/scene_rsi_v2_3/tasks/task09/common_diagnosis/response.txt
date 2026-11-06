@@ -1,0 +1,104 @@
+{
+  "observation": "The current image shows StudyBench raised relative to the desired image; the room, storage and wall accent appear unchanged. Public bounds confirm all four leg bottoms at z≈0.5 above Floor.001's top at z=0. The bench's parts retain consistent relative placement.",
+  "object_id": "StudyBench",
+  "initial_module": "support_on",
+  "initial_confidence": 0.96,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyBench",
+    "support_relation": "StudyBench",
+    "dependency_move": "StudyBench",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "support_on",
+      "object_id": "StudyBench",
+      "explanation": "support_on computes the furniture bottom from mesh-local bound_box coordinates but computes the floor top in world coordinates. These unit cubes have local bottom -0.5, so the function adds +0.5 regardless of the furniture's actual elevation. This directly explains the observed group translation and floating legs.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width, 40.8; allow floating-point error."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Emission multiplies geometry_frame by the primitive world matrix, preserving dimensions under the requested root scale within numerical tolerance."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Emission preserves primitive origins through geometry_frame. The demonstrated support error changes z, whereas this probe measures y."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "All six bench meshes exist; the supplied visibility function recursively sets hide_render in both directions."
+        },
+        "support_relation": {
+          "lower": 0.18,
+          "upper": 10,
+          "reason": "Expected failure: after upward displacement d, the current bench bottom becomes approximately 1+d following another +0.5 correction. The outcome is (1+d)/height. This interval is conditional on a displacement no greater than nine furniture heights and covers normalization by either the 1.7 specification or 2.625 actual AABB height."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The supplied hierarchy retains named part markers beneath StudyBench and each mesh beneath its marker; group movement should propagate."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Mesh and material copying predict zero non-target changes, supported by the supplied successful edit comparison. The interval allows one unexpected ownership-related change."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "SceneCompiler.emit.position",
+      "object_id": "StudyBench",
+      "explanation": "A vertical offset introduced during frame evaluation or emission could also raise the complete bench while preserving its shape. This is substantially weaker: the supplied emission code shows no explicit vertical bias, while support_on contains a directly explanatory defect. A prior support call is not documented.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "A furniture-position error does not affect the explicit sensor assignment."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "A translation-only error need not alter mesh basis lengths; this probe does not distinguish these hypotheses."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The competing explanation is specifically vertical. A y-only discrepancy test can pass despite it; no supplied evidence justifies predicting a y error."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Emission is present and recursive visibility remains independent of a vertical positioning error."
+        },
+        "support_relation": {
+          "lower": 0.18,
+          "upper": 10,
+          "reason": "The same known support implementation still adds +0.5. Under the same displacement condition as H1, this predicts the same failure even if the original elevation arose during emission."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "A wrong initial world translation can coexist with the observed correct parent hierarchy and successful subsequent group movement."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The copying implementation and prior edit result favor zero collateral changes, independently of the source of elevation."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-tool predictions; no tools were run. The support displacement magnitude is unspecified, so its numerical interval is conditional, not an unconditional bound; use (1+d)/height for the actual displacement. The original call sequence and evaluated public plan frames are unavailable. Identical predictions do not distinguish hypotheses: a support failure establishes the current support defect but does not alone establish the history of the rendered offset. Image-quality improvement likewise would not identify cause."
+}

@@ -1,0 +1,104 @@
+{
+  "observation": "The current image enlarges the whole scene and crops the floor and wall relative to the desired image. This strongly matches a narrower camera field of view. Public camera data reports sensor 36 despite the requested 48; set_view explicitly hardcodes 36. StudyDesk dimensions, position, support contact, and named-part parenting appear consistent with the public specification.",
+  "object_id": "SceneActView",
+  "initial_module": "set_view",
+  "initial_confidence": 0.98,
+  "probe_targets": {
+    "camera_calibration": "SceneActView",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "set_view",
+      "object_id": "SceneActView",
+      "explanation": "Ignoring the requested sensor width changes 48 to 36, increasing projected scene size by approximately 4/3 at fixed lens and camera pose. This explains the global enlargement and cropping.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0.1175,
+          "upper": 0.1178,
+          "reason": "Requested sensor is 48*0.85=40.8; the implementation returns 36. The defined residual is 4.8/40.8, approximately 0.117647."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Emission multiplies the complete primitive matrix by geometry_frame, preserving nonuniform scale; only small numerical discrepancies are expected."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The full geometry_frame multiplication includes translation, and the supplied hierarchy supports the final group move."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "StudyPanel has an emitted mesh, and the function recursively sets hide_render for both toggle states."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Using Floor.001 as the surface, support_on translates StudyDesk by the measured world AABB gap. Small evaluation errors remain possible."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "All five desk meshes belong to their named part markers, which belong to StudyDesk."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 0,
+          "reason": "The supplied implementation copies both mesh data and materials before editing. The existing direct comparison also reports no non-target changes; this integer outcome is specifically predicted to be zero."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "unresolved",
+      "object_id": "unknown",
+      "explanation": "A mismatch between the desired image's camera pose or scene extent and the public plan could contribute to global framing. The sensor defect remains demonstrable under this explanation, but need not account for the entire appearance difference. No desired camera metadata or desired world transforms are supplied.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0.1175,
+          "upper": 0.1178,
+          "reason": "The same hardcoded sensor remains in the supplied code regardless of whether an additional reference-framing mismatch exists."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "This measures agreement with the public geometry_frame, not agreement between the public plan and the desired image."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "A reference-plan mismatch does not imply incorrect emission of the public plan's positions."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The recursive visibility contract should still work; it does not measure reference framing."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "AABB support against Floor.001 should still close the gap independently of camera framing."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The supplied named-part hierarchy should remain intact under group movement."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 0,
+          "reason": "Mesh and material copying predict zero collateral changes independently of the reference-framing explanation."
+        }
+      }
+    }
+  ],
+  "limitations": "These are predictions made before running any tools. Narrow intervals follow explicit code contracts, not measured probe outcomes. The two hypotheses predict identical probe responses and therefore are not distinguished by these tools. Camera calibration can establish the sensor contract violation, but cannot prove it is the sole image discrepancy. The blue wall rectangle maps to Accent, not the hidden StudyPanel. Support assumes the actual floor mesh Floor.001 is passed as the surface. No image-quality increase alone would identify a cause."
+}

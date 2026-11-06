@@ -1,0 +1,63 @@
+{
+  "figure1_executed_pipeline.png": {
+    "sources": [
+      "tasks/*/*/stage1.json",
+      "tasks/*/*/observations.json",
+      "tasks/*/*/stage2.json"
+    ],
+    "kind": "execution outline, separate from actual photographic evidence"
+  },
+  "figure2_diagnosis.png": {
+    "sources": [
+      "metrics/scene_metrics.csv",
+      "metrics/summary.json"
+    ],
+    "unit": "10 injected fault configurations across two templates; raw points overlaid"
+  },
+  "figure3_repair.png": {
+    "sources": [
+      "metrics/scene_metrics.csv",
+      "metrics/summary.json"
+    ],
+    "unit": "one proposal per task/method"
+  },
+  "figure4_cases.png": {
+    "sources": [
+      "metrics/case_selection.json",
+      "tasks/*/*/changes.diff",
+      "tasks/*/*/stage1.json",
+      "tasks/*/*/stage2.json"
+    ],
+    "selection": "first success and first failure/unresolved by predefined order"
+  },
+  "fixed_probe_counterpart.png": {
+    "sources": [
+      "tasks/task01/fixed/observations.json",
+      "tasks/task01/fixed/stage2.json"
+    ],
+    "selection": "first registered task, not selected for appearance"
+  },
+  "figure5_cost.png": {
+    "sources": [
+      "metrics/cost_curve.csv",
+      "metrics/calls.csv"
+    ],
+    "unit": "cumulative observable tokens and actual probe count; no dollar cost inferred"
+  },
+  "known_structure_edit_errors.png": {
+    "sources": [
+      "calibration/probe_calibration.json",
+      "calibration/probes/*/measurement.json"
+    ],
+    "unit": "deterministic calibration, excluded from formal rate"
+  },
+  "all_cases_contact.png": {
+    "sources": [
+      "metrics/scene_metrics.csv",
+      "tasks/*/reference.png",
+      "tasks/*/*/source_repaired.png"
+    ],
+    "selection": "every formal case in frozen order"
+  },
+  "script": "analyze.py"
+}

@@ -1,0 +1,104 @@
+{
+  "observation": "The current image adds an orange upright panel in front of the desk. Its color and bounds identify StudyPanel.001. StudyPanel is hidden, but StudyPanel.001 remains visible and is parented to Room. The emitter assigns solid meshes to parent rather than their own marker, leaving the named part markers empty.",
+  "object_id": "StudyPanel",
+  "initial_module": "SceneCompiler.emit.parent",
+  "initial_confidence": 0.96,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "SceneCompiler.emit.parent",
+      "object_id": "StudyPanel",
+      "explanation": "Meshes bypass their named markers because emit uses obj.parent=parent. Consequently, hiding StudyPanel does not reach StudyPanel.001. Desk meshes still follow StudyDesk, but bypass the named Top and Support markers, violating the named part dependency contract.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width, 40.8; only numerical tolerance is expected."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The emitter explicitly multiplies geometry_frame by the primitive matrix and preserves that world matrix when parenting. No basis-length fault is evident."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Primitive origins receive the geometry frame; desk meshes remain descendants of StudyDesk and should receive its final move."
+        },
+        "visibility_isolation": {
+          "lower": 1,
+          "upper": 2,
+          "reason": "The mesh is outside StudyPanel's descendants. If associated emitted meshes are tracked, toggling the marker leaves the mesh unchanged, giving 1; descendant-only discovery finds no meshes and returns 2."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "StudyDesk still contains all five furniture meshes. support_on computes their world AABB bottom and translates the group to the floor top."
+        },
+        "dependency_move": {
+          "lower": 0.99,
+          "upper": 1,
+          "reason": "All five desk meshes bypass their named part markers. The contrary-parent fraction should approach 1 even though the meshes follow the furniture move."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Mesh data and materials are copied before editing. The supplied Top.001 edit audit also reports no non-target changes; the expected integer count is zero."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "set_render_visibility",
+      "object_id": "StudyPanel",
+      "explanation": "An alternative repair interpretation treats the sibling marker/mesh arrangement as intentional and attributes the failure to visibility resolving only descendants rather than all meshes associated with a public ID. This is less consistent with the named part dependency requirement, but explains the same visible panel.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "The same direct sensor assignment applies; this probe does not distinguish the hypotheses."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The visibility interpretation does not change the explicit geometry-frame multiplication."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The observed desk hierarchy still carries furniture translation correctly."
+        },
+        "visibility_isolation": {
+          "lower": 1,
+          "upper": 2,
+          "reason": "The current visibility function misses the sibling mesh under either explanation; mesh-discovery semantics determine whether the result is 1 or the empty-group sentinel 2."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The furniture group contains its meshes, so the supplied AABB support implementation should close the gap."
+        },
+        "dependency_move": {
+          "lower": 0.99,
+          "upper": 1,
+          "reason": "The measured named part contract is violated by the supplied hierarchy regardless of whether that hierarchy is interpreted as intentional."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The supplied copy-before-edit implementation and successful audit predict zero collateral changes under either explanation."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-probe predictions; no tools were run. The supplied code strongly favors the parenting explanation. The two hypotheses predict identical probe responses and therefore are not distinguished by these measurements alone. Visibility mesh-discovery details are unspecified, motivating its wider interval. Support predicts only AABB contact using Floor.001 as the surface. A visual-quality increase would not by itself identify the responsible module."
+}

@@ -1,0 +1,20 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -145,8 +145,15 @@
+ 
+ # V2.3 editing interfaces use the same SceneAct object hierarchy and shared shaders.
+ def set_render_visibility(group, visible):
+-    for obj in [group]:
+-        obj.hide_render = not visible
++    """Set render visibility for the root and its complete object subtree.
++
++    Blender does not propagate an EMPTY's hide_render flag to its children.
++    Assign object flags explicitly so nested composite parts toggle together,
++    without changing transforms, shared mesh data, or unrelated objects.
++    """
++    hidden = not visible
++    for obj in [group, *group.children_recursive]:
++        obj.hide_render = hidden
+ 
+ 
+ def support_on(group, surface):

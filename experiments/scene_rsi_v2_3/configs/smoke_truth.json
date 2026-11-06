@@ -1,0 +1,40 @@
+[
+  {
+    "scene_id": "smoke01",
+    "family": 0,
+    "template": 0,
+    "fault_index": 0,
+    "exact_module": "set_view",
+    "related_modules": [
+      "set_view"
+    ],
+    "object_ids": [],
+    "object_applicable": false,
+    "injection": {
+      "before": "data.lens,data.sensor_width=lens,sensor",
+      "after": "data.lens,data.sensor_width=lens,36"
+    },
+    "labels_supplied_to_models": false
+  },
+  {
+    "scene_id": "smoke02",
+    "family": 4,
+    "template": 0,
+    "fault_index": 8,
+    "exact_module": "prepare_edit_mesh",
+    "related_modules": [
+      "prepare_edit_mesh"
+    ],
+    "object_ids": [
+      "StudyDesk",
+      "Top",
+      "Top.001"
+    ],
+    "object_applicable": true,
+    "injection": {
+      "before": "obj.data = obj.data.copy()",
+      "after": "obj.data = obj.data"
+    },
+    "labels_supplied_to_models": false
+  }
+]

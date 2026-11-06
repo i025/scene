@@ -1,0 +1,104 @@
+{
+  "observation": "StudyStorage.001 is green in the desired image but blue in the current image; the layout appears unchanged. The edit audit confirms that editing Top.001 also changed StudyStorage.001 materials. With share_mesh=true, prepare_edit_mesh leaves the mesh shared, so assigning a copied material to a data-linked slot can affect both objects.",
+  "object_id": "Top.001",
+  "initial_module": "prepare_edit_mesh",
+  "initial_confidence": 0.95,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyStorage",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "prepare_edit_mesh",
+      "object_id": "Top.001",
+      "explanation": "Mesh ownership is not isolated before editing: obj.data = obj.data is a no-op. If Top.001 and StudyStorage.001 share their mesh and use data-linked material slots, replacing the target slot changes the peer's material assignment even though the material itself was copied.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width; only numerical rounding is expected."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Emission explicitly multiplies the primitive transform by geometry_frame, preserving nonuniform scale within numerical tolerance."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The supplied code preserves world placement after parenting, and the reported furniture transform includes final_move."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "StudyStorage has an emitted mesh, and visibility updates the group and all descendants."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "With Floor.001 as the support surface and evaluated transforms, support_on directly cancels the AABB gap."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The reported desk hierarchy matches named part parenting, so its parts should follow the group."
+        },
+        "material_dependency": {
+          "lower": 1,
+          "upper": 2,
+          "reason": "The audit identifies one affected peer, and the no-op mesh preparation preserves that alias. An additional unreported alias remains possible."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "edit_surface",
+      "object_id": "Top.001",
+      "explanation": "An alternative responsibility boundary is that edit_surface must make material assignment object-local while allowing intentionally shared geometry. Its slot.material assignment can modify shared mesh-owned slots. Under this explanation, shared meshes are permissible and the surface editor's slot ownership handling is defective.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "Material-slot ownership does not affect the direct sensor assignment."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The same geometry-frame multiplication should preserve basis lengths; this hypothesis predicts no geometry defect."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Material-slot handling does not alter the supplied placement and parenting calculations."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Recursive render visibility should toggle the emitted storage mesh correctly."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The AABB correction should close the gap using Floor.001 and evaluated transforms."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The supplied named part hierarchy remains intact under this explanation."
+        },
+        "material_dependency": {
+          "lower": 1,
+          "upper": 2,
+          "reason": "Writing a data-linked slot reproduces the same peer change regardless of which editing interface should enforce ownership."
+        }
+      }
+    }
+  ],
+  "limitations": "These are predictions made before running any tools. The hypotheses compete over interface responsibility and share the same aliasing mechanism; none of these scalar probes distinguishes them. Mesh datablock identities and material-slot link modes were not supplied. Inspecting those and the intended ownership contract would resolve the attribution. Support predictions assume Floor.001, not the Floor empty, and refreshed transforms after displacement. Near-zero intervals allow numerical tolerance, not proof that all reusable pipeline cases work. Image-quality improvement alone would not identify the cause."
+}

@@ -1,0 +1,104 @@
+{
+  "observation": "The current image has smaller floor, wall, furniture and accent surfaces, with more exposed gaps. The supplied emitter multiplies every mesh's world basis by 0.76 while preserving its translation. This directly explains shrinking parts around unchanged centers, including the bench's disconnected supports. StudyBench is the affected furniture group.",
+  "object_id": "StudyBench",
+  "initial_module": "SceneCompiler.emit.geometry",
+  "initial_confidence": 0.97,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyPanel",
+    "support_relation": "StudyBench",
+    "dependency_move": "StudyBench",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "SceneCompiler.emit.geometry",
+      "object_id": "StudyBench",
+      "explanation": "The extra world @ Diagonal((.76,.76,.76,1)) uniformly reduces mesh dimensions without reducing distances between primitive centers. The reported tabletop width is 2.5916 = 3.41 × 0.76. Structural meshes exhibit the same scaling, explaining the image discrepancy through a shared compiler mechanism.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view directly assigns the requested sensor width, 40.8; only numerical rounding is expected."
+        },
+        "geometry_replay": {
+          "lower": 3,
+          "upper": 3.2,
+          "reason": "The apparent intended floor/wall width is 8.36/0.76 = 11. With root x scale 1.17, the maximum basis discrepancy should be approximately 11 × 1.17 × 0.24 = 3.0888, subject to replay frame details."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Right multiplication by this diagonal preserves translation; the supplied parent assignment restores matrix_world. No y-offset defect is evident."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "StudyPanel has an emitted mesh, and the visibility function recursively sets hide_render for both toggles."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "With Floor.001 as the support surface and updated transforms, support_on corrects the measured AABB gap. Existing support bottoms already match floor top near -0.0264."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "All six bench meshes have their named part markers parented under StudyBench, consistent with the emitted hierarchy contract."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Expected count is zero: mesh and material copies isolate edits, and the supplied Top.001 edit test passed. The interval allows an unreported ownership/runtime issue."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "set_view",
+      "object_id": "unknown",
+      "explanation": "A camera framing mismatch with the desired image could contribute to the smaller overall apparent scene size. This is substantially weaker: current lens and sensor match the public specification, set_view assigns them directly, and camera framing alone cannot explain gaps between bench parts. The visible geometry scaling remains present even under this competing attribution.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "A mismatch in desired framing or camera pose can coexist with correct sensor assignment. This scalar does not test pose or whether the public camera matches the desired image."
+        },
+        "geometry_replay": {
+          "lower": 3,
+          "upper": 3.2,
+          "reason": "The explicit 0.76 basis multiplier still predicts approximately 3.0888 discrepancy regardless of whether camera framing also contributes."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "Camera framing does not change emitted world translations; the supplied translation path appears correct."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "Camera framing does not change the recursive hide_render contract or StudyPanel mesh emission."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The AABB correction is independent of camera framing, assuming Floor.001 and evaluated transforms."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.01,
+          "reason": "The observed bench hierarchy remains intact independently of the camera."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "Expected count remains zero from ownership copying and the supplied passing edit test; camera attribution provides no reason to predict different edit behavior."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-tool predictions; no tools were run. Both hypotheses predict the same probe responses, so these probes do not distinguish an additional desired-camera mismatch. Geometry replay tests the explicit dimensional contract, not image-quality improvement as proof of cause. The full public plan and desired camera metadata are unavailable. Support predictions require the concrete Floor.001 mesh as surface and evaluated transforms; AABB contact does not establish full physical support."
+}

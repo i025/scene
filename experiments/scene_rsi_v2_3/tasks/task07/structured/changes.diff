@@ -1,0 +1,43 @@
+--- shared_H0.py
++++ shared_candidate.py
+@@ -143,7 +143,8 @@
+     return _aimed_object('SceneActArea',data,position,target)
+ 
+ 
+-# V2.3 editing interfaces use the same SceneAct object hierarchy and shared shaders.
++# V2.3 editing interfaces use the same SceneAct object hierarchy.
++# Compiled shaders are shared; surface edits isolate them before mutation.
+ def set_render_visibility(group, visible):
+     for obj in [group, *group.children_recursive]:
+         obj.hide_render = not visible
+@@ -166,10 +167,27 @@
+ 
+ 
+ def edit_surface(obj, rgba):
++    rgba = tuple(rgba)
++    if len(rgba) != 4:
++        raise ValueError('Surface color must contain four RGBA components')
++
++    # Mesh copies isolate DATA-linked slot assignments, but retain material
++    # references. Copy each material before editing its shader or color.
+     prepare_edit_mesh(obj)
++    copies = {}
+     for slot in obj.material_slots:
+         original = slot.material
+-        material = original
++        if original is None:
++            continue
++        key = original.as_pointer()
++        material = copies.get(key)
++        if material is None:
++            material = original.copy()
++            copies[key] = material
++            material.diffuse_color = rgba
++            if material.node_tree is not None:
++                for node in material.node_tree.nodes:
++                    if node.type == 'BSDF_PRINCIPLED':
++                        node.inputs['Base Color'].default_value = rgba
++                        node.inputs['Alpha'].default_value = rgba[3]
+         slot.material = material
+-        material.diffuse_color = rgba
+-        material.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = rgba

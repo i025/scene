@@ -1,0 +1,104 @@
+{
+  "observation": "StudyStorage is green in the desired image and blue in the current image; the visible geometry and framing appear unchanged. The recorded edit of Top.001 changed StudyStorage.001 materials, directly establishing an unwanted edit dependency.",
+  "object_id": "StudyStorage.001",
+  "initial_module": "prepare_edit_mesh",
+  "initial_confidence": 0.9,
+  "probe_targets": {
+    "camera_calibration": "unknown",
+    "geometry_replay": "unknown",
+    "position_replay": "unknown",
+    "visibility_isolation": "StudyStorage",
+    "support_relation": "StudyDesk",
+    "dependency_move": "StudyDesk",
+    "material_dependency": "Top.001"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "prepare_edit_mesh",
+      "object_id": "Top.001",
+      "explanation": "prepare_edit_mesh is a no-op. With shared mesh data and data-linked material slots, assigning a copied material during the tabletop edit also changes the storage object's material assignment. This fits share_mesh=true and the recorded non-target material change.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "set_view explicitly assigns the requested sensor width; only numerical error is expected."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "Emission explicitly multiplies geometry_frame by the primitive transform. Small numerical or transform decomposition discrepancies remain possible."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "The supplied code preserves the computed world transform, and the current desk translation matches offset plus final_move."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "StudyStorage has an emitted mesh and the visibility implementation recursively sets hide_render in both directions."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "For StudyDesk supported on Floor.001, the implementation corrects the measured AABB gap. Evaluation timing and floating-point error allow a small residual."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "The reported desk hierarchy follows the emitted named part structure; its descendants should follow group movement."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "One changed non-target object, StudyStorage.001, is strongly expected from the previous edit. Zero remains possible because mesh identities and slot link modes are not exposed."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "edit_surface",
+      "object_id": "Top.001",
+      "explanation": "The ownership error could instead be assigned to edit_surface: it copies the material but assigns it through a potentially shared DATA-linked slot. An object-local material override could isolate this surface edit without requiring mesh detachment. The evidence establishes leakage but does not uniquely locate responsibility between these two interfaces.",
+      "predictions": {
+        "camera_calibration": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "This hypothesis also leaves the explicit sensor assignment intact."
+        },
+        "geometry_replay": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "A material-slot ownership defect does not change the supplied geometry transform calculation."
+        },
+        "position_replay": {
+          "lower": 0,
+          "upper": 0.0001,
+          "reason": "A surface edit ownership defect does not predict a translation discrepancy."
+        },
+        "visibility_isolation": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "Recursive visibility toggling should satisfy the stated contract independently of material ownership."
+        },
+        "support_relation": {
+          "lower": 0,
+          "upper": 0.001,
+          "reason": "The same AABB support correction applies to StudyDesk and Floor.001."
+        },
+        "dependency_move": {
+          "lower": 0,
+          "upper": 0.00001,
+          "reason": "Material-slot ownership does not alter the reported parent hierarchy."
+        },
+        "material_dependency": {
+          "lower": 0,
+          "upper": 1,
+          "reason": "The same shared-slot assignment predicts storage recoloring, subject to unreported datablock identity and slot-link state."
+        }
+      }
+    }
+  ],
+  "limitations": "These are pre-probe predictions; no tools were run. The two leading explanations predict the same probe outcomes, so these probes cannot distinguish their module attribution. Mesh datablock identities, material-slot link modes, and the sharing setup are absent. The support prediction assumes Floor.001 is passed as the surface mesh and transforms are evaluated after displacement. Small near-zero intervals are numerical tolerances, not proof that unrelated latent defects are absent. An image-quality increase alone would not identify the cause."
+}

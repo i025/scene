@@ -1,0 +1,1353 @@
+{
+  "context": {
+    "method": "active",
+    "scene_id": "smoke02",
+    "object_id": "Top.001",
+    "hypotheses": [
+      {
+        "id": "H1",
+        "module": "prepare_edit_mesh",
+        "object_id": "Top.001",
+        "explanation": "Mesh ownership is not isolated before editing: obj.data = obj.data is a no-op. If Top.001 and StudyStorage.001 share their mesh and use data-linked material slots, replacing the target slot changes the peer's material assignment even though the material itself was copied.",
+        "predictions": {
+          "camera_calibration": {
+            "lower": 0,
+            "upper": 1e-05,
+            "reason": "set_view directly assigns the requested sensor width; only numerical rounding is expected."
+          },
+          "geometry_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "Emission explicitly multiplies the primitive transform by geometry_frame, preserving nonuniform scale within numerical tolerance."
+          },
+          "position_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "The supplied code preserves world placement after parenting, and the reported furniture transform includes final_move."
+          },
+          "visibility_isolation": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "StudyStorage has an emitted mesh, and visibility updates the group and all descendants."
+          },
+          "support_relation": {
+            "lower": 0,
+            "upper": 0.001,
+            "reason": "With Floor.001 as the support surface and evaluated transforms, support_on directly cancels the AABB gap."
+          },
+          "dependency_move": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "The reported desk hierarchy matches named part parenting, so its parts should follow the group."
+          },
+          "material_dependency": {
+            "lower": 1,
+            "upper": 2,
+            "reason": "The audit identifies one affected peer, and the no-op mesh preparation preserves that alias. An additional unreported alias remains possible."
+          }
+        }
+      },
+      {
+        "id": "H2",
+        "module": "edit_surface",
+        "object_id": "Top.001",
+        "explanation": "An alternative responsibility boundary is that edit_surface must make material assignment object-local while allowing intentionally shared geometry. Its slot.material assignment can modify shared mesh-owned slots. Under this explanation, shared meshes are permissible and the surface editor's slot ownership handling is defective.",
+        "predictions": {
+          "camera_calibration": {
+            "lower": 0,
+            "upper": 1e-05,
+            "reason": "Material-slot ownership does not affect the direct sensor assignment."
+          },
+          "geometry_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "The same geometry-frame multiplication should preserve basis lengths; this hypothesis predicts no geometry defect."
+          },
+          "position_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "Material-slot handling does not alter the supplied placement and parenting calculations."
+          },
+          "visibility_isolation": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "Recursive render visibility should toggle the emitted storage mesh correctly."
+          },
+          "support_relation": {
+            "lower": 0,
+            "upper": 0.001,
+            "reason": "The AABB correction should close the gap using Floor.001 and evaluated transforms."
+          },
+          "dependency_move": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "The supplied named part hierarchy remains intact under this explanation."
+          },
+          "material_dependency": {
+            "lower": 1,
+            "upper": 2,
+            "reason": "Writing a data-linked slot reproduces the same peer change regardless of which editing interface should enforce ownership."
+          }
+        }
+      }
+    ],
+    "initial_module": "prepare_edit_mesh",
+    "initial_confidence": 0.95,
+    "probe_targets": {
+      "camera_calibration": "unknown",
+      "geometry_replay": "unknown",
+      "position_replay": "unknown",
+      "visibility_isolation": "StudyStorage",
+      "support_relation": "StudyDesk",
+      "dependency_move": "StudyDesk",
+      "material_dependency": "Top.001"
+    },
+    "remaining_probe_budget": 2,
+    "already_executed_probe_count": 0,
+    "available_probe_menu": [
+      "camera_calibration",
+      "geometry_replay",
+      "position_replay",
+      "visibility_isolation",
+      "support_relation",
+      "dependency_move",
+      "material_dependency"
+    ],
+    "raw_evidence": {
+      "scene_id": "smoke02",
+      "source_scope": "Actual SceneAct Blender compiler plus visibility/support/edit interfaces; controlled scene-description-to-Blender program repair, not natural-image end-to-end H",
+      "spec": {
+        "template": 0,
+        "target": "StudyDesk",
+        "peer": "StudyStorage",
+        "screen": "StudyPanel",
+        "width": 2.2,
+        "depth": 1.3,
+        "height": 1.45,
+        "offset": [
+          -0.8,
+          0.4,
+          0
+        ],
+        "angle": -12,
+        "root_scale": [
+          1,
+          1,
+          1
+        ],
+        "lens": 46,
+        "sensor": 48,
+        "camera": [
+          8,
+          -12,
+          6
+        ],
+        "share_mesh": true,
+        "rgba": [
+          0.1,
+          0.35,
+          0.7,
+          1
+        ],
+        "final_move": [
+          0.3,
+          0.1,
+          0
+        ],
+        "panel_alpha": 0.72,
+        "peer_position": [
+          3.6,
+          1.7,
+          0.7
+        ]
+      },
+      "objects": {
+        "Room": {
+          "type": "EMPTY",
+          "parent": null,
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.028429076075553894,
+            0.021386682987213135,
+            0.9174427390098572,
+            1.0796080753207207
+          ],
+          "vertices": null
+        },
+        "StudyDesk": {
+          "type": "EMPTY",
+          "parent": "Room",
+          "matrix": [
+            [
+              0.978147566318512,
+              0.20791174471378326,
+              0.0,
+              -0.5
+            ],
+            [
+              -0.20791174471378326,
+              0.978147566318512,
+              0.0,
+              0.5
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.3780565559864044,
+            0.3991079330444336,
+            0.5284499526023865,
+            0.6350900530815125
+          ],
+          "vertices": null
+        },
+        "Top": {
+          "type": "EMPTY",
+          "parent": "StudyDesk",
+          "matrix": [
+            [
+              0.9781475067138672,
+              0.20791172981262207,
+              0.0,
+              -0.5000000596046448
+            ],
+            [
+              -0.20791172981262207,
+              0.9781475067138672,
+              0.0,
+              0.5000000596046448
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.3780565559864044,
+            0.3991079330444336,
+            0.5284499526023865,
+            0.49900949001312256
+          ],
+          "vertices": null
+        },
+        "Top.001": {
+          "type": "MESH",
+          "parent": "Top",
+          "matrix": [
+            [
+              2.1519248485565186,
+              0.2702852785587311,
+              0.0,
+              -0.4999999403953552
+            ],
+            [
+              -0.45740586519241333,
+              1.2715919017791748,
+              0.0,
+              0.5
+            ],
+            [
+              0.0,
+              0.0,
+              0.2199999988079071,
+              1.4500000476837158
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              -1.7111049890518188,
+              -0.36449888348579407,
+              1.340000033378601
+            ],
+            "max": [
+              0.7111051082611084,
+              1.3644988536834717,
+              1.5600000619888306
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.3780565559864044,
+            0.3991079330444336,
+            0.5284499526023865,
+            0.49900949001312256
+          ],
+          "vertices": 8
+        },
+        "Support0": {
+          "type": "EMPTY",
+          "parent": "StudyDesk",
+          "matrix": [
+            [
+              0.9781475067138672,
+              0.20791171491146088,
+              0.0,
+              -0.5000000596046448
+            ],
+            [
+              -0.20791171491146088,
+              0.9781475067138672,
+              0.0,
+              0.5000000596046448
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.3887157738208771,
+            0.44521212577819824,
+            0.4064721167087555,
+            0.5867651700973511
+          ],
+          "vertices": null
+        },
+        "Support0.001": {
+          "type": "MESH",
+          "parent": "Support0",
+          "matrix": [
+            [
+              0.1760665774345398,
+              0.03742411732673645,
+              0.0,
+              -1.4365533590316772
+            ],
+            [
+              -0.03742411732673645,
+              0.1760665774345398,
+              0.0,
+              0.2206152081489563
+            ],
+            [
+              0.0,
+              0.0,
+              1.340000033378601,
+              0.6700000166893005
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              -1.5432987213134766,
+              0.11386986076831818,
+              0.0
+            ],
+            "max": [
+              -1.329807996749878,
+              0.3273605704307556,
+              1.340000033378601
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.3887157738208771,
+            0.44521212577819824,
+            0.4064721167087555,
+            0.5867651700973511
+          ],
+          "vertices": 8
+        },
+        "Support1": {
+          "type": "EMPTY",
+          "parent": "StudyDesk",
+          "matrix": [
+            [
+              0.9781475067138672,
+              0.20791171491146088,
+              0.0,
+              -0.5000000596046448
+            ],
+            [
+              -0.20791171491146088,
+              0.9781475067138672,
+              0.0,
+              0.5000000596046448
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.42988526821136475,
+            0.4252462387084961,
+            0.44592368602752686,
+            0.561630368232727
+          ],
+          "vertices": null
+        },
+        "Support1.001": {
+          "type": "MESH",
+          "parent": "Support1",
+          "matrix": [
+            [
+              0.1760665774345398,
+              0.03742411732673645,
+              0.0,
+              -1.241947889328003
+            ],
+            [
+              -0.03742411732673645,
+              0.1760665774345398,
+              0.0,
+              1.1361613273620605
+            ],
+            [
+              0.0,
+              0.0,
+              1.340000033378601,
+              0.6700000166893005
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              -1.3486932516098022,
+              1.0294159650802612,
+              0.0
+            ],
+            "max": [
+              -1.1352025270462036,
+              1.2429066896438599,
+              1.340000033378601
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.42988526821136475,
+            0.4252462387084961,
+            0.44592368602752686,
+            0.561630368232727
+          ],
+          "vertices": 8
+        },
+        "Support2": {
+          "type": "EMPTY",
+          "parent": "StudyDesk",
+          "matrix": [
+            [
+              0.9781475067138672,
+              0.20791171491146088,
+              0.0,
+              -0.5000000596046448
+            ],
+            [
+              -0.20791171491146088,
+              0.9781475067138672,
+              0.0,
+              0.5000000596046448
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.4607679545879364,
+            0.483648419380188,
+            0.4777706563472748,
+            0.6350900530815125
+          ],
+          "vertices": null
+        },
+        "Support2.001": {
+          "type": "MESH",
+          "parent": "Support2",
+          "matrix": [
+            [
+              0.1760665774345398,
+              0.03742411732673645,
+              0.0,
+              0.24194800853729248
+            ],
+            [
+              -0.03742411732673645,
+              0.1760665774345398,
+              0.0,
+              -0.13616132736206055
+            ],
+            [
+              0.0,
+              0.0,
+              1.340000033378601,
+              0.6700000166893005
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              0.13520266115665436,
+              -0.24290667474269867,
+              0.0
+            ],
+            "max": [
+              0.3486933708190918,
+              -0.029415979981422424,
+              1.340000033378601
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.4607679545879364,
+            0.483648419380188,
+            0.4777706563472748,
+            0.6350900530815125
+          ],
+          "vertices": 8
+        },
+        "Support3": {
+          "type": "EMPTY",
+          "parent": "StudyDesk",
+          "matrix": [
+            [
+              0.9781475067138672,
+              0.20791171491146088,
+              0.0,
+              -0.5000000596046448
+            ],
+            [
+              -0.20791171491146088,
+              0.9781475067138672,
+              0.0,
+              0.5000000596046448
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.5018410086631775,
+            0.46067988872528076,
+            0.5175578594207764,
+            0.6062221527099609
+          ],
+          "vertices": null
+        },
+        "Support3.001": {
+          "type": "MESH",
+          "parent": "Support3",
+          "matrix": [
+            [
+              0.1760665774345398,
+              0.03742411732673645,
+              0.0,
+              0.43655335903167725
+            ],
+            [
+              -0.03742411732673645,
+              0.1760665774345398,
+              0.0,
+              0.7793847918510437
+            ],
+            [
+              0.0,
+              0.0,
+              1.340000033378601,
+              0.6700000166893005
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              0.32980799674987793,
+              0.6726394295692444,
+              0.0
+            ],
+            "max": [
+              0.5432987213134766,
+              0.886130154132843,
+              1.340000033378601
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.5018410086631775,
+            0.46067988872528076,
+            0.5175578594207764,
+            0.6062221527099609
+          ],
+          "vertices": 8
+        },
+        "Floor": {
+          "type": "EMPTY",
+          "parent": "Room",
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.028429076075553894,
+            0.3926534652709961,
+            0.8888606429100037,
+            1.0796080753207207
+          ],
+          "vertices": null
+        },
+        "Floor.001": {
+          "type": "MESH",
+          "parent": "Floor",
+          "matrix": [
+            [
+              11.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              10.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.2199999988079071,
+              -0.10999999940395355
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              -5.5,
+              -4.0,
+              -0.2199999988079071
+            ],
+            "max": [
+              5.5,
+              6.0,
+              0.0
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.028429076075553894,
+            0.3926534652709961,
+            0.8888606429100037,
+            1.0796080753207207
+          ],
+          "vertices": 8
+        },
+        "Wall": {
+          "type": "EMPTY",
+          "parent": "Room",
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.37165573239326477,
+            0.021386682987213135,
+            0.9174427390098572,
+            0.5758012235164642
+          ],
+          "vertices": null
+        },
+        "Wall.001": {
+          "type": "MESH",
+          "parent": "Wall",
+          "matrix": [
+            [
+              11.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.1599999964237213,
+              0.0,
+              5.0
+            ],
+            [
+              0.0,
+              0.0,
+              5.0,
+              2.4000000953674316
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              -5.5,
+              4.920000076293945,
+              -0.09999990463256836
+            ],
+            "max": [
+              5.5,
+              5.079999923706055,
+              4.900000095367432
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.37165573239326477,
+            0.021386682987213135,
+            0.9174427390098572,
+            0.5758012235164642
+          ],
+          "vertices": 8
+        },
+        "StudyStorage": {
+          "type": "EMPTY",
+          "parent": "Room",
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.6578959226608276,
+            0.4586334824562073,
+            0.7706117630004883,
+            0.6768497824668884
+          ],
+          "vertices": null
+        },
+        "StudyStorage.001": {
+          "type": "MESH",
+          "parent": "StudyStorage",
+          "matrix": [
+            [
+              1.2999999523162842,
+              0.0,
+              0.0,
+              3.5999999046325684
+            ],
+            [
+              0.0,
+              1.2000000476837158,
+              0.0,
+              1.7000000476837158
+            ],
+            [
+              0.0,
+              0.0,
+              1.399999976158142,
+              0.699999988079071
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              2.9499998092651367,
+              1.100000023841858,
+              0.0
+            ],
+            "max": [
+              4.25,
+              2.3000001907348633,
+              1.399999976158142
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.6578959226608276,
+            0.4586334824562073,
+            0.7706117630004883,
+            0.6768497824668884
+          ],
+          "vertices": 8
+        },
+        "StudyPanel": {
+          "type": "EMPTY",
+          "parent": "Room",
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": false,
+          "projected": [
+            0.3617977499961853,
+            0.41262733936309814,
+            0.4387747347354889,
+            0.6375450193881989
+          ],
+          "vertices": null
+        },
+        "StudyPanel.001": {
+          "type": "MESH",
+          "parent": "StudyPanel",
+          "matrix": [
+            [
+              1.2999999523162842,
+              0.0,
+              0.0,
+              -0.6000000238418579
+            ],
+            [
+              0.0,
+              0.15000000596046448,
+              0.0,
+              -0.800000011920929
+            ],
+            [
+              0.0,
+              0.0,
+              1.7999999523162842,
+              1.0499999523162842
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              -1.25,
+              -0.875,
+              0.1499999761581421
+            ],
+            "max": [
+              0.04999995231628418,
+              -0.7250000238418579,
+              1.9499999284744263
+            ]
+          },
+          "visible": false,
+          "projected": [
+            0.3617977499961853,
+            0.41262733936309814,
+            0.4387747347354889,
+            0.6375450193881989
+          ],
+          "vertices": 8
+        },
+        "Accent": {
+          "type": "EMPTY",
+          "parent": "Room",
+          "matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": [
+            0.6105558276176453,
+            0.19814753532409668,
+            0.7171860933303833,
+            0.32270902395248413
+          ],
+          "vertices": null
+        },
+        "Accent.001": {
+          "type": "MESH",
+          "parent": "Accent",
+          "matrix": [
+            [
+              2.0,
+              0.0,
+              0.0,
+              1.399999976158142
+            ],
+            [
+              0.0,
+              0.11999999731779099,
+              0.0,
+              4.699999809265137
+            ],
+            [
+              0.0,
+              0.0,
+              1.100000023841858,
+              2.700000047683716
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": {
+            "min": [
+              0.3999999761581421,
+              4.639999866485596,
+              2.1500000953674316
+            ],
+            "max": [
+              2.4000000953674316,
+              4.759999752044678,
+              3.25
+            ]
+          },
+          "visible": true,
+          "projected": [
+            0.6105558276176453,
+            0.19814753532409668,
+            0.7171860933303833,
+            0.32270902395248413
+          ],
+          "vertices": 8
+        },
+        "SceneActView": {
+          "type": "CAMERA",
+          "parent": null,
+          "matrix": [
+            [
+              0.8551074266433716,
+              -0.1654173880815506,
+              0.4913536310195923,
+              8.0
+            ],
+            [
+              0.5184508562088013,
+              0.2728312313556671,
+              -0.8104146122932434,
+              -12.0
+            ],
+            [
+              4.449437085440877e-08,
+              0.9477342367172241,
+              0.3190608024597168,
+              6.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": null,
+          "vertices": null
+        },
+        "SceneActArea": {
+          "type": "LIGHT",
+          "parent": null,
+          "matrix": [
+            [
+              0.9805806875228882,
+              -0.16537965834140778,
+              0.10540924966335297,
+              1.0
+            ],
+            [
+              0.1961161345243454,
+              0.8268982768058777,
+              -0.5270462036132812,
+              -5.0
+            ],
+            [
+              -2.168611068498194e-09,
+              0.537483811378479,
+              0.8432740569114685,
+              8.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "bounds": null,
+          "visible": true,
+          "projected": null,
+          "vertices": null
+        }
+      },
+      "camera": {
+        "lens": 46.0,
+        "sensor": 48.0
+      },
+      "edit": {
+        "applicable": true,
+        "measured_pass": false,
+        "non_target": {
+          "pass": false,
+          "checked_objects": 23,
+          "changed_fields": {
+            "StudyStorage.001": [
+              "materials"
+            ]
+          },
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Top.001"
+      },
+      "requirements": "Compile a reusable SceneAct scene plan, retain intended world transforms and visibility, support composite furniture, preserve dependencies under group movement and local edits. Use images as desired appearance; investigate any shared module.",
+      "valid_object_ids": [
+        "Room",
+        "StudyDesk",
+        "Top",
+        "Top.001",
+        "Support0",
+        "Support0.001",
+        "Support1",
+        "Support1.001",
+        "Support2",
+        "Support2.001",
+        "Support3",
+        "Support3.001",
+        "Floor",
+        "Floor.001",
+        "Wall",
+        "Wall.001",
+        "StudyStorage",
+        "StudyStorage.001",
+        "StudyPanel",
+        "StudyPanel.001",
+        "Accent",
+        "Accent.001",
+        "SceneActView",
+        "SceneActArea"
+      ]
+    }
+  },
+  "plan": {
+    "probes": [],
+    "reason": "Choose disjoint pre-observation scalar prediction intervals; no predicted separation => no probe.",
+    "predictions_frozen": [
+      {
+        "id": "H1",
+        "module": "prepare_edit_mesh",
+        "object_id": "Top.001",
+        "explanation": "Mesh ownership is not isolated before editing: obj.data = obj.data is a no-op. If Top.001 and StudyStorage.001 share their mesh and use data-linked material slots, replacing the target slot changes the peer's material assignment even though the material itself was copied.",
+        "predictions": {
+          "camera_calibration": {
+            "lower": 0,
+            "upper": 1e-05,
+            "reason": "set_view directly assigns the requested sensor width; only numerical rounding is expected."
+          },
+          "geometry_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "Emission explicitly multiplies the primitive transform by geometry_frame, preserving nonuniform scale within numerical tolerance."
+          },
+          "position_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "The supplied code preserves world placement after parenting, and the reported furniture transform includes final_move."
+          },
+          "visibility_isolation": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "StudyStorage has an emitted mesh, and visibility updates the group and all descendants."
+          },
+          "support_relation": {
+            "lower": 0,
+            "upper": 0.001,
+            "reason": "With Floor.001 as the support surface and evaluated transforms, support_on directly cancels the AABB gap."
+          },
+          "dependency_move": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "The reported desk hierarchy matches named part parenting, so its parts should follow the group."
+          },
+          "material_dependency": {
+            "lower": 1,
+            "upper": 2,
+            "reason": "The audit identifies one affected peer, and the no-op mesh preparation preserves that alias. An additional unreported alias remains possible."
+          }
+        }
+      },
+      {
+        "id": "H2",
+        "module": "edit_surface",
+        "object_id": "Top.001",
+        "explanation": "An alternative responsibility boundary is that edit_surface must make material assignment object-local while allowing intentionally shared geometry. Its slot.material assignment can modify shared mesh-owned slots. Under this explanation, shared meshes are permissible and the surface editor's slot ownership handling is defective.",
+        "predictions": {
+          "camera_calibration": {
+            "lower": 0,
+            "upper": 1e-05,
+            "reason": "Material-slot ownership does not affect the direct sensor assignment."
+          },
+          "geometry_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "The same geometry-frame multiplication should preserve basis lengths; this hypothesis predicts no geometry defect."
+          },
+          "position_replay": {
+            "lower": 0,
+            "upper": 0.0001,
+            "reason": "Material-slot handling does not alter the supplied placement and parenting calculations."
+          },
+          "visibility_isolation": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "Recursive render visibility should toggle the emitted storage mesh correctly."
+          },
+          "support_relation": {
+            "lower": 0,
+            "upper": 0.001,
+            "reason": "The AABB correction should close the gap using Floor.001 and evaluated transforms."
+          },
+          "dependency_move": {
+            "lower": 0,
+            "upper": 0.01,
+            "reason": "The supplied named part hierarchy remains intact under this explanation."
+          },
+          "material_dependency": {
+            "lower": 1,
+            "upper": 2,
+            "reason": "Writing a data-linked slot reproduces the same peer change regardless of which editing interface should enforce ownership."
+          }
+        }
+      }
+    ],
+    "menu_scores": {
+      "camera_calibration": 0.0,
+      "geometry_replay": 0.0,
+      "position_replay": 0.0,
+      "visibility_isolation": 0.0,
+      "support_relation": 0.0,
+      "dependency_move": 0.0,
+      "material_dependency": 0.0
+    }
+  },
+  "saved_before_probe": 1793960772.0428429
+}
