@@ -1,0 +1,84 @@
+{
+  "visual_difference": "The dominant upper-left pendant is shallower in the reconstruction: its lower rim sits higher and its neck-to-shade proportions differ from the photograph. The photograph shows a taller bell silhouette and a more exposed pale underside. This is a prominent silhouette discrepancy, beyond the reconstruction's general noise and tonal differences.",
+  "object_id": "pendant_front_left",
+  "reference_roi": [0.015, 0.11, 0.235, 0.405],
+  "initial_module": "geometry_scale_depth",
+  "initial_confidence": 0.6,
+  "probe_targets": {
+    "camera_focal": "pendant_front_left",
+    "camera_tilt": "pendant_front_left",
+    "object_scale": "pendant_front_left",
+    "object_depth": "pendant_front_left",
+    "isolate": "pendant_front_left"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "geometry_scale_depth",
+      "object_id": "pendant_front_left",
+      "explanation": "The procedural pendant proportions are inaccurate. The program flattens the sphere vertically to 0.78, cuts its lower half away, and adds a flat underside and cylindrical neck. These explicit proportions can produce a shallow shade even with an adequate camera. Uniform scaling or depth changes cannot directly repair its aspect ratio.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.04,
+          "upper": 0.025,
+          "reason": "A 10% focal increase enlarges the lamp but moves its off-center silhouette leftward and changes the entire scene; the proportion error remains."
+        },
+        "camera_tilt": {
+          "lower": -0.045,
+          "upper": 0.035,
+          "reason": "Upward rotation moves the pendant downward in the image, potentially improving rim placement while disturbing other correspondences; it does not change the modeled proportions."
+        },
+        "object_scale": {
+          "lower": -0.025,
+          "upper": 0.03,
+          "reason": "Scaling the complete pendant by 1.1 could extend its rim toward the reference, but also widens an already substantial shade and scales the cord."
+        },
+        "object_depth": {
+          "lower": -0.035,
+          "upper": 0.02,
+          "reason": "Moving the pendant 10% farther away shrinks its projection without fixing its shallow silhouette; reduced width could nevertheless improve some pixels."
+        },
+        "isolate": {
+          "lower": -0.18,
+          "upper": 0.04,
+          "reason": "Isolation exposes the modeled silhouette but removes most reference content. Background replacement can alter local similarity independently of geometry."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "camera_framing",
+      "object_id": "pendant_front_left",
+      "explanation": "Camera pitch or perspective may account for part of the apparent pendant error. Several reconstructed hanging shades sit higher than their photographic counterparts, and the ceiling and furniture perspective also differ. The supplied camera is an estimate, so a shared projection error competes with a local shape error.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.04,
+          "upper": 0.03,
+          "reason": "Focal enlargement changes shared spacing and apparent size, but cannot independently fix vertical placement; evidence does not establish the required focal direction."
+        },
+        "camera_tilt": {
+          "lower": -0.025,
+          "upper": 0.055,
+          "reason": "Upward rotation shifts the elevated reconstructed shades downward, offering a plausible shared alignment improvement. Four degrees may overshoot and worsen furniture alignment."
+        },
+        "object_scale": {
+          "lower": -0.025,
+          "upper": 0.03,
+          "reason": "Local enlargement can compensate for some projection error within the ROI without correcting the shared camera. There is insufficient evidence to distinguish this forecast from H1."
+        },
+        "object_depth": {
+          "lower": -0.035,
+          "upper": 0.02,
+          "reason": "Local shrinking may compensate for focal error but preserves the projected center and cannot resolve shared vertical displacement."
+        },
+        "isolate": {
+          "lower": -0.18,
+          "upper": 0.04,
+          "reason": "Isolation retains the same camera and removes architectural comparison anchors; its appearance score is not a discriminating camera test."
+        }
+      }
+    }
+  ],
+  "program_evidence": "The supplied bell_dome projection is approximately [-0.038,0.168,0.245,0.329], and its parent chain explicitly identifies pendant_front_left. The program constructs that asset at (-2.78,-0.05), radius 0.64, bottom 2.58. This establishes semantic correspondence without selecting an arbitrary mesh; the approximate projected AABB is not a visible silhouette mask. A reusable workflow should record reference silhouettes and shared architectural anchors, map them to named assets, predict controlled interventions, and compare independent baseline-relative probes before revising parameters. Test shared camera alignment across multiple objects, then local silhouette proportions, then materials and lighting. Preserve the same reference ROI throughout and retain unresolved explanations when responses overlap.",
+  "limitations": "No tools or external files were used, and no experiments were performed. All intervals are uncertain pre-experiment forecasts for S = 0.5*(SSIM_full_after - SSIM_full_before) + 0.5*(SSIM_fixed_ROI_after - SSIM_fixed_ROI_before), using the stated ROI unchanged for every intervention. They are not measured confidence intervals. Positive S indicates appearance sensitivity, not geometry truth or unique causal identification. Render noise, lighting, occlusion and approximate correspondence confound attribution. The supplied hierarchy checks establish emitted-part integrity, not photographic completeness."
+}

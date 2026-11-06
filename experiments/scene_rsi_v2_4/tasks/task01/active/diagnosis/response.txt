@@ -1,0 +1,84 @@
+{
+  "visual_difference": "The reconstruction's bed sits higher and occupies less of the lower-right foreground than the photographed bed. Its broad, nearly horizontal footboard is exposed across the center, whereas the photograph shows a more oblique foot end partly hidden by the armchair. This changes a major silhouette and the chair–bed overlap.",
+  "object_id": "Dark wooden double bed",
+  "reference_roi": [0.5, 0.46, 0.99, 0.98],
+  "initial_module": "geometry_scale_depth",
+  "initial_confidence": 0.65,
+  "probe_targets": {
+    "camera_focal": "SceneActView",
+    "camera_tilt": "SceneActView",
+    "object_scale": "Dark wooden double bed",
+    "object_depth": "Dark wooden double bed",
+    "isolate": "Dark wooden double bed"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "geometry_scale_depth",
+      "object_id": "Dark wooden double bed",
+      "explanation": "The bed's local orientation, placement and projected extent are wrong. Its explicit -65-degree rotation and subsequent translation determine the exposed footboard and overlap. Several rear-wall landmarks are closer to their reference positions than the bed, supporting a local explanation. Uniform scale or depth probes cannot directly correct its orientation.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.03,
+          "upper": 0.04,
+          "reason": "A 10% focal increase enlarges the bed but also displaces otherwise closer wall landmarks; it leaves the local orientation error."
+        },
+        "camera_tilt": {
+          "lower": -0.04,
+          "upper": 0.04,
+          "reason": "Upward pitch moves the bed downward in the image, potentially helping vertical placement while moving the rest of the room."
+        },
+        "object_scale": {
+          "lower": -0.02,
+          "upper": 0.05,
+          "reason": "Enlargement can recover some missing foreground coverage, but center-based scaling also raises the headboard and changes occlusion without fixing orientation."
+        },
+        "object_depth": {
+          "lower": -0.05,
+          "upper": 0.02,
+          "reason": "Moving the bed farther away shrinks its already insufficient foreground extent, though incidental edge or brightness alignment could improve."
+        },
+        "isolate": {
+          "lower": -0.12,
+          "upper": 0.03,
+          "reason": "Removing the armchair and room destroys reference context and reveals currently hidden bed surfaces. Background-dependent SSIM changes remain uncertain."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "camera_framing",
+      "object_id": "SceneActView",
+      "explanation": "The inferred viewpoint and framing may account for much of the bed's apparent recession and angle. The reconstruction also shifts the room corner and right-wall miniature substantially rightward, suggesting a broader camera or room-layout discrepancy. Focal length and pitch test only part of this hypothesis; camera position and yaw remain untested.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.03,
+          "upper": 0.05,
+          "reason": "A tighter field of view may restore foreground prominence, but the direction is not established and the right-wall discrepancy could worsen."
+        },
+        "camera_tilt": {
+          "lower": -0.03,
+          "upper": 0.06,
+          "reason": "Moving scene content downward may improve the high bed and chair together; rear landmarks constrain how much this can help."
+        },
+        "object_scale": {
+          "lower": -0.03,
+          "upper": 0.04,
+          "reason": "Local enlargement can compensate for camera error inside the ROI while leaving the shared perspective mismatch intact."
+        },
+        "object_depth": {
+          "lower": -0.05,
+          "upper": 0.02,
+          "reason": "Further recession likely reduces foreground coverage under either explanation. There is insufficient evidence for a distinct forecast here."
+        },
+        "isolate": {
+          "lower": -0.12,
+          "upper": 0.03,
+          "reason": "Isolation removes the landmarks needed to assess camera consistency. Its appearance score does not distinguish camera error from local geometry error."
+        }
+      }
+    }
+  ],
+  "program_evidence": "The supplied bed group projects to approximately [0.479,0.403,0.949,0.854], corroborating its high, shallow foreground coverage relative to the photograph and the program's own estimated bed bounds [0.52,0.47,1,0.98]. The program builds a 2.08-by-2.85 bed, rotates it -65 degrees around (1.38,1.03,0), then translates it by (-0.83,0.27,0). The camera uses position (-4.65,-6.45,2.70), target (-1.15,1.65,1.30), and lens 44. These explicit parameters and the semantic group establish correspondence without choosing an arbitrary mesh. A reusable workflow should record reference landmarks and overlaps, compare their projected residuals, then test camera and local object parameters separately from the same baseline. Preserve the hierarchy, inspect silhouette and occlusion alongside scores, and reserve a render for verification. Passing emitted-part checks establishes neither visual completeness nor correct geometry.",
+  "limitations": "Both attached images were inspected; no tools, external files or experiments were used. Intervals are uncertain pre-experiment forecasts of signed SSIM improvement: 0.5*(full-image SSIM_after minus SSIM_before) + 0.5*(fixed-reference-ROI SSIM_after minus SSIM_before). Use the exact ROI above before and after every intervention, with consistent rendering and SSIM settings. These are appearance sensitivity forecasts, not measured results or geometry truth. Noise, lighting, materials and isolation background can affect scores; an increase cannot uniquely identify a cause. Approximate projections are not visible-object masks, and neither single-view evidence nor structural checks resolves the competing explanations."
+}

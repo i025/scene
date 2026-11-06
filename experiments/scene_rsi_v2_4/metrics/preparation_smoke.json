@@ -1,0 +1,54 @@
+[
+  {
+    "attempt_folder": "tasks/smoke/active",
+    "CLI_status": "complete",
+    "stage1_saved": true,
+    "M_stage2_executed": true,
+    "probes_requested": 0,
+    "probes_completed": null,
+    "forecast_menu": [
+      "camera_focal",
+      "object_scale",
+      "isolate"
+    ],
+    "failure_record": null,
+    "status_limit": "A saved response without stage1 is not an accepted executable diagnosis. Retained attempts do not become independent formal samples."
+  },
+  {
+    "attempt_folder": "tasks/smoke/active_invalid_targets_attempt1",
+    "CLI_status": "complete",
+    "stage1_saved": false,
+    "M_stage2_executed": null,
+    "probes_requested": null,
+    "probes_completed": null,
+    "forecast_menu": null,
+    "failure_record": {
+      "id": "smoke_attempt1",
+      "status": "invalid",
+      "phase": "diagnosis_object_contract",
+      "reason": "Model returned explanatory text instead of a real object ID; no probe or repair executed. Original CLI response retained.",
+      "model_calls": 1,
+      "correction": "Constrain object fields to actual scene ID enum; explicit new smoke attempt, not silent parse.",
+      "record_origin": "Post-run annotation of the already saved smoke_stderr.log and invalid response; original call/output unchanged",
+      "annotation_epoch": 1793977317.0708017
+    },
+    "status_limit": "A saved response without stage1 is not an accepted executable diagnosis. Retained attempts do not become independent formal samples."
+  },
+  {
+    "attempt_folder": "tasks/smoke_refined/active",
+    "CLI_status": "complete",
+    "stage1_saved": true,
+    "M_stage2_executed": true,
+    "probes_requested": 1,
+    "probes_completed": 1,
+    "forecast_menu": [
+      "camera_focal",
+      "camera_tilt",
+      "object_scale",
+      "object_depth",
+      "isolate"
+    ],
+    "failure_record": null,
+    "status_limit": "A saved response without stage1 is not an accepted executable diagnosis. Retained attempts do not become independent formal samples."
+  }
+]

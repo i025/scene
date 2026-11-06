@@ -1,0 +1,84 @@
+{
+  "visual_difference": "The photograph shows a large three-blade fan at the upper left, with its hub and blades visible. In the reconstruction, this foreground fan is almost entirely cropped above the image; the smaller fan farther into the room remains visible.",
+  "object_id": "fan_0",
+  "reference_roi": [0.05, 0.0, 0.28, 0.11],
+  "initial_module": "camera_framing",
+  "initial_confidence": 0.65,
+  "probe_targets": {
+    "camera_focal": "fan_0",
+    "camera_tilt": "fan_0",
+    "object_scale": "fan_0",
+    "object_depth": "fan_0",
+    "isolate": "fan_0"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "camera_framing",
+      "object_id": "fan_0",
+      "explanation": "The camera points too far downward for the photograph's framing. Both foreground fans are clipped while more distant fans remain visible, supporting a shared projection error. The program's camera looks from z=2.28 toward z=-0.10 over 14.8 world units.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.06,
+          "upper": 0.02,
+          "reason": "Increasing focal length pushes the already peripheral fan farther outside the frame; unrelated scene alignment could partly compensate."
+        },
+        "camera_tilt": {
+          "lower": -0.02,
+          "upper": 0.09,
+          "reason": "Tilting upward should bring foreground ceiling content into view, but moves every other landmark and may overshoot."
+        },
+        "object_scale": {
+          "lower": -0.02,
+          "upper": 0.02,
+          "reason": "Enlargement about the fan center cannot correct its projected center; only boundary fragments may enter the ROI."
+        },
+        "object_depth": {
+          "lower": -0.02,
+          "upper": 0.02,
+          "reason": "Moving along the camera ray preserves center projection and reduces apparent size, providing little correction to cropping."
+        },
+        "isolate": {
+          "lower": -0.15,
+          "upper": 0.03,
+          "reason": "The fan remains largely offscreen while architecture disappears. Background changes can dominate both SSIM terms."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "geometry_scale_depth",
+      "object_id": "fan_0",
+      "explanation": "The foreground fan may be positioned too high or too near the camera relative to the room. Its manually chosen position can produce cropping even with a reasonable camera. Similar placement assumptions for both front fans could mimic a camera error.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.06,
+          "upper": 0.02,
+          "reason": "The same peripheral projection still makes a focal increase unfavorable; this response does not distinguish the hypotheses."
+        },
+        "camera_tilt": {
+          "lower": -0.04,
+          "upper": 0.07,
+          "reason": "Upward tilt can compensate for incorrect fan placement and improve the ROI, while disturbing otherwise plausible room alignment."
+        },
+        "object_scale": {
+          "lower": -0.02,
+          "upper": 0.02,
+          "reason": "A 10% size change does not test the suspected height or transverse placement error directly."
+        },
+        "object_depth": {
+          "lower": -0.02,
+          "upper": 0.02,
+          "reason": "This ray-constrained move changes apparent size but not projected center; it is not equivalent to moving the fan deeper while preserving ceiling height."
+        },
+        "isolate": {
+          "lower": -0.15,
+          "upper": 0.03,
+          "reason": "Isolation cannot recover offscreen geometry. Its appearance score is dominated by removing the room under either hypothesis."
+        }
+      }
+    }
+  ],
+  "program_evidence": "The program includes fan_0 at (-1.90,-1.50,4.05), with three blades and a downrod. Supplied blade projections establish correspondence: blade_0 spans y=-0.052 to -0.016, blade_1 spans -0.049 to 0.006, and blade_2 spans -0.146 to -0.046. Thus the missing appearance is consistent with cropping despite emitted geometry. This selection follows semantic parentage and projection, not mesh order. A reusable workflow should record reference landmarks, map them to semantic groups, compare shared versus local projection errors, and test camera and object parameters independently before adding detail. Preserve the fixed ROI and rendering conditions for all comparisons; inspect landmark motion alongside scores. Hierarchy checks establish emitted-part integrity, not photographic completeness.",
+  "limitations": "No tools or external files were used and no experiments were performed. All intervals are tentative forecasts for 0.5*full_image_delta_SSIM + 0.5*reference_roi_delta_SSIM, using the identical stated ROI before and after every intervention; delta means intervention minus baseline similarity to the photograph. They are appearance sensitivity forecasts, not geometry truth or calibrated confidence intervals. Render noise and background changes can affect scores. An increase, including after camera tilt, cannot uniquely establish a cause. The supplied probes do not directly test fan height."
+}

@@ -1,0 +1,232 @@
+{
+  "method": "fixed",
+  "run_id": "task01",
+  "scene_id": "commons_192968130",
+  "split": "test",
+  "candidate_id": "C1",
+  "parent_id": "fixed_h/r1_C2",
+  "H_version": "tasks/task01/fixed/H",
+  "M_version": "engineered_v2_4",
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.3039492105759803,
+    "lpips": 0.602593183517456,
+    "dino": 0.7802378535270691,
+    "psnr": 11.587927838067626,
+    "overall": 0.5304916512740195
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "functional_pass": true,
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "target_object": "Base kitchen cabinets",
+    "geometry": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 14,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": false,
+        "measured_pass": null,
+        "rows": [],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": null,
+        "crossings": [
+          {
+            "objects": [
+              "Box",
+              "Box.001"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box",
+              "Box.002"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.002"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.003"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.032"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.033"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.034"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.035"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.003"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.011"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.019"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.027"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.035"
+            ],
+            "triangle_pairs": 4
+          }
+        ],
+        "narrow_phase_pairs": 13,
+        "mesh_count": 242,
+        "tested_mesh_count": 64,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+  },
+  "target_object": "Base kitchen cabinets",
+  "device": "CPU",
+  "seconds": 350.03176202299073,
+  "usage": {
+    "calls": 2,
+    "input_tokens": 46408,
+    "output_tokens": 10786,
+    "cached_input_tokens": 16384,
+    "total_tokens": 57194,
+    "seconds": 297.682523756288,
+    "cost_usd": "unknown",
+    "executions": 2
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 322.8108414351009
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/task01/fixed/C1/test/commons_192968130",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    },
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "task_utility_v2": 0.5304916512740195
+}

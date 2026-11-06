@@ -1,0 +1,95 @@
+--- H_start/policy.py
++++ candidate/policy.py
+@@ -5,24 +5,79 @@
+ 
+ def solve(task, runtime):
+     prompt = (Path(__file__).parent / 'system.txt').read_text()
+-    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [
+-        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +
+-         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}"},
+-        runtime.image(task['image'])]}]
+-    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:
++    messages = [
++        {'role': 'system', 'content': prompt},
++        {'role': 'user', 'content': [
++            {'type': 'text', 'text': (
++                'Reconstruct this RGB image. Match its camera and framing. '
++                f"Image dimensions: {task['width']} x {task['height']}. "
++                f'Budget: {runtime.remaining()}\n'
++                'First establish image landmarks spanning the frame and depth, '
++                'including visible objects near image borders. Use these to constrain '
++                'camera and scene proportions together before adding fine detail. '
++                'Return a complete editable SceneAct program.'
++            )},
++            runtime.image(task['image'])
++        ]}
++    ]
++    rendered = False
++    while True:
++        budget = runtime.remaining()
++        if budget['model_calls'] <= 0 or budget['seconds'] <= 0:
++            return
+         response = runtime.ask(messages)
+         messages.append(response)
+         text = response['content'] or ''
+         blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S)
+         if not blocks:
+-            if text.strip().upper() == 'DONE': return
+-            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})
++            if text.strip().upper() == 'DONE' and rendered:
++                return
++            messages.append({
++                'role': 'user',
++                'content': (
++                    'Return one complete program in a python code block. '
++                    'DONE is appropriate only after inspecting a returned rendering.'
++                )
++            })
+             continue
+-        if runtime.remaining()['executions'] <= 0: return
++        budget = runtime.remaining()
++        if budget['executions'] <= 0 or budget['seconds'] <= 0:
++            return
+         result = runtime.execute(blocks[-1])
+-        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +
+-                    '\nCompare the rendered camera view with the original reference. ' +
+-                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}
+-        content = [feedback]
+-        if result['image']: content.append(runtime.image(result['image']))
++        has_image = bool(result.get('image'))
++        rendered = rendered or has_image
++        if has_image:
++            instruction = (
++                'Compare this rendering with the original reference. Review landmarks '
++                'across the full frame: border visibility, near and far silhouettes, '
++                'structural line directions, relative scale, gaps and occlusions. '
++                'Distinguish a shared projection discrepancy from local placement errors; '
++                'neither establishes a unique cause. If correcting framing, predict '
++                'effects on several already matching regions as well as the mismatch. '
++                'Prioritize a small coherent correction and preserve editable groups. '
++                'Describe the supported discrepancies briefly in program comments, '
++                'then return a complete revised program, or DONE if no justified '
++                'revision remains. A returned image alone does not establish that '
++                'every functional check passed; inspect the execution feedback too.'
++            )
++        else:
++            instruction = (
++                'No rendered image was returned. Use explicit errors or logs to repair '
++                'execution; do not infer camera, placement or appearance errors from '
++                'this result. If completion timed out without a located cause, the '
++                'bottleneck remains unknown. When retrying, reduce expanded geometry '
++                'cost while preserving scene coverage and editable groups. Return a '
++                'complete corrected program when execution budget remains. Do not '
++                'claim rendered verification of this attempt.'
++            )
++        content = [{
++            'type': 'text',
++            'text': (
++                json.dumps({k: v for k, v in result.items() if k != 'image'})
++                + '\n' + instruction
++                + f'\nRemaining: {runtime.remaining()}'
++            )
++        }]
++        if has_image:
++            content.append(runtime.image(result['image']))
+         messages.append({'role': 'user', 'content': content})

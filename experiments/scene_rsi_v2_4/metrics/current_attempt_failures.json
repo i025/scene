@@ -1,0 +1,85 @@
+[
+  {
+    "snapshot_UTC": "2026-11-06T16:38:27.546806+00:00",
+    "snapshot_status": "terminal_workflow_snapshot",
+    "final_marker_present": true,
+    "evidence_path": "results/task02/active/C1/selection/commons_92056365/steps/001/result.json",
+    "phase": "Blender_execution",
+    "event_kind": "Blender_execution",
+    "task_id": "task02",
+    "method": "active",
+    "cost_group": "active",
+    "classification": "blender_build_error",
+    "raw_error": "CalledProcessError(1, ['__SERVER_USER_ROOT__/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender', '--background', '-noaudio', '--factory-startup', '--threads', '2', '--python-exit-code', '1', '--python', '__EXPERIMENT_ROOT__/backend/render.py', '--', '--code', '__EXPERIMENT_ROOT__/results/task02/active/C1/selection/commons_92056365/steps/001/build.py', '--settings', '__EXPERIMENT_ROOT__/results/task02/active/C1/selection/commons_92056365/steps/001/render_settings.json', '--output-dir', '__EXPERIMENT_ROOT__/results/task02/active/C1/selection/commons_92056365/steps/001'])",
+    "actual_seconds": 0.6151601350866258,
+    "configured_timeout_cap_seconds": 600,
+    "effective_timeout_seconds_from_saved_exception": null,
+    "service_queue_seconds": null,
+    "count_as_distinct_attempt_failure": true,
+    "same_attempt_as": [],
+    "related_reconstruction_folder": "results/task02/active/C1/selection/commons_92056365",
+    "task_record_available": true,
+    "task_record_valid_when_available": true,
+    "original_end_task_failure_type": null,
+    "recovered_inner_attempt_failure": true,
+    "interpretation": "Attempt failure is distinct from final project validity; a later successful scene is retained as a successful task.",
+    "last_observed_stage": "scene_build_started",
+    "stage_counts": {
+      "python_validation_started": 1,
+      "scene_build_started": 1
+    },
+    "stage_telemetry_path": "results/task02/active/C1/selection/commons_92056365/steps/001/stage_events.jsonl",
+    "stderr_path": "results/task02/active/C1/selection/commons_92056365/steps/001/stderr.log",
+    "stderr_last_line": "TypeError: rod() takes 1 positional argument but 4 were given",
+    "classification_limit": "No unobserved build/render or service cause is imputed."
+  },
+  {
+    "snapshot_UTC": "2026-11-06T16:38:27.546806+00:00",
+    "snapshot_status": "terminal_workflow_snapshot",
+    "final_marker_present": true,
+    "evidence_path": "tasks/smoke/active_invalid_targets_attempt1/failure.json",
+    "phase": "diagnosis_object_contract",
+    "event_kind": "proposal_or_diagnosis_validation",
+    "task_id": "smoke",
+    "method": "active_invalid_targets_attempt1",
+    "cost_group": "smoke",
+    "classification": "invalid_diagnosis",
+    "raw_error": "Model returned explanatory text instead of a real object ID; no probe or repair executed. Original CLI response retained.",
+    "actual_seconds": null,
+    "configured_timeout_cap_seconds": 600,
+    "effective_timeout_seconds_from_saved_exception": null,
+    "service_queue_seconds": null,
+    "count_as_distinct_attempt_failure": true,
+    "same_attempt_as": [],
+    "related_reconstruction_folder": null,
+    "task_record_available": false,
+    "task_record_valid_when_available": null,
+    "original_end_task_failure_type": null,
+    "recovered_inner_attempt_failure": null,
+    "interpretation": "Attempt failure is distinct from final project validity; a later successful scene is retained as a successful task.",
+    "original_status": "invalid",
+    "annotation": {
+      "id": "smoke_attempt1",
+      "status": "invalid",
+      "phase": "diagnosis_object_contract",
+      "reason": "Model returned explanatory text instead of a real object ID; no probe or repair executed. Original CLI response retained.",
+      "model_calls": 1,
+      "correction": "Constrain object fields to actual scene ID enum; explicit new smoke attempt, not silent parse.",
+      "record_origin": "Post-run annotation of the already saved smoke_stderr.log and invalid response; original call/output unchanged",
+      "annotation_epoch": 1793977317.0708017
+    },
+    "annotation_duplicate_of_failed_CLI": false,
+    "associated_model_sessions": [
+      {
+        "path": "tasks/smoke/active_invalid_targets_attempt1/diagnosis/session.json",
+        "status": "complete",
+        "seconds": 66.2748378738761
+      }
+    ],
+    "associated_model_wall_seconds": 66.2748378738761,
+    "timing_limit": "Validation duration itself was not separately recorded; associated model wall time is retained separately.",
+    "additional_evidence_paths": [
+      "preparation_failures.json#0"
+    ]
+  }
+]

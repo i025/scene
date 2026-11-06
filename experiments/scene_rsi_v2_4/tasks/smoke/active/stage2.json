@@ -1,0 +1,4266 @@
+{
+  "context": {
+    "method": "active",
+    "valid_blend": true,
+    "remaining_probe_budget": 2,
+    "already_executed_probe_count": 0,
+    "available_probe_menu": {
+      "camera_focal": "Fixed scene geometry; multiply current perspective focal length by1.1. Outcome: SSIM(reference,probe)-SSIM(reference,current).",
+      "object_scale": "Fixed camera; scale the explicitly named real object/group by1.1 around its geometry AABB center. Outcome: delta SSIM to reference.",
+      "isolate": "Keep only the explicitly named object/group meshes visible, temporarily hiding other meshes. Outcome: delta SSIM to reference. The probe image reveals emitted geometry, not true missing geometry."
+    },
+    "raw_evidence": {
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.1327619274187235,
+        "lpips": 0.7681273818016052,
+        "dino": 0.8809503316879272,
+        "psnr": 11.47328856834953,
+        "overall": 0.4350365704870273
+      },
+      "functional": {
+        "checks": {
+          "structure": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "material": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "composite": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "declared_parts": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          }
+        },
+        "functional_pass": true,
+        "structure_pass": true,
+        "material_pass": true,
+        "composite_required": true,
+        "composite_pass": true,
+        "target_object": "books",
+        "geometry": {
+          "hierarchy_parts": {
+            "applicable": true,
+            "measured_pass": true,
+            "declared_groups": 47,
+            "missing": [],
+            "detached": [],
+            "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+          },
+          "known_support": {
+            "applicable": false,
+            "measured_pass": null,
+            "rows": [],
+            "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+          },
+          "mesh_intersection": {
+            "applicable": true,
+            "measured_pass": null,
+            "crossings": [
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.005"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.006"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.007"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.008"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.009"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.010"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.011"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.017"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.018"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.021"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.027"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.028"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.031"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.037"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.038"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.041"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.047"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.048"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.051"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.057"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.058"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.005"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.011"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.012"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.021"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.022"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.031"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.032"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.041"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.042"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.051"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.052"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.005"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.006"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.007"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.008"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.009"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.010"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.061"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.004",
+                  "Box.005"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.004",
+                  "Box.061"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.004",
+                  "Box.062"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.005",
+                  "Box.006"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.011",
+                  "Box.012"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.013"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.014"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.013",
+                  "Box.015"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.014",
+                  "Box.015"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.016"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.017",
+                  "Box.018"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.018",
+                  "Box.019"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.018",
+                  "Box.020"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.019",
+                  "Box.020"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.021",
+                  "Box.022"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.022",
+                  "Box.023"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.022",
+                  "Box.024"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.025"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Box.025"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.025",
+                  "Box.026"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.027",
+                  "Box.028"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.028",
+                  "Box.029"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.028",
+                  "Box.030"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.029",
+                  "Box.030"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.031",
+                  "Box.032"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.032",
+                  "Box.033"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.032",
+                  "Box.034"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.033",
+                  "Box.035"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.034",
+                  "Box.035"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.035",
+                  "Box.036"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.037",
+                  "Box.038"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.038",
+                  "Box.039"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.038",
+                  "Box.040"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.039",
+                  "Box.040"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.041",
+                  "Box.042"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.042",
+                  "Box.043"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.042",
+                  "Box.044"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.043",
+                  "Box.045"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.044",
+                  "Box.045"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.045",
+                  "Box.046"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.047",
+                  "Box.048"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.048",
+                  "Box.049"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.048",
+                  "Box.050"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.049",
+                  "Box.050"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.051",
+                  "Box.052"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.052",
+                  "Box.053"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.052",
+                  "Box.054"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.053",
+                  "Box.055"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.054",
+                  "Box.055"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.055",
+                  "Box.056"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.057",
+                  "Box.058"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.058",
+                  "Box.059"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.058",
+                  "Box.060"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.059",
+                  "Box.060"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.061",
+                  "Box.062"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.062",
+                  "Box.063"
+                ],
+                "triangle_pairs": 4
+              }
+            ],
+            "narrow_phase_pairs": 95,
+            "mesh_count": 467,
+            "tested_mesh_count": 64,
+            "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+          }
+        },
+        "semantic_object_completeness": null,
+        "support_collision_truth": null,
+        "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+      },
+      "objects": [
+        {
+          "name": "Classroom",
+          "type": "EMPTY",
+          "parent": null,
+          "parent_chain": [],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -1.0381637811660767,
+            -0.8191577196121216,
+            2.0221309661865234,
+            0.965262595564127
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1",
+          "type": "EMPTY",
+          "parent": "desk_c0_r0",
+          "parent_chain": [
+            "desk_c0_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18023718893527985,
+            0.6606005430221558,
+            0.20548884570598602,
+            0.7797290682792664
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.001",
+          "type": "EMPTY",
+          "parent": "desk_c0_r1",
+          "parent_chain": [
+            "desk_c0_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2447512298822403,
+            0.5830990076065063,
+            0.2614954710006714,
+            0.6723971962928772
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.002",
+          "type": "EMPTY",
+          "parent": "desk_c0_r2",
+          "parent_chain": [
+            "desk_c0_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.28406456112861633,
+            0.5351668000221252,
+            0.2963474988937378,
+            0.606562614440918
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.003",
+          "type": "EMPTY",
+          "parent": "desk_c0_r3",
+          "parent_chain": [
+            "desk_c0_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3105303943157196,
+            0.5025925040245056,
+            0.3201265335083008,
+            0.5620580017566681
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.004",
+          "type": "EMPTY",
+          "parent": "desk_c0_r4",
+          "parent_chain": [
+            "desk_c0_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3295620083808899,
+            0.4790140986442566,
+            0.33738628029823303,
+            0.5299623608589172
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.005",
+          "type": "EMPTY",
+          "parent": "desk_c0_r5",
+          "parent_chain": [
+            "desk_c0_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.343906044960022,
+            0.46115726232528687,
+            0.3504845201969147,
+            0.505720853805542
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.006",
+          "type": "EMPTY",
+          "parent": "desk_c1_r0",
+          "parent_chain": [
+            "desk_c1_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5222969055175781,
+            0.6158780455589294,
+            0.5305007100105286,
+            0.7176588773727417
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.007",
+          "type": "EMPTY",
+          "parent": "desk_c1_r1",
+          "parent_chain": [
+            "desk_c1_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5043529272079468,
+            0.5561058819293976,
+            0.5101399421691895,
+            0.635271281003952
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.008",
+          "type": "EMPTY",
+          "parent": "desk_c1_r2",
+          "parent_chain": [
+            "desk_c1_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.49229520559310913,
+            0.5171166062355042,
+            0.49722251296043396,
+            0.5818780660629272
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.009",
+          "type": "EMPTY",
+          "parent": "desk_c1_r3",
+          "parent_chain": [
+            "desk_c1_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4838397800922394,
+            0.48967617750167847,
+            0.4882603883743286,
+            0.5444636344909668
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.010",
+          "type": "EMPTY",
+          "parent": "desk_c1_r4",
+          "parent_chain": [
+            "desk_c1_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.47760072350502014,
+            0.4693152904510498,
+            0.4815948009490967,
+            0.5167887508869171
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.011",
+          "type": "EMPTY",
+          "parent": "desk_c1_r5",
+          "parent_chain": [
+            "desk_c1_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.47280755639076233,
+            0.4536072015762329,
+            0.47644323110580444,
+            0.49548834562301636
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.012",
+          "type": "EMPTY",
+          "parent": "desk_c2_r0",
+          "parent_chain": [
+            "desk_c2_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7089475393295288,
+            0.571901947259903,
+            0.7234352827072144,
+            0.6569809317588806
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.013",
+          "type": "EMPTY",
+          "parent": "desk_c2_r1",
+          "parent_chain": [
+            "desk_c2_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6637688279151917,
+            0.5277775526046753,
+            0.6740407347679138,
+            0.5964503586292267
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.014",
+          "type": "EMPTY",
+          "parent": "desk_c2_r2",
+          "parent_chain": [
+            "desk_c2_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.632504403591156,
+            0.49735504388809204,
+            0.640281617641449,
+            0.5549200177192688
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.015",
+          "type": "EMPTY",
+          "parent": "desk_c2_r3",
+          "parent_chain": [
+            "desk_c2_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6095839142799377,
+            0.47510993480682373,
+            0.6157484650611877,
+            0.5246573984622955
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.016",
+          "type": "EMPTY",
+          "parent": "desk_c2_r4",
+          "parent_chain": [
+            "desk_c2_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5920603275299072,
+            0.45813578367233276,
+            0.597113847732544,
+            0.5016246438026428
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.017",
+          "type": "EMPTY",
+          "parent": "desk_c2_r5",
+          "parent_chain": [
+            "desk_c2_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5782282948493958,
+            0.4447575807571411,
+            0.5824788808822632,
+            0.48350733518600464
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.018",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_0",
+          "parent_chain": [
+            "left_edge_desk_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.08755537122488022,
+            0.5656322538852692,
+            0.10911237448453903,
+            0.6483586430549622
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.019",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_1",
+          "parent_chain": [
+            "left_edge_desk_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.20966455340385437,
+            0.4986622929573059,
+            0.22178104519844055,
+            0.5567011535167694
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_-1.020",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_2",
+          "parent_chain": [
+            "left_edge_desk_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2706729769706726,
+            0.46480584144592285,
+            0.27902376651763916,
+            0.5106693804264069
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1",
+          "type": "EMPTY",
+          "parent": "desk_c0_r0",
+          "parent_chain": [
+            "desk_c0_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.33973491191864014,
+            0.6611844003200531,
+            0.3565467298030853,
+            0.7805418074131012
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.001",
+          "type": "EMPTY",
+          "parent": "desk_c0_r1",
+          "parent_chain": [
+            "desk_c0_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3655720353126526,
+            0.5834398865699768,
+            0.3774104416370392,
+            0.6728668808937073
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.002",
+          "type": "EMPTY",
+          "parent": "desk_c0_r2",
+          "parent_chain": [
+            "desk_c0_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3813052475452423,
+            0.5353899598121643,
+            0.3903850018978119,
+            0.6068681478500366
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.003",
+          "type": "EMPTY",
+          "parent": "desk_c0_r3",
+          "parent_chain": [
+            "desk_c0_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.39189204573631287,
+            0.5027498602867126,
+            0.3992336094379425,
+            0.5622725188732147
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.004",
+          "type": "EMPTY",
+          "parent": "desk_c0_r4",
+          "parent_chain": [
+            "desk_c0_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.39950263500213623,
+            0.47913098335266113,
+            0.40565434098243713,
+            0.530121237039566
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.005",
+          "type": "EMPTY",
+          "parent": "desk_c0_r5",
+          "parent_chain": [
+            "desk_c0_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4052373766899109,
+            0.4612475037574768,
+            0.410525918006897,
+            0.5058432221412659
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.006",
+          "type": "EMPTY",
+          "parent": "desk_c1_r0",
+          "parent_chain": [
+            "desk_c1_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6599941849708557,
+            0.6163352131843567,
+            0.6748824119567871,
+            0.7182915508747101
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.007",
+          "type": "EMPTY",
+          "parent": "desk_c1_r1",
+          "parent_chain": [
+            "desk_c1_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6133707761764526,
+            0.556390792131424,
+            0.6232688426971436,
+            0.6356624364852905
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.008",
+          "type": "EMPTY",
+          "parent": "desk_c1_r2",
+          "parent_chain": [
+            "desk_c1_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5828263759613037,
+            0.5173110365867615,
+            0.5900108814239502,
+            0.5821436047554016
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.009",
+          "type": "EMPTY",
+          "parent": "desk_c1_r3",
+          "parent_chain": [
+            "desk_c1_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5612666010856628,
+            0.4898172616958618,
+            0.5667950510978699,
+            0.5446556210517883
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.010",
+          "type": "EMPTY",
+          "parent": "desk_c1_r4",
+          "parent_chain": [
+            "desk_c1_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5452354550361633,
+            0.46942228078842163,
+            0.549669623374939,
+            0.5169340074062347
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.011",
+          "type": "EMPTY",
+          "parent": "desk_c1_r5",
+          "parent_chain": [
+            "desk_c1_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.532848060131073,
+            0.45369118452072144,
+            0.5365158319473267,
+            0.4956020712852478
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.012",
+          "type": "EMPTY",
+          "parent": "desk_c2_r0",
+          "parent_chain": [
+            "desk_c2_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.8294579982757568,
+            0.5722386538982391,
+            0.8488741517066956,
+            0.6574441492557526
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.013",
+          "type": "EMPTY",
+          "parent": "desk_c2_r1",
+          "parent_chain": [
+            "desk_c2_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7622679471969604,
+            0.5280017852783203,
+            0.7758079171180725,
+            0.5967570841312408
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.014",
+          "type": "EMPTY",
+          "parent": "desk_c2_r2",
+          "parent_chain": [
+            "desk_c2_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7157909870147705,
+            0.4975150227546692,
+            0.7258929014205933,
+            0.55513796210289
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.015",
+          "type": "EMPTY",
+          "parent": "desk_c2_r3",
+          "parent_chain": [
+            "desk_c2_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6817283034324646,
+            0.47522974014282227,
+            0.6896306872367859,
+            0.5248202085494995
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.016",
+          "type": "EMPTY",
+          "parent": "desk_c2_r4",
+          "parent_chain": [
+            "desk_c2_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6556919813156128,
+            0.4582288861274719,
+            0.6620936393737793,
+            0.5017508566379547
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.017",
+          "type": "EMPTY",
+          "parent": "desk_c2_r5",
+          "parent_chain": [
+            "desk_c2_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6351441740989685,
+            0.4448320269584656,
+            0.6404708623886108,
+            0.48360806703567505
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.018",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_0",
+          "parent_chain": [
+            "left_edge_desk_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1765616536140442,
+            0.5658667981624603,
+            0.19476014375686646,
+            0.6486810743808746
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.019",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_1",
+          "parent_chain": [
+            "left_edge_desk_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2727489769458771,
+            0.498781681060791,
+            0.2831595838069916,
+            0.5568638443946838
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_leg_1.020",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_2",
+          "parent_chain": [
+            "left_edge_desk_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3207845985889435,
+            0.46488165855407715,
+            0.3280528783798218,
+            0.5107722580432892
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat",
+          "type": "EMPTY",
+          "parent": "desk_c0_r0",
+          "parent_chain": [
+            "desk_c0_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.16501104831695557,
+            0.6478676199913025,
+            0.36722564697265625,
+            0.6760987341403961
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.001",
+          "type": "EMPTY",
+          "parent": "desk_c0_r1",
+          "parent_chain": [
+            "desk_c0_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2335965782403946,
+            0.573582798242569,
+            0.38575640320777893,
+            0.5920519828796387
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.002",
+          "type": "EMPTY",
+          "parent": "desk_c0_r2",
+          "parent_chain": [
+            "desk_c0_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2752722501754761,
+            0.5275737643241882,
+            0.3972317576408386,
+            0.5409901440143585
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.003",
+          "type": "EMPTY",
+          "parent": "desk_c0_r3",
+          "parent_chain": [
+            "desk_c0_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3032780587673187,
+            0.49627751111984253,
+            0.4050367474555969,
+            0.5066806972026825
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.004",
+          "type": "EMPTY",
+          "parent": "desk_c0_r4",
+          "parent_chain": [
+            "desk_c0_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3233920633792877,
+            0.4736095666885376,
+            0.41068950295448303,
+            0.48204123973846436
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.005",
+          "type": "EMPTY",
+          "parent": "desk_c0_r5",
+          "parent_chain": [
+            "desk_c0_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3385380208492279,
+            0.4564340114593506,
+            0.41497236490249634,
+            0.4634885787963867
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.006",
+          "type": "EMPTY",
+          "parent": "desk_c1_r0",
+          "parent_chain": [
+            "desk_c1_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5119648575782776,
+            0.6050174832344055,
+            0.6870616674423218,
+            0.6273959577083588
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.007",
+          "type": "EMPTY",
+          "parent": "desk_c1_r1",
+          "parent_chain": [
+            "desk_c1_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4957563877105713,
+            0.5476789772510529,
+            0.6325369477272034,
+            0.5632255375385284
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.008",
+          "type": "EMPTY",
+          "parent": "desk_c1_r2",
+          "parent_chain": [
+            "desk_c1_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4851418435573578,
+            0.5102346837520599,
+            0.5974845886230469,
+            0.5219492614269257
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.009",
+          "type": "EMPTY",
+          "parent": "desk_c1_r3",
+          "parent_chain": [
+            "desk_c1_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.47774016857147217,
+            0.48386144638061523,
+            0.5730537176132202,
+            0.493169903755188
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.010",
+          "type": "EMPTY",
+          "parent": "desk_c1_r4",
+          "parent_chain": [
+            "desk_c1_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.47228437662124634,
+            0.46428167819976807,
+            0.555051863193512,
+            0.4719582200050354
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.011",
+          "type": "EMPTY",
+          "parent": "desk_c1_r5",
+          "parent_chain": [
+            "desk_c1_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4680962860584259,
+            0.44916993379592896,
+            0.541236400604248,
+            0.4556761384010315
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.012",
+          "type": "EMPTY",
+          "parent": "desk_c2_r0",
+          "parent_chain": [
+            "desk_c2_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7016895413398743,
+            0.5628395676612854,
+            0.8600548505783081,
+            0.5800890326499939
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.013",
+          "type": "EMPTY",
+          "parent": "desk_c2_r1",
+          "parent_chain": [
+            "desk_c2_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6575477719306946,
+            0.5204764902591705,
+            0.7845498323440552,
+            0.5331976413726807
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.014",
+          "type": "EMPTY",
+          "parent": "desk_c2_r2",
+          "parent_chain": [
+            "desk_c2_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6270752549171448,
+            0.49124330282211304,
+            0.7330581545829773,
+            0.5012061297893524
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.015",
+          "type": "EMPTY",
+          "parent": "desk_c2_r3",
+          "parent_chain": [
+            "desk_c2_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.604773998260498,
+            0.4698548913002014,
+            0.6956958770751953,
+            0.4779864549636841
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.016",
+          "type": "EMPTY",
+          "parent": "desk_c2_r4",
+          "parent_chain": [
+            "desk_c2_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5877457857131958,
+            0.4535270929336548,
+            0.6673490405082703,
+            0.46036577224731445
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.017",
+          "type": "EMPTY",
+          "parent": "desk_c2_r5",
+          "parent_chain": [
+            "desk_c2_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5743182301521301,
+            0.44065386056900024,
+            0.64510577917099,
+            0.4465368390083313
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.018",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_0",
+          "parent_chain": [
+            "left_edge_desk_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.07639754563570023,
+            0.5568227171897888,
+            0.20107543468475342,
+            0.5733001232147217
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.019",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_1",
+          "parent_chain": [
+            "left_edge_desk_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.20221836864948273,
+            0.4924998879432678,
+            0.28817033767700195,
+            0.5025300979614258
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_seat.020",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_2",
+          "parent_chain": [
+            "left_edge_desk_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.26494067907333374,
+            0.459943950176239,
+            0.3322512209415436,
+            0.4672515392303467
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher",
+          "type": "EMPTY",
+          "parent": "desk_c0_r0",
+          "parent_chain": [
+            "desk_c0_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1884462535381317,
+            0.7247629761695862,
+            0.3532118499279022,
+            0.7388082444667816
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.001",
+          "type": "EMPTY",
+          "parent": "desk_c0_r1",
+          "parent_chain": [
+            "desk_c0_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.24980536103248596,
+            0.6317453980445862,
+            0.375190794467926,
+            0.6418451368808746
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.002",
+          "type": "EMPTY",
+          "parent": "desk_c0_r2",
+          "parent_chain": [
+            "desk_c0_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2875560522079468,
+            0.5743380486965179,
+            0.3887539803981781,
+            0.5821958184242249
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.003",
+          "type": "EMPTY",
+          "parent": "desk_c0_r3",
+          "parent_chain": [
+            "desk_c0_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3131253123283386,
+            0.53537717461586,
+            0.3979583978652954,
+            0.541797012090683
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.004",
+          "type": "EMPTY",
+          "parent": "desk_c0_r4",
+          "parent_chain": [
+            "desk_c0_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.33159005641937256,
+            0.5072024762630463,
+            0.40461423993110657,
+            0.5126245021820068
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.005",
+          "type": "EMPTY",
+          "parent": "desk_c0_r5",
+          "parent_chain": [
+            "desk_c0_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.34555014967918396,
+            0.48587942123413086,
+            0.40965133905410767,
+            0.4905696511268616
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.006",
+          "type": "EMPTY",
+          "parent": "desk_c1_r0",
+          "parent_chain": [
+            "desk_c1_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.522890031337738,
+            0.671057403087616,
+            0.6709922552108765,
+            0.6828040480613708
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.007",
+          "type": "EMPTY",
+          "parent": "desk_c1_r1",
+          "parent_chain": [
+            "desk_c1_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5045999884605408,
+            0.5994049906730652,
+            0.6210629940032959,
+            0.6082402169704437
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.008",
+          "type": "EMPTY",
+          "parent": "desk_c1_r2",
+          "parent_chain": [
+            "desk_c1_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4926273822784424,
+            0.5527436435222626,
+            0.5886473059654236,
+            0.5598073899745941
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.009",
+          "type": "EMPTY",
+          "parent": "desk_c1_r3",
+          "parent_chain": [
+            "desk_c1_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.48422083258628845,
+            0.5199402272701263,
+            0.5659053325653076,
+            0.5258171856403351
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.010",
+          "type": "EMPTY",
+          "parent": "desk_c1_r4",
+          "parent_chain": [
+            "desk_c1_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.47799551486968994,
+            0.4956194758415222,
+            0.5490689873695374,
+            0.500647634267807
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.011",
+          "type": "EMPTY",
+          "parent": "desk_c1_r5",
+          "parent_chain": [
+            "desk_c1_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4731999635696411,
+            0.4768677353858948,
+            0.536102294921875,
+            0.4812595844268799
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.012",
+          "type": "EMPTY",
+          "parent": "desk_c2_r0",
+          "parent_chain": [
+            "desk_c2_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7122281789779663,
+            0.6183266937732697,
+            0.842498242855072,
+            0.627920925617218
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.013",
+          "type": "EMPTY",
+          "parent": "desk_c2_r1",
+          "parent_chain": [
+            "desk_c2_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6658962368965149,
+            0.5654963254928589,
+            0.7716733813285828,
+            0.5730428993701935
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.014",
+          "type": "EMPTY",
+          "parent": "desk_c2_r2",
+          "parent_chain": [
+            "desk_c2_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6339800953865051,
+            0.5291167795658112,
+            0.7230153679847717,
+            0.5353268384933472
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.015",
+          "type": "EMPTY",
+          "parent": "desk_c2_r3",
+          "parent_chain": [
+            "desk_c2_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6106574535369873,
+            0.502539336681366,
+            0.6875256299972534,
+            0.5078108012676239
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.016",
+          "type": "EMPTY",
+          "parent": "desk_c2_r4",
+          "parent_chain": [
+            "desk_c2_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5928694009780884,
+            0.482272744178772,
+            0.6604957580566406,
+            0.486849844455719
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.017",
+          "type": "EMPTY",
+          "parent": "desk_c2_r5",
+          "parent_chain": [
+            "desk_c2_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5788548588752747,
+            0.46630769968032837,
+            0.6392229795455933,
+            0.4703509211540222
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.018",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_0",
+          "parent_chain": [
+            "left_edge_desk_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.09497223794460297,
+            0.610815167427063,
+            0.19004526734352112,
+            0.6200052499771118
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.019",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_1",
+          "parent_chain": [
+            "left_edge_desk_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.21344012022018433,
+            0.5306792259216309,
+            0.28071334958076477,
+            0.5368921756744385
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bench_stretcher.020",
+          "type": "EMPTY",
+          "parent": "left_edge_desk_2",
+          "parent_chain": [
+            "left_edge_desk_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2730807363986969,
+            0.49023520946502686,
+            0.326474130153656,
+            0.4950491786003113
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_0",
+          "type": "EMPTY",
+          "parent": "fan_0",
+          "parent_chain": [
+            "fan_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2326178103685379,
+            -0.052147746086120605,
+            0.37093064188957214,
+            -0.016378164291381836
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_0.001",
+          "type": "EMPTY",
+          "parent": "fan_1",
+          "parent_chain": [
+            "fan_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7667948603630066,
+            -0.029597997665405273,
+            0.8786835074424744,
+            0.0017073750495910645
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_0.002",
+          "type": "EMPTY",
+          "parent": "fan_2",
+          "parent_chain": [
+            "fan_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.33107948303222656,
+            0.1402108073234558,
+            0.40230894088745117,
+            0.15113484859466553
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_0.003",
+          "type": "EMPTY",
+          "parent": "fan_3",
+          "parent_chain": [
+            "fan_3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6623948216438293,
+            0.14806032180786133,
+            0.7258832454681396,
+            0.15823018550872803
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_0.004",
+          "type": "EMPTY",
+          "parent": "fan_4",
+          "parent_chain": [
+            "fan_4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4116881489753723,
+            0.20251470804214478,
+            0.45935580134391785,
+            0.20815300941467285
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_0.005",
+          "type": "EMPTY",
+          "parent": "fan_5",
+          "parent_chain": [
+            "fan_5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5910480618476868,
+            0.20403516292572021,
+            0.6363076567649841,
+            0.2095646858215332
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_1",
+          "type": "EMPTY",
+          "parent": "fan_0",
+          "parent_chain": [
+            "fan_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.15426650643348694,
+            -0.04909217357635498,
+            0.2291291058063507,
+            0.005966544151306152
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_1.001",
+          "type": "EMPTY",
+          "parent": "fan_1",
+          "parent_chain": [
+            "fan_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6449018716812134,
+            -0.026962876319885254,
+            0.7616456151008606,
+            0.02133423089981079
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_1.002",
+          "type": "EMPTY",
+          "parent": "fan_2",
+          "parent_chain": [
+            "fan_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2821654975414276,
+            0.14100134372711182,
+            0.3284873068332672,
+            0.15755563974380493
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_1.003",
+          "type": "EMPTY",
+          "parent": "fan_3",
+          "parent_chain": [
+            "fan_3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5982254147529602,
+            0.1487874984741211,
+            0.6596227288246155,
+            0.1641649603843689
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_1.004",
+          "type": "EMPTY",
+          "parent": "fan_4",
+          "parent_chain": [
+            "fan_4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3749459981918335,
+            0.20287519693374634,
+            0.40985921025276184,
+            0.211195170879364
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_1.005",
+          "type": "EMPTY",
+          "parent": "fan_5",
+          "parent_chain": [
+            "fan_5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5481418967247009,
+            0.20438724756240845,
+            0.5891343355178833,
+            0.2125387191772461
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_2",
+          "type": "EMPTY",
+          "parent": "fan_0",
+          "parent_chain": [
+            "fan_0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.10406480729579926,
+            -0.14583027362823486,
+            0.2273971140384674,
+            -0.04632604122161865
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_2.001",
+          "type": "EMPTY",
+          "parent": "fan_1",
+          "parent_chain": [
+            "fan_1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7573432922363281,
+            -0.10870671272277832,
+            0.8033171892166138,
+            -0.024290919303894043
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_2.002",
+          "type": "EMPTY",
+          "parent": "fan_2",
+          "parent_chain": [
+            "fan_2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2829979956150055,
+            0.1186145544052124,
+            0.3294183015823364,
+            0.14310455322265625
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_2.003",
+          "type": "EMPTY",
+          "parent": "fan_3",
+          "parent_chain": [
+            "fan_3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6558628082275391,
+            0.12828832864761353,
+            0.6674789190292358,
+            0.15083104372024536
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_2.004",
+          "type": "EMPTY",
+          "parent": "fan_4",
+          "parent_chain": [
+            "fan_4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.38689354062080383,
+            0.19302642345428467,
+            0.41149377822875977,
+            0.20444291830062866
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blade_2.005",
+          "type": "EMPTY",
+          "parent": "fan_5",
+          "parent_chain": [
+            "fan_5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5809515118598938,
+            0.19477665424346924,
+            0.5929428339004517,
+            0.20594006776809692
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blue_stage_panel",
+          "type": "EMPTY",
+          "parent": "stage",
+          "parent_chain": [
+            "stage",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5800386667251587,
+            0.3623397946357727,
+            0.606837809085846,
+            0.44935864210128784
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "board_support_left",
+          "type": "EMPTY",
+          "parent": "stage",
+          "parent_chain": [
+            "stage",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4604790508747101,
+            0.35359805822372437,
+            0.46859586238861084,
+            0.4547344446182251
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "board_support_right",
+          "type": "EMPTY",
+          "parent": "stage",
+          "parent_chain": [
+            "stage",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5588770508766174,
+            0.3536304235458374,
+            0.5662218928337097,
+            0.4548705816268921
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_0",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1685168445110321,
+            0.6012698709964752,
+            0.23933206498622894,
+            0.6238662898540497
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_1",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2675817310810089,
+            0.5294157266616821,
+            0.3157920837402344,
+            0.5430104434490204
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_2",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5535151958465576,
+            0.5057146847248077,
+            0.5909438133239746,
+            0.5168307423591614
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_3",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.728622317314148,
+            0.4815579652786255,
+            0.7659633159637451,
+            0.49039238691329956
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_4",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.330655962228775,
+            0.4606471657752991,
+            0.36054351925849915,
+            0.46770334243774414
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_5",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.512126624584198,
+            0.45012569427490234,
+            0.5363359451293945,
+            0.4563555121421814
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_6",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6467959880828857,
+            0.4384334087371826,
+            0.6714213490486145,
+            0.44379812479019165
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_7",
+          "type": "EMPTY",
+          "parent": "books",
+          "parent_chain": [
+            "books",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.20378854870796204,
+            0.4574096202850342,
+            0.23595932126045227,
+            0.46420663595199585
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf",
+          "type": "EMPTY",
+          "parent": "desk_c0_r0",
+          "parent_chain": [
+            "desk_c0_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.11157595366239548,
+            0.6756138801574707,
+            0.33394306898117065,
+            0.72078937292099
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.001",
+          "type": "EMPTY",
+          "parent": "desk_c0_r1",
+          "parent_chain": [
+            "desk_c0_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.20502980053424835,
+            0.5863475203514099,
+            0.3630707263946533,
+            0.6120242178440094
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.002",
+          "type": "EMPTY",
+          "parent": "desk_c0_r2",
+          "parent_chain": [
+            "desk_c0_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2576640546321869,
+            0.5338834524154663,
+            0.3801828622817993,
+            0.5507955253124237
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.003",
+          "type": "EMPTY",
+          "parent": "desk_c0_r3",
+          "parent_chain": [
+            "desk_c0_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2914292514324188,
+            0.4993523359298706,
+            0.3914429843425751,
+            0.5115280449390411
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.004",
+          "type": "EMPTY",
+          "parent": "desk_c0_r4",
+          "parent_chain": [
+            "desk_c0_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.31492966413497925,
+            0.47490161657333374,
+            0.39941468834877014,
+            0.4842031002044678
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.005",
+          "type": "EMPTY",
+          "parent": "desk_c0_r5",
+          "parent_chain": [
+            "desk_c0_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.33222854137420654,
+            0.4566795229911804,
+            0.40535494685173035,
+            0.4640916585922241
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.006",
+          "type": "EMPTY",
+          "parent": "desk_c1_r0",
+          "parent_chain": [
+            "desk_c1_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5242739319801331,
+            0.6234112083911896,
+            0.704933762550354,
+            0.6564930975437164
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.007",
+          "type": "EMPTY",
+          "parent": "desk_c1_r1",
+          "parent_chain": [
+            "desk_c1_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5039958357810974,
+            0.5565550625324249,
+            0.6391187310218811,
+            0.5770354866981506
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.008",
+          "type": "EMPTY",
+          "parent": "desk_c1_r2",
+          "parent_chain": [
+            "desk_c1_r2",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.49068331718444824,
+            0.5146395862102509,
+            0.5992017388343811,
+            0.528824120759964
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.009",
+          "type": "EMPTY",
+          "parent": "desk_c1_r3",
+          "parent_chain": [
+            "desk_c1_r3",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4817412793636322,
+            0.4859026074409485,
+            0.5724096298217773,
+            0.4964563846588135
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.010",
+          "type": "EMPTY",
+          "parent": "desk_c1_r4",
+          "parent_chain": [
+            "desk_c1_r4",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.47532203793525696,
+            0.4649732708930969,
+            0.5531831383705139,
+            0.4732244610786438
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.011",
+          "type": "EMPTY",
+          "parent": "desk_c1_r5",
+          "parent_chain": [
+            "desk_c1_r5",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4704899489879608,
+            0.44905024766921997,
+            0.5387141108512878,
+            0.4557388424873352
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.012",
+          "type": "EMPTY",
+          "parent": "desk_c2_r0",
+          "parent_chain": [
+            "desk_c2_r0",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7308962941169739,
+            0.5739107728004456,
+            0.8984220623970032,
+            0.5973680019378662
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "book_shelf.013",
+          "type": "EMPTY",
+          "parent": "desk_c2_r1",
+          "parent_chain": [
+            "desk_c2_r1",
+            "Classroom"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6774312853813171,
+            0.5259723365306854,
+            0.8066807985305786,
+            0.541748970746994
+          ],
+          "hide_render": false
+        }
+      ],
+      "valid_object_ids": [
+        "Ball",
+        "Ball.001",
+        "Ball.002",
+        "Ball.003",
+        "Ball.004",
+        "Ball.005",
+        "Ball.006",
+        "Ball.007",
+        "Ball.008",
+        "Ball.009",
+        "Ball.010",
+        "Ball.011",
+        "Ball.012",
+        "Ball.013",
+        "Ball.014",
+        "Ball.015",
+        "Ball.016",
+        "Ball.017",
+        "Ball.018",
+        "Ball.019",
+        "Ball.020",
+        "Ball.021",
+        "Ball.022",
+        "Ball.023",
+        "Ball.024",
+        "Ball.025",
+        "Ball.026",
+        "Ball.027",
+        "Ball.028",
+        "Ball.029",
+        "Ball.030",
+        "Box",
+        "Box.001",
+        "Box.002",
+        "Box.003",
+        "Box.004",
+        "Box.005",
+        "Box.006",
+        "Box.007",
+        "Box.008",
+        "Box.009",
+        "Box.010",
+        "Box.011",
+        "Box.012",
+        "Box.013",
+        "Box.014",
+        "Box.015",
+        "Box.016",
+        "Box.017",
+        "Box.018",
+        "Box.019",
+        "Box.020",
+        "Box.021",
+        "Box.022",
+        "Box.023",
+        "Box.024",
+        "Box.025",
+        "Box.026",
+        "Box.027",
+        "Box.028",
+        "Box.029",
+        "Box.030",
+        "Box.031",
+        "Box.032",
+        "Box.033",
+        "Box.034",
+        "Box.035",
+        "Box.036",
+        "Box.037",
+        "Box.038",
+        "Box.039",
+        "Box.040",
+        "Box.041",
+        "Box.042",
+        "Box.043",
+        "Box.044",
+        "Box.045",
+        "Box.046",
+        "Box.047",
+        "Box.048",
+        "Box.049",
+        "Box.050",
+        "Box.051",
+        "Box.052",
+        "Box.053",
+        "Box.054",
+        "Box.055",
+        "Box.056",
+        "Box.057",
+        "Box.058",
+        "Box.059",
+        "Box.060",
+        "Box.061",
+        "Box.062",
+        "Box.063",
+        "Box.064",
+        "Box.065",
+        "Box.066",
+        "Box.067",
+        "Box.068",
+        "Box.069",
+        "Box.070",
+        "Box.071",
+        "Box.072",
+        "Box.073",
+        "Box.074",
+        "Box.075",
+        "Box.076",
+        "Box.077",
+        "Box.078",
+        "Box.079",
+        "Box.080",
+        "Box.081",
+        "Box.082",
+        "Box.083",
+        "Box.084",
+        "Box.085",
+        "Box.086",
+        "Box.087",
+        "Box.088",
+        "Box.089",
+        "Box.090",
+        "Box.091",
+        "Box.092",
+        "Box.093",
+        "Box.094",
+        "Box.095",
+        "Box.096",
+        "Box.097",
+        "Box.098",
+        "Box.099",
+        "Box.100",
+        "Box.101",
+        "Box.102",
+        "Box.103",
+        "Box.104",
+        "Box.105",
+        "Box.106",
+        "Box.107",
+        "Box.108",
+        "Box.109",
+        "Box.110",
+        "Box.111",
+        "Box.112",
+        "Box.113",
+        "Box.114",
+        "Box.115",
+        "Box.116",
+        "Box.117",
+        "Box.118",
+        "Box.119",
+        "Box.120",
+        "Box.121",
+        "Box.122",
+        "Box.123",
+        "Box.124",
+        "Box.125",
+        "Box.126",
+        "Box.127",
+        "Box.128",
+        "Box.129",
+        "Box.130",
+        "Box.131",
+        "Box.132",
+        "Box.133",
+        "Box.134",
+        "Box.135",
+        "Box.136",
+        "Box.137",
+        "Box.138",
+        "Box.139",
+        "Box.140",
+        "Box.141",
+        "Box.142",
+        "Box.143",
+        "Box.144",
+        "Box.145",
+        "Box.146",
+        "Box.147",
+        "Box.148",
+        "Box.149",
+        "Box.150",
+        "Box.151",
+        "Box.152",
+        "Box.153",
+        "Box.154",
+        "Box.155",
+        "Box.156",
+        "Box.157",
+        "Box.158",
+        "Box.159",
+        "Box.160",
+        "Box.161",
+        "Box.162",
+        "Box.163",
+        "Box.164",
+        "Box.165",
+        "Box.166",
+        "Box.167",
+        "Box.168",
+        "Box.169",
+        "Box.170",
+        "Box.171",
+        "Box.172",
+        "Box.173",
+        "Box.174",
+        "Box.175",
+        "Box.176",
+        "Box.177",
+        "Box.178",
+        "Box.179",
+        "Box.180",
+        "Box.181",
+        "Box.182",
+        "Box.183",
+        "Box.184",
+        "Box.185",
+        "Box.186",
+        "Box.187",
+        "Box.188",
+        "Box.189",
+        "Box.190",
+        "Box.191",
+        "Box.192",
+        "Box.193",
+        "Box.194",
+        "Box.195",
+        "Box.196",
+        "Box.197",
+        "Box.198",
+        "Box.199",
+        "Box.200",
+        "Box.201",
+        "Box.202",
+        "Box.203",
+        "Box.204",
+        "Box.205",
+        "Box.206",
+        "Box.207",
+        "Box.208",
+        "Box.209",
+        "Box.210",
+        "Box.211",
+        "Box.212",
+        "Box.213",
+        "Box.214",
+        "Box.215",
+        "Box.216",
+        "Box.217",
+        "Box.218",
+        "Box.219",
+        "Box.220",
+        "Box.221",
+        "Box.222",
+        "Box.223",
+        "Box.224",
+        "Box.225",
+        "Box.226",
+        "Box.227",
+        "Box.228",
+        "Box.229",
+        "Box.230",
+        "Box.231",
+        "Box.232",
+        "Box.233",
+        "Box.234",
+        "Box.235",
+        "Box.236",
+        "Box.237",
+        "Box.238",
+        "Box.239",
+        "Box.240",
+        "Box.241",
+        "Box.242",
+        "Box.243",
+        "Box.244",
+        "Box.245",
+        "Box.246",
+        "Box.247",
+        "Box.248",
+        "Box.249",
+        "Box.250",
+        "Box.251",
+        "Box.252",
+        "Box.253",
+        "Box.254",
+        "Box.255",
+        "Box.256",
+        "Box.257",
+        "Box.258",
+        "Box.259",
+        "Box.260",
+        "Box.261",
+        "Box.262",
+        "Box.263",
+        "Box.264",
+        "Box.265",
+        "Box.266",
+        "Box.267",
+        "Box.268",
+        "Box.269",
+        "Box.270",
+        "Box.271",
+        "Box.272",
+        "Box.273",
+        "Box.274",
+        "Box.275",
+        "Box.276",
+        "Box.277",
+        "Box.278",
+        "Box.279",
+        "Box.280",
+        "Box.281",
+        "Box.282",
+        "Box.283",
+        "Box.284",
+        "Box.285",
+        "Box.286",
+        "Box.287",
+        "Box.288",
+        "Box.289",
+        "Box.290",
+        "Box.291",
+        "Box.292",
+        "Box.293",
+        "Box.294",
+        "Box.295",
+        "Box.296",
+        "Box.297",
+        "Box.298",
+        "Box.299",
+        "Box.300",
+        "Box.301",
+        "Box.302",
+        "Box.303",
+        "Box.304",
+        "Box.305",
+        "Box.306",
+        "Box.307",
+        "Box.308",
+        "Box.309",
+        "Box.310",
+        "Box.311",
+        "Box.312",
+        "Box.313",
+        "Box.314",
+        "Box.315",
+        "Box.316",
+        "Box.317",
+        "Box.318",
+        "Box.319",
+        "Box.320",
+        "Box.321",
+        "Box.322",
+        "Box.323",
+        "Box.324",
+        "Box.325",
+        "Box.326",
+        "Box.327",
+        "Box.328",
+        "Box.329",
+        "Box.330",
+        "Box.331",
+        "Box.332",
+        "Box.333",
+        "Box.334",
+        "Box.335",
+        "Box.336",
+        "Box.337",
+        "Box.338",
+        "Box.339",
+        "Box.340",
+        "Box.341",
+        "Box.342",
+        "Box.343",
+        "Box.344",
+        "Box.345",
+        "Box.346",
+        "Box.347",
+        "Box.348",
+        "Box.349",
+        "Box.350",
+        "Box.351",
+        "Box.352",
+        "Box.353",
+        "Box.354",
+        "Box.355",
+        "Box.356",
+        "Box.357",
+        "Box.358",
+        "Box.359",
+        "Box.360",
+        "Box.361",
+        "Box.362",
+        "Box.363",
+        "Box.364",
+        "Box.365",
+        "Box.366",
+        "Box.367",
+        "Box.368",
+        "Box.369",
+        "Box.370",
+        "Box.371",
+        "Box.372",
+        "Box.373",
+        "Box.374",
+        "Box.375",
+        "Box.376",
+        "Box.377",
+        "Box.378",
+        "Box.379",
+        "Box.380",
+        "Box.381",
+        "Box.382",
+        "Box.383",
+        "Box.384",
+        "Box.385",
+        "Box.386",
+        "Box.387",
+        "Box.388",
+        "Box.389",
+        "Box.390",
+        "Box.391",
+        "Box.392",
+        "Box.393",
+        "Box.394",
+        "Box.395",
+        "Box.396",
+        "Box.397",
+        "Box.398",
+        "Box.399",
+        "Box.400",
+        "Box.401",
+        "Classroom",
+        "Rod",
+        "Rod.001",
+        "Rod.002",
+        "Rod.003",
+        "Rod.004",
+        "Rod.005",
+        "Rod.006",
+        "Rod.007",
+        "Rod.008",
+        "Rod.009",
+        "Rod.010",
+        "Rod.011",
+        "Rod.012",
+        "Rod.013",
+        "Rod.014",
+        "Rod.015",
+        "Rod.016",
+        "Rod.017",
+        "Rod.018",
+        "Rod.019",
+        "Rod.020",
+        "Rod.021",
+        "Rod.022",
+        "Rod.023",
+        "Rod.024",
+        "Rod.025",
+        "Rod.026",
+        "Rod.027",
+        "Rod.028",
+        "Rod.029",
+        "Rod.030",
+        "Rod.031",
+        "Rod.032",
+        "Rod.033",
+        "SceneActArea",
+        "SceneActArea.001",
+        "SceneActArea.002",
+        "SceneActView",
+        "bench_leg_-1",
+        "bench_leg_-1.001",
+        "bench_leg_-1.002",
+        "bench_leg_-1.003",
+        "bench_leg_-1.004",
+        "bench_leg_-1.005",
+        "bench_leg_-1.006",
+        "bench_leg_-1.007",
+        "bench_leg_-1.008",
+        "bench_leg_-1.009",
+        "bench_leg_-1.010",
+        "bench_leg_-1.011",
+        "bench_leg_-1.012",
+        "bench_leg_-1.013",
+        "bench_leg_-1.014",
+        "bench_leg_-1.015",
+        "bench_leg_-1.016",
+        "bench_leg_-1.017",
+        "bench_leg_-1.018",
+        "bench_leg_-1.019",
+        "bench_leg_-1.020",
+        "bench_leg_1",
+        "bench_leg_1.001",
+        "bench_leg_1.002",
+        "bench_leg_1.003",
+        "bench_leg_1.004",
+        "bench_leg_1.005",
+        "bench_leg_1.006",
+        "bench_leg_1.007",
+        "bench_leg_1.008",
+        "bench_leg_1.009",
+        "bench_leg_1.010",
+        "bench_leg_1.011",
+        "bench_leg_1.012",
+        "bench_leg_1.013",
+        "bench_leg_1.014",
+        "bench_leg_1.015",
+        "bench_leg_1.016",
+        "bench_leg_1.017",
+        "bench_leg_1.018",
+        "bench_leg_1.019",
+        "bench_leg_1.020",
+        "bench_seat",
+        "bench_seat.001",
+        "bench_seat.002",
+        "bench_seat.003",
+        "bench_seat.004",
+        "bench_seat.005",
+        "bench_seat.006",
+        "bench_seat.007",
+        "bench_seat.008",
+        "bench_seat.009",
+        "bench_seat.010",
+        "bench_seat.011",
+        "bench_seat.012",
+        "bench_seat.013",
+        "bench_seat.014",
+        "bench_seat.015",
+        "bench_seat.016",
+        "bench_seat.017",
+        "bench_seat.018",
+        "bench_seat.019",
+        "bench_seat.020",
+        "bench_stretcher",
+        "bench_stretcher.001",
+        "bench_stretcher.002",
+        "bench_stretcher.003",
+        "bench_stretcher.004",
+        "bench_stretcher.005",
+        "bench_stretcher.006",
+        "bench_stretcher.007",
+        "bench_stretcher.008",
+        "bench_stretcher.009",
+        "bench_stretcher.010",
+        "bench_stretcher.011",
+        "bench_stretcher.012",
+        "bench_stretcher.013",
+        "bench_stretcher.014",
+        "bench_stretcher.015",
+        "bench_stretcher.016",
+        "bench_stretcher.017",
+        "bench_stretcher.018",
+        "bench_stretcher.019",
+        "bench_stretcher.020",
+        "blade_0",
+        "blade_0.001",
+        "blade_0.002",
+        "blade_0.003",
+        "blade_0.004",
+        "blade_0.005",
+        "blade_1",
+        "blade_1.001",
+        "blade_1.002",
+        "blade_1.003",
+        "blade_1.004",
+        "blade_1.005",
+        "blade_2",
+        "blade_2.001",
+        "blade_2.002",
+        "blade_2.003",
+        "blade_2.004",
+        "blade_2.005",
+        "blue_stage_panel",
+        "board_support_left",
+        "board_support_right",
+        "book_0",
+        "book_1",
+        "book_2",
+        "book_3",
+        "book_4",
+        "book_5",
+        "book_6",
+        "book_7",
+        "book_shelf",
+        "book_shelf.001",
+        "book_shelf.002",
+        "book_shelf.003",
+        "book_shelf.004",
+        "book_shelf.005",
+        "book_shelf.006",
+        "book_shelf.007",
+        "book_shelf.008",
+        "book_shelf.009",
+        "book_shelf.010",
+        "book_shelf.011",
+        "book_shelf.012",
+        "book_shelf.013",
+        "book_shelf.014",
+        "book_shelf.015",
+        "book_shelf.016",
+        "book_shelf.017",
+        "book_shelf.018",
+        "book_shelf.019",
+        "book_shelf.020",
+        "books",
+        "bright_window_0",
+        "bright_window_0.001",
+        "bright_window_1",
+        "bright_window_1.001",
+        "bright_window_2",
+        "bright_window_2.001",
+        "bright_window_3",
+        "bright_window_3.001",
+        "bright_window_4",
+        "bright_window_4.001",
+        "ceiling",
+        "ceiling_beam_0",
+        "ceiling_beam_1",
+        "ceiling_beam_2",
+        "ceiling_beam_3",
+        "chalk_diagonal",
+        "chalkboard",
+        "chalkboard_frame",
+        "cream_valance_header",
+        "cream_wall_-1",
+        "cream_wall_1",
+        "curtain_fold_-1",
+        "curtain_fold_1",
+        "dark_stage_recess",
+        "desk_c0_r0",
+        "desk_c0_r1",
+        "desk_c0_r2",
+        "desk_c0_r3",
+        "desk_c0_r4",
+        "desk_c0_r5",
+        "desk_c1_r0",
+        "desk_c1_r1",
+        "desk_c1_r2",
+        "desk_c1_r3",
+        "desk_c1_r4",
+        "desk_c1_r5",
+        "desk_c2_r0",
+        "desk_c2_r1",
+        "desk_c2_r2",
+        "desk_c2_r3",
+        "desk_c2_r4",
+        "desk_c2_r5",
+        "desktop",
+        "desktop.001",
+        "desktop.002",
+        "desktop.003",
+        "desktop.004",
+        "desktop.005",
+        "desktop.006",
+        "desktop.007",
+        "desktop.008",
+        "desktop.009",
+        "desktop.010",
+        "desktop.011",
+        "desktop.012",
+        "desktop.013",
+        "desktop.014",
+        "desktop.015",
+        "desktop.016",
+        "desktop.017",
+        "desktop.018",
+        "desktop.019",
+        "desktop.020",
+        "door_frame_0",
+        "door_frame_0.001",
+        "door_frame_1",
+        "door_frame_1.001",
+        "door_frame_2",
+        "door_frame_2.001",
+        "door_frame_3",
+        "door_frame_3.001",
+        "door_frame_4",
+        "door_frame_4.001",
+        "door_handle_0",
+        "door_handle_0.001",
+        "door_handle_1",
+        "door_handle_1.001",
+        "door_handle_2",
+        "door_handle_2.001",
+        "door_handle_3",
+        "door_handle_3.001",
+        "door_handle_4",
+        "door_handle_4.001",
+        "door_leaf_0",
+        "door_leaf_0.001",
+        "door_leaf_1",
+        "door_leaf_1.001",
+        "door_leaf_2",
+        "door_leaf_2.001",
+        "door_leaf_3",
+        "door_leaf_3.001",
+        "door_leaf_4",
+        "door_leaf_4.001",
+        "door_panel_divider_0",
+        "door_panel_divider_0.001",
+        "door_panel_divider_1",
+        "door_panel_divider_1.001",
+        "door_panel_divider_2",
+        "door_panel_divider_2.001",
+        "door_panel_divider_3",
+        "door_panel_divider_3.001",
+        "door_panel_divider_4",
+        "door_panel_divider_4.001",
+        "door_stile_0_-1",
+        "door_stile_0_-1.001",
+        "door_stile_0_1",
+        "door_stile_0_1.001",
+        "door_stile_1_-1",
+        "door_stile_1_-1.001",
+        "door_stile_1_1",
+        "door_stile_1_1.001",
+        "door_stile_2_-1",
+        "door_stile_2_-1.001",
+        "door_stile_2_1",
+        "door_stile_2_1.001",
+        "door_stile_3_-1",
+        "door_stile_3_-1.001",
+        "door_stile_3_1",
+        "door_stile_3_1.001",
+        "door_stile_4_-1",
+        "door_stile_4_-1.001",
+        "door_stile_4_1",
+        "door_stile_4_1.001",
+        "downrod",
+        "downrod.001",
+        "downrod.002",
+        "downrod.003",
+        "downrod.004",
+        "downrod.005",
+        "fabric_lower_body",
+        "fabric_lower_body.001",
+        "fabric_lower_body.002",
+        "fabric_lower_body.003",
+        "fabric_lower_body.004",
+        "fabric_lower_body.005",
+        "fan_0",
+        "fan_1",
+        "fan_2",
+        "fan_3",
+        "fan_4",
+        "fan_5",
+        "far_right_bag",
+        "foreground_black_bag",
+        "foreground_blue_backpack",
+        "frame",
+        "frame.001",
+        "frame.002",
+        "frame.003",
+        "frame.004",
+        "framed_wall_picture_-1_0",
+        "framed_wall_picture_-1_1",
+        "framed_wall_picture_1_0",
+        "framed_wall_picture_1_1",
+        "framed_wall_picture_1_2",
+        "front_apron",
+        "front_apron.001",
+        "front_apron.002",
+        "front_apron.003",
+        "front_apron.004",
+        "front_apron.005",
+        "front_apron.006",
+        "front_apron.007",
+        "front_apron.008",
+        "front_apron.009",
+        "front_apron.010",
+        "front_apron.011",
+        "front_apron.012",
+        "front_apron.013",
+        "front_apron.014",
+        "front_apron.015",
+        "front_apron.016",
+        "front_apron.017",
+        "front_apron.018",
+        "front_apron.019",
+        "front_apron.020",
+        "front_pocket",
+        "front_pocket.001",
+        "front_pocket.002",
+        "front_pocket.003",
+        "front_pocket.004",
+        "front_pocket.005",
+        "green_side_curtain_-1",
+        "green_side_curtain_1",
+        "handle_left",
+        "handle_left.001",
+        "handle_left.002",
+        "handle_left.003",
+        "handle_left.004",
+        "handle_left.005",
+        "handle_right",
+        "handle_right.001",
+        "handle_right.002",
+        "handle_right.003",
+        "handle_right.004",
+        "handle_right.005",
+        "horizontal_body",
+        "left_edge_desk_0",
+        "left_edge_desk_1",
+        "left_edge_desk_2",
+        "left_middle_blue_bag",
+        "left_openings",
+        "leg_-1_-1",
+        "leg_-1_-1.001",
+        "leg_-1_-1.002",
+        "leg_-1_-1.003",
+        "leg_-1_-1.004",
+        "leg_-1_-1.005",
+        "leg_-1_-1.006",
+        "leg_-1_-1.007",
+        "leg_-1_-1.008",
+        "leg_-1_-1.009",
+        "leg_-1_-1.010",
+        "leg_-1_-1.011",
+        "leg_-1_-1.012",
+        "leg_-1_-1.013",
+        "leg_-1_-1.014",
+        "leg_-1_-1.015",
+        "leg_-1_-1.016",
+        "leg_-1_-1.017",
+        "leg_-1_-1.018",
+        "leg_-1_-1.019",
+        "leg_-1_-1.020",
+        "leg_-1_1",
+        "leg_-1_1.001",
+        "leg_-1_1.002",
+        "leg_-1_1.003",
+        "leg_-1_1.004",
+        "leg_-1_1.005",
+        "leg_-1_1.006",
+        "leg_-1_1.007",
+        "leg_-1_1.008",
+        "leg_-1_1.009",
+        "leg_-1_1.010",
+        "leg_-1_1.011",
+        "leg_-1_1.012",
+        "leg_-1_1.013",
+        "leg_-1_1.014",
+        "leg_-1_1.015",
+        "leg_-1_1.016",
+        "leg_-1_1.017",
+        "leg_-1_1.018",
+        "leg_-1_1.019",
+        "leg_-1_1.020",
+        "leg_1_-1",
+        "leg_1_-1.001",
+        "leg_1_-1.002",
+        "leg_1_-1.003",
+        "leg_1_-1.004",
+        "leg_1_-1.005",
+        "leg_1_-1.006",
+        "leg_1_-1.007",
+        "leg_1_-1.008",
+        "leg_1_-1.009",
+        "leg_1_-1.010",
+        "leg_1_-1.011",
+        "leg_1_-1.012",
+        "leg_1_-1.013",
+        "leg_1_-1.014",
+        "leg_1_-1.015",
+        "leg_1_-1.016",
+        "leg_1_-1.017",
+        "leg_1_-1.018",
+        "leg_1_-1.019",
+        "leg_1_-1.020",
+        "leg_1_1",
+        "leg_1_1.001",
+        "leg_1_1.002",
+        "leg_1_1.003",
+        "leg_1_1.004",
+        "leg_1_1.005",
+        "leg_1_1.006",
+        "leg_1_1.007",
+        "leg_1_1.008",
+        "leg_1_1.009",
+        "leg_1_1.010",
+        "leg_1_1.011",
+        "leg_1_1.012",
+        "leg_1_1.013",
+        "leg_1_1.014",
+        "leg_1_1.015",
+        "leg_1_1.016",
+        "leg_1_1.017",
+        "leg_1_1.018",
+        "leg_1_1.019",
+        "leg_1_1.020",
+        "loose_shoulder_strap",
+        "loose_shoulder_strap.001",
+        "loose_shoulder_strap.002",
+        "loose_shoulder_strap.003",
+        "loose_shoulder_strap.004",
+        "loose_shoulder_strap.005",
+        "lying_bag",
+        "middle_black_bag",
+        "motor",
+        "motor.001",
+        "motor.002",
+        "motor.003",
+        "motor.004",
+        "motor.005",
+        "paper",
+        "paper.001",
+        "paper.002",
+        "paper.003",
+        "paper.004",
+        "portrait",
+        "portrait.001",
+        "portrait.002",
+        "portrait.003",
+        "portrait.004",
+        "rear_wall",
+        "right_openings",
+        "right_turquoise_backpack",
+        "room",
+        "rounded_shoulders",
+        "rounded_shoulders.001",
+        "rounded_shoulders.002",
+        "rounded_shoulders.003",
+        "rounded_shoulders.004",
+        "rounded_shoulders.005",
+        "speaker_case",
+        "speaker_case.001",
+        "stage",
+        "stage_plinth",
+        "tiled_floor",
+        "trailing_strap",
+        "upper_dark_curtain",
+        "valance_scallop_0",
+        "valance_scallop_1",
+        "valance_scallop_10",
+        "valance_scallop_11",
+        "valance_scallop_2",
+        "valance_scallop_3",
+        "valance_scallop_4",
+        "valance_scallop_5",
+        "valance_scallop_6",
+        "valance_scallop_7",
+        "valance_scallop_8",
+        "valance_scallop_9",
+        "wall_speaker_-1",
+        "wall_speaker_1",
+        "window_cross_0",
+        "window_cross_0.001",
+        "window_cross_1",
+        "window_cross_1.001",
+        "window_cross_2",
+        "window_cross_2.001",
+        "window_cross_3",
+        "window_cross_3.001",
+        "window_cross_4",
+        "window_cross_4.001",
+        "window_frame_0",
+        "window_frame_0.001",
+        "window_frame_1",
+        "window_frame_1.001",
+        "window_frame_2",
+        "window_frame_2.001",
+        "window_frame_3",
+        "window_frame_3.001",
+        "window_frame_4",
+        "window_frame_4.001",
+        "window_mullion_0",
+        "window_mullion_0.001",
+        "window_mullion_1",
+        "window_mullion_1.001",
+        "window_mullion_2",
+        "window_mullion_2.001",
+        "window_mullion_3",
+        "window_mullion_3.001",
+        "window_mullion_4",
+        "window_mullion_4.001",
+        "yellow_dado_-1",
+        "yellow_dado_1",
+        "zipper",
+        "zipper.001",
+        "zipper.002",
+        "zipper.003",
+        "zipper.004",
+        "zipper.005"
+      ],
+      "scene_program_P": "from sceneact import *\nimport bpy\nimport math\n\n# Reference inventory, normalized image bounds:\n# Cream classroom walls and ceiling; yellow dado; tiled floor (.0,.43)-(1,1).\n# Tall brown doors and bright windows along both walls, overlapping desks.\n# Rear stage (.36,.23)-(.67,.45): dark recess, green curtains, scalloped\n# cream valance, green board with thin supports, narrow blue panel.\n# Wooden desks and benches (.0,.41)-(.92,.90): dark thin tops, slender legs,\n# open lower spaces, shelves and separate narrow seats.\n# Black bag (.09,.73)-(.17,.91), horizontal black bag beneath front desk;\n# blue backpack (.64,.69)-(.72,.86), turquoise bag (.76,.60)-(.83,.74);\n# smaller bags and books partly occluded by furniture.\n# Ceiling beams, six three-blade fans, wall speakers and framed portraits.\n# Hidden stage depth and occluded furniture remain approximate.\n#\n# Feedback comparison: furniture was too pale, foreground columns too far\n# left, center/right front desks too distant, stage header too low, floor\n# tiles absent because realized mesh names did not preserve the part name.\n# Preserve the room and composite hierarchy; correct these local parameters.\n# Expansion estimate: architecture/openings 115; stage 25; 18 desks*11=198;\n# bags 50; fans 30; pictures/books 23: approximately 441 primitive meshes.\n# No Boolean operations or fillet expansion.\n\nscene = Scene('Classroom')\ncream = (.79,.78,.56)\nwhite = (.88,.88,.79)\nyellow = (.88,.62,.006)\nwood = (.115,.074,.030)\nedge = (.15,.108,.049)\ntopwood = (.065,.051,.029)\ndark = (.008,.012,.014)\ngreen = (.018,.12,.035)\nblue = (.008,.16,.37)\n\ndef cube(parent,name,size,pos,color):\n    node=box(size=size,center=pos,color=color)\n    parent.include(name,node)\n    return node\n\ndef line(parent,name,a,b,radius,color):\n    node=rod(radius=radius,start=a,end=b,color=color)\n    parent.include(name,node)\n    return node\n\nroom=Asset('room_architecture')\ncube(room,'tiled_floor',(9,18.8,.12),(0,1.5,-.06),(.58,.40,.18))\nfor side in (-1,1):\n    x=side*4.5\n    cube(room,f'cream_wall_{side}',(.16,18.8,4.55),(x,1.5,2.275),cream)\n    cube(room,f'yellow_dado_{side}',(.025,18.8,1.20),\n         (x-side*.095,1.5,.60),yellow)\ncube(room,'rear_wall',(9,.16,4.55),(0,10.9,2.275),cream)\ncube(room,'ceiling',(9,18.8,.12),(0,1.5,4.6),white)\nfor i,y in enumerate((-4.2,.3,4.8,9.1)):\n    cube(room,f'ceiling_beam_{i}',(9,.20,.27),(0,y,4.40),white)\nscene.include('room',room)\n\nfor side in (-1,1):\n    wall=Asset(('left' if side<0 else 'right')+'_openings')\n    x=side*4.39\n    for j,y in enumerate((-3.3,.05,3.35,6.65,9.0)):\n        dy=y+.55\n        cube(wall,f'door_frame_{j}',(.10,1.04,2.80),(x,dy,1.40),wood)\n        cube(wall,f'door_leaf_{j}',(.12,.86,2.59),\n             (x-side*.035,dy,1.30),(.24,.145,.061))\n        for k in (-1,1):\n            cube(wall,f'door_stile_{j}_{k}',(.025,.045,2.44),\n                 (x-side*.105,dy+k*.31,1.32),(.38,.26,.12))\n        cube(wall,f'door_panel_divider_{j}',(.025,.69,.055),\n             (x-side*.108,dy,1.35),(.38,.26,.12))\n        cube(wall,f'door_handle_{j}',(.04,.05,.13),\n             (x-side*.14,dy-.29,1.28),(.55,.44,.20))\n        wy=y-.72\n        cube(wall,f'window_frame_{j}',(.13,1.10,1.94),(x,wy,2.45),wood)\n        cube(wall,f'bright_window_{j}',(.14,.94,1.78),\n             (x-side*.025,wy,2.45),(.94,.97,1))\n        cube(wall,f'window_cross_{j}',(.035,.97,.065),\n             (x-side*.11,wy,2.69),wood)\n        cube(wall,f'window_mullion_{j}',(.035,.055,1.8),\n             (x-side*.11,wy,2.45),wood)\n    scene.include(wall.name,wall)\n\nstage=Asset('rear_stage_and_curtains')\ncube(stage,'stage_plinth',(6.7,1.85,.34),(0,9.90,.17),(.24,.17,.06))\ncube(stage,'dark_stage_recess',(6.35,.12,3.35),(0,10.75,2.10),(.018,.009,.005))\ncube(stage,'upper_dark_curtain',(6.15,.17,.63),(0,10.49,3.35),(.055,.022,.010))\nfor side in (-1,1):\n    cube(stage,f'green_side_curtain_{side}',(.52,.26,3.30),\n         (side*3.02,10.33,2.26),green)\n    cube(stage,f'curtain_fold_{side}',(.13,.30,3.30),\n         (side*2.87,10.29,2.26),(.035,.21,.045))\ncube(stage,'cream_valance_header',(6.45,.24,.26),(0,10.19,3.89),(.84,.76,.51))\nfor i in range(12):\n    node=ball(radius=.265,center=(-2.93+i*.53,10.18,3.72),\n              color=(.84,.76,.51))\n    node.resize((1,.38,.68))\n    stage.include(f'valance_scallop_{i}',node)\ncube(stage,'chalkboard_frame',(2.40,.12,1.18),(.30,9.88,1.40),(.24,.24,.12))\ncube(stage,'chalkboard',(2.29,.035,1.07),(.30,9.80,1.40),(.035,.15,.10))\nline(stage,'board_support_left',(-.94,9.77,.35),(-.78,9.77,1.94),.022,wood)\nline(stage,'board_support_right',(1.55,9.77,.35),(1.40,9.77,1.94),.022,wood)\nline(stage,'chalk_diagonal',(-.72,9.772,.95),(-.38,9.772,1.82),.009,(.49,.56,.43))\ncube(stage,'blue_stage_panel',(.60,.12,1.38),(2.23,9.96,1.11),(.12,.44,.64))\nscene.include('stage',stage)\n\ndef desk(name,x,y,w=1.67,d=.71):\n    a=Asset(name)\n    h=1.02\n    cube(a,'desktop',(w,d,.075),(x,y,h),topwood)\n    cube(a,'front_apron',(w-.08,.065,.14),(x,y-d/2+.045,h-.105),edge)\n    for ix in (-1,1):\n        for iy in (-1,1):\n            cube(a,f'leg_{ix}_{iy}',(.061,.061,.98),\n                 (x+ix*(w/2-.09),y+iy*(d/2-.07),.49),edge)\n    cube(a,'book_shelf',(w-.19,d*.66,.035),(x,y,.69),wood)\n    by=y+.78\n    cube(a,'bench_seat',(w,.27,.06),(x,by,.60),wood)\n    for ix in (-1,1):\n        cube(a,f'bench_leg_{ix}',(.065,.21,.57),\n             (x+ix*(w/2-.13),by,.285),edge)\n    cube(a,'bench_stretcher',(w-.20,.045,.055),(x,by,.22),edge)\n    scene.include(name,a)\n\n# Front rows are individually positioned to reproduce the staggered silhouettes.\n# Columns converge toward their original positions near the stage.\nfor col,(front_x,back_x,front_y,w) in enumerate((\n    (-1.72,-2.45,-2.40,1.48),\n    (.95,.10,-1.50,1.54),\n    (3.05,2.50,-.30,1.58)\n)):\n    for row in range(6):\n        y=front_y+row*1.72\n        if y<8.5:\n            x=front_x+(back_x-front_x)*row/5\n            desk(f'desk_c{col}_r{row}',x,y,w)\nfor i,y in enumerate((-.15,3.0,5.8)):\n    desk(f'left_edge_desk_{i}',-3.90,y,1.23,.64)\n\nbooks=Asset('books_and_notebooks')\nfor i,(x,y,col) in enumerate((\n    (-1.85,-2.40,(.68,.69,.56)),(-1.8,-.68,(.64,.035,.13)),\n    (.80,.22,(.74,.72,.56)),(3.00,1.42,(.66,.06,.16)),\n    (-2.1,2.76,(.75,.78,.65)),(.40,3.66,(.025,.09,.12)),\n    (2.7,4.86,(.64,.61,.42)),(-3.95,3.0,(.65,.045,.18))\n)):\n    cube(books,f'book_{i}',(.36,.24,.035),(x,y,1.075),col)\nscene.include('books',books)\n\ndef bag(name,x,y,z=.32,color=blue,scale=1):\n    a=Asset(name)\n    # Broad shoulders and a flatter base produce a backpack rather than an egg.\n    cube(a,'fabric_lower_body',(.43*scale,.28*scale,.43*scale),\n         (x,y,z-.035*scale),color)\n    body=ball(radius=1,center=(x,y,z+.14*scale),color=color)\n    body.resize((.235*scale,.155*scale,.24*scale))\n    a.include('rounded_shoulders',body)\n    pocket=ball(radius=1,center=(x,y-.14*scale,z-.055*scale),\n                color=tuple(c*.70 for c in color))\n    pocket.resize((.19*scale,.066*scale,.205*scale))\n    a.include('front_pocket',pocket)\n    line(a,'zipper',(x-.16*scale,y-.205*scale,z+.095*scale),\n         (x+.16*scale,y-.205*scale,z+.095*scale),.008*scale,(.18,.30,.33))\n    line(a,'handle_left',(x-.07*scale,y,z+.33*scale),\n         (x-.055*scale,y,z+.43*scale),.016*scale,color)\n    line(a,'handle_right',(x-.055*scale,y,z+.43*scale),\n         (x+.07*scale,y,z+.34*scale),.016*scale,color)\n    line(a,'loose_shoulder_strap',(x+.19*scale,y+.01,z+.16*scale),\n         (x+.31*scale,y-.08,.025),.022*scale,(.008,.014,.020))\n    scene.include(name,a)\n\nbag('foreground_black_bag',-2.38,-2.97,.34,(.004,.012,.023),1.05)\nbag('foreground_blue_backpack',1.29,-2.35,.35,(.006,.16,.40),1.04)\nbag('right_turquoise_backpack',3.06,-.10,.32,(.004,.23,.36),.94)\nbag('middle_black_bag',.18,-.30,.28,(.005,.010,.015),.85)\nbag('left_middle_blue_bag',-2.52,1.06,.30,(.008,.13,.32),.80)\nbag('far_right_bag',2.75,4.04,.25,(.008,.10,.23),.66)\nlying=Asset('bag_under_front_left_desk')\nb=ball(radius=1,center=(-1.72,-2.42,.16),color=(.005,.010,.014))\nb.resize((.43,.21,.12))\nlying.include('horizontal_body',b)\nline(lying,'trailing_strap',(-2.12,-2.52,.12),(-2.40,-2.82,.025),.020,dark)\nscene.include('lying_bag',lying)\n\nfor i,(x,y,z) in enumerate((\n    (-1.90,-1.50,4.05),(2.15,-1.00,4.10),\n    (-2.35,3.15,3.99),(2.35,3.60,3.99),\n    (-1.85,7.80,3.99),(1.85,8.00,3.99)\n)):\n    fan=Asset(f'ceiling_fan_{i}')\n    line(fan,'downrod',(x,y,4.49),(x,y,z),.024,(.10,.085,.061))\n    motor=ball(radius=.14,center=(x,y,z),color=(.10,.08,.055))\n    motor.resize((1,1,.45))\n    fan.include('motor',motor)\n    for k in range(3):\n        angle=math.radians(k*120+18)\n        blade=cube(fan,f'blade_{k}',(.97,.145,.025),\n                   (x+.55*math.cos(angle),y+.55*math.sin(angle),z),\n                   (.14,.12,.085))\n        blade.turn('z',k*120+18)\n    scene.include(f'fan_{i}',fan)\n\nfor side,y,z in ((-1,4.5,3.1),(1,3.3,3.25)):\n    a=Asset(f'wall_speaker_{side}')\n    node=cube(a,'speaker_case',(.24,.55,.79),\n              (side*4.18,y,z),(.005,.020,.020))\n    node.turn('y',side*12)\n    scene.include(a.name,a)\n\nfor side,ys in ((-1,(-1.6,5.6)),(1,(.5,5.8,8.2))):\n    for j,y in enumerate(ys):\n        a=Asset(f'framed_wall_picture_{side}_{j}')\n        cube(a,'frame',(.07,.43,.65),(side*4.36,y,3.52),(.18,.16,.075))\n        cube(a,'paper',(.075,.35,.56),(side*4.31,y,3.52),(.73,.76,.59))\n        cube(a,'portrait',(.08,.16,.32),(side*4.26,y,3.52),(.065,.16,.17))\n        scene.include(a.name,a)\n\nrealize(scene)\nsc=bpy.context.scene\n\n# Select the floor by geometry, since realization assigns generic mesh names.\nfloor_mat=bpy.data.materials.new('ochre_square_floor_tiles')\nfloor_mat.use_nodes=True\nnodes=floor_mat.node_tree.nodes\nlinks=floor_mat.node_tree.links\nbs=nodes.get('Principled BSDF')\nbs.inputs['Roughness'].default_value=.47\ncoord=nodes.new('ShaderNodeTexCoord')\nbrick=nodes.new('ShaderNodeTexBrick')\nbrick.inputs['Color1'].default_value=(.43,.28,.115,1)\nbrick.inputs['Color2'].default_value=(.69,.53,.29,1)\nbrick.inputs['Mortar'].default_value=(.39,.31,.18,1)\nbrick.inputs['Scale'].default_value=1\nbrick.inputs['Mortar Size'].default_value=.006\nbrick.inputs['Mortar Smooth'].default_value=.003\nbrick.inputs['Brick Width'].default_value=.30\nbrick.inputs['Row Height'].default_value=.30\nbrick.offset=0\nlinks.new(coord.outputs['Object'],brick.inputs['Vector'])\nlinks.new(brick.outputs['Color'],bs.inputs['Base Color'])\nfor obj in sc.objects:\n    if obj.type=='MESH':\n        if obj.dimensions.x>8.8 and obj.dimensions.y>18 and obj.location.z<.1:\n            obj.data.materials.clear()\n            obj.data.materials.append(floor_mat)\n\nif sc.world is None:\n    sc.world=bpy.data.worlds.new('SceneWorld')\nsc.world.use_nodes=True\nbackground=sc.world.node_tree.nodes.get('Background')\nif background is None:\n    background=sc.world.node_tree.nodes.new('ShaderNodeBackground')\noutput=sc.world.node_tree.nodes.get('World Output')\nif output is None:\n    output=sc.world.node_tree.nodes.new('ShaderNodeOutputWorld')\nsc.world.node_tree.links.new(background.outputs['Background'],output.inputs['Surface'])\nbackground.inputs['Color'].default_value=(.83,.88,.91,1)\nbackground.inputs['Strength'].default_value=.35\n\nset_view((.12,-6.8,2.28),(0,8,-.10),lens=25,sensor=36)\narea_emitter((-3.6,-1.5,3.6),power=650,size=4,\n             target=(0,2,.1),color=(1,.96,.83))\narea_emitter((3.5,3,3.5),power=500,size=4,\n             target=(0,4,.5),color=(1,.98,.88))\narea_emitter((-3.3,7.2,3.4),power=400,size=3,\n             target=(0,7,.4),color=(1,.97,.83))\nsc.view_settings.view_transform='Standard'\nsc.view_settings.exposure=-.20\nsc.view_settings.gamma=1\n",
+      "shared_H_policy": "import json\nfrom pathlib import Path\nimport re\n\n\ndef solve(task, runtime):\n    prompt = (Path(__file__).parent / 'system.txt').read_text()\n    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [\n        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +\n         f\"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}\"},\n        runtime.image(task['image'])]}]\n    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:\n        response = runtime.ask(messages)\n        messages.append(response)\n        text = response['content'] or ''\n        blocks = re.findall(r'```python\\s*\\n(.*?)```', text, re.S)\n        if not blocks:\n            if text.strip().upper() == 'DONE': return\n            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})\n            continue\n        if runtime.remaining()['executions'] <= 0: return\n        result = runtime.execute(blocks[-1])\n        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +\n                    '\\nCompare the rendered camera view with the original reference. ' +\n                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}\n        content = [feedback]\n        if result['image']: content.append(runtime.image(result['image']))\n        messages.append({'role': 'user', 'content': content})\n",
+      "shared_H_system": "Reconstruct the visible indoor scene from one RGB photograph using SceneAct and Blender.\nInfer geometry and a camera matching the reference viewpoint, perspective and framing.\nUse separate 3D meshes for architecture, furniture and visible objects, preserving colors,\nproportions, placement, occlusions and materials. Do not use the reference as a texture,\nbackground or projected image. No ground-truth calibration or other views are available.\n\nReturn a complete, runnable Python program inside one ```python code block. Each execution\nstarts in a fresh Blender process. Programs can use numpy, sceneact and bpy. Use SceneAct\nfor geometry and relationships; bpy may customize lighting, materials and camera settings.\nDo not render or save files in the program: the fixed runner saves and renders once after\nexecution, using your active camera. Do not access external files, network or other models.\nWhen satisfied after inspecting a rendering, reply exactly DONE. The last successful build\nis submitted automatically. Budget includes all planning, corrections and review calls.\n\nCoverage and verification procedure:\nBefore building, record a short reference inventory in program comments: major visible\nobjects, their approximate normalized image bounds, distinctive visible parts, overlaps,\nand uncertain or occluded regions. These are estimates from this input, not calibration.\nMap each inventory item to a named SceneAct asset with meaningful child parts. A valid\nhierarchy verifies only the parts you emitted; it does not establish image completeness.\nDo not invent hidden details to fill uncertainty or omit visible parts because they are small.\nFor composite objects, match the overall silhouette and the distribution of occupied space\nand gaps before adding fine repeated details. Estimate component sizes relative to their\nparent and nearby objects from the reference. A correct outer bounding box alone does not\nensure the correct internal density, component proportions or visible coverage. Keep these\nparameters explicit so that a later revision can change them without rebuilding the design.\n\nUse the first execution for a complete scene, leaving the second available for correction.\nAfter a successful render, compare the reference inventory against the full rendered view:\nmissing or extra visible parts, silhouette, internal gaps, relative sizes, overlaps and image\nbounds. Identify the largest supported discrepancies before revising. If many objects share\na displacement or scale error, consider camera/framing; if a discrepancy is local, consider\nthat object's parameters. Neither pattern proves a unique cause. Preserve matching objects\nand their editable hierarchy while correcting the supported discrepancies. Do not impose\none fixed density, camera, object count or parameter adjustment across different inputs.\nAn isolated-object view, if supplied, can clarify membership and silhouette, but its full-image\nscore is not evidence that removing the rest of the scene improves the reconstruction.\nKeep unresolved mappings and occluded geometry explicitly uncertain.\n\nExecution cost planning:\nThe entire solve has three model calls, two Blender executions and 600 seconds. A short\nPython loop can generate thousands of Blender objects before any image exists. Plan a\ncompact complete first build so that realization and the runner's render can finish with\ntime for review. Do not change the runner's resource policy or rendering settings to evade\nthis budget. Use geometry complexity as the controllable cost.\nBefore returning code, estimate expanded primitive counts in comments, including nested\nloops and helper calls. In this implementation, each ball, rod and box emits a separate\nmesh and marker; a fillet_box can expand to 26 primitives; sweep_tube with n points emits\n2*n-1 primitives. Cloning and layout helpers duplicate their contents. Boolean operands\nalso incur mesh creation and modifier work. Count these expansions, not just named assets.\nAim initially for a few hundred primitive meshes across the whole scene, as a planning\nheuristic rather than a measured runtime guarantee or fixed object count. Allocate detail\naccording to visible pixel size, silhouette and gaps. If the estimate reaches thousands,\nsimplify repeated microstructure before execution while retaining every inventory object\nand its meaningful editable parts. Represent unresolved surface detail with shared materials\nand restrained procedural shading; retain geometric detail that changes visible contours,\nopenings or occlusions. Avoid nested per-element decoration below the image resolution.\nUse short, adaptively spaced tube paths for visible curves, concentrating points at bends.\nAvoid many nearly identical Boolean slices to approximate one hollow shape; use a small\nnumber of appropriate SceneAct solids and cutters, preserving the visible opening. Prefer\nboxes or scaled balls where their silhouettes suffice; reserve fillet_box for parts whose\nrounded edges matter. Keep a small reusable material palette for each surface family rather\nthan generating a distinct random color and material for every tiny primitive. Keep parent\nassets, semantic child parts, and support relations intact during simplification.\nIf execution times out without an image, report that completion failed and the bottleneck\nis unknown unless logs locate it. When a retry remains, reduce expanded primitive counts,\nBoolean operations and material proliferation in the complete program. Do not infer camera,\ncoverage or appearance defects from a timeout. A reduced-cost build still needs execution\nand rendered-image verification; simplification alone is not evidence of success.\n\nExecution verification:\nrealize(scene) clears Blender to an empty factory scene. Configure the world, camera,\nlighting and materials after realization; do not assume a default world exists. When setting\nworld nodes, use this initialization after realize:\n    sc = bpy.context.scene\n    if sc.world is None:\n        sc.world = bpy.data.worlds.new('SceneWorld')\n    sc.world.use_nodes = True\n    background = sc.world.node_tree.nodes.get('Background')\n    if background is None:\n        background = sc.world.node_tree.nodes.new('ShaderNodeBackground')\n    output = sc.world.node_tree.nodes.get('World Output')\n    if output is None:\n        output = sc.world.node_tree.nodes.new('ShaderNodeOutputWorld')\n    sc.world.node_tree.links.new(background.outputs['Background'], output.inputs['Surface'])\nBefore returning code, check API arguments, positive dimensions, noncoincident rod endpoints,\nand fillet radii against the smallest dimension. If execution fails, use the actual traceback\nto repair the program. A failed execution without an image supplies no rendered visual\nfeedback: do not treat it as evidence for unrelated camera or geometry changes. Preserve\nexplicit failures and unknowns; do not claim verification when no successful render exists.\n\nSceneAct API (all coordinates in a world frame with Z up; angles in degrees):\nfrom sceneact import *\nScene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)\nparent.include(name, node) attaches an asset/part while preserving its world position.\nparent.members[name] retrieves a child; parent.remove(name) detaches it.\nnode.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.\nbox(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)\nball(radius, center=(0,0,0), color=(1,1,1), opacity=1)\nrod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))\nrod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))\nfillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))\nsweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))\nassemble(nodes, name='Assembly') groups shapes without merging their meshes.\nfuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.\nnode.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)\nmodify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.\nDefault rotation/scale pivot is the geometry's world-space bounding-box center.\nshifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),\nresized(node, factors, pivot=None) perform the same operations on independent copies.\nnode.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.\nnode.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).\nnode.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.\nnode.extreme(direction) returns a support point; projected_span(node,direction) returns bounds\nalong a unit direction; projected_width(node,direction) returns their difference.\nsnap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.\nA target can also be a world point; then omit target_anchor.\nabut(node, target, axis='+z', gap=0) places a copy after a target boundary.\ncenter_on(node, target, axes=('x','y','z')) aligns selected center coordinates.\noffset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.\nrepeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.\npile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.\nlattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')\norbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)\nLayout functions return assemblies of independent copies.\nscene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))\nregisters a persistent relation between scene members; scene.settle() updates dependencies.\nrealize(scene) settles constraints and creates Blender geometry, clearing Blender first.\nset_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.\narea_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.\nCall realize before setting the camera and lighting. Estimate the input viewpoint yourself.\n\nExample:\nfrom sceneact import *\nscene = Scene()\ntable = Asset('table')\ntable.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))\nfor x in (-.6,.6):\n    for y in (-.3,.3):\n        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))\nscene.include('table', table)\nscene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))\nrealize(scene)\nset_view((3,-4,2), (0,0,.7), lens=40)\narea_emitter((0,-2,4), power=1000)\n",
+      "tools": {
+        "camera_focal": "Fixed scene geometry; multiply current perspective focal length by1.1. Outcome: SSIM(reference,probe)-SSIM(reference,current).",
+        "object_scale": "Fixed camera; scale the explicitly named real object/group by1.1 around its geometry AABB center. Outcome: delta SSIM to reference.",
+        "isolate": "Keep only the explicitly named object/group meshes visible, temporarily hiding other meshes. Outcome: delta SSIM to reference. The probe image reveals emitted geometry, not true missing geometry."
+      },
+      "limitation": "No 3D ground truth. No correct module given. Naming/projection are approximate object correspondence."
+    },
+    "visual_difference": "The photograph shows two large foreground ceiling fans with visible hubs and substantial blades near the upper edge. In the reconstruction, those fans are mostly cropped out, while the smaller distant fans remain visible. The reconstruction also has conspicuous grain, more regular furniture spacing, and a less distinct floor pattern; these are separate discrepancies.",
+    "object_id": "fan_0",
+    "initial_module": "camera_framing",
+    "initial_confidence": 0.55,
+    "probe_targets": {
+      "camera_focal": "fan_0",
+      "object_scale": "fan_0",
+      "isolate": "fan_0"
+    },
+    "hypotheses": [
+      {
+        "id": "H1",
+        "module": "camera_framing",
+        "object_id": "fan_0",
+        "explanation": "The camera's downward aim places nearby ceiling objects above the image. Both foreground fans being cropped while distant fans remain visible supports a shared projection error. The program aims from height 2.28 toward height -0.10; focal length alone cannot correct that aim.",
+        "predictions": {
+          "camera_focal": {
+            "lower": -0.025,
+            "upper": 0.015,
+            "reason": "Increasing focal length from 25 to 27.5 narrows the frame and should further crop the foreground fans. Whole-image SSIM could nevertheless improve through incidental desk or stage alignment."
+          },
+          "object_scale": {
+            "lower": -0.004,
+            "upper": 0.004,
+            "reason": "Scaling fan_0 by 1.1 about its AABB center does not correct the camera aim. Its mostly offscreen geometry limits the expected full-image effect; an enlarged blade might enter the frame."
+          },
+          "isolate": {
+            "lower": -0.13,
+            "upper": -0.04,
+            "reason": "Keeping only fan_0 removes nearly all matching room content while retaining little visible fan geometry. This tests emitted geometry and clipping, not whether isolation repairs the scene."
+          }
+        }
+      },
+      {
+        "id": "H2",
+        "module": "geometry_scale_depth",
+        "object_id": "fan_0",
+        "explanation": "The foreground fans may instead be too close to the camera or too high relative to the room and furniture. Their manually specified positions could produce clipping even with a broadly appropriate camera. The blue foreground backpack is already approximately aligned, which cautions against attributing every mismatch to framing.",
+        "predictions": {
+          "camera_focal": {
+            "lower": -0.025,
+            "upper": 0.015,
+            "reason": "The same narrowing still exacerbates clipping without correcting fan height or depth. Available evidence does not justify a different whole-image forecast from H1."
+          },
+          "object_scale": {
+            "lower": -0.004,
+            "upper": 0.004,
+            "reason": "Uniform enlargement does not test the suspected height/depth displacement directly. With most geometry offscreen, its SSIM response can resemble H1."
+          },
+          "isolate": {
+            "lower": -0.13,
+            "upper": -0.04,
+            "reason": "Removing the classroom dominates the score under either explanation. The isolated image may confirm clipping and silhouette but cannot determine correct world position from a single photograph."
+          }
+        }
+      }
+    ],
+    "program_evidence": "Localization uses the supplied hierarchy and projections, not mesh size or ordering: blade_0, blade_1 and blade_2 belong to fan_0. Their approximate normalized vertical bounds are respectively [-0.052,-0.016], [-0.049,0.006] and [-0.146,-0.046], confirming almost complete clipping above the image. The program places fan_0 at (-1.90,-1.50,4.05), with the camera at (0.12,-6.8,2.28). A reusable workflow should record image landmarks and projected asset bounds, test shared camera residuals across near and far objects, then adjust local height/depth only where residuals remain. Preserve semantic groups and compare silhouettes, gaps and occlusions before fine detail. Evaluate materials and rendering grain separately. Functional passes establish emitted hierarchy integrity, not photographic completeness; the supplied books target does not establish the cause of this fan discrepancy.",
+    "limitations": "Both attached images were inspected directly; no tools or external files were used. Predictions are subjective pre-experiment intervals for absolute full-image delta SSIM relative to 0.132762, not measured or calibrated confidence intervals. The specified probes weakly distinguish these hypotheses, so overlapping forecasts are intentional. A positive SSIM change would not uniquely identify a cause. Approximate projections, rendering grain and absent 3D calibration limit attribution."
+  },
+  "actual_observations": [],
+  "M_decision": {
+    "selected_module": "camera_framing",
+    "hypothesis_update": [
+      {
+        "id": "H1",
+        "module": "camera_framing",
+        "object_id": "fan_0",
+        "forecast_residual": null,
+        "weight": null
+      },
+      {
+        "id": "H2",
+        "module": "geometry_scale_depth",
+        "object_id": "fan_0",
+        "forecast_residual": null,
+        "weight": null
+      }
+    ],
+    "outcomes": {},
+    "forecast_calibration": "insufficient_or_no_observation",
+    "evidence_ratio": null,
+    "decision_changed": false,
+    "planned_shared_H_change": "Use the recorded sensitivities to develop general reconstruction instructions/algorithm; never insert per-image parameters. Investigate camera_framing",
+    "limitations": "A forecast miss can reflect calibration error. No hypothesis is declared causally false solely from this scalar. Natural images have no fault-module ground truth.",
+    "M_origin": "engineer_revision_v2_4_not_automatic_descendant"
+  },
+  "M_program": "meta.py",
+  "executed": true
+}

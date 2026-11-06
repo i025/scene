@@ -1,0 +1,196 @@
+{
+  "checks": {
+    "structure": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    "material": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    "composite": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    "declared_parts": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    }
+  },
+  "functional_pass": true,
+  "structure_pass": true,
+  "material_pass": true,
+  "composite_required": true,
+  "composite_pass": true,
+  "target_object": "architecture",
+  "geometry": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 61,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": false,
+      "measured_pass": null,
+      "rows": [],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": null,
+      "crossings": [
+        {
+          "objects": [
+            "Box.051",
+            "Box.054"
+          ],
+          "triangle_pairs": 8
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.055"
+          ],
+          "triangle_pairs": 8
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.057"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.058"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.059"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.060"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.061"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.052",
+            "Box.062"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.056"
+          ],
+          "triangle_pairs": 8
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.057"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.058"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.059"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.060"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.061"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.053",
+            "Box.062"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.055",
+            "Box.062"
+          ],
+          "triangle_pairs": 6
+        },
+        {
+          "objects": [
+            "Box.055",
+            "Box.063"
+          ],
+          "triangle_pairs": 4
+        },
+        {
+          "objects": [
+            "Box.056",
+            "Box.062"
+          ],
+          "triangle_pairs": 6
+        },
+        {
+          "objects": [
+            "Box.056",
+            "Box.063"
+          ],
+          "triangle_pairs": 6
+        }
+      ],
+      "narrow_phase_pairs": 19,
+      "mesh_count": 653,
+      "tested_mesh_count": 64,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "semantic_object_completeness": null,
+  "support_collision_truth": null,
+  "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+}

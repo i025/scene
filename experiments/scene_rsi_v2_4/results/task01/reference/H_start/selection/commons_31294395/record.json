@@ -1,0 +1,1009 @@
+{
+  "method": "reference",
+  "run_id": "task01",
+  "scene_id": "commons_31294395",
+  "split": "selection",
+  "candidate_id": "H_start",
+  "parent_id": "fixed_h/r1_C2",
+  "H_version": "fixed_h/r1_C2",
+  "M_version": "engineered_v2_4",
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.09072825552451382,
+    "lpips": 0.8413463234901428,
+    "dino": 0.45152774453163147,
+    "psnr": 9.057253069369306,
+    "overall": 0.3250486014333956
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "functional_pass": true,
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "target_object": "architecture",
+    "geometry": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 21,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": false,
+        "measured_pass": null,
+        "rows": [],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": null,
+        "crossings": [
+          {
+            "objects": [
+              "Box.001",
+              "Box.002"
+            ],
+            "triangle_pairs": 2
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.003"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.004"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.005"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.006"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.007"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.008"
+            ],
+            "triangle_pairs": 10
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.009"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.011"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.003"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.004"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.005"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.006"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.007"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.008"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.009"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.010"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.003",
+              "Box.008"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.003",
+              "Box.009"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.004",
+              "Box.005"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.004",
+              "Box.006"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.004",
+              "Box.007"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.005",
+              "Box.006"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.005",
+              "Box.007"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.007"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.008"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.006",
+              "Box.009"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.007",
+              "Box.008"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.007",
+              "Box.009"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.008",
+              "Box.009"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.010",
+              "Box.011"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.014"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.015"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.016"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.017"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.018"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.019"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.012",
+              "Box.020"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.014",
+              "Box.018"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.014",
+              "Box.019"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.014",
+              "Box.020"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.015",
+              "Box.020"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Box.018"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Box.019"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Box.020"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Ball"
+            ],
+            "triangle_pairs": 28
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.008"
+            ],
+            "triangle_pairs": 9
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.009"
+            ],
+            "triangle_pairs": 26
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.010"
+            ],
+            "triangle_pairs": 17
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.011"
+            ],
+            "triangle_pairs": 12
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.012"
+            ],
+            "triangle_pairs": 12
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.013"
+            ],
+            "triangle_pairs": 17
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.014"
+            ],
+            "triangle_pairs": 26
+          },
+          {
+            "objects": [
+              "Box.016",
+              "Rod.015"
+            ],
+            "triangle_pairs": 9
+          },
+          {
+            "objects": [
+              "Box.017",
+              "Box.020"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.017",
+              "Ball"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Box.017",
+              "Rod.008"
+            ],
+            "triangle_pairs": 49
+          },
+          {
+            "objects": [
+              "Box.017",
+              "Rod.009"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Box.017",
+              "Rod.014"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Box.017",
+              "Rod.015"
+            ],
+            "triangle_pairs": 49
+          },
+          {
+            "objects": [
+              "Box.018",
+              "Box.020"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.021",
+              "Box.022"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.025"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.026"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.027"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.028"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.029"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.030"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.023",
+              "Box.031"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Box.029"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Box.030"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Box.031"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Ball"
+            ],
+            "triangle_pairs": 28
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod"
+            ],
+            "triangle_pairs": 14
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.001"
+            ],
+            "triangle_pairs": 11
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.002"
+            ],
+            "triangle_pairs": 33
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.021"
+            ],
+            "triangle_pairs": 33
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.022"
+            ],
+            "triangle_pairs": 11
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.023"
+            ],
+            "triangle_pairs": 14
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.024"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.025"
+            ],
+            "triangle_pairs": 17
+          },
+          {
+            "objects": [
+              "Box.025",
+              "Rod.026"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Box.031"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Ball"
+            ],
+            "triangle_pairs": 64
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Rod.002"
+            ],
+            "triangle_pairs": 23
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Rod.003"
+            ],
+            "triangle_pairs": 45
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Rod.020"
+            ],
+            "triangle_pairs": 45
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Rod.021"
+            ],
+            "triangle_pairs": 23
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Rod.025"
+            ],
+            "triangle_pairs": 10
+          },
+          {
+            "objects": [
+              "Box.026",
+              "Rod.026"
+            ],
+            "triangle_pairs": 43
+          },
+          {
+            "objects": [
+              "Box.027",
+              "Box.029"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.027",
+              "Box.030"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.027",
+              "Box.031"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.028",
+              "Box.031"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.029",
+              "Box.031"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.032",
+              "Box.033"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.001"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod",
+              "Rod.023"
+            ],
+            "triangle_pairs": 23
+          },
+          {
+            "objects": [
+              "Rod.001",
+              "Rod.002"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.002",
+              "Rod.003"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Rod.003",
+              "Rod.004"
+            ],
+            "triangle_pairs": 20
+          },
+          {
+            "objects": [
+              "Rod.004",
+              "Rod.005"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Rod.005",
+              "Rod.006"
+            ],
+            "triangle_pairs": 18
+          },
+          {
+            "objects": [
+              "Rod.006",
+              "Rod.007"
+            ],
+            "triangle_pairs": 18
+          },
+          {
+            "objects": [
+              "Rod.007",
+              "Rod.008"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.008",
+              "Rod.009"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Rod.009",
+              "Rod.010"
+            ],
+            "triangle_pairs": 23
+          },
+          {
+            "objects": [
+              "Rod.010",
+              "Rod.011"
+            ],
+            "triangle_pairs": 20
+          },
+          {
+            "objects": [
+              "Rod.011",
+              "Rod.012"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.012",
+              "Rod.013"
+            ],
+            "triangle_pairs": 22
+          },
+          {
+            "objects": [
+              "Rod.013",
+              "Rod.014"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Rod.014",
+              "Rod.015"
+            ],
+            "triangle_pairs": 20
+          },
+          {
+            "objects": [
+              "Rod.015",
+              "Rod.016"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.016",
+              "Rod.017"
+            ],
+            "triangle_pairs": 20
+          },
+          {
+            "objects": [
+              "Rod.017",
+              "Rod.018"
+            ],
+            "triangle_pairs": 17
+          },
+          {
+            "objects": [
+              "Rod.018",
+              "Rod.019"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.019",
+              "Rod.020"
+            ],
+            "triangle_pairs": 24
+          },
+          {
+            "objects": [
+              "Rod.020",
+              "Rod.021"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.021",
+              "Rod.022"
+            ],
+            "triangle_pairs": 21
+          },
+          {
+            "objects": [
+              "Rod.022",
+              "Rod.023"
+            ],
+            "triangle_pairs": 20
+          },
+          {
+            "objects": [
+              "Rod.024",
+              "Rod.025"
+            ],
+            "triangle_pairs": 19
+          },
+          {
+            "objects": [
+              "Rod.025",
+              "Rod.026"
+            ],
+            "triangle_pairs": 18
+          },
+          {
+            "objects": [
+              "Rod.026",
+              "Rod.027"
+            ],
+            "triangle_pairs": 23
+          },
+          {
+            "objects": [
+              "Rod.027",
+              "Rod.028"
+            ],
+            "triangle_pairs": 19
+          }
+        ],
+        "narrow_phase_pairs": 152,
+        "mesh_count": 284,
+        "tested_mesh_count": 64,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+  },
+  "target_object": "architecture",
+  "device": "CPU",
+  "seconds": 351.42383698001504,
+  "usage": {
+    "calls": 2,
+    "input_tokens": 48764,
+    "output_tokens": 12059,
+    "cached_input_tokens": 16384,
+    "total_tokens": 60823,
+    "seconds": 270.7417759350501,
+    "cost_usd": "unknown",
+    "executions": 2
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 308.6218673721887
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/task01/reference/H_start/selection/commons_31294395",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    },
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "task_utility_v2": 0.3250486014333956
+}

@@ -1,0 +1,39 @@
+{
+  "time": 1793975768.5869544,
+  "formal_tasks": [
+    "task01",
+    "task02"
+  ],
+  "methods": [
+    "fixed",
+    "structured",
+    "active"
+  ],
+  "proposals_per_task_arm": 1,
+  "maximum_probes": 2,
+  "H_start": "fixed_h/r1_C2",
+  "original_H0": "fixed_h/H0",
+  "model": "gpt-6.1-sol medium; gpt-6-astra medium",
+  "calls_per_arm_research": 2,
+  "formal_upper_cli": 60,
+  "preparation_cli": 10,
+  "cap": 80,
+  "frames_upper": 150,
+  "frame_cap": 240,
+  "render": "Cycles16 seed42 AgX 512longedge CPU2threads",
+  "inner_budget": {
+    "model_calls": 3,
+    "executions": 2,
+    "seconds": 600
+  },
+  "CLI_timeout": 300,
+  "build_and_render_timeout": "min(600,remaining_scene_seconds)",
+  "primary": "Absolute execution/required functional gates pass, Selection Q improves by >0.01, transfer execution/function pass and transfer Q does not drop >0.01. Report stronger transfer Q improvement separately.",
+  "candidate_selection": "H_start fallback always; single candidate must be eligible on source Selection and improve Q >0.01. No transfer data returned before all candidates are frozen.",
+  "failure_raw_metrics": null,
+  "failure_utility": 0,
+  "remote_seed": null,
+  "new_blind_test": false,
+  "cost_forecast": "16 fresh 600s reconstruction envelopes <=160min plus CLI research/CPU evaluation; measured smoke stored separately. No automatic retry or extra repair.",
+  "scope": "Two natural-image development tasks, two other real scenes for transfer, one proposal/arm. Not independent RSI repeats, no M auto evolution, no full baseline evolution."
+}

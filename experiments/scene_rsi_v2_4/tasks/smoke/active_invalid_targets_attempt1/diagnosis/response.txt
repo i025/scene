@@ -1,0 +1,61 @@
+{
+  "visual_difference": "The reconstruction places the foreground-left pale notebook higher and slightly farther left than the corresponding pale item in the photograph. Its desk is also farther left. More broadly, the reconstruction crops the nearest ceiling fans and renders a darker, grainier floor; the photograph retains prominent foreground fan blades and brighter patterned tiles.",
+  "object_id": "book_0",
+  "initial_module": "support_layout",
+  "initial_confidence": 0.55,
+  "probe_targets": {
+    "camera_focal": "SceneActView: increase lens from 25 to 27.5 mm, holding geometry and camera pose fixed.",
+    "object_scale": "book_0: scale its mesh descendants by 1.1 about their geometry AABB center.",
+    "isolate": "book_0: retain only its mesh descendants, preserving camera and lighting."
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "support_layout",
+      "object_id": "book_0",
+      "explanation": "The notebook inherits an inaccurate manually estimated furniture layout. Its coordinates are independent of its supporting desk, so matching the notebook requires checking both tabletop placement and notebook offset. The foreground desk displacement supports this explanation.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.025,
+          "upper": 0.02,
+          "reason": "Magnification moves this below-center notebook downward but also farther left. It changes the entire room, so unrelated alignment gains could outweigh local deterioration."
+        },
+        "object_scale": {
+          "lower": -0.002,
+          "upper": 0.002,
+          "reason": "A 10% enlargement cannot correct its center or supporting desk placement. Its approximately 36-by-8-pixel projected bounds limit full-image influence."
+        },
+        "isolate": {
+          "lower": -0.12,
+          "upper": 0.02,
+          "reason": "Removing nearly all scene content should usually reduce correspondence, but background appearance and SSIM normalization leave uncertainty. Isolation exposes the notebook geometry, not its correct support location."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "camera_framing",
+      "object_id": "book_0",
+      "explanation": "Camera pose or field of view could jointly displace the notebook, desk, and ceiling features. The clipped nearest fans support a broader projection mismatch, although their geometry and placement remain alternative causes.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.025,
+          "upper": 0.02,
+          "reason": "The supplied probe tests focal length alone, whereas camera height and pitch could be responsible. Increasing focal length moves the notebook partly toward its reference position but worsens fan cropping. Evidence does not justify a different interval from H1."
+        },
+        "object_scale": {
+          "lower": -0.002,
+          "upper": 0.002,
+          "reason": "Local enlargement cannot repair shared projection errors, though it could incidentally improve notebook coverage. The small footprint warrants the same interval as H1."
+        },
+        "isolate": {
+          "lower": -0.12,
+          "upper": 0.02,
+          "reason": "Isolation preserves the erroneous projection and removes contextual camera landmarks. Its full-image score is not a camera diagnosis; the same broad interval applies."
+        }
+      }
+    }
+  ],
+  "program_evidence": "book_0 is an explicitly supplied valid ID under books/Classroom. Its normalized projected bounds are [0.1685, 0.6013, 0.2393, 0.6239], matching the pale item on the reconstruction's foreground-left tabletop. The program constructs it with size (0.36, 0.24, 0.035) at (-1.85, -2.40, 1.075). desk_c0_r0 is centered at (-1.72, -2.40), with tabletop center z=1.02 and thickness 0.075: nominal notebook-bottom and tabletop-top heights coincide. Thus floating is not supported, but image-space layout can still be wrong. No persistent support binding is declared. The camera uses position (0.12, -6.8, 2.28), target (0, 8, -0.10), and lens 25. Reusable workflow: establish semantic ID/projection correspondences, compare shared landmark errors against local support offsets, preregister controlled probes, then inspect landmark motion and local coverage alongside full-image metrics. Preserve support relations when editing furniture; validate appearance separately from hierarchy integrity.",
+  "limitations": "Both attached images were inspected directly; no tools or external files were used, and no experiments were run. Intervals are subjective forecasts of absolute SSIM change from 0.1327619274, not measured or calibrated confidence intervals. Photograph-to-book correspondence is approximate. Functional passes verify emitted structure, not semantic completeness or support truth. Noise and lighting confound SSIM; an increase under any probe would not uniquely identify a cause. The evidence supports reconstruction-workflow hypotheses, not an injected helper bug."
+}

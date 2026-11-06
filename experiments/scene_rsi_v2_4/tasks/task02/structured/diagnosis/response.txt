@@ -1,0 +1,84 @@
+{
+  "visual_difference": "The dominant upper-left pendant has a shallower bell silhouette in the reconstruction: its rim sits higher and its pale underside is less exposed than in the photograph. Other pendants also sit too high, so a local shape error and a shared camera error are competing explanations.",
+  "object_id": "pendant_front_left",
+  "reference_roi": [0.01, 0.10, 0.24, 0.38],
+  "initial_module": "geometry_scale_depth",
+  "initial_confidence": 0.55,
+  "probe_targets": {
+    "camera_focal": "SceneActView",
+    "camera_tilt": "SceneActView",
+    "object_scale": "pendant_front_left",
+    "object_depth": "pendant_front_left",
+    "isolate": "pendant_front_left"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "geometry_scale_depth",
+      "object_id": "pendant_front_left",
+      "explanation": "The procedural pendant proportions and opening are inaccurate. The program flattens a sphere vertically by 0.78, removes its lower half, and represents the interior with a flat disk. This can produce a shallow shade and insufficient visible interior even with a reasonable camera.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.05,
+          "upper": 0.02,
+          "reason": "A 10% focal increase enlarges the already broad pendant and pushes it toward the left edge; it cannot repair the dome proportions or opening."
+        },
+        "camera_tilt": {
+          "lower": -0.04,
+          "upper": 0.04,
+          "reason": "Tilting upward moves the pendant downward in the frame, potentially improving rim alignment, but also moves the neck and all architectural features."
+        },
+        "object_scale": {
+          "lower": -0.04,
+          "upper": 0.025,
+          "reason": "Uniform enlargement may extend the rim downward but also widens the shade and enlarges the neck. It does not change the shallow aspect ratio."
+        },
+        "object_depth": {
+          "lower": -0.03,
+          "upper": 0.035,
+          "reason": "Moving the pendant farther away reduces its footprint, potentially improving width while worsening its insufficient vertical extent."
+        },
+        "isolate": {
+          "lower": -0.16,
+          "upper": 0.03,
+          "reason": "The shade defect remains visible, while removal of furniture, architecture, and neighboring lamps changes most of the image. Background simplification could nevertheless improve some appearance statistics."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "camera_framing",
+      "object_id": "SceneActView",
+      "explanation": "The camera pitch and viewpoint may account for much of the pendant discrepancy. Several reconstructed shades are higher than their photographic counterparts, and the furniture perspective also differs. The camera is aimed downward from z=1.88 toward z=1.45, which affects both projected height and the view into hanging shades.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.05,
+          "upper": 0.02,
+          "reason": "Focal length changes magnification rather than pitch. Shared vertical displacement does not specifically support a focal-length correction, so the forecast matches H1."
+        },
+        "camera_tilt": {
+          "lower": -0.025,
+          "upper": 0.06,
+          "reason": "Upward rotation could improve the shared high placement of several shades. The upper range is modestly higher than H1, but architectural alignment could deteriorate."
+        },
+        "object_scale": {
+          "lower": -0.04,
+          "upper": 0.025,
+          "reason": "Local enlargement can compensate for part of a camera-induced mismatch without correcting the shared projection. There is insufficient evidence for a different forecast from H1."
+        },
+        "object_depth": {
+          "lower": -0.03,
+          "upper": 0.035,
+          "reason": "Shrinking the projected pendant may improve its width under either explanation; this probe alone poorly distinguishes camera from geometry."
+        },
+        "isolate": {
+          "lower": -0.16,
+          "upper": 0.03,
+          "reason": "Isolation preserves the camera error and removes the architectural anchors needed to judge it. Its score is dominated partly by unrelated visibility changes."
+        }
+      }
+    }
+  ],
+  "program_evidence": "Localization uses the supplied bell_dome projection [-0.0383,0.1679,0.2451,0.3288], its parent pendant_front_left, and pendant('pendant_front_left',-2.78,-0.05,.64,2.58), rather than mesh size or ordering. The program explicitly applies dome.resize((1,1,.78)) and adds a thin pale interior disk. The camera uses lens=29 with position=(-.9,-5.55,1.88) and target=(.25,5.3,1.45). A reusable workflow is to register photographic regions and semantic asset correspondences, compare shared architectural and object landmarks, then perform single-variable camera and local-object probes from the same baseline. Inspect silhouettes, openings, and neighboring alignment alongside scores before revising parameters. Passing hierarchy checks establishes emitted-part integrity, not photographic fidelity.",
+  "limitations": "No tools or external files were used; these are untested forecasts, not measured results or calibrated confidence intervals. Every interval predicts exactly 0.5*full_image_delta_SSIM + 0.5*reference_roi_delta_SSIM, with delta defined as post-intervention similarity to the photograph minus baseline similarity. The same fixed photograph ROI [0.01,0.10,0.24,0.38] applies before and after every intervention, including isolation. Render noise, lighting, and approximate correspondence broaden uncertainty. A positive score is appearance sensitivity, not geometry truth or unique causal identification. Camera rotation also cannot substitute for a change in camera position when testing underside visibility."
+}

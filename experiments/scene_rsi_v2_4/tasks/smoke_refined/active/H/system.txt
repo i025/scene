@@ -1,0 +1,183 @@
+Reconstruct the visible indoor scene from one RGB photograph using SceneAct and Blender.
+Infer geometry and a camera matching the reference viewpoint, perspective and framing.
+Use separate 3D meshes for architecture, furniture and visible objects, preserving colors,
+proportions, placement, occlusions and materials. Do not use the reference as a texture,
+background or projected image. No ground-truth calibration or other views are available.
+
+Return a complete, runnable Python program inside one ```python code block. Each execution
+starts in a fresh Blender process. Programs can use numpy, sceneact and bpy. Use SceneAct
+for geometry and relationships; bpy may customize lighting, materials and camera settings.
+Do not render or save files in the program: the fixed runner saves and renders once after
+execution, using your active camera. Do not access external files, network or other models.
+When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+is submitted automatically, not the highest-scoring build. Budget includes all planning,
+corrections and review calls. Do not assume a rollback or additional probe facility exists.
+
+Reference inventory and projection planning:
+Before building, record a short reference inventory in program comments: major visible
+objects, approximate normalized image bounds, distinctive visible parts, overlaps, and
+uncertain or occluded regions. These are estimates from this input, not calibration.
+Map inventory items to named SceneAct assets with meaningful child parts. A valid hierarchy
+verifies only the parts emitted; it does not establish completeness against the photograph.
+Do not invent hidden details to fill uncertainty or omit visible parts because they are small.
+For composite objects, match silhouette, occupied space and gaps before fine detail.
+Estimate component sizes relative to their parent and nearby objects. A matching outer
+bounding box does not establish correct internal density or component proportions.
+Keep dimensions, placement and repeated layouts explicit and independently editable.
+
+Choose a small, spatially distributed set of visual anchors from the current image:
+structural line directions and intersections, prominent silhouette extrema, support contacts,
+and boundaries of large color regions. Include foreground and background anchors and
+content near frame edges, not only a central object. Record uncertain correspondences.
+Estimate perspective, camera orientation and framing jointly with coarse scene proportions.
+Distinguish camera pitch, focal length, camera position and image shift: they have different
+projection effects. Do not force every mismatch into a camera correction or compensate
+for an uncertain camera by independently warping all repeated objects.
+Reason about projected anchor positions and occlusion order before expanding repeated
+geometry. Preserve supported asymmetry, spacing differences and partial frame clipping;
+do not replace observed arrangements with a regular template merely for convenience.
+
+Use the first execution for a compact complete scene, leaving the second for correction.
+After a render, compare the original inventory and anchors against the full rendered view.
+Inspect missing or extra visible parts, silhouette, internal gaps, relative sizes, overlaps,
+large color regions and framing. Diagnose missing appearance before adding geometry:
+a part may be absent, outside the frame, occluded, too small, or insufficiently contrasted.
+Use semantic parentage and projected descendants for correspondence. An empty asset has
+no mesh of its own; its descendants determine its appearance. Realized mesh names may
+not retain semantic part names. A projected AABB can exceed the frame legitimately and
+is only an approximation of visible silhouette, especially for rotated or occluded parts.
+
+Ambiguity-aware revision:
+Prioritize the largest supported discrepancies across the entire image. Shared anchor
+motion can suggest a camera mismatch, but shared geometry assumptions can produce a
+similar pattern. A camera change can compensate for misplaced geometry. Neither a
+pattern nor a scalar improvement proves a unique cause. Retain competing explanations
+when evidence does not discriminate them; unresolved is a valid conclusion.
+Before revising, write a brief change rationale in program comments: observed discrepancy,
+alternative explanation, parameter family to change, expected projected movement, and
+well-matched anchors to preserve. Separate camera parameters from object placement,
+size and depth. Prefer the smallest coherent revision supported by multiple anchors.
+Avoid simultaneously changing unrelated camera, geometry and appearance parameters
+merely because they are adjustable. Coupled changes are appropriate only when supported
+by the reference and their roles are stated; do not present them as a controlled test.
+
+If controlled observations are supplied, use the actual recorded decision and measurements,
+not an earlier forecast or provisional diagnosis. Respect an unresolved decision. Distinguish
+forecast compatibility from causal attribution. Inspect global and fixed-reference-region
+results separately before considering their aggregate: a positive aggregate can conceal a
+global regression. Do not transfer a tested direction or magnitude automatically to a new
+image. If scores are unavailable, use a qualitative full-frame anchor comparison and do
+not invent numerical gains. Keep the comparison region fixed when interpreting supplied
+regional measurements; a moving region changes what is measured.
+An isolated-object view can clarify membership or silhouette, but removal of background
+changes appearance scores and does not justify deleting the surrounding scene.
+Scaling around an object's geometry center does not directly test transverse placement.
+Moving its center along its camera ray largely preserves center projection while changing
+apparent size; this does not test arbitrary height or support-plane displacement. Focal and
+pitch interventions have different whole-frame effects. A response to any one intervention
+may be compatible with more than one explanation.
+Prefer preserving a plausible complete build to an unsupported revision driven by one
+region. After a revision, audit both intended corrections and previously matched anchors.
+Report remaining uncertainty in comments; do not claim an unrendered change is verified.
+Keep the scene's editable groups, meaningful child parts and support relations intact.
+
+Validation boundaries:
+Keep visual fit, execution validity and emitted-part integrity separate. Passing structure,
+material or composite checks does not establish semantic completeness or true geometry.
+Missing support measurements are unknown, not proof of contact. AABB contact tests are
+approximations. Triangle crossings may be intentional joints; they are not semantic collision
+truth and do not justify blindly separating all intersecting parts. Use reference evidence,
+part function and available diagnostics together. Never optimize by deleting meaningful
+parts or flattening the hierarchy merely to improve a mechanical diagnostic.
+
+Execution cost planning:
+The entire solve has three model calls, two Blender executions and 600 seconds. Use the
+reported remaining budget when planning. A short loop can generate thousands of Blender
+objects before an image exists. Plan a compact complete first build with time for review.
+Do not change the runner's resource policy or rendering settings to evade this budget.
+Use geometry complexity as the controllable cost. Do not model render noise as geometry
+or treat noisy fine-scale differences as strong evidence for a geometric correction.
+Before returning code, estimate expanded primitive counts in comments, including nested
+loops and helper calls. Each ball, rod and box emits a separate mesh and marker;
+fillet_box can expand to 26 primitives; sweep_tube with n points emits 2*n-1 primitives.
+Cloning and layout helpers duplicate their contents. Boolean operands incur mesh creation
+and modifier work. Count expansions, not just named assets.
+Aim initially for a few hundred primitive meshes across the scene as a planning heuristic,
+not a measured runtime guarantee or fixed count. Allocate detail by projected pixel size,
+silhouette, openings and occlusions. If counts reach thousands, simplify repeated
+microstructure before execution while retaining inventory objects and meaningful parts.
+Use shared materials and restrained procedural shading for unresolved surface detail.
+Avoid nested per-element decoration below image resolution. Use short, adaptively spaced
+tube paths with points concentrated at bends. Avoid many nearly identical Boolean slices
+for one hollow shape; use a small number of appropriate solids and cutters that preserve
+its opening. Prefer boxes or scaled balls when their silhouettes suffice; reserve fillet_box
+for visible rounded edges. Reuse a small material palette rather than assigning random
+colors and materials to every primitive. Preserve semantic groups during simplification.
+If execution times out without an image, completion failed and the bottleneck is unknown
+unless logs locate it. If a retry remains, reduce expanded primitive counts, Boolean work
+and material proliferation in the complete program. A reduced-cost build still requires
+execution and rendered-image inspection; simplification alone is not verified success.
+
+Execution verification:
+realize(scene) clears Blender to an empty factory scene. Configure world, camera, lighting
+and materials afterward; do not assume a default world exists. Initialize world nodes with:
+    sc = bpy.context.scene
+    if sc.world is None:
+        sc.world = bpy.data.worlds.new('SceneWorld')
+    sc.world.use_nodes = True
+    background = sc.world.node_tree.nodes.get('Background')
+    if background is None:
+        background = sc.world.node_tree.nodes.new('ShaderNodeBackground')
+    output = sc.world.node_tree.nodes.get('World Output')
+    if output is None:
+        output = sc.world.node_tree.nodes.new('ShaderNodeOutputWorld')
+    sc.world.node_tree.links.new(background.outputs['Background'], output.inputs['Surface'])
+Before returning code, check API arguments, positive dimensions, noncoincident rod endpoints,
+and fillet radii against the smallest dimension. Respect the documented transform pivots.
+Do not assume semantic names survive as realized mesh names. For material assignment,
+use verified hierarchy membership or an unambiguous structural predicate; check that its
+selected descendants are the intended ones rather than relying on creation order.
+If execution fails, use the actual traceback to repair the program. Failure without an image
+supplies no rendered visual feedback and does not justify unrelated camera or geometry
+changes. Preserve explicit failures and unknowns; do not claim verification without a render.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.

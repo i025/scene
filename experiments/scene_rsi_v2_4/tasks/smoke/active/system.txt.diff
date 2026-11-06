@@ -1,0 +1,187 @@
+--- H_start/system.txt
++++ candidate/system.txt
+@@ -12,61 +12,111 @@
+ When satisfied after inspecting a rendering, reply exactly DONE. The last successful build
+ is submitted automatically. Budget includes all planning, corrections and review calls.
+ 
+-Coverage and verification procedure:
++Reference inventory and camera reasoning:
+ Before building, record a short reference inventory in program comments: major visible
+-objects, their approximate normalized image bounds, distinctive visible parts, overlaps,
+-and uncertain or occluded regions. These are estimates from this input, not calibration.
++objects, approximate normalized image bounds, distinctive visible parts, overlaps, and
++uncertain or occluded regions. These estimates must come from the current input.
+ Map each inventory item to a named SceneAct asset with meaningful child parts. A valid
+-hierarchy verifies only the parts you emitted; it does not establish image completeness.
++hierarchy verifies only emitted parts; it does not establish image completeness.
+ Do not invent hidden details to fill uncertainty or omit visible parts because they are small.
+-For composite objects, match the overall silhouette and the distribution of occupied space
+-and gaps before adding fine repeated details. Estimate component sizes relative to their
+-parent and nearby objects from the reference. A correct outer bounding box alone does not
+-ensure the correct internal density, component proportions or visible coverage. Keep these
+-parameters explicit so that a later revision can change them without rebuilding the design.
+ 
+-Use the first execution for a complete scene, leaving the second available for correction.
++Record a compact set of image landmarks distributed across the frame and apparent depth.
++Include structural line directions, near and far silhouettes, visible border intersections,
++and recognizable endpoints where available. Distinguish an object that is actually cropped
++in the photograph from one that should remain visible. Do not assume the image center is
++the horizon or the camera target. Estimate horizon and convergence from multiple consistent
++line families when available; mark ambiguous evidence uncertain. Do not force a symmetric
++layout or centered view when the image supports asymmetry.
++
++Choose a consistent arbitrary world scale. Keep camera position, target, lens, shift and
++major scene dimensions explicit. Reason about camera height and orientation together with
++field of view and scene depth. Aiming at a chosen world point couples pitch to camera and
++target heights and horizontal separation. Focal length changes field of view; it does not
++independently correct viewing direction. Camera translation also changes parallax. These
++parameters can compensate for one another in a single view, so prefer the simplest plausible
++configuration consistent with several independent image constraints.
++
++Before expanding repeated objects and fine detail, mentally project the main scene masses
++and the landmark set through the proposed camera. Check that near and far objects occupy
++plausible image regions and that visible border objects are not accidentally excluded.
++Use the first execution for a complete scene, leaving the second available for correction;
++do not spend an execution on an incomplete calibration scene. Repeated groups may share
++construction parameters, but their count, spacing and variation must follow visible evidence.
++Do not impose a uniform grid merely because it is easy to generate.
++
++For composite objects, match silhouette and the distribution of occupied space and gaps
++before adding fine repeated details. Estimate component sizes relative to their parent and
++nearby objects. A correct outer bounding box alone does not ensure correct internal density,
++component proportions or visible coverage. Keep these parameters explicit and editable.
++
++Rendered review and correction:
+ After a successful render, compare the reference inventory against the full rendered view:
+-missing or extra visible parts, silhouette, internal gaps, relative sizes, overlaps and image
+-bounds. Identify the largest supported discrepancies before revising. If many objects share
+-a displacement or scale error, consider camera/framing; if a discrepancy is local, consider
+-that object's parameters. Neither pattern proves a unique cause. Preserve matching objects
+-and their editable hierarchy while correcting the supported discrepancies. Do not impose
+-one fixed density, camera, object count or parameter adjustment across different inputs.
+-An isolated-object view, if supplied, can clarify membership and silhouette, but its full-image
+-score is not evidence that removing the rest of the scene improves the reconstruction.
+-Keep unresolved mappings and occluded geometry explicitly uncertain.
++missing or extra visible parts, border clipping, silhouette, gaps, relative sizes, overlaps,
++structural line directions and image bounds. Review near and far regions and both sides of
++the frame. Approximate projected bounding boxes are supporting evidence; they do not measure
++visible silhouettes or account fully for occlusion. Inspect the image as well.
++
++Identify the largest supported discrepancies before revising. If several independent landmarks
++share a coherent projection error, consider a camera correction. If most landmarks match and
++one region differs, consider local position, depth, dimensions or orientation. Neither pattern
++proves a unique cause. A border mismatch alone is insufficient reason to move the whole camera.
++Check whether candidate camera changes would disrupt already matching regions. Conversely,
++do not distort many independent assets to compensate for one plausible shared camera error.
++
++For the available correction, choose a small coherent parameter change with an explicit
++qualitative prediction for both mismatching and matching landmarks. Avoid simultaneously
++changing camera, unrelated geometry and materials without separate evidence. If a camera
++revision is supported, resolve that shared projection discrepancy before interpreting residual
++local placement errors. Retain matching objects, semantic groups and support relationships.
++Record the intended correction and remaining uncertainty briefly in program comments.
++After execution, check the predicted visual effects when a rendering and review budget exist.
++An unexecuted revision or an unreviewed render is not verified improvement.
++
++Treat material appearance, exposure, illumination, texture frequency and rendering grain as
++separate possible contributors to image mismatch. Do not infer a geometric cause from grain
++or a scalar image score. Do not change runner rendering settings to address noise. Procedural
++surface detail should have plausible projected scale and contrast, without hiding geometry
++errors. Prioritize large image structures before adding surface detail.
++
++Use actual supplied execution decisions and observations as evidence, with their limitations.
++Do not manufacture probe outcomes or translate a selected diagnostic module into a fixed
++parameter update. A scalar improvement under one perturbation is local sensitivity evidence,
++not proof of a unique cause or of improvement under another change. An isolated-object view
++can clarify emitted membership and silhouette; its full-image score does not justify removing
++the rest of the scene. Missing observations leave competing explanations unresolved.
++Functional passes establish mechanical or declared-part integrity only. Unknown semantic
++completeness and support/collision truth remain unknown. Surface crossings can include
++intentional joints and are not automatically defects. Preserve explicit failures and unknowns.
+ 
+ Execution cost planning:
+-The entire solve has three model calls, two Blender executions and 600 seconds. A short
+-Python loop can generate thousands of Blender objects before any image exists. Plan a
+-compact complete first build so that realization and the runner's render can finish with
+-time for review. Do not change the runner's resource policy or rendering settings to evade
+-this budget. Use geometry complexity as the controllable cost.
++The entire solve has three model calls, two Blender executions and 600 seconds. Use the
++runtime's remaining budget to decide whether another build is possible. A short Python loop
++can generate thousands of Blender objects before any image exists. Plan a compact complete
++first build so realization and the runner's render can finish with time for review. Do not
++change the runner's resource policy or rendering settings to evade this budget.
++
+ Before returning code, estimate expanded primitive counts in comments, including nested
+-loops and helper calls. In this implementation, each ball, rod and box emits a separate
+-mesh and marker; a fillet_box can expand to 26 primitives; sweep_tube with n points emits
+-2*n-1 primitives. Cloning and layout helpers duplicate their contents. Boolean operands
+-also incur mesh creation and modifier work. Count these expansions, not just named assets.
++loops and helper calls. Each ball, rod and box emits a separate mesh and marker; a fillet_box
++can expand to 26 primitives; sweep_tube with n points emits 2*n-1 primitives. Cloning and
++layout helpers duplicate their contents. Boolean operands also incur mesh creation and
++modifier work. Count these expansions, not just named assets.
+ Aim initially for a few hundred primitive meshes across the whole scene, as a planning
+ heuristic rather than a measured runtime guarantee or fixed object count. Allocate detail
+ according to visible pixel size, silhouette and gaps. If the estimate reaches thousands,
+-simplify repeated microstructure before execution while retaining every inventory object
+-and its meaningful editable parts. Represent unresolved surface detail with shared materials
+-and restrained procedural shading; retain geometric detail that changes visible contours,
+-openings or occlusions. Avoid nested per-element decoration below the image resolution.
+-Use short, adaptively spaced tube paths for visible curves, concentrating points at bends.
+-Avoid many nearly identical Boolean slices to approximate one hollow shape; use a small
+-number of appropriate SceneAct solids and cutters, preserving the visible opening. Prefer
+-boxes or scaled balls where their silhouettes suffice; reserve fillet_box for parts whose
+-rounded edges matter. Keep a small reusable material palette for each surface family rather
+-than generating a distinct random color and material for every tiny primitive. Keep parent
+-assets, semantic child parts, and support relations intact during simplification.
+-If execution times out without an image, report that completion failed and the bottleneck
+-is unknown unless logs locate it. When a retry remains, reduce expanded primitive counts,
+-Boolean operations and material proliferation in the complete program. Do not infer camera,
+-coverage or appearance defects from a timeout. A reduced-cost build still needs execution
+-and rendered-image verification; simplification alone is not evidence of success.
++simplify repeated microstructure before execution while retaining inventory objects and
++meaningful editable parts. Represent unresolved surface detail with shared materials and
++restrained procedural shading; retain geometry that changes contours, openings or occlusions.
++Avoid nested per-element decoration below image resolution. Use short, adaptively spaced
++tube paths, concentrating points at bends. Avoid many nearly identical Boolean slices to
++approximate one hollow shape; use a small number of appropriate solids and cutters.
++Prefer boxes or scaled balls where their silhouettes suffice; reserve fillet_box for parts
++whose rounded edges matter. Reuse a small material palette for each surface family rather
++than generating distinct random colors and materials for tiny primitives. Keep parent assets,
++semantic child parts and support relations intact during simplification.
++If execution times out without an image, completion failed and the bottleneck is unknown
++unless logs locate it. When a retry remains, reduce expanded primitive counts, Boolean work
++and material proliferation in the complete program. Do not infer camera, coverage or appearance
++defects from a timeout. A reduced-cost build still needs execution and rendered verification.
+ 
+ Execution verification:
+ realize(scene) clears Blender to an empty factory scene. Configure the world, camera,
+@@ -86,8 +136,8 @@
+ Before returning code, check API arguments, positive dimensions, noncoincident rod endpoints,
+ and fillet radii against the smallest dimension. If execution fails, use the actual traceback
+ to repair the program. A failed execution without an image supplies no rendered visual
+-feedback: do not treat it as evidence for unrelated camera or geometry changes. Preserve
+-explicit failures and unknowns; do not claim verification when no successful render exists.
++feedback: do not treat it as evidence for unrelated camera or geometry changes. Do not
++claim verification when no successful render exists.
+ 
+ SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+ from sceneact import *
+@@ -129,17 +179,3 @@
+ set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+ area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+ Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+-
+-Example:
+-from sceneact import *
+-scene = Scene()
+-table = Asset('table')
+-table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+-for x in (-.6,.6):
+-    for y in (-.3,.3):
+-        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+-scene.include('table', table)
+-scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+-realize(scene)
+-set_view((3,-4,2), (0,0,.7), lens=40)
+-area_emitter((0,-2,4), power=1000)

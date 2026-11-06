@@ -1,0 +1,3896 @@
+{
+  "context": {
+    "method": "fixed",
+    "valid_blend": true,
+    "remaining_probe_budget": 2,
+    "already_executed_probe_count": 0,
+    "available_probe_menu": {
+      "camera_focal": "Fixed scene geometry; multiply current perspective focal length by1.1.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "object_scale": "Fixed camera; scale the explicitly named real object/group by1.1 around its geometry AABB center.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "isolate": "Keep only the explicitly named object/group meshes visible, temporarily hiding other meshes.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "camera_tilt": "Rotate camera upward by4degrees about its localX axis, fix geometry/lens. Tests pitch separately from focal length. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "object_depth": "Move the explicitly named real object/group center 10percent farther along its camera ray, preserve size and camera. Tests distance separately from size. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM."
+    },
+    "raw_evidence": {
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.15037881661330718,
+        "lpips": 0.7709593176841736,
+        "dino": 0.6441583633422852,
+        "psnr": 10.492664560230914,
+        "overall": 0.40049956020009203
+      },
+      "functional": {
+        "checks": {
+          "structure": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "material": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "composite": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "declared_parts": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          }
+        },
+        "functional_pass": true,
+        "structure_pass": true,
+        "material_pass": true,
+        "composite_required": true,
+        "composite_pass": true,
+        "target_object": "architecture",
+        "geometry": {
+          "hierarchy_parts": {
+            "applicable": true,
+            "measured_pass": true,
+            "declared_groups": 61,
+            "missing": [],
+            "detached": [],
+            "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+          },
+          "known_support": {
+            "applicable": false,
+            "measured_pass": null,
+            "rows": [],
+            "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+          },
+          "mesh_intersection": {
+            "applicable": true,
+            "measured_pass": null,
+            "crossings": [],
+            "narrow_phase_pairs": 0,
+            "mesh_count": 595,
+            "tested_mesh_count": 64,
+            "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+          }
+        },
+        "semantic_object_completeness": null,
+        "support_collision_truth": null,
+        "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+      },
+      "objects": [
+        {
+          "name": "Cafeteria reconstruction",
+          "type": "EMPTY",
+          "parent": null,
+          "parent_chain": [],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -2239.513916015625,
+            -1413.53173828125,
+            4.9194416999816895,
+            13.999175071716309
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "architecture",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -2239.513916015625,
+            -1413.53173828125,
+            4.9194416999816895,
+            13.999175071716309
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ashtray",
+          "type": "EMPTY",
+          "parent": "table_accessory_0",
+          "parent_chain": [
+            "table_accessory_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5863191485404968,
+            0.6649072170257568,
+            0.6148477792739868,
+            0.6768365800380707
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ashtray.001",
+          "type": "EMPTY",
+          "parent": "table_accessory_1",
+          "parent_chain": [
+            "table_accessory_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.872465968132019,
+            0.6480718851089478,
+            0.9055724740028381,
+            0.6585051417350769
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ashtray.002",
+          "type": "EMPTY",
+          "parent": "table_accessory_2",
+          "parent_chain": [
+            "table_accessory_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5322434306144714,
+            0.599616676568985,
+            0.5506552457809448,
+            0.6062765121459961
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ashtray.003",
+          "type": "EMPTY",
+          "parent": "table_accessory_3",
+          "parent_chain": [
+            "table_accessory_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7365396022796631,
+            0.5914919674396515,
+            0.7573468685150146,
+            0.5975955724716187
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support",
+          "type": "EMPTY",
+          "parent": "center_near_chair_0",
+          "parent_chain": [
+            "center_near_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5515189170837402,
+            0.7642330229282379,
+            0.6566879153251648,
+            0.8300205916166306
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.001",
+          "type": "EMPTY",
+          "parent": "center_far_chair_0",
+          "parent_chain": [
+            "center_far_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5071597099304199,
+            0.6655417382717133,
+            0.5783319473266602,
+            0.7083906829357147
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.002",
+          "type": "EMPTY",
+          "parent": "right_near_chair_0",
+          "parent_chain": [
+            "right_near_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.907857358455658,
+            0.7337878048419952,
+            1.0021148920059204,
+            0.7923137992620468
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.003",
+          "type": "EMPTY",
+          "parent": "center_near_chair_1",
+          "parent_chain": [
+            "center_near_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5013220906257629,
+            0.6524991393089294,
+            0.5680158138275146,
+            0.6924458146095276
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.004",
+          "type": "EMPTY",
+          "parent": "center_far_chair_1",
+          "parent_chain": [
+            "center_far_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4811020493507385,
+            0.6072671115398407,
+            0.5323094725608826,
+            0.6373796164989471
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.005",
+          "type": "EMPTY",
+          "parent": "right_near_chair_1",
+          "parent_chain": [
+            "right_near_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7389759421348572,
+            0.6397157907485962,
+            0.8011089563369751,
+            0.6768468916416168
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.006",
+          "type": "EMPTY",
+          "parent": "right_far_chair_1",
+          "parent_chain": [
+            "right_far_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6673243641853333,
+            0.5996012091636658,
+            0.7157825231552124,
+            0.6280824542045593
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.007",
+          "type": "EMPTY",
+          "parent": "center_near_chair_2",
+          "parent_chain": [
+            "center_near_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4780291020870209,
+            0.6003775596618652,
+            0.5268803834915161,
+            0.6290235221385956
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.008",
+          "type": "EMPTY",
+          "parent": "center_far_chair_2",
+          "parent_chain": [
+            "center_far_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4664852023124695,
+            0.5744583010673523,
+            0.5064780712127686,
+            0.5976606905460358
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.009",
+          "type": "EMPTY",
+          "parent": "right_near_chair_2",
+          "parent_chain": [
+            "right_near_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6562362313270569,
+            0.5933826267719269,
+            0.7025757431983948,
+            0.6205480098724365
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.010",
+          "type": "EMPTY",
+          "parent": "right_far_chair_2",
+          "parent_chain": [
+            "right_far_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6140981912612915,
+            0.5697236061096191,
+            0.6523804664611816,
+            0.5919441282749176
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.011",
+          "type": "EMPTY",
+          "parent": "center_near_chair_3",
+          "parent_chain": [
+            "center_near_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4648074209690094,
+            0.5706862807273865,
+            0.503511905670166,
+            0.5931061506271362
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.012",
+          "type": "EMPTY",
+          "parent": "center_far_chair_3",
+          "parent_chain": [
+            "center_far_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4572867751121521,
+            0.5537625551223755,
+            0.4902194142341614,
+            0.5727017521858215
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.013",
+          "type": "EMPTY",
+          "parent": "right_near_chair_3",
+          "parent_chain": [
+            "right_near_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6079094409942627,
+            0.5662453174591064,
+            0.6450076103210449,
+            0.5877470374107361
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back_support.014",
+          "type": "EMPTY",
+          "parent": "right_far_chair_3",
+          "parent_chain": [
+            "right_far_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5799640417098999,
+            0.5505276322364807,
+            0.6117126941680908,
+            0.5688070952892303
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome",
+          "type": "EMPTY",
+          "parent": "pendant_front_left",
+          "parent_chain": [
+            "pendant_front_left",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.03831647336483002,
+            0.16794532537460327,
+            0.2451333999633789,
+            0.32883042097091675
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.001",
+          "type": "EMPTY",
+          "parent": "pendant_left_second",
+          "parent_chain": [
+            "pendant_left_second",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.10007049143314362,
+            0.3351057171821594,
+            0.21396619081497192,
+            0.39007246494293213
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.002",
+          "type": "EMPTY",
+          "parent": "pendant_left_third",
+          "parent_chain": [
+            "pendant_left_third",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1906212419271469,
+            0.37732040882110596,
+            0.2523328363895416,
+            0.40719908475875854
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.003",
+          "type": "EMPTY",
+          "parent": "pendant_rear_left",
+          "parent_chain": [
+            "pendant_rear_left",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2936338484287262,
+            0.4000876545906067,
+            0.32831618189811707,
+            0.41798698902130127
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.004",
+          "type": "EMPTY",
+          "parent": "pendant_rear_center",
+          "parent_chain": [
+            "pendant_rear_center",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.44263580441474915,
+            0.39058250188827515,
+            0.4787164032459259,
+            0.41123056411743164
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.005",
+          "type": "EMPTY",
+          "parent": "pendant_center",
+          "parent_chain": [
+            "pendant_center",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5483277440071106,
+            0.342679500579834,
+            0.6208434104919434,
+            0.38261449337005615
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.006",
+          "type": "EMPTY",
+          "parent": "pendant_right_front",
+          "parent_chain": [
+            "pendant_right_front",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7011271119117737,
+            0.2701425552368164,
+            0.8380924463272095,
+            0.34204667806625366
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.007",
+          "type": "EMPTY",
+          "parent": "pendant_right_middle",
+          "parent_chain": [
+            "pendant_right_middle",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7148097157478333,
+            0.37346386909484863,
+            0.774145781993866,
+            0.4004237651824951
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bell_dome.008",
+          "type": "EMPTY",
+          "parent": "pendant_right_rear",
+          "parent_chain": [
+            "pendant_right_rear",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6945459842681885,
+            0.4009532332420349,
+            0.7315704226493835,
+            0.41736865043640137
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "booth_0",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.37885406613349915,
+            0.6271133422851562,
+            0.2520449161529541,
+            0.9635861553251743
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "booth_1",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.06778858602046967,
+            0.5649964213371277,
+            0.3068326711654663,
+            0.7725897133350372
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "booth_2",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.06605563312768936,
+            0.5365594327449799,
+            0.33357590436935425,
+            0.6874862313270569
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "booth_3",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1417541354894638,
+            0.5199864506721497,
+            0.34968122839927673,
+            0.6385431587696075
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "booth_4",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18875661492347717,
+            0.5095112323760986,
+            0.36006638407707214,
+            0.6078526377677917
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back",
+          "type": "EMPTY",
+          "parent": "center_near_chair_0",
+          "parent_chain": [
+            "center_near_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5345985293388367,
+            0.6164635121822357,
+            0.6789191961288452,
+            0.8147960901260376
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.001",
+          "type": "EMPTY",
+          "parent": "center_far_chair_0",
+          "parent_chain": [
+            "center_far_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.49432772397994995,
+            0.5634542107582092,
+            0.5898095965385437,
+            0.6932809054851532
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.002",
+          "type": "EMPTY",
+          "parent": "right_near_chair_0",
+          "parent_chain": [
+            "right_near_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.8955205082893372,
+            0.6005404591560364,
+            1.0278193950653076,
+            0.7780224233865738
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.003",
+          "type": "EMPTY",
+          "parent": "center_near_chair_1",
+          "parent_chain": [
+            "center_near_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4903116226196289,
+            0.5581629276275635,
+            0.5809794664382935,
+            0.6812926530838013
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.004",
+          "type": "EMPTY",
+          "parent": "center_far_chair_1",
+          "parent_chain": [
+            "center_far_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4719533622264862,
+            0.5338922739028931,
+            0.5406253933906555,
+            0.6266269385814667
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.005",
+          "type": "EMPTY",
+          "parent": "right_near_chair_1",
+          "parent_chain": [
+            "right_near_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7299913167953491,
+            0.5515167713165283,
+            0.8157414197921753,
+            0.6662706434726715
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.006",
+          "type": "EMPTY",
+          "parent": "right_far_chair_1",
+          "parent_chain": [
+            "right_far_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6576927900314331,
+            0.5299937129020691,
+            0.7234479188919067,
+            0.6178951561450958
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.007",
+          "type": "EMPTY",
+          "parent": "center_near_chair_2",
+          "parent_chain": [
+            "center_near_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.46984434127807617,
+            0.5310952365398407,
+            0.5359904170036316,
+            0.6203609108924866
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.008",
+          "type": "EMPTY",
+          "parent": "center_far_chair_2",
+          "parent_chain": [
+            "center_far_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.45938053727149963,
+            0.5171909630298615,
+            0.5129976272583008,
+            0.5893152058124542
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.009",
+          "type": "EMPTY",
+          "parent": "right_near_chair_2",
+          "parent_chain": [
+            "right_near_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6492263078689575,
+            0.5274688303470612,
+            0.7126532196998596,
+            0.6122472584247589
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.010",
+          "type": "EMPTY",
+          "parent": "right_far_chair_2",
+          "parent_chain": [
+            "right_far_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6067160964012146,
+            0.5147773027420044,
+            0.6584952473640442,
+            0.5839433372020721
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.011",
+          "type": "EMPTY",
+          "parent": "center_near_chair_3",
+          "parent_chain": [
+            "center_near_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.45826974511146545,
+            0.515712320804596,
+            0.5105571746826172,
+            0.5860237181186676
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.012",
+          "type": "EMPTY",
+          "parent": "center_far_chair_3",
+          "parent_chain": [
+            "center_far_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4514584541320801,
+            0.5066342353820801,
+            0.49560272693634033,
+            0.5658579170703888
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.013",
+          "type": "EMPTY",
+          "parent": "right_near_chair_3",
+          "parent_chain": [
+            "right_near_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6021535396575928,
+            0.5134137272834778,
+            0.6526867151260376,
+            0.580910861492157
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "broad_back.014",
+          "type": "EMPTY",
+          "parent": "right_far_chair_3",
+          "parent_chain": [
+            "right_far_chair_3",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5739626288414001,
+            0.5049826204776764,
+            0.6168152689933777,
+            0.5621968507766724
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -2239.513916015625,
+            -1413.53173828125,
+            4.9194416999816895,
+            0.3246276378631592
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose",
+          "type": "EMPTY",
+          "parent": "pendant_front_left",
+          "parent_chain": [
+            "pendant_front_left",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.10511185973882675,
+            0.01651102304458618,
+            0.1336134821176529,
+            0.03311234712600708
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.001",
+          "type": "EMPTY",
+          "parent": "pendant_left_second",
+          "parent_chain": [
+            "pendant_left_second",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.149409681558609,
+            0.1812530755996704,
+            0.16667267680168152,
+            0.1889057159423828
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.002",
+          "type": "EMPTY",
+          "parent": "pendant_left_third",
+          "parent_chain": [
+            "pendant_left_third",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.21496367454528809,
+            0.2494564652442932,
+            0.22715744376182556,
+            0.2543502449989319
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.003",
+          "type": "EMPTY",
+          "parent": "pendant_rear_left",
+          "parent_chain": [
+            "pendant_rear_left",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3059679865837097,
+            0.2868114113807678,
+            0.3150137960910797,
+            0.29043281078338623
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.004",
+          "type": "EMPTY",
+          "parent": "pendant_rear_center",
+          "parent_chain": [
+            "pendant_rear_center",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4559957981109619,
+            0.2849976420402527,
+            0.46439865231513977,
+            0.288676917552948
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.005",
+          "type": "EMPTY",
+          "parent": "pendant_center",
+          "parent_chain": [
+            "pendant_center",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5774056315422058,
+            0.22484546899795532,
+            0.5901879668235779,
+            0.2306700348854065
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.006",
+          "type": "EMPTY",
+          "parent": "pendant_right_front",
+          "parent_chain": [
+            "pendant_right_front",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7571860551834106,
+            0.13419461250305176,
+            0.7779392600059509,
+            0.14407610893249512
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.007",
+          "type": "EMPTY",
+          "parent": "pendant_right_middle",
+          "parent_chain": [
+            "pendant_right_middle",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7383391857147217,
+            0.24640673398971558,
+            0.7516852021217346,
+            0.2514117956161499
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_rose.008",
+          "type": "EMPTY",
+          "parent": "pendant_right_rear",
+          "parent_chain": [
+            "pendant_right_rear",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7086330652236938,
+            0.29445838928222656,
+            0.7186892032623291,
+            0.29784029722213745
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_00",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -17.228069305419922,
+            -10.807819366455078,
+            4.223937034606934,
+            -1.2477712631225586
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_01",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -6.029529094696045,
+            -3.657477378845215,
+            3.4228315353393555,
+            -0.8916594982147217
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_02",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -3.527399778366089,
+            -2.0598514080047607,
+            2.9001216888427734,
+            -0.658610463142395
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_03",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -2.4248926639556885,
+            -1.3558931350708008,
+            2.5321712493896484,
+            -0.4942314624786377
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_04",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -1.804309368133545,
+            -0.9596463441848755,
+            2.2591121196746826,
+            -0.37206852436065674
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_05",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -1.4063385725021362,
+            -0.705539345741272,
+            2.048429489135742,
+            -0.2777094841003418
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_06",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -1.129415512084961,
+            -0.5287221670150757,
+            1.8809410333633423,
+            -0.20263195037841797
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_07",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.9256032109260559,
+            -0.3985867500305176,
+            1.7445982694625854,
+            -0.14147377014160156
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_08",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.7693248391151428,
+            -0.29880189895629883,
+            1.6314524412155151,
+            -0.09069240093231201
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_09",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.6456880569458008,
+            -0.21985888481140137,
+            1.5360479354858398,
+            -0.04785335063934326
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_10",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.545432984828949,
+            -0.15584540367126465,
+            1.4545152187347412,
+            -0.011228561401367188
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_11",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.46250003576278687,
+            -0.10289216041564941,
+            1.3840340375900269,
+            0.02044278383255005
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_12",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.3927568197250366,
+            -0.05836069583892822,
+            1.3224997520446777,
+            0.04810190200805664
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_13",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.33328837156295776,
+            -0.020389676094055176,
+            1.2683106660842896,
+            0.07246589660644531
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_14",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.2819802463054657,
+            0.012370944023132324,
+            1.22022545337677,
+            0.09409034252166748
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_15",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.23726023733615875,
+            0.040924906730651855,
+            1.177268147468567,
+            0.11341291666030884
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_16",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.19793623685836792,
+            0.06603354215621948,
+            1.1386597156524658,
+            0.1307823657989502
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_17",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.1630871444940567,
+            0.08828490972518921,
+            1.103771686553955,
+            0.14648067951202393
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_18",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.1319901943206787,
+            0.10814058780670166,
+            1.072090983390808,
+            0.1607379913330078
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_19",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.10407043248414993,
+            0.12596750259399414,
+            1.0431946516036987,
+            0.17374396324157715
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_20",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.07886451482772827,
+            0.14206165075302124,
+            1.0167312622070312,
+            0.18565648794174194
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_21",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.05599512904882431,
+            0.1566638946533203,
+            0.9924059510231018,
+            0.19660770893096924
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_22",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.03515178710222244,
+            0.16997253894805908,
+            0.9699694514274597,
+            0.20670968294143677
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_23",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.016076669096946716,
+            0.18215209245681763,
+            0.9492102265357971,
+            0.2160574197769165
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_24",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.0014460313832387328,
+            0.1933404803276062,
+            0.9299468398094177,
+            0.22473227977752686
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_25",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.017598498612642288,
+            0.20365393161773682,
+            0.9120233058929443,
+            0.232804536819458
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_26",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.0325353741645813,
+            0.2131912112236023,
+            0.8953045010566711,
+            0.24033474922180176
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_27",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.0463889017701149,
+            0.22203683853149414,
+            0.8796728849411011,
+            0.24737584590911865
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_28",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.059272781014442444,
+            0.23026329278945923,
+            0.8650258183479309,
+            0.25397390127182007
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_29",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.07128547132015228,
+            0.2379334568977356,
+            0.8512730598449707,
+            0.26016944646835327
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_30",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.08251235634088516,
+            0.24510186910629272,
+            0.8383351564407349,
+            0.26599830389022827
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_31",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.09302812814712524,
+            0.2518162727355957,
+            0.8261417746543884,
+            0.271492063999176
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_32",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.10289827734231949,
+            0.2581183910369873,
+            0.8146304488182068,
+            0.27667880058288574
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_33",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1121804490685463,
+            0.2640451192855835,
+            0.8037455081939697,
+            0.2815834879875183
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_34",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.12092570960521698,
+            0.2696290612220764,
+            0.793437123298645,
+            0.28622865676879883
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_35",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.12917937338352203,
+            0.27489906549453735,
+            0.7836607694625854,
+            0.29063427448272705
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_36",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.13698166608810425,
+            0.2798808813095093,
+            0.7743762135505676,
+            0.2948184013366699
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_37",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.14436869323253632,
+            0.28459757566452026,
+            0.7655473351478577,
+            0.2987974286079407
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_38",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.15137271583080292,
+            0.28906965255737305,
+            0.7571412920951843,
+            0.3025859594345093
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_39",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.15802277624607086,
+            0.2933157682418823,
+            0.7491284608840942,
+            0.30619746446609497
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_40",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.16434505581855774,
+            0.2973526120185852,
+            0.7414819598197937,
+            0.3096439242362976
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_41",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.17036321759223938,
+            0.30119526386260986,
+            0.7341771125793457,
+            0.31293654441833496
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_42",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.17609868943691254,
+            0.30485737323760986,
+            0.7271915674209595,
+            0.3160853385925293
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_43",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.1815708577632904,
+            0.30835139751434326,
+            0.7205048203468323,
+            0.3190995454788208
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling_seam_44",
+          "type": "EMPTY",
+          "parent": "architecture",
+          "parent_chain": [
+            "architecture",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18679755926132202,
+            0.3116886615753174,
+            0.7140980958938599,
+            0.3219875693321228
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_far_chair_0",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.49432772397994995,
+            0.5634542107582092,
+            0.6038255095481873,
+            0.8029061704874039
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_far_chair_1",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4719533622264862,
+            0.5338922739028931,
+            0.5473689436912537,
+            0.6998386979103088
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_far_chair_2",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.45938053727149963,
+            0.5171909630298615,
+            0.5168542265892029,
+            0.6441038250923157
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_far_chair_3",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4514584541320801,
+            0.5066342353820801,
+            0.49805405735969543,
+            0.6097549498081207
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_near_chair_0",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.523365318775177,
+            0.6164635121822357,
+            0.6789191961288452,
+            0.9297420084476471
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_near_chair_1",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.48629188537597656,
+            0.5581629276275635,
+            0.5809794664382935,
+            0.756174311041832
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_near_chair_2",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.46805617213249207,
+            0.5310952365398407,
+            0.5359904170036316,
+            0.6758465468883514
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_near_chair_3",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.45738592743873596,
+            0.515712320804596,
+            0.5105571746826172,
+            0.6302673816680908
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_table_0",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.45152348279953003,
+            0.6549431085586548,
+            0.7017867565155029,
+            0.8599978089332581
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_table_1",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.44030043482780457,
+            0.5959701240062714,
+            0.605584979057312,
+            0.7266495227813721
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_table_2",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.43430444598197937,
+            0.5640824437141418,
+            0.5576560497283936,
+            0.6596221029758453
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "center_table_3",
+          "type": "EMPTY",
+          "parent": "Cafeteria reconstruction",
+          "parent_chain": [
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4306342899799347,
+            0.5444312691688538,
+            0.5294142365455627,
+            0.6199404299259186
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base",
+          "type": "EMPTY",
+          "parent": "center_near_chair_0",
+          "parent_chain": [
+            "center_near_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5419279336929321,
+            0.8650441914796829,
+            0.6506293416023254,
+            0.9297420084476471
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.001",
+          "type": "EMPTY",
+          "parent": "center_far_chair_0",
+          "parent_chain": [
+            "center_far_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5104701519012451,
+            0.7651142179965973,
+            0.5878328680992126,
+            0.8029061704874039
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.002",
+          "type": "EMPTY",
+          "parent": "right_near_chair_0",
+          "parent_chain": [
+            "right_near_chair_0",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.8657737970352173,
+            0.8283701390028,
+            0.9942941069602966,
+            0.8822622001171112
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.003",
+          "type": "EMPTY",
+          "parent": "center_near_chair_1",
+          "parent_chain": [
+            "center_near_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.49841052293777466,
+            0.7266653776168823,
+            0.5645935535430908,
+            0.756174311041832
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.004",
+          "type": "EMPTY",
+          "parent": "center_far_chair_1",
+          "parent_chain": [
+            "center_far_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.48351627588272095,
+            0.6790785193443298,
+            0.5365048050880432,
+            0.6998386979103088
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.005",
+          "type": "EMPTY",
+          "parent": "right_near_chair_1",
+          "parent_chain": [
+            "right_near_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7211262583732605,
+            0.7101486027240753,
+            0.7968589067459106,
+            0.7364357113838196
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.006",
+          "type": "EMPTY",
+          "parent": "right_far_chair_1",
+          "parent_chain": [
+            "right_far_chair_1",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6694784164428711,
+            0.6677562594413757,
+            0.7291478514671326,
+            0.6866725087165833
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.007",
+          "type": "EMPTY",
+          "parent": "center_near_chair_2",
+          "parent_chain": [
+            "center_near_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4770525395870209,
+            0.6583883166313171,
+            0.5245177745819092,
+            0.6758465468883514
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.008",
+          "type": "EMPTY",
+          "parent": "center_far_chair_2",
+          "parent_chain": [
+            "center_far_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.46838700771331787,
+            0.6306135058403015,
+            0.508635938167572,
+            0.6441038250923157
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.009",
+          "type": "EMPTY",
+          "parent": "right_near_chair_2",
+          "parent_chain": [
+            "right_near_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6467052698135376,
+            0.649033933877945,
+            0.6997371315956116,
+            0.6650968790054321
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "circular_base.010",
+          "type": "EMPTY",
+          "parent": "right_far_chair_2",
+          "parent_chain": [
+            "right_far_chair_2",
+            "Cafeteria reconstruction"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6158261895179749,
+            0.6236178278923035,
+            0.6602839231491089,
+            0.636191338300705
+          ],
+          "hide_render": false
+        }
+      ],
+      "valid_object_ids": [
+        "0",
+        "0.001",
+        "0.002",
+        "0.003",
+        "0.004",
+        "0.005",
+        "0.006",
+        "0.007",
+        "0.008",
+        "0.009",
+        "0.010",
+        "0.011",
+        "0.012",
+        "0.013",
+        "0.014",
+        "0.015",
+        "0.016",
+        "0.017",
+        "1",
+        "1.001",
+        "1.002",
+        "1.003",
+        "1.004",
+        "1.005",
+        "1.006",
+        "1.007",
+        "1.008",
+        "1.009",
+        "1.010",
+        "1.011",
+        "1.012",
+        "1.013",
+        "1.014",
+        "1.015",
+        "1.016",
+        "1.017",
+        "2",
+        "2.001",
+        "2.002",
+        "2.003",
+        "2.004",
+        "2.005",
+        "2.006",
+        "2.007",
+        "2.008",
+        "3",
+        "3.001",
+        "3.002",
+        "3.003",
+        "3.004",
+        "3.005",
+        "3.006",
+        "3.007",
+        "3.008",
+        "4",
+        "4.001",
+        "4.002",
+        "4.003",
+        "4.004",
+        "4.005",
+        "4.006",
+        "4.007",
+        "4.008",
+        "Ball",
+        "Ball.001",
+        "Ball.002",
+        "Ball.003",
+        "Ball.004",
+        "Ball.005",
+        "Ball.006",
+        "Ball.007",
+        "Ball.008",
+        "Ball.009",
+        "Ball.010",
+        "Ball.011",
+        "Ball.012",
+        "Ball.013",
+        "Ball.014",
+        "Ball.015",
+        "Ball.016",
+        "Ball.017",
+        "Ball.018",
+        "Ball.019",
+        "Ball.020",
+        "Ball.021",
+        "Ball.022",
+        "Ball.023",
+        "Ball.024",
+        "Ball.025",
+        "Ball.026",
+        "Ball.027",
+        "Ball.028",
+        "Ball.029",
+        "Ball.030",
+        "Ball.031",
+        "Ball.032",
+        "Ball.033",
+        "Ball.034",
+        "Ball.035",
+        "Ball.036",
+        "Ball.037",
+        "Ball.038",
+        "Ball.039",
+        "Ball.040",
+        "Ball.041",
+        "Ball.042",
+        "Ball.043",
+        "Ball.044",
+        "Ball.045",
+        "Ball.046",
+        "Ball.047",
+        "Ball.048",
+        "Ball.049",
+        "Ball.050",
+        "Ball.051",
+        "Ball.052",
+        "Ball.053",
+        "Ball.054",
+        "Ball.055",
+        "Ball.056",
+        "Ball.057",
+        "Ball.058",
+        "Ball.059",
+        "Ball.060",
+        "Ball.061",
+        "Ball.062",
+        "Ball.063",
+        "Ball.064",
+        "Ball.065",
+        "Ball.066",
+        "Ball.067",
+        "Ball.068",
+        "Ball.069",
+        "Ball.070",
+        "Ball.071",
+        "Ball.072",
+        "Ball.073",
+        "Ball.074",
+        "Ball.075",
+        "Ball.076",
+        "Ball.077",
+        "Ball.078",
+        "Ball.079",
+        "Ball.080",
+        "Ball.081",
+        "Ball.082",
+        "Ball.083",
+        "Ball.084",
+        "Ball.085",
+        "Ball.086",
+        "Ball.087",
+        "Ball.088",
+        "Ball.089",
+        "Ball.090",
+        "Ball.091",
+        "Ball.092",
+        "Ball.093",
+        "Ball.094",
+        "Ball.095",
+        "Ball.096",
+        "Ball.097",
+        "Ball.098",
+        "Ball.099",
+        "Ball.100",
+        "Ball.101",
+        "Ball.102",
+        "Ball.103",
+        "Ball.104",
+        "Ball.105",
+        "Ball.106",
+        "Ball.107",
+        "Ball.108",
+        "Ball.109",
+        "Ball.110",
+        "Ball.111",
+        "Ball.112",
+        "Ball.113",
+        "Ball.114",
+        "Ball.115",
+        "Ball.116",
+        "Ball.117",
+        "Ball.118",
+        "Ball.119",
+        "Ball.120",
+        "Ball.121",
+        "Ball.122",
+        "Ball.123",
+        "Ball.124",
+        "Ball.125",
+        "Ball.126",
+        "Ball.127",
+        "Ball.128",
+        "Ball.129",
+        "Ball.130",
+        "Ball.131",
+        "Ball.132",
+        "Ball.133",
+        "Ball.134",
+        "Ball.135",
+        "Ball.136",
+        "Ball.137",
+        "Ball.138",
+        "Ball.139",
+        "Ball.140",
+        "Ball.141",
+        "Ball.142",
+        "Ball.143",
+        "Ball.144",
+        "Ball.145",
+        "Ball.146",
+        "Ball.147",
+        "Ball.148",
+        "Ball.149",
+        "Ball.150",
+        "Ball.151",
+        "Ball.152",
+        "Ball.153",
+        "Ball.154",
+        "Ball.155",
+        "Ball.156",
+        "Ball.157",
+        "Ball.158",
+        "Ball.159",
+        "Ball.160",
+        "Ball.161",
+        "Ball.162",
+        "Ball.163",
+        "Ball.164",
+        "Ball.165",
+        "Ball.166",
+        "Ball.167",
+        "Ball.168",
+        "Ball.169",
+        "Ball.170",
+        "Ball.171",
+        "Ball.172",
+        "Ball.173",
+        "Ball.174",
+        "Ball.175",
+        "Ball.176",
+        "Ball.177",
+        "Ball.178",
+        "Ball.179",
+        "Ball.180",
+        "Ball.181",
+        "Ball.182",
+        "Ball.183",
+        "Ball.184",
+        "Ball.185",
+        "Ball.186",
+        "Ball.187",
+        "Ball.188",
+        "Ball.189",
+        "Ball.190",
+        "Ball.191",
+        "Ball.192",
+        "Ball.193",
+        "Ball.194",
+        "Ball.195",
+        "Ball.196",
+        "Ball.197",
+        "Box",
+        "Box.001",
+        "Box.002",
+        "Box.003",
+        "Box.004",
+        "Box.005",
+        "Box.006",
+        "Box.007",
+        "Box.008",
+        "Box.009",
+        "Box.010",
+        "Box.011",
+        "Box.012",
+        "Box.013",
+        "Box.014",
+        "Box.015",
+        "Box.016",
+        "Box.017",
+        "Box.018",
+        "Box.019",
+        "Box.020",
+        "Box.021",
+        "Box.022",
+        "Box.023",
+        "Box.024",
+        "Box.025",
+        "Box.026",
+        "Box.027",
+        "Box.028",
+        "Box.029",
+        "Box.030",
+        "Box.031",
+        "Box.032",
+        "Box.033",
+        "Box.034",
+        "Box.035",
+        "Box.036",
+        "Box.037",
+        "Box.038",
+        "Box.039",
+        "Box.040",
+        "Box.041",
+        "Box.042",
+        "Box.043",
+        "Box.044",
+        "Box.045",
+        "Box.046",
+        "Box.047",
+        "Box.048",
+        "Box.049",
+        "Box.050",
+        "Box.051",
+        "Box.052",
+        "Box.053",
+        "Box.054",
+        "Box.055",
+        "Box.056",
+        "Box.057",
+        "Box.058",
+        "Box.059",
+        "Box.060",
+        "Box.061",
+        "Box.062",
+        "Box.063",
+        "Box.064",
+        "Box.065",
+        "Box.066",
+        "Box.067",
+        "Box.068",
+        "Box.069",
+        "Box.070",
+        "Box.071",
+        "Box.072",
+        "Box.073",
+        "Box.074",
+        "Box.075",
+        "Box.076",
+        "Box.077",
+        "Box.078",
+        "Box.079",
+        "Box.080",
+        "Box.081",
+        "Box.082",
+        "Box.083",
+        "Box.084",
+        "Box.085",
+        "Box.086",
+        "Box.087",
+        "Box.088",
+        "Box.089",
+        "Box.090",
+        "Box.091",
+        "Box.092",
+        "Box.093",
+        "Box.094",
+        "Box.095",
+        "Box.096",
+        "Box.097",
+        "Box.098",
+        "Box.099",
+        "Box.100",
+        "Box.101",
+        "Box.102",
+        "Box.103",
+        "Box.104",
+        "Box.105",
+        "Box.106",
+        "Box.107",
+        "Box.108",
+        "Box.109",
+        "Box.110",
+        "Box.111",
+        "Box.112",
+        "Box.113",
+        "Box.114",
+        "Box.115",
+        "Box.116",
+        "Box.117",
+        "Box.118",
+        "Box.119",
+        "Box.120",
+        "Box.121",
+        "Box.122",
+        "Box.123",
+        "Box.124",
+        "Box.125",
+        "Box.126",
+        "Box.127",
+        "Box.128",
+        "Box.129",
+        "Box.130",
+        "Box.131",
+        "Box.132",
+        "Box.133",
+        "Box.134",
+        "Box.135",
+        "Box.136",
+        "Box.137",
+        "Box.138",
+        "Box.139",
+        "Box.140",
+        "Box.141",
+        "Box.142",
+        "Box.143",
+        "Box.144",
+        "Box.145",
+        "Box.146",
+        "Box.147",
+        "Box.148",
+        "Box.149",
+        "Box.150",
+        "Box.151",
+        "Box.152",
+        "Box.153",
+        "Box.154",
+        "Box.155",
+        "Box.156",
+        "Box.157",
+        "Box.158",
+        "Box.159",
+        "Box.160",
+        "Box.161",
+        "Box.162",
+        "Box.163",
+        "Box.164",
+        "Box.165",
+        "Box.166",
+        "Box.167",
+        "Box.168",
+        "Box.169",
+        "Box.170",
+        "Box.171",
+        "Box.172",
+        "Box.173",
+        "Box.174",
+        "Box.175",
+        "Box.176",
+        "Box.177",
+        "Box.178",
+        "Box.179",
+        "Box.180",
+        "Box.181",
+        "Box.182",
+        "Box.183",
+        "Box.184",
+        "Box.185",
+        "Box.186",
+        "Box.187",
+        "Box.188",
+        "Box.189",
+        "Box.190",
+        "Box.191",
+        "Box.192",
+        "Box.193",
+        "Box.194",
+        "Box.195",
+        "Box.196",
+        "Box.197",
+        "Box.198",
+        "Box.199",
+        "Box.200",
+        "Box.201",
+        "Box.202",
+        "Box.203",
+        "Box.204",
+        "Box.205",
+        "Box.206",
+        "Box.207",
+        "Box.208",
+        "Box.209",
+        "Box.210",
+        "Box.211",
+        "Box.212",
+        "Box.213",
+        "Box.214",
+        "Box.215",
+        "Box.216",
+        "Box.217",
+        "Box.218",
+        "Box.219",
+        "Box.220",
+        "Box.221",
+        "Box.222",
+        "Box.223",
+        "Box.224",
+        "Box.225",
+        "Box.226",
+        "Box.227",
+        "Box.228",
+        "Box.229",
+        "Box.230",
+        "Box.231",
+        "Box.232",
+        "Box.233",
+        "Box.234",
+        "Cafeteria reconstruction",
+        "Rod",
+        "Rod.001",
+        "Rod.002",
+        "Rod.003",
+        "Rod.004",
+        "Rod.005",
+        "Rod.006",
+        "Rod.007",
+        "Rod.008",
+        "Rod.009",
+        "Rod.010",
+        "Rod.011",
+        "Rod.012",
+        "Rod.013",
+        "Rod.014",
+        "Rod.015",
+        "Rod.016",
+        "Rod.017",
+        "Rod.018",
+        "Rod.019",
+        "Rod.020",
+        "Rod.021",
+        "Rod.022",
+        "Rod.023",
+        "Rod.024",
+        "Rod.025",
+        "Rod.026",
+        "Rod.027",
+        "Rod.028",
+        "Rod.029",
+        "Rod.030",
+        "Rod.031",
+        "Rod.032",
+        "Rod.033",
+        "Rod.034",
+        "Rod.035",
+        "Rod.036",
+        "Rod.037",
+        "Rod.038",
+        "Rod.039",
+        "Rod.040",
+        "Rod.041",
+        "Rod.042",
+        "Rod.043",
+        "Rod.044",
+        "Rod.045",
+        "Rod.046",
+        "Rod.047",
+        "Rod.048",
+        "Rod.049",
+        "Rod.050",
+        "Rod.051",
+        "Rod.052",
+        "Rod.053",
+        "Rod.054",
+        "Rod.055",
+        "Rod.056",
+        "Rod.057",
+        "Rod.058",
+        "Rod.059",
+        "Rod.060",
+        "Rod.061",
+        "Rod.062",
+        "Rod.063",
+        "Rod.064",
+        "Rod.065",
+        "Rod.066",
+        "Rod.067",
+        "Rod.068",
+        "Rod.069",
+        "Rod.070",
+        "Rod.071",
+        "Rod.072",
+        "Rod.073",
+        "Rod.074",
+        "Rod.075",
+        "Rod.076",
+        "Rod.077",
+        "Rod.078",
+        "Rod.079",
+        "Rod.080",
+        "Rod.081",
+        "Rod.082",
+        "Rod.083",
+        "Rod.084",
+        "Rod.085",
+        "Rod.086",
+        "Rod.087",
+        "Rod.088",
+        "Rod.089",
+        "Rod.090",
+        "Rod.091",
+        "Rod.092",
+        "Rod.093",
+        "Rod.094",
+        "Rod.095",
+        "Rod.096",
+        "Rod.097",
+        "Rod.098",
+        "Rod.099",
+        "Rod.100",
+        "Rod.101",
+        "Rod.102",
+        "Rod.103",
+        "Rod.104",
+        "Rod.105",
+        "Rod.106",
+        "Rod.107",
+        "Rod.108",
+        "Rod.109",
+        "Rod.110",
+        "Rod.111",
+        "Rod.112",
+        "Rod.113",
+        "Rod.114",
+        "Rod.115",
+        "Rod.116",
+        "Rod.117",
+        "Rod.118",
+        "Rod.119",
+        "Rod.120",
+        "Rod.121",
+        "Rod.122",
+        "Rod.123",
+        "Rod.124",
+        "Rod.125",
+        "Rod.126",
+        "Rod.127",
+        "Rod.128",
+        "Rod.129",
+        "Rod.130",
+        "Rod.131",
+        "Rod.132",
+        "Rod.133",
+        "Rod.134",
+        "Rod.135",
+        "Rod.136",
+        "Rod.137",
+        "Rod.138",
+        "Rod.139",
+        "Rod.140",
+        "Rod.141",
+        "Rod.142",
+        "Rod.143",
+        "Rod.144",
+        "Rod.145",
+        "Rod.146",
+        "Rod.147",
+        "Rod.148",
+        "Rod.149",
+        "Rod.150",
+        "Rod.151",
+        "Rod.152",
+        "Rod.153",
+        "Rod.154",
+        "Rod.155",
+        "Rod.156",
+        "Rod.157",
+        "Rod.158",
+        "Rod.159",
+        "Rod.160",
+        "Rod.161",
+        "SceneActArea",
+        "SceneActArea.001",
+        "SceneActArea.002",
+        "SceneActView",
+        "architecture",
+        "ashtray",
+        "ashtray.001",
+        "ashtray.002",
+        "ashtray.003",
+        "back_support",
+        "back_support.001",
+        "back_support.002",
+        "back_support.003",
+        "back_support.004",
+        "back_support.005",
+        "back_support.006",
+        "back_support.007",
+        "back_support.008",
+        "back_support.009",
+        "back_support.010",
+        "back_support.011",
+        "back_support.012",
+        "back_support.013",
+        "back_support.014",
+        "bell_dome",
+        "bell_dome.001",
+        "bell_dome.002",
+        "bell_dome.003",
+        "bell_dome.004",
+        "bell_dome.005",
+        "bell_dome.006",
+        "bell_dome.007",
+        "bell_dome.008",
+        "booth_0",
+        "booth_1",
+        "booth_2",
+        "booth_3",
+        "booth_4",
+        "broad_back",
+        "broad_back.001",
+        "broad_back.002",
+        "broad_back.003",
+        "broad_back.004",
+        "broad_back.005",
+        "broad_back.006",
+        "broad_back.007",
+        "broad_back.008",
+        "broad_back.009",
+        "broad_back.010",
+        "broad_back.011",
+        "broad_back.012",
+        "broad_back.013",
+        "broad_back.014",
+        "ceiling",
+        "ceiling_rose",
+        "ceiling_rose.001",
+        "ceiling_rose.002",
+        "ceiling_rose.003",
+        "ceiling_rose.004",
+        "ceiling_rose.005",
+        "ceiling_rose.006",
+        "ceiling_rose.007",
+        "ceiling_rose.008",
+        "ceiling_seam_00",
+        "ceiling_seam_01",
+        "ceiling_seam_02",
+        "ceiling_seam_03",
+        "ceiling_seam_04",
+        "ceiling_seam_05",
+        "ceiling_seam_06",
+        "ceiling_seam_07",
+        "ceiling_seam_08",
+        "ceiling_seam_09",
+        "ceiling_seam_10",
+        "ceiling_seam_11",
+        "ceiling_seam_12",
+        "ceiling_seam_13",
+        "ceiling_seam_14",
+        "ceiling_seam_15",
+        "ceiling_seam_16",
+        "ceiling_seam_17",
+        "ceiling_seam_18",
+        "ceiling_seam_19",
+        "ceiling_seam_20",
+        "ceiling_seam_21",
+        "ceiling_seam_22",
+        "ceiling_seam_23",
+        "ceiling_seam_24",
+        "ceiling_seam_25",
+        "ceiling_seam_26",
+        "ceiling_seam_27",
+        "ceiling_seam_28",
+        "ceiling_seam_29",
+        "ceiling_seam_30",
+        "ceiling_seam_31",
+        "ceiling_seam_32",
+        "ceiling_seam_33",
+        "ceiling_seam_34",
+        "ceiling_seam_35",
+        "ceiling_seam_36",
+        "ceiling_seam_37",
+        "ceiling_seam_38",
+        "ceiling_seam_39",
+        "ceiling_seam_40",
+        "ceiling_seam_41",
+        "ceiling_seam_42",
+        "ceiling_seam_43",
+        "ceiling_seam_44",
+        "center_far_chair_0",
+        "center_far_chair_1",
+        "center_far_chair_2",
+        "center_far_chair_3",
+        "center_near_chair_0",
+        "center_near_chair_1",
+        "center_near_chair_2",
+        "center_near_chair_3",
+        "center_table_0",
+        "center_table_1",
+        "center_table_2",
+        "center_table_3",
+        "circular_base",
+        "circular_base.001",
+        "circular_base.002",
+        "circular_base.003",
+        "circular_base.004",
+        "circular_base.005",
+        "circular_base.006",
+        "circular_base.007",
+        "circular_base.008",
+        "circular_base.009",
+        "circular_base.010",
+        "circular_base.011",
+        "circular_base.012",
+        "circular_base.013",
+        "circular_base.014",
+        "container",
+        "cord",
+        "cord.001",
+        "cord.002",
+        "cord.003",
+        "cord.004",
+        "cord.005",
+        "cord.006",
+        "cord.007",
+        "cord.008",
+        "dark_edge",
+        "dark_edge.001",
+        "dark_edge.002",
+        "dark_edge.003",
+        "dark_edge.004",
+        "dark_edge.005",
+        "dark_edge.006",
+        "dark_edge.007",
+        "dark_edge.008",
+        "dark_edge.009",
+        "dark_edge.010",
+        "dark_edge.011",
+        "dark_edge.012",
+        "dark_edge.013",
+        "distant_shrub_0",
+        "distant_shrub_1",
+        "distant_shrub_10",
+        "distant_shrub_11",
+        "distant_shrub_12",
+        "distant_shrub_13",
+        "distant_shrub_14",
+        "distant_shrub_2",
+        "distant_shrub_3",
+        "distant_shrub_4",
+        "distant_shrub_5",
+        "distant_shrub_6",
+        "distant_shrub_7",
+        "distant_shrub_8",
+        "distant_shrub_9",
+        "end_trim",
+        "end_trim.001",
+        "end_trim.002",
+        "end_trim.003",
+        "end_trim.004",
+        "exterior_vegetation",
+        "floor_cross_joint_00",
+        "floor_cross_joint_01",
+        "floor_cross_joint_02",
+        "floor_cross_joint_03",
+        "floor_cross_joint_04",
+        "floor_cross_joint_05",
+        "floor_cross_joint_06",
+        "floor_cross_joint_07",
+        "floor_cross_joint_08",
+        "floor_cross_joint_09",
+        "floor_cross_joint_10",
+        "floor_cross_joint_11",
+        "floor_cross_joint_12",
+        "floor_cross_joint_13",
+        "floor_cross_joint_14",
+        "floor_cross_joint_15",
+        "floor_cross_joint_16",
+        "floor_length_joint_00",
+        "floor_length_joint_01",
+        "floor_length_joint_02",
+        "floor_length_joint_03",
+        "floor_length_joint_04",
+        "floor_length_joint_05",
+        "floor_length_joint_06",
+        "floor_length_joint_07",
+        "floor_length_joint_08",
+        "floor_length_joint_09",
+        "floor_length_joint_10",
+        "floor_length_joint_11",
+        "floor_length_joint_12",
+        "floor_length_joint_13",
+        "floor_length_joint_14",
+        "floor_length_joint_15",
+        "floor_length_joint_16",
+        "floor_length_joint_17",
+        "floor_length_joint_18",
+        "floor_length_joint_19",
+        "floor_length_joint_20",
+        "floor_length_joint_21",
+        "floor_length_joint_22",
+        "floor_length_joint_23",
+        "floor_length_joint_24",
+        "foliage_0",
+        "foliage_1",
+        "foliage_10",
+        "foliage_11",
+        "foliage_12",
+        "foliage_2",
+        "foliage_3",
+        "foliage_4",
+        "foliage_5",
+        "foliage_6",
+        "foliage_7",
+        "foliage_8",
+        "foliage_9",
+        "foot_0",
+        "foot_0.001",
+        "foot_0.002",
+        "foot_0.003",
+        "foot_0.004",
+        "foot_0.005",
+        "foot_0.006",
+        "foot_0.007",
+        "foot_0.008",
+        "foot_0.009",
+        "foot_0.010",
+        "foot_0.011",
+        "foot_0.012",
+        "foot_0.013",
+        "foot_1",
+        "foot_1.001",
+        "foot_1.002",
+        "foot_1.003",
+        "foot_1.004",
+        "foot_1.005",
+        "foot_1.006",
+        "foot_1.007",
+        "foot_1.008",
+        "foot_1.009",
+        "foot_1.010",
+        "foot_1.011",
+        "foot_1.012",
+        "foot_1.013",
+        "foreground_palm",
+        "foreground_table",
+        "frond_stem_0",
+        "frond_stem_1",
+        "frond_stem_2",
+        "frond_stem_3",
+        "frond_stem_4",
+        "frond_stem_5",
+        "frond_stem_6",
+        "frond_stem_7",
+        "frond_stem_8",
+        "inner_recess",
+        "inner_recess.001",
+        "inner_recess.002",
+        "inner_recess.003",
+        "laminate_top",
+        "laminate_top.001",
+        "laminate_top.002",
+        "laminate_top.003",
+        "laminate_top.004",
+        "laminate_top.005",
+        "laminate_top.006",
+        "laminate_top.007",
+        "laminate_top.008",
+        "laminate_top.009",
+        "laminate_top.010",
+        "laminate_top.011",
+        "laminate_top.012",
+        "laminate_top.013",
+        "leaf_0_0_-1",
+        "leaf_0_0_1",
+        "leaf_0_1_-1",
+        "leaf_0_1_1",
+        "leaf_0_2_-1",
+        "leaf_0_2_1",
+        "leaf_0_3_-1",
+        "leaf_0_3_1",
+        "leaf_0_4_-1",
+        "leaf_0_4_1",
+        "leaf_0_5_-1",
+        "leaf_0_5_1",
+        "leaf_0_6_-1",
+        "leaf_0_6_1",
+        "leaf_1_0_-1",
+        "leaf_1_0_1",
+        "leaf_1_1_-1",
+        "leaf_1_1_1",
+        "leaf_1_2_-1",
+        "leaf_1_2_1",
+        "leaf_1_3_-1",
+        "leaf_1_3_1",
+        "leaf_1_4_-1",
+        "leaf_1_4_1",
+        "leaf_1_5_-1",
+        "leaf_1_5_1",
+        "leaf_1_6_-1",
+        "leaf_1_6_1",
+        "leaf_2_0_-1",
+        "leaf_2_0_1",
+        "leaf_2_1_-1",
+        "leaf_2_1_1",
+        "leaf_2_2_-1",
+        "leaf_2_2_1",
+        "leaf_2_3_-1",
+        "leaf_2_3_1",
+        "leaf_2_4_-1",
+        "leaf_2_4_1",
+        "leaf_2_5_-1",
+        "leaf_2_5_1",
+        "leaf_2_6_-1",
+        "leaf_2_6_1",
+        "leaf_3_0_-1",
+        "leaf_3_0_1",
+        "leaf_3_1_-1",
+        "leaf_3_1_1",
+        "leaf_3_2_-1",
+        "leaf_3_2_1",
+        "leaf_3_3_-1",
+        "leaf_3_3_1",
+        "leaf_3_4_-1",
+        "leaf_3_4_1",
+        "leaf_3_5_-1",
+        "leaf_3_5_1",
+        "leaf_3_6_-1",
+        "leaf_3_6_1",
+        "leaf_4_0_-1",
+        "leaf_4_0_1",
+        "leaf_4_1_-1",
+        "leaf_4_1_1",
+        "leaf_4_2_-1",
+        "leaf_4_2_1",
+        "leaf_4_3_-1",
+        "leaf_4_3_1",
+        "leaf_4_4_-1",
+        "leaf_4_4_1",
+        "leaf_4_5_-1",
+        "leaf_4_5_1",
+        "leaf_4_6_-1",
+        "leaf_4_6_1",
+        "leaf_5_0_-1",
+        "leaf_5_0_1",
+        "leaf_5_1_-1",
+        "leaf_5_1_1",
+        "leaf_5_2_-1",
+        "leaf_5_2_1",
+        "leaf_5_3_-1",
+        "leaf_5_3_1",
+        "leaf_5_4_-1",
+        "leaf_5_4_1",
+        "leaf_5_5_-1",
+        "leaf_5_5_1",
+        "leaf_5_6_-1",
+        "leaf_5_6_1",
+        "leaf_6_0_-1",
+        "leaf_6_0_1",
+        "leaf_6_1_-1",
+        "leaf_6_1_1",
+        "leaf_6_2_-1",
+        "leaf_6_2_1",
+        "leaf_6_3_-1",
+        "leaf_6_3_1",
+        "leaf_6_4_-1",
+        "leaf_6_4_1",
+        "leaf_6_5_-1",
+        "leaf_6_5_1",
+        "leaf_6_6_-1",
+        "leaf_6_6_1",
+        "leaf_7_0_-1",
+        "leaf_7_0_1",
+        "leaf_7_1_-1",
+        "leaf_7_1_1",
+        "leaf_7_2_-1",
+        "leaf_7_2_1",
+        "leaf_7_3_-1",
+        "leaf_7_3_1",
+        "leaf_7_4_-1",
+        "leaf_7_4_1",
+        "leaf_7_5_-1",
+        "leaf_7_5_1",
+        "leaf_7_6_-1",
+        "leaf_7_6_1",
+        "leaf_8_0_-1",
+        "leaf_8_0_1",
+        "leaf_8_1_-1",
+        "leaf_8_1_1",
+        "leaf_8_2_-1",
+        "leaf_8_2_1",
+        "leaf_8_3_-1",
+        "leaf_8_3_1",
+        "leaf_8_4_-1",
+        "leaf_8_4_1",
+        "leaf_8_5_-1",
+        "leaf_8_5_1",
+        "leaf_8_6_-1",
+        "leaf_8_6_1",
+        "left_table_0",
+        "left_table_1",
+        "left_table_2",
+        "left_table_3",
+        "left_table_4",
+        "lower_leaf_0",
+        "lower_leaf_1",
+        "lower_leaf_2",
+        "lower_leaf_3",
+        "lower_leaf_4",
+        "lower_leaf_5",
+        "lower_leaf_6",
+        "lower_leaf_7",
+        "neck",
+        "neck.001",
+        "neck.002",
+        "neck.003",
+        "neck.004",
+        "neck.005",
+        "neck.006",
+        "neck.007",
+        "neck.008",
+        "neck_band_0",
+        "neck_band_0.001",
+        "neck_band_0.002",
+        "neck_band_0.003",
+        "neck_band_0.004",
+        "neck_band_0.005",
+        "neck_band_0.006",
+        "neck_band_0.007",
+        "neck_band_0.008",
+        "neck_band_1",
+        "neck_band_1.001",
+        "neck_band_1.002",
+        "neck_band_1.003",
+        "neck_band_1.004",
+        "neck_band_1.005",
+        "neck_band_1.006",
+        "neck_band_1.007",
+        "neck_band_1.008",
+        "pale_inner_surface",
+        "pale_inner_surface.001",
+        "pale_inner_surface.002",
+        "pale_inner_surface.003",
+        "pale_inner_surface.004",
+        "pale_inner_surface.005",
+        "pale_inner_surface.006",
+        "pale_inner_surface.007",
+        "pale_inner_surface.008",
+        "pendant_center",
+        "pendant_front_left",
+        "pendant_left_second",
+        "pendant_left_third",
+        "pendant_rear_center",
+        "pendant_rear_left",
+        "pendant_right_front",
+        "pendant_right_middle",
+        "pendant_right_rear",
+        "planter",
+        "polished_pedestal",
+        "polished_pedestal.001",
+        "polished_pedestal.002",
+        "polished_pedestal.003",
+        "polished_pedestal.004",
+        "polished_pedestal.005",
+        "polished_pedestal.006",
+        "polished_pedestal.007",
+        "polished_pedestal.008",
+        "polished_pedestal.009",
+        "polished_pedestal.010",
+        "polished_pedestal.011",
+        "polished_pedestal.012",
+        "polished_pedestal.013",
+        "polished_pedestal.014",
+        "rear_apron",
+        "rear_ceiling_beam",
+        "rear_header",
+        "rear_mullion_0",
+        "rear_mullion_1",
+        "rear_mullion_2",
+        "rear_mullion_3",
+        "rear_mullion_4",
+        "rear_mullion_5",
+        "rear_mullion_6",
+        "rear_planter",
+        "rear_sill",
+        "recessed_base",
+        "recessed_base.001",
+        "recessed_base.002",
+        "recessed_base.003",
+        "recessed_base.004",
+        "right_apron",
+        "right_far_chair_1",
+        "right_far_chair_2",
+        "right_far_chair_3",
+        "right_header",
+        "right_mullion_0",
+        "right_mullion_1",
+        "right_mullion_2",
+        "right_mullion_3",
+        "right_mullion_4",
+        "right_mullion_5",
+        "right_near_chair_0",
+        "right_near_chair_1",
+        "right_near_chair_2",
+        "right_near_chair_3",
+        "right_sill",
+        "right_table_0",
+        "right_table_1",
+        "right_table_2",
+        "right_table_3",
+        "rim",
+        "rim.001",
+        "rim.002",
+        "rim.003",
+        "rim.004",
+        "rim.005",
+        "rim.006",
+        "rim.007",
+        "rim.008",
+        "seat",
+        "seat.001",
+        "seat.002",
+        "seat.003",
+        "seat.004",
+        "seat.005",
+        "seat.006",
+        "seat.007",
+        "seat.008",
+        "seat.009",
+        "seat.010",
+        "seat.011",
+        "seat.012",
+        "seat.013",
+        "seat.014",
+        "seat_cushion",
+        "seat_cushion.001",
+        "seat_cushion.002",
+        "seat_cushion.003",
+        "seat_cushion.004",
+        "small_packet",
+        "small_packet.001",
+        "small_packet.002",
+        "small_packet.003",
+        "soil",
+        "stem_0",
+        "stem_1",
+        "stem_10",
+        "stem_11",
+        "stem_12",
+        "stem_2",
+        "stem_3",
+        "stem_4",
+        "stem_5",
+        "stem_6",
+        "stem_7",
+        "stem_8",
+        "stem_9",
+        "support_0",
+        "support_0.001",
+        "support_0.002",
+        "support_0.003",
+        "support_0.004",
+        "support_0.005",
+        "support_0.006",
+        "support_0.007",
+        "support_0.008",
+        "support_0.009",
+        "support_0.010",
+        "support_0.011",
+        "support_0.012",
+        "support_0.013",
+        "support_1",
+        "support_1.001",
+        "support_1.002",
+        "support_1.003",
+        "support_1.004",
+        "support_1.005",
+        "support_1.006",
+        "support_1.007",
+        "support_1.008",
+        "support_1.009",
+        "support_1.010",
+        "support_1.011",
+        "support_1.012",
+        "support_1.013",
+        "table_accessory_0",
+        "table_accessory_1",
+        "table_accessory_2",
+        "table_accessory_3",
+        "tiled_floor",
+        "wide_back",
+        "wide_back.001",
+        "wide_back.002",
+        "wide_back.003",
+        "wide_back.004"
+      ],
+      "scene_program_P": "from sceneact import *\nimport bpy\nimport math\nimport random\n\n# Reference inventory (normalized image bounds):\n# architecture: slatted pale ceiling (0,0)-(1,.32), rear windows\n# (0,.30)-(.73,.56), right windows (.70,.25)-(1,.60), dark tiled\n# floor (0,.56)-(1,1). Thin dark mullions and deep horizontal sills.\n# booth_0..4: left receding upholstered backs (0,.52)-(.33,.90),\n# overlapped by pale tabletops, especially foreground_table (0,.85)-(.46,1).\n# table_* and chair_*: central/right furniture (.34,.52)-(.88,.98);\n# broad rectangular backs, thin seats, chrome stems and circular feet.\n# pendant_*: dark bell shades, dominant foreground left (.02,.12)-(.23,.36),\n# neck and cord; smaller shades around (.12,.37), (.15,.42), (.39,.41),\n# (.50,.40), (.60,.37), (.77,.34), (.82,.40), (.98,.39).\n# foreground_palm: dark separated feather fronds (.76,.40)-(1,1),\n# overlapping right furniture; rear_planter (.32,.49)-(.57,.60).\n# Exterior is bright, irregular vegetation; exact distant objects and\n# furniture hidden by the booths, chairs, and palm remain uncertain.\n#\n# Review of first image: foreground pendant and palm fell outside framing;\n# chair/table colors were too pale, exterior shrubs too solid and prominent,\n# rear ceiling line too low, foreground booth too small. Corrections below\n# retain the named furniture hierarchy and move only supported local items.\n# Expanded primitive estimate: architecture 108, booths 20, tables 84,\n# chairs 85, pendants 72, palm 173, rear planting 26, exterior 15,\n# small table objects 12: approximately 695 meshes including Boolean\n# operands and the five primitives per three-point sweep. No fillet boxes.\n\nrandom.seed(14)\nscene = Scene(\"Cafeteria reconstruction\")\nivory = (.77,.78,.75)\nframe = (.18,.20,.18)\nupholstery = (.115,.135,.12)\nseatcolor = (.16,.18,.16)\ntablecolor = (.57,.60,.55)\nmetal = (.48,.52,.49)\ndark = (.025,.035,.026)\nfloorcolor = (.095,.12,.105)\nceiling_z = 3.95\n\narchitecture = Asset(\"architecture\")\narchitecture.include(\"tiled_floor\", box((10.6,16,.13), center=(0,3,-.08), color=floorcolor))\narchitecture.include(\"ceiling\", box((10.6,16,.12), center=(0,3,ceiling_z+.06), color=(.84,.85,.82)))\nfor i in range(45):\n    architecture.include(\"ceiling_seam_%02d\" % i,\n                         box((10.5,.011,.008), center=(0,-4.8+i*.35,ceiling_z-.004),\n                             color=(.49,.52,.48)))\nfor i in range(25):\n    architecture.include(\"floor_length_joint_%02d\" % i,\n                         box((.009,16,.005), center=(-5.1+i*.43,3,-.009),\n                             color=(.27,.30,.27)))\nfor j in range(17):\n    architecture.include(\"floor_cross_joint_%02d\" % j,\n                         box((10.5,.009,.005), center=(0,-4+j*.88,-.008),\n                             color=(.22,.25,.22)))\narchitecture.include(\"rear_apron\", box((10.3,.2,1.05), center=(0,10.15,.525), color=ivory))\narchitecture.include(\"rear_sill\", box((10.4,.34,.10), center=(0,10.02,1.10), color=(.48,.51,.47)))\narchitecture.include(\"rear_header\", box((10.4,.14,.12), center=(0,10.12,3.69), color=frame))\narchitecture.include(\"rear_ceiling_beam\", box((10.4,.18,.15), center=(0,10.05,3.83), color=(.53,.56,.52)))\nfor i,x in enumerate([-5,-3.3,-1.6,.1,1.8,3.5,5]):\n    architecture.include(\"rear_mullion_%d\" % i,\n                         box((.065,.12,2.55), center=(x,10.1,2.40), color=frame))\narchitecture.include(\"right_apron\", box((.17,15,1.05), center=(5.05,2.7,.525), color=ivory))\narchitecture.include(\"right_sill\", box((.30,15,.10), center=(4.99,2.7,1.10), color=(.48,.51,.47)))\narchitecture.include(\"right_header\", box((.14,15,.12), center=(5.07,2.7,3.69), color=frame))\nfor i,y in enumerate([-4,-1,2,5,8,10]):\n    architecture.include(\"right_mullion_%d\" % i,\n                         box((.085,.065,2.55), center=(5.02,y,2.40), color=frame))\nscene.include(\"architecture\", architecture)\n\ndef make_table(name,x,y,w=1.45,d=.87):\n    a=Asset(name)\n    a.include(\"laminate_top\",box((w,d,.055),center=(x,y,.79),color=tablecolor))\n    a.include(\"dark_edge\",box((w+.009,d+.009,.025),center=(x,y,.758),color=(.12,.15,.12)))\n    for k,dx in enumerate([-.34,.34]):\n        a.include(\"support_%d\"%k,rod(.032,start=(x+dx,y,.07),end=(x+dx,y,.75),color=metal))\n        a.include(\"foot_%d\"%k,box((.10,.57,.045),center=(x+dx,y,.045),color=metal))\n    scene.include(name,a)\n\ndef make_chair(name,x,y,angle=0):\n    a=Asset(name)\n    a.include(\"seat\",box((.72,.61,.105),center=(x,y,.51),color=seatcolor))\n    a.include(\"broad_back\",box((.75,.085,.74),center=(x,y-.29,.88),color=upholstery))\n    a.include(\"back_support\",box((.56,.045,.23),center=(x,y-.245,.54),color=upholstery))\n    a.include(\"polished_pedestal\",rod(.052,start=(x,y,.08),end=(x,y,.46),color=metal))\n    a.include(\"circular_base\",rod(.255,length=.045,center=(x,y,.045),color=metal))\n    if angle:\n        a.turn('z',angle,pivot=(x,y,0))\n    scene.include(name,a)\n\nfor i,y in enumerate([-1.30,1.15,3.55,5.95,8.25]):\n    a=Asset(\"booth_%d\"%i)\n    a.include(\"wide_back\",box((2.70,.17,.94),center=(-3.25,y,.75),color=upholstery))\n    a.include(\"seat_cushion\",box((2.70,.64,.15),center=(-3.25,y+.36,.45),color=seatcolor))\n    a.include(\"recessed_base\",box((2.42,.48,.36),center=(-3.25,y+.34,.19),color=(.08,.11,.085)))\n    a.include(\"end_trim\",box((.045,.68,.55),center=(-1.89,y+.26,.40),color=(.32,.35,.31)))\n    scene.include(\"booth_%d\"%i,a)\n    make_table(\"left_table_%d\"%i,-3.23,y+1.10,2.58,.94)\n\nfor row,y in enumerate([-.35,2.15,4.65,7.1]):\n    make_table(\"center_table_%d\"%row,.10,y,1.48,.92)\n    make_chair(\"center_near_chair_%d\"%row,.10,y-.79)\n    make_chair(\"center_far_chair_%d\"%row,.10,y+.79,180)\n    make_table(\"right_table_%d\"%row,2.28,y+.25,1.53,.92)\n    make_chair(\"right_near_chair_%d\"%row,2.28,y-.54)\n    if row>0:\n        make_chair(\"right_far_chair_%d\"%row,2.28,y+1.04,180)\n\nmake_table(\"foreground_table\",-2.70,-2.43,2.75,1.42)\n\ndef pendant(name,x,y,r,bottom):\n    a=Asset(name)\n    dome=ball(r,center=(x,y,bottom),color=dark)\n    dome.resize((1,1,.78),pivot=(x,y,bottom))\n    cutter=box((r*2.5,r*2.5,r*2),center=(x,y,bottom-r),color=dark)\n    a.include(\"bell_dome\",subtract(dome,cutter))\n    a.include(\"pale_inner_surface\",rod(r*.94,length=.012,center=(x,y,bottom-.008),color=(.65,.68,.61)))\n    a.include(\"rim\",rod(r,length=.018,center=(x,y,bottom+.008),color=dark))\n    a.include(\"neck\",rod(r*.34,length=r*.77,center=(x,y,bottom+r*.85),color=dark))\n    for k,t in enumerate([.79,1.02]):\n        a.include(\"neck_band_%d\"%k,rod(r*.345,length=.024,center=(x,y,bottom+r*t),color=(.30,.34,.29)))\n    a.include(\"cord\",rod(.008,start=(x,y,bottom+r*1.25),end=(x,y,ceiling_z),color=(.10,.13,.10)))\n    a.include(\"ceiling_rose\",rod(.065,length=.022,center=(x,y,ceiling_z-.012),color=dark))\n    scene.include(name,a)\n\npendant(\"pendant_front_left\",-2.78,-.05,.64,2.58)\npendant(\"pendant_left_second\",-3.5,3.10,.43,2.42)\npendant(\"pendant_left_third\",-3.5,5.8,.33,2.40)\npendant(\"pendant_rear_left\",-2.6,8.1,.25,2.37)\npendant(\"pendant_rear_center\",-.15,7.7,.28,2.45)\npendant(\"pendant_center\",1.15,4.15,.37,2.58)\npendant(\"pendant_right_front\",2.18,1.30,.43,2.68)\npendant(\"pendant_right_middle\",3.5,4.9,.29,2.46)\npendant(\"pendant_right_rear\",4.25,8.0,.24,2.40)\n\ndef leaf(a,name,start,end,width,color):\n    mid=tuple((start[i]+end[i])/2 for i in range(3))\n    v=tuple(end[i]-start[i] for i in range(3))\n    length=math.sqrt(sum(t*t for t in v))\n    node=ball(1,center=(0,0,0),color=color)\n    node.resize((width,.009,length/2),pivot=(0,0,0))\n    node.turn('y',math.degrees(math.acos(v[2]/length)),pivot=(0,0,0))\n    node.turn('z',math.degrees(math.atan2(v[1],v[0])),pivot=(0,0,0))\n    node.move(mid)\n    a.include(name,node)\n\npalm=Asset(\"foreground_palm\")\npx,py=2.33,-1.30\npalm.include(\"planter\",rod(.29,length=.48,center=(px,py,.24),color=(.12,.16,.12)))\npalm.include(\"soil\",rod(.27,length=.022,center=(px,py,.49),color=(.035,.045,.025)))\nfor f in range(9):\n    az=math.radians(15+f*40)\n    reach=.66+(f%3)*.20\n    height=1.65+(f%4)*.20\n    base=(px,py,.45)\n    bend=(px+math.cos(az)*reach*.38,py+math.sin(az)*reach*.38,height+.18)\n    tip=(px+math.cos(az)*reach,py+math.sin(az)*reach,height-.12)\n    palm.include(\"frond_stem_%d\"%f,sweep_tube(points=[base,bend,tip],radius=.009,color=(.045,.075,.035)))\n    for j in range(7):\n        t=.10+j*.13\n        point=tuple(bend[k]+(tip[k]-bend[k])*t for k in range(3))\n        span=.34*(1-t)+.10\n        for side in [-1,1]:\n            end=(point[0]+math.cos(az+side*1.23)*span,\n                 point[1]+math.sin(az+side*1.23)*span,\n                 point[2]+.05-span*.33)\n            leaf(palm,\"leaf_%d_%d_%d\"%(f,j,side),point,end,.021,(.028,.052,.023))\n# Lower foliage fills the visible plant silhouette without hiding frond gaps.\nfor i in range(8):\n    az=i*math.pi/4\n    start=(px,py,.55)\n    end=(px+.50*math.cos(az),py+.50*math.sin(az),1.10+(i%3)*.14)\n    leaf(palm,\"lower_leaf_%d\"%i,start,end,.075,(.035,.063,.027))\nscene.include(\"foreground_palm\",palm)\n\nrear=Asset(\"rear_planter\")\nrear.include(\"container\",box((2.6,.43,.25),center=(-.95,8.75,1.03),color=(.18,.23,.17)))\nfor i in range(13):\n    x=-2.1+i*.19\n    z=1.24+random.random()*.16\n    rear.include(\"stem_%d\"%i,rod(.012,start=(x,8.74,1.12),end=(x,8.74,z+.17),color=(.14,.19,.12)))\n    rear.include(\"foliage_%d\"%i,ball(.15,center=(x,8.74,z),color=(.16,.22,.13)))\nscene.include(\"rear_planter\",rear)\n\noutside=Asset(\"exterior_vegetation\")\nfor i in range(15):\n    node=ball(.38+random.random()*.4,\n              center=(-6+i*.9,14.6+random.random()*2,.8+random.random()*.35),\n              color=(.68,.71,.65))\n    node.resize((1.3,1,.8))\n    outside.include(\"distant_shrub_%d\"%i,node)\nscene.include(\"exterior_vegetation\",outside)\n\n# Small pale ashtrays visible on several tables.\nfor i,(x,y) in enumerate([(0.10,-.35),(2.28,-.10),(.1,2.15),(2.28,2.4)]):\n    a=Asset(\"table_accessory_%d\"%i)\n    a.include(\"ashtray\",rod(.078,length=.025,center=(x+.22,y,.833),color=(.72,.75,.70)))\n    a.include(\"inner_recess\",rod(.052,length=.005,center=(x+.22,y,.848),color=(.32,.36,.31)))\n    a.include(\"small_packet\",box((.10,.065,.035),center=(x+.34,y+.05,.837),color=(.66,.69,.63)))\n    scene.include(\"table_accessory_%d\"%i,a)\n\nrealize(scene)\nsc=bpy.context.scene\nif sc.world is None:\n    sc.world=bpy.data.worlds.new(\"SceneWorld\")\nsc.world.use_nodes=True\nbackground=sc.world.node_tree.nodes.get(\"Background\")\nif background is None:\n    background=sc.world.node_tree.nodes.new(\"ShaderNodeBackground\")\noutput=sc.world.node_tree.nodes.get(\"World Output\")\nif output is None:\n    output=sc.world.node_tree.nodes.new(\"ShaderNodeOutputWorld\")\nsc.world.node_tree.links.new(background.outputs[\"Background\"],output.inputs[\"Surface\"])\nbackground.inputs[\"Color\"].default_value=(.9,.92,.88,1)\nbackground.inputs[\"Strength\"].default_value=.45\n\n# Use the emitted material colors directly; preserve dark furniture finishes.\nfor mat in bpy.data.materials:\n    mat.use_nodes=True\n    bs=mat.node_tree.nodes.get(\"Principled BSDF\")\n    if bs:\n        c=bs.inputs[\"Base Color\"].default_value\n        d=mat.diffuse_color\n        if sum(d[:3]) < sum(c[:3]):\n            c=d\n        g=.28*c[0]+.55*c[1]+.17*c[2]\n        bs.inputs[\"Base Color\"].default_value=(g,g,g,c[3])\n        bs.inputs[\"Roughness\"].default_value=.48\n\nset_view(position=(-.9,-5.55,1.88),target=(.25,5.3,1.45),lens=29,sensor=36)\narea_emitter((0,10.9,3.0),power=1400,size=7,target=(0,1.5,.5))\narea_emitter((5.5,2.4,3),power=1100,size=6,target=(-2,2,.8))\narea_emitter((-2,-3,3.6),power=160,size=5,target=(0,3,.5))\nsc.render.resolution_x=512\nsc.render.resolution_y=379\nsc.render.resolution_percentage=100\nsc.view_settings.view_transform='AgX'\n",
+      "shared_H_policy": "import json\nfrom pathlib import Path\nimport re\n\n\ndef solve(task, runtime):\n    prompt = (Path(__file__).parent / 'system.txt').read_text()\n    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [\n        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +\n         f\"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}\"},\n        runtime.image(task['image'])]}]\n    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:\n        response = runtime.ask(messages)\n        messages.append(response)\n        text = response['content'] or ''\n        blocks = re.findall(r'```python\\s*\\n(.*?)```', text, re.S)\n        if not blocks:\n            if text.strip().upper() == 'DONE': return\n            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})\n            continue\n        if runtime.remaining()['executions'] <= 0: return\n        result = runtime.execute(blocks[-1])\n        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +\n                    '\\nCompare the rendered camera view with the original reference. ' +\n                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}\n        content = [feedback]\n        if result['image']: content.append(runtime.image(result['image']))\n        messages.append({'role': 'user', 'content': content})\n",
+      "shared_H_system": "Reconstruct the visible indoor scene from one RGB photograph using SceneAct and Blender.\nInfer geometry and a camera matching the reference viewpoint, perspective and framing.\nUse separate 3D meshes for architecture, furniture and visible objects, preserving colors,\nproportions, placement, occlusions and materials. Do not use the reference as a texture,\nbackground or projected image. No ground-truth calibration or other views are available.\n\nReturn a complete, runnable Python program inside one ```python code block. Each execution\nstarts in a fresh Blender process. Programs can use numpy, sceneact and bpy. Use SceneAct\nfor geometry and relationships; bpy may customize lighting, materials and camera settings.\nDo not render or save files in the program: the fixed runner saves and renders once after\nexecution, using your active camera. Do not access external files, network or other models.\nWhen satisfied after inspecting a rendering, reply exactly DONE. The last successful build\nis submitted automatically. Budget includes all planning, corrections and review calls.\n\nCoverage and verification procedure:\nBefore building, record a short reference inventory in program comments: major visible\nobjects, their approximate normalized image bounds, distinctive visible parts, overlaps,\nand uncertain or occluded regions. These are estimates from this input, not calibration.\nMap each inventory item to a named SceneAct asset with meaningful child parts. A valid\nhierarchy verifies only the parts you emitted; it does not establish image completeness.\nDo not invent hidden details to fill uncertainty or omit visible parts because they are small.\nFor composite objects, match the overall silhouette and the distribution of occupied space\nand gaps before adding fine repeated details. Estimate component sizes relative to their\nparent and nearby objects from the reference. A correct outer bounding box alone does not\nensure the correct internal density, component proportions or visible coverage. Keep these\nparameters explicit so that a later revision can change them without rebuilding the design.\n\nUse the first execution for a complete scene, leaving the second available for correction.\nAfter a successful render, compare the reference inventory against the full rendered view:\nmissing or extra visible parts, silhouette, internal gaps, relative sizes, overlaps and image\nbounds. Identify the largest supported discrepancies before revising. If many objects share\na displacement or scale error, consider camera/framing; if a discrepancy is local, consider\nthat object's parameters. Neither pattern proves a unique cause. Preserve matching objects\nand their editable hierarchy while correcting the supported discrepancies. Do not impose\none fixed density, camera, object count or parameter adjustment across different inputs.\nAn isolated-object view, if supplied, can clarify membership and silhouette, but its full-image\nscore is not evidence that removing the rest of the scene improves the reconstruction.\nKeep unresolved mappings and occluded geometry explicitly uncertain.\n\nExecution cost planning:\nThe entire solve has three model calls, two Blender executions and 600 seconds. A short\nPython loop can generate thousands of Blender objects before any image exists. Plan a\ncompact complete first build so that realization and the runner's render can finish with\ntime for review. Do not change the runner's resource policy or rendering settings to evade\nthis budget. Use geometry complexity as the controllable cost.\nBefore returning code, estimate expanded primitive counts in comments, including nested\nloops and helper calls. In this implementation, each ball, rod and box emits a separate\nmesh and marker; a fillet_box can expand to 26 primitives; sweep_tube with n points emits\n2*n-1 primitives. Cloning and layout helpers duplicate their contents. Boolean operands\nalso incur mesh creation and modifier work. Count these expansions, not just named assets.\nAim initially for a few hundred primitive meshes across the whole scene, as a planning\nheuristic rather than a measured runtime guarantee or fixed object count. Allocate detail\naccording to visible pixel size, silhouette and gaps. If the estimate reaches thousands,\nsimplify repeated microstructure before execution while retaining every inventory object\nand its meaningful editable parts. Represent unresolved surface detail with shared materials\nand restrained procedural shading; retain geometric detail that changes visible contours,\nopenings or occlusions. Avoid nested per-element decoration below the image resolution.\nUse short, adaptively spaced tube paths for visible curves, concentrating points at bends.\nAvoid many nearly identical Boolean slices to approximate one hollow shape; use a small\nnumber of appropriate SceneAct solids and cutters, preserving the visible opening. Prefer\nboxes or scaled balls where their silhouettes suffice; reserve fillet_box for parts whose\nrounded edges matter. Keep a small reusable material palette for each surface family rather\nthan generating a distinct random color and material for every tiny primitive. Keep parent\nassets, semantic child parts, and support relations intact during simplification.\nIf execution times out without an image, report that completion failed and the bottleneck\nis unknown unless logs locate it. When a retry remains, reduce expanded primitive counts,\nBoolean operations and material proliferation in the complete program. Do not infer camera,\ncoverage or appearance defects from a timeout. A reduced-cost build still needs execution\nand rendered-image verification; simplification alone is not evidence of success.\n\nExecution verification:\nrealize(scene) clears Blender to an empty factory scene. Configure the world, camera,\nlighting and materials after realization; do not assume a default world exists. When setting\nworld nodes, use this initialization after realize:\n    sc = bpy.context.scene\n    if sc.world is None:\n        sc.world = bpy.data.worlds.new('SceneWorld')\n    sc.world.use_nodes = True\n    background = sc.world.node_tree.nodes.get('Background')\n    if background is None:\n        background = sc.world.node_tree.nodes.new('ShaderNodeBackground')\n    output = sc.world.node_tree.nodes.get('World Output')\n    if output is None:\n        output = sc.world.node_tree.nodes.new('ShaderNodeOutputWorld')\n    sc.world.node_tree.links.new(background.outputs['Background'], output.inputs['Surface'])\nBefore returning code, check API arguments, positive dimensions, noncoincident rod endpoints,\nand fillet radii against the smallest dimension. If execution fails, use the actual traceback\nto repair the program. A failed execution without an image supplies no rendered visual\nfeedback: do not treat it as evidence for unrelated camera or geometry changes. Preserve\nexplicit failures and unknowns; do not claim verification when no successful render exists.\n\nSceneAct API (all coordinates in a world frame with Z up; angles in degrees):\nfrom sceneact import *\nScene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)\nparent.include(name, node) attaches an asset/part while preserving its world position.\nparent.members[name] retrieves a child; parent.remove(name) detaches it.\nnode.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.\nbox(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)\nball(radius, center=(0,0,0), color=(1,1,1), opacity=1)\nrod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))\nrod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))\nfillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))\nsweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))\nassemble(nodes, name='Assembly') groups shapes without merging their meshes.\nfuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.\nnode.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)\nmodify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.\nDefault rotation/scale pivot is the geometry's world-space bounding-box center.\nshifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),\nresized(node, factors, pivot=None) perform the same operations on independent copies.\nnode.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.\nnode.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).\nnode.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.\nnode.extreme(direction) returns a support point; projected_span(node,direction) returns bounds\nalong a unit direction; projected_width(node,direction) returns their difference.\nsnap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.\nA target can also be a world point; then omit target_anchor.\nabut(node, target, axis='+z', gap=0) places a copy after a target boundary.\ncenter_on(node, target, axes=('x','y','z')) aligns selected center coordinates.\noffset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.\nrepeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.\npile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.\nlattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')\norbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)\nLayout functions return assemblies of independent copies.\nscene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))\nregisters a persistent relation between scene members; scene.settle() updates dependencies.\nrealize(scene) settles constraints and creates Blender geometry, clearing Blender first.\nset_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.\narea_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.\nCall realize before setting the camera and lighting. Estimate the input viewpoint yourself.\n\nExample:\nfrom sceneact import *\nscene = Scene()\ntable = Asset('table')\ntable.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))\nfor x in (-.6,.6):\n    for y in (-.3,.3):\n        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))\nscene.include('table', table)\nscene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))\nrealize(scene)\nset_view((3,-4,2), (0,0,.7), lens=40)\narea_emitter((0,-2,4), power=1000)\n",
+      "tools": {
+        "camera_focal": "Fixed scene geometry; multiply current perspective focal length by1.1.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "object_scale": "Fixed camera; scale the explicitly named real object/group by1.1 around its geometry AABB center.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "isolate": "Keep only the explicitly named object/group meshes visible, temporarily hiding other meshes.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "camera_tilt": "Rotate camera upward by4degrees about its localX axis, fix geometry/lens. Tests pitch separately from focal length. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "object_depth": "Move the explicitly named real object/group center 10percent farther along its camera ray, preserve size and camera. Tests distance separately from size. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM."
+      },
+      "limitation": "No 3D ground truth. No correct module given. Naming/projection are approximate object correspondence."
+    },
+    "visual_difference": "The dominant upper-left pendant is shallower in the reconstruction: its lower rim sits higher and its neck-to-shade proportions differ from the photograph. The photograph shows a taller bell silhouette and a more exposed pale underside. This is a prominent silhouette discrepancy, beyond the reconstruction's general noise and tonal differences.",
+    "object_id": "pendant_front_left",
+    "reference_roi": [
+      0.015,
+      0.11,
+      0.235,
+      0.405
+    ],
+    "initial_module": "geometry_scale_depth",
+    "initial_confidence": 0.6,
+    "probe_targets": {
+      "camera_focal": "pendant_front_left",
+      "camera_tilt": "pendant_front_left",
+      "object_scale": "pendant_front_left",
+      "object_depth": "pendant_front_left",
+      "isolate": "pendant_front_left"
+    },
+    "hypotheses": [
+      {
+        "id": "H1",
+        "module": "geometry_scale_depth",
+        "object_id": "pendant_front_left",
+        "explanation": "The procedural pendant proportions are inaccurate. The program flattens the sphere vertically to 0.78, cuts its lower half away, and adds a flat underside and cylindrical neck. These explicit proportions can produce a shallow shade even with an adequate camera. Uniform scaling or depth changes cannot directly repair its aspect ratio.",
+        "predictions": {
+          "camera_focal": {
+            "lower": -0.04,
+            "upper": 0.025,
+            "reason": "A 10% focal increase enlarges the lamp but moves its off-center silhouette leftward and changes the entire scene; the proportion error remains."
+          },
+          "camera_tilt": {
+            "lower": -0.045,
+            "upper": 0.035,
+            "reason": "Upward rotation moves the pendant downward in the image, potentially improving rim placement while disturbing other correspondences; it does not change the modeled proportions."
+          },
+          "object_scale": {
+            "lower": -0.025,
+            "upper": 0.03,
+            "reason": "Scaling the complete pendant by 1.1 could extend its rim toward the reference, but also widens an already substantial shade and scales the cord."
+          },
+          "object_depth": {
+            "lower": -0.035,
+            "upper": 0.02,
+            "reason": "Moving the pendant 10% farther away shrinks its projection without fixing its shallow silhouette; reduced width could nevertheless improve some pixels."
+          },
+          "isolate": {
+            "lower": -0.18,
+            "upper": 0.04,
+            "reason": "Isolation exposes the modeled silhouette but removes most reference content. Background replacement can alter local similarity independently of geometry."
+          }
+        }
+      },
+      {
+        "id": "H2",
+        "module": "camera_framing",
+        "object_id": "pendant_front_left",
+        "explanation": "Camera pitch or perspective may account for part of the apparent pendant error. Several reconstructed hanging shades sit higher than their photographic counterparts, and the ceiling and furniture perspective also differ. The supplied camera is an estimate, so a shared projection error competes with a local shape error.",
+        "predictions": {
+          "camera_focal": {
+            "lower": -0.04,
+            "upper": 0.03,
+            "reason": "Focal enlargement changes shared spacing and apparent size, but cannot independently fix vertical placement; evidence does not establish the required focal direction."
+          },
+          "camera_tilt": {
+            "lower": -0.025,
+            "upper": 0.055,
+            "reason": "Upward rotation shifts the elevated reconstructed shades downward, offering a plausible shared alignment improvement. Four degrees may overshoot and worsen furniture alignment."
+          },
+          "object_scale": {
+            "lower": -0.025,
+            "upper": 0.03,
+            "reason": "Local enlargement can compensate for some projection error within the ROI without correcting the shared camera. There is insufficient evidence to distinguish this forecast from H1."
+          },
+          "object_depth": {
+            "lower": -0.035,
+            "upper": 0.02,
+            "reason": "Local shrinking may compensate for focal error but preserves the projected center and cannot resolve shared vertical displacement."
+          },
+          "isolate": {
+            "lower": -0.18,
+            "upper": 0.04,
+            "reason": "Isolation retains the same camera and removes architectural comparison anchors; its appearance score is not a discriminating camera test."
+          }
+        }
+      }
+    ],
+    "program_evidence": "The supplied bell_dome projection is approximately [-0.038,0.168,0.245,0.329], and its parent chain explicitly identifies pendant_front_left. The program constructs that asset at (-2.78,-0.05), radius 0.64, bottom 2.58. This establishes semantic correspondence without selecting an arbitrary mesh; the approximate projected AABB is not a visible silhouette mask. A reusable workflow should record reference silhouettes and shared architectural anchors, map them to named assets, predict controlled interventions, and compare independent baseline-relative probes before revising parameters. Test shared camera alignment across multiple objects, then local silhouette proportions, then materials and lighting. Preserve the same reference ROI throughout and retain unresolved explanations when responses overlap.",
+    "limitations": "No tools or external files were used, and no experiments were performed. All intervals are uncertain pre-experiment forecasts for S = 0.5*(SSIM_full_after - SSIM_full_before) + 0.5*(SSIM_fixed_ROI_after - SSIM_fixed_ROI_before), using the stated ROI unchanged for every intervention. They are not measured confidence intervals. Positive S indicates appearance sensitivity, not geometry truth or unique causal identification. Render noise, lighting, occlusion and approximate correspondence confound attribution. The supplied hierarchy checks establish emitted-part integrity, not photographic completeness."
+  },
+  "plan": {
+    "probes": [
+      {
+        "probe": "camera_focal",
+        "object_id": "pendant_front_left",
+        "predicted_discrimination": 0.0354609929078014
+      },
+      {
+        "probe": "object_scale",
+        "object_id": "pendant_front_left",
+        "predicted_discrimination": 0.0
+      }
+    ],
+    "scores": {
+      "camera_focal": 0.0354609929078014,
+      "camera_tilt": 0.2409638554216867,
+      "object_scale": 0.0,
+      "object_depth": 0.0,
+      "isolate": 1.555805808050948e-17
+    },
+    "reason": "Partial interval separation calibrated independently; identical forecasts score zero. Unknown targets are not fabricated."
+  },
+  "saved_before_probe": 1793976850.5297835
+}

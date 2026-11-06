@@ -1,0 +1,1262 @@
+[
+  {
+    "method": "active",
+    "run_id": "smoke",
+    "task_id": "smoke",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/smoke/active/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_104864364",
+    "split": "selection",
+    "role": "source",
+    "scope": "smoke",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.42775059275152016,
+    "PSNR": 11.035846075642855,
+    "SSIM": 0.1678183833456555,
+    "LPIPS": 0.7731072902679443,
+    "DINOv2": 0.7770813703536987,
+    "failure_utility": 0.42775059275152016,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 394.488853268791,
+    "inner_runtime_seconds": 355.36236227303743,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/smoke/active/C1/selection/commons_104864364/record.json",
+    "folder": "results/smoke/active/C1/selection/commons_104864364",
+    "reference_image": "results/smoke/active/C1/selection/commons_104864364/reference.png",
+    "render_image": "results/smoke/active/C1/selection/commons_104864364/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "reference",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "H_start",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "fixed_h/r1_C2",
+    "M_version": null,
+    "scene_id": "commons_31294395",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3250486014333956,
+    "PSNR": 9.057253069369306,
+    "SSIM": 0.09072825552451382,
+    "LPIPS": 0.8413463234901428,
+    "DINOv2": 0.45152774453163147,
+    "failure_utility": 0.3250486014333956,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 351.42383698001504,
+    "inner_runtime_seconds": 308.6218673721887,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/reference/H_start/selection/commons_31294395/record.json",
+    "folder": "results/task01/reference/H_start/selection/commons_31294395",
+    "reference_image": "results/task01/reference/H_start/selection/commons_31294395/reference.png",
+    "render_image": "results/task01/reference/H_start/selection/commons_31294395/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "reference",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "H_start",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "fixed_h/r1_C2",
+    "M_version": null,
+    "scene_id": "commons_192968130",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.19497551407352973,
+    "PSNR": 5.3642974038781315,
+    "SSIM": 0.03631551968860302,
+    "LPIPS": 0.9680823683738708,
+    "DINOv2": 0.03338678181171417,
+    "failure_utility": 0.19497551407352973,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 332.138168070931,
+    "inner_runtime_seconds": 303.5080341408029,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/reference/H_start/test/commons_192968130/record.json",
+    "folder": "results/task01/reference/H_start/test/commons_192968130",
+    "reference_image": "results/task01/reference/H_start/test/commons_192968130/reference.png",
+    "render_image": "results/task01/reference/H_start/test/commons_192968130/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "fixed",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task01/fixed/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_31294395",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3770192573369821,
+    "PSNR": 9.19262931066193,
+    "SSIM": 0.11538428363242147,
+    "LPIPS": 0.8290624618530273,
+    "DINOv2": 0.6894719004631042,
+    "failure_utility": 0.3770192573369821,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 378.7507783132605,
+    "inner_runtime_seconds": 351.2644772808999,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/fixed/C1/selection/commons_31294395/record.json",
+    "folder": "results/task01/fixed/C1/selection/commons_31294395",
+    "reference_image": "results/task01/fixed/C1/selection/commons_31294395/reference.png",
+    "render_image": "results/task01/fixed/C1/selection/commons_31294395/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "fixed",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task01/fixed/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_192968130",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.5304916512740195,
+    "PSNR": 11.587927838067626,
+    "SSIM": 0.3039492105759803,
+    "LPIPS": 0.602593183517456,
+    "DINOv2": 0.7802378535270691,
+    "failure_utility": 0.5304916512740195,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 350.03176202299073,
+    "inner_runtime_seconds": 322.8108414351009,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/fixed/C1/test/commons_192968130/record.json",
+    "folder": "results/task01/fixed/C1/test/commons_192968130",
+    "reference_image": "results/task01/fixed/C1/test/commons_192968130/reference.png",
+    "render_image": "results/task01/fixed/C1/test/commons_192968130/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "structured",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task01/structured/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_31294395",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3585612313317184,
+    "PSNR": 10.550022272462963,
+    "SSIM": 0.10337872396913916,
+    "LPIPS": 0.84476238489151,
+    "DINOv2": 0.6341347098350525,
+    "failure_utility": 0.3585612313317184,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 533.6486777099781,
+    "inner_runtime_seconds": 499.71986845042557,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/structured/C1/selection/commons_31294395/record.json",
+    "folder": "results/task01/structured/C1/selection/commons_31294395",
+    "reference_image": "results/task01/structured/C1/selection/commons_31294395/reference.png",
+    "render_image": "results/task01/structured/C1/selection/commons_31294395/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "structured",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task01/structured/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_192968130",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.4848679492839205,
+    "PSNR": 11.181456024548027,
+    "SSIM": 0.2669039636755072,
+    "LPIPS": 0.6960393190383911,
+    "DINOv2": 0.7674784064292908,
+    "failure_utility": 0.4848679492839205,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 384.984073786065,
+    "inner_runtime_seconds": 354.70481266314164,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/structured/C1/test/commons_192968130/record.json",
+    "folder": "results/task01/structured/C1/test/commons_192968130",
+    "reference_image": "results/task01/structured/C1/test/commons_192968130/reference.png",
+    "render_image": "results/task01/structured/C1/test/commons_192968130/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "active",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task01/active/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_31294395",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3710985697676561,
+    "PSNR": 9.456672017342813,
+    "SSIM": 0.10790923755461612,
+    "LPIPS": 0.8183411359786987,
+    "DINOv2": 0.6474552154541016,
+    "failure_utility": 0.3710985697676561,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 344.373445850797,
+    "inner_runtime_seconds": 315.740389558021,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/active/C1/selection/commons_31294395/record.json",
+    "folder": "results/task01/active/C1/selection/commons_31294395",
+    "reference_image": "results/task01/active/C1/selection/commons_31294395/reference.png",
+    "render_image": "results/task01/active/C1/selection/commons_31294395/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "active",
+    "run_id": "task01",
+    "task_id": "task01",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task01/active/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_192968130",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.4746691010092097,
+    "PSNR": 11.435097901046976,
+    "SSIM": 0.25954828312826106,
+    "LPIPS": 0.6749899983406067,
+    "DINOv2": 0.67889803647995,
+    "failure_utility": 0.4746691010092097,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 316.8304078169167,
+    "inner_runtime_seconds": 288.37173442402855,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task01/active/C1/test/commons_192968130/record.json",
+    "folder": "results/task01/active/C1/test/commons_192968130",
+    "reference_image": "results/task01/active/C1/test/commons_192968130/reference.png",
+    "render_image": "results/task01/active/C1/test/commons_192968130/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "reference",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "H_start",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "fixed_h/r1_C2",
+    "M_version": null,
+    "scene_id": "commons_92056365",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3726260036656071,
+    "PSNR": 9.996362121345232,
+    "SSIM": 0.11324446512127195,
+    "LPIPS": 0.8485072255134583,
+    "DINOv2": 0.7062815427780151,
+    "failure_utility": 0.3726260036656071,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 385.86301145190373,
+    "inner_runtime_seconds": 350.2276476449333,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/reference/H_start/selection/commons_92056365/record.json",
+    "folder": "results/task02/reference/H_start/selection/commons_92056365",
+    "reference_image": "results/task02/reference/H_start/selection/commons_92056365/reference.png",
+    "render_image": "results/task02/reference/H_start/selection/commons_92056365/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "reference",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "H_start",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "fixed_h/r1_C2",
+    "M_version": null,
+    "scene_id": "commons_96943062",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.45195669294816393,
+    "PSNR": 15.926892176454977,
+    "SSIM": 0.25123856548732926,
+    "LPIPS": 0.7961422204971313,
+    "DINOv2": 0.8015474677085876,
+    "failure_utility": 0.45195669294816393,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 406.36838328372687,
+    "inner_runtime_seconds": 373.8783223191276,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/reference/H_start/test/commons_96943062/record.json",
+    "folder": "results/task02/reference/H_start/test/commons_96943062",
+    "reference_image": "results/task02/reference/H_start/test/commons_96943062/reference.png",
+    "render_image": "results/task02/reference/H_start/test/commons_96943062/final.png",
+    "expected_composite": false
+  },
+  {
+    "method": "fixed",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task02/fixed/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_92056365",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.4052320863918873,
+    "PSNR": 10.959766405421602,
+    "SSIM": 0.13733021799219033,
+    "LPIPS": 0.8039416074752808,
+    "DINOv2": 0.7646152973175049,
+    "failure_utility": 0.4052320863918873,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 544.0105018201284,
+    "inner_runtime_seconds": 482.23052673600614,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/fixed/C1/selection/commons_92056365/record.json",
+    "folder": "results/task02/fixed/C1/selection/commons_92056365",
+    "reference_image": "results/task02/fixed/C1/selection/commons_92056365/reference.png",
+    "render_image": "results/task02/fixed/C1/selection/commons_92056365/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "fixed",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task02/fixed/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_96943062",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.4992937852413426,
+    "PSNR": 16.895129612293463,
+    "SSIM": 0.2845624415489942,
+    "LPIPS": 0.6922013759613037,
+    "DINOv2": 0.8110405802726746,
+    "failure_utility": 0.4992937852413426,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 362.8618659628555,
+    "inner_runtime_seconds": 330.4825963550247,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/fixed/C1/test/commons_96943062/record.json",
+    "folder": "results/task02/fixed/C1/test/commons_96943062",
+    "reference_image": "results/task02/fixed/C1/test/commons_96943062/reference.png",
+    "render_image": "results/task02/fixed/C1/test/commons_96943062/final.png",
+    "expected_composite": false
+  },
+  {
+    "method": "structured",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task02/structured/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_92056365",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3865339243032431,
+    "PSNR": 10.55809226023201,
+    "SSIM": 0.13306256640490777,
+    "LPIPS": 0.8121254444122314,
+    "DINOv2": 0.6773293018341064,
+    "failure_utility": 0.3865339243032431,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 387.8258602521382,
+    "inner_runtime_seconds": 359.89522972283885,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/structured/C1/selection/commons_92056365/record.json",
+    "folder": "results/task02/structured/C1/selection/commons_92056365",
+    "reference_image": "results/task02/structured/C1/selection/commons_92056365/reference.png",
+    "render_image": "results/task02/structured/C1/selection/commons_92056365/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "structured",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task02/structured/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_96943062",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.5061872943518838,
+    "PSNR": 17.087764151028143,
+    "SSIM": 0.2987571788663508,
+    "LPIPS": 0.6918194890022278,
+    "DINOv2": 0.8232483863830566,
+    "failure_utility": 0.5061872943518838,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 364.103482818231,
+    "inner_runtime_seconds": 331.7494696401991,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/structured/C1/test/commons_96943062/record.json",
+    "folder": "results/task02/structured/C1/test/commons_96943062",
+    "reference_image": "results/task02/structured/C1/test/commons_96943062/reference.png",
+    "render_image": "results/task02/structured/C1/test/commons_96943062/final.png",
+    "expected_composite": false
+  },
+  {
+    "method": "active",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task02/active/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_92056365",
+    "split": "selection",
+    "role": "source",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.3569630403507534,
+    "PSNR": 9.309547214815591,
+    "SSIM": 0.12672612642907607,
+    "LPIPS": 0.9036456346511841,
+    "DINOv2": 0.6956172585487366,
+    "failure_utility": 0.3569630403507534,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 278.9887154181488,
+    "inner_runtime_seconds": 243.7781389420852,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/active/C1/selection/commons_92056365/record.json",
+    "folder": "results/task02/active/C1/selection/commons_92056365",
+    "reference_image": "results/task02/active/C1/selection/commons_92056365/reference.png",
+    "render_image": "results/task02/active/C1/selection/commons_92056365/final.png",
+    "expected_composite": true
+  },
+  {
+    "method": "active",
+    "run_id": "task02",
+    "task_id": "task02",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/task02/active/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_96943062",
+    "split": "test",
+    "role": "transfer",
+    "scope": "formal",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.4998787869180727,
+    "PSNR": 11.934949343064474,
+    "SSIM": 0.3448114482061529,
+    "LPIPS": 0.7296772599220276,
+    "DINOv2": 0.7690043449401855,
+    "failure_utility": 0.4998787869180727,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": false,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 305.4546362250112,
+    "inner_runtime_seconds": 273.569542537909,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/task02/active/C1/test/commons_96943062/record.json",
+    "folder": "results/task02/active/C1/test/commons_96943062",
+    "reference_image": "results/task02/active/C1/test/commons_96943062/reference.png",
+    "render_image": "results/task02/active/C1/test/commons_96943062/final.png",
+    "expected_composite": false
+  },
+  {
+    "method": "active",
+    "run_id": "smoke_refined",
+    "task_id": "smoke_refined",
+    "candidate_id": "C1",
+    "parent": "fixed_h/r1_C2",
+    "H_version": "tasks/smoke_refined/active/H",
+    "M_version": "engineered_v2_4",
+    "scene_id": "commons_104864364",
+    "split": "selection",
+    "role": "source",
+    "scope": "smoke",
+    "status": "completed",
+    "original_status": "complete",
+    "schedule_terminal": true,
+    "execution_success": true,
+    "functional_eligible": true,
+    "Q": 0.4268219479951492,
+    "PSNR": 11.325550106697339,
+    "SSIM": 0.14417425067223053,
+    "LPIPS": 0.7835726737976074,
+    "DINOv2": 0.8397285342216492,
+    "failure_utility": 0.4268219479951492,
+    "failure_reason": null,
+    "function_checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "blend_opened_measured": true,
+    "blend_file_exists": true,
+    "scene_pipeline_seconds": 333.75290975999087,
+    "inner_runtime_seconds": 296.2771037891507,
+    "resource_wait_seconds": 0,
+    "service_queue_seconds": null,
+    "device": "CPU",
+    "threads": 2,
+    "model_roles": {
+      "student": "gpt-6.1-sol/medium",
+      "meta": "gpt-6-astra/medium",
+      "editor": "gpt-6.1-sol/medium",
+      "judge": "gpt-6-astra/medium"
+    },
+    "record_path": "results/smoke_refined/active/C1/selection/commons_104864364/record.json",
+    "folder": "results/smoke_refined/active/C1/selection/commons_104864364",
+    "reference_image": "results/smoke_refined/active/C1/selection/commons_104864364/reference.png",
+    "render_image": "results/smoke_refined/active/C1/selection/commons_104864364/final.png",
+    "expected_composite": true
+  }
+]

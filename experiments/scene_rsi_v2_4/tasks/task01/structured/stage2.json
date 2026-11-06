@@ -1,0 +1,4156 @@
+{
+  "context": {
+    "method": "structured",
+    "valid_blend": true,
+    "remaining_probe_budget": 2,
+    "already_executed_probe_count": 0,
+    "available_probe_menu": {
+      "camera_focal": "Fixed scene geometry; multiply current perspective focal length by1.1.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "object_scale": "Fixed camera; scale the explicitly named real object/group by1.1 around its geometry AABB center.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "isolate": "Keep only the explicitly named object/group meshes visible, temporarily hiding other meshes.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "camera_tilt": "Rotate camera upward by4degrees about its localX axis, fix geometry/lens. Tests pitch separately from focal length. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+      "object_depth": "Move the explicitly named real object/group center 10percent farther along its camera ray, preserve size and camera. Tests distance separately from size. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM."
+    },
+    "raw_evidence": {
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.1121698079614487,
+        "lpips": 0.8152438402175903,
+        "dino": 0.3585638701915741,
+        "psnr": 8.991557235883853,
+        "overall": 0.32540263427988175
+      },
+      "functional": {
+        "checks": {
+          "structure": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "material": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "composite": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          },
+          "declared_parts": {
+            "required": true,
+            "applicable": true,
+            "measured_pass": true,
+            "gate_pass": true
+          }
+        },
+        "functional_pass": true,
+        "structure_pass": true,
+        "material_pass": true,
+        "composite_required": true,
+        "composite_pass": true,
+        "target_object": "Dark console under left window",
+        "geometry": {
+          "hierarchy_parts": {
+            "applicable": true,
+            "measured_pass": true,
+            "declared_groups": 35,
+            "missing": [],
+            "detached": [],
+            "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+          },
+          "known_support": {
+            "applicable": false,
+            "measured_pass": null,
+            "rows": [],
+            "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+          },
+          "mesh_intersection": {
+            "applicable": true,
+            "measured_pass": null,
+            "crossings": [
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.002"
+                ],
+                "triangle_pairs": 5
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.005"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.006"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.007"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.008"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.009"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.001",
+                  "Box.011"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.004"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.006"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.007"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.008"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.009"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.002",
+                  "Box.010"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.008"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.003",
+                  "Box.009"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.004",
+                  "Box.005"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.004",
+                  "Box.006"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.004",
+                  "Box.007"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.005",
+                  "Box.006"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.005",
+                  "Box.007"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.006",
+                  "Box.007"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.006",
+                  "Box.008"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.006",
+                  "Box.009"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.007",
+                  "Box.008"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.007",
+                  "Box.009"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.008",
+                  "Box.009"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.010",
+                  "Box.011"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.010",
+                  "Box.034"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.013"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.014"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.015"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.016"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.017"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.012",
+                  "Box.018"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.013",
+                  "Box.014"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.013",
+                  "Box.017"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.013",
+                  "Box.018"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.013",
+                  "Box.019"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.013",
+                  "Box.022"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.014",
+                  "Box.020"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.014",
+                  "Box.021"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.014",
+                  "Box.022"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.016"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.017"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.018"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.019"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.022"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Ball"
+                ],
+                "triangle_pairs": 12
+              },
+              {
+                "objects": [
+                  "Box.015",
+                  "Box.044"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.016",
+                  "Box.020"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.016",
+                  "Box.021"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.016",
+                  "Box.022"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.016",
+                  "Box.044"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.017",
+                  "Box.019"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.017",
+                  "Ball.013"
+                ],
+                "triangle_pairs": 34
+              },
+              {
+                "objects": [
+                  "Box.019",
+                  "Rod.001"
+                ],
+                "triangle_pairs": 64
+              },
+              {
+                "objects": [
+                  "Box.019",
+                  "Ball.013"
+                ],
+                "triangle_pairs": 64
+              },
+              {
+                "objects": [
+                  "Box.020",
+                  "Box.021"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.022",
+                  "Box.045"
+                ],
+                "triangle_pairs": 8
+              },
+              {
+                "objects": [
+                  "Box.022",
+                  "Rod.001"
+                ],
+                "triangle_pairs": 15
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.024"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.025"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.026"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.027"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.028"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.023",
+                  "Box.029"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Box.025"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Box.028"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Box.029"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Box.030"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Box.033"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.024",
+                  "Ball"
+                ],
+                "triangle_pairs": 16
+              },
+              {
+                "objects": [
+                  "Box.025",
+                  "Box.031"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.025",
+                  "Box.032"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.025",
+                  "Box.033"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.026",
+                  "Box.027"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.026",
+                  "Box.028"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.026",
+                  "Box.029"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.026",
+                  "Box.030"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.026",
+                  "Box.033"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.027",
+                  "Box.031"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.027",
+                  "Box.032"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.027",
+                  "Box.033"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.028",
+                  "Box.030"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.031",
+                  "Box.032"
+                ],
+                "triangle_pairs": 6
+              },
+              {
+                "objects": [
+                  "Box.035",
+                  "Box.037"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Box.036",
+                  "Box.037"
+                ],
+                "triangle_pairs": 10
+              },
+              {
+                "objects": [
+                  "Ball",
+                  "Ball.001"
+                ],
+                "triangle_pairs": 56
+              },
+              {
+                "objects": [
+                  "Ball.001",
+                  "Ball.002"
+                ],
+                "triangle_pairs": 60
+              },
+              {
+                "objects": [
+                  "Ball.002",
+                  "Ball.003"
+                ],
+                "triangle_pairs": 44
+              },
+              {
+                "objects": [
+                  "Ball.004",
+                  "Ball.005"
+                ],
+                "triangle_pairs": 50
+              },
+              {
+                "objects": [
+                  "Box.041",
+                  "Ball.006"
+                ],
+                "triangle_pairs": 28
+              },
+              {
+                "objects": [
+                  "Ball.006",
+                  "Ball.007"
+                ],
+                "triangle_pairs": 38
+              },
+              {
+                "objects": [
+                  "Ball.007",
+                  "Ball.008"
+                ],
+                "triangle_pairs": 72
+              },
+              {
+                "objects": [
+                  "Box.043",
+                  "Ball.009"
+                ],
+                "triangle_pairs": 48
+              },
+              {
+                "objects": [
+                  "Ball.009",
+                  "Ball.010"
+                ],
+                "triangle_pairs": 56
+              },
+              {
+                "objects": [
+                  "Box.044",
+                  "Box.045"
+                ],
+                "triangle_pairs": 4
+              },
+              {
+                "objects": [
+                  "Box.045",
+                  "Rod"
+                ],
+                "triangle_pairs": 25
+              },
+              {
+                "objects": [
+                  "Box.045",
+                  "Rod.001"
+                ],
+                "triangle_pairs": 27
+              },
+              {
+                "objects": [
+                  "Box.045",
+                  "Rod.002"
+                ],
+                "triangle_pairs": 25
+              },
+              {
+                "objects": [
+                  "Rod",
+                  "Ball.011"
+                ],
+                "triangle_pairs": 97
+              },
+              {
+                "objects": [
+                  "Rod",
+                  "Ball.012"
+                ],
+                "triangle_pairs": 62
+              },
+              {
+                "objects": [
+                  "Rod.001",
+                  "Ball.013"
+                ],
+                "triangle_pairs": 106
+              },
+              {
+                "objects": [
+                  "Rod.001",
+                  "Ball.014"
+                ],
+                "triangle_pairs": 64
+              }
+            ],
+            "narrow_phase_pairs": 106,
+            "mesh_count": 369,
+            "tested_mesh_count": 64,
+            "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+          }
+        },
+        "semantic_object_completeness": null,
+        "support_collision_truth": null,
+        "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+      },
+      "objects": [
+        {
+          "name": "Dark console under left window",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.018901009112596512,
+            0.4929298758506775,
+            0.14667749404907227,
+            0.7345091998577118
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Dark wooden double bed",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4787445664405823,
+            0.4032534956932068,
+            0.9490357041358948,
+            0.8540125489234924
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Historic bedroom revised",
+          "type": "EMPTY",
+          "parent": null,
+          "parent_chain": [],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -8.486272811889648,
+            -14.731660842895508,
+            2.8621530532836914,
+            4.444190502166748
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Large oval portrait",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.13442997634410858,
+            0.1404329538345337,
+            0.24840471148490906,
+            0.3543872833251953
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Left cropped window",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.07771987468004227,
+            0.07442939281463623,
+            0.16579966247081757,
+            0.6837454736232758
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Main tall window",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.22685621678829193,
+            0.08649832010269165,
+            0.43137940764427185,
+            0.6423501372337341
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Olive upholstered armchair",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.24248026311397552,
+            0.4516686797142029,
+            0.5469657182693481,
+            0.9550420194864273
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Painted folding screen",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.435991108417511,
+            0.3122596740722656,
+            0.6356427073478699,
+            0.6199473142623901
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Partial foreground rug",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6980380415916443,
+            0.8573108017444611,
+            1.0835613012313843,
+            1.0472775846719742
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Rear white door",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5226250290870667,
+            0.2175934910774231,
+            0.6079804301261902,
+            0.6357122957706451
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Right wall miniature",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7982174158096313,
+            0.14393138885498047,
+            0.8361167311668396,
+            0.2503642439842224
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Room architecture",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -8.486272811889648,
+            -14.731660842895508,
+            2.8621530532836914,
+            4.444190502166748
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Round bedside cabinet",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.9414324760437012,
+            0.5804304778575897,
+            1.1277426481246948,
+            0.7889727354049683
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Slender black side chair",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5629979372024536,
+            0.4665961265563965,
+            0.6311025619506836,
+            0.6874594986438751
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Small cloth covered table",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.17207607626914978,
+            0.5256159603595734,
+            0.2911606431007385,
+            0.7051484286785126
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Small floor waste pot",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.15025635063648224,
+            0.6547264456748962,
+            0.1848483681678772,
+            0.7195276319980621
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Small rear portrait",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4611867070198059,
+            0.13515305519104004,
+            0.5077135562896729,
+            0.2382240891456604
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "Small rug behind armchair",
+          "type": "EMPTY",
+          "parent": "Historic bedroom revised",
+          "parent_chain": [
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2562987506389618,
+            0.7273975014686584,
+            0.4682648777961731,
+            0.8461283892393112
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back cornice 3.59",
+          "type": "EMPTY",
+          "parent": "Room architecture",
+          "parent_chain": [
+            "Room architecture",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.16918040812015533,
+            0.014836490154266357,
+            0.7765482664108276,
+            0.08296829462051392
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back cornice 3.68",
+          "type": "EMPTY",
+          "parent": "Room architecture",
+          "parent_chain": [
+            "Room architecture",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.17077922821044922,
+            -0.004933953285217285,
+            0.779269814491272,
+            0.06973081827163696
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back cornice 3.75",
+          "type": "EMPTY",
+          "parent": "Room architecture",
+          "parent_chain": [
+            "Room architecture",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.17197126150131226,
+            -0.01843082904815674,
+            0.7816018462181091,
+            0.057997703552246094
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back interior",
+          "type": "EMPTY",
+          "parent": "Olive upholstered armchair",
+          "parent_chain": [
+            "Olive upholstered armchair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3651859164237976,
+            0.49681806564331055,
+            0.49312880635261536,
+            0.7679941058158875
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back patterned wall",
+          "type": "EMPTY",
+          "parent": "Room architecture",
+          "parent_chain": [
+            "Room architecture",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.1689741015434265,
+            -0.005898118019104004,
+            0.7703961133956909,
+            0.7274697124958038
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back spindle -0.12",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.572998583316803,
+            0.4794588088989258,
+            0.5772323608398438,
+            0.5543246865272522
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back spindle 0",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5853647589683533,
+            0.47825318574905396,
+            0.5896732211112976,
+            0.5527907609939575
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back spindle 0.12",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5976217985153198,
+            0.4770582318305969,
+            0.6020035147666931,
+            0.5512703955173492
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back top",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5646491050720215,
+            0.4665961265563965,
+            0.6107667684555054,
+            0.48049551248550415
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back upright -0.010000000000000009",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5644336342811584,
+            0.4747355580329895,
+            0.5710556507110596,
+            0.5931781828403473
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "back upright 0.37",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6033010482788086,
+            0.4710121154785156,
+            0.6102926731109619,
+            0.5878249406814575
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "base molding",
+          "type": "EMPTY",
+          "parent": "Round bedside cabinet",
+          "parent_chain": [
+            "Round bedside cabinet",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.9414324760437012,
+            0.7020266354084015,
+            1.1183435916900635,
+            0.7889727354049683
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "basket body",
+          "type": "EMPTY",
+          "parent": "Small floor waste pot",
+          "parent_chain": [
+            "Small floor waste pot",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.15025635063648224,
+            0.6567710340023041,
+            0.1848483681678772,
+            0.7195276319980621
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bed base",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4966666102409363,
+            0.5684229731559753,
+            0.9282304644584656,
+            0.7978964745998383
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blind bottom",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.036964815109968185,
+            0.3973693251609802,
+            0.1312490701675415,
+            0.4146151542663574
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "blind bottom.001",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.25843966007232666,
+            0.38154733180999756,
+            0.40330803394317627,
+            0.3966888189315796
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "bust",
+          "type": "EMPTY",
+          "parent": "Small rear portrait",
+          "parent_chain": [
+            "Small rear portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.478670209646225,
+            0.19024819135665894,
+            0.4990822970867157,
+            0.21726739406585693
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cabinet body",
+          "type": "EMPTY",
+          "parent": "Round bedside cabinet",
+          "parent_chain": [
+            "Round bedside cabinet",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.9495386481285095,
+            0.5935708284378052,
+            1.1160024404525757,
+            0.7823010087013245
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ceiling",
+          "type": "EMPTY",
+          "parent": "Room architecture",
+          "parent_chain": [
+            "Room architecture",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": true,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -8.486272811889648,
+            -14.731660842895508,
+            2.8621530532836914,
+            0.05302417278289795
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "central blue field",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5254250764846802,
+            0.40340179204940796,
+            0.5813627243041992,
+            0.5621987283229828
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "collar",
+          "type": "EMPTY",
+          "parent": "Large oval portrait",
+          "parent_chain": [
+            "Large oval portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.19139866530895233,
+            0.25225210189819336,
+            0.20203731954097748,
+            0.26273369789123535
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cover fold 0",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.48973026871681213,
+            0.537908136844635,
+            0.6719005703926086,
+            0.5940786898136139
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cover fold 1",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6526798009872437,
+            0.558075338602066,
+            0.843192458152771,
+            0.6333300471305847
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cover fold 2",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6495184898376465,
+            0.5202250480651855,
+            0.7610822916030884,
+            0.557302713394165
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cover fold 3",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7230944633483887,
+            0.5347711145877838,
+            0.8410232067108154,
+            0.5723922848701477
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cover fold 4",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5999558568000793,
+            0.5236686766147614,
+            0.6592827439308167,
+            0.5684260129928589
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "cream mattress",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5097144842147827,
+            0.5266097187995911,
+            0.9197239279747009,
+            0.7255485355854034
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "curved arm rim -1",
+          "type": "EMPTY",
+          "parent": "Olive upholstered armchair",
+          "parent_chain": [
+            "Olive upholstered armchair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.25936800241470337,
+            0.5199745297431946,
+            0.38739731907844543,
+            0.7722974419593811
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "curved arm rim 1",
+          "type": "EMPTY",
+          "parent": "Olive upholstered armchair",
+          "parent_chain": [
+            "Olive upholstered armchair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.38104063272476196,
+            0.550084114074707,
+            0.5118755102157593,
+            0.8321489244699478
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark edge -0.08000000000000002",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5683326125144958,
+            0.31431615352630615,
+            0.57608962059021,
+            0.6045421361923218
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark edge -0.08999999999999997",
+          "type": "EMPTY",
+          "parent": "leaf 2",
+          "parent_chain": [
+            "leaf 2",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.56512051820755,
+            0.3138059973716736,
+            0.5715340375900269,
+            0.6027273237705231
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark edge -0.6499999999999999",
+          "type": "EMPTY",
+          "parent": "leaf 0",
+          "parent_chain": [
+            "leaf 0",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.511505663394928,
+            0.3166974186897278,
+            0.5165082216262817,
+            0.61337810754776
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark edge -0.6599999999999999",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5108826160430908,
+            0.3168742060661316,
+            0.5170213580131531,
+            0.61396324634552
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark edge -1.23",
+          "type": "EMPTY",
+          "parent": "leaf 0",
+          "parent_chain": [
+            "leaf 0",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.44651368260383606,
+            0.3184816837310791,
+            0.45214006304740906,
+            0.6199473142623901
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark edge 0.49",
+          "type": "EMPTY",
+          "parent": "leaf 2",
+          "parent_chain": [
+            "leaf 2",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6247836351394653,
+            0.3122596740722656,
+            0.632940948009491,
+            0.5970255732536316
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark opening",
+          "type": "EMPTY",
+          "parent": "Small floor waste pot",
+          "parent_chain": [
+            "Small floor waste pot",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.15301749110221863,
+            0.6547264456748962,
+            0.1805754452943802,
+            0.6692244410514832
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark painted canvas",
+          "type": "EMPTY",
+          "parent": "Large oval portrait",
+          "parent_chain": [
+            "Large oval portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.14980372786521912,
+            0.1602904200553894,
+            0.23861387372016907,
+            0.33545219898223877
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "dark shoulders",
+          "type": "EMPTY",
+          "parent": "Large oval portrait",
+          "parent_chain": [
+            "Large oval portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.16668888926506042,
+            0.25497710704803467,
+            0.22621329128742218,
+            0.3194810748100281
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "deep sill",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.05254552140831947,
+            0.6267824172973633,
+            0.16579966247081757,
+            0.6837454736232758
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "deep sill.001",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.23705463111400604,
+            0.5930353701114655,
+            0.43137940764427185,
+            0.6423501372337341
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "deep upholstered side -1",
+          "type": "EMPTY",
+          "parent": "Olive upholstered armchair",
+          "parent_chain": [
+            "Olive upholstered armchair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.24248026311397552,
+            0.6056839227676392,
+            0.4225373864173889,
+            0.8099707514047623
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "deep upholstered side 1",
+          "type": "EMPTY",
+          "parent": "Olive upholstered armchair",
+          "parent_chain": [
+            "Olive upholstered armchair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.36201298236846924,
+            0.6474193632602692,
+            0.5469657182693481,
+            0.8746658265590668
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "diagonal hanging cloth",
+          "type": "EMPTY",
+          "parent": "Small cloth covered table",
+          "parent_chain": [
+            "Small cloth covered table",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18703539669513702,
+            0.5359651744365692,
+            0.2911606431007385,
+            0.6626140177249908
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "door leaf",
+          "type": "EMPTY",
+          "parent": "Rear white door",
+          "parent_chain": [
+            "Rear white door",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.526629626750946,
+            0.24055051803588867,
+            0.5973323583602905,
+            0.6304352581501007
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "drawer apron",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.012816660106182098,
+            0.5571435391902924,
+            0.1411496251821518,
+            0.6388445496559143
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "drawer pull -3.82",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.09360705316066742,
+            0.5886907279491425,
+            0.1010199710726738,
+            0.6001051068305969
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "drawer pull -4.28",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.03131627291440964,
+            0.595910906791687,
+            0.038836099207401276,
+            0.6075772643089294
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "face",
+          "type": "EMPTY",
+          "parent": "Large oval portrait",
+          "parent_chain": [
+            "Large oval portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18367981910705566,
+            0.20976954698562622,
+            0.20737962424755096,
+            0.2566845417022705
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "foot (-3.55, 3.52)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.12458880245685577,
+            0.6826432347297668,
+            0.14667749404907227,
+            0.7134826481342316
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "foot (-3.55, 3.87)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.11964193731546402,
+            0.668015331029892,
+            0.14101746678352356,
+            0.6976455450057983
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "foot (-4.55, 3.52)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.008847823366522789,
+            0.7020404636859894,
+            0.013459403067827225,
+            0.7345091998577118
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "foot (-4.55, 3.87)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.009683363139629364,
+            0.6862103641033173,
+            0.011895713396370411,
+            0.717347264289856
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "footboard inset",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5010102987289429,
+            0.5870028436183929,
+            0.7225514054298401,
+            0.7405703365802765
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "footboard solid panel",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4876457750797272,
+            0.5524442195892334,
+            0.7567816376686096,
+            0.7764972150325775
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "footboard top rail",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4859626591205597,
+            0.5311200618743896,
+            0.760390043258667,
+            0.6229597628116608
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "front stretcher",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5853573083877563,
+            0.6456470191478729,
+            0.6267278790473938,
+            0.6583612859249115
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gilt frame",
+          "type": "EMPTY",
+          "parent": "Right wall miniature",
+          "parent_chain": [
+            "Right wall miniature",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7989878058433533,
+            0.14393138885498047,
+            0.8361167311668396,
+            0.2503642439842224
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gilt outer oval",
+          "type": "EMPTY",
+          "parent": "Large oval portrait",
+          "parent_chain": [
+            "Large oval portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.13442997634410858,
+            0.1404329538345337,
+            0.24840471148490906,
+            0.3543872833251953
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gilt rectangular frame",
+          "type": "EMPTY",
+          "parent": "Small rear portrait",
+          "parent_chain": [
+            "Small rear portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4611867070198059,
+            0.13515305519104004,
+            0.5077135562896729,
+            0.2382240891456604
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gold opening",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5221453905105591,
+            0.44271522760391235,
+            0.5640552639961243,
+            0.49530524015426636
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gold panel",
+          "type": "EMPTY",
+          "parent": "leaf 0",
+          "parent_chain": [
+            "leaf 0",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4469834268093109,
+            0.3193373680114746,
+            0.5156956911087036,
+            0.6169807314872742
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gold panel.001",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5112906098365784,
+            0.3169039487838745,
+            0.5751046538352966,
+            0.6110445261001587
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "gold panel.002",
+          "type": "EMPTY",
+          "parent": "leaf 2",
+          "parent_chain": [
+            "leaf 2",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5655518770217896,
+            0.31479090452194214,
+            0.6320638656616211,
+            0.5998983681201935
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 0",
+          "type": "EMPTY",
+          "parent": "leaf 0",
+          "parent_chain": [
+            "leaf 0",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.46712008118629456,
+            0.4889035224914551,
+            0.4803120493888855,
+            0.499106228351593
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 0.001",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5318210124969482,
+            0.48378777503967285,
+            0.544329822063446,
+            0.4941692352294922
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 0.002",
+          "type": "EMPTY",
+          "parent": "leaf 2",
+          "parent_chain": [
+            "leaf 2",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5853698253631592,
+            0.47719281911849976,
+            0.5979825854301453,
+            0.48687273263931274
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 1",
+          "type": "EMPTY",
+          "parent": "leaf 0",
+          "parent_chain": [
+            "leaf 0",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4755467176437378,
+            0.477039098739624,
+            0.48870939016342163,
+            0.4871762990951538
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 1.001",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.539482057094574,
+            0.471879243850708,
+            0.5519503951072693,
+            0.4821692109107971
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 1.002",
+          "type": "EMPTY",
+          "parent": "leaf 2",
+          "parent_chain": [
+            "leaf 2",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5933600664138794,
+            0.4658658504486084,
+            0.6059604287147522,
+            0.4754888415336609
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 2",
+          "type": "EMPTY",
+          "parent": "leaf 0",
+          "parent_chain": [
+            "leaf 0",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4839541018009186,
+            0.4652016758918762,
+            0.49708759784698486,
+            0.4752737283706665
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 2.001",
+          "type": "EMPTY",
+          "parent": "leaf 1",
+          "parent_chain": [
+            "leaf 1",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5471104383468628,
+            0.46002131700515747,
+            0.5595384836196899,
+            0.47022050619125366
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green leaf 2.002",
+          "type": "EMPTY",
+          "parent": "leaf 2",
+          "parent_chain": [
+            "leaf 2",
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6013346314430237,
+            0.4545610547065735,
+            0.6139225959777832,
+            0.4641273021697998
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green roller blind",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.04865509644150734,
+            0.1220054030418396,
+            0.12932188808918,
+            0.4104474186897278
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "green roller blind.001",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2536735534667969,
+            0.1297142505645752,
+            0.40086302161216736,
+            0.3929433226585388
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "hair",
+          "type": "EMPTY",
+          "parent": "Large oval portrait",
+          "parent_chain": [
+            "Large oval portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18268123269081116,
+            0.20883703231811523,
+            0.20626789331436157,
+            0.23146021366119385
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "head",
+          "type": "EMPTY",
+          "parent": "Small rear portrait",
+          "parent_chain": [
+            "Small rear portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.4823099672794342,
+            0.1625072956085205,
+            0.4950060546398163,
+            0.1927429437637329
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "head.001",
+          "type": "EMPTY",
+          "parent": "Right wall miniature",
+          "parent_chain": [
+            "Right wall miniature",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.8052200078964233,
+            0.1731589436531067,
+            0.8150662779808044,
+            0.19921547174453735
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "headboard broad panel",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6994138956069946,
+            0.41956639289855957,
+            0.9417827725410461,
+            0.5749717354774475
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "headboard inset",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.710444450378418,
+            0.4474426507949829,
+            0.9173005223274231,
+            0.5457728207111359
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "headboard top rail",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6982290744781494,
+            0.4032534956932068,
+            0.9468328356742859,
+            0.4543710947036743
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "horizontal trim 0.001",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2386569231748581,
+            0.5836023688316345,
+            0.42217856645584106,
+            0.6345508694648743
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "horizontal trim 0.34",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.049971241503953934,
+            0.6165167987346649,
+            0.16000500321388245,
+            0.6744466423988342
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "horizontal trim 3.001",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.22685621678829193,
+            0.08649832010269165,
+            0.41882479190826416,
+            0.1179305911064148
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "horizontal trim 3.3",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.07771987468004227,
+            0.07442939281463623,
+            0.14398524165153503,
+            0.10959309339523315
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "inner sash -0.7",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.05445793271064758,
+            0.10602939128875732,
+            -0.024622842669487,
+            0.6457814276218414
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "inner sash -0.715",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2461317926645279,
+            0.11524349451065063,
+            0.2661718726158142,
+            0.6082358360290527
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "inner sash 0.7",
+          "type": "EMPTY",
+          "parent": "Left cropped window",
+          "parent_chain": [
+            "Left cropped window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.11785583198070526,
+            0.11131024360656738,
+            0.141739621758461,
+            0.6243006587028503
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "inner sash 0.715",
+          "type": "EMPTY",
+          "parent": "Main tall window",
+          "parent_chain": [
+            "Main tall window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.3927151560783386,
+            0.11973011493682861,
+            0.408648818731308,
+            0.5898434519767761
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "ivory mount",
+          "type": "EMPTY",
+          "parent": "Small rear portrait",
+          "parent_chain": [
+            "Small rear portrait",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.46619027853012085,
+            0.13889849185943604,
+            0.5065516829490662,
+            0.23448604345321655
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "jamb 0.13",
+          "type": "EMPTY",
+          "parent": "Rear white door",
+          "parent_chain": [
+            "Rear white door",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5226250290870667,
+            0.22517436742782593,
+            0.5333404541015625,
+            0.6357122957706451
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "jamb 0.91",
+          "type": "EMPTY",
+          "parent": "Rear white door",
+          "parent_chain": [
+            "Rear white door",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5946069359779358,
+            0.2247469425201416,
+            0.6079804301261902,
+            0.624815970659256
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "large sloping pillow 0",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.661159098148346,
+            0.417974054813385,
+            0.8032293915748596,
+            0.5580567717552185
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "large sloping pillow 1",
+          "type": "EMPTY",
+          "parent": "Dark wooden double bed",
+          "parent_chain": [
+            "Dark wooden double bed",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.7663773894309998,
+            0.43335801362991333,
+            0.9156158566474915,
+            0.5795143246650696
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leaf 0",
+          "type": "EMPTY",
+          "parent": "Painted folding screen",
+          "parent_chain": [
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.435991108417511,
+            0.3166974186897278,
+            0.5234599113464355,
+            0.6199473142623901
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leaf 1",
+          "type": "EMPTY",
+          "parent": "Painted folding screen",
+          "parent_chain": [
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5108826160430908,
+            0.31431615352630615,
+            0.5813627243041992,
+            0.61396324634552
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leaf 2",
+          "type": "EMPTY",
+          "parent": "Painted folding screen",
+          "parent_chain": [
+            "Painted folding screen",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5601552128791809,
+            0.3122596740722656,
+            0.6356427073478699,
+            0.6027273237705231
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (-0.010000000000000009, 2.46)",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5830814838409424,
+            0.5948447585105896,
+            0.5895542502403259,
+            0.6874594986438751
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (-0.010000000000000009, 2.8200000000000003)",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5641419291496277,
+            0.5829358994960785,
+            0.5702347159385681,
+            0.672741711139679
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (-2.5, 3.2)",
+          "type": "EMPTY",
+          "parent": "Small cloth covered table",
+          "parent_chain": [
+            "Small cloth covered table",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2657354176044464,
+            0.5714559853076935,
+            0.27858617901802063,
+            0.6942090690135956
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (-2.5, 3.67)",
+          "type": "EMPTY",
+          "parent": "Small cloth covered table",
+          "parent_chain": [
+            "Small cloth covered table",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.2533525228500366,
+            0.5565509498119354,
+            0.2657572627067566,
+            0.6742824912071228
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (-3.06, 3.2)",
+          "type": "EMPTY",
+          "parent": "Small cloth covered table",
+          "parent_chain": [
+            "Small cloth covered table",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.19561976194381714,
+            0.5796392560005188,
+            0.20924332737922668,
+            0.7051484286785126
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (-3.06, 3.67)",
+          "type": "EMPTY",
+          "parent": "Small cloth covered table",
+          "parent_chain": [
+            "Small cloth covered table",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.18592076003551483,
+            0.5640683472156525,
+            0.19903859496116638,
+            0.6843327879905701
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (0.37, 2.46)",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6226239800453186,
+            0.5893203616142273,
+            0.6293851733207703,
+            0.680632472038269
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg (0.37, 2.8200000000000003)",
+          "type": "EMPTY",
+          "parent": "Slender black side chair",
+          "parent_chain": [
+            "Slender black side chair",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.6027500629425049,
+            0.5777448415756226,
+            0.6091191172599792,
+            0.6663252711296082
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg bead (-3.55, 3.52)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.12463627755641937,
+            0.6434779465198517,
+            0.14418315887451172,
+            0.6766327023506165
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg bead (-3.55, 3.87)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.11967089027166367,
+            0.6300029158592224,
+            0.13858400285243988,
+            0.6619187593460083
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg bead (-4.55, 3.52)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.00929244328290224,
+            0.6613519489765167,
+            0.010427385568618774,
+            0.6961714029312134
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "leg bead (-4.55, 3.87)",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            -0.010116630233824253,
+            0.646764487028122,
+            0.008957440964877605,
+            0.6802235543727875
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "lintel",
+          "type": "EMPTY",
+          "parent": "Rear white door",
+          "parent_chain": [
+            "Rear white door",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.5236676931381226,
+            0.2175934910774231,
+            0.6078131198883057,
+            0.2294532060623169
+          ],
+          "hide_render": false
+        },
+        {
+          "name": "little picture",
+          "type": "EMPTY",
+          "parent": "Dark console under left window",
+          "parent_chain": [
+            "Dark console under left window",
+            "Historic bedroom revised"
+          ],
+          "finite_nonempty_mesh": null,
+          "excluded_as_structural": false,
+          "world_geometry_aabb_approx": null,
+          "projected_bbox_normalized_approx": [
+            0.026406114920973778,
+            0.500004231929779,
+            0.05895280838012695,
+            0.5607132613658905
+          ],
+          "hide_render": false
+        }
+      ],
+      "valid_object_ids": [
+        "0",
+        "0.001",
+        "0.002",
+        "0.003",
+        "0.004",
+        "0.005",
+        "0.006",
+        "0.007",
+        "0.008",
+        "0.009",
+        "0.010",
+        "0.011",
+        "0.012",
+        "0.013",
+        "1",
+        "1.001",
+        "1.002",
+        "1.003",
+        "1.004",
+        "1.005",
+        "1.006",
+        "1.007",
+        "1.008",
+        "1.009",
+        "1.010",
+        "1.011",
+        "1.012",
+        "1.013",
+        "10",
+        "10.001",
+        "10.002",
+        "10.003",
+        "11",
+        "11.001",
+        "11.002",
+        "11.003",
+        "12",
+        "12.001",
+        "12.002",
+        "12.003",
+        "13",
+        "13.001",
+        "13.002",
+        "13.003",
+        "14",
+        "14.001",
+        "14.002",
+        "14.003",
+        "15",
+        "15.001",
+        "15.002",
+        "15.003",
+        "16",
+        "16.001",
+        "16.002",
+        "16.003",
+        "17",
+        "17.001",
+        "17.002",
+        "17.003",
+        "18",
+        "18.001",
+        "18.002",
+        "18.003",
+        "19",
+        "19.001",
+        "19.002",
+        "19.003",
+        "2",
+        "2.001",
+        "2.002",
+        "2.003",
+        "2.004",
+        "2.005",
+        "2.006",
+        "2.007",
+        "2.008",
+        "2.009",
+        "2.010",
+        "2.011",
+        "2.012",
+        "2.013",
+        "20",
+        "20.001",
+        "20.002",
+        "20.003",
+        "21",
+        "21.001",
+        "21.002",
+        "21.003",
+        "22",
+        "22.001",
+        "22.002",
+        "22.003",
+        "3",
+        "3.001",
+        "3.002",
+        "3.003",
+        "3.004",
+        "3.005",
+        "3.006",
+        "3.007",
+        "3.008",
+        "3.009",
+        "3.010",
+        "3.011",
+        "3.012",
+        "3.013",
+        "4",
+        "4.001",
+        "4.002",
+        "4.003",
+        "4.004",
+        "4.005",
+        "4.006",
+        "4.007",
+        "4.008",
+        "4.009",
+        "4.010",
+        "4.011",
+        "4.012",
+        "4.013",
+        "5",
+        "5.001",
+        "5.002",
+        "5.003",
+        "5.004",
+        "5.005",
+        "5.006",
+        "5.007",
+        "5.008",
+        "6",
+        "6.001",
+        "6.002",
+        "6.003",
+        "6.004",
+        "6.005",
+        "6.006",
+        "6.007",
+        "6.008",
+        "7",
+        "7.001",
+        "7.002",
+        "7.003",
+        "7.004",
+        "7.005",
+        "8",
+        "8.001",
+        "8.002",
+        "8.003",
+        "8.004",
+        "8.005",
+        "9",
+        "9.001",
+        "9.002",
+        "9.003",
+        "Ball",
+        "Ball.001",
+        "Ball.002",
+        "Ball.003",
+        "Ball.004",
+        "Ball.005",
+        "Ball.006",
+        "Ball.007",
+        "Ball.008",
+        "Ball.009",
+        "Ball.010",
+        "Ball.011",
+        "Ball.012",
+        "Ball.013",
+        "Ball.014",
+        "Ball.015",
+        "Ball.016",
+        "Ball.017",
+        "Ball.018",
+        "Ball.019",
+        "Ball.020",
+        "Ball.021",
+        "Ball.022",
+        "Ball.023",
+        "Ball.024",
+        "Ball.025",
+        "Ball.026",
+        "Ball.027",
+        "Ball.028",
+        "Ball.029",
+        "Ball.030",
+        "Ball.031",
+        "Ball.032",
+        "Ball.033",
+        "Ball.034",
+        "Ball.035",
+        "Ball.036",
+        "Ball.037",
+        "Ball.038",
+        "Ball.039",
+        "Ball.040",
+        "Ball.041",
+        "Ball.042",
+        "Ball.043",
+        "Ball.044",
+        "Ball.045",
+        "Ball.046",
+        "Ball.047",
+        "Ball.048",
+        "Ball.049",
+        "Ball.050",
+        "Ball.051",
+        "Ball.052",
+        "Ball.053",
+        "Ball.054",
+        "Ball.055",
+        "Ball.056",
+        "Ball.057",
+        "Ball.058",
+        "Ball.059",
+        "Ball.060",
+        "Ball.061",
+        "Ball.062",
+        "Ball.063",
+        "Ball.064",
+        "Ball.065",
+        "Ball.066",
+        "Ball.067",
+        "Ball.068",
+        "Ball.069",
+        "Ball.070",
+        "Ball.071",
+        "Ball.072",
+        "Ball.073",
+        "Ball.074",
+        "Ball.075",
+        "Ball.076",
+        "Ball.077",
+        "Ball.078",
+        "Ball.079",
+        "Ball.080",
+        "Ball.081",
+        "Ball.082",
+        "Ball.083",
+        "Ball.084",
+        "Ball.085",
+        "Ball.086",
+        "Ball.087",
+        "Ball.088",
+        "Ball.089",
+        "Ball.090",
+        "Ball.091",
+        "Ball.092",
+        "Ball.093",
+        "Ball.094",
+        "Ball.095",
+        "Ball.096",
+        "Ball.097",
+        "Ball.098",
+        "Ball.099",
+        "Ball.100",
+        "Ball.101",
+        "Ball.102",
+        "Ball.103",
+        "Ball.104",
+        "Ball.105",
+        "Ball.106",
+        "Ball.107",
+        "Ball.108",
+        "Ball.109",
+        "Ball.110",
+        "Ball.111",
+        "Ball.112",
+        "Ball.113",
+        "Ball.114",
+        "Ball.115",
+        "Ball.116",
+        "Ball.117",
+        "Ball.118",
+        "Ball.119",
+        "Ball.120",
+        "Ball.121",
+        "Ball.122",
+        "Ball.123",
+        "Ball.124",
+        "Ball.125",
+        "Ball.126",
+        "Ball.127",
+        "Ball.128",
+        "Ball.129",
+        "Ball.130",
+        "Ball.131",
+        "Ball.132",
+        "Ball.133",
+        "Ball.134",
+        "Box",
+        "Box.001",
+        "Box.002",
+        "Box.003",
+        "Box.004",
+        "Box.005",
+        "Box.006",
+        "Box.007",
+        "Box.008",
+        "Box.009",
+        "Box.010",
+        "Box.011",
+        "Box.012",
+        "Box.013",
+        "Box.014",
+        "Box.015",
+        "Box.016",
+        "Box.017",
+        "Box.018",
+        "Box.019",
+        "Box.020",
+        "Box.021",
+        "Box.022",
+        "Box.023",
+        "Box.024",
+        "Box.025",
+        "Box.026",
+        "Box.027",
+        "Box.028",
+        "Box.029",
+        "Box.030",
+        "Box.031",
+        "Box.032",
+        "Box.033",
+        "Box.034",
+        "Box.035",
+        "Box.036",
+        "Box.037",
+        "Box.038",
+        "Box.039",
+        "Box.040",
+        "Box.041",
+        "Box.042",
+        "Box.043",
+        "Box.044",
+        "Box.045",
+        "Box.046",
+        "Box.047",
+        "Box.048",
+        "Box.049",
+        "Box.050",
+        "Box.051",
+        "Box.052",
+        "Box.053",
+        "Box.054",
+        "Box.055",
+        "Box.056",
+        "Box.057",
+        "Box.058",
+        "Box.059",
+        "Box.060",
+        "Box.061",
+        "Box.062",
+        "Box.063",
+        "Box.064",
+        "Box.065",
+        "Box.066",
+        "Box.067",
+        "Box.068",
+        "Box.069",
+        "Box.070",
+        "Box.071",
+        "Box.072",
+        "Box.073",
+        "Box.074",
+        "Box.075",
+        "Box.076",
+        "Box.077",
+        "Box.078",
+        "Box.079",
+        "Box.080",
+        "Box.081",
+        "Box.082",
+        "Box.083",
+        "Box.084",
+        "Box.085",
+        "Box.086",
+        "Box.087",
+        "Box.088",
+        "Box.089",
+        "Box.090",
+        "Box.091",
+        "Box.092",
+        "Box.093",
+        "Box.094",
+        "Box.095",
+        "Box.096",
+        "Box.097",
+        "Box.098",
+        "Box.099",
+        "Box.100",
+        "Box.101",
+        "Box.102",
+        "Box.103",
+        "Box.104",
+        "Box.105",
+        "Box.106",
+        "Box.107",
+        "Box.108",
+        "Box.109",
+        "Box.110",
+        "Box.111",
+        "Box.112",
+        "Box.113",
+        "Box.114",
+        "Box.115",
+        "Box.116",
+        "Box.117",
+        "Box.118",
+        "Box.119",
+        "Box.120",
+        "Box.121",
+        "Box.122",
+        "Box.123",
+        "Box.124",
+        "Box.125",
+        "Box.126",
+        "Box.127",
+        "Box.128",
+        "Box.129",
+        "Box.130",
+        "Dark console under left window",
+        "Dark wooden double bed",
+        "Historic bedroom revised",
+        "Large oval portrait",
+        "Left cropped window",
+        "Main tall window",
+        "Olive upholstered armchair",
+        "Painted folding screen",
+        "Partial foreground rug",
+        "Rear white door",
+        "Right wall miniature",
+        "Rod",
+        "Rod.001",
+        "Rod.002",
+        "Rod.003",
+        "Rod.004",
+        "Rod.005",
+        "Rod.006",
+        "Rod.007",
+        "Rod.008",
+        "Rod.009",
+        "Rod.010",
+        "Rod.011",
+        "Rod.012",
+        "Rod.013",
+        "Rod.014",
+        "Rod.015",
+        "Rod.016",
+        "Rod.017",
+        "Rod.018",
+        "Rod.019",
+        "Rod.020",
+        "Rod.021",
+        "Rod.022",
+        "Rod.023",
+        "Rod.024",
+        "Rod.025",
+        "Rod.026",
+        "Rod.027",
+        "Rod.028",
+        "Rod.029",
+        "Rod.030",
+        "Rod.031",
+        "Rod.032",
+        "Rod.033",
+        "Rod.034",
+        "Rod.035",
+        "Rod.036",
+        "Rod.037",
+        "Rod.038",
+        "Rod.039",
+        "Rod.040",
+        "Rod.041",
+        "Rod.042",
+        "Rod.043",
+        "Rod.044",
+        "Rod.045",
+        "Rod.046",
+        "Rod.047",
+        "Rod.048",
+        "Rod.049",
+        "Rod.050",
+        "Rod.051",
+        "Rod.052",
+        "Rod.053",
+        "Rod.054",
+        "Rod.055",
+        "Rod.056",
+        "Rod.057",
+        "Rod.058",
+        "Rod.059",
+        "Rod.060",
+        "Rod.061",
+        "Rod.062",
+        "Rod.063",
+        "Rod.064",
+        "Rod.065",
+        "Rod.066",
+        "Rod.067",
+        "Rod.068",
+        "Rod.069",
+        "Rod.070",
+        "Rod.071",
+        "Rod.072",
+        "Rod.073",
+        "Rod.074",
+        "Rod.075",
+        "Rod.076",
+        "Rod.077",
+        "Rod.078",
+        "Rod.079",
+        "Rod.080",
+        "Rod.081",
+        "Rod.082",
+        "Rod.083",
+        "Rod.084",
+        "Rod.085",
+        "Rod.086",
+        "Rod.087",
+        "Rod.088",
+        "Rod.089",
+        "Rod.090",
+        "Rod.091",
+        "Rod.092",
+        "Rod.093",
+        "Rod.094",
+        "Rod.095",
+        "Rod.096",
+        "Rod.097",
+        "Rod.098",
+        "Rod.099",
+        "Rod.100",
+        "Rod.101",
+        "Rod.102",
+        "Room architecture",
+        "Round bedside cabinet",
+        "SceneActArea",
+        "SceneActArea.001",
+        "SceneActArea.002",
+        "SceneActView",
+        "Slender black side chair",
+        "Small cloth covered table",
+        "Small floor waste pot",
+        "Small rear portrait",
+        "Small rug behind armchair",
+        "back cornice 3.59",
+        "back cornice 3.68",
+        "back cornice 3.75",
+        "back interior",
+        "back patterned wall",
+        "back spindle -0.12",
+        "back spindle 0",
+        "back spindle 0.12",
+        "back top",
+        "back upright -0.010000000000000009",
+        "back upright 0.37",
+        "base molding",
+        "basket body",
+        "bed base",
+        "blind bottom",
+        "blind bottom.001",
+        "bust",
+        "cabinet body",
+        "ceiling",
+        "central blue field",
+        "collar",
+        "cover fold 0",
+        "cover fold 1",
+        "cover fold 2",
+        "cover fold 3",
+        "cover fold 4",
+        "cream mattress",
+        "curved arm rim -1",
+        "curved arm rim 1",
+        "dark edge -0.08000000000000002",
+        "dark edge -0.08999999999999997",
+        "dark edge -0.6499999999999999",
+        "dark edge -0.6599999999999999",
+        "dark edge -1.23",
+        "dark edge 0.49",
+        "dark opening",
+        "dark painted canvas",
+        "dark shoulders",
+        "deep sill",
+        "deep sill.001",
+        "deep upholstered side -1",
+        "deep upholstered side 1",
+        "diagonal hanging cloth",
+        "door leaf",
+        "drawer apron",
+        "drawer pull -3.82",
+        "drawer pull -4.28",
+        "face",
+        "foot (-3.55, 3.52)",
+        "foot (-3.55, 3.87)",
+        "foot (-4.55, 3.52)",
+        "foot (-4.55, 3.87)",
+        "footboard inset",
+        "footboard solid panel",
+        "footboard top rail",
+        "front stretcher",
+        "gilt frame",
+        "gilt outer oval",
+        "gilt rectangular frame",
+        "gold opening",
+        "gold panel",
+        "gold panel.001",
+        "gold panel.002",
+        "green leaf 0",
+        "green leaf 0.001",
+        "green leaf 0.002",
+        "green leaf 1",
+        "green leaf 1.001",
+        "green leaf 1.002",
+        "green leaf 2",
+        "green leaf 2.001",
+        "green leaf 2.002",
+        "green roller blind",
+        "green roller blind.001",
+        "hair",
+        "head",
+        "head.001",
+        "headboard broad panel",
+        "headboard inset",
+        "headboard top rail",
+        "horizontal trim 0.001",
+        "horizontal trim 0.34",
+        "horizontal trim 3.001",
+        "horizontal trim 3.3",
+        "inner sash -0.7",
+        "inner sash -0.715",
+        "inner sash 0.7",
+        "inner sash 0.715",
+        "ivory mount",
+        "jamb 0.13",
+        "jamb 0.91",
+        "large sloping pillow 0",
+        "large sloping pillow 1",
+        "leaf 0",
+        "leaf 1",
+        "leaf 2",
+        "leg (-0.010000000000000009, 2.46)",
+        "leg (-0.010000000000000009, 2.8200000000000003)",
+        "leg (-2.5, 3.2)",
+        "leg (-2.5, 3.67)",
+        "leg (-3.06, 3.2)",
+        "leg (-3.06, 3.67)",
+        "leg (0.37, 2.46)",
+        "leg (0.37, 2.8200000000000003)",
+        "leg bead (-3.55, 3.52)",
+        "leg bead (-3.55, 3.87)",
+        "leg bead (-4.55, 3.52)",
+        "leg bead (-4.55, 3.87)",
+        "lintel",
+        "little picture",
+        "little picture frame",
+        "long border (0.04, -1)",
+        "long border (0.04, -1).001",
+        "long border (0.04, 1)",
+        "long border (0.04, 1).001",
+        "long border (0.075, -1)",
+        "long border (0.075, -1).001",
+        "long border (0.075, 1)",
+        "long border (0.075, 1).001",
+        "long border (0.12, -1)",
+        "long border (0.12, -1).001",
+        "long border (0.12, 1)",
+        "long border (0.12, 1).001",
+        "long border (0.16, -1)",
+        "long border (0.16, -1).001",
+        "long border (0.16, 1)",
+        "long border (0.16, 1).001",
+        "low stretcher",
+        "lower blue field",
+        "lower blue sweep",
+        "lower sash rail",
+        "lower sash rail.001",
+        "lower upholstered body",
+        "luminous lower glazing",
+        "luminous lower glazing.001",
+        "ochre island",
+        "ochre island.001",
+        "ochre island.002",
+        "outer jamb -0.7",
+        "outer jamb -0.715",
+        "outer jamb 0.7",
+        "outer jamb 0.715",
+        "oval gray print",
+        "oval print",
+        "painted blue current",
+        "painted blue current.001",
+        "painted blue current.002",
+        "painted branch",
+        "painted branch.001",
+        "painted branch.002",
+        "pale floor",
+        "pale mount",
+        "pillow crease 0",
+        "pillow crease 1",
+        "post cap (0.33999999999999986, -0.39)",
+        "post cap (0.33999999999999986, 2.46)",
+        "post cap (2.42, -0.39)",
+        "post cap (2.42, 2.46)",
+        "raised gold rim",
+        "rear skirting",
+        "recessed tuft 0",
+        "recessed tuft 1",
+        "recessed tuft 2",
+        "recessed tuft 3",
+        "recessed tuft 4",
+        "red field",
+        "red field.001",
+        "right cornice 3.59",
+        "right cornice 3.68",
+        "right cornice 3.75",
+        "right patterned wall",
+        "round top",
+        "seat",
+        "seat cushion",
+        "short border (0.04, -1)",
+        "short border (0.04, -1).001",
+        "short border (0.04, 1)",
+        "short border (0.04, 1).001",
+        "short border (0.075, -1)",
+        "short border (0.075, -1).001",
+        "short border (0.075, 1)",
+        "short border (0.075, 1).001",
+        "short border (0.12, -1)",
+        "short border (0.12, -1).001",
+        "short border (0.12, 1)",
+        "short border (0.12, 1).001",
+        "short border (0.16, -1)",
+        "short border (0.16, -1).001",
+        "short border (0.16, 1)",
+        "short border (0.16, 1).001",
+        "short foot (-2.0, -0.24)",
+        "short foot (-2.0, 0.56)",
+        "short foot (-2.8600000000000003, -0.24)",
+        "short foot (-2.8600000000000003, 0.56)",
+        "side rail 0.33999999999999986",
+        "side rail 2.42",
+        "side skirting",
+        "small dish",
+        "small vessel",
+        "soft duvet",
+        "square post (0.33999999999999986, -0.39)",
+        "square post (0.33999999999999986, 2.46)",
+        "square post (2.42, -0.39)",
+        "square post (2.42, 2.46)",
+        "tall curved back",
+        "timber top",
+        "top",
+        "tuft fold 0",
+        "tuft fold 1",
+        "tuft fold 2",
+        "tuft fold 3",
+        "tuft fold 4",
+        "turned leg (-3.55, 3.52)",
+        "turned leg (-3.55, 3.87)",
+        "turned leg (-4.55, 3.52)",
+        "turned leg (-4.55, 3.87)",
+        "upper blue field",
+        "upper blue sweep",
+        "upper inset",
+        "white cloth top",
+        "woven medallion 0",
+        "woven medallion 0.001",
+        "woven medallion 1",
+        "woven medallion 1.001",
+        "woven medallion 2",
+        "woven medallion 2.001",
+        "woven medallion 3",
+        "woven medallion 3.001",
+        "woven medallion 4",
+        "woven medallion 4.001"
+      ],
+      "scene_program_P": "from sceneact import *\nimport bpy\nimport math\n\n# Reference inventory (estimated normalized image bounds):\n# Room: brown patterned walls, pale floor below .62, white cornice near .03.\n# Cropped left window (0,.07)-(.13,.59); main window (.24,.08)-(.44,.62).\n# Oval gilt portrait (.13,.16)-(.25,.37); small prints (.47,.15)-(.54,.28)\n# and (.66,.16)-(.71,.29). Console (0,.47)-(.12,.67), cloth table\n# (.14,.48)-(.27,.65), waste pot beside table.\n# Gold/blue folding screen (.41,.33)-(.62,.66), partly behind chair and bed.\n# Olive chair (.28,.50)-(.54,.98): tall scalloped back, tufting, curved\n# arms, broad seat, substantial outside side panels, short dark feet.\n# Bed (.52,.47)-(1,.98): head toward right wall, foot toward viewer-left,\n# dark timber boards/posts, cream cover, two sloping pillows.\n# Thin black chair (.61,.47)-(.70,.63), round cabinet at right edge,\n# small rug behind chair and partial rug at bottom.\n# Hidden furniture backs and bed supports remain uncertain.\n#\n# Feedback comparison: previous bed ran in the opposite image direction,\n# chair was too far right and too bulbous, framing included excessive floor\n# and ceiling, and illumination flattened the dark timber/wallpaper.\n# This revision preserves the inventory and changes those supported errors.\n#\n# Expanded cost estimate: approximately 235 simple meshes, 104 primitives\n# from four fillet boxes, and about 65 tube components: about 404 total.\n# Wallpaper and fabric microstructure use shared procedural materials.\n\nscene = Scene(\"Historic bedroom revised\")\nC = {\n    \"wall\": (.26,.18,.11), \"wood\": (.045,.021,.012),\n    \"gold\": (.52,.35,.10), \"white\": (.83,.84,.79),\n    \"linen\": (.68,.68,.57), \"green\": (.18,.19,.035),\n    \"blue\": (.015,.045,.29), \"glass\": (.76,.90,.88),\n    \"floor\": (.43,.41,.36), \"black\": (.016,.018,.013)\n}\n\ndef asset(name):\n    a = Asset(name)\n    scene.include(name,a)\n    return a\n\ndef bx(a,n,s,p,c):\n    q=box(s,center=p,color=c)\n    a.include(n,q)\n    return q\n\ndef ell(a,n,p,s,c):\n    q=ball(1,center=p,color=c)\n    q.resize(s)\n    a.include(n,q)\n    return q\n\ndef rd(a,n,p,q,r,c):\n    t=rod(r,start=p,end=q,color=c)\n    a.include(n,t)\n    return t\n\ndef curve(a,n,pts,r,c):\n    q=sweep_tube(points=pts,radius=r,color=c)\n    a.include(n,q)\n    return q\n\nroom=asset(\"Room architecture\")\nbx(room,\"pale floor\",(8.9,11,.12),(-.6,.1,-.06),C[\"floor\"])\nbx(room,\"back patterned wall\",(8.4,.16,3.75),(-1.3,4.2,1.875),C[\"wall\"])\nbx(room,\"right patterned wall\",(.16,10,3.75),(2.88,-.72,1.875),C[\"wall\"])\nbx(room,\"ceiling\",(8.4,10,.12),(-1.3,-.72,3.81),(.83,.85,.83))\nfor z,d,h in [(3.59,.10,.10),(3.68,.18,.10),(3.75,.25,.08)]:\n    bx(room,\"back cornice \"+str(z),(8.4,d,h),(-1.3,4.06,z),(.85,.87,.84))\n    bx(room,\"right cornice \"+str(z),(d,10,h),(2.75,-.72,z),(.85,.87,.84))\nbx(room,\"rear skirting\",(8.4,.09,.16),(-1.3,4.07,.08),(.19,.15,.10))\nbx(room,\"side skirting\",(.10,10,.16),(2.75,-.72,.08),(.19,.15,.10))\n\ndef window(name,x,w):\n    a=asset(name)\n    y=4.065\n    bx(a,\"luminous lower glazing\",(w,.035,2.88),(x,y,1.82),C[\"glass\"])\n    for dx in [-w/2,w/2]:\n        bx(a,\"outer jamb \"+str(dx),(.13,.18,3.02),(x+dx,y-.06,1.82),C[\"white\"])\n        bx(a,\"inner sash \"+str(dx),(.035,.23,2.78),(x+dx*.91,y-.10,1.82),(.94,.95,.90))\n    for z in [.34,3.30]:\n        bx(a,\"horizontal trim \"+str(z),(w+.21,.19,.13),(x,y-.055,z),C[\"white\"])\n    bx(a,\"deep sill\",(w+.25,.36,.075),(x,y-.16,.31),(.90,.91,.85))\n    bx(a,\"green roller blind\",(w-.16,.025,1.47),(x,y-.13,2.40),(.10,.26,.21))\n    bx(a,\"blind bottom\",(w-.14,.04,.035),(x,y-.16,1.665),(.20,.34,.28))\n    bx(a,\"lower sash rail\",(w-.12,.055,.055),(x,y-.15,.65),(.91,.93,.87))\nwindow(\"Left cropped window\",-4.10,1.40)\nwindow(\"Main tall window\",-1.77,1.43)\n\ndoor=asset(\"Rear white door\")\nbx(door,\"door leaf\",(.70,.07,2.47),(.52,4.02,1.265),(.73,.76,.69))\nfor x in [.13,.91]:\n    bx(door,\"jamb \"+str(x),(.055,.10,2.58),(x,3.95,1.31),C[\"white\"])\nbx(door,\"lintel\",(.83,.10,.07),(.52,3.95,2.61),C[\"white\"])\nbx(door,\"upper inset\",(.51,.035,1.44),(.52,3.965,1.70),(.79,.81,.74))\n\nportrait=asset(\"Large oval portrait\")\nell(portrait,\"gilt outer oval\",(-2.94,3.91,2.49),(.43,.065,.57),C[\"gold\"])\nell(portrait,\"raised gold rim\",(-2.94,3.835,2.49),(.385,.035,.52),(.71,.50,.17))\nell(portrait,\"dark painted canvas\",(-2.94,3.79,2.49),(.335,.025,.465),(.018,.015,.010))\nell(portrait,\"dark shoulders\",(-2.94,3.755,2.28),(.23,.018,.17),(.035,.025,.018))\nell(portrait,\"face\",(-2.94,3.745,2.57),(.087,.018,.125),(.34,.19,.095))\nell(portrait,\"hair\",(-2.95,3.72,2.64),(.089,.016,.06),(.026,.018,.010))\nbx(portrait,\"collar\",(.08,.018,.055),(-2.94,3.72,2.44),(.57,.53,.39))\n\np=asset(\"Small rear portrait\")\nbx(p,\"gilt rectangular frame\",(.43,.065,.61),(-.30,3.97,2.83),(.55,.41,.21))\nbx(p,\"ivory mount\",(.385,.025,.565),(-.30,3.925,2.83),(.82,.80,.68))\nell(p,\"oval gray print\",(-.30,3.90,2.83),(.15,.016,.23),(.31,.32,.28))\nell(p,\"head\",(-.30,3.875,2.885),(.057,.012,.089),(.50,.49,.42))\nell(p,\"bust\",(-.30,3.87,2.73),(.095,.012,.08),(.22,.24,.20))\n\np=asset(\"Right wall miniature\")\nbx(p,\"gilt frame\",(.065,.43,.65),(2.755,3.12,2.77),(.53,.37,.18))\nbx(p,\"pale mount\",(.025,.39,.61),(2.71,3.12,2.77),(.81,.78,.65))\nell(p,\"oval print\",(2.69,3.12,2.77),(.015,.125,.24),(.34,.33,.28))\nell(p,\"head\",(2.67,3.12,2.84),(.013,.052,.08),(.53,.49,.40))\n\nconsole=asset(\"Dark console under left window\")\nbx(console,\"top\",(1.20,.49,.075),(-4.05,3.69,.83),C[\"wood\"])\nbx(console,\"drawer apron\",(1.12,.40,.27),(-4.05,3.70,.665),(.064,.029,.014))\nfor x in [-4.55,-3.55]:\n    for y in [3.52,3.87]:\n        rd(console,\"turned leg \"+str((x,y)),(x,y,.12),(x,y,.64),.043,C[\"wood\"])\n        ell(console,\"leg bead \"+str((x,y)),(x,y,.31),(.065,.065,.07),C[\"wood\"])\n        ell(console,\"foot \"+str((x,y)),(x,y,.10),(.075,.07,.06),C[\"wood\"])\nbx(console,\"low stretcher\",(1.07,.32,.045),(-4.05,3.70,.20),C[\"wood\"])\nfor x in [-4.28,-3.82]:\n    ell(console,\"drawer pull \"+str(x),(x,3.477,.70),(.025,.018,.025),C[\"gold\"])\nbx(console,\"little picture frame\",(.27,.045,.36),(-4.20,3.59,1.055),C[\"gold\"])\nbx(console,\"little picture\",(.22,.025,.30),(-4.20,3.56,1.055),(.055,.06,.035))\n\ntable=asset(\"Small cloth covered table\")\nbx(table,\"timber top\",(.77,.65,.065),(-2.78,3.44,.79),C[\"wood\"])\nfor x in [-3.06,-2.50]:\n    for y in [3.20,3.67]:\n        rd(table,\"leg \"+str((x,y)),(x,y,.10),(x,y,.76),.035,C[\"wood\"])\nbx(table,\"white cloth top\",(.83,.68,.025),(-2.78,3.42,.84),(.83,.82,.74))\ncloth=bx(table,\"diagonal hanging cloth\",(.72,.025,.39),(-2.78,3.075,.66),(.79,.78,.70))\ncloth.turn(\"y\",32)\nell(table,\"small dish\",(-2.79,3.39,.872),(.16,.11,.015),(.68,.62,.44))\nell(table,\"small vessel\",(-2.55,3.38,.91),(.043,.043,.075),(.48,.40,.21))\npot=asset(\"Small floor waste pot\")\nbx(pot,\"basket body\",(.23,.23,.27),(-3.30,3.50,.135),(.23,.105,.040))\nbx(pot,\"dark opening\",(.19,.19,.018),(-3.30,3.50,.279),(.035,.021,.010))\n\nscreen=asset(\"Painted folding screen\")\nfor i,(x,y,ang) in enumerate([(-.94,3.18,-6),(-.37,3.15,3),(.20,3.19,-7)]):\n    panel=Asset(\"Screen leaf \"+str(i))\n    bx(panel,\"gold panel\",(.59,.065,1.69),(x,y,1.23),(.48,.35,.14))\n    for xx in [x-.29,x+.29]:\n        bx(panel,\"dark edge \"+str(xx),(.018,.075,1.72),(xx,y-.005,1.23),(.11,.066,.025))\n    # Unequal patches retain open gold ground rather than identical blue disks.\n    if i==0:\n        ell(panel,\"upper blue sweep\",(x-.12,y-.045,1.57),(.29,.012,.23),C[\"blue\"])\n        ell(panel,\"lower blue sweep\",(x+.12,y-.045,.77),(.24,.012,.29),C[\"blue\"])\n    elif i==1:\n        ell(panel,\"central blue field\",(x+.08,y-.045,1.12),(.27,.012,.45),C[\"blue\"])\n        ell(panel,\"gold opening\",(x-.035,y-.067,1.21),(.20,.012,.14),(.54,.40,.19))\n    else:\n        ell(panel,\"upper blue field\",(x+.10,y-.045,1.71),(.22,.012,.32),C[\"blue\"])\n        ell(panel,\"lower blue field\",(x-.12,y-.045,.77),(.25,.012,.31),C[\"blue\"])\n    curve(panel,\"painted blue current\",[(x-.23,y-.052,1.49),(x+.08,y-.052,1.39),\n          (x+.19,y-.052,1.19),(x-.10,y-.052,1.01)],.070,C[\"blue\"])\n    ell(panel,\"ochre island\",(x+.03,y-.075,.85),(.12,.012,.07),(.59,.33,.10))\n    rd(panel,\"painted branch\",(x-.17,y-.080,.93),(x+.17,y-.080,1.34),.012,(.19,.20,.08))\n    for j in range(3):\n        ell(panel,\"green leaf \"+str(j),(x-.10+j*.075,y-.095,1.10+j*.065),\n            (.055,.012,.025),(.23,.34,.17))\n    panel.turn(\"z\",ang,pivot=(x,y,1.2))\n    screen.include(\"leaf \"+str(i),panel)\nscreen.move((.28,0,0))\n\nbed=asset(\"Dark wooden double bed\")\nbed_x=1.38\nbed_width=2.08\nhead_y=2.46\nfoot_y=-.39\nbx(bed,\"bed base\",(bed_width,2.85,.29),(bed_x,1.03,.40),C[\"wood\"])\nfor x in [bed_x-bed_width/2,bed_x+bed_width/2]:\n    bx(bed,\"side rail \"+str(x),(.10,2.87,.24),(x,1.02,.50),(.055,.026,.014))\n    for y in [head_y,foot_y]:\n        bx(bed,\"square post \"+str((x,y)),(.125,.13,1.00),(x,y,.54),C[\"wood\"])\n        ell(bed,\"post cap \"+str((x,y)),(x,y,1.065),(.095,.095,.055),(.067,.032,.016))\nbx(bed,\"headboard broad panel\",(2.14,.13,.65),(bed_x,head_y,1.12),(.051,.024,.014))\nrd(bed,\"headboard top rail\",(bed_x-1.11,head_y,1.49),(bed_x+1.11,head_y,1.49),.052,C[\"wood\"])\nbx(bed,\"headboard inset\",(1.87,.035,.36),(bed_x,head_y-.085,1.12),(.078,.040,.022))\nbx(bed,\"footboard solid panel\",(2.14,.14,.66),(bed_x,foot_y,.70),(.040,.019,.011))\nrd(bed,\"footboard top rail\",(bed_x-1.10,foot_y,1.08),(bed_x+1.10,foot_y,1.08),.055,C[\"wood\"])\nbx(bed,\"footboard inset\",(1.83,.025,.40),(bed_x,foot_y-.085,.70),(.060,.029,.015))\nbed.include(\"cream mattress\",fillet_box((1.99,2.66,.28),radius=.10,\n            center=(bed_x,1.03,.68),color=(.74,.74,.64)))\nbed.include(\"soft duvet\",fillet_box((2.02,2.13,.24),radius=.10,\n            center=(bed_x,.73,.85),color=C[\"linen\"]))\nfor i,(xx,yy,zz,sx,sy) in enumerate([\n    (-.69,.18,.947,.23,.68),(.60,.42,.945,.29,.70),\n    (-.35,1.33,.966,.42,.15),(.30,1.40,.957,.41,.17),\n    (-.77,.91,.935,.12,.47)]):\n    e=ell(bed,\"cover fold \"+str(i),(bed_x+xx,yy,zz),(sx,sy,.032),(.70,.70,.60))\n    e.turn(\"z\",-15+i*9)\nfor i,x in enumerate([bed_x-.51,bed_x+.49]):\n    pillow=fillet_box((.98,.65,.28),radius=.12,\n                     center=(x,1.99,1.16),color=(.79,.79,.69))\n    pillow.turn(\"x\",46)\n    pillow.turn(\"z\",-7 if i==0 else 9)\n    bed.include(\"large sloping pillow \"+str(i),pillow)\n    ell(bed,\"pillow crease \"+str(i),(x+.27,1.76,1.16),(.08,.17,.025),(.66,.67,.57))\n# Turn the entire editable bed so the head is at image right and foot at left.\nbed.turn(\"z\",-65,pivot=(bed_x,1.03,0))\nbed.move((.55-bed_x,1.30-1.03,0))\n\nchair=asset(\"Olive upholstered armchair\")\ncx=-2.43\ncy=.19\nfor x in [cx-.43,cx+.43]:\n    for y in [cy-.43,cy+.37]:\n        rd(chair,\"short foot \"+str((x,y)),(x,y,.045),(x,y,.25),.035,(.065,.042,.015))\nell(chair,\"lower upholstered body\",(cx,cy,.39),(.60,.55,.30),(.14,.15,.025))\nell(chair,\"seat cushion\",(cx,cy-.18,.64),(.53,.47,.12),(.25,.26,.045))\nback=ell(chair,\"tall curved back\",(cx,cy+.37,1.04),(.56,.145,.64),C[\"green\"])\nback.turn(\"x\",-12)\nell(chair,\"back interior\",(cx,cy+.245,1.05),(.45,.085,.47),(.22,.23,.040))\nfor side in [-1,1]:\n    x=cx+side*.52\n    # Tall side upholstery creates a continuous wing-to-front silhouette.\n    sidepart=ell(chair,\"deep upholstered side \"+str(side),(x,cy-.03,.67),\n                 (.105,.57,.38),(.15,.16,.025))\n    sidepart.turn(\"x\",-13)\n    curve(chair,\"curved arm rim \"+str(side),[\n        (x,cy-.56,.58),(x,cy-.50,.82),(x,cy-.12,.96),\n        (x,cy+.25,1.24),(x,cy+.34,1.37)],.035,(.25,.26,.05))\nfor i,(dx,z) in enumerate([(-.23,1.12),(0,1.26),(.23,1.11),(-.13,.91),(.14,.92)]):\n    ell(chair,\"recessed tuft \"+str(i),(cx+dx,cy+.145,z),(.025,.014,.035),(.09,.11,.014))\n    curve(chair,\"tuft fold \"+str(i),[(cx+dx-.06,cy+.15,z+.08),\n          (cx+dx,cy+.13,z),(cx+dx+.04,cy+.15,z-.065)],.012,(.26,.27,.045))\nchair.turn(\"z\",-65,pivot=(cx,cy,0))\n\nthin=asset(\"Slender black side chair\")\ntx=.18\nty=2.64\nbx(thin,\"seat\",(.43,.43,.045),(tx,ty,.55),(.055,.048,.025))\nfor x in [tx-.19,tx+.19]:\n    for y in [ty-.18,ty+.18]:\n        rd(thin,\"leg \"+str((x,y)),(x,y,.05),(x,y,.57),.018,C[\"black\"])\n    rd(thin,\"back upright \"+str(x),(x,ty+.18,.52),(x,ty+.18,1.20),.019,C[\"black\"])\nrd(thin,\"back top\",(tx-.21,ty+.18,1.20),(tx+.21,ty+.18,1.20),.025,C[\"black\"])\nfor dx in [-.12,0,.12]:\n    rd(thin,\"back spindle \"+str(dx),(tx+dx,ty+.18,.74),(tx+dx,ty+.18,1.17),.012,C[\"black\"])\nrd(thin,\"front stretcher\",(tx-.19,ty-.18,.23),(tx+.19,ty-.18,.23),.015,C[\"black\"])\n\nside=asset(\"Round bedside cabinet\")\nell(side,\"round top\",(2.35,-.02,.76),(.43,.43,.055),(.043,.020,.010))\nell(side,\"cabinet body\",(2.35,-.02,.42),(.38,.38,.34),(.050,.024,.012))\nell(side,\"base molding\",(2.35,-.02,.12),(.42,.42,.055),(.029,.015,.009))\n\ndef rug(name,x,y,w,h):\n    a=asset(name)\n    bx(a,\"red field\",(w,h,.012),(x,y,.012),(.25,.085,.052))\n    for inset,col in [(.04,(.57,.46,.28)),(.075,(.12,.20,.20)),\n                      (.12,(.43,.25,.12)),(.16,(.58,.51,.34))]:\n        for sy in [-1,1]:\n            bx(a,\"long border \"+str((inset,sy)),(w-2*inset,.028,.006),\n               (x,y+sy*(h/2-inset),.022),col)\n        for sx in [-1,1]:\n            bx(a,\"short border \"+str((inset,sx)),(.028,h-2*inset,.006),\n               (x+sx*(w/2-inset),y,.022),col)\n    for j in range(5):\n        q=bx(a,\"woven medallion \"+str(j),(.16,.16,.007),\n             (x,y-h*.31+j*h*.155,.026),(.33,.34,.20))\n        q.turn(\"z\",45)\n    return a\nrug(\"Small rug behind armchair\",-2.25,1.68,1.13,1.45)\nrug(\"Partial foreground rug\",-.10,-1.35,1.72,1.15)\n\nrealize(scene)\n\ndef material(name,color,rough=.7):\n    m=bpy.data.materials.new(name)\n    m.diffuse_color=(*color,1)\n    m.use_nodes=True\n    bs=m.node_tree.nodes.get(\"Principled BSDF\")\n    bs.inputs[\"Base Color\"].default_value=(*color,1)\n    bs.inputs[\"Roughness\"].default_value=rough\n    return m\n\nwallpaper=material(\"Faded ochre teal wallpaper\",C[\"wall\"],.95)\nnd=wallpaper.node_tree.nodes\nlk=wallpaper.node_tree.links\ngeo=nd.new(\"ShaderNodeNewGeometry\")\nnoise=nd.new(\"ShaderNodeTexNoise\")\nnoise.inputs[\"Scale\"].default_value=37\nnoise.inputs[\"Detail\"].default_value=2.4\nnoise.inputs[\"Roughness\"].default_value=.72\nlk.new(geo.outputs[\"Position\"],noise.inputs[\"Vector\"])\nramp=nd.new(\"ShaderNodeValToRGB\")\nramp.color_ramp.elements[0].position=.27\nramp.color_ramp.elements[0].color=(.040,.070,.059,1)\nramp.color_ramp.elements[1].position=.72\nramp.color_ramp.elements[1].color=(.32,.20,.095,1)\nmid=ramp.color_ramp.elements.new(.47)\nmid.color=(.16,.105,.052,1)\nmid=ramp.color_ramp.elements.new(.56)\nmid.color=(.25,.145,.067,1)\nlk.new(noise.outputs[\"Fac\"],ramp.inputs[0])\nbs=nd.get(\"Principled BSDF\")\nlk.new(ramp.outputs[0],bs.inputs[\"Base Color\"])\nbump=nd.new(\"ShaderNodeBump\")\nbump.inputs[\"Strength\"].default_value=.12\nbump.inputs[\"Distance\"].default_value=.008\nlk.new(noise.outputs[\"Fac\"],bump.inputs[\"Height\"])\nlk.new(bump.outputs[0],bs.inputs[\"Normal\"])\n\nlinen=material(\"Woven cream linen\",C[\"linen\"],.96)\nn=linen.node_tree.nodes\nl=linen.node_tree.links\nt=n.new(\"ShaderNodeTexNoise\")\nt.inputs[\"Scale\"].default_value=165\nt.inputs[\"Detail\"].default_value=2\nb=n.new(\"ShaderNodeBump\")\nb.inputs[\"Strength\"].default_value=.12\nb.inputs[\"Distance\"].default_value=.009\nl.new(t.outputs[\"Fac\"],b.inputs[\"Height\"])\nl.new(b.outputs[0],n.get(\"Principled BSDF\").inputs[\"Normal\"])\n\nglass=material(\"Bright window daylight\",C[\"glass\"])\npbs=glass.node_tree.nodes.get(\"Principled BSDF\")\npbs.inputs[\"Emission Color\"].default_value=(.77,.90,.89,1)\npbs.inputs[\"Emission Strength\"].default_value=2.8\n\nwood=material(\"Dark polished walnut\",C[\"wood\"],.30)\nn=wood.node_tree.nodes\nl=wood.node_tree.links\nno=n.new(\"ShaderNodeTexNoise\")\nno.inputs[\"Scale\"].default_value=5\nno.inputs[\"Detail\"].default_value=3\nb=n.new(\"ShaderNodeBump\")\nb.inputs[\"Strength\"].default_value=.12\nb.inputs[\"Distance\"].default_value=.012\nl.new(no.outputs[\"Fac\"],b.inputs[\"Height\"])\nl.new(b.outputs[0],n.get(\"Principled BSDF\").inputs[\"Normal\"])\n\nfor obj in bpy.context.scene.objects:\n    if obj.type!=\"MESH\":\n        continue\n    for i,ma in enumerate(obj.data.materials):\n        if ma is None:\n            continue\n        rgb=tuple(ma.diffuse_color[:3])\n        def close(c):\n            return sum((rgb[k]-c[k])**2 for k in range(3))<.00012\n        if close(C[\"wall\"]):\n            obj.data.materials[i]=wallpaper\n        elif close(C[\"linen\"]):\n            obj.data.materials[i]=linen\n        elif close(C[\"glass\"]):\n            obj.data.materials[i]=glass\n        elif close(C[\"wood\"]):\n            obj.data.materials[i]=wood\n    if len(obj.data.polygons)>12:\n        for poly in obj.data.polygons:\n            poly.use_smooth=True\n\nsc=bpy.context.scene\nif sc.world is None:\n    sc.world=bpy.data.worlds.new(\"SceneWorld\")\nsc.world.use_nodes=True\nbackground=sc.world.node_tree.nodes.get(\"Background\")\nif background is None:\n    background=sc.world.node_tree.nodes.new(\"ShaderNodeBackground\")\noutput=sc.world.node_tree.nodes.get(\"World Output\")\nif output is None:\n    output=sc.world.node_tree.nodes.new(\"ShaderNodeOutputWorld\")\nsc.world.node_tree.links.new(background.outputs[\"Background\"],output.inputs[\"Surface\"])\nbackground.inputs[\"Color\"].default_value=(.43,.49,.53,1)\nbackground.inputs[\"Strength\"].default_value=.15\n\nset_view(position=(-4.65,-6.45,2.70),target=(-1.15,1.65,1.30),lens=44,sensor=36)\narea_emitter(position=(-1.75,3.55,2.30),power=310,size=1.65,\n             target=(-.70,-.50,.45),color=(.85,.94,1))\narea_emitter(position=(-4.0,3.50,2.20),power=190,size=1.45,\n             target=(-1.5,-1,.6),color=(.84,.93,1))\narea_emitter(position=(-2,-2.1,3.4),power=42,size=4,\n             target=(.3,1,.3),color=(1,.92,.81))\nsc.view_settings.view_transform=\"AgX\"\nsc.view_settings.exposure=-.55\nsc.camera.data.clip_start=.05\nsc.camera.data.clip_end=100\n",
+      "shared_H_policy": "import json\nfrom pathlib import Path\nimport re\n\n\ndef solve(task, runtime):\n    prompt = (Path(__file__).parent / 'system.txt').read_text()\n    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [\n        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +\n         f\"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}\"},\n        runtime.image(task['image'])]}]\n    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:\n        response = runtime.ask(messages)\n        messages.append(response)\n        text = response['content'] or ''\n        blocks = re.findall(r'```python\\s*\\n(.*?)```', text, re.S)\n        if not blocks:\n            if text.strip().upper() == 'DONE': return\n            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})\n            continue\n        if runtime.remaining()['executions'] <= 0: return\n        result = runtime.execute(blocks[-1])\n        feedback = {'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'}) +\n                    '\\nCompare the rendered camera view with the original reference. ' +\n                    f'Fix errors with a complete revised program, or finish with DONE. Remaining: {runtime.remaining()}'}\n        content = [feedback]\n        if result['image']: content.append(runtime.image(result['image']))\n        messages.append({'role': 'user', 'content': content})\n",
+      "shared_H_system": "Reconstruct the visible indoor scene from one RGB photograph using SceneAct and Blender.\nInfer geometry and a camera matching the reference viewpoint, perspective and framing.\nUse separate 3D meshes for architecture, furniture and visible objects, preserving colors,\nproportions, placement, occlusions and materials. Do not use the reference as a texture,\nbackground or projected image. No ground-truth calibration or other views are available.\n\nReturn a complete, runnable Python program inside one ```python code block. Each execution\nstarts in a fresh Blender process. Programs can use numpy, sceneact and bpy. Use SceneAct\nfor geometry and relationships; bpy may customize lighting, materials and camera settings.\nDo not render or save files in the program: the fixed runner saves and renders once after\nexecution, using your active camera. Do not access external files, network or other models.\nWhen satisfied after inspecting a rendering, reply exactly DONE. The last successful build\nis submitted automatically. Budget includes all planning, corrections and review calls.\n\nCoverage and verification procedure:\nBefore building, record a short reference inventory in program comments: major visible\nobjects, their approximate normalized image bounds, distinctive visible parts, overlaps,\nand uncertain or occluded regions. These are estimates from this input, not calibration.\nMap each inventory item to a named SceneAct asset with meaningful child parts. A valid\nhierarchy verifies only the parts you emitted; it does not establish image completeness.\nDo not invent hidden details to fill uncertainty or omit visible parts because they are small.\nFor composite objects, match the overall silhouette and the distribution of occupied space\nand gaps before adding fine repeated details. Estimate component sizes relative to their\nparent and nearby objects from the reference. A correct outer bounding box alone does not\nensure the correct internal density, component proportions or visible coverage. Keep these\nparameters explicit so that a later revision can change them without rebuilding the design.\n\nUse the first execution for a complete scene, leaving the second available for correction.\nAfter a successful render, compare the reference inventory against the full rendered view:\nmissing or extra visible parts, silhouette, internal gaps, relative sizes, overlaps and image\nbounds. Identify the largest supported discrepancies before revising. If many objects share\na displacement or scale error, consider camera/framing; if a discrepancy is local, consider\nthat object's parameters. Neither pattern proves a unique cause. Preserve matching objects\nand their editable hierarchy while correcting the supported discrepancies. Do not impose\none fixed density, camera, object count or parameter adjustment across different inputs.\nAn isolated-object view, if supplied, can clarify membership and silhouette, but its full-image\nscore is not evidence that removing the rest of the scene improves the reconstruction.\nKeep unresolved mappings and occluded geometry explicitly uncertain.\n\nExecution cost planning:\nThe entire solve has three model calls, two Blender executions and 600 seconds. A short\nPython loop can generate thousands of Blender objects before any image exists. Plan a\ncompact complete first build so that realization and the runner's render can finish with\ntime for review. Do not change the runner's resource policy or rendering settings to evade\nthis budget. Use geometry complexity as the controllable cost.\nBefore returning code, estimate expanded primitive counts in comments, including nested\nloops and helper calls. In this implementation, each ball, rod and box emits a separate\nmesh and marker; a fillet_box can expand to 26 primitives; sweep_tube with n points emits\n2*n-1 primitives. Cloning and layout helpers duplicate their contents. Boolean operands\nalso incur mesh creation and modifier work. Count these expansions, not just named assets.\nAim initially for a few hundred primitive meshes across the whole scene, as a planning\nheuristic rather than a measured runtime guarantee or fixed object count. Allocate detail\naccording to visible pixel size, silhouette and gaps. If the estimate reaches thousands,\nsimplify repeated microstructure before execution while retaining every inventory object\nand its meaningful editable parts. Represent unresolved surface detail with shared materials\nand restrained procedural shading; retain geometric detail that changes visible contours,\nopenings or occlusions. Avoid nested per-element decoration below the image resolution.\nUse short, adaptively spaced tube paths for visible curves, concentrating points at bends.\nAvoid many nearly identical Boolean slices to approximate one hollow shape; use a small\nnumber of appropriate SceneAct solids and cutters, preserving the visible opening. Prefer\nboxes or scaled balls where their silhouettes suffice; reserve fillet_box for parts whose\nrounded edges matter. Keep a small reusable material palette for each surface family rather\nthan generating a distinct random color and material for every tiny primitive. Keep parent\nassets, semantic child parts, and support relations intact during simplification.\nIf execution times out without an image, report that completion failed and the bottleneck\nis unknown unless logs locate it. When a retry remains, reduce expanded primitive counts,\nBoolean operations and material proliferation in the complete program. Do not infer camera,\ncoverage or appearance defects from a timeout. A reduced-cost build still needs execution\nand rendered-image verification; simplification alone is not evidence of success.\n\nExecution verification:\nrealize(scene) clears Blender to an empty factory scene. Configure the world, camera,\nlighting and materials after realization; do not assume a default world exists. When setting\nworld nodes, use this initialization after realize:\n    sc = bpy.context.scene\n    if sc.world is None:\n        sc.world = bpy.data.worlds.new('SceneWorld')\n    sc.world.use_nodes = True\n    background = sc.world.node_tree.nodes.get('Background')\n    if background is None:\n        background = sc.world.node_tree.nodes.new('ShaderNodeBackground')\n    output = sc.world.node_tree.nodes.get('World Output')\n    if output is None:\n        output = sc.world.node_tree.nodes.new('ShaderNodeOutputWorld')\n    sc.world.node_tree.links.new(background.outputs['Background'], output.inputs['Surface'])\nBefore returning code, check API arguments, positive dimensions, noncoincident rod endpoints,\nand fillet radii against the smallest dimension. If execution fails, use the actual traceback\nto repair the program. A failed execution without an image supplies no rendered visual\nfeedback: do not treat it as evidence for unrelated camera or geometry changes. Preserve\nexplicit failures and unknowns; do not claim verification when no successful render exists.\n\nSceneAct API (all coordinates in a world frame with Z up; angles in degrees):\nfrom sceneact import *\nScene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)\nparent.include(name, node) attaches an asset/part while preserving its world position.\nparent.members[name] retrieves a child; parent.remove(name) detaches it.\nnode.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.\nbox(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)\nball(radius, center=(0,0,0), color=(1,1,1), opacity=1)\nrod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))\nrod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))\nfillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))\nsweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))\nassemble(nodes, name='Assembly') groups shapes without merging their meshes.\nfuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.\nnode.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)\nmodify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.\nDefault rotation/scale pivot is the geometry's world-space bounding-box center.\nshifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),\nresized(node, factors, pivot=None) perform the same operations on independent copies.\nnode.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.\nnode.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).\nnode.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.\nnode.extreme(direction) returns a support point; projected_span(node,direction) returns bounds\nalong a unit direction; projected_width(node,direction) returns their difference.\nsnap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.\nA target can also be a world point; then omit target_anchor.\nabut(node, target, axis='+z', gap=0) places a copy after a target boundary.\ncenter_on(node, target, axes=('x','y','z')) aligns selected center coordinates.\noffset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.\nrepeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.\npile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.\nlattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')\norbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)\nLayout functions return assemblies of independent copies.\nscene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))\nregisters a persistent relation between scene members; scene.settle() updates dependencies.\nrealize(scene) settles constraints and creates Blender geometry, clearing Blender first.\nset_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.\narea_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.\nCall realize before setting the camera and lighting. Estimate the input viewpoint yourself.\n\nExample:\nfrom sceneact import *\nscene = Scene()\ntable = Asset('table')\ntable.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))\nfor x in (-.6,.6):\n    for y in (-.3,.3):\n        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))\nscene.include('table', table)\nscene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))\nrealize(scene)\nset_view((3,-4,2), (0,0,.7), lens=40)\narea_emitter((0,-2,4), power=1000)\n",
+      "tools": {
+        "camera_focal": "Fixed scene geometry; multiply current perspective focal length by1.1.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "object_scale": "Fixed camera; scale the explicitly named real object/group by1.1 around its geometry AABB center.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "isolate": "Keep only the explicitly named object/group meshes visible, temporarily hiding other meshes.  Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "camera_tilt": "Rotate camera upward by4degrees about its localX axis, fix geometry/lens. Tests pitch separately from focal length. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM.",
+        "object_depth": "Move the explicitly named real object/group center 10percent farther along its camera ray, preserve size and camera. Tests distance separately from size. Scalar for every tool: .5*global deltaSSIM+.5*fixed referenceROI deltaSSIM."
+      },
+      "limitation": "No 3D ground truth. No correct module given. Naming/projection are approximate object correspondence."
+    },
+    "visual_difference": "The reconstructed bed is too high and compact in the image: its footboard stretches broadly across the center, while the photograph shows a more foreshortened footboard beside the armchair and bedding extending farther down and right. This changes a prominent furniture silhouette and its overlap with the chair.",
+    "object_id": "Dark wooden double bed",
+    "reference_roi": [
+      0.5,
+      0.46,
+      1.0,
+      0.99
+    ],
+    "initial_module": "geometry_scale_depth",
+    "initial_confidence": 0.6,
+    "probe_targets": {
+      "camera_focal": "SceneActView",
+      "camera_tilt": "SceneActView",
+      "object_scale": "Dark wooden double bed",
+      "object_depth": "Dark wooden double bed",
+      "isolate": "Dark wooden double bed"
+    },
+    "hypotheses": [
+      {
+        "id": "H1",
+        "module": "geometry_scale_depth",
+        "object_id": "Dark wooden double bed",
+        "explanation": "The bed's local orientation, dimensions or placement are inaccurate. Its projected bounds are approximately [0.479,0.403,0.949,0.854], versus the program's photographic estimate [0.52,0.47,1,0.98]. The broad visible footboard additionally suggests an orientation error that uniform scaling alone cannot resolve.",
+        "predictions": {
+          "camera_focal": {
+            "lower": -0.03,
+            "upper": 0.04,
+            "reason": "Increasing focal length enlarges the bed toward the desired extent, but also moves otherwise closer window and portrait correspondences."
+          },
+          "camera_tilt": {
+            "lower": -0.04,
+            "upper": 0.03,
+            "reason": "Upward pitch moves the bed down in the image, potentially helping its vertical position while disturbing architecture alignment."
+          },
+          "object_scale": {
+            "lower": -0.02,
+            "upper": 0.05,
+            "reason": "Enlargement can improve lower and right coverage locally; it also extends the already high top edge and preserves the incorrect footboard angle."
+          },
+          "object_depth": {
+            "lower": -0.05,
+            "upper": 0.02,
+            "reason": "Moving farther away shrinks an already compact bed, although changed overlaps or background exposure could improve SSIM."
+          },
+          "isolate": {
+            "lower": -0.16,
+            "upper": 0.03,
+            "reason": "Removing the room and chair usually damages correspondence, but exposes the complete bed silhouette and changes occlusion within the ROI."
+          }
+        }
+      },
+      {
+        "id": "H2",
+        "module": "camera_framing",
+        "object_id": "SceneActView",
+        "explanation": "Camera pose or perspective could account for part of the bed discrepancy. The reconstructed chair back and bed head are both higher than in the photograph, and the room corner is displaced rightward. However, window alignment is substantially closer, so a single global camera adjustment may not explain everything.",
+        "predictions": {
+          "camera_focal": {
+            "lower": -0.03,
+            "upper": 0.05,
+            "reason": "A tighter view may improve furniture coverage, but focal length cannot independently repair the room corner or bed orientation."
+          },
+          "camera_tilt": {
+            "lower": -0.03,
+            "upper": 0.05,
+            "reason": "Upward pitch could correct the shared upward furniture displacement; the expected benefit is uncertain because architectural landmarks do not share a uniform offset."
+          },
+          "object_scale": {
+            "lower": -0.03,
+            "upper": 0.04,
+            "reason": "Local enlargement can compensate for a projection error and raise the appearance score without correcting the camera."
+          },
+          "object_depth": {
+            "lower": -0.05,
+            "upper": 0.02,
+            "reason": "Shrinking the bed likely reduces desired coverage under either explanation; this probe has weak discriminatory power."
+          },
+          "isolate": {
+            "lower": -0.16,
+            "upper": 0.03,
+            "reason": "Isolation removes useful camera landmarks and reference context. There is no evidence supporting a distinct forecast from H1."
+          }
+        }
+      }
+    ],
+    "program_evidence": "The named bed asset contains boards, rails, posts, mattress, duvet and pillows; the supplied hierarchy and projection localize it without choosing an arbitrary mesh. Its explicit width is 2.08, length 2.85, and whole-asset rotation is -65 degrees about Z, followed by translation. The camera is explicitly set at (-4.65,-6.45,2.70), targeting (-1.15,1.65,1.30), with lens 44. A reusable workflow should record reference landmarks and overlaps, map them to semantic assets, compare shared versus local residuals, then test one parameter at a time from the same baseline. Check silhouette and overlap alongside the fixed-ROI score before refining materials. Hierarchy passes verify emitted parts, not photographic completeness; the supplied console target does not establish the bed's correctness.",
+    "limitations": "No tools or external files were used and no experiments were run. All intervals are uncertain prospective estimates for S = 0.5*(SSIM_full_after-SSIM_full_before) + 0.5*(SSIM_ROI_after-SSIM_ROI_before), using the identical stated photograph ROI for every intervention. They are not measured confidence intervals. Render noise, lighting, materials and changed occlusion can alter S; an increase does not uniquely identify a cause or establish correct geometry. The supplied global SSIM does not provide the baseline ROI SSIM. Projection bounds are approximate and include occluded geometry."
+  },
+  "actual_observations": [],
+  "M_decision": {
+    "selected_module": "geometry_scale_depth",
+    "hypothesis_update": [
+      {
+        "id": "H1",
+        "module": "geometry_scale_depth",
+        "object_id": "Dark wooden double bed",
+        "forecast_residual": null,
+        "weight": null
+      },
+      {
+        "id": "H2",
+        "module": "camera_framing",
+        "object_id": "SceneActView",
+        "forecast_residual": null,
+        "weight": null
+      }
+    ],
+    "outcomes": {},
+    "forecast_calibration": "insufficient_or_no_observation",
+    "evidence_ratio": null,
+    "decision_changed": false,
+    "planned_shared_H_change": "Use the recorded sensitivities to develop general reconstruction instructions/algorithm; never insert per-image parameters. Investigate geometry_scale_depth",
+    "limitations": "A forecast miss can reflect calibration error. No hypothesis is declared causally false solely from this scalar. Natural images have no fault-module ground truth.",
+    "M_origin": "engineer_revision_v2_4_not_automatic_descendant"
+  },
+  "M_program": "meta.py",
+  "executed": true
+}

@@ -1,0 +1,61 @@
+{
+  "visual_difference": "The photograph shows two large foreground ceiling fans with visible hubs and substantial blades near the upper edge. In the reconstruction, those fans are mostly cropped out, while the smaller distant fans remain visible. The reconstruction also has conspicuous grain, more regular furniture spacing, and a less distinct floor pattern; these are separate discrepancies.",
+  "object_id": "fan_0",
+  "initial_module": "camera_framing",
+  "initial_confidence": 0.55,
+  "probe_targets": {
+    "camera_focal": "fan_0",
+    "object_scale": "fan_0",
+    "isolate": "fan_0"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "camera_framing",
+      "object_id": "fan_0",
+      "explanation": "The camera's downward aim places nearby ceiling objects above the image. Both foreground fans being cropped while distant fans remain visible supports a shared projection error. The program aims from height 2.28 toward height -0.10; focal length alone cannot correct that aim.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.025,
+          "upper": 0.015,
+          "reason": "Increasing focal length from 25 to 27.5 narrows the frame and should further crop the foreground fans. Whole-image SSIM could nevertheless improve through incidental desk or stage alignment."
+        },
+        "object_scale": {
+          "lower": -0.004,
+          "upper": 0.004,
+          "reason": "Scaling fan_0 by 1.1 about its AABB center does not correct the camera aim. Its mostly offscreen geometry limits the expected full-image effect; an enlarged blade might enter the frame."
+        },
+        "isolate": {
+          "lower": -0.13,
+          "upper": -0.04,
+          "reason": "Keeping only fan_0 removes nearly all matching room content while retaining little visible fan geometry. This tests emitted geometry and clipping, not whether isolation repairs the scene."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "geometry_scale_depth",
+      "object_id": "fan_0",
+      "explanation": "The foreground fans may instead be too close to the camera or too high relative to the room and furniture. Their manually specified positions could produce clipping even with a broadly appropriate camera. The blue foreground backpack is already approximately aligned, which cautions against attributing every mismatch to framing.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.025,
+          "upper": 0.015,
+          "reason": "The same narrowing still exacerbates clipping without correcting fan height or depth. Available evidence does not justify a different whole-image forecast from H1."
+        },
+        "object_scale": {
+          "lower": -0.004,
+          "upper": 0.004,
+          "reason": "Uniform enlargement does not test the suspected height/depth displacement directly. With most geometry offscreen, its SSIM response can resemble H1."
+        },
+        "isolate": {
+          "lower": -0.13,
+          "upper": -0.04,
+          "reason": "Removing the classroom dominates the score under either explanation. The isolated image may confirm clipping and silhouette but cannot determine correct world position from a single photograph."
+        }
+      }
+    }
+  ],
+  "program_evidence": "Localization uses the supplied hierarchy and projections, not mesh size or ordering: blade_0, blade_1 and blade_2 belong to fan_0. Their approximate normalized vertical bounds are respectively [-0.052,-0.016], [-0.049,0.006] and [-0.146,-0.046], confirming almost complete clipping above the image. The program places fan_0 at (-1.90,-1.50,4.05), with the camera at (0.12,-6.8,2.28). A reusable workflow should record image landmarks and projected asset bounds, test shared camera residuals across near and far objects, then adjust local height/depth only where residuals remain. Preserve semantic groups and compare silhouettes, gaps and occlusions before fine detail. Evaluate materials and rendering grain separately. Functional passes establish emitted hierarchy integrity, not photographic completeness; the supplied books target does not establish the cause of this fan discrepancy.",
+  "limitations": "Both attached images were inspected directly; no tools or external files were used. Predictions are subjective pre-experiment intervals for absolute full-image delta SSIM relative to 0.132762, not measured or calibrated confidence intervals. The specified probes weakly distinguish these hypotheses, so overlapping forecasts are intentional. A positive SSIM change would not uniquely identify a cause. Approximate projections, rendering grain and absent 3D calibration limit attribution."
+}

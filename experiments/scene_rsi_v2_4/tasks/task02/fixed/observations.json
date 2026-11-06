@@ -1,0 +1,124 @@
+[
+  {
+    "request": {
+      "probe": "camera_focal",
+      "object_id": "pendant_front_left",
+      "predicted_discrimination": 0.0354609929078014
+    },
+    "status": "completed",
+    "measurement": {
+      "probe": "camera_focal",
+      "target_selection": {
+        "object": null,
+        "mesh_names": [],
+        "group_name": null
+      },
+      "target_mesh_visibility_before": [],
+      "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+      "focal_length_before": 29.0,
+      "focal_length_after": 31.899999618530273,
+      "geometry_unchanged": true,
+      "probe_blend": "probe_scene.blend",
+      "original_scene_not_modified": true,
+      "status": "completed",
+      "images": [
+        "probe_camera_focal.png"
+      ],
+      "render_attempts": 1
+    },
+    "delta_ssim": -0.0023463024947602273,
+    "delta_roi_ssim": -0.020924370626874397,
+    "outcome": -0.011635336560817312,
+    "image": "__EXPERIMENT_ROOT__/tasks/task02/fixed/probes/1/probe_camera_focal.png"
+  },
+  {
+    "request": {
+      "probe": "object_scale",
+      "object_id": "pendant_front_left",
+      "predicted_discrimination": 0.0
+    },
+    "status": "completed",
+    "measurement": {
+      "probe": "object_scale",
+      "target_selection": {
+        "object": "pendant_front_left",
+        "mesh_names": [
+          "Ball",
+          "Rod.058",
+          "Rod.059",
+          "Rod.060",
+          "Rod.061",
+          "Rod.062",
+          "Rod.063",
+          "Rod.064"
+        ],
+        "group_name": "pendant_front_left"
+      },
+      "target_mesh_visibility_before": [
+        {
+          "object_id": "Ball",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.058",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.059",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.060",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.061",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.062",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.063",
+          "hide_render": false
+        },
+        {
+          "object_id": "Rod.064",
+          "hide_render": false
+        }
+      ],
+      "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+      "scale_before": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "scale_after": [
+        1.100000023841858,
+        1.100000023841858,
+        1.100000023841858
+      ],
+      "scale_factor": 1.1,
+      "pivot_world_scene_units": [
+        -2.7799999713897705,
+        -0.04999998211860657,
+        3.257999897003174
+      ],
+      "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+      "fixed_camera": true,
+      "non_target_preserved": true,
+      "probe_blend": "probe_scene.blend",
+      "original_scene_not_modified": true,
+      "status": "completed",
+      "images": [
+        "probe_object_scale.png"
+      ],
+      "render_attempts": 1
+    },
+    "delta_ssim": 0.0010132559135197505,
+    "delta_roi_ssim": 0.017803441971512096,
+    "outcome": 0.009408348942515923,
+    "image": "__EXPERIMENT_ROOT__/tasks/task02/fixed/probes/2/probe_object_scale.png"
+  }
+]

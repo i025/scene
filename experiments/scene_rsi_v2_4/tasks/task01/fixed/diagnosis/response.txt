@@ -1,0 +1,84 @@
+{
+  "visual_difference": "The reconstructed bed sits higher and occupies less of the lower-right photograph region. Its broad, nearly horizontal footboard is much more exposed; in the photograph the footboard is strongly foreshortened beside and behind the armchair, and the bedding extends farther down and right.",
+  "object_id": "Dark wooden double bed",
+  "reference_roi": [0.5, 0.46, 1.0, 0.99],
+  "initial_module": "geometry_scale_depth",
+  "initial_confidence": 0.65,
+  "probe_targets": {
+    "camera_focal": "SceneActView",
+    "camera_tilt": "SceneActView",
+    "object_scale": "Dark wooden double bed",
+    "object_depth": "Dark wooden double bed",
+    "isolate": "Dark wooden double bed"
+  },
+  "hypotheses": [
+    {
+      "id": "H1",
+      "module": "geometry_scale_depth",
+      "object_id": "Dark wooden double bed",
+      "explanation": "The bed's estimated orientation, dimensions and placement produce the wrong projected footprint. Its explicit -65-degree rotation and subsequent translation are plausible local sources. Enlargement alone cannot correct footboard foreshortening.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.025,
+          "upper": 0.025,
+          "reason": "A 10% focal increase enlarges the bed but also moves otherwise closer-matching window and portrait boundaries."
+        },
+        "camera_tilt": {
+          "lower": -0.03,
+          "upper": 0.025,
+          "reason": "Upward pitch moves the bed downward in frame, potentially helping placement while disturbing architectural alignment."
+        },
+        "object_scale": {
+          "lower": -0.015,
+          "upper": 0.035,
+          "reason": "10% enlargement can fill more of the reference bed region, but preserves the incorrect board angle and can worsen overlap."
+        },
+        "object_depth": {
+          "lower": -0.035,
+          "upper": 0.015,
+          "reason": "Moving the bed 10% farther away shrinks an already undersized footprint; shading and overlap changes make the score uncertain."
+        },
+        "isolate": {
+          "lower": -0.09,
+          "upper": 0.025,
+          "reason": "Removing the chair exposes the bed's full silhouette but removes substantial reference content and changes illumination."
+        }
+      }
+    },
+    {
+      "id": "H2",
+      "module": "camera_framing",
+      "object_id": "SceneActView",
+      "explanation": "Camera pose and perspective may account for part of the apparent bed error. The reconstruction also shifts the right-wall miniature rightward and changes window-bottom positions, suggesting discrepancies across multiple depths. The camera was estimated rather than calibrated.",
+      "predictions": {
+        "camera_focal": {
+          "lower": -0.02,
+          "upper": 0.035,
+          "reason": "Magnification may improve the bed's size and rightward extent, but the mixed displacement of other landmarks limits confidence."
+        },
+        "camera_tilt": {
+          "lower": -0.025,
+          "upper": 0.035,
+          "reason": "Upward pitch can lower the bed toward its photograph position, although window bottoms already extend too low."
+        },
+        "object_scale": {
+          "lower": -0.02,
+          "upper": 0.03,
+          "reason": "Local enlargement can compensate for camera error in this ROI without resolving the shared perspective mismatch."
+        },
+        "object_depth": {
+          "lower": -0.035,
+          "upper": 0.015,
+          "reason": "Further distance likely worsens apparent size under either explanation; this probe has limited discriminatory power."
+        },
+        "isolate": {
+          "lower": -0.09,
+          "upper": 0.025,
+          "reason": "Isolation removes the architectural context needed to assess camera alignment; the appearance effect is similar under both hypotheses."
+        }
+      }
+    }
+  ],
+  "program_evidence": "The supplied bed group projects to approximately [0.479,0.403,0.949,0.854], supporting the visible mismatch against the photograph ROI. Its named children include the footboard, headboard, mattress and pillows. The program sets bed_width=2.08, head_y=2.46, foot_y=-0.39, rotates the entire asset by -65 degrees, then translates it. Camera position is (-4.65,-6.45,2.70), target (-1.15,1.65,1.30), lens 44. A reusable workflow should match architectural landmarks first, then compare named furniture silhouettes and overlaps, testing camera and object parameters independently before refining materials. Passing hierarchy checks establishes emitted-part integrity, not photographic completeness.",
+  "limitations": "No tools or external files were used; these are prospective, unmeasured intervals. Every interval predicts 0.5*(full-image SSIM_after minus SSIM_before)+0.5*(fixed-reference-ROI SSIM_after minus SSIM_before), using the identical ROI for all interventions. These are appearance sensitivity scores, not geometry truth or calibrated confidence intervals. Render noise, materials, lighting and occlusion can affect every score; improvement cannot uniquely identify a cause. Focal length and pitch probes do not exhaust camera-pose explanations, and isolation is a diagnostic view rather than a proposed reconstruction."
+}

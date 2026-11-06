@@ -1,0 +1,92 @@
+{
+  "method": "fixed_h",
+  "run_id": "r1",
+  "scene_id": "commons_96943062",
+  "split": "fixed_version_test",
+  "candidate_id": "r1_C2",
+  "parent_id": null,
+  "H_version": "fixed_h/r1_C2",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "failed",
+  "metrics": {
+    "valid": false,
+    "ssim": null,
+    "lpips": null,
+    "dino": null,
+    "psnr": null,
+    "overall": null,
+    "error": "Missing scene.blend or final.png"
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "material": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "composite": {
+        "required": false,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": false,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": true
+      }
+    },
+    "functional_pass": false,
+    "structure_pass": false,
+    "material_pass": null,
+    "composite_pass": null,
+    "composite_required": false,
+    "target_object": "unknown",
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Reconstruction failed: no edit/structure measurement exists; required gates fail, raw measurements remain null."
+  },
+  "target_object": "unknown",
+  "device": "CPU",
+  "seconds": 19.246988273691386,
+  "usage": {
+    "calls": 1,
+    "input_tokens": "unknown",
+    "output_tokens": "unknown",
+    "cached_input_tokens": "unknown",
+    "total_tokens": "unknown",
+    "seconds": 19.106185286771506,
+    "cost_usd": "unknown",
+    "executions": 0
+  },
+  "runtime_status": {
+    "error": "Traceback (most recent call last):\n  File \"__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/backend/inner_loop.py\", line 22, in run\n    policy.solve(task, runtime)\n  File \"__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/fixed_h/r1_C2/policy.py\", line 13, in solve\n    response = runtime.ask(messages)\n               ^^^^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/backend/runtime.py\", line 50, in ask\n    return self.llm(messages)\n           ^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/backend/llm.py\", line 73, in __call__\n    text, session = call(prompt, self.settings, folder, images, role='student',\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/backend/codex_wrapper.py\", line 155, in call\n    raise RuntimeError(f'Codex {role} exited {session[\"exit_code\"]}: {folder / \"stderr.log\"}')\nRuntimeError: Codex student exited 1: __SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/results/r1/fixed_h/r1_C2/fixed_version_test/commons_96943062/student_calls/001_1793933922960442935/stderr.log\n",
+    "seconds": 19.11199868284166
+  },
+  "failure_type": "cli_service_or_process_failure_unresolved",
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_2/results/r1/fixed_h/r1_C2/fixed_version_test/commons_96943062",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "note": "Original CPU-only renderer before user-authorized GPU adaptation"
+  },
+  "render_device_history": [],
+  "functional_device_mapping": null,
+  "task_utility_v2": 0.0
+}

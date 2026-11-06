@@ -1,0 +1,106 @@
+[
+  {
+    "figure": "figure1_failure_audit.png",
+    "sources": [
+      "metrics/H_failure_audit.csv",
+      "audit_sources/"
+    ],
+    "script": "audit.py",
+    "unit": "Historical V2.1/V2.2 scheduled record; not a new V2.4 outcome"
+  },
+  {
+    "figure": "figure2_natural_diagnosis_inputs.png",
+    "sources": [
+      "metrics/historical_diagnostic_inputs.csv",
+      "tasks/*/evidence/"
+    ],
+    "script": "analyze.py",
+    "unit": "Two historical diagnosis input scenes; fixed task order"
+  },
+  {
+    "figure": "figure3_actual_diagnostics.png",
+    "sources": [
+      "metrics/forecasts.csv",
+      "metrics/probe_observations.json",
+      "tasks/*/*/stage1.json",
+      "tasks/*/*/stage2.json"
+    ],
+    "script": "analyze.py",
+    "unit": "All six task/method decisions; no ground-truth localization accuracy"
+  },
+  {
+    "figure": "figure4_fresh_reconstructions.png",
+    "sources": [
+      "metrics/scene_metrics.csv",
+      "metrics/candidates.csv",
+      "tasks/*/*/*.diff",
+      "results/"
+    ],
+    "script": "analyze.py",
+    "unit": "Four scenes times fresh H_start and three raw candidate outputs; no winner selection"
+  },
+  {
+    "figure": "figure4_shared_H_diff.png",
+    "sources": [
+      "tasks/task01/active/policy.py.diff",
+      "metrics/candidates.csv",
+      "metrics/shared_H_diff_summary.csv",
+      "metrics/shared_H_diff_excerpt.json"
+    ],
+    "script": "analyze.py shared_diff_figure",
+    "unit": "Fixed first formal Active case literal diff excerpt and all six raw candidate counts/deltas; not selected by quality"
+  },
+  {
+    "figure": "figure4_selected_transfer.png",
+    "sources": [
+      "configs/selection_freeze.json",
+      "metrics/candidates.csv",
+      "metrics/scene_metrics.csv",
+      "metrics/selected_transfer_image_mapping.json"
+    ],
+    "script": "analyze.py selected_transfer_figure",
+    "unit": "Both preselected transfer rooms and actual frozen H* choices; H_start fallback reuses the exact fresh baseline image"
+  },
+  {
+    "figure": "figure5_results_cost.png",
+    "sources": [
+      "metrics/scene_metrics.csv",
+      "metrics/candidates.csv",
+      "metrics/calls.csv",
+      "metrics/costs.csv"
+    ],
+    "script": "analyze.py",
+    "unit": "Six paired H proposals; all scheduled denominators and actual known tokens"
+  },
+  {
+    "figure": "figure5_functional_cost_counts.png",
+    "sources": [
+      "metrics/scene_metrics.csv",
+      "metrics/costs.csv"
+    ],
+    "script": "analyze.py",
+    "unit": "All scheduled formal scene execution/function gates; all actual new sessions including preparation"
+  },
+  {
+    "figure": "figure6_structural_calibration.png",
+    "sources": [
+      "metrics/structural_calibration.csv",
+      "tests/calibration.json",
+      "tests/target_probe/probe_object_scale.png",
+      "metrics/physical_probe_calibration.json"
+    ],
+    "script": "analyze.py",
+    "unit": "Eight deterministic cases, existing measurement facts and real explicitly labelled smoke-quality probes"
+  },
+  {
+    "figure": "figure6_real_edit_preservation.png",
+    "sources": [
+      "metrics/edit_case_selection.json",
+      "metrics/actual_mechanical_preservation.csv",
+      "results/*/*/*/test/*/functional/mechanical.json",
+      "results/*/*/*/test/*/functional/summary.json"
+    ],
+    "script": "analyze.py",
+    "unit": "Both preselected transfer scenes times all four methods; actual mechanical edit images and parameter measurements, not text editing"
+  }
+]

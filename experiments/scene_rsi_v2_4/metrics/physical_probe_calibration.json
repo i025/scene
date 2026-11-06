@@ -1,0 +1,142 @@
+[
+  {
+    "probe": "camera_focal",
+    "measurement": {
+      "probe": "camera_focal",
+      "target_selection": {
+        "object": null,
+        "mesh_names": [],
+        "group_name": null
+      },
+      "target_mesh_visibility_before": [],
+      "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+      "focal_length_before": 50.0,
+      "focal_length_after": 55.0,
+      "geometry_unchanged": true,
+      "probe_blend": "probe_scene.blend",
+      "original_scene_not_modified": true,
+      "status": "completed",
+      "images": [
+        "probe_camera_focal.png"
+      ],
+      "render_attempts": 1
+    },
+    "source": "tests/physical_probe_calibration.json",
+    "quality": "64x64 one sample, excluded from formal comparisons",
+    "remote_calls": 0
+  },
+  {
+    "probe": "camera_tilt",
+    "measurement": {
+      "probe": "camera_tilt",
+      "target_selection": {
+        "object": null,
+        "mesh_names": [],
+        "group_name": null
+      },
+      "target_mesh_visibility_before": [],
+      "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+      "camera_matrix_before": [
+        [
+          0.8048028945922852,
+          -0.24478287994861603,
+          0.5407158136367798,
+          6.0
+        ],
+        [
+          0.5935421586036682,
+          0.3319090008735657,
+          -0.7331740260124207,
+          -8.0
+        ],
+        [
+          -1.066362642632157e-08,
+          0.9109982252120972,
+          0.41241028904914856,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "camera_matrix_after": [
+        [
+          0.8048028945922852,
+          -0.2064681351184845,
+          0.5564737915992737,
+          6.0
+        ],
+        [
+          0.5935421586036682,
+          0.27995675802230835,
+          -0.754540741443634,
+          -8.0
+        ],
+        [
+          2.491749739874649e-08,
+          0.9375473260879517,
+          0.3478575646877289,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "local_pitch_degrees": 4,
+      "geometry_unchanged": true,
+      "probe_blend": "probe_scene.blend",
+      "original_scene_not_modified": true,
+      "status": "completed",
+      "images": [
+        "probe_camera_tilt.png"
+      ],
+      "render_attempts": 1
+    },
+    "source": "tests/physical_probe_calibration.json",
+    "quality": "64x64 one sample, excluded from formal comparisons",
+    "remote_calls": 0
+  },
+  {
+    "probe": "object_depth",
+    "measurement": {
+      "probe": "object_depth",
+      "target_selection": {
+        "object": "Z_fault_target",
+        "mesh_names": [
+          "Z_fault_target"
+        ],
+        "group_name": null
+      },
+      "target_mesh_visibility_before": [
+        {
+          "object_id": "Z_fault_target",
+          "hide_render": false
+        }
+      ],
+      "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+      "depth_offset_scene_units": [
+        -0.5900000333786011,
+        0.800000011920929,
+        -0.45000001788139343
+      ],
+      "non_target_preserved": true,
+      "intervention": "Move target center 10percent farther along its camera ray, preserve size/camera.",
+      "probe_blend": "probe_scene.blend",
+      "original_scene_not_modified": true,
+      "status": "completed",
+      "images": [
+        "probe_object_depth.png"
+      ],
+      "render_attempts": 1
+    },
+    "source": "tests/physical_probe_calibration.json",
+    "quality": "64x64 one sample, excluded from formal comparisons",
+    "remote_calls": 0
+  }
+]

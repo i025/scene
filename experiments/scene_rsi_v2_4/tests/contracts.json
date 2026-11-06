@@ -1,0 +1,126 @@
+{
+  "status": "passed",
+  "partial_overlap_selected": {
+    "probes": [
+      {
+        "probe": "camera_focal",
+        "object_id": "unknown",
+        "predicted_discrimination": 0.6976744186046512
+      },
+      {
+        "probe": "camera_tilt",
+        "object_id": "unknown",
+        "predicted_discrimination": 0.6976744186046512
+      }
+    ],
+    "scores": {
+      "camera_focal": 0.6976744186046512,
+      "camera_tilt": 0.6976744186046512,
+      "object_scale": 0.6976744186046512,
+      "object_depth": 0.6976744186046512,
+      "isolate": 0.6976744186046512
+    },
+    "reason": "Partial interval separation calibrated independently; identical forecasts score zero. Unknown targets are not fabricated."
+  },
+  "different_observations": [
+    {
+      "observed": -0.015,
+      "decision": {
+        "selected_module": "camera_framing",
+        "hypothesis_update": [
+          {
+            "id": "camera_framing",
+            "module": "camera_framing",
+            "object_id": "Z_fault_target",
+            "forecast_residual": 0.6521739130434783,
+            "weight": 0.8084265863085436
+          },
+          {
+            "id": "geometry_scale_depth",
+            "module": "geometry_scale_depth",
+            "object_id": "Z_fault_target",
+            "forecast_residual": 1.9565217391304348,
+            "weight": 0.14749092096962874
+          }
+        ],
+        "outcomes": {
+          "camera_focal": -0.015
+        },
+        "forecast_calibration": "at_least_one_compatible",
+        "evidence_ratio": 5.4811955949140385,
+        "decision_changed": false,
+        "planned_shared_H_change": "Use the recorded sensitivities to develop general reconstruction instructions/algorithm; never insert per-image parameters. Investigate camera_framing",
+        "limitations": "A forecast miss can reflect calibration error. No hypothesis is declared causally false solely from this scalar. Natural images have no fault-module ground truth.",
+        "M_origin": "engineer_revision_v2_4_not_automatic_descendant"
+      }
+    },
+    {
+      "observed": 0.045,
+      "decision": {
+        "selected_module": "geometry_scale_depth",
+        "hypothesis_update": [
+          {
+            "id": "camera_framing",
+            "module": "camera_framing",
+            "object_id": "Z_fault_target",
+            "forecast_residual": 1.9565217391304348,
+            "weight": 0.14749092096962874
+          },
+          {
+            "id": "geometry_scale_depth",
+            "module": "geometry_scale_depth",
+            "object_id": "Z_fault_target",
+            "forecast_residual": 0.652173913043478,
+            "weight": 0.8084265863085437
+          }
+        ],
+        "outcomes": {
+          "camera_focal": 0.045
+        },
+        "forecast_calibration": "at_least_one_compatible",
+        "evidence_ratio": 5.481195594914039,
+        "decision_changed": true,
+        "planned_shared_H_change": "Use the recorded sensitivities to develop general reconstruction instructions/algorithm; never insert per-image parameters. Investigate geometry_scale_depth",
+        "limitations": "A forecast miss can reflect calibration error. No hypothesis is declared causally false solely from this scalar. Natural images have no fault-module ground truth.",
+        "M_origin": "engineer_revision_v2_4_not_automatic_descendant"
+      }
+    },
+    {
+      "observed": 0.5,
+      "decision": {
+        "selected_module": "unresolved",
+        "hypothesis_update": [
+          {
+            "id": "camera_framing",
+            "module": "camera_framing",
+            "object_id": "Z_fault_target",
+            "forecast_residual": 21.73913043478261,
+            "weight": 3.726653172078671e-06
+          },
+          {
+            "id": "geometry_scale_depth",
+            "module": "geometry_scale_depth",
+            "object_id": "Z_fault_target",
+            "forecast_residual": 20.434782608695652,
+            "weight": 3.726653172078671e-06
+          }
+        ],
+        "outcomes": {
+          "camera_focal": 0.5
+        },
+        "forecast_calibration": "insufficient_or_no_observation",
+        "evidence_ratio": null,
+        "decision_changed": true,
+        "planned_shared_H_change": "Use the recorded sensitivities to develop general reconstruction instructions/algorithm; never insert per-image parameters. Investigate unresolved",
+        "limitations": "A forecast miss can reflect calibration error. No hypothesis is declared causally false solely from this scalar. Natural images have no fault-module ground truth.",
+        "M_origin": "engineer_revision_v2_4_not_automatic_descendant"
+      }
+    }
+  ],
+  "identical_forecasts_abstain": true,
+  "calibration_miss_not_causal_refutation": true,
+  "budget_zero_abstain": true,
+  "no_blend_execution_path": true,
+  "required_gate_cases": true,
+  "remote_calls": 0
+}

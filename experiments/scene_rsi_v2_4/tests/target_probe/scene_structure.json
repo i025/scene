@@ -1,0 +1,846 @@
+{
+  "blend_opened": true,
+  "mesh_count": 3,
+  "finite_nonempty_mesh_count": 3,
+  "vertex_count": 24,
+  "finite_matrices": true,
+  "structure_requirement": "At least 3 nonempty finite meshes, all meshes finite and all object matrices finite",
+  "structure_pass": true,
+  "empty_parent_group_available": true,
+  "group_interpretation": "Structural operability only; no claim of semantic or true 3D recovery",
+  "target": {
+    "object": "Assembly",
+    "kind": "group",
+    "mesh_names": [
+      "A_good",
+      "Z_fault_target"
+    ],
+    "group_name": "Assembly",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "scene_nonstructural_aabb_approx": {
+    "min": [
+      -1.0,
+      -1.0,
+      0.0
+    ],
+    "max": [
+      3.5999999046325684,
+      1.0,
+      2.0
+    ],
+    "diagonal_scene_units": 5.399999985871491,
+    "kind": "approximate_AABB_not_mesh_collision"
+  },
+  "objects": [
+    {
+      "name": "A_good",
+      "type": "MESH",
+      "parent": "Assembly",
+      "parent_chain": [
+        "Assembly",
+        "Root"
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          3.0999999046325684
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          3.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertex_count": 8,
+      "finite_nonempty_mesh": true,
+      "excluded_as_structural": false,
+      "local_vertex_bbox": {
+        "min": [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "diagonal_scene_units": 1.7320508075688772,
+        "kind": "approximate_AABB_not_mesh_collision"
+      },
+      "world_geometry_aabb_approx": {
+        "min": [
+          2.5999999046325684,
+          -0.5,
+          0.0
+        ],
+        "max": [
+          3.5999999046325684,
+          0.5,
+          1.0
+        ],
+        "diagonal_scene_units": 1.7320508075688772,
+        "kind": "approximate_AABB_not_mesh_collision"
+      },
+      "materials": [
+        {
+          "name": "RSI_blue_A_good_0",
+          "diffuse_color": [
+            0.019999999552965164,
+            0.07999999821186066,
+            0.800000011920929,
+            1.0
+          ],
+          "roughness": 0.4000000059604645,
+          "metallic": 0.0,
+          "use_nodes": true,
+          "nodes": [
+            {
+              "name": "Material Output",
+              "type": "ShaderNodeOutputMaterial",
+              "inputs": {
+                "Displacement": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Thickness": 0.0
+              },
+              "outputs": {}
+            },
+            {
+              "name": "Principled BSDF",
+              "type": "ShaderNodeBsdfPrincipled",
+              "inputs": {
+                "Base Color": [
+                  0.019999999552965164,
+                  0.07999999821186066,
+                  0.800000011920929,
+                  1.0
+                ],
+                "Metallic": 0.0,
+                "Roughness": 0.44999998807907104,
+                "IOR": 1.5,
+                "Alpha": 1.0,
+                "Normal": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Weight": 0.0,
+                "Subsurface Weight": 0.0,
+                "Subsurface Radius": [
+                  1.0,
+                  0.20000000298023224,
+                  0.10000000149011612
+                ],
+                "Subsurface Scale": 0.05000000074505806,
+                "Subsurface IOR": 1.399999976158142,
+                "Subsurface Anisotropy": 0.0,
+                "Specular IOR Level": 0.5,
+                "Specular Tint": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Anisotropic": 0.0,
+                "Anisotropic Rotation": 0.0,
+                "Tangent": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Transmission Weight": 0.0,
+                "Coat Weight": 0.0,
+                "Coat Roughness": 0.029999999329447746,
+                "Coat IOR": 1.5,
+                "Coat Tint": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Coat Normal": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Sheen Weight": 0.0,
+                "Sheen Roughness": 0.5,
+                "Sheen Tint": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Emission Color": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Emission Strength": 0.0,
+                "Thin Film Thickness": 0.0,
+                "Thin Film IOR": 1.3300000429153442
+              },
+              "outputs": {}
+            }
+          ],
+          "links": [
+            [
+              "Principled BSDF",
+              "BSDF",
+              "Material Output",
+              "Surface"
+            ]
+          ]
+        }
+      ],
+      "hide_render": false,
+      "projected_bbox_normalized_approx": [
+        0.7427991032600403,
+        0.6235717833042145,
+        0.9508476853370667,
+        0.857925608754158
+      ]
+    },
+    {
+      "name": "Assembly",
+      "type": "EMPTY",
+      "parent": "Root",
+      "parent_chain": [
+        "Root"
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.10000000149011612
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.10000000149011612
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertex_count": null,
+      "finite_nonempty_mesh": null,
+      "excluded_as_structural": false,
+      "local_vertex_bbox": null,
+      "world_geometry_aabb_approx": null,
+      "materials": [],
+      "hide_render": false,
+      "projected_bbox_normalized_approx": [
+        0.40846729278564453,
+        0.40891391038894653,
+        0.9508476853370667,
+        0.857925608754158
+      ]
+    },
+    {
+      "name": "Camera",
+      "type": "CAMERA",
+      "parent": null,
+      "parent_chain": [],
+      "matrix_world": [
+        [
+          0.8048028945922852,
+          -0.24478287994861603,
+          0.5407158136367798,
+          6.0
+        ],
+        [
+          0.5935421586036682,
+          0.3319090008735657,
+          -0.7331740260124207,
+          -8.0
+        ],
+        [
+          -1.066362642632157e-08,
+          0.9109982252120972,
+          0.41241028904914856,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_local": [
+        [
+          0.8048028945922852,
+          -0.24478287994861603,
+          0.5407158136367798,
+          6.0
+        ],
+        [
+          0.5935421586036682,
+          0.3319090008735657,
+          -0.7331740260124207,
+          -8.0
+        ],
+        [
+          -1.066362642632157e-08,
+          0.9109982252120972,
+          0.41241028904914856,
+          6.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertex_count": null,
+      "finite_nonempty_mesh": null,
+      "excluded_as_structural": false,
+      "local_vertex_bbox": null,
+      "world_geometry_aabb_approx": null,
+      "materials": [],
+      "hide_render": false,
+      "projected_bbox_normalized_approx": null
+    },
+    {
+      "name": "Root",
+      "type": "EMPTY",
+      "parent": null,
+      "parent_chain": [],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertex_count": null,
+      "finite_nonempty_mesh": null,
+      "excluded_as_structural": false,
+      "local_vertex_bbox": null,
+      "world_geometry_aabb_approx": null,
+      "materials": [],
+      "hide_render": false,
+      "projected_bbox_normalized_approx": [
+        0.40846729278564453,
+        0.40891391038894653,
+        0.9508476853370667,
+        0.857925608754158
+      ]
+    },
+    {
+      "name": "Support",
+      "type": "MESH",
+      "parent": null,
+      "parent_chain": [],
+      "matrix_world": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_local": [
+        [
+          2.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertex_count": 8,
+      "finite_nonempty_mesh": true,
+      "excluded_as_structural": false,
+      "local_vertex_bbox": {
+        "min": [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "diagonal_scene_units": 1.7320508075688772,
+        "kind": "approximate_AABB_not_mesh_collision"
+      },
+      "world_geometry_aabb_approx": {
+        "min": [
+          -1.0,
+          -1.0,
+          0.0
+        ],
+        "max": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "diagonal_scene_units": 3.0,
+        "kind": "approximate_AABB_not_mesh_collision"
+      },
+      "materials": [],
+      "hide_render": false,
+      "projected_bbox_normalized_approx": [
+        0.31292724609375,
+        0.48374372720718384,
+        0.6610643863677979,
+        0.758468508720398
+      ]
+    },
+    {
+      "name": "Z_fault_target",
+      "type": "MESH",
+      "parent": "Assembly",
+      "parent_chain": [
+        "Assembly",
+        "Root"
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.10000000149011612
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          1.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertex_count": 8,
+      "finite_nonempty_mesh": true,
+      "excluded_as_structural": false,
+      "local_vertex_bbox": {
+        "min": [
+          -0.5,
+          -0.5,
+          -0.5
+        ],
+        "max": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "diagonal_scene_units": 1.7320508075688772,
+        "kind": "approximate_AABB_not_mesh_collision"
+      },
+      "world_geometry_aabb_approx": {
+        "min": [
+          -0.4000000059604645,
+          -0.5,
+          1.0
+        ],
+        "max": [
+          0.6000000238418579,
+          0.5,
+          2.0
+        ],
+        "diagonal_scene_units": 1.7320508075688772,
+        "kind": "approximate_AABB_not_mesh_collision"
+      },
+      "materials": [
+        {
+          "name": "RSI_blue_Z_fault_target_0",
+          "diffuse_color": [
+            0.019999999552965164,
+            0.07999999821186066,
+            0.800000011920929,
+            1.0
+          ],
+          "roughness": 0.4000000059604645,
+          "metallic": 0.0,
+          "use_nodes": true,
+          "nodes": [
+            {
+              "name": "Material Output",
+              "type": "ShaderNodeOutputMaterial",
+              "inputs": {
+                "Displacement": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Thickness": 0.0
+              },
+              "outputs": {}
+            },
+            {
+              "name": "Principled BSDF",
+              "type": "ShaderNodeBsdfPrincipled",
+              "inputs": {
+                "Base Color": [
+                  0.019999999552965164,
+                  0.07999999821186066,
+                  0.800000011920929,
+                  1.0
+                ],
+                "Metallic": 0.0,
+                "Roughness": 0.44999998807907104,
+                "IOR": 1.5,
+                "Alpha": 1.0,
+                "Normal": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Weight": 0.0,
+                "Subsurface Weight": 0.0,
+                "Subsurface Radius": [
+                  1.0,
+                  0.20000000298023224,
+                  0.10000000149011612
+                ],
+                "Subsurface Scale": 0.05000000074505806,
+                "Subsurface IOR": 1.399999976158142,
+                "Subsurface Anisotropy": 0.0,
+                "Specular IOR Level": 0.5,
+                "Specular Tint": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Anisotropic": 0.0,
+                "Anisotropic Rotation": 0.0,
+                "Tangent": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Transmission Weight": 0.0,
+                "Coat Weight": 0.0,
+                "Coat Roughness": 0.029999999329447746,
+                "Coat IOR": 1.5,
+                "Coat Tint": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Coat Normal": [
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "Sheen Weight": 0.0,
+                "Sheen Roughness": 0.5,
+                "Sheen Tint": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Emission Color": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "Emission Strength": 0.0,
+                "Thin Film Thickness": 0.0,
+                "Thin Film IOR": 1.3300000429153442
+              },
+              "outputs": {}
+            }
+          ],
+          "links": [
+            [
+              "Principled BSDF",
+              "BSDF",
+              "Material Output",
+              "Surface"
+            ]
+          ]
+        }
+      ],
+      "hide_render": false,
+      "projected_bbox_normalized_approx": [
+        0.40846729278564453,
+        0.40891391038894653,
+        0.5899018049240112,
+        0.5985732972621918
+      ]
+    }
+  ],
+  "approximate_relations": {
+    "approximate_support_candidates": [
+      {
+        "upper": "Z_fault_target",
+        "lower": "Support",
+        "vertical_gap_normalized": 0.0
+      }
+    ],
+    "approximate_overlap_candidates": [],
+    "semantic_support_pass": null,
+    "true_mesh_collision_pass": null,
+    "limitation": "AABB candidates only, not true mesh contact/collision; no ground truth support labels"
+  },
+  "structural_checks": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": true,
+      "measured_pass": true,
+      "rows": [
+        {
+          "pair": {
+            "object": "Z_fault_target",
+            "support": "Support"
+          },
+          "normalized_vertical_gap": 0.0,
+          "footprint_overlap_approx": true,
+          "measured_pass": true
+        }
+      ],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": true,
+      "crossings": [],
+      "narrow_phase_pairs": 0,
+      "mesh_count": 3,
+      "tested_mesh_count": 3,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "measurement_limit": "AABB extents are approximate, not collision tests; unknown scale, no metric 3D accuracy",
+  "input_blend": "__EXPERIMENT_ROOT__/tests/fixture.blend",
+  "render_settings": {
+    "engine": "CYCLES",
+    "device": "CPU",
+    "device_mapping": {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    },
+    "threads": 2,
+    "resolution": [
+      64,
+      64
+    ],
+    "samples": 1,
+    "seed": 42,
+    "use_adaptive_sampling": false,
+    "denoise": false,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0.0,
+    "gamma": 1.0
+  }
+}

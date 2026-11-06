@@ -1,0 +1,78 @@
+import json
+from pathlib import Path
+import re
+
+
+def solve(task, runtime):
+    prompt = (Path(__file__).parent / 'system.txt').read_text()
+    messages = [
+        {'role': 'system', 'content': prompt},
+        {'role': 'user', 'content': [
+            {'type': 'text', 'text': (
+                'Reconstruct this RGB image. Match its camera and framing. '
+                f"Image dimensions: {task['width']} x {task['height']}. "
+                f'Budget: {runtime.remaining()}'
+            )},
+            runtime.image(task['image'])
+        ]}
+    ]
+    while True:
+        budget = runtime.remaining()
+        if budget['model_calls'] <= 0 or budget['seconds'] <= 0:
+            return
+        response = runtime.ask(messages)
+        messages.append(response)
+        text = response['content'] or ''
+        blocks = re.findall(r'```python\s*\n(.*?)```', text, re.S)
+        if not blocks:
+            if text.strip().upper() == 'DONE':
+                return
+            messages.append({
+                'role': 'user',
+                'content': 'Return one complete program in a python code block, or DONE. Do not claim an unexecuted revision was verified.'
+            })
+            continue
+        budget = runtime.remaining()
+        if budget['executions'] <= 0 or budget['seconds'] <= 0:
+            return
+        result = runtime.execute(blocks[-1])
+        budget = runtime.remaining()
+        has_image = bool(result.get('image'))
+        feedback = json.dumps({k: v for k, v in result.items() if k != 'image'})
+        if has_image:
+            feedback += (
+                '\nA rendered image is available. Compare the original reference and this render, '
+                'including distant architectural anchors, foreground silhouettes, visible face proportions, '
+                'negative spaces and occlusion boundaries. Separate global errors from local errors; '
+                'retain competing explanations when evidence does not discriminate. '
+                'Check full-frame regressions as well as the region you intend to improve. '
+                'Structural checks alone do not establish visual accuracy.'
+            )
+        else:
+            feedback += (
+                '\nNo rendered image was returned. Use explicit execution diagnostics only. '
+                'Do not infer appearance errors from failure or timeout, and do not claim visual verification.'
+            )
+        if budget['executions'] > 0:
+            feedback += (
+                '\nIf a correction is supported, return a complete revised program. '
+                'In its comments state the observed discrepancy, the parameter family being changed, '
+                'the expected projected effect, and regions that should remain stable. '
+                'Prefer one coherent correction family; preserve unrelated parameters and editable groups. '
+                'Otherwise reply DONE.'
+            )
+        else:
+            feedback += (
+                '\nNo executions remain. Review this result internally, then reply DONE. '
+                'Do not return an unexecuted replacement or claim unresolved defects were corrected.'
+            )
+        feedback += f'\nRemaining: {budget}'
+        content = [{'type': 'text', 'text': feedback}]
+        if has_image:
+            content.extend([
+                {'type': 'text', 'text': 'Original reference:'},
+                runtime.image(task['image']),
+                {'type': 'text', 'text': 'Latest execution render:'},
+                runtime.image(result['image'])
+            ])
+        messages.append({'role': 'user', 'content': content})
