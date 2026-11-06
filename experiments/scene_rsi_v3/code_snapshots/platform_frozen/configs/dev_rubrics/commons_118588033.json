@@ -1,0 +1,148 @@
+{
+  "task_id": "commons_118588033",
+  "version": "reference_requirements_v1_preformal",
+  "mode": "image",
+  "lang": "zh",
+  "prompt": "根据参考图像重建可编辑、多对象三维室内场景。题材：参考中的舰船舱室及可见室内陈设。来源原题名：File:Room inside Battleship North Carolina.jpg",
+  "rubric_count": 7,
+  "rubrics": [
+    {
+      "id": "R01",
+      "category": "geometry",
+      "importance": "major",
+      "subject": "reference_visible_major_content",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "render",
+      "criterion": "生成结果应可识别地重建参考中的舰船舱室及可见室内陈设，覆盖参考中清晰可见的主要对象和主要建筑特征。",
+      "pass_condition": "作者视图或评价视图与参考能清楚对应主要可见对象和空间身份；允许小装饰简化，不要求被遮挡或不可见内容具有唯一几何答案，也不要求逐个复刻不可辨小物件。",
+      "fail_condition": "参考中清楚可见且占据主要画面或定义场景身份的对象/建筑特征被遗漏、完全替换为无关内容，或整体无法辨认为对应场景。",
+      "category_v2": "geometry",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R02",
+      "category": "space_layout",
+      "importance": "major",
+      "subject": "visible_relative_layout",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "render",
+      "criterion": "保留参考可辨认的房间围合、开口及主要对象之间的相邻、前后、左右、上下关系。",
+      "pass_condition": "作者视图能显示参考中清楚可辨的主要空间关系与大致疏密；评价视图可补充说明。允许合理的不可见部分构造，不要求没有依据的精确尺寸。",
+      "fail_condition": "主要空间关系明显颠倒、缺失或被重排，导致参考布局身份无法识别；评价机位遮挡本身不单独证明作者视图布局错误。",
+      "category_v2": "space_layout",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R03",
+      "category": "proportion_scale",
+      "importance": "moderate",
+      "subject": "relative_scale_without_metric_truth",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "either",
+      "criterion": "主要对象相对房间及彼此的比例应与参考大致一致，并与其可识别功能相容。",
+      "pass_condition": "渲染中的主要比例可解释为参考的合理三维重建；可结合真实对象 dimensions_scene_units 与 world_aabb_approx 检查相对比例，但不得将未知场景单位解释成米级精度。",
+      "fail_condition": "清楚可见的主要对象出现显著不合理的相对尺寸，或相对房间明显过大/过小而与参考不相容；不能仅因没有真实尺度标注而判失败。",
+      "category_v2": "proportion_scale",
+      "importance_weight": 2,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R04",
+      "category": "style_color",
+      "importance": "moderate",
+      "subject": "visible_style_and_surface_contrast",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "render",
+      "criterion": "主要对象的形状风格、可见颜色及材质类别差异与参考保持可识别对应。",
+      "pass_condition": "主要区域的明暗/颜色组织和主要表面差异清楚；与参考相容的哑光、简化或风格化表面可接受。单色参考只要求其可观察明暗结构，不编造不可知原始颜色。",
+      "fail_condition": "主要颜色/明暗结构被明显颠倒，或主要不同材质全部被糊为不可区分且不符合参考；不以必须照片级反射作为隐含要求。",
+      "category_v2": "style_color",
+      "importance_weight": 2,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R05",
+      "category": "lighting_material",
+      "importance": "moderate",
+      "subject": "reference_consistent_legibility_and_lighting",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "render",
+      "criterion": "照明应使主要场景内容可辨认，并与参考可观察的光照方向和明暗气氛大体相容。",
+      "pass_condition": "作者图中主要对象和空间可见，明亮或低照度气氛有参考依据，阴影和表面响应连贯；不要求精确恢复未知灯光，也不以统一平均亮度阈值判夜景失败。",
+      "fail_condition": "参考主要内容明亮可见而作者图近黑、过曝或不可辨认，或主要照明效果明显背离参考且遮蔽要求内容；评价机位取景缺陷须与作者作品缺陷分开。",
+      "category_v2": "lighting_material",
+      "importance_weight": 2,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R06",
+      "category": "geometry",
+      "importance": "major",
+      "subject": "genuine_three_dimensional_representation",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "either",
+      "criterion": "主要场景应由真实三维几何构成，不能仅将参考图贴在一个平面上伪装为重建。",
+      "pass_condition": "真实场景检查的对象几何、变换和近似空间范围支持主要对象具有实际体量；结合互补评价视图可观察到空间关系或视差。平面可用于合理墙面/地面/贴花，不要求不可见部分是真实恢复。",
+      "fail_condition": "主要场景仅为参考图/单张合成图的平面贴图，或主要对象无真实空间体量且换视角即失去场景结构；不能把合理薄片结构本身判为伪三维。",
+      "category_v2": "geometry",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R07",
+      "category": "editability",
+      "importance": "major",
+      "subject": "addressable_real_objects_and_scene_data",
+      "requirement_source": "reference_image_and_user_editable_scene_reconstruction_goal",
+      "evidence_type": "scene_summary",
+      "criterion": "主要重建元素必须真实存在于可编辑 Blender 场景中，拥有可定位的对象或对象组及有效几何/材质数据。",
+      "pass_condition": "scene_facts.json 的真实 objects、type、parent/children、finite_nonempty_mesh、material_slots 和 materials 可定位主要几何元素及其材质；命名或声明本身不作为语义正确的证明，不要求所有对象共享同一种层级形式。",
+      "fail_condition": "只有空对象名称/虚假声明，没有对应有效主要几何，或主要交付内容只能作为外部渲染图而不能在工程中定位编辑；该条不冒充已执行文字指令编辑。",
+      "category_v2": "editability",
+      "importance_weight": 3,
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    }
+  ],
+  "preparation_basis": {
+    "creator": "engineering_preparation_not_automatic_M_descendant",
+    "inputs_used": [
+      "historical_source_title",
+      "fixed_user_image_to_editable_3D_task_requirement",
+      "same_generic_reference_based_criteria_for_all_development_scenes"
+    ],
+    "candidate_outputs_or_historical_scores_used": false,
+    "hidden_geometry_truth_assumed": false,
+    "formal_round_started_at_creation": false
+  },
+  "evaluation_boundary": "BW-style / CLI-adapted; binary quality rubrics are separate from fixed execution/functional hard gates; no metric 3D recovery accuracy or instruction-editing claim."
+}

@@ -1,0 +1,85 @@
+{
+  "task_id": "calibration_fixture",
+  "mode": "known_controlled_scene",
+  "prompt": "Recreate the reference arrangement with two unit-cube parts, one gray support and the declared Assembly hierarchy. Z_target_part rests on Support; Z_target_part must be blue; A_unrelated_part must remain orange. This is a controlled fixture, not a natural-image reconstruction score.",
+  "rubrics": [
+    {
+      "id": "R01",
+      "criterion": "Native mesh objects Z_target_part, A_unrelated_part and Support exist as nonempty finite geometry; declarations alone do not establish presence.",
+      "pass_condition": "Native mesh objects Z_target_part, A_unrelated_part and Support exist as nonempty finite geometry; declarations alone do not establish presence.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 3,
+      "evidence_type": "scene_summary",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R02",
+      "criterion": "Assembly exists and both Z_target_part and A_unrelated_part are actual children of Assembly, consistent with its scene_rsi_expected_children declaration.",
+      "pass_condition": "Assembly exists and both Z_target_part and A_unrelated_part are actual children of Assembly, consistent with its scene_rsi_expected_children declaration.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 2,
+      "evidence_type": "scene_summary",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R03",
+      "criterion": "Z_target_part is supported by Support: its lower Z touches Support upper Z within 0.01 of the fixture bounding diagonal and XY footprints overlap. Use measured AABBs as a known-fixture approximation, not mesh collision truth.",
+      "pass_condition": "Z_target_part is supported by Support: its lower Z touches Support upper Z within 0.01 of the fixture bounding diagonal and XY footprints overlap. Use measured AABBs as a known-fixture approximation, not mesh collision truth.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 3,
+      "evidence_type": "scene_summary",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R04",
+      "criterion": "Both named parts have world-axis dimensions 1,1,1 and Support has dimensions 2,2,1, each within 0.05 fixture units; no extra intersecting Intruder geometry.",
+      "pass_condition": "Both named parts have world-axis dimensions 1,1,1 and Support has dimensions 2,2,1, each within 0.05 fixture units; no extra intersecting Intruder geometry.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 2,
+      "evidence_type": "scene_summary",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R05",
+      "criterion": "The actual shader/material for Z_target_part is blue, while A_unrelated_part stays orange and Support stays gray. Check actual assigned material slots/nodes, not only material names or generator claims.",
+      "pass_condition": "The actual shader/material for Z_target_part is blue, while A_unrelated_part stays orange and Support stays gray. Check actual assigned material slots/nodes, not only material names or generator claims.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 3,
+      "evidence_type": "scene_summary",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R06",
+      "criterion": "The rendered artifact visibly communicates the required two distinct cubes and gray support, correct arrangement and the required blue/orange part colors. A reasonable rendering variation is acceptable.",
+      "pass_condition": "The rendered artifact visibly communicates the required two distinct cubes and gray support, correct arrangement and the required blue/orange part colors. A reasonable rendering variation is acceptable.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 2,
+      "evidence_type": "render",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    }
+  ]
+}

@@ -1,0 +1,349 @@
+{
+  "changes": [],
+  "analysis": "The reusable projected_parts action executed successfully on both supplied configurations, completing the capability smoke. The chaise chair fragment has only 11.9% of its projected bounding-box area inside the frame, supporting the cropping expectation. Head upholstery extends only slightly beyond the crest's bounds; the measurement does not establish broad contour overflow. The classroom stage spans x=0.410–0.590, narrower than the estimated reference span 0.37–0.68, supporting the horizontal coverage expectation. Near and far desk widths are 0.183 and 0.062, but exact reference correspondences remain unknown. Diagnostic renders are square while reference images are landscape, so vertical normalized bounds require matching projection aspect before comparison. These observations support retaining the diagnostic capability, but do not identify a unique camera or geometry correction or demonstrate a shared reconstruction improvement. Stop without an H/M patch; no Selection improvement or functional qualification is claimed.",
+  "observations": [
+    {
+      "request": {
+        "decision": "action",
+        "scene_id": "commons_109923183",
+        "action_name": "actions/projected_parts.py",
+        "parameters_json": "{\"object_ids\":[\"chaise_longue\",\"raised_upholstered_head\",\"head_outer_crest\",\"cream_pillow\",\"foreground_chair_fragment\"]}",
+        "expectation": "Measure projected mesh bounds for the selected groups. Expect the head upholstery to extend beyond its crest and the foreground chair to lie largely outside the left image edge. These are projection facts, not proof of a unique modeling or camera cause. Run the same action on the classroom next.",
+        "analysis": "The two-scene smoke instruction takes precedence over the strategy's three-scene preference. Both builds succeeded. The chaise shows bulky upholstery and a nearly missing foreground chair; the classroom shows altered perspective, smaller distant stage coverage, and weaker dark/light separation. A reusable projection measurement can verify native geometry coverage in both configurations without changing either scene or attributing appearance errors to a single cause.",
+        "scope": "Applicable to any loaded scene with an active camera and explicitly selected mesh objects or hierarchy groups. Computes unoccluded vertex-projection bounds; does not measure visible silhouettes, reference correspondence, or image similarity.",
+        "new_action_source": "\"\"\"Read-only projected bounds for explicitly selected objects and mesh descendants.\"\"\"\ndef run(context):\n    import bpy\n    import math\n    scene = bpy.context.scene\n    camera = scene.camera\n    if camera is None:\n        return {'status': 'unavailable', 'reason': 'No active camera'}\n    depsgraph = bpy.context.evaluated_depsgraph_get()\n    render = scene.render\n    projection = camera.calc_matrix_camera(\n        depsgraph, x=render.resolution_x, y=render.resolution_y,\n        scale_x=render.pixel_aspect_x, scale_y=render.pixel_aspect_y)\n    view = camera.matrix_world.inverted()\n    rows = []\n    for name in context['parameters']['object_ids']:\n        root = scene.objects.get(name)\n        if root is None:\n            rows.append({'object_id': name, 'status': 'missing'})\n            continue\n        meshes = [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']\n        points = []\n        behind = 0\n        hidden = []\n        for obj in meshes:\n            if obj.hide_render:\n                hidden.append(obj.name)\n                continue\n            evaluated = obj.evaluated_get(depsgraph)\n            mesh = evaluated.to_mesh()\n            try:\n                transform = projection @ view @ evaluated.matrix_world\n                for vertex in mesh.vertices:\n                    clip = transform @ vertex.co.to_4d()\n                    if clip.w <= 1e-8:\n                        behind += 1\n                        continue\n                    x = .5 * (clip.x / clip.w + 1)\n                    y = .5 * (1 - clip.y / clip.w)\n                    if math.isfinite(x) and math.isfinite(y):\n                        points.append((float(x), float(y)))\n            finally:\n                evaluated.to_mesh_clear()\n        row = {'object_id': name, 'mesh_count': len(meshes),\n               'hidden_meshes': hidden, 'projected_vertex_count': len(points),\n               'vertices_at_or_behind_camera': behind}\n        if points:\n            xs, ys = zip(*points)\n            left, top, right, bottom = min(xs), min(ys), max(xs), max(ys)\n            area = (right-left)*(bottom-top)\n            intersection = max(0., min(1.,right)-max(0.,left)) * max(0., min(1.,bottom)-max(0.,top))\n            row.update({'bounds_normalized': [left,top,right,bottom],\n                        'bbox_area': area,\n                        'bbox_in_frame_fraction': intersection/area if area > 0 else None})\n        else:\n            row['bounds_normalized'] = None\n        rows.append(row)\n    return {'status': 'ok', 'coordinate_convention': 'x right, y down; image bounds 0 to 1',\n            'camera': {'name': camera.name, 'type': camera.data.type,\n                       'lens': float(camera.data.lens)},\n            'objects': rows,\n            'limitations': 'Unoccluded projected vertex bounds, not visible silhouette or pixel coverage. Bounds crossing the camera plane are incomplete. Collection visibility and reference correspondence are not inferred.'}\n",
+        "changes": []
+      },
+      "observation": {
+        "status": "completed",
+        "measurement": {
+          "status": "ok",
+          "coordinate_convention": "x right, y down; image bounds 0 to 1",
+          "camera": {
+            "name": "SceneActView",
+            "type": "PERSP",
+            "lens": 65.0
+          },
+          "objects": [
+            {
+              "object_id": "chaise_longue",
+              "mesh_count": 214,
+              "hidden_meshes": [],
+              "projected_vertex_count": 55466,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.11381764458231275,
+                0.2271638484454862,
+                0.8742407998656018,
+                0.8925885785240961
+              ],
+              "bbox_area": 0.5060043728499074,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "raised_upholstered_head",
+              "mesh_count": 1,
+              "hidden_meshes": [],
+              "projected_vertex_count": 482,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.14323649093813667,
+                0.2271638484454862,
+                0.3264547630254008,
+                0.6209681677352782
+              ],
+              "bbox_area": 0.07215214692077693,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "head_outer_crest",
+              "mesh_count": 17,
+              "hidden_meshes": [],
+              "projected_vertex_count": 4850,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.11381764458231275,
+                0.23071394408991902,
+                0.3245631328260862,
+                0.6362141852051805
+              ],
+              "bbox_area": 0.08545734629680363,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "cream_pillow",
+              "mesh_count": 23,
+              "hidden_meshes": [],
+              "projected_vertex_count": 4648,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.20067539980574878,
+                0.26004313181160615,
+                0.3344675514604821,
+                0.5127559835820041
+              ],
+              "bbox_area": 0.033810996189165235,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "foreground_chair_fragment",
+              "mesh_count": 16,
+              "hidden_meshes": [],
+              "projected_vertex_count": 2640,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                -0.2536052032033348,
+                0.760634122460581,
+                0.03435856386547387,
+                0.9322846692737278
+              ],
+              "bbox_area": 0.04942913807973462,
+              "bbox_in_frame_fraction": 0.1193155799259423
+            }
+          ],
+          "limitations": "Unoccluded projected vertex bounds, not visible silhouette or pixel coverage. Bounds crossing the camera plane are incomplete. Collection visibility and reference correspondence are not inferred."
+        },
+        "process": {
+          "status": "completed",
+          "pid": 1680981,
+          "command": [
+            "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+            "--background",
+            "--disable-autoexec",
+            "--threads",
+            "8",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "__EXPERIMENT_ROOT__/action_worker.py",
+            "--",
+            "--blend",
+            "__EXPERIMENT_ROOT__/preparation/second_smoke/historical_r1_C2_start/development/commons_109923183/1/scene.blend",
+            "--action",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/M/actions/projected_parts.py",
+            "--context",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/01/context.json",
+            "--output",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/01/measurement.json",
+            "--render-settings",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/01/settings.json"
+          ],
+          "started": 1793998938.0972297,
+          "finished": 1793998941.503091,
+          "seconds": 3.4058617637492716,
+          "returncode": 0,
+          "timed_out": false,
+          "timeout_seconds": 1200,
+          "memory_limit_exceeded": false,
+          "memory_limit_bytes": 34359738368,
+          "cpu_user_seconds": 16.67,
+          "cpu_system_seconds": 1.07,
+          "peak_individual_rss_kib": 387312,
+          "sampled_peak_tree_rss_kib_lower_bound": 381432.0,
+          "sample_interval_seconds": 0.1,
+          "sampled_process_count": 2,
+          "cpu_scope": "GNU time waited child and reaped descendants",
+          "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+        },
+        "render": "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/01/final.png",
+        "expectation": "Measure projected mesh bounds for the selected groups. Expect the head upholstery to extend beyond its crest and the foreground chair to lie largely outside the left image edge. These are projection facts, not proof of a unique modeling or camera cause. Run the same action on the classroom next.",
+        "action": "actions/projected_parts.py",
+        "scene_id": "commons_109923183",
+        "M": "__EXPERIMENT_ROOT__/preparation/open_m_smoke/M",
+        "render_attachment_index": 5
+      }
+    },
+    {
+      "request": {
+        "decision": "action",
+        "scene_id": "commons_104864364",
+        "action_name": "actions/projected_parts.py",
+        "parameters_json": "{\"object_ids\":[\"stage\",\"chalkboard\",\"desk_0_1\",\"desk_5_1\",\"bag_0\",\"bag_2\",\"fans\"]}",
+        "expectation": "Measure the classroom's stage, chalkboard, near and far desks, bags and fans using the same reusable action. Expect the distant stage to occupy less horizontal image extent than its approximate reference inventory bounds of 0.37–0.68. Compare near/far desk extents without assuming identical reference correspondences or a unique camera cause. Inspect these observations before stopping or proposing a shared change.",
+        "analysis": "The first action completed successfully. The chair fragment's bounding box has only 11.9% in-frame intersection, supporting the expected severe cropping. The head upholstery exceeds the crest bounds only slightly at the top and right; these bounds do not establish the broader hypothesized contour overflow or visible occlusion. Vertex bounds are tighter than the supplied approximate object boxes, so those measurements should not be conflated. Next execute the identical action on the second supplied configuration, as required by the two-image smoke instruction. Selected classroom groups exist in the native inventory; exact desk-to-reference correspondence remains unknown.",
+        "scope": "",
+        "new_action_source": "",
+        "changes": []
+      },
+      "observation": {
+        "status": "completed",
+        "measurement": {
+          "status": "ok",
+          "coordinate_convention": "x right, y down; image bounds 0 to 1",
+          "camera": {
+            "name": "SceneActView",
+            "type": "PERSP",
+            "lens": 25.0
+          },
+          "objects": [
+            {
+              "object_id": "stage",
+              "mesh_count": 17,
+              "hidden_meshes": [],
+              "projected_vertex_count": 136,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.4101404618908909,
+                0.4115661035940718,
+                0.5898595381091091,
+                0.5731109034546104
+              ],
+              "bbox_area": 0.02903268219879293,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "chalkboard",
+              "mesh_count": 4,
+              "hidden_meshes": [],
+              "projected_vertex_count": 32,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.46871578100827294,
+                0.48182672806025373,
+                0.5312842189917271,
+                0.5619002275691932
+              ],
+              "bbox_area": 0.0050100737881432255,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "desk_0_1",
+              "mesh_count": 6,
+              "hidden_meshes": [],
+              "projected_vertex_count": 48,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.24126975716325139,
+                0.7265745062622577,
+                0.4239619432937346,
+                0.8914343847031461
+              ],
+              "bbox_area": 0.03011861159757161,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "desk_5_1",
+              "mesh_count": 6,
+              "hidden_meshes": [],
+              "projected_vertex_count": 48,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.40968439108534516,
+                0.5524607366985662,
+                0.47171427486165085,
+                0.6052104568522461
+              ],
+              "bbox_area": 0.003272059010365411,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "bag_0",
+              "mesh_count": 5,
+              "hidden_meshes": [],
+              "projected_vertex_count": 40,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.028954136906416184,
+                0.7628219048372235,
+                0.12489276233007374,
+                0.939134096857962
+              ],
+              "bbox_area": 0.01691514934790162,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "bag_2",
+              "mesh_count": 5,
+              "hidden_meshes": [],
+              "projected_vertex_count": 40,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.7328313101902864,
+                0.7474560149640948,
+                0.8142708214939907,
+                0.9141743414993926
+              ],
+              "bbox_area": 0.013577459038406053,
+              "bbox_in_frame_fraction": 1.0
+            },
+            {
+              "object_id": "fans",
+              "mesh_count": 25,
+              "hidden_meshes": [],
+              "projected_vertex_count": 2850,
+              "vertices_at_or_behind_camera": 0,
+              "bounds_normalized": [
+                0.039405588853373474,
+                0.13166650547183195,
+                0.9013226419557948,
+                0.36323312443601136
+              ],
+              "bbox_area": 0.1995912178144968,
+              "bbox_in_frame_fraction": 1.0
+            }
+          ],
+          "limitations": "Unoccluded projected vertex bounds, not visible silhouette or pixel coverage. Bounds crossing the camera plane are incomplete. Collection visibility and reference correspondence are not inferred."
+        },
+        "process": {
+          "status": "completed",
+          "pid": 1681932,
+          "command": [
+            "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+            "--background",
+            "--disable-autoexec",
+            "--threads",
+            "8",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "__EXPERIMENT_ROOT__/action_worker.py",
+            "--",
+            "--blend",
+            "__EXPERIMENT_ROOT__/preparation/model_selection/gpt-6.1-terra/host_attempt/execution/scene.blend",
+            "--action",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/M/actions/projected_parts.py",
+            "--context",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/context.json",
+            "--output",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/measurement.json",
+            "--render-settings",
+            "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/settings.json"
+          ],
+          "started": 1793998966.4091032,
+          "finished": 1793998971.2854724,
+          "seconds": 4.876370320096612,
+          "returncode": 0,
+          "timed_out": false,
+          "timeout_seconds": 1200,
+          "memory_limit_exceeded": false,
+          "memory_limit_bytes": 34359738368,
+          "cpu_user_seconds": 29.53,
+          "cpu_system_seconds": 0.66,
+          "peak_individual_rss_kib": 383360,
+          "sampled_peak_tree_rss_kib_lower_bound": 362016.0,
+          "sample_interval_seconds": 0.1,
+          "sampled_process_count": 2,
+          "cpu_scope": "GNU time waited child and reaped descendants",
+          "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+        },
+        "render": "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/final.png",
+        "expectation": "Measure the classroom's stage, chalkboard, near and far desks, bags and fans using the same reusable action. Expect the distant stage to occupy less horizontal image extent than its approximate reference inventory bounds of 0.37–0.68. Compare near/far desk extents without assuming identical reference correspondences or a unique camera cause. Inspect these observations before stopping or proposing a shared change.",
+        "action": "actions/projected_parts.py",
+        "scene_id": "commons_104864364",
+        "M": "__EXPERIMENT_ROOT__/preparation/open_m_smoke/M",
+        "render_attachment_index": 6
+      }
+    }
+  ],
+  "decision": {
+    "decision": "stop",
+    "scene_id": "",
+    "action_name": "",
+    "parameters_json": "{}",
+    "expectation": "",
+    "analysis": "The reusable projected_parts action executed successfully on both supplied configurations, completing the capability smoke. The chaise chair fragment has only 11.9% of its projected bounding-box area inside the frame, supporting the cropping expectation. Head upholstery extends only slightly beyond the crest's bounds; the measurement does not establish broad contour overflow. The classroom stage spans x=0.410–0.590, narrower than the estimated reference span 0.37–0.68, supporting the horizontal coverage expectation. Near and far desk widths are 0.183 and 0.062, but exact reference correspondences remain unknown. Diagnostic renders are square while reference images are landscape, so vertical normalized bounds require matching projection aspect before comparison. These observations support retaining the diagnostic capability, but do not identify a unique camera or geometry correction or demonstrate a shared reconstruction improvement. Stop without an H/M patch; no Selection improvement or functional qualification is claimed.",
+    "scope": "",
+    "new_action_source": "",
+    "changes": []
+  }
+}

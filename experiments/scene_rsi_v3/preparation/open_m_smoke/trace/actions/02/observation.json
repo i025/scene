@@ -1,0 +1,168 @@
+{
+  "status": "completed",
+  "measurement": {
+    "status": "ok",
+    "coordinate_convention": "x right, y down; image bounds 0 to 1",
+    "camera": {
+      "name": "SceneActView",
+      "type": "PERSP",
+      "lens": 25.0
+    },
+    "objects": [
+      {
+        "object_id": "stage",
+        "mesh_count": 17,
+        "hidden_meshes": [],
+        "projected_vertex_count": 136,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.4101404618908909,
+          0.4115661035940718,
+          0.5898595381091091,
+          0.5731109034546104
+        ],
+        "bbox_area": 0.02903268219879293,
+        "bbox_in_frame_fraction": 1.0
+      },
+      {
+        "object_id": "chalkboard",
+        "mesh_count": 4,
+        "hidden_meshes": [],
+        "projected_vertex_count": 32,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.46871578100827294,
+          0.48182672806025373,
+          0.5312842189917271,
+          0.5619002275691932
+        ],
+        "bbox_area": 0.0050100737881432255,
+        "bbox_in_frame_fraction": 1.0
+      },
+      {
+        "object_id": "desk_0_1",
+        "mesh_count": 6,
+        "hidden_meshes": [],
+        "projected_vertex_count": 48,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.24126975716325139,
+          0.7265745062622577,
+          0.4239619432937346,
+          0.8914343847031461
+        ],
+        "bbox_area": 0.03011861159757161,
+        "bbox_in_frame_fraction": 1.0
+      },
+      {
+        "object_id": "desk_5_1",
+        "mesh_count": 6,
+        "hidden_meshes": [],
+        "projected_vertex_count": 48,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.40968439108534516,
+          0.5524607366985662,
+          0.47171427486165085,
+          0.6052104568522461
+        ],
+        "bbox_area": 0.003272059010365411,
+        "bbox_in_frame_fraction": 1.0
+      },
+      {
+        "object_id": "bag_0",
+        "mesh_count": 5,
+        "hidden_meshes": [],
+        "projected_vertex_count": 40,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.028954136906416184,
+          0.7628219048372235,
+          0.12489276233007374,
+          0.939134096857962
+        ],
+        "bbox_area": 0.01691514934790162,
+        "bbox_in_frame_fraction": 1.0
+      },
+      {
+        "object_id": "bag_2",
+        "mesh_count": 5,
+        "hidden_meshes": [],
+        "projected_vertex_count": 40,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.7328313101902864,
+          0.7474560149640948,
+          0.8142708214939907,
+          0.9141743414993926
+        ],
+        "bbox_area": 0.013577459038406053,
+        "bbox_in_frame_fraction": 1.0
+      },
+      {
+        "object_id": "fans",
+        "mesh_count": 25,
+        "hidden_meshes": [],
+        "projected_vertex_count": 2850,
+        "vertices_at_or_behind_camera": 0,
+        "bounds_normalized": [
+          0.039405588853373474,
+          0.13166650547183195,
+          0.9013226419557948,
+          0.36323312443601136
+        ],
+        "bbox_area": 0.1995912178144968,
+        "bbox_in_frame_fraction": 1.0
+      }
+    ],
+    "limitations": "Unoccluded projected vertex bounds, not visible silhouette or pixel coverage. Bounds crossing the camera plane are incomplete. Collection visibility and reference correspondence are not inferred."
+  },
+  "process": {
+    "status": "completed",
+    "pid": 1681932,
+    "command": [
+      "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+      "--background",
+      "--disable-autoexec",
+      "--threads",
+      "8",
+      "--python-exit-code",
+      "1",
+      "--python",
+      "__EXPERIMENT_ROOT__/action_worker.py",
+      "--",
+      "--blend",
+      "__EXPERIMENT_ROOT__/preparation/model_selection/gpt-6.1-terra/host_attempt/execution/scene.blend",
+      "--action",
+      "__EXPERIMENT_ROOT__/preparation/open_m_smoke/M/actions/projected_parts.py",
+      "--context",
+      "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/context.json",
+      "--output",
+      "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/measurement.json",
+      "--render-settings",
+      "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/settings.json"
+    ],
+    "started": 1793998966.4091032,
+    "finished": 1793998971.2854724,
+    "seconds": 4.876370320096612,
+    "returncode": 0,
+    "timed_out": false,
+    "timeout_seconds": 1200,
+    "memory_limit_exceeded": false,
+    "memory_limit_bytes": 34359738368,
+    "cpu_user_seconds": 29.53,
+    "cpu_system_seconds": 0.66,
+    "peak_individual_rss_kib": 383360,
+    "sampled_peak_tree_rss_kib_lower_bound": 362016.0,
+    "sample_interval_seconds": 0.1,
+    "sampled_process_count": 2,
+    "cpu_scope": "GNU time waited child and reaped descendants",
+    "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+  },
+  "render": "__EXPERIMENT_ROOT__/preparation/open_m_smoke/trace/actions/02/final.png",
+  "expectation": "Measure the classroom's stage, chalkboard, near and far desks, bags and fans using the same reusable action. Expect the distant stage to occupy less horizontal image extent than its approximate reference inventory bounds of 0.37–0.68. Compare near/far desk extents without assuming identical reference correspondences or a unique camera cause. Inspect these observations before stopping or proposing a shared change.",
+  "action": "actions/projected_parts.py",
+  "scene_id": "commons_104864364",
+  "M": "__EXPERIMENT_ROOT__/preparation/open_m_smoke/M",
+  "render_attachment_index": 6
+}

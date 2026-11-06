@@ -1,3 +1,27 @@
+# Scene-RSI V3：开放研究动作与十轮连续演化（运行中）
+
+V3 已冻结协议并启动真实运行，**目前尚未完成十轮或终测**。H 使用用户选定的 `gpt-6.1-terra`，M/共享编码与独立评审使用 `gpt-6-astra`，均为 medium，通过本机 Codex CLI。实际路由和本地费用不可见，不宣称已降本。
+
+固定起点是历史 V2.1 r1/C2 的 `historical_r1_C2_start`，不是 original_H0。正式基线按新模型、预算和评分重新执行；当前不拿旧结果充当新比较。8 CPU、32 GB、单 Blender×8线程、CPU-only。数据与历史暴露均保留，整轮属于探索性研究。
+
+- [运行前冻结协议](experiments/scene_rsi_v3/protocol.md) / [冻结配置与准备消耗](experiments/scene_rsi_v3/configs/freeze.json)
+- [审查索引](docs/V3_REVIEW_INDEX.md) / [初始进度快照](docs/V3_PROGRESS_SNAPSHOT.md)
+- [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) / [离线 HTML](experiments/scene_rsi_v3/reports/index.html)
+- [核心原始表格](experiments/scene_rsi_v3/metrics/) / [图表及来源](experiments/scene_rsi_v3/figures/)
+- [完整产物索引与上传状态](artifacts_index_v3.csv) / [归档和离线重画入口](docs/archive_tools_v3/COMMANDS.md)
+
+已完成的准备证据：真实 Terra 图像输入、SceneAct 场景构建/保存/渲染；8个已知正确/错误功能夹具；实际 Astra 新动作在两张开发图执行并将观测返回 M；20/20 独立评价校准完成，重复评分最大差2.5 BW分。以下是真实功能夹具渲染，**不是十轮改进结果**。
+
+![真实结构与编辑夹具](experiments/scene_rsi_v3/preparation/functional_fixtures/functional_contact_sheet.png)
+
+主要评分为 **BW-style / CLI-adapted**，不是官方排行榜。正式 Selection/Test 固定8评价视角+作者视角、1024²/64 samples/Cycles，Q仅辅助。未知和pending保持null；机械编辑与文字编辑分开。没有真实冻结元回放前，不展示元能力提升曲线。
+
+完整日志和 `.blend` 将按运行分包发布，当前是否已上传以索引为准。BW参考媒体单独分发许可未确认，不重新公开原参考或附件；本地保留完整原件。正式进程仍在运行时的归档是进度快照，不是实验完成声明。
+
+以下保留 V2.4 原有报告，数值不属于 V3。
+
+---
+
 # Scene-RSI V2.4：自然图像共享 H 诊断与修复先导实验
 
 研究问题：三维主动实验的真实观测是否帮助修改跨图像复用的重建流程，而不仅是修好某张图的 P？

@@ -1,0 +1,47 @@
+{
+  "expected_error_detected": true,
+  "checks": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 1,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": true,
+      "measured_pass": true,
+      "rows": [
+        {
+          "pair": {
+            "object": "Z_target_part",
+            "support": "Support"
+          },
+          "normalized_vertical_gap": 0.0,
+          "footprint_overlap_approx": true,
+          "measured_pass": true
+        }
+      ],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": false,
+      "crossings": [
+        {
+          "objects": [
+            "Z_target_part",
+            "Intruder"
+          ],
+          "triangle_pairs": 10
+        }
+      ],
+      "narrow_phase_pairs": 1,
+      "mesh_count": 4,
+      "tested_mesh_count": 4,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "limitation": "Triangle-surface intersections are measured; intended joints and containment require separate interpretation."
+}

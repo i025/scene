@@ -1,0 +1,23 @@
+{
+  "command": [
+    "__SCENEEVOLVE_REPRO__/work/.venv/bin/python",
+    "-c",
+    "import subprocess,sys;subprocess.run([sys.executable,\"-c\",\"import time; x=bytearray(100000000); time.sleep(.3)\"])"
+  ],
+  "started": 1793996378.7246299,
+  "finished": 1793996379.2415588,
+  "seconds": 0.5169294602237642,
+  "returncode": 0,
+  "timed_out": false,
+  "timeout_seconds": 5,
+  "memory_limit_exceeded": false,
+  "memory_limit_bytes": 536870912,
+  "cpu_user_seconds": 0.05,
+  "cpu_system_seconds": 0.12,
+  "peak_individual_rss_kib": 110672,
+  "sampled_peak_tree_rss_kib_lower_bound": 125088.0,
+  "sample_interval_seconds": 0.1,
+  "sampled_process_count": 3,
+  "cpu_scope": "GNU time waited child and reaped descendants",
+  "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+}

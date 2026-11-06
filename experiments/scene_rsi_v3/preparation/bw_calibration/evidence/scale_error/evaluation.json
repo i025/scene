@@ -1,0 +1,185 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 73.33333333333333,
+  "S_dimension": 73.75,
+  "S_BW": 73.54166666666666,
+  "started": 1793997311.0912032,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/bw_calibration/controlled_variants/scale_error/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997322.0326898,
+  "seconds": 10.941486597061157,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are native meshes with 8 vertices, 6 polygons, and finite nonempty geometry.",
+      "source_evidence": [
+        "scene_facts.json: objects[0,5,6].type",
+        "scene_facts.json: objects[0,5,6].vertices",
+        "scene_facts.json: objects[0,5,6].polygons",
+        "scene_facts.json: objects[0,5,6].finite_nonempty_mesh"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children match its declaration; both parts identify Assembly as their parent.",
+      "source_evidence": [
+        "scene_facts.json: objects[2].children",
+        "scene_facts.json: objects[2].declared_children",
+        "scene_facts.json: objects[0].parent",
+        "scene_facts.json: objects[6].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target lower Z is 0.99999988 and support upper Z is 1.0, with overlapping XY footprints. The normalized gap is effectively zero.",
+      "source_evidence": [
+        "scene_facts.json: objects[6].world_aabb_approx",
+        "scene_facts.json: objects[5].world_aabb_approx",
+        "scene_facts.json: structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Z_target_part measures 2.2 × 2.2 × 2.2 instead of 1 × 1 × 1. The other dimensions match, and only the three required meshes are present.",
+      "source_evidence": [
+        "scene_facts.json: objects[6].dimensions_scene_units",
+        "scene_facts.json: objects[0].dimensions_scene_units",
+        "scene_facts.json: objects[5].dimensions_scene_units",
+        "scene_facts.json: mesh_count",
+        "scene_facts.json: objects"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both parts use the connected orange Principled shader with base color approximately [0.65, 0.22, 0.05]; Support uses the gray shader with base color [0.22, 0.28, 0.32].",
+      "source_evidence": [
+        "scene_facts.json: objects[0,6].material_slots",
+        "scene_facts.json: objects[5].material_slots",
+        "scene_facts.json: materials.Shared_orange.nodes[1].inputs.Base Color",
+        "scene_facts.json: materials.Shared_orange.links",
+        "scene_facts.json: materials.Support_gray.nodes[1].inputs.Base Color",
+        "scene_facts.json: materials.Support_gray.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Two orange cubes and a gray support are visible, but the supported cube dominates and overhangs the support instead of sitting as a small cube on a broad pedestal. This materially changes the required visual arrangement.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The required objects and colors are recognizable, but the enlarged target substantially changes the reference composition; its top is cropped in the authored view.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 9,
+      "evidence": "The target remains centered on its support with effectively exact contact and only modest lateral overhang; no unintended crossing is established.",
+      "source_evidence": [
+        "scene_facts.json: objects[5,6].world_aabb_approx",
+        "scene_facts.json: structural_measurements.known_support.rows[0]",
+        "author.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 9,
+      "evidence": "Orange cubes, a cool gray support, plain background, and matte geometric styling closely match the intended visual language.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 8,
+      "evidence": "Simple solid forms and consistent matte shading are credible for this stylized fixture.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The supported and separate side-part relationships remain intact, but enlargement reduces visible spacing and obscures the support's top.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 2,
+      "evidence": "The target's edges are 2.2 times the required length, making it larger than the support footprint and much larger than the other cube.",
+      "source_evidence": [
+        "scene_facts.json: objects[0,5,6].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 9,
+      "evidence": "Soft illumination distinguishes cube faces clearly, with consistent orange and gray matte surfaces.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 10,
+      "evidence": "All three required mesh objects and the actual Assembly hierarchy are present, with no additional mesh objects.",
+      "source_evidence": [
+        "scene_facts.json: objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json: objects[2].children",
+        "scene_facts.json: mesh_count",
+        "wide_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00014",
+  "judge_usage": {
+    "input_tokens": 16926,
+    "output_tokens": 1464,
+    "observed_model": "unknown",
+    "seconds": 100.99681972200051
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

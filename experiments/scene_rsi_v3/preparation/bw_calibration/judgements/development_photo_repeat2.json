@@ -1,0 +1,203 @@
+{
+  "artifact_id": "development_photo",
+  "repeat": 2,
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 53.333333333333336,
+  "S_dimension": 51.25,
+  "S_BW": 52.29166666666667,
+  "started": 1793997322.0421357,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/model_selection/gpt-6.1-terra/host_attempt/execution/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1793997902.2142978,
+  "seconds": 580.1721620559692,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "Desks with legs and shelves, a freestanding chalkboard, ceiling fans, floor, walls and ceiling are recognizable.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The rigid, widely spaced desk grid misses the reference's denser, uneven arrangement. Repeated identical narrow wall panels do not reproduce the varied doors and windows.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Bags reach approximately desktop height, while desks and the stage backdrop are too small relative to the room and openings.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The cream/yellow walls and green/burgundy stage preserve color categories, but pale tan furniture and uniformly bright illumination miss the dark wood and strong side daylight contrast.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Box.123 is a finite mesh with eight vertices, six polygons and dimensions 1.55 × 0.64 × 0.10, bound to SceneActSurface_6. The material has a Principled BSDF connected to its surface output. Box.124 supplies separate volumetric leg geometry.",
+      "source_evidence": [
+        "scene_facts.json.objects[?object_id=='Box.123'].finite_nonempty_mesh",
+        "scene_facts.json.objects[?object_id=='Box.123'].vertices",
+        "scene_facts.json.objects[?object_id=='Box.123'].polygons",
+        "scene_facts.json.objects[?object_id=='Box.123'].dimensions_scene_units",
+        "scene_facts.json.objects[?object_id=='Box.123'].material_slots",
+        "scene_facts.json.objects[?object_id=='Box.124'].dimensions_scene_units",
+        "scene_facts.json.materials.SceneActSurface_6.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The authored view clearly evokes the supplied classroom through repeated desks, bags, fans, two-tone walls and the distinctive green-sided burgundy stage with chalkboard.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The distinctive classroom composition survives, but furniture density, openings and stage construction are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 7,
+      "evidence": "Desks have coherent supporting legs, books rest on tops and fans have downrods. The chalkboard's two thin supports lack a convincing freestanding base.",
+      "source_evidence": [
+        "wide_05.png",
+        "detail_01.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Major wall and stage hues remain identifiable, but pale furniture, rigid block-shaped bags and a flat curtain lose characteristic appearance.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Consistent shading gives volume, but identical furniture, blank picture frames, slab openings and rigid fabric substitutes make the room look like a blockout.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_04.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 5,
+      "evidence": "Forward-facing rows and the stage relationship are preserved; overly regular spacing and uniform side openings weaken the reference layout.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Basic desk proportions are plausible, but bags are oversized against desks and the stage occupies too little of the end wall.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Soft contact shadows are present, but flat, washed-out surfaces and diffuse illumination lose the reference's directional daylight and dark furniture contrast.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "Desks, fans, bags, board and room surfaces are present. Recognizable seating, ceiling beams and tube fixtures, detailed openings, and stage-side furnishings are missing.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00019",
+  "judge_usage": {
+    "input_tokens": 256867,
+    "output_tokens": 1347,
+    "observed_model": "unknown",
+    "seconds": 106.53918282594532
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00019",
+  "display_order": [
+    "wide_05.png",
+    "wide_06.png",
+    "wide_02.png",
+    "wide_01.png",
+    "wide_04.png",
+    "author.png",
+    "detail_01.png",
+    "wide_03.png",
+    "detail_02.png"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "task_id": "calibration_development_photo",
+  "mode": "reference_reconstruction",
+  "prompt": "Reconstruct the supplied empty Goa classroom photograph as an editable 3D room. Preserve the visible classroom furniture, spatial arrangement and main room boundaries. Do not invent a unique hidden layout or absolute metric scale.",
+  "rubrics": [
+    {
+      "id": "R01",
+      "criterion": "The main visible classroom furniture types and major room surfaces are recognizable in the artifact renders; generic featureless cubes alone do not establish the requested object identities.",
+      "pass_condition": "The main visible classroom furniture types and major room surfaces are recognizable in the artifact renders; generic featureless cubes alone do not establish the requested object identities.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 3,
+      "evidence_type": "render",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R02",
+      "criterion": "Relative furniture arrangement, repetition/count at visible resolution, major openings and room proportions follow the reference.",
+      "pass_condition": "Relative furniture arrangement, repetition/count at visible resolution, major openings and room proportions follow the reference.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 3,
+      "evidence_type": "render",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R03",
+      "criterion": "Object-to-object and furniture-to-room size ratios are consistent with the reference without requiring unstated absolute metric sizes.",
+      "pass_condition": "Object-to-object and furniture-to-room size ratios are consistent with the reference without requiring unstated absolute metric sizes.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 2,
+      "evidence_type": "render",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R04",
+      "criterion": "Visible major colors, lighting direction and material appearance are consistent with the reference; reasonable matte simplification is allowed.",
+      "pass_condition": "Visible major colors, lighting direction and material appearance are consistent with the reference; reasonable matte simplification is allowed.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 2,
+      "evidence_type": "render",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R05",
+      "criterion": "The native project contains nonempty finite 3D mesh geometry with depth and real material bindings, not only a reference image used as a billboard. Identify actual geometry/material facts; a mesh-count threshold is not fidelity.",
+      "pass_condition": "The native project contains nonempty finite 3D mesh geometry with depth and real material bindings, not only a reference image used as a billboard. Identify actual geometry/material facts; a mesh-count threshold is not fidelity.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 2,
+      "evidence_type": "scene_summary",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "R06",
+      "criterion": "The artifact as a whole clearly reads as the supplied classroom with the visible main furniture and spatial enclosure; rendering noise or different pixel values alone do not establish failure.",
+      "pass_condition": "The artifact as a whole clearly reads as the supplied classroom with the visible main furniture and spatial enclosure; rendering noise or different pixel values alone do not establish failure.",
+      "fail_condition": "The actual artifact does not satisfy the specified requirement.",
+      "importance_weight": 3,
+      "evidence_type": "render",
+      "score_type": "binary",
+      "score_values": [
+        0,
+        1
+      ]
+    }
+  ]
+}

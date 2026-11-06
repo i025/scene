@@ -1,0 +1,51 @@
+{
+  "model": {
+    "name": "gpt-6.1-terra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "selection_basis": "User explicitly selected gpt-6.1-terra during preparation; cost_unknown; medium fixed for formal run"
+  },
+  "budget": {
+    "model_calls": 4,
+    "executions": 3,
+    "seconds": 3600,
+    "reserve_final_seconds": 900
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 16,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 2,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false
+  },
+  "blender": {
+    "executable": "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 1200,
+    "threads": 2,
+    "build_timeout": 1200,
+    "render_timeout": 600
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "User explicitly authorized 8 CPU cores and 32 GB in current session; benchmark 2/4/8 threads; CPU only",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 2,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 8,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1
+  }
+}

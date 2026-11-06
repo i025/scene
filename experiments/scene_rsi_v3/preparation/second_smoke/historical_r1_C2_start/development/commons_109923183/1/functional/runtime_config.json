@@ -1,0 +1,124 @@
+{
+  "dataset": {
+    "manifest": "__PROJECT_ROOT__/outputs/scene_rsi_v2_4/manifest.json",
+    "historical_exposure": "V2.2 public sourcepagegroups; exploratory reuse; Goa development only",
+    "seed": 42
+  },
+  "model": {
+    "name": "gpt-6.1-terra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "selection_basis": "User explicitly selected gpt-6.1-terra during preparation; cost_unknown; medium fixed for formal run"
+  },
+  "proposer": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4
+  },
+  "blender": {
+    "executable": "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 1200,
+    "threads": 2,
+    "build_timeout": 1200,
+    "render_timeout": 600
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 16,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 8,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false,
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "gpu_bus_id": null,
+    "gpu_backend": "CUDA",
+    "gpu_kernel_root": null,
+    "actual_device_path": "__EXPERIMENT_ROOT__/preparation/second_smoke/historical_r1_C2_start/development/commons_109923183/1/functional/actual_device.json"
+  },
+  "budget": {
+    "model_calls": 4,
+    "executions": 3,
+    "seconds": 3600,
+    "reserve_final_seconds": 900
+  },
+  "benchmark": {
+    "concurrency": 1
+  },
+  "metrics": {
+    "device": "cpu",
+    "dino_model": "__SCENEEVOLVE_REPRO__/work/model-cache/dinov2-base",
+    "lpips_net": "alex",
+    "timeout": 600,
+    "alexnet_weights": "__SCENEEVOLVE_REPRO__/work/model-cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth",
+    "lpips_model_path": "__SCENEEVOLVE_REPRO__/work/.venv/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth"
+  },
+  "results_dir": "__EXPERIMENT_ROOT__",
+  "pilot": {
+    "name": "scene_rsi_v3",
+    "rounds": 10,
+    "max_cli_sessions": 1200,
+    "max_render_frames": 3000,
+    "max_input_tokens": 40000000,
+    "max_output_tokens": 3000000,
+    "research_sessions_per_round": 8,
+    "diagnostic_frames_per_round": 16,
+    "research_seconds_per_round": 7200,
+    "reserve_fraction": 0.25,
+    "status": "preparation",
+    "retry_limit": 1
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "User explicitly authorized 8 CPU cores and 32 GB in current session; benchmark 2/4/8 threads; CPU only",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 2,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 8,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1
+  },
+  "candidate_validation": {
+    "version": "v3_type_name_logging",
+    "allowed_imports": [
+      "ast",
+      "json",
+      "re",
+      "math",
+      "random",
+      "statistics",
+      "collections",
+      "itertools",
+      "pathlib"
+    ],
+    "amendment": "Common v2 rules plus narrowly allow type(value).__name__ for ordinary logging; revalidate all original raw proposals without model resampling",
+    "source_snapshot": "validation_correction_v3"
+  },
+  "evaluation": {
+    "label": "BW-style / CLI-adapted",
+    "views": 8,
+    "width": 1024,
+    "height": 1024,
+    "samples": 64,
+    "preview_width": 512,
+    "preview_samples": 16,
+    "minimum_bw_gain": 2,
+    "judge_model": "gpt-6-astra",
+    "reasoning_effort": "medium"
+  }
+}

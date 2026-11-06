@@ -1,0 +1,206 @@
+{
+  "artifact_id": "near_black",
+  "repeat": 1,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 66.66666666666667,
+  "S_dimension": 56.25,
+  "S_BW": 61.458333333333336,
+  "started": 1793997301.0635643,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/bw_calibration/controlled_variants/near_black/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997310.471841,
+  "seconds": 9.408276796340942,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are meshes with 8 vertices, 6 polygons, and finite nonempty geometry.",
+      "source_evidence": [
+        "scene_facts.json.objects[0,5,6].type",
+        "scene_facts.json.objects[0,5,6].vertices",
+        "scene_facts.json.objects[0,5,6].polygons",
+        "scene_facts.json.objects[0,5,6].finite_nonempty_mesh"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children match its declared children; both parts have Assembly as their parent.",
+      "source_evidence": [
+        "scene_facts.json.objects[2].children",
+        "scene_facts.json.objects[2].declared_children",
+        "scene_facts.json.objects[0].parent",
+        "scene_facts.json.objects[6].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target lower Z and support upper Z both equal 1.0. The target XY footprint lies inside the support footprint, giving zero normalized gap and overlap.",
+      "source_evidence": [
+        "scene_facts.json.objects[6].world_aabb_approx",
+        "scene_facts.json.objects[5].world_aabb_approx",
+        "scene_facts.json.structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Both parts measure 1×1×1 and Support measures 2×2×1. The complete object inventory contains only these three meshes and no Intruder.",
+      "source_evidence": [
+        "scene_facts.json.objects[0].dimensions_scene_units",
+        "scene_facts.json.objects[6].dimensions_scene_units",
+        "scene_facts.json.objects[5].dimensions_scene_units",
+        "scene_facts.json.objects",
+        "scene_facts.json.mesh_count"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "Assigned shaders have orange and gray Base Color values, but both connected Principled shaders have Weight 0.0 and no emission. Their actual surface shaders do not deliver the required colors.",
+      "source_evidence": [
+        "scene_facts.json.objects[0,5,6].material_slots",
+        "scene_facts.json.materials.Shared_orange.nodes[1].inputs",
+        "scene_facts.json.materials.Shared_orange.links",
+        "scene_facts.json.materials.Support_gray.nodes[1].inputs",
+        "scene_facts.json.materials.Support_gray.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The author render and all three evaluator views are black, with no discernible cubes, support, arrangement, or required colors.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 2,
+      "evidence": "The required geometry exists, but the rendered scene has no recognizable correspondence to the target arrangement.",
+      "source_evidence": [
+        "scene_facts.json.objects[0,5,6].finite_nonempty_mesh",
+        "author.png",
+        "wide_03.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 10,
+      "evidence": "The controlled fixture's required support contact and footprint overlap are satisfied, with no measured crossings or extra geometry.",
+      "source_evidence": [
+        "scene_facts.json.structural_measurements.known_support",
+        "scene_facts.json.structural_measurements.mesh_intersection",
+        "scene_facts.json.mesh_count"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 1,
+      "evidence": "No object silhouettes or orange/gray colors are discernible in any artifact view.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 1,
+      "evidence": "The black renders communicate no credible surfaces, depth, or coherent scene appearance.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 10,
+      "evidence": "Measured placement centers the target on the support and places the other cube separately to its right at the same height, consistent with the fixture arrangement.",
+      "source_evidence": [
+        "scene_facts.json.objects[0].world_aabb_approx",
+        "scene_facts.json.objects[5].world_aabb_approx",
+        "scene_facts.json.objects[6].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 10,
+      "evidence": "Measured dimensions exactly satisfy the two equal unit cubes and the support with twice their width and depth.",
+      "source_evidence": [
+        "scene_facts.json.objects[0].dimensions_scene_units",
+        "scene_facts.json.objects[5].dimensions_scene_units",
+        "scene_facts.json.objects[6].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 1,
+      "evidence": "Zero-weight surface shaders and black renders provide no visible material response, shading, or surface texture.",
+      "source_evidence": [
+        "scene_facts.json.materials.Shared_orange.nodes[1].inputs.Weight",
+        "scene_facts.json.materials.Support_gray.nodes[1].inputs.Weight",
+        "author.png",
+        "wide_03.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 10,
+      "evidence": "All three required mesh objects and the required Assembly hierarchy are present in the actual artifact.",
+      "source_evidence": [
+        "scene_facts.json.objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json.objects[2].children",
+        "scene_facts.json.mesh_count"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00002",
+  "judge_usage": {
+    "input_tokens": 16787,
+    "output_tokens": 1486,
+    "observed_model": "unknown",
+    "seconds": 39.4007221609354
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00002",
+  "display_order": [
+    "author.png",
+    "wide_03.png",
+    "detail_01.png",
+    "wide_01.png"
+  ]
+}

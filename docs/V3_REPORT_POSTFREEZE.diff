@@ -1,0 +1,321 @@
+--- code_snapshots/platform_frozen/analyze.py
++++ analyze.py
+@@ -55,10 +55,26 @@
+ 
+ 
+ def get_rounds():
+-    records = {record['round']: record for path in sorted((ROOT / 'rounds').glob('*/record.json'))
+-               for record in [read(path)]} if (ROOT / 'rounds').exists() else {}
+-    return [{**{'round': number, 'status': 'not_started'}, **records.get(number, {})}
+-            for number in range(1, 11)]
++    records = []
++    for number in range(1,11):
++        folder = ROOT / 'rounds' / f'{number:02d}'
++        record = folder / 'record.json'
++        row = {'round':number,'status':'not_started'}
++        if record.exists():
++            row.update(read(record))
++        else:
++            started = ROOT / 'candidates' / f'C{number:02d}' / 'research_started.json'
++            if started.exists():
++                evidence = read(started)
++                row.update(status='record_pending',H_parent=evidence['H_parent'],M_parent=evidence['M_parent'],
++                           M_program_used=evidence['M_program_used'],
++                           reason='Research-start trace exists; no terminal round record. Live process state not inferred.')
++            interrupted = folder / 'interrupted.json'
++            if interrupted.exists():
++                evidence = read(interrupted)
++                row.update(status='interrupted',reason=evidence['error'],interrupted_phase=evidence['phase'])
++        records.append(row)
++    return records
+ 
+ 
+ def get_scenes():
+@@ -85,30 +101,49 @@
+ 
+ def get_actions():
+     records = []
++    rounds = {row['round']:row for row in get_rounds()}
+     for path in sorted((ROOT / 'meta_traces').glob('round*/actions/*/observation.json')):
+         observation = read(path)
+         request_path = path.with_name('action_request.json')
+         request = read(request_path) if request_path.exists() else {}
+-        name = request.get('name', request.get('action', observation.get('action', path.parent.name)))
+-        if isinstance(name, dict):
+-            name = name.get('name', 'unknown')
+-        records.append({'round_id': path.parents[2].name, 'action_name': name,
+-            'creator_M': request.get('creator_M', observation.get('creator_M')),
+-            'source_version': request.get('source_version'),
+-            'executed_M': request.get('M_version', observation.get('M')),
+-            'status': observation.get('status', 'observation_saved'),
+-            'input': request, 'output': observation,
+-            'expected': request.get('expected', observation.get('expectation')), 'decision_changed': observation.get('decision_changed'),
+-            'source': relative(path)})
+-    seen = Counter()
++        round_id = path.parents[2].name
++        number = int(round_id.removeprefix('round'))
++        parent = rounds[number].get('M_parent')
++        started = ROOT / 'candidates' / f'C{number:02d}' / 'research_started.json'
++        if parent is None and started.exists():
++            parent = read(started)['M_parent']
++        snapshot = path.parent / request['source_snapshot'] if 'source_snapshot' in request else None
++        revision = request.get('action_revision')
++        records.append({'round_id':round_id,
++            'action_name':request.get('action_name',observation.get('action','unknown')),
++            'creator_M':request.get('creator_M'), 'action_revision':revision,
++            'source_version':str(request['creator_M']) + ':' + str(request['action_name']) + ':r' + str(revision)
++                             if revision is not None and request.get('creator_M') is not None else None,
++            'source_snapshot':relative(snapshot) if snapshot is not None else None,
++            'source_snapshot_available':snapshot.exists() if snapshot is not None else False,
++            'executed_M':parent, 'action_library_M':request.get('M',observation.get('M')),
++            'scene_id':request.get('scene_id',observation.get('scene_id')),
++            'status':observation['status'], 'input':request, 'output':observation,
++            'expected':request.get('expectation',observation.get('expectation')),
++            'decision_changed':observation.get('decision_changed'), 'source':relative(path)})
++    seen, first_sources = Counter(), {}
+     for row in records:
+-        # A repeated name is insufficient if action source/version provenance was not saved.
+-        identity = (row['action_name'], row['creator_M'], row['source_version'])
+-        if row['source_version'] is not None and row['output'].get('process') is not None:
+-            seen[identity] += 1
+-            row['execution_index_for_action_identity'] = seen[identity]
+-            row['reuse'] = seen[identity] > 1
++        identity = (row['action_name'],row['creator_M'],row['action_revision'])
++        if row['source_version'] is not None and row['source_snapshot_available'] and row['output'].get('process') is not None:
++            source = (ROOT / row['source_snapshot']).read_text()
++            if identity not in first_sources:
++                first_sources[identity] = source
++            consistent = first_sources[identity] == source
++            row['snapshot_consistent_for_recorded_version'] = consistent
++            if consistent:
++                seen[identity] += 1
++                row['execution_index_for_action_identity'] = seen[identity]
++                row['reuse'] = seen[identity] > 1
++            else:
++                row['execution_index_for_action_identity'] = None
++                row['reuse'] = None
+         else:
++            row['snapshot_consistent_for_recorded_version'] = None
+             row['execution_index_for_action_identity'] = None
+             row['reuse'] = None
+     return records
+@@ -141,22 +176,23 @@
+         data = read(path)
+         if 'seconds' not in data or 'command' not in data:
+             continue
+-        records.append({**data, 'record_path': relative(path),
+-            'stage': path.stem.removesuffix('_process'),
+-            'scope': data.get('cpu_scope', 'unknown'),
+-            'cpu_seconds': (data['cpu_user_seconds'] + data['cpu_system_seconds'])
+-                           if all(isinstance(data.get(key), (int, float)) for key in
+-                                  ('cpu_user_seconds', 'cpu_system_seconds')) else None})
+-    for path in sorted(ROOT.rglob('process.json')):
+-        if any(row['record_path'] == relative(path) for row in records):
+-            continue
+-        data = read(path)
+-        if 'seconds' in data and 'command' in data:
+-            records.append({**data, 'record_path': relative(path), 'stage': 'CLI_or_benchmark',
+-                            'scope': data.get('cpu_scope', 'unknown'),
+-                            'cpu_seconds': data['cpu_user_seconds'] + data['cpu_system_seconds']
+-                              if all(isinstance(data.get(key), (int, float)) for key in
+-                                     ('cpu_user_seconds', 'cpu_system_seconds')) else None})
++        records.append({**data,'record_path':relative(path),'measurement_type':'process_tree',
++            'stage':path.stem.removesuffix('_process'), 'scope':data.get('cpu_scope','unknown'),
++            'cpu_seconds':data['cpu_user_seconds'] + data['cpu_system_seconds']
++                           if all(isinstance(data.get(key),(int,float)) for key in
++                                  ('cpu_user_seconds','cpu_system_seconds')) else None,
++            'aggregation_note':'Nested process-tree scopes overlap; do not add to enclosing wall/CPU totals'})
++    for path in sorted(ROOT.rglob('metric_timing.jsonl')):
++        for line_number,line in enumerate(path.read_text().splitlines(),1):
++            event = json.loads(line)
++            records.append({**event,'record_path':relative(path),'line_number':line_number,
++                'measurement_type':'numeric_metric_stage', 'stage':event['stage'],
++                'scope':event.get('scope','numeric metric model load in current process; no child-tree CPU measurement'),
++                'finished':event['time'], 'started':None,
++                'cpu_seconds':event['cpu_user_seconds'] + event['cpu_system_seconds']
++                               if all(isinstance(event.get(key),(int,float)) for key in
++                                      ('cpu_user_seconds','cpu_system_seconds')) else None,
++                'aggregation_note':'Substage event, not additive with enclosing process scope; parent RSS is lifetime high-water mark'})
+     return records
+ 
+ 
+@@ -192,7 +228,7 @@
+         plt.text(.5,.5,'Selection pending: no measured formal scores',transform=plt.gca().transAxes,ha='center')
+     plt.xticks(range(0,11));plt.xlim(-.5,10.5);plt.xlabel('Continuous research round (0 = fresh baseline)')
+     plt.ylabel('BW-style / CLI-adapted (0-100)')
+-    return figure('evolution.png','蓝线为实际保留H的验证评分，圆点为接受候选、叉号为未接受候选；不对未运行轮次填零。连续轨迹不是十次独立重复。', ['metrics/rounds.csv'] + (['round0.json'] if base_path.exists() else []))
++    return figure('evolution.png','蓝线记录实际保留版本的晋升时验证评分，圆点为接受候选、叉号为未接受候选；后续边界复评原始记录另见scenes.csv中的bw_judgments，不反向覆盖历史决策点。资格恢复晋升不自动代表配对视觉增益。不对未运行轮次填零；连续轨迹不是十次独立重复。', ['metrics/rounds.csv'] + (['round0.json'] if base_path.exists() else []))
+ 
+ 
+ def plot_quality(scenes):
+@@ -250,11 +286,11 @@
+         axes[1].scatter(range(1, len(values) + 1), values, s=18)
+     else:
+         axes[1].text(.5, .5, 'pending', transform=axes[1].transAxes, ha='center')
+-    axes[1].set_title('Observed process duration'); axes[1].set_ylabel('wall seconds (overlapping scopes not summed)')
++    axes[1].set_title('Observed stage/process duration'); axes[1].set_ylabel('wall seconds (overlapping scopes not summed)')
+     token_rows = [row for row in cli if isinstance(row.get('input_tokens'), int) and isinstance(row.get('output_tokens'), int)]
+     axes[2].bar(['input', 'output'], [sum(row[key] for row in token_rows) for key in ('input_tokens', 'output_tokens')])
+     axes[2].set_title(f'Visible tokens; coverage {len(token_rows)}/{len(cli)} sessions')
+-    return figure('cost_and_timing.png', '实际会话、进程墙钟原始点和可见token总量。CPU秒、峰值RSS边界与错误位置见timing.csv；嵌套计时作用域不能简单相加。费用不可见时保持unknown。', ['metrics/cli_audit.csv', 'metrics/timing.csv'])
++    return figure('cost_and_timing.png', '实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv同时保留进程树和metric_timing.jsonl事件；两者作用域可能嵌套，禁止加和成总耗时。缺少CPU的模型加载事件保持null；parent RSS是进程生命周期高水位。费用未知。', ['metrics/cli_audit.csv', 'metrics/timing.csv'])
+ 
+ 
+ def plot_cpu_benchmark():
+@@ -316,7 +352,10 @@
+     if completed:
+         action = completed[0]  # Prespecified first completed action, independent of score.
+         observation = action['output']
+-        scene = next((row for row in scenes if row['scene_id'] == observation['scene_id'] and row['split'] == 'development'), None)
++        round_number = int(action['round_id'].removeprefix('round'))
++        parent_H = rounds[round_number-1].get('H_parent')
++        scene = next((row for row in scenes if row['scene_id']==observation['scene_id']
++                      and row['split']=='development' and row['H_version']==parent_H),None)
+         paths = [Path(scene['folder']) / 'final.png' if scene else None,
+                  Path(observation['render']) if observation.get('render') else None]
+         for axis, path, title in zip(axes[:2], paths, ['Current reconstruction', 'Actual action output']):
+@@ -350,29 +389,41 @@
+     return figure('HM_lineage.png', 'H与M分别记录实际使用、保留和动作观测次数。不变代码不作为后代，M可执行或被使用不等于能力改善；末轮尚未再执行的M不能声称已发挥作用。', ['metrics/rounds.csv', 'metrics/actions.csv'])
+ 
+ 
+-def group_statistics(scenes, manifest, state):
++def test_repeat_policy(config):
++    plan = ROOT / 'test_repeat_plan.json'
++    if plan.exists():
++        return {'repeats':read(plan)['repeats'],'source':'test_repeat_plan.json','finalized':True}
++    return {'repeats':config['pilot']['final_test']['primary_repeats'],
++            'source':'config.json:pilot.final_test.primary_repeats','finalized':False}
++
++
++def group_statistics(scenes, manifest, state, test_policy):
+     groups = []
+-    keys = list(dict.fromkeys((row['H_version'], row['split']) for row in scenes))
+-    for version, split in keys:
+-        rows = [row for row in scenes if row['H_version'] == version and row['split'] == split]
+-        scheduled = len([row for row in manifest if row['split'] == split]) * (2 if split == 'test' else 1)
+-        if split == 'development' and version not in [state.get('H_start'), state.get('H_best')]:
+-            scheduled = None  # Intermediate-H development panels are adaptive, not full-12 scheduled.
++    keys = list(dict.fromkeys((row['H_version'],row['split']) for row in scenes))
++    for version,split in keys:
++        rows = [row for row in scenes if row['H_version']==version and row['split']==split]
++        repeats = test_policy['repeats'] if split=='test' else 1
++        scheduled = len([row for row in manifest if row['split']==split]) * repeats
++        if split=='development' and version not in [state.get('H_start'),state.get('H_best')]:
++            scheduled = None
+         completed = [row for row in rows if row['status'] in TERMINAL]
+         passed = [row for row in completed if row.get('valid') is True]
+-        measured = [row for row in rows if row['evaluation_status'] == 'completed' and row['BW'] is not None]
++        measured = [row for row in rows if row['evaluation_status']=='completed' and row['BW'] is not None]
+         utilities = [row['e2e_BW_utility'] for row in rows if row['e2e_BW_utility'] is not None]
+-        groups.append({'H_version':version, 'split':split, 'all_scheduled':scheduled,
+-            'records_saved':len(rows), 'execution_finished':len(completed), 'execution_success':len(passed),
++        groups.append({'H_version':version,'split':split,'all_scheduled':scheduled,
++            'planned_repeats':repeats,'repeat_plan_source':test_policy['source'] if split=='test' else 'one generation per requested source/version',
++            'repeat_plan_finalized':test_policy['finalized'] if split=='test' else True,
++            'records_saved':len(rows),'execution_finished':len(completed),'execution_success':len(passed),
+             'execution_success_rate_all_scheduled':len(passed)/scheduled if scheduled and completed else None,
+-            'BW_measured':len(measured), 'evaluation_coverage':len(measured)/scheduled if scheduled else None,
++            'BW_measured':len(measured),'evaluation_coverage':len(measured)/scheduled if scheduled and completed else None,
+             'BW_conditional_mean':mean(row['BW'] for row in measured),
+             'Q_conditional_mean':mean(row['Q'] for row in passed),
+             'end_to_end_BW_utility':sum(utilities)/scheduled if scheduled and len(utilities)==scheduled else None,
+             'function_measured':sum(row['functional_pass'] is not None for row in rows),
+             'function_pass':sum(row['functional_pass'] is True for row in rows),
+             'independent_sources_observed':len({row['scene_id'] for row in rows}),
+-            'note':'Development intermediate-panel denominator not inferred' if scheduled is None else 'Frozen manifest coverage, Test two generation repeats per source'})
++            'note':'Development intermediate-panel denominator not inferred' if scheduled is None
++                    else 'Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum'})
+     return groups
+ 
+ 
+@@ -391,24 +442,30 @@
+     manifest = read(ROOT / 'manifest.json') if (ROOT / 'manifest.json').exists() else []
+     rounds, scenes, actions, cli, timing = get_rounds(), get_scenes(), get_actions(), get_cli(), get_timings()
+     save_csv('rounds.csv', rounds, ['round', 'H_parent', 'M_parent', 'H_candidate', 'M_candidate', 'candidate_type',
++        'proposal_returned', 'new_source_candidate', 'M_program_used', 'interrupted_phase',
+         'H_accepted', 'M_accepted', 'H_retained', 'M_retained', 'status', 'selection', 'reason', 'usage'])
+     save_csv('scenes.csv', scenes, ['scene_id', 'split', 'H_version', 'M_version', 'repeat', 'status', 'valid',
+         'evaluation_status', 'BW', 'S_rubric', 'S_dimension', 'dimensions', 'rubric_results', 'Q', 'PSNR', 'SSIM',
+         'LPIPS', 'DINO', 'functional_pass', 'functional_checks', 'e2e_BW_utility', 'model_roles', 'device',
+-        'seconds', 'folder', 'record_path'])
++        'seconds', 'generation_seconds', 'evaluation_scope', 'failure_type', 'eligible',
++        'bw_judgments', 'loaded_H_modules', 'folder', 'record_path'])
+     save_csv('actions.csv', actions, ['round_id', 'action_name', 'creator_M', 'executed_M', 'status',
+-        'source_version', 'execution_index_for_action_identity', 'reuse', 'expected', 'decision_changed', 'input', 'output', 'source'])
++        'action_revision', 'source_version', 'source_snapshot', 'source_snapshot_available',
++        'snapshot_consistent_for_recorded_version', 'action_library_M', 'scene_id',
++        'execution_index_for_action_identity', 'reuse', 'expected', 'decision_changed', 'input', 'output', 'source'])
+     save_csv('cli_audit.csv', cli, ['session_path', 'role', 'requested_model', 'observed_model', 'reasoning_effort',
+         'status', 'exit_code', 'error', 'started', 'finished', 'seconds', 'observable_cli_turns',
+         'observable_model_requests_lower_bound', 'exact_model_requests', 'request_visibility_coverage',
+         'command_executions', 'file_changes', 'image_reads', 'image_attachment_count', 'visible_subagent_calls',
+         'visible_tools', 'input_tokens', 'output_tokens', 'cached_input_tokens', 'cost_usd', 'H_execution_bypass_detected'])
+-    save_csv('timing.csv', timing, ['record_path', 'stage', 'scope', 'started', 'finished', 'seconds', 'returncode',
++    save_csv('timing.csv', timing, ['record_path', 'line_number', 'measurement_type', 'stage', 'scope', 'started', 'finished', 'seconds', 'returncode',
+         'timed_out', 'timeout_seconds', 'memory_limit_exceeded', 'memory_limit_bytes', 'cpu_user_seconds',
+         'cpu_system_seconds', 'cpu_seconds', 'peak_individual_rss_kib',
+-        'sampled_peak_tree_rss_kib_lower_bound', 'sample_interval_seconds', 'sampled_process_count', 'rss_scope'])
+-    groups = group_statistics(scenes, manifest, state)
+-    save_csv('group_summary.csv', groups, ['H_version','split','all_scheduled','records_saved','execution_finished','execution_success',
++        'sampled_peak_tree_rss_kib_lower_bound', 'sample_interval_seconds', 'sampled_process_count', 'rss_scope', 'peak_parent_rss_kib',
++        'cache_hit', 'aggregation_note'])
++    test_policy = test_repeat_policy(config)
++    groups = group_statistics(scenes, manifest, state, test_policy)
++    save_csv('group_summary.csv', groups, ['H_version','split','all_scheduled','planned_repeats','repeat_plan_source','repeat_plan_finalized','records_saved','execution_finished','execution_success',
+         'execution_success_rate_all_scheduled','BW_measured','evaluation_coverage','BW_conditional_mean','Q_conditional_mean',
+         'end_to_end_BW_utility','function_measured','function_pass','independent_sources_observed','note'])
+     figures = [contact_sheet(manifest, scenes, rounds, state), plot_evolution(rounds), plot_quality(scenes),
+@@ -416,6 +473,11 @@
+                plot_research_chain(actions, scenes, rounds), plot_lineage(rounds, actions)]
+     finished_rounds = [row for row in rounds if row['status'] in TERMINAL]
+     known_usage = [row for row in cli if isinstance(row.get('input_tokens'), int) and isinstance(row.get('output_tokens'), int)]
++    test_records = [row for row in scenes if row['split']=='test']
++    test_sources = sum(row['split']=='test' for row in manifest)
++    expected_test = test_sources * test_policy['repeats'] * len({state['H_start'],state['H_best']}) if state.get('final_selection_frozen') else None
++    test_finished = sum(row['status'] in TERMINAL for row in test_records)
++    test_status = 'pending' if not test_records else 'all_scheduled_records_terminal' if expected_test is not None and test_finished==expected_test else 'partially_completed'
+     summary = {'phase': state['phase'], 'rounds_completed': len(finished_rounds), 'rounds_scheduled': 10,
+         'scene_records': len(scenes), 'scene_status_counts': dict(Counter(row['status'] for row in scenes)),
+         'scene_execution_success_count': sum(row.get('valid') is True for row in scenes),
+@@ -424,8 +486,12 @@
+         'BW_measured_count': sum(isinstance(row['BW'], (int, float)) for row in scenes),
+         'BW_conditional_means_by_split': {split:mean(row['BW'] for row in scenes if row['split']==split)
+                                          for split in ['development','selection','test']},
+-        'test_completed': sum(row['split'] == 'test' and row['status'] in TERMINAL for row in scenes),
+-        'test_status': 'completed_records_available' if any(row['split'] == 'test' and row['status'] in TERMINAL for row in scenes) else 'pending',
++        'test_completed':test_finished, 'test_status':test_status,
++        'test_repeat_policy':test_policy, 'test_scheduled_sources':test_sources,
++        'test_planned_comparison_slots':test_sources * test_policy['repeats'] * 2,
++        'test_expected_unique_generations':expected_test,
++        'test_execution_success_rate_all_scheduled':sum(row.get('valid') is True for row in test_records)/expected_test if expected_test and test_finished else None,
++        'timing_measurement_types':dict(Counter(row['measurement_type'] for row in timing)),
+         'cli_sessions': len(cli), 'cli_by_role': dict(Counter(row.get('role', 'unknown') for row in cli)),
+         'known_input_tokens': sum(row['input_tokens'] for row in known_usage),
+         'known_output_tokens': sum(row['output_tokens'] for row in known_usage),
+@@ -436,12 +502,15 @@
+         'group_summary': groups, 'figures': figures}
+     (ROOT / 'metrics/summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2) + '\n')
+     status_text = (f"本轮状态：{state['phase']}；正式研发完成 {len(finished_rounds)}/10 轮。"
+-        f"保存了 {len(scenes)} 条正式场景记录、{summary['BW_measured_count']} 次BW测量；终测 {summary['test_status']}。"
++        f"保存了 {len(scenes)} 条正式场景记录、{summary['BW_measured_count']} 次BW测量；终测 {summary['test_status']}（已完成记录 {test_finished}）。"
+         f"实际CLI会话 {len(cli)} 次（包括准备阶段），usage可见 {len(known_usage)}/{len(cli)}。")
++    test_plan_text = (f"终测每来源每端点计划 {test_policy['repeats']} 次生成；依据 {test_policy['source']}，"
++        + ('预算分支已冻结。' if test_policy['finalized'] else '当前为最低保证次数，尚未作最终预算分支决定。')
++        + ' H_best与H_start相同时复用同一版本的真实产物，不增加独立生成数。')
+     limits_text = ('所有结果均为 BW-style / CLI-adapted，不是官方榜单分数。开发历史图已暴露；同模型研发与评审存在偏差。'
+         '未完成项保留pending/null；没有真实冻结元回放时不宣称元能力改善。进程树RSS为0.1秒采样下界；'
+         '嵌套阶段墙钟和CPU作用域有重叠，不相加冒充总耗时。')
+-    markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', limits_text, '',
++    markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', test_plan_text, '', limits_text, '',
+         '请求模型与可确认路由分开见 cli_audit.csv；没有路由元数据时 observed_model=unknown。费用未知，不宣称降本。', '',
+         '## 十轮实际状态', '', '| round | status | H retained | M retained | type |', '|---|---|---|---|---|']
+     for row in rounds:
+@@ -453,7 +522,7 @@
+                  '本命令只读取保存的记录、图片和配置，不运行模型或Blender。续跑入口由主runner提供，不由报告触发。']
+     (ROOT / 'reports/REPORT_ZH.md').write_text('\n'.join(markdown) + '\n')
+     body = '<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V3</title><style>body{font:16px/1.6 sans-serif;max-width:1400px;margin:24px auto;padding:0 20px;color:#17202a}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #ccd;padding:6px;vertical-align:top;word-break:break-word}figure{margin:25px 0}code{background:#f4f5f6}a{color:#125d98}</style><h1>Scene-RSI V3 实际运行报告</h1>'
+-    body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(limits_text) + '</p>'
++    body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>' + html.escape(limits_text) + '</p>'
+     body += '<p><a href="REPORT_ZH.md">中文Markdown</a> · <a href="../metrics/summary.json">原始汇总JSON</a> · <a href="../analyze.py">离线重画脚本</a> · <a href="../manifest.json">来源与暴露记录</a></p>'
+     body += '<h2>十轮状态</h2>' + html_table(rounds, ['round', 'status', 'H_parent', 'M_parent', 'candidate_type', 'H_retained', 'M_retained', 'H_accepted', 'M_accepted'])
+     for item in figures:

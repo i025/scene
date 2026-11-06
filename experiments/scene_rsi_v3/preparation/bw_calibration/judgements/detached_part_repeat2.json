@@ -1,0 +1,191 @@
+{
+  "artifact_id": "detached_part",
+  "repeat": 2,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 86.66666666666667,
+  "S_dimension": 93.75,
+  "S_BW": 90.20833333333334,
+  "started": 1793997260.6822374,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/detached_part/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997267.8528278,
+  "seconds": 7.170590400695801,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are native meshes with finite nonempty geometry, each containing 8 vertices and 6 polygons.",
+      "source_evidence": [
+        "scene_facts.json: objects[0,5,6].type",
+        "scene_facts.json: objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json: objects[0,5,6].vertices",
+        "scene_facts.json: objects[0,5,6].polygons"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "Assembly declares both parts, but only A_unrelated_part is its actual child. Z_target_part has no parent.",
+      "source_evidence": [
+        "scene_facts.json: objects[2].children",
+        "scene_facts.json: objects[2].declared_children",
+        "scene_facts.json: objects[6].parent",
+        "scene_facts.json: structural_measurements.hierarchy_parts.detached"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target minimum Z and support maximum Z both equal 1.0. The target XY footprint lies inside the support footprint; normalized vertical gap is zero.",
+      "source_evidence": [
+        "scene_facts.json: objects[6].world_aabb_approx",
+        "scene_facts.json: objects[5].world_aabb_approx",
+        "scene_facts.json: structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The complete object inventory contains only these three meshes, with no Intruder.",
+      "source_evidence": [
+        "scene_facts.json: objects[0].dimensions_scene_units",
+        "scene_facts.json: objects[6].dimensions_scene_units",
+        "scene_facts.json: objects[5].dimensions_scene_units",
+        "scene_facts.json: objects",
+        "scene_facts.json: mesh_count"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both parts assign Shared_orange.001, whose connected Principled shader has orange base color (0.65, 0.22, 0.05). Support assigns Support_gray.001 with gray-blue base color (0.22, 0.28, 0.32).",
+      "source_evidence": [
+        "scene_facts.json: objects[0,6].material_slots",
+        "scene_facts.json: objects[5].material_slots",
+        "scene_facts.json: materials['Shared_orange.001'].nodes[1].inputs['Base Color']",
+        "scene_facts.json: materials['Shared_orange.001'].links",
+        "scene_facts.json: materials['Support_gray.001'].nodes[1].inputs['Base Color']",
+        "scene_facts.json: materials['Support_gray.001'].links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The author view clearly shows two distinct orange cubes, one resting centrally on a gray support and the other separated to its right. Evaluator views corroborate geometry and contact.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 10,
+      "evidence": "The authored image reproduces the fixture's visible subjects, arrangement, and colors.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 8,
+      "evidence": "The target has exact approximate support contact without visible penetration. The separate cube is unsupported, consistent with the intended fixture but limiting physical plausibility.",
+      "source_evidence": [
+        "detail_01.png",
+        "author.png",
+        "scene_facts.json: structural_measurements.known_support.rows[0]"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 10,
+      "evidence": "Simple sharp-edged orange cubes and a matte gray support match the target style.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 9,
+      "evidence": "Shading and surfaces are coherent for a stylized fixture; slight render grain remains visible.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 10,
+      "evidence": "The centered supported cube and separated right-hand cube preserve the required spatial arrangement.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 10,
+      "evidence": "Equal unit cubes and the support's doubled width and depth provide the required relative proportions.",
+      "source_evidence": [
+        "author.png",
+        "scene_facts.json: objects[0,5,6].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 9,
+      "evidence": "Matte surfaces, readable face shading, and contact shadow suit the reference; minor sampling noise is visible.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 9,
+      "evidence": "All required visible objects are present, but the explicitly required Assembly hierarchy is incomplete because the target is detached.",
+      "source_evidence": [
+        "author.png",
+        "scene_facts.json: objects[2].children",
+        "scene_facts.json: objects[6].parent"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00018",
+  "judge_usage": {
+    "input_tokens": 18891,
+    "output_tokens": 1490,
+    "observed_model": "unknown",
+    "seconds": 40.07377936178818
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00018",
+  "display_order": [
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png",
+    "author.png"
+  ]
+}

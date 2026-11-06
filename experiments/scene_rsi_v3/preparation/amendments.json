@@ -1,0 +1,27 @@
+{
+  "formal_started": false,
+  "items": [
+    {
+      "item": "initial_readonly_cli_initialization",
+      "status": "failed_before_observable_model_request",
+      "evidence": "preparation/model_selection/gpt-5.6-sol/session.json"
+    },
+    {
+      "item": "two_preparation_model_calls_overlap",
+      "reason": "Terra was launched while earlier Sol request still active; no heavy Blender overlap; formal CLI concurrency will be serial",
+      "scope": "preparation only; both charged"
+    },
+    {
+      "item": "H_model_change",
+      "reason": "User explicitly selected gpt-6.1-terra after preparation started; no formal results used"
+    },
+    {
+      "item": "CPU_import_failures",
+      "reason": "psutil was initially imported in Blender environment; changed to local import in host measurement function; all attempts retained"
+    },
+    {
+      "item": "preparation_code_snapshots",
+      "status": "Some intermediate preparation code variants were not separately snapshotted; final platform snapshot will precede formal run. Do not claim complete preparation-source provenance."
+    }
+  ]
+}

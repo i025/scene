@@ -1,0 +1,217 @@
+{
+  "version": "bw_calibration_v3_1",
+  "created": 1793997014.6841397,
+  "seed": 42,
+  "purpose": "Evaluator evidence routing and repeat noise; not method selection or performance tuning",
+  "artifacts": [
+    {
+      "artifact_id": "correct",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/correct_rubric.json",
+      "preview": false,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": null
+    },
+    {
+      "artifact_id": "detached_part",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/detached_part/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/detached_part_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": "detached_part"
+    },
+    {
+      "artifact_id": "missing_declared_part",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/missing_declared_part/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/missing_declared_part_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": "missing_declared_part"
+    },
+    {
+      "artifact_id": "broken_support",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/broken_support/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/broken_support_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": "broken_support"
+    },
+    {
+      "artifact_id": "shared_material_bad_edit",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/shared_material_bad_edit/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/shared_material_bad_edit_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": "shared_material_bad_edit"
+    },
+    {
+      "artifact_id": "independent_local_edit",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/independent_local_edit/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/independent_local_edit_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": null
+    },
+    {
+      "artifact_id": "triangle_crossing",
+      "blend": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/triangle_crossing/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/triangle_crossing_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": null,
+      "expected_problem": "triangle_crossing"
+    },
+    {
+      "artifact_id": "near_black",
+      "blend": "__EXPERIMENT_ROOT__/preparation/bw_calibration/controlled_variants/near_black/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/near_black_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": "near_black",
+      "expected_problem": "near_black"
+    },
+    {
+      "artifact_id": "scale_error",
+      "blend": "__EXPERIMENT_ROOT__/preparation/bw_calibration/controlled_variants/scale_error/scene.blend",
+      "reference": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/correct/final.png",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/scale_error_rubric.json",
+      "preview": true,
+      "interior": false,
+      "controlled_variant": "scale_error",
+      "expected_problem": "scale_error"
+    },
+    {
+      "artifact_id": "development_photo",
+      "blend": "__EXPERIMENT_ROOT__/preparation/model_selection/gpt-6.1-terra/host_attempt/execution/scene.blend",
+      "reference": "__PROJECT_ROOT__/outputs/scene_rsi_v2_2/data/commons_104864364.jpg",
+      "rubric": "__EXPERIMENT_ROOT__/preparation/bw_calibration/photograph_rubric.json",
+      "preview": false,
+      "interior": true,
+      "controlled_variant": null,
+      "expected_problem": "unknown_real_reconstruction_quality"
+    }
+  ],
+  "judge_schedule": [
+    {
+      "artifact_id": "development_photo",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "missing_declared_part",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "near_black",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "missing_declared_part",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "shared_material_bad_edit",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "triangle_crossing",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "near_black",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "development_photo",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "broken_support",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "triangle_crossing",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "scale_error",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "independent_local_edit",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "correct",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "independent_local_edit",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "detached_part",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "scale_error",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "broken_support",
+      "repeat": 2
+    },
+    {
+      "artifact_id": "shared_material_bad_edit",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "correct",
+      "repeat": 1
+    },
+    {
+      "artifact_id": "detached_part",
+      "repeat": 2
+    }
+  ],
+  "evaluation_configuration": {
+    "label": "BW-style / CLI-adapted",
+    "views": 8,
+    "width": 1024,
+    "height": 1024,
+    "samples": 64,
+    "preview_width": 512,
+    "preview_samples": 16,
+    "minimum_bw_gain": 2,
+    "judge_model": "gpt-6-astra",
+    "reasoning_effort": "medium"
+  },
+  "judge_configuration": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4
+  },
+  "expected_cli_sessions": 20,
+  "expected_render_attempts_without_failures": 50,
+  "jitter_formula": "max(abs(S_BW_repeat1 - S_BW_repeat2)) across completed pairs of the identical artifact, including the real-photograph artifact; preview scores remain separately labelled",
+  "delta_formula": "max(2, maximum_absolute_repeat_difference); freeze only after every scheduled pair completes",
+  "missing_requested_stressors": [],
+  "known_fixture_limits": "Existing fixtures provide omissions, hierarchy, support, crossings, shared material and legitimate independent edit. Black/scale cases are explicitly generated Blender copies of the correct fixture, not postprocessed fake renders.",
+  "independence": "Every judgement uses fresh session, anonymous E000xx directory and randomized artifact/view order; same model as research remains a shared-model bias."
+}
