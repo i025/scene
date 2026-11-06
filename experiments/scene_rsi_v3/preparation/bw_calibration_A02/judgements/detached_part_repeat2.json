@@ -1,0 +1,201 @@
+{
+  "artifact_id": "detached_part",
+  "repeat": 2,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 86.66666666666667,
+  "S_dimension": 97.5,
+  "S_BW": 92.08333333333334,
+  "started": 1793997260.6822374,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/detached_part/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997267.8528278,
+  "seconds": 7.170590400695801,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are meshes with 8 vertices, 6 polygons, and finite nonempty geometry.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json:objects[0,5,6].type",
+        "scene_facts.json:objects[0,5,6].vertices",
+        "scene_facts.json:objects[0,5,6].polygons"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "Assembly declares both parts but actually parents only A_unrelated_part. Z_target_part has no parent.",
+      "source_evidence": [
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[2].declared_children",
+        "scene_facts.json:objects[6].parent",
+        "scene_facts.json:structural_measurements.hierarchy_parts.detached"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target lower Z and support upper Z both equal 1.0; target XY bounds lie within the support footprint. The normalized vertical gap is zero.",
+      "source_evidence": [
+        "scene_facts.json:objects[6].world_aabb_approx",
+        "scene_facts.json:objects[5].world_aabb_approx",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The scene contains only these three meshes, with no Intruder.",
+      "source_evidence": [
+        "scene_facts.json:objects[0].dimensions_scene_units",
+        "scene_facts.json:objects[6].dimensions_scene_units",
+        "scene_facts.json:objects[5].dimensions_scene_units",
+        "scene_facts.json:objects",
+        "scene_facts.json:mesh_count"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both parts use the connected orange Principled shader with base color (0.65, 0.22, 0.05). Support uses the connected gray shader with base color (0.22, 0.28, 0.32).",
+      "source_evidence": [
+        "scene_facts.json:objects[0,6].material_slots",
+        "scene_facts.json:objects[5].material_slots",
+        "scene_facts.json:materials['Shared_orange.001'].nodes[1].inputs['Base Color']",
+        "scene_facts.json:materials['Shared_orange.001'].links",
+        "scene_facts.json:materials['Support_gray.001'].nodes[1].inputs['Base Color']",
+        "scene_facts.json:materials['Support_gray.001'].links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The delivered and authored-camera views clearly show two orange cubes, one resting on the gray support and the other separated to its right.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 10,
+      "evidence": "The delivered image closely matches the target's visible objects, arrangement, and framing.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 10,
+      "evidence": "The required support contact is exact under the fixture approximation; the separate cube's placement is consistent with this controlled fixture.",
+      "source_evidence": [
+        "scene_facts.json:structural_measurements.known_support.rows[0]",
+        "detail_01.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 10,
+      "evidence": "Simple sharp-edged cubes, orange parts, and a cool gray support match the target style.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 10,
+      "evidence": "Consistent matte shading and simple geometry suit the stylized fixture.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 10,
+      "evidence": "The stacked left pair and separated right cube reproduce the required visible spatial relationships.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 10,
+      "evidence": "Equal unit cubes and the wider 2×2×1 support have the required relative proportions.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,5,6].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 10,
+      "evidence": "Soft illumination, matte surfaces, and contact shading are consistent with the reference treatment.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 8,
+      "evidence": "All required visible objects are present, but the required Assembly hierarchy is incomplete because Z_target_part is detached.",
+      "source_evidence": [
+        "author.png",
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[6].parent"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00040",
+  "judge_usage": {
+    "input_tokens": 19988,
+    "output_tokens": 1360,
+    "observed_model": "unknown",
+    "seconds": 39.09222240000963
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00040",
+  "display_order": [
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png",
+    "author.png"
+  ]
+}

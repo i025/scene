@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import statistics
 import os
+import re
 
 os.environ['MPLCONFIGDIR'] = '/tmp/scene_rsi_v3_matplotlib'
 for key in ('OMP_NUM_THREADS', 'MKL_NUM_THREADS', 'OPENBLAS_NUM_THREADS'):
@@ -77,6 +78,58 @@ def get_rounds():
     return records
 
 
+def evaluator_failure(bw):
+    error=bw.get('evaluation_error') or ''
+    if bw['evaluation_status']=='completed':return 'scored'
+    if 'protocol_pause.json' in error:return 'operator_pause_before_judge'
+    if 'Final PNG signature' in error or 'delivery metadata were not supplied' in error:return 'missing_delivery_evidence'
+    return 'other_eval_failure' if bw['evaluation_status']=='eval_failed' else 'not_started_or_pending'
+
+
+def evaluator_revision(path):
+    folder=path.parent;old=read(folder/'record_before_A02_evaluator.json');current=read(path)
+    before,now=old['bw'],current['bw']
+    evidence=read(folder/'bw_evidence/evidence_status.json') if (folder/'bw_evidence/evidence_status.json').exists() else {}
+    revised=(now.get('native_evidence_version')=='authored_native_project_facts_A02'
+             and now.get('delivery_evidence_version')=='original_delivery_metadata_A02')
+    old_calls=[p/'request.json' for p in folder.iterdir() if p.is_dir() and re.fullmatch(r'judge_\d+',p.name) and (p/'request.json').exists()]
+    fresh_calls=[p/'request.json' for p in folder.glob('judge_A02_*') if (p/'request.json').exists()]
+    old_sessions=[read(p.with_name('session.json')) for p in old_calls if p.with_name('session.json').exists()]
+    return {'scene_id':current['scene_id'],'split':current['split'],'H_version':current['H_version'],'repeat':current['repeat'],
+        'old_record_path':relative(folder/'record_before_A02_evaluator.json'),'current_record_path':relative(path),
+        'old_execution_status':old['status'],'current_execution_status':current['status'],
+        'old_evaluation_status':before['evaluation_status'],'old_BW':before.get('S_BW'),
+        'old_S_rubric':before.get('S_rubric'),'old_S_dimension':before.get('S_dimension'),
+        'old_rubric_results':before.get('rubric_scores'),'old_dimension_results':before.get('dimension_scores'),
+        'old_failure_type':before.get('failure_type'),'old_evaluation_error':before.get('evaluation_error'),
+        'old_audited_failure_class':evaluator_failure(before),
+        'old_native_version':before.get('native_evidence_version') or 'pre_A02',
+        'old_delivery_version':before.get('delivery_evidence_version') or 'pre_A02',
+        'old_CLI_request_count':len(old_calls),'old_CLI_request_paths':[relative(p) for p in old_calls],
+        'old_saved_session_count':len(old_sessions),'old_session_statuses':dict(Counter(s['status'] for s in old_sessions)),
+        'old_known_input_tokens':sum(s['input_tokens'] for s in old_sessions if isinstance(s.get('input_tokens'),int)),
+        'old_known_output_tokens':sum(s['output_tokens'] for s in old_sessions if isinstance(s.get('output_tokens'),int)),
+        'old_usage_known_session_count':sum(isinstance(s.get('input_tokens'),int) for s in old_sessions),
+        'current_raw_evaluation_status':now['evaluation_status'],'current_raw_BW':now.get('S_BW'),
+        'current_result_native_version':now.get('native_evidence_version') or 'pre_A02',
+        'current_result_delivery_version':now.get('delivery_evidence_version') or 'pre_A02',
+        'available_native_version':evidence.get('native_evidence_version'),'available_delivery_version':evidence.get('delivery_evidence_version'),
+        'available_evidence_status':evidence.get('evaluation_status'),'current_result_is_A02':revised,
+        'new_evaluation_status':now['evaluation_status'] if revised else 'pending_A02_evaluation',
+        'new_BW':now.get('S_BW') if revised else None,'new_S_rubric':now.get('S_rubric') if revised else None,
+        'new_S_dimension':now.get('S_dimension') if revised else None,
+        'new_failure_type':now.get('failure_type') if revised else None,
+        'new_audited_failure_class':evaluator_failure(now) if revised else 'pending',
+        'new_CLI_request_count':len(fresh_calls),'new_CLI_request_paths':[relative(p) for p in fresh_calls],
+        'same_H_version_and_artifact_folder':old['H_version']==current['H_version'] and old['folder']==current['folder'],
+        'algorithm_gain_comparison':False,
+        'note':'Evaluator evidence revision of saved artifact; old score/failed attempts retained, no H resampling inferred'}
+
+
+def get_evaluator_revisions():
+    return [evaluator_revision(path.with_name('record.json')) for path in sorted((ROOT/'results').rglob('record_before_A02_evaluator.json'))]
+
+
 def get_scenes():
     records = []
     for path in sorted((ROOT / 'results').rglob('record.json')):
@@ -85,8 +138,14 @@ def get_scenes():
             continue
         metrics = row.get('metrics') or {}
         bw = row.get('bw') or {}
+        revision=evaluator_revision(path) if path.with_name('record_before_A02_evaluator.json').exists() else None
+        if revision is not None and not revision['current_result_is_A02']:
+            bw={**bw,'S_BW':None,'S_rubric':None,'S_dimension':None,'dimension_scores':[],
+                'rubric_scores':None,'evaluation_status':'pending_A02_evaluation'}
         functional = row.get('functional') or {}
         records.append({**row, 'record_path': relative(path),
+            'record_raw_BW':row['bw'].get('S_BW'),'record_raw_evaluation_status':row['bw']['evaluation_status'],
+            'evaluator_revision_status':revision['new_evaluation_status'] if revision is not None else None,
             'Q': metrics.get('overall'), 'PSNR': metrics.get('psnr'), 'SSIM': metrics.get('ssim'),
             'LPIPS': metrics.get('lpips'), 'DINO': metrics.get('dino'),
             'BW': bw.get('S_BW'), 'S_rubric': bw.get('S_rubric'), 'S_dimension': bw.get('S_dimension'),
@@ -196,6 +255,73 @@ def get_timings():
     return records
 
 
+def get_render_accounting():
+    ledgers = {path.parent:path for path in ROOT.rglob('render_ledger.json')
+               if 'code_snapshots' not in path.relative_to(ROOT).parts}
+    events = {path.parent:path for path in ROOT.rglob('stage_events.jsonl')
+              if 'code_snapshots' not in path.relative_to(ROOT).parts}
+    views = {}
+    for path in ROOT.rglob('*_render.json'):
+        if 'code_snapshots' in path.relative_to(ROOT).parts:
+            continue
+        metadata = read(path)
+        if 'view_id' in metadata and metadata.get('status') in ['running','completed']:
+            views.setdefault(path.parent,[]).append(path)
+    rows = []
+    for folder in sorted(set(ledgers) | set(events) | set(views)):
+        ledger = read(ledgers[folder]) if folder in ledgers else None
+        event_rows = [json.loads(line) for line in events[folder].read_text().splitlines()] if folder in events else []
+        if folder in views:
+            metadata = [read(path) for path in views[folder]]
+            selected,attempts,completed = 'per_view_render_metadata',len(metadata),sum(row['status']=='completed' for row in metadata)
+            selected_paths = [relative(path) for path in views[folder]]
+            note = 'One metadata record per view; running means renderer-entry attempt recorded, not proof of a completed frame'
+        elif folder in events:
+            selected = 'stage_render_events'
+            attempts = sum(row['stage']=='render_started' for row in event_rows)
+            completed = sum(row['stage']=='render_completed' for row in event_rows)
+            selected_paths = [relative(events[folder])]
+            note = 'Count only explicit render_started/completed events; do not also add the same-folder ledger'
+        else:
+            selected = 'outer_prelaunch_ledger' if any(part.startswith('cpu_benchmark') for part in folder.relative_to(ROOT).parts) else 'render_ledger'
+            attempts,completed = ledger['render_attempts'],ledger['renders_completed']
+            selected_paths = [relative(ledgers[folder])]
+            note = 'Ledger counters as recorded; some callers record attempts before process launch, so these are not exact renderer starts'
+        rows.append({'scope_path':relative(folder),'selected_source_type':selected,'selected_sources':selected_paths,
+            'recorded_attempts':attempts,'recorded_completed':completed,
+            'ledger_source':relative(ledgers[folder]) if folder in ledgers else None,
+            'ledger_recorded_attempts':ledger['render_attempts'] if ledger is not None else None,
+            'ledger_recorded_completed':ledger['renders_completed'] if ledger is not None else None,
+            'exact_whole_experiment_count':False,'note':note})
+    budget_path = ROOT / 'render_attempts.jsonl'
+    budget_rows = [json.loads(line) for line in budget_path.read_text().splitlines()] if budget_path.exists() else None
+    selected_counts = {}
+    for source_type in sorted({row['selected_source_type'] for row in rows}):
+        source_rows = [row for row in rows if row['selected_source_type']==source_type]
+        selected_counts[source_type] = {'scope_count':len(source_rows),
+            'recorded_attempts':sum(row['recorded_attempts'] for row in source_rows),
+            'recorded_completed':sum(row['recorded_completed'] for row in source_rows)}
+    correction_path = ROOT / 'preparation/cpu_benchmark_budget_correction.json'
+    correction = read(correction_path) if correction_path.exists() else None
+    main_charged=sum(row['frames'] for row in budget_rows) if budget_rows is not None else None
+    stage=ROOT/'meta_replay_stage';stage_ledger=stage/'render_attempts.jsonl'
+    stage_charged=sum(json.loads(line)['frames'] for line in stage_ledger.read_text().splitlines()) if stage_ledger.exists() else None
+    combined=main_charged+stage_charged if main_charged is not None and stage_charged is not None else main_charged if not stage.exists() else None
+    summary = {'render_budget_charged':main_charged,
+        'main_render_budget_charged':main_charged,'replay_render_budget_charged':stage_charged,
+        'combined_render_budget_charged':combined,
+        'render_budget_charge_events':len(budget_rows) if budget_rows is not None else None,
+        'render_budget_source':'render_attempts.jsonl','actual_render_attempts_exact':None,
+        'actual_render_completed_exact':None,'selected_evidence_scope_count':len(rows),
+        'selected_recorded_counts_by_source_type':selected_counts,
+        'same_scope_source_precedence':'per-view metadata, else stage events, else ledger; no duplicate addition within a scope',
+        'CPU_benchmark_budget_correction':correction,
+        'coverage_note':'Global guard ledger measures budget charges; functional() reserves 3 even when fewer frames are applicable. '
+                         'Physical renderer counts are not comprehensively instrumented; exact actual totals remain unknown. '
+                         'Recorded counters from different interface semantics are reported separately, not added into an exact total.'}
+    return rows,summary
+
+
 def figure(name, caption, sources):
     path = ROOT / 'figures' / name
     plt.tight_layout()
@@ -244,7 +370,7 @@ def plot_quality(scenes):
             axis.text(.5, .5, 'pending / no measured BW', transform=axis.transAxes, ha='center')
         axis.set_title(f'{split}: n={len(rows)} measured generations')
         axis.set_ylim(0, 100); axis.set_ylabel('BW-style / CLI-adapted')
-    return figure('quality_points.png', '各划分所有实际测得的逐生成 BW 点；开发 preview 与正式 Selection/Test 分开。缺测和未开始不显示零分。统计单位为生成产物，独立场景数另见CSV。', ['metrics/scenes.csv'])
+    return figure('quality_points.png', '当前有效评价协议下各划分逐生成 BW 点；开发 preview 与正式 Selection/Test 分开。修订前评分完整另存evaluator_revision.csv，不混作同协议提升。缺测和未开始不显示零分。统计单位为生成产物，独立场景数另见CSV。', ['metrics/scenes.csv','metrics/evaluator_revision.csv'])
 
 
 def plot_dimensions_and_functions(scenes):
@@ -274,10 +400,10 @@ def plot_dimensions_and_functions(scenes):
     else:
         axes[1].text(.5, .5, 'Functional evaluation pending', transform=axes[1].transAxes, ha='center')
     axes[1].set_title('Functional observations; required/applicable/gate in CSV')
-    return figure('dimensions_and_function.png', '逐产物八维原始评分与功能测量计数；未测不算失败，也不算通过。required/applicable/measured_pass/gate_pass原始对象完整保留于CSV。机械编辑不等于文字编辑能力。', ['metrics/scenes.csv'])
+    return figure('dimensions_and_function.png', '当前有效评价协议的逐产物八维评分与实际功能测量计数；修订前评分另存evaluator_revision.csv。未测不算失败，也不算通过。required/applicable/measured_pass/gate_pass原始对象完整保留于CSV。机械编辑不等于文字编辑能力。', ['metrics/scenes.csv','metrics/evaluator_revision.csv'])
 
 
-def plot_cost(cli, timing):
+def plot_cost(cli, timing, render_summary):
     fig, axes = plt.subplots(1, 3, figsize=(14, 4))
     roles = Counter(row.get('role', 'unknown') for row in cli)
     axes[0].bar(list(roles), list(roles.values())); axes[0].set_title(f'Actual CLI sessions: {len(cli)}')
@@ -290,7 +416,9 @@ def plot_cost(cli, timing):
     token_rows = [row for row in cli if isinstance(row.get('input_tokens'), int) and isinstance(row.get('output_tokens'), int)]
     axes[2].bar(['input', 'output'], [sum(row[key] for row in token_rows) for key in ('input_tokens', 'output_tokens')])
     axes[2].set_title(f'Visible tokens; coverage {len(token_rows)}/{len(cli)} sessions')
-    return figure('cost_and_timing.png', '实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv同时保留进程树和metric_timing.jsonl事件；两者作用域可能嵌套，禁止加和成总耗时。缺少CPU的模型加载事件保持null；parent RSS是进程生命周期高水位。费用未知。', ['metrics/cli_audit.csv', 'metrics/timing.csv'])
+    return figure('cost_and_timing.png', '实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为' + str(render_summary['render_budget_charged']) + '，主根+独立回放根联合扣额为' + str(render_summary['combined_render_budget_charged']) + '，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。', ['metrics/cli_audit.csv', 'metrics/timing.csv', 'metrics/render_evidence.csv']
+        + (['render_attempts.jsonl'] if (ROOT/'render_attempts.jsonl').exists() else [])
+        + (['preparation/cpu_benchmark_budget_correction.json'] if (ROOT/'preparation/cpu_benchmark_budget_correction.json').exists() else []))
 
 
 def plot_cpu_benchmark():
@@ -441,6 +569,15 @@ def report():
     config = read(ROOT / 'config.json')
     manifest = read(ROOT / 'manifest.json') if (ROOT / 'manifest.json').exists() else []
     rounds, scenes, actions, cli, timing = get_rounds(), get_scenes(), get_actions(), get_cli(), get_timings()
+    revisions=get_evaluator_revisions()
+    inspection_path=ROOT/'preparation/evaluator_A02/inspection_summary.json'
+    inspection=read(inspection_path) if inspection_path.exists() else None
+    save_csv('evaluator_revision.csv',revisions,list(revisions[0]) if revisions else [
+        'scene_id','split','H_version','repeat','old_record_path','current_record_path','old_evaluation_status',
+        'old_BW','old_S_rubric','old_S_dimension','old_failure_type','old_audited_failure_class',
+        'current_raw_evaluation_status','current_raw_BW','current_result_native_version','current_result_delivery_version',
+        'available_native_version','available_delivery_version','current_result_is_A02','new_evaluation_status','new_BW',
+        'old_CLI_request_count','new_CLI_request_count','algorithm_gain_comparison'])
     save_csv('rounds.csv', rounds, ['round', 'H_parent', 'M_parent', 'H_candidate', 'M_candidate', 'candidate_type',
         'proposal_returned', 'new_source_candidate', 'M_program_used', 'interrupted_phase',
         'H_accepted', 'M_accepted', 'H_retained', 'M_retained', 'status', 'selection', 'reason', 'usage'])
@@ -448,6 +585,7 @@ def report():
         'evaluation_status', 'BW', 'S_rubric', 'S_dimension', 'dimensions', 'rubric_results', 'Q', 'PSNR', 'SSIM',
         'LPIPS', 'DINO', 'functional_pass', 'functional_checks', 'e2e_BW_utility', 'model_roles', 'device',
         'seconds', 'generation_seconds', 'evaluation_scope', 'failure_type', 'eligible',
+        'record_raw_BW','record_raw_evaluation_status','evaluator_revision_status',
         'bw_judgments', 'loaded_H_modules', 'folder', 'record_path'])
     save_csv('actions.csv', actions, ['round_id', 'action_name', 'creator_M', 'executed_M', 'status',
         'action_revision', 'source_version', 'source_snapshot', 'source_snapshot_available',
@@ -463,13 +601,16 @@ def report():
         'cpu_system_seconds', 'cpu_seconds', 'peak_individual_rss_kib',
         'sampled_peak_tree_rss_kib_lower_bound', 'sample_interval_seconds', 'sampled_process_count', 'rss_scope', 'peak_parent_rss_kib',
         'cache_hit', 'aggregation_note'])
+    render_rows,render_summary = get_render_accounting()
+    save_csv('render_evidence.csv',render_rows,['scope_path','selected_source_type','selected_sources','recorded_attempts',
+        'recorded_completed','ledger_source','ledger_recorded_attempts','ledger_recorded_completed','exact_whole_experiment_count','note'])
     test_policy = test_repeat_policy(config)
     groups = group_statistics(scenes, manifest, state, test_policy)
     save_csv('group_summary.csv', groups, ['H_version','split','all_scheduled','planned_repeats','repeat_plan_source','repeat_plan_finalized','records_saved','execution_finished','execution_success',
         'execution_success_rate_all_scheduled','BW_measured','evaluation_coverage','BW_conditional_mean','Q_conditional_mean',
         'end_to_end_BW_utility','function_measured','function_pass','independent_sources_observed','note'])
     figures = [contact_sheet(manifest, scenes, rounds, state), plot_evolution(rounds), plot_quality(scenes),
-               plot_dimensions_and_functions(scenes), plot_cost(cli, timing), plot_cpu_benchmark(),
+               plot_dimensions_and_functions(scenes), plot_cost(cli, timing, render_summary), plot_cpu_benchmark(),
                plot_research_chain(actions, scenes, rounds), plot_lineage(rounds, actions)]
     finished_rounds = [row for row in rounds if row['status'] in TERMINAL]
     known_usage = [row for row in cli if isinstance(row.get('input_tokens'), int) and isinstance(row.get('output_tokens'), int)]
@@ -479,11 +620,25 @@ def report():
     test_finished = sum(row['status'] in TERMINAL for row in test_records)
     test_status = 'pending' if not test_records else 'all_scheduled_records_terminal' if expected_test is not None and test_finished==expected_test else 'partially_completed'
     summary = {'phase': state['phase'], 'rounds_completed': len(finished_rounds), 'rounds_scheduled': 10,
+        'data_source_counts':dict(Counter(row['split'] for row in manifest)),
+        'evaluator_revision':{'paired_record_count':len(revisions),
+            'inspection_status':inspection['status'] if inspection is not None else None,
+            'inspected_saved_artifact_count':len(inspection['artifacts']) if inspection is not None else None,
+            'inspection_new_H_calls':inspection['new_H_calls'] if inspection is not None else None,
+            'inspection_new_renders':inspection['new_renders'] if inspection is not None else None,
+            'old_evaluation_statuses':dict(Counter(row['old_evaluation_status'] for row in revisions)),
+            'old_audited_failure_classes':dict(Counter(row['old_audited_failure_class'] for row in revisions)),
+            'old_saved_CLI_request_count':sum(row['old_CLI_request_count'] for row in revisions),
+            'new_saved_CLI_request_count':sum(row['new_CLI_request_count'] for row in revisions),
+            'new_evaluation_statuses':dict(Counter(row['new_evaluation_status'] for row in revisions)),
+            'algorithm_gain_comparison':False},
         'scene_records': len(scenes), 'scene_status_counts': dict(Counter(row['status'] for row in scenes)),
         'scene_execution_success_count': sum(row.get('valid') is True for row in scenes),
         'scene_execution_success_rate_over_recorded_tasks': sum(row.get('valid') is True for row in scenes) / len(scenes) if scenes else None,
         'scene_all_scheduled_denominator': None, 'all_scheduled_denominator_note': 'No inference from the number of record files; use frozen task schedule',
         'BW_measured_count': sum(isinstance(row['BW'], (int, float)) for row in scenes),
+        'BW_measurement_scope':'Current effective evaluator protocol; superseded pre_A02 measurements are retained in evaluator_revision.csv',
+        'BW_pre_A02_scored_record_count':sum(isinstance(row['old_BW'],(int,float)) for row in revisions),
         'BW_conditional_means_by_split': {split:mean(row['BW'] for row in scenes if row['split']==split)
                                          for split in ['development','selection','test']},
         'test_completed':test_finished, 'test_status':test_status,
@@ -492,6 +647,7 @@ def report():
         'test_expected_unique_generations':expected_test,
         'test_execution_success_rate_all_scheduled':sum(row.get('valid') is True for row in test_records)/expected_test if expected_test and test_finished else None,
         'timing_measurement_types':dict(Counter(row['measurement_type'] for row in timing)),
+        'render_accounting':render_summary,
         'cli_sessions': len(cli), 'cli_by_role': dict(Counter(row.get('role', 'unknown') for row in cli)),
         'known_input_tokens': sum(row['input_tokens'] for row in known_usage),
         'known_output_tokens': sum(row['output_tokens'] for row in known_usage),
@@ -502,17 +658,29 @@ def report():
         'group_summary': groups, 'figures': figures}
     (ROOT / 'metrics/summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2) + '\n')
     status_text = (f"本轮状态：{state['phase']}；正式研发完成 {len(finished_rounds)}/10 轮。"
-        f"保存了 {len(scenes)} 条正式场景记录、{summary['BW_measured_count']} 次BW测量；终测 {summary['test_status']}（已完成记录 {test_finished}）。"
+        f"保存了 {len(scenes)} 条正式场景记录、当前有效评价协议 {summary['BW_measured_count']} 次BW测量；修订前已测BW记录 {summary['BW_pre_A02_scored_record_count']} 条另行保留。终测 {summary['test_status']}（已完成记录 {test_finished}）。"
         f"实际CLI会话 {len(cli)} 次（包括准备阶段），usage可见 {len(known_usage)}/{len(cli)}。")
+    data_sizes_text='当前manifest来源数：'+ '、'.join(f'{name}={count}' for name,count in summary['data_source_counts'].items())+'；Selection绝对覆盖按实际冻结配置，不沿用旧4图口径。'
+    revision_text=(f"A02评价器修订保留{len(revisions)}条前后记录；旧状态{summary['evaluator_revision']['old_evaluation_statuses']}，"
+        f"旧原因核对{summary['evaluator_revision']['old_audited_failure_classes']}；新状态{summary['evaluator_revision']['new_evaluation_statuses']}。"
+        '旧评分与失败、实际judge会话完整保留于evaluator_revision.csv及before_A02原件；新协议缺测保持pending/null。'
+        '旧12张dev BW不供正式M，最终端点才统一重评；这些变化属于评价证据修复，不是H算法改进。')
     test_plan_text = (f"终测每来源每端点计划 {test_policy['repeats']} 次生成；依据 {test_policy['source']}，"
         + ('预算分支已冻结。' if test_policy['finalized'] else '当前为最低保证次数，尚未作最终预算分支决定。')
         + ' H_best与H_start相同时复用同一版本的真实产物，不增加独立生成数。')
+    render_note = (f"主根渲染预算扣额 render_budget_charged={render_summary['render_budget_charged']}，主根+独立回放根联合扣额={render_summary['combined_render_budget_charged']}，分别读取两根render_attempts.jsonl且不重复相加；"
+        'functional()一次保守预扣3帧，N/A时实际可能更少，因此不将原render_attempts字段解释为精确帧数。'
+        '实际全局尝试数和完成数保持unknown/null。render_evidence.csv逐目录选择一种记录来源，避免stage事件、逐视角metadata与ledger重复相加。'
+        + (' 早期CPU基准6次命令（3次成功、3次初始导入失败）已在冻结前补扣，原补扣证据保留。' if render_summary['CPU_benchmark_budget_correction'] is not None else ''))
     limits_text = ('所有结果均为 BW-style / CLI-adapted，不是官方榜单分数。开发历史图已暴露；同模型研发与评审存在偏差。'
         '未完成项保留pending/null；没有真实冻结元回放时不宣称元能力改善。进程树RSS为0.1秒采样下界；'
         '嵌套阶段墙钟和CPU作用域有重叠，不相加冒充总耗时。')
-    markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', test_plan_text, '', limits_text, '',
+    markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', data_sizes_text,'',test_plan_text, '', render_note, '', limits_text, '',
+        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md)','',
         '请求模型与可确认路由分开见 cli_audit.csv；没有路由元数据时 observed_model=unknown。费用未知，不宣称降本。', '',
         '## 十轮实际状态', '', '| round | status | H retained | M retained | type |', '|---|---|---|---|---|']
+    if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
+        markdown[1:1]=['','[A01实际平台修订](../PROTOCOL_AMENDMENT_01.md)：公开附件已统一转发，原偏离文档保留为历史；M0未变，修订在首个BW正式任务和首轮正式M前完成，10个已生成H产物按相同信息条件复用。','']
     for row in rounds:
         markdown.append(f"| {row['round']} | {row['status']} | {row.get('H_retained', 'null')} | {row.get('M_retained', 'null')} | {row.get('candidate_type', 'null')} |")
     for item in figures:
@@ -522,14 +690,17 @@ def report():
                  '本命令只读取保存的记录、图片和配置，不运行模型或Blender。续跑入口由主runner提供，不由报告触发。']
     (ROOT / 'reports/REPORT_ZH.md').write_text('\n'.join(markdown) + '\n')
     body = '<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V3</title><style>body{font:16px/1.6 sans-serif;max-width:1400px;margin:24px auto;padding:0 20px;color:#17202a}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #ccd;padding:6px;vertical-align:top;word-break:break-word}figure{margin:25px 0}code{background:#f4f5f6}a{color:#125d98}</style><h1>Scene-RSI V3 实际运行报告</h1>'
-    body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>' + html.escape(limits_text) + '</p>'
+    body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>' + html.escape(render_note) + '</p><p>' + html.escape(limits_text) + '</p>'
+    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a></p>'
     body += '<p><a href="REPORT_ZH.md">中文Markdown</a> · <a href="../metrics/summary.json">原始汇总JSON</a> · <a href="../analyze.py">离线重画脚本</a> · <a href="../manifest.json">来源与暴露记录</a></p>'
+    if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
+        body += '<p><a href="../PROTOCOL_AMENDMENT_01.md">A01实际平台修订</a>：公开附件已统一转发；旧偏离文档保留为历史。M0未变，修订在首个BW正式任务和首轮正式M前完成，10个H生成产物按相同信息条件复用。</p>'
     body += '<h2>十轮状态</h2>' + html_table(rounds, ['round', 'status', 'H_parent', 'M_parent', 'candidate_type', 'H_retained', 'M_retained', 'H_accepted', 'M_accepted'])
     for item in figures:
         body += '<figure><img src="../' + item['path'] + '"><figcaption>' + html.escape(item['caption']) + '<br>来源：'
         body += ' · '.join('<a href="../' + name + '">' + html.escape(name) + '</a>' for name in item['sources'])
         body += ' · <a href="../analyze.py">生成脚本</a></figcaption></figure>'
-    body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary']) + '</ul>'
+    body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary', 'render_evidence','evaluator_revision']) + '</ul>'
     body += '<p>没有实际记录的诊断链、元回放和结构收益保持未验证；报告不会以概念图或其他场景代替缺失结果。</p></html>'
     (ROOT / 'reports/index.html').write_text(body)
     print(json.dumps({key: value for key, value in summary.items() if key != 'figures'}, ensure_ascii=False, indent=2))

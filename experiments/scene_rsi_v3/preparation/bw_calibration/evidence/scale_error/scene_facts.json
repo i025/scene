@@ -1,6 +1,7 @@
 {
   "blend_opened": true,
   "blender_version": "4.2.10 LTS",
+  "native_evidence_version": "authored_native_project_facts_A02",
   "objects": [
     {
       "object_id": "A_unrelated_part",
@@ -64,6 +65,8 @@
       "material_slots": [
         "Shared_orange"
       ],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -110,6 +113,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -161,6 +166,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": [
         "Z_target_part",
         "A_unrelated_part"
@@ -210,6 +217,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -258,6 +267,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -319,6 +330,8 @@
       "material_slots": [
         "Support_gray"
       ],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -383,6 +396,8 @@
       "material_slots": [
         "Shared_orange"
       ],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     }
   ],
@@ -418,6 +433,97 @@
         1.0
       ]
     ]
+  },
+  "authored_cameras": [
+    {
+      "object_id": "Fixture_camera",
+      "type": "ORTHO",
+      "lens_mm": 50.0,
+      "ortho_scale": 7.0,
+      "matrix_world": [
+        [
+          0.8650311231613159,
+          -0.21872864663600922,
+          0.45152953267097473,
+          7.0
+        ],
+        [
+          0.5017182230949402,
+          0.37711822986602783,
+          -0.7784990072250366,
+          -10.0
+        ],
+        [
+          1.6294208649014763e-08,
+          0.8999664783477783,
+          0.4359591603279114,
+          7.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "is_active_camera": true,
+      "linked_to_active_scene": true,
+      "hide_render": false
+    }
+  ],
+  "collections": [
+    {
+      "name": "Collection",
+      "parents": [
+        "Scene Collection"
+      ],
+      "children": [],
+      "direct_object_ids": [
+        "A_unrelated_part",
+        "Area",
+        "Fixture_camera",
+        "Support",
+        "Z_target_part"
+      ],
+      "hide_render": false,
+      "is_active_scene_master": false
+    },
+    {
+      "name": "Scene Collection",
+      "parents": [],
+      "children": [
+        "Collection"
+      ],
+      "direct_object_ids": [
+        "Assembly",
+        "Root"
+      ],
+      "hide_render": false,
+      "is_active_scene_master": true
+    }
+  ],
+  "authored_render_configuration": {
+    "source": "Saved native scene, captured before evaluator camera/render overrides",
+    "engine": "BLENDER_EEVEE_NEXT",
+    "cycles_use_denoising": true,
+    "cycles_denoiser": "OPENIMAGEDENOISE",
+    "cycles_samples": 4096,
+    "cycles_device": "CPU",
+    "resolution_x": 1920,
+    "resolution_y": 1080,
+    "resolution_percentage": 100,
+    "image_file_format": "PNG",
+    "use_compositing": true,
+    "use_nodes": false,
+    "view_layer_denoising": [
+      {
+        "name": "ViewLayer",
+        "use_denoising": true,
+        "denoising_store_passes": false
+      }
+    ],
+    "compositor_denoise_nodes": [],
+    "compositor_inspection_scope": "Top-level scene compositor nodes and actual links; nested node groups not recursively inspected"
   },
   "unit_settings": {
     "system": "METRIC",
@@ -741,5 +847,24 @@
     "Object names and emitted relationships are declarations, not semantic ground truth.",
     "AABB extents are approximate; no mesh collision or true 3D fidelity is inferred.",
     "No metric scale accuracy or hidden geometry accuracy is measured."
-  ]
+  ],
+  "delivered_artifacts": [
+    {
+      "authored_filename": "final.png",
+      "exists": false,
+      "file_size_bytes": null,
+      "png_magic_valid": null,
+      "format": null,
+      "width": null,
+      "height": null,
+      "mode": null,
+      "full_decode_success": false,
+      "readable": null,
+      "validation_status": "missing",
+      "error": null,
+      "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+      "content_changes": "none; no resizing, upsampling, conversion or repair"
+    }
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02"
 }

@@ -63,18 +63,18 @@
     "max_render_frames": 3000,
     "max_input_tokens": 40000000,
     "max_output_tokens": 3000000,
-    "research_sessions_per_round": 4,
+    "research_sessions_per_round": 3,
     "diagnostic_frames_per_round": 16,
     "research_seconds_per_round": 7200,
     "reserve_fraction": 0.3,
-    "status": "protocol_frozen",
+    "status": "A02_frozen_before_first_formal_M",
     "retry_limit": 1,
     "semantic_edit_subset": [
       "commons_109923183",
       "commons_104864364"
     ],
     "semantic_edit_instruction": "将画面中心的一件独立家具表面改为蓝色，保持它的几何及其余对象不变",
-    "checkpoint_development_subset_size": 4,
+    "checkpoint_development_subset_size": 3,
     "forecast": {
       "maximum_new_reconstructions": 136,
       "H_cli_upper": 544,
@@ -89,7 +89,8 @@
       "output_token_forecast_approx": 2200000,
       "basis": "Two real development smokes: Terra first visual/code 70s; full H_start 3 H calls, preview Q+functional+BW complete. Native scene facts dominate judge input (~204k tokens on bedroom). Open-M packet capped/projection explicit. Independent dev BW restricted to full endpoints, Selection/Test unchanged. Actual token safety cap enforced; usage absence not counted as zero.",
       "wall_time_scope": "CPU8 exact official 9-view smoke ~9 minutes rendering per complex scene; full worst-case trajectory may require overnight/multiple hours; no speed superiority inferred.",
-      "guaranteed_primary_test": "6 sources x H_start/H_best x1 independent generation; preferred x2 selected by frozen budget-only threshold before Test"
+      "guaranteed_primary_test": "6 sources x H_start/H_best x1 independent generation; preferred x2 selected by frozen budget-only threshold before Test",
+      "superseded_by": "configs/budget_pre_M_A02.json; original forecast retained in before_A02_config.json"
     },
     "final_test": {
       "primary_repeats": 1,
@@ -102,7 +103,12 @@
         "output_tokens": 600000
       },
       "rule": "After full dev endpoint/checkpoint generation, before any Final Test, select ALL six scenes x BOTH endpoints x two repeats iff all fixed remaining-budget conditions hold; otherwise fixed primary one repeat. Never use Test scores, no partial second-repeat group."
-    }
+    },
+    "platform_version": "V3_A02_delivery_native_facts_and_budgeted_10rounds",
+    "development_panel_size": 3,
+    "selection_size": 3,
+    "boundary_case_limit": 2,
+    "max_M_prompt_bytes": 480000
   },
   "resources": {
     "policy": "cpu_only",
@@ -160,6 +166,7 @@
     "reasoning_effort": "medium",
     "boundary_width": 1,
     "development_frequency": "Independent preview BW only full H_start/H_best endpoints. Research panels use actual reference/render, Q and native functional evidence; no per-version preview judge unless already cached. Selection/Test always complete official-quality BW-style evaluation.",
-    "promotion_delta": 2.5
+    "promotion_delta": 2,
+    "calibration_report": "preparation/bw_calibration_A02/calibration.json"
   }
 }

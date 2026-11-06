@@ -1,0 +1,211 @@
+{
+  "artifact_id": "development_photo",
+  "repeat": 2,
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 53.333333333333336,
+  "S_dimension": 52.5,
+  "S_BW": 52.91666666666667,
+  "started": 1793997322.0421357,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/model_selection/gpt-6.1-terra/host_attempt/execution/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1793997902.2142978,
+  "seconds": 580.1721620559692,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "Desks have distinct tops, legs and shelves; the chalkboard, ceiling fans, stage, walls, ceiling and floor are recognizable.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The repeated desks face the stage, but their widely spaced, regular grid differs from the denser reference arrangement. Identical narrow wall panels do not preserve the varied major doors and windows.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_04.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Desks appear too small and low relative to the room and doorways; backpacks reach approximately desktop height. The stage and board occupy substantially less of the far wall than in the reference.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Cream/yellow walls and green/burgundy stage accents are retained, but pale tan furniture replaces dark brown wood. Broad, even illumination loses the strong side-opening daylight and dark stage recess; this exceeds matte simplification.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Box.123 is a finite eight-vertex, six-polygon mesh with dimensions 1.55 × 0.64 × 0.10 and a SceneActSurface_6 binding. Box.124 provides separate volumetric leg geometry. The bound material has a Principled BSDF connected to Material Output.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.123].finite_nonempty_mesh",
+        "scene_facts.json:objects[object_id=Box.123].vertices",
+        "scene_facts.json:objects[object_id=Box.123].polygons",
+        "scene_facts.json:objects[object_id=Box.123].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.123].material_slots",
+        "scene_facts.json:objects[object_id=Box.124].dimensions_scene_units",
+        "scene_facts.json:materials.SceneActSurface_6.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The long enclosed classroom, repeated wooden desks, overhead fans, yellow lower walls, bags and green-framed burgundy stage clearly identify the supplied scene despite substantial simplification.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The main classroom identity survives, but the openings, furniture density and stage architecture are only broadly approximated.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 7,
+      "evidence": "Desks have coherent supporting legs and fans have ceiling rods. Most objects appear grounded, although door panels and the board stand have rudimentary construction.",
+      "source_evidence": [
+        "wide_01.png",
+        "detail_01.png",
+        "wide_02.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Characteristic wall and stage hues are present, but wood is much lighter and bags, curtains and doors have excessively rectangular silhouettes.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Consistent shading gives solid depth, but rigid block bags, flat curtains, blank picture frames and repetitive doors make the room read as a basic model.",
+      "source_evidence": [
+        "detail_01.png",
+        "wide_01.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 5,
+      "evidence": "Front-facing rows and side-wall repetition are preserved; excessive regularity, broad gaps and simplified opening placement weaken spatial correspondence.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Furniture is internally consistent, but its size relative to the enclosure is reduced, bags are oversized beside desks, and the stage is undersized.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Soft shadows are coherent, but uniformly pale surfaces and flat illumination omit the reference's pronounced side daylight, dark wood and recessed stage contrast.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Numerous desks, fans, bags, books and the board are present. Visible seating, ceiling beams and tube lights, detailed windows and stage-side furnishings are missing or substantially reduced.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00021",
+  "judge_usage": {
+    "input_tokens": 271042,
+    "output_tokens": 1408,
+    "observed_model": "unknown",
+    "seconds": 119.10884261317551
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00021",
+  "display_order": [
+    "wide_05.png",
+    "wide_06.png",
+    "wide_02.png",
+    "wide_01.png",
+    "wide_04.png",
+    "author.png",
+    "detail_01.png",
+    "wide_03.png",
+    "detail_02.png"
+  ]
+}

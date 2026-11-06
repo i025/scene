@@ -2,16 +2,50 @@
   "phase": "generation",
   "rounds_completed": 0,
   "rounds_scheduled": 10,
-  "scene_records": 0,
-  "scene_status_counts": {},
-  "scene_execution_success_count": 0,
-  "scene_execution_success_rate_over_recorded_tasks": null,
+  "data_source_counts": {
+    "development": 12,
+    "selection": 3,
+    "reserved_unused_budget_A02": 1,
+    "test": 6,
+    "meta_replay": 2
+  },
+  "evaluator_revision": {
+    "paired_record_count": 14,
+    "inspection_status": "passed",
+    "inspected_saved_artifact_count": 24,
+    "inspection_new_H_calls": 0,
+    "inspection_new_renders": 0,
+    "old_evaluation_statuses": {
+      "completed": 12,
+      "eval_failed": 2
+    },
+    "old_audited_failure_classes": {
+      "scored": 12,
+      "operator_pause_before_judge": 1,
+      "missing_delivery_evidence": 1
+    },
+    "old_saved_CLI_request_count": 14,
+    "new_saved_CLI_request_count": 2,
+    "new_evaluation_statuses": {
+      "pending_A02_evaluation": 12,
+      "completed": 2
+    },
+    "algorithm_gain_comparison": false
+  },
+  "scene_records": 14,
+  "scene_status_counts": {
+    "completed": 14
+  },
+  "scene_execution_success_count": 14,
+  "scene_execution_success_rate_over_recorded_tasks": 1.0,
   "scene_all_scheduled_denominator": null,
   "all_scheduled_denominator_note": "No inference from the number of record files; use frozen task schedule",
-  "BW_measured_count": 0,
+  "BW_measured_count": 2,
+  "BW_measurement_scope": "Current effective evaluator protocol; superseded pre_A02 measurements are retained in evaluator_revision.csv",
+  "BW_pre_A02_scored_record_count": 12,
   "BW_conditional_means_by_split": {
     "development": null,
-    "selection": null,
+    "selection": 27.585227272727273,
     "test": null
   },
   "test_completed": 0,
@@ -26,25 +60,118 @@
   "test_expected_unique_generations": null,
   "test_execution_success_rate_all_scheduled": null,
   "timing_measurement_types": {
-    "process_tree": 63
+    "process_tree": 293,
+    "numeric_metric_stage": 34
   },
-  "cli_sessions": 32,
+  "render_accounting": {
+    "render_budget_charged": 230,
+    "main_render_budget_charged": 230,
+    "replay_render_budget_charged": null,
+    "combined_render_budget_charged": 230,
+    "render_budget_charge_events": 195,
+    "render_budget_source": "render_attempts.jsonl",
+    "actual_render_attempts_exact": null,
+    "actual_render_completed_exact": null,
+    "selected_evidence_scope_count": 95,
+    "selected_recorded_counts_by_source_type": {
+      "outer_prelaunch_ledger": {
+        "scope_count": 6,
+        "recorded_attempts": 6,
+        "recorded_completed": 3
+      },
+      "per_view_render_metadata": {
+        "scope_count": 25,
+        "recorded_attempts": 120,
+        "recorded_completed": 120
+      },
+      "render_ledger": {
+        "scope_count": 15,
+        "recorded_attempts": 45,
+        "recorded_completed": 45
+      },
+      "stage_render_events": {
+        "scope_count": 49,
+        "recorded_attempts": 47,
+        "recorded_completed": 47
+      }
+    },
+    "same_scope_source_precedence": "per-view metadata, else stage events, else ledger; no duplicate addition within a scope",
+    "CPU_benchmark_budget_correction": {
+      "reason": "Six preparation Blender render-attempt commands predated first global guard event; three failed during initial import and three rendered successfully. Charge all six conservatively to frame safety cap; distinguish actual completed frames=3.",
+      "attempts": 6,
+      "completed": 3,
+      "process_records": [
+        "preparation/cpu_benchmark/threads_004/process.json",
+        "preparation/cpu_benchmark/threads_002/process.json",
+        "preparation/cpu_benchmark/threads_008/process.json",
+        "preparation/cpu_benchmark_corrected_import/threads_004/process.json",
+        "preparation/cpu_benchmark_corrected_import/threads_002/process.json",
+        "preparation/cpu_benchmark_corrected_import/threads_008/process.json"
+      ],
+      "time": 1793999786.6650667
+    },
+    "coverage_note": "Global guard ledger measures budget charges; functional() reserves 3 even when fewer frames are applicable. Physical renderer counts are not comprehensively instrumented; exact actual totals remain unknown. Recorded counters from different interface semantics are reported separately, not added into an exact total."
+  },
+  "cli_sessions": 110,
   "cli_by_role": {
-    "judge": 21,
+    "judge": 57,
     "preparation": 3,
     "M": 3,
-    "H": 5
+    "H": 47
   },
-  "known_input_tokens": 1720552,
-  "known_output_tokens": 56864,
-  "usage_coverage_sessions": 30,
-  "usage_total_sessions": 32,
+  "known_input_tokens": 7300005,
+  "known_output_tokens": 272000,
+  "usage_coverage_sessions": 108,
+  "usage_total_sessions": 110,
   "cost_usd": null,
   "actual_model_request_count": null,
   "actual_M_descendant_count": 0,
   "action_observations": 0,
   "meta_capability_improvement": "not established by H trajectory",
-  "group_summary": [],
+  "group_summary": [
+    {
+      "H_version": "historical_r1_C2_start",
+      "split": "development",
+      "all_scheduled": 12,
+      "planned_repeats": 1,
+      "repeat_plan_source": "one generation per requested source/version",
+      "repeat_plan_finalized": true,
+      "records_saved": 12,
+      "execution_finished": 12,
+      "execution_success": 12,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 0,
+      "evaluation_coverage": 0.0,
+      "BW_conditional_mean": null,
+      "Q_conditional_mean": 0.44134001632305436,
+      "end_to_end_BW_utility": null,
+      "function_measured": 12,
+      "function_pass": 12,
+      "independent_sources_observed": 12,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "historical_r1_C2_start",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "one generation per requested source/version",
+      "repeat_plan_finalized": true,
+      "records_saved": 2,
+      "execution_finished": 2,
+      "execution_success": 2,
+      "execution_success_rate_all_scheduled": 0.6666666666666666,
+      "BW_measured": 2,
+      "evaluation_coverage": 0.6666666666666666,
+      "BW_conditional_mean": 27.585227272727273,
+      "Q_conditional_mean": 0.3674149162475502,
+      "end_to_end_BW_utility": null,
+      "function_measured": 2,
+      "function_pass": 2,
+      "independent_sources_observed": 2,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    }
+  ],
   "figures": [
     {
       "path": "figures/development_contact_sheet.png",
@@ -66,26 +193,31 @@
     },
     {
       "path": "figures/quality_points.png",
-      "caption": "各划分所有实际测得的逐生成 BW 点；开发 preview 与正式 Selection/Test 分开。缺测和未开始不显示零分。统计单位为生成产物，独立场景数另见CSV。",
+      "caption": "当前有效评价协议下各划分逐生成 BW 点；开发 preview 与正式 Selection/Test 分开。修订前评分完整另存evaluator_revision.csv，不混作同协议提升。缺测和未开始不显示零分。统计单位为生成产物，独立场景数另见CSV。",
       "sources": [
-        "metrics/scenes.csv"
+        "metrics/scenes.csv",
+        "metrics/evaluator_revision.csv"
       ],
       "script": "analyze.py"
     },
     {
       "path": "figures/dimensions_and_function.png",
-      "caption": "逐产物八维原始评分与功能测量计数；未测不算失败，也不算通过。required/applicable/measured_pass/gate_pass原始对象完整保留于CSV。机械编辑不等于文字编辑能力。",
+      "caption": "当前有效评价协议的逐产物八维评分与实际功能测量计数；修订前评分另存evaluator_revision.csv。未测不算失败，也不算通过。required/applicable/measured_pass/gate_pass原始对象完整保留于CSV。机械编辑不等于文字编辑能力。",
       "sources": [
-        "metrics/scenes.csv"
+        "metrics/scenes.csv",
+        "metrics/evaluator_revision.csv"
       ],
       "script": "analyze.py"
     },
     {
       "path": "figures/cost_and_timing.png",
-      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv同时保留进程树和metric_timing.jsonl事件；两者作用域可能嵌套，禁止加和成总耗时。缺少CPU的模型加载事件保持null；parent RSS是进程生命周期高水位。费用未知。",
+      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为230，主根+独立回放根联合扣额为230，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。",
       "sources": [
         "metrics/cli_audit.csv",
-        "metrics/timing.csv"
+        "metrics/timing.csv",
+        "metrics/render_evidence.csv",
+        "render_attempts.jsonl",
+        "preparation/cpu_benchmark_budget_correction.json"
       ],
       "script": "analyze.py"
     },

@@ -1,0 +1,205 @@
+{
+  "artifact_id": "independent_local_edit",
+  "repeat": 1,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 97.5,
+  "S_BW": 98.75,
+  "started": 1793997286.7132828,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/independent_local_edit/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997292.7626479,
+  "seconds": 6.049365043640137,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are native meshes with 8 vertices, 6 polygons, and finite nonempty geometry.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,5,6].type",
+        "scene_facts.json:objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json:objects[0,5,6].vertices",
+        "scene_facts.json:objects[0,5,6].polygons"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children match its declared children; both parts have Assembly as their parent.",
+      "source_evidence": [
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[2].declared_children",
+        "scene_facts.json:objects[0].parent",
+        "scene_facts.json:objects[6].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target lower Z and support upper Z both equal 1.0. Target XY bounds [-0.5,0.5] lie inside support bounds [-1,1], giving zero gap and overlapping footprints.",
+      "source_evidence": [
+        "scene_facts.json:objects[6].world_aabb_approx",
+        "scene_facts.json:objects[5].world_aabb_approx",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The complete object inventory contains only these three meshes and no Intruder.",
+      "source_evidence": [
+        "scene_facts.json:objects[0].dimensions_scene_units",
+        "scene_facts.json:objects[6].dimensions_scene_units",
+        "scene_facts.json:objects[5].dimensions_scene_units",
+        "scene_facts.json:objects",
+        "scene_facts.json:mesh_count"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Assigned materials use connected Principled shaders with blue target RGB (0.02,0.08,0.80), orange unrelated-part RGB (0.65,0.22,0.05), and gray support RGB (0.22,0.28,0.32).",
+      "source_evidence": [
+        "scene_facts.json:objects[6].material_slots",
+        "scene_facts.json:objects[0].material_slots",
+        "scene_facts.json:objects[5].material_slots",
+        "scene_facts.json:materials.RSI_blue_Z_target_part_0.nodes[1].inputs.Base Color",
+        "scene_facts.json:materials.RSI_blue_Z_target_part_0.links",
+        "scene_facts.json:materials.Shared_orange.005.nodes[1].inputs.Base Color",
+        "scene_facts.json:materials.Shared_orange.005.links",
+        "scene_facts.json:materials.Support_gray.005.nodes[1].inputs.Base Color",
+        "scene_facts.json:materials.Support_gray.005.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The delivered image and authored-camera rerender clearly show a blue cube resting on the gray support and a separate orange cube to its right.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 10,
+      "evidence": "The delivered composition reproduces the fixture arrangement with the explicitly required blue target.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 10,
+      "evidence": "The required target-support contact is exact under the fixture approximation, with no extra intersecting geometry. The separate orange part follows the prescribed fixture layout.",
+      "source_evidence": [
+        "scene_facts.json:structural_measurements.known_support.rows[0]",
+        "scene_facts.json:structural_measurements.mesh_intersection",
+        "detail_01.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 10,
+      "evidence": "Simple sharp-edged matte blocks retain the target style and show the required blue, orange, and gray colors.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 9,
+      "evidence": "Shading and contact are coherent for this stylized fixture; visible sampling grain slightly reduces surface clarity.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 10,
+      "evidence": "The supported cube is centered over the support, with the orange cube clearly separated to the right in the final view.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 10,
+      "evidence": "Equal unit cubes and the twice-as-wide, twice-as-deep support satisfy the fixture proportions exactly.",
+      "source_evidence": [
+        "scene_facts.json:objects[0].dimensions_scene_units",
+        "scene_facts.json:objects[5].dimensions_scene_units",
+        "scene_facts.json:objects[6].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 9,
+      "evidence": "Directional shading clearly separates faces and provides plausible matte surfaces and contact shadow, with minor render noise.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 10,
+      "evidence": "Both required cubes, the gray support, and the actual Assembly hierarchy are present.",
+      "source_evidence": [
+        "delivered_final.png",
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:mesh_count"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00032",
+  "judge_usage": {
+    "input_tokens": 25934,
+    "output_tokens": 1465,
+    "observed_model": "unknown",
+    "seconds": 43.02189010893926
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00032",
+  "display_order": [
+    "wide_03.png",
+    "wide_01.png",
+    "author.png",
+    "detail_01.png"
+  ]
+}

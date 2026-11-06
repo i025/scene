@@ -1,0 +1,189 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 73.33333333333333,
+  "S_dimension": 65.0,
+  "S_BW": 69.16666666666666,
+  "started": 1793997292.767768,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/triangle_crossing/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997299.9308994,
+  "seconds": 7.163131475448608,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are native MESH objects with finite_nonempty_mesh=true, eight vertices and six polygons each.",
+      "source_evidence": [
+        "scene_facts.json.objects[0]",
+        "scene_facts.json.objects[6]",
+        "scene_facts.json.objects[7]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children match its declared children; both named parts have Assembly as their parent.",
+      "source_evidence": [
+        "scene_facts.json.objects[2].children",
+        "scene_facts.json.objects[2].declared_children",
+        "scene_facts.json.objects[0].parent",
+        "scene_facts.json.objects[7].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target minimum Z and Support maximum Z both equal 1.0; their XY footprints overlap. The measured normalized vertical gap is zero.",
+      "source_evidence": [
+        "scene_facts.json.objects[7].world_aabb_approx",
+        "scene_facts.json.objects[6].world_aabb_approx",
+        "scene_facts.json.structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Required dimensions are correct, but an additional nonempty Intruder mesh overlaps the target; the intersection measurement reports ten triangle-pair crossings.",
+      "source_evidence": [
+        "scene_facts.json.objects[0].dimensions_scene_units",
+        "scene_facts.json.objects[7].dimensions_scene_units",
+        "scene_facts.json.objects[6].dimensions_scene_units",
+        "scene_facts.json.objects[4]",
+        "scene_facts.json.structural_measurements.mesh_intersection.crossings[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both parts use Shared_orange.007 with connected Principled base color (0.65, 0.22, 0.05); Support uses Support_gray.007 with base color (0.22, 0.28, 0.32).",
+      "source_evidence": [
+        "scene_facts.json.objects[0].material_slots",
+        "scene_facts.json.objects[7].material_slots",
+        "scene_facts.json.objects[6].material_slots",
+        "scene_facts.json.materials[\"Shared_orange.007\"].nodes[1].inputs[\"Base Color\"]",
+        "scene_facts.json.materials[\"Shared_orange.007\"].links",
+        "scene_facts.json.materials[\"Support_gray.007\"].nodes[1].inputs[\"Base Color\"]",
+        "scene_facts.json.materials[\"Support_gray.007\"].links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The author view shows the orange/orange colors and gray support, but the supported object has an expanded, stepped silhouette and a conspicuous black top patch instead of reading as a single clean cube. Evaluator views confirm this visible defect.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_03.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The principal arrangement remains recognizable, but extra overlapping geometry substantially changes the supported cube.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 5,
+      "evidence": "Target-to-support contact is correct, but the additional intersecting cube creates an unreasonable overlapping structure.",
+      "source_evidence": [
+        "scene_facts.json.structural_measurements.known_support.rows[0]",
+        "scene_facts.json.structural_measurements.mesh_intersection.crossings[0]",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Orange parts, cool gray support and matte styling match the intended appearance; the stepped silhouette and black top region compromise the simple cube forms.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 5,
+      "evidence": "Simple matte shading is appropriate for this fixture, but the overlapping form and abrupt black top patch undermine visual consistency.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 8,
+      "evidence": "The supported part and separate right-hand cube retain the intended broad placement and height relationship; the extra geometry crowds the support.",
+      "source_evidence": [
+        "author.png",
+        "scene_facts.json.objects[0].world_aabb_approx",
+        "scene_facts.json.objects[7].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "The named meshes have the specified dimensions, but the overlapping extra cube makes the supported orange mass visibly oversized.",
+      "source_evidence": [
+        "scene_facts.json.objects[0].dimensions_scene_units",
+        "scene_facts.json.objects[6].dimensions_scene_units",
+        "scene_facts.json.objects[7].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 7,
+      "evidence": "Readable face shading and matte colors suit the target. The black top patch disrupts otherwise consistent surface appearance.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "All required objects and the hierarchy are present, but the fourth mesh violates the intended object count and alters the supported part.",
+      "source_evidence": [
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[2].children",
+        "scene_facts.json.objects[4]",
+        "author.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00008",
+  "judge_usage": {
+    "input_tokens": 27778,
+    "output_tokens": 1431,
+    "observed_model": "unknown",
+    "seconds": 42.6670665666461
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

@@ -1,0 +1,82 @@
+{
+  "status": "passed",
+  "scope": "Synthetic source/provenance fixtures only",
+  "cases": [
+    {
+      "test": "Action library only visible in source/prompt is insufficient",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Importing an action without completed action run is insufficient",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Failed matching action is insufficient",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Source match with wrong action name is insufficient",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Name match with another source revision is insufficient",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Same trace completed action name and exact source qualifies",
+      "passed": true,
+      "executed_changed_files": [
+        "actions/new_measure.py"
+      ]
+    },
+    {
+      "test": "Completed matching action in unrelated trace does not qualify",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Changed helper merely present in package is insufficient",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Changed helper logged loaded in completed later execution qualifies",
+      "passed": true,
+      "executed_changed_files": [
+        "helper.py"
+      ]
+    },
+    {
+      "test": "Changed meta.py with completed matching entry qualifies",
+      "passed": true,
+      "executed_changed_files": [
+        "meta.py"
+      ]
+    },
+    {
+      "test": "Entered but incomplete M strategy does not qualify",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Completed other M program does not qualify",
+      "passed": true,
+      "executed_changed_files": []
+    },
+    {
+      "test": "Documentation-only difference does not qualify",
+      "passed": true,
+      "executed_changed_files": []
+    }
+  ],
+  "new_model_calls": 0,
+  "new_Blender_jobs": 0,
+  "M_code_executed": false,
+  "Test_pixels_specs_or_rubrics_read": false,
+  "ability_improvement_inferred": false
+}

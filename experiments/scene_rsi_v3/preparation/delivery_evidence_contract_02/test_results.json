@@ -1,0 +1,108 @@
+{
+  "status": "passed",
+  "fixtures": [
+    {
+      "fixture": "valid_png",
+      "measured": {
+        "authored_filename": "final.png",
+        "exists": true,
+        "file_size_bytes": 1881,
+        "png_magic_valid": true,
+        "format": "PNG",
+        "width": 512,
+        "height": 512,
+        "mode": "RGB",
+        "full_decode_success": true,
+        "readable": true,
+        "validation_status": "decoded",
+        "error": null,
+        "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+        "content_changes": "none; no resizing, upsampling, conversion or repair"
+      }
+    },
+    {
+      "fixture": "jpeg_named_png",
+      "measured": {
+        "authored_filename": "final.png",
+        "exists": true,
+        "file_size_bytes": 4723,
+        "png_magic_valid": false,
+        "format": "JPEG",
+        "width": 512,
+        "height": 512,
+        "mode": "RGB",
+        "full_decode_success": true,
+        "readable": true,
+        "validation_status": "decoded",
+        "error": null,
+        "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+        "content_changes": "none; no resizing, upsampling, conversion or repair"
+      }
+    },
+    {
+      "fixture": "corrupt_png",
+      "measured": {
+        "authored_filename": "final.png",
+        "exists": true,
+        "file_size_bytes": 30,
+        "png_magic_valid": true,
+        "format": null,
+        "width": null,
+        "height": null,
+        "mode": null,
+        "full_decode_success": false,
+        "readable": true,
+        "validation_status": "invalid_image",
+        "error": "cannot identify image file 'delivered_final.png'",
+        "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+        "content_changes": "none; no resizing, upsampling, conversion or repair"
+      }
+    },
+    {
+      "fixture": "missing_file",
+      "measured": {
+        "authored_filename": "final.png",
+        "exists": false,
+        "file_size_bytes": null,
+        "png_magic_valid": null,
+        "format": null,
+        "width": null,
+        "height": null,
+        "mode": null,
+        "full_decode_success": false,
+        "readable": null,
+        "validation_status": "missing",
+        "error": null,
+        "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+        "content_changes": "none; no resizing, upsampling, conversion or repair"
+      }
+    },
+    {
+      "fixture": "actual_old_bw_0031_original_delivery",
+      "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/selection/bw_0031/1/final.png",
+      "measured": {
+        "authored_filename": "final.png",
+        "exists": true,
+        "file_size_bytes": 349875,
+        "png_magic_valid": true,
+        "format": "PNG",
+        "width": 374,
+        "height": 512,
+        "mode": "RGB",
+        "full_decode_success": true,
+        "readable": true,
+        "validation_status": "decoded",
+        "error": null,
+        "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+        "content_changes": "none; no resizing, upsampling, conversion or repair"
+      }
+    }
+  ],
+  "backup_and_idempotence_contract": "passed",
+  "original_bw_evidence_modified": false,
+  "original_scores_modified": false,
+  "model_calls": 0,
+  "Blender_jobs": 0,
+  "renders": 0,
+  "fixture_images_are_experimental_outputs": false
+}

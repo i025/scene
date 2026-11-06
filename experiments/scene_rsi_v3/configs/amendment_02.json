@@ -1,0 +1,90 @@
+{
+  "version": "V3_A02_delivery_native_facts_and_budgeted_10rounds",
+  "time_utc": "2026-11-06T23:46:47.541447+00:00",
+  "nature": "Prospective pre-first-M amendment after observed round0 evaluator failure; original freeze/as-run history retained",
+  "original_freeze": "configs/freeze.json",
+  "previous_platform": "code_snapshots/platform_A01",
+  "code_snapshot": "code_snapshots/platform_A02",
+  "protocol": "PROTOCOL_AMENDMENT_02.md",
+  "formal_M_rounds_completed": 0,
+  "formal_M_proposals_started": 0,
+  "old_formal_started_flag_scope": "Earlier launcher included baseline round0; it does not mean a formal M proposal occurred",
+  "baseline_H_generated": {
+    "development": 12,
+    "selection": 2
+  },
+  "original_scores_and_failures_preserved": true,
+  "calibration": {
+    "path": "preparation/bw_calibration_A02/calibration.json",
+    "completed": 20,
+    "eval_failed": 0,
+    "maximum_repeat_difference": 1.875,
+    "promotion_delta": 2,
+    "human_validation": false
+  },
+  "resource_scope": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "User explicitly authorized 8 CPU cores and 32 GB in current session; benchmark 2/4/8 threads; CPU only",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 8,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 8,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "research_scope": {
+    "rounds": 10,
+    "development_sources": 12,
+    "development_per_round": 3,
+    "M_sessions_per_round": 3,
+    "selection_sources": 3,
+    "selection_absolute_coverage": "3/3",
+    "final_test_sources": 6,
+    "preferred_test_repeat_rule_unchanged": true,
+    "unused_source_by_original_order": "bw_0085",
+    "boundary_complete_case_limit": 2
+  },
+  "budget_estimate": "configs/budget_pre_M_A02.json; mean estimates are not token guarantees",
+  "caps": {
+    "max_cli_sessions": 1200,
+    "max_render_frames": 3000,
+    "max_input_tokens": 40000000,
+    "max_output_tokens": 3000000,
+    "reserve_fraction": 0.3
+  },
+  "actual_usage_at_freeze": {
+    "cli_sessions": 107,
+    "render_attempts": 229,
+    "known_input_tokens": 7002369,
+    "known_output_tokens": 265850,
+    "usage_known_sessions": 106,
+    "usage_unknown_sessions": 1,
+    "observable_tool_calls": 0
+  },
+  "acceptance_evidence": [
+    "preparation/M_validation_boundary_A02/contracts_A02.json",
+    "preparation/M_validation_boundary_A02/tests.json",
+    "preparation/M_validation_boundary_A02/action_reuse_contract_portable/tests.json",
+    "preparation/evaluator_A02/inspection_summary.json",
+    "preparation/M_validation_boundary_A02/corrected_selection_check.json"
+  ],
+  "engineering_changes_not_automatic_M_descendants": true,
+  "intermediate_preparation_source_snapshots": "Some initial intermediate variants were not separately saved; documented diffs and preceding complete snapshots remain"
+}

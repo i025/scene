@@ -10,13 +10,15 @@ V3 已冻结协议并启动真实运行，**目前尚未完成十轮或终测**�
 - [核心原始表格](experiments/scene_rsi_v3/metrics/) / [图表及来源](experiments/scene_rsi_v3/figures/)
 - [完整产物索引与上传状态](artifacts_index_v3.csv) / [归档和离线重画入口](docs/archive_tools_v3/COMMANDS.md)
 
-已完成的准备证据：真实 Terra 图像输入、SceneAct 场景构建/保存/渲染；8个已知正确/错误功能夹具；实际 Astra 新动作在两张开发图执行并将观测返回 M；20/20 独立评价校准完成，重复评分最大差2.5 BW分。以下是真实功能夹具渲染，**不是十轮改进结果**。
+已完成的准备证据：真实 Terra 图像输入、SceneAct 场景构建/保存/渲染；8个已知正确/错误功能夹具；实际 Astra 新动作在两张开发图执行并将观测返回 M；20/20 独立评价校准完成，A02同产物重复评分最大差1.875 BW分、按既定公式冻结晋升门槛2 BW分（旧版2.5与原评分保留）。以下是真实功能夹具渲染，**不是十轮改进结果**。
 
 ![真实结构与编辑夹具](experiments/scene_rsi_v3/preparation/functional_fixtures/functional_contact_sheet.png)
 
 主要评分为 **BW-style / CLI-adapted**，不是官方排行榜。正式 Selection/Test 固定8评价视角+作者视角、1024²/64 samples/Cycles，Q仅辅助。未知和pending保持null；机械编辑与文字编辑分开。没有真实冻结元回放前，不展示元能力提升曲线。
 
 完整日志和 `.blend` 将按运行分包发布，当前是否已上传以索引为准。BW参考媒体单独分发许可未确认，不重新公开原参考或附件；本地保留完整原件。正式进程仍在运行时的归档是进度快照，不是实验完成声明。
+
+A02 于 2026-11-06 23:46 UTC 在首个正式 M 提案前冻结：12开发来源、每轮3图、每轮至多3个研究会话、3/3验证绝对资格、6个最终测试来源，仍连续10轮。调整依据实测token预算，不依据候选或Test表现。14个已生成基线工程复用，不重新采样。[A02协议](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_02.md) · [完整冻结源码](experiments/scene_rsi_v3/code_snapshots/platform_A02/) · [冻结记录](experiments/scene_rsi_v3/configs/amendment_02.json)
 
 以下保留 V2.4 原有报告，数值不属于 V3。
 

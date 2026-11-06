@@ -1,0 +1,197 @@
+{
+  "artifact_id": "missing_declared_part",
+  "repeat": 2,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 20.0,
+  "S_dimension": 81.25,
+  "S_BW": 50.625,
+  "started": 1793997267.8568015,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/missing_declared_part/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997275.1240878,
+  "seconds": 7.26728630065918,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "Z_target_part and Support are finite nonempty meshes, but A_unrelated_part is absent from the actual object inventory.",
+      "source_evidence": [
+        "scene_facts.json.objects",
+        "scene_facts.json.mesh_count"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "Assembly declares both parts but has only Z_target_part as an actual child; A_unrelated_part is missing.",
+      "source_evidence": [
+        "scene_facts.json.objects[1].children",
+        "scene_facts.json.objects[1].declared_children",
+        "scene_facts.json.structural_measurements.hierarchy_parts"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "The target lower Z and support upper Z both equal 1.0, with overlapping XY footprints and zero normalized vertical gap.",
+      "source_evidence": [
+        "scene_facts.json.objects[4].world_aabb_approx",
+        "scene_facts.json.objects[5].world_aabb_approx",
+        "scene_facts.json.structural_measurements.known_support"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The target measures 1×1×1 and Support 2×2×1, with no Intruder object, but the required second unit cube is absent.",
+      "source_evidence": [
+        "scene_facts.json.objects",
+        "scene_facts.json.objects[4].dimensions_scene_units",
+        "scene_facts.json.objects[5].dimensions_scene_units"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "Assigned, connected Principled shaders give the target orange RGB (0.65, 0.22, 0.05) and Support gray RGB (0.22, 0.28, 0.32). The absent A_unrelated_part cannot satisfy its required orange assignment.",
+      "source_evidence": [
+        "scene_facts.json.objects",
+        "scene_facts.json.objects[4].material_slots",
+        "scene_facts.json.objects[5].material_slots",
+        "scene_facts.json.materials['Shared_orange.002'].nodes",
+        "scene_facts.json.materials['Shared_orange.002'].links",
+        "scene_facts.json.materials['Support_gray.002'].nodes",
+        "scene_facts.json.materials['Support_gray.002'].links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The delivered image and supplied rerenders show one orange cube on a gray support; the required distinct second orange cube is missing.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The supported orange cube matches the intended arrangement, but the separate second cube is absent.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 10,
+      "evidence": "The existing cube rests flush on the support without visible floating or unintended penetration; measured contact agrees.",
+      "source_evidence": [
+        "wide_03.png",
+        "detail_01.png",
+        "scene_facts.json.structural_measurements.known_support"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 9,
+      "evidence": "The visible angular forms, orange cube, gray support and matte treatment closely match the requested style.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 9,
+      "evidence": "Simple solid geometry and coherent shading are credible for this stylized fixture; slight render grain remains.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "The cube-to-support placement is correct, but the required lateral relationship with the separate cube is missing.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 10,
+      "evidence": "Existing geometry has the exact specified cube and support dimensions and consistent visible relative proportions.",
+      "source_evidence": [
+        "scene_facts.json.objects[4].dimensions_scene_units",
+        "scene_facts.json.objects[5].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 9,
+      "evidence": "Matte surfaces and directional shadows communicate form clearly, with modest sampling noise.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Only two of the three required mesh objects exist: the supported cube and support. The second cube and its Assembly membership are absent.",
+      "source_evidence": [
+        "scene_facts.json.objects",
+        "scene_facts.json.structural_measurements.hierarchy_parts",
+        "delivered_final.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00022",
+  "judge_usage": {
+    "input_tokens": 21027,
+    "output_tokens": 1260,
+    "observed_model": "unknown",
+    "seconds": 35.82170380325988
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00022",
+  "display_order": [
+    "wide_01.png",
+    "author.png",
+    "wide_03.png",
+    "detail_01.png"
+  ]
+}

@@ -50,8 +50,36 @@ def validate_source(text,kind,module_names=()):
     if required and not any(isinstance(n,ast.FunctionDef) and n.name==required for n in tree.body):raise ValueError('Missing '+required)
 
 def change_kind(parent_h,parent_m,candidate_h,candidate_m):
-    h=sources(parent_h)!=sources(candidate_h);m=sources(parent_m)!=sources(candidate_m)
+    def program(folder,kind):
+        return {name:text for name,text in sources(folder).items() if name.endswith('.py') or kind=='H' and name=='system.txt'}
+    h=program(parent_h,'H')!=program(candidate_h,'H');m=program(parent_m,'M')!=program(candidate_m,'M')
     return 'H+M' if h and m else 'H-only' if h else 'M-only' if m else 'unchanged'
+
+def m_change_executed(parent,candidate,loaded_helpers,executed_action_sources):
+    before,after=sources(parent),sources(candidate)
+    changed={name for name in set(before)|set(after) if name.endswith('.py') and before.get(name)!=after.get(name)}
+    loaded={str(Path(path).relative_to(candidate)) for path in loaded_helpers}
+    tested={name for name in changed if name.startswith('actions/') and after.get(name) in executed_action_sources}
+    return {'changed_python_files':sorted(changed),'executed_changed_files':sorted(changed&({'meta.py'}|loaded|tested)),
+            'effective_program_change':bool(changed&({'meta.py'}|loaded|tested))}
+
+def action_reuse_evidence(parent,candidate,action_folders,development_scene_ids):
+    before=sources(parent);rows=[]
+    for path in sorted((candidate/'actions').rglob('*.py')):
+        name=str(path.relative_to(candidate));source=path.read_text()
+        if before.get(name)==source:continue
+        scenes=set()
+        for folder in action_folders:
+            if not (folder/'action.py').exists() or not (folder/'observation.json').exists():continue
+            observation=json.loads((folder/'observation.json').read_text())
+            if observation['status']!='completed':continue
+            if observation['action']==name and observation['scene_id'] in development_scene_ids and (folder/'action.py').read_text()==source:
+                scenes.add(observation['scene_id'])
+        passed=len(scenes)>=2
+        rows.append({'action':name,'successful_development_scene_ids':sorted(scenes),'distinct_scene_count':len(scenes),
+                     'required_distinct_scenes':2,'pass':passed,
+                     'unmet_reason':None if passed else 'New or changed reusable action source needs successful execution on two distinct development scene IDs'})
+    return rows
 
 class ResearchAPI:
     def __init__(self,cfg,folder,h,m,scenes,images):
@@ -65,7 +93,6 @@ class ResearchAPI:
                 'seconds':max(0,p['research_seconds_per_round']-(time.monotonic()-self.started))}
     def ask(self,packet):
         if self.remaining()['sessions']<=0 or self.remaining()['seconds']<=0:raise RuntimeError('M research budget exhausted')
-        self.sessions+=1
         prompt=('You are the research decision component of the currently executing M strategy. '
                 'The attached development references/renders correspond to the explicit packet order. '
                 'Return an action decision, a shared H/M proposal with complete file contents, or stop. '
@@ -75,9 +102,16 @@ class ResearchAPI:
                 'An action run(context) may import bpy/mathutils/math/numpy/json; its current scene is '
                 'already loaded. Return JSON-serializable measurements; no file/process/network/render '
                 'calls. name is a relative actions/*.py filename. To add reusable action provide its '
-                'complete source and applicability. For a proposal target H or M, relative path, full '
+                'complete source and applicability. Before M retention, every new or changed reusable action source '
+                'must successfully execute on at least two distinct development scene IDs with the exact final source. '
+                'A failed second execution or repeated execution on one scene does not satisfy reuse. '
+                'For a proposal target H or M, relative path, full '
                 'content and reason. H keeps solve(task,runtime), M keeps research(context,api). '
                 'Leave unused strings empty, parameters_json="{}", changes=[] when not proposing.\n'+json.dumps(packet,ensure_ascii=False))
+        if len(prompt.encode())>self.cfg['pilot']['max_M_prompt_bytes']:
+            write_json(self.folder/'prompt_budget_failure.json',{'bytes':len(prompt.encode()),'limit':self.cfg['pilot']['max_M_prompt_bytes'],'new_CLI_submitted':False})
+            raise RuntimeError('M input-size budget exhausted before any new CLI submission')
+        self.sessions+=1
         call_folder=self.folder/'calls'/f'{self.sessions:02d}'
         if (call_folder/'session.json').exists():
             previous=json.loads((call_folder/'session.json').read_text())

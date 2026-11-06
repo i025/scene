@@ -1,0 +1,192 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 88.88888888888889,
+  "S_dimension": 60.0,
+  "S_BW": 74.44444444444444,
+  "started": 1794005015.016338,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_192968130/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794005027.8627346,
+  "seconds": 12.846396446228027,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The slatted timber wall, white door, low black-and-white unit, stone counter, cooktop, upper cabinets and extractor establish the reference scene. The sink is reduced to a flat dark inset.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The kitchen remains on the right, with upper cabinets above the counter, the sink beyond the cooktop, and the low unit left of the rear door.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "The countertop and upper cabinets are excessively deep, and the cooktop is oversized relative to the door and counter height. The complementary view confirms these are more than foreground perspective effects.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Warm timber slats, dark brown cabinets, pale stone and backsplash, white door and black appliances preserve the principal color and surface contrasts.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The authored view is bright and legible with coherent shading. Its flatter illumination weakens the reference's warm accent lighting but does not obscure the required content.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views show cabinet depth, countertop thickness and changing spatial relationships, establishing a volumetric scene. The blank wide_01 view does not negate the other views.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh objects provide separately addressable architecture, slats, door, cabinetry and appliances. Their finite geometry, parent chains and assigned node materials substantiate editability beyond group names.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id='Box.030'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.082'].parent_chain",
+        "scene_facts.json.objects[object_id='Box.094'].type",
+        "scene_facts.json.objects[object_id='Box.095'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.095'].material_slots",
+        "scene_facts.json.objects[object_id='Box.103'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.111'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='kitchen'].children",
+        "scene_facts.json.materials['Warm veined stone'].nodes",
+        "scene_facts.json.materials['SceneActSurface_10'].links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 7,
+      "evidence": "The distinctive kitchen and slatted rear wall are recognizable, though appliance geometry and cabinet proportions are simplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Cabinets and low furniture appear supported, with coherent counter connections. The sink reads as a surface plate rather than a usable basin.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "The timber, cream, white and black palette corresponds well; broad cabinet surfaces lack the reference's wood character.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Heavy render noise, boxlike cabinetry, flat sink treatment and sparse surface detail substantially reduce credibility.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "Major adjacency and ordering are preserved, while expanded countertop depth and generous spacing weaken the compact reference arrangement.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Door and low unit proportions are plausible, but the deep kitchen units and large cooktop are poorly balanced against them.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Surfaces remain readable with consistent shading, but noise and weak localized warm lighting diminish material definition and atmosphere.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major visible elements are included, including the extractor and wall switches. Basin depth, draining detail and refined cabinet construction remain underdeveloped.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_192968130/1/judge_1",
+  "judge_usage": {
+    "input_tokens": 118785,
+    "output_tokens": 1408,
+    "observed_model": "unknown",
+    "seconds": 41.70665840012953
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

@@ -66,7 +66,7 @@ def final_checks():
     from pilot import validate_candidate,cfg
     from research import ResearchAPI
     c=cfg();validate_candidate(ROOT/'fixed_h/historical_r1_C2_start',ROOT/'initial_m')
-    calibration=json.loads((ROOT/'preparation/bw_calibration/calibration.json').read_text())
+    calibration=json.loads((ROOT/c['evaluation']['calibration_report']).read_text())
     assert calibration['completed']==20 and calibration['eval_failed']==0
     smoke=json.loads((ROOT/'preparation/open_m_smoke/attempt_02/worker_summary.json').read_text())
     assert len(smoke['actions'])==2 and all(a['status']=='completed' for a in smoke['actions'])
@@ -89,14 +89,15 @@ def final_checks():
     explicit=api.execute_action('actions/regression.py','fixture',{'test':'material_preservation','object_id':'Z_target_part','render':False},'Target must be explicit Z, not alphabetically first A.')
     assert explicit['status']=='completed' and explicit['measurement']['measured_pass'] and explicit['measurement']['target']==['Z_target_part']
     from pilot import decide_h
-    parent={'S_BW':50,'eligible':False,'completed':4,'evaluation_completed':4}
-    rejected={'S_BW':90,'eligible':False,'completed':4,'evaluation_completed':4}
+    n=c['pilot']['selection_size']
+    parent={'S_BW':50,'eligible':False,'completed':n,'evaluation_completed':n}
+    rejected={'S_BW':90,'eligible':False,'completed':n,'evaluation_completed':n}
     assert decide_h(rejected,parent,2.5)[0] is False
-    good={'S_BW':60,'eligible':True,'completed':4,'evaluation_completed':4}
+    good={'S_BW':60,'eligible':True,'completed':n,'evaluation_completed':n}
     assert decide_h(good,parent,2.5)[0] is True
-    service={'S_BW':50,'eligible':False,'completed':4,'evaluation_completed':3}
+    service={'S_BW':50,'eligible':False,'completed':n,'evaluation_completed':n-1}
     assert decide_h(good,service,2.5)[0] is False
-    stable={'S_BW':59,'eligible':True,'completed':4,'evaluation_completed':4}
+    stable={'S_BW':59,'eligible':True,'completed':n,'evaluation_completed':n}
     assert decide_h(good,stable,2.5)[0] is False
     write_json(folder/'final_acceptance.json',{'status':'passed','formal_started':False,'tests':['CPU propagation and measured resources','real Terra image and executable blend','M observation-controlled next decision','real Astra-created action two-scene reuse','M-only execution and unchanged discrimination','BW formula eight dimensions and actual structural route','20 repeated judge calibrations; no missing scores','known geometry/edit bad fixtures detected','H/M staged context excludes test directory and labels','original author aspect preserved in real diagnostic render','native ray depth/mask measurement executes','Explicit regression edit target Z is used','Absolute Selection eligibility and evaluator failure distinction'],'promotion_delta':calibration['promotion_delta_recommendation'],'limitations':['CLI exact model requests and observed routing unknown','No strict unseen-scene independence','No human quality verification','Some intermediate preparation source variants were not separately snapshotted']})
     print('Final V3 platform acceptance passed; formal rounds remain unstarted.',flush=True)

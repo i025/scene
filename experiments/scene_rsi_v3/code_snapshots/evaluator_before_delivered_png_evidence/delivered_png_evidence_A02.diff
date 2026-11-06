@@ -1,0 +1,151 @@
+diff --git a/outputs/scene_rsi_v3/code_snapshots/evaluator_before_delivered_png_evidence/bw_evaluate.py b/outputs/scene_rsi_v3/bw_evaluate.py
+index c100783..bbbb977 100644
+--- a/outputs/scene_rsi_v3/code_snapshots/evaluator_before_delivered_png_evidence/bw_evaluate.py
++++ b/outputs/scene_rsi_v3/bw_evaluate.py
+@@ -14,7 +14,7 @@ import sys
+ import time
+ from pathlib import Path
+ 
+-from PIL import Image
++from PIL import Image, UnidentifiedImageError
+ 
+ ROOT = Path(__file__).resolve().parent
+ sys.path.insert(0, str(ROOT / 'backend'))
+@@ -50,6 +50,82 @@ def write_json(path, value):
+     Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
+ 
+ 
++def delivered_image_metadata(path):
++    """Measure the original deliverable, never an evaluator rerender or an upscale."""
++    path = Path(path)
++    result = {'authored_filename': 'final.png', 'exists': path.is_file(),
++              'file_size_bytes': None, 'png_magic_valid': None, 'format': None,
++              'width': None, 'height': None, 'mode': None, 'full_decode_success': False,
++              'readable': None, 'validation_status': 'missing', 'error': None,
++              'provenance': 'Original H-delivered file; not the evaluator author-camera rerender',
++              'content_changes': 'none; no resizing, upsampling, conversion or repair'}
++    if not result['exists']:
++        return result
++    try:
++        result['file_size_bytes'] = path.stat().st_size
++        with path.open('rb') as stream:
++            # PNG's standard format signature is a file-format check, not a
++            # checksum, content fingerprint, or identity verification scheme.
++            result['png_magic_valid'] = stream.read(8) == b'\x89PNG\r\n\x1a\n'
++        result['readable'] = True
++    except OSError as error:
++        result.update(validation_status='evaluator_file_read_error', readable=False,
++                      error=str(error).replace(str(path), 'delivered_final.png'))
++        return result
++    try:
++        with Image.open(path) as picture:
++            result.update(format=picture.format, width=picture.width, height=picture.height, mode=picture.mode)
++            picture.load()
++            result.update(full_decode_success=True, validation_status='decoded')
++    except (UnidentifiedImageError, OSError, ValueError, Image.DecompressionBombError) as error:
++        result.update(validation_status='invalid_image',
++                      error=str(error).replace(str(path), 'delivered_final.png'))
++    return result
++
++
++def enrich_delivered_evidence(evidence_folder):
++    """Add missing delivery facts to saved evidence, retaining the original JSON once.
++
++    This helper performs no Blender/model call and never changes scores or the
++    generator artifact. Existing evaluations must be preserved by the caller
++    before a fresh judgement under the documented evaluator amendment.
++    """
++    folder = Path(evidence_folder).resolve()
++    status_path, facts_path = folder / 'evidence_status.json', folder / 'scene_facts.json'
++    status, facts = json.loads(status_path.read_text()), json.loads(facts_path.read_text())
++    source = Path(status['source']).parent / 'final.png'
++    metadata = delivered_image_metadata(source)
++    delivered_images = []
++    if metadata['exists'] and metadata['readable']:
++        snapshot = folder / 'delivered_final.png'
++        if not snapshot.exists():
++            shutil.copy2(source, snapshot)
++        elif snapshot.stat().st_size != metadata['file_size_bytes']:
++            raise ValueError('Saved delivered artifact byte size changed; preserve the prior evidence and inspect the source')
++        metadata['snapshot_filename'] = snapshot.name
++        if metadata['full_decode_success'] and metadata['format'] in {'PNG', 'JPEG', 'WEBP'}:
++            suffix = {'PNG': '.png', 'JPEG': '.jpg', 'WEBP': '.webp'}[metadata['format']]
++            attachment = folder / ('delivered_final' + suffix)
++            if not attachment.exists():
++                shutil.copy2(source, attachment)
++            delivered_images.append(attachment.name)
++    previous = folder / 'scene_facts_before_delivered_evidence.json'
++    if not previous.exists():
++        shutil.copy2(facts_path, previous)
++    facts['delivered_artifacts'] = [metadata]
++    facts['delivery_evidence_version'] = 'original_delivery_metadata_A02'
++    write_json(facts_path, facts)
++    write_json(folder / 'delivered_artifact_provenance.json', {
++        'source_file': str(source), 'source_rule': 'Exact original blend.parent/final.png; no path search',
++        'evidence_version': 'original_delivery_metadata_A02', 'measured_at': time.time(),
++        'original_artifact_untouched': True, 'original_scene_facts_backup': previous.name,
++        'attached_images': delivered_images, 'metadata': metadata,
++    })
++    status.update(delivered_images=delivered_images, delivery_evidence_version='original_delivery_metadata_A02')
++    write_json(status_path, status)
++    return status
++
++
+ def score_bw(rubrics, rubric_scores, dimension_scores):
+     """Validate exact coverage before applying the uncapped official 1:1 formula."""
+     expected = {r['id'] for r in rubrics}
+@@ -142,7 +218,7 @@ def collect_evidence(blend, folder, cfg, *, preview=False, interior=True):
+     if not facts['required_dependencies_available'] or facts['camera'] is None:
+         result.update(execution_status='invalid', failure_type='missing_dependency_or_author_camera', finished=time.time())
+         write_json(folder / 'evidence_status.json', result)
+-        return result
++        return enrich_delivered_evidence(folder)
+     plan = json.loads((folder / 'view_plan.json').read_text())
+     for view in plan['views']:
+         name = view['view_id']
+@@ -169,7 +245,7 @@ def collect_evidence(blend, folder, cfg, *, preview=False, interior=True):
+     result.update(finished=time.time())
+     result['seconds'] = result['finished'] - result['started']
+     write_json(folder / 'evidence_status.json', result)
+-    return result
++    return enrich_delivered_evidence(folder)
+ 
+ 
+ def judge_schema(rubric):
+@@ -202,6 +278,20 @@ different provenance: defects of an evaluator framing view do not establish defe
+ of the authored final view. Use all views together. One visible clear view suffices
+ for presence; reference imagery alone never does. Reasonable matte/stylized surfaces
+ are acceptable when consistent with target. Do not impose photographic gloss.
++Delivery provenance: author.png is an EVALUATOR rerender using the authored camera,
++not the originally delivered PNG. delivered_final.png (or its actual-format .jpg/.webp
++attachment) is a byte-preserving copy of the ORIGINAL H-delivered final.png. Its
++actual Pillow format, PNG signature check, full decoding result and encoded pixel
++dimensions are recorded in scene_facts.json:delivered_artifacts. Evaluator renders
++cannot satisfy an original-deliverable format or resolution requirement. A measured
++delivered size below the frozen rubric requirement, a measured non-PNG payload, an
++actually missing final.png, or an invalid/corrupt delivered image is an artifact
++requirement failure (score 0 for the corresponding criterion), not missing evaluator
++evidence. An evaluator permission/read error is different and remains eval_failed.
++Do not infer missing native font/material/configuration facts: if a required fact
++was not collected and cannot be established from the supplied evidence, state the
++specific missing field rather than guessing. These evidence rules do not alter
++rubrics, weights, thresholds, render settings, or the generated artifact.
+ Scene facts below were read by fixed Blender code from the actual artifact. Names and
+ declared dependencies are not proof of semantic correctness. Bounds are approximate,
+ not collision truth; there is no metric scale or hidden-geometry ground truth.
+@@ -240,13 +330,14 @@ def validate_evidence_routes(rubric, judged, available_images):
+ def judge_artifact(reference, evidence_folder, rubric, cfg, judge_folder, *, display_order=None):
+     evidence_folder = Path(evidence_folder).resolve()
+     judge_folder = Path(judge_folder).resolve()
+-    status = json.loads((evidence_folder / 'evidence_status.json').read_text())
++    status = enrich_delivered_evidence(evidence_folder)
+     if status['evaluation_status'] != 'pending_judge':
+         return status
+     facts = json.loads((evidence_folder / 'scene_facts.json').read_text())
+     views = list(status['images'] if display_order is None else display_order)
+     if sorted(views) != sorted(status['images']):
+         raise ValueError('Display-order randomization must preserve every evidence image exactly once')
++    views.extend(status['delivered_images'])
+     images = [Path(reference).resolve(), *[evidence_folder / p for p in views]]
+     prompt = judge_prompt(rubric, facts, views)
+     # Transport copies images into a fresh anonymous workspace, disables tools,

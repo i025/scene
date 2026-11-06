@@ -4,8 +4,8 @@
   "execution_status": "completed",
   "evaluation_status": "completed",
   "S_rubric": 66.66666666666667,
-  "S_dimension": 90.0,
-  "S_BW": 78.33333333333334,
+  "S_dimension": 88.75,
+  "S_BW": 77.70833333333334,
   "started": 1793997280.3589857,
   "images": [
     "author.png",
@@ -21,79 +21,81 @@
   "failure_type": null,
   "finished": 1793997286.7084699,
   "seconds": 6.349484205245972,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
   "evaluation_error": null,
   "rubric_scores": [
     {
       "id": "R01",
       "score": 1,
-      "evidence": "All three required objects are native MESH objects with finite nonempty geometry, each containing 8 vertices and 6 polygons.",
+      "evidence": "All three required objects are native meshes with 8 vertices, 6 polygons, and finite nonempty geometry.",
       "source_evidence": [
-        "scene_facts.json: objects[0,6,7].type",
-        "scene_facts.json: objects[0,6,7].finite_nonempty_mesh",
-        "scene_facts.json: objects[0,6,7].vertices",
-        "scene_facts.json: objects[0,6,7].polygons"
+        "scene_facts.json:objects[0,5,6].type",
+        "scene_facts.json:objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json:objects[0,5,6].vertices",
+        "scene_facts.json:objects[0,5,6].polygons"
       ],
       "evidence_route": "scene_summary"
     },
     {
       "id": "R02",
       "score": 1,
-      "evidence": "Assembly's actual children match its declared children; both parts have Assembly as their parent.",
+      "evidence": "Assembly's actual children match its declared children; both parts identify Assembly as their parent.",
       "source_evidence": [
-        "scene_facts.json: objects[2].children",
-        "scene_facts.json: objects[2].declared_children",
-        "scene_facts.json: objects[0].parent",
-        "scene_facts.json: objects[7].parent"
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[2].declared_children",
+        "scene_facts.json:objects[0].parent",
+        "scene_facts.json:objects[6].parent"
       ],
       "evidence_route": "scene_summary"
     },
     {
       "id": "R03",
       "score": 1,
-      "evidence": "Target lower Z and Support upper Z both equal 1.0. The target XY footprint lies within Support's footprint, giving zero normalized vertical gap and overlapping footprints.",
+      "evidence": "Target lower Z and support upper Z both equal 1.0. The target XY footprint lies within the support footprint; normalized contact gap is zero.",
       "source_evidence": [
-        "scene_facts.json: objects[7].world_aabb_approx",
-        "scene_facts.json: objects[6].world_aabb_approx",
-        "scene_facts.json: structural_measurements.known_support.rows[0]"
+        "scene_facts.json:objects[6].world_aabb_approx",
+        "scene_facts.json:objects[5].world_aabb_approx",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
       ],
       "evidence_route": "scene_summary"
     },
     {
       "id": "R04",
       "score": 1,
-      "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The three required meshes are the only mesh objects; no Intruder exists.",
+      "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The complete object inventory contains only these three meshes and no Intruder.",
       "source_evidence": [
-        "scene_facts.json: objects[0].dimensions_scene_units",
-        "scene_facts.json: objects[7].dimensions_scene_units",
-        "scene_facts.json: objects[6].dimensions_scene_units",
-        "scene_facts.json: mesh_count",
-        "scene_facts.json: objects"
+        "scene_facts.json:objects[0,5,6].dimensions_scene_units",
+        "scene_facts.json:objects",
+        "scene_facts.json:mesh_count"
       ],
       "evidence_route": "scene_summary"
     },
     {
       "id": "R05",
       "score": 0,
-      "evidence": "Both parts use the same connected shader with blue Base Color [0.02,0.08,0.8,1]. Support remains gray, but A_unrelated_part is blue instead of orange.",
+      "evidence": "Both parts share the assigned shader with blue Base Color (0.02, 0.08, 0.8); A_unrelated_part is therefore blue instead of orange. Support retains its gray shader.",
       "source_evidence": [
-        "scene_facts.json: objects[0].material_slots",
-        "scene_facts.json: objects[7].material_slots",
-        "scene_facts.json: materials[\"Shared_orange.004\"].nodes[1].inputs[\"Base Color\"]",
-        "scene_facts.json: materials[\"Shared_orange.004\"].links",
-        "scene_facts.json: objects[6].material_slots",
-        "scene_facts.json: materials[\"Support_gray.004\"].nodes[1].inputs[\"Base Color\"]"
+        "scene_facts.json:objects[0].material_slots",
+        "scene_facts.json:objects[6].material_slots",
+        "scene_facts.json:materials['Shared_orange.004'].nodes[1].inputs['Base Color']",
+        "scene_facts.json:materials['Shared_orange.004'].links",
+        "scene_facts.json:objects[5].material_slots",
+        "scene_facts.json:materials['Support_gray.004'].nodes[1].inputs['Base Color']"
       ],
       "evidence_route": "scene_summary"
     },
     {
       "id": "R06",
       "score": 0,
-      "evidence": "The author view clearly shows two distinct cubes and the gray support in the required arrangement, but both cubes are blue; the required orange cube is absent.",
+      "evidence": "The authored-camera and delivered views clearly show two distinct cubes and the gray support in the required arrangement, but both cubes are blue; the required orange cube is absent.",
       "source_evidence": [
         "author.png",
-        "wide_03.png",
-        "detail_01.png",
-        "wide_01.png"
+        "delivered_final.png",
+        "wide_03.png"
       ],
       "evidence_route": "render"
     }
@@ -102,18 +104,18 @@
     {
       "id": "scene_fidelity",
       "score": 8,
-      "evidence": "The fixture's objects and arrangement are faithfully recognizable, with the unrelated cube's incorrect blue color the principal mismatch.",
+      "evidence": "Object identities, silhouettes, and arrangement correspond closely to the fixture; the unrelated cube has the wrong color.",
       "source_evidence": [
-        "author.png"
+        "author.png",
+        "delivered_final.png"
       ]
     },
     {
       "id": "physics",
       "score": 10,
-      "evidence": "The required target-support contact is exact under the specified AABB approximation, with overlapping footprints and no extra intersecting geometry. The separate part's placement is consistent with the controlled fixture.",
+      "evidence": "The required supported cube contacts the support with overlapping footprints and no measured gap. The isolated cube follows the prescribed fixture arrangement.",
       "source_evidence": [
-        "scene_facts.json: structural_measurements.known_support.rows[0]",
-        "scene_facts.json: objects",
+        "scene_facts.json:structural_measurements.known_support.rows[0]",
         "detail_01.png",
         "author.png"
       ]
@@ -121,70 +123,68 @@
     {
       "id": "style_color",
       "score": 6,
-      "evidence": "Simple cube silhouettes and matte surfaces fit the target style. Target blue and support gray are correct, but the unrelated cube loses its required orange color.",
+      "evidence": "Simple matte cuboids match the intended style, but the required blue/orange distinction is lost because both cubes are blue.",
       "source_evidence": [
         "author.png",
-        "wide_03.png"
+        "delivered_final.png"
       ]
     },
     {
       "id": "realism",
       "score": 9,
-      "evidence": "Consistent planar shading and contact shading make the stylized fixture credible; slight render grain remains visible.",
+      "evidence": "Consistent shading and solid geometric forms suit the stylized fixture, with slight visible render grain.",
       "source_evidence": [
         "author.png",
-        "detail_01.png"
+        "detail_01.png",
+        "delivered_final.png"
       ]
     },
     {
       "id": "layout_spatial",
       "score": 10,
-      "evidence": "The authored view clearly preserves the supported left cube and separated right cube, with the expected vertical relationship and spacing.",
+      "evidence": "The target is centered on the support and the second cube is separated to its right, preserving the intended spacing and orientation.",
       "source_evidence": [
         "author.png",
-        "scene_facts.json: objects[0].world_aabb_approx",
-        "scene_facts.json: objects[6].world_aabb_approx",
-        "scene_facts.json: objects[7].world_aabb_approx"
+        "delivered_final.png",
+        "scene_facts.json:objects[0,5,6].world_aabb_approx"
       ]
     },
     {
       "id": "proportion_scale",
       "score": 10,
-      "evidence": "Equal unit cubes and the support's double-width, double-depth, equal-height proportions match the specified fixture.",
+      "evidence": "Equal unit cubes and a support twice their width and depth reproduce the required proportions exactly.",
       "source_evidence": [
-        "scene_facts.json: objects[0].dimensions_scene_units",
-        "scene_facts.json: objects[6].dimensions_scene_units",
-        "scene_facts.json: objects[7].dimensions_scene_units",
+        "scene_facts.json:objects[0,5,6].dimensions_scene_units",
         "author.png"
       ]
     },
     {
       "id": "lighting_material",
-      "score": 9,
-      "evidence": "Matte surfaces and coherent light-dark face separation communicate the geometry well. Mild grain is visible, especially in close views.",
+      "score": 8,
+      "evidence": "Directional shading makes the matte surfaces readable and contact clear. Visible grain and the incorrect shared blue material reduce quality.",
       "source_evidence": [
-        "author.png",
         "detail_01.png",
-        "wide_03.png"
+        "delivered_final.png",
+        "scene_facts.json:materials['Shared_orange.004'].nodes[1].inputs['Base Color']"
       ]
     },
     {
       "id": "completeness",
       "score": 10,
-      "evidence": "Both required cubes and the gray support are present and fully visible in the authored view; the declared Assembly hierarchy also exists.",
+      "evidence": "Both required cubes and the single support are present, and the Assembly hierarchy is complete.",
       "source_evidence": [
         "author.png",
-        "scene_facts.json: mesh_count",
-        "scene_facts.json: objects[2].children"
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:objects[2].children"
       ]
     }
   ],
-  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00016",
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00038",
   "judge_usage": {
-    "input_tokens": 22843,
-    "output_tokens": 1474,
+    "input_tokens": 23940,
+    "output_tokens": 1382,
     "observed_model": "unknown",
-    "seconds": 42.39621009817347
+    "seconds": 38.32688533514738
   },
   "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
 }

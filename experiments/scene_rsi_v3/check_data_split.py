@@ -8,7 +8,8 @@ from pathlib import Path
 def check_split(manifest_path: Path) -> dict:
     scenes = json.loads(manifest_path.read_text())
     counts = Counter(scene["split"] for scene in scenes)
-    assert counts == {"development": 12, "selection": 4, "test": 6, "meta_replay": 2}, counts
+    assert counts == {"development": 12, "selection": 3, "test": 6,
+                      "meta_replay": 2, "reserved_unused_budget_A02": 1}, counts
     assert len({scene["scene_id"] for scene in scenes}) == len(scenes)
     source_splits = defaultdict(set)
     group_splits = defaultdict(set)

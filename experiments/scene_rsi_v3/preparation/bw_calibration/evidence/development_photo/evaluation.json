@@ -4,8 +4,8 @@
   "execution_status": "completed",
   "evaluation_status": "completed",
   "S_rubric": 53.333333333333336,
-  "S_dimension": 50.0,
-  "S_BW": 51.66666666666667,
+  "S_dimension": 48.75,
+  "S_BW": 51.04166666666667,
   "started": 1793997322.0421357,
   "images": [
     "author.png",
@@ -26,12 +26,17 @@
   "failure_type": null,
   "finished": 1793997902.2142978,
   "seconds": 580.1721620559692,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
   "evaluation_error": null,
   "rubric_scores": [
     {
       "id": "R01",
       "score": 1,
-      "evidence": "Legged desks with lower shelves, a standing chalkboard, ceiling fans, floor, walls and ceiling are recognizable beyond generic cubes.",
+      "evidence": "Desks with legs and shelves, a freestanding chalkboard, ceiling fans, floor, walls and ceiling are recognizable beyond featureless cubes.",
       "source_evidence": [
         "author.png",
         "detail_01.png",
@@ -42,21 +47,21 @@
     {
       "id": "R02",
       "score": 0,
-      "evidence": "The repeated desks face the front, but their uniformly spaced grid loses the reference's denser, uneven arrangement. Identical narrow wall panels do not reproduce the varied doors and bright openings.",
+      "evidence": "The furniture forms a widely spaced uniform grid instead of the reference's denser, irregular rows. Repeated narrow wall panels do not reproduce the varied openings, and the stage occupies too little of the far wall.",
       "source_evidence": [
         "author.png",
         "wide_04.png",
-        "wide_01.png"
+        "wide_06.png"
       ],
       "evidence_route": "render"
     },
     {
       "id": "R03",
       "score": 0,
-      "evidence": "Desks appear too low and small relative to the tall openings and room; backpacks reach approximately desktop height. The front stage assembly occupies too little of the end wall.",
+      "evidence": "Bags reach approximately desktop height, desks are too small relative to the room and openings, and the stage and board are undersized relative to room width.",
       "source_evidence": [
         "author.png",
-        "wide_06.png",
+        "wide_05.png",
         "detail_01.png"
       ],
       "evidence_route": "render"
@@ -64,37 +69,37 @@
     {
       "id": "R04",
       "score": 0,
-      "evidence": "The broad color categories are present, but pale tan furniture replaces dark brown wood, yellow walls are subdued, and nearly uniform illumination loses the strong side-opening daylight and shaded front recess.",
+      "evidence": "The cream/yellow walls and green/burgundy stage retain palette cues, but pale tan furniture replaces dark wood and uniform illumination loses the strong side daylight and dark stage recess. These differences exceed matte simplification.",
       "source_evidence": [
         "author.png",
-        "wide_05.png",
-        "detail_01.png"
+        "wide_06.png",
+        "delivered_final.png"
       ],
       "evidence_route": "render"
     },
     {
       "id": "R05",
       "score": 1,
-      "evidence": "Box.123 is a finite nonempty mesh with 8 vertices, 6 polygons and dimensions 1.55 × 0.64 × 0.10, bound to SceneActSurface_6. Ball has 482 vertices, 512 polygons and depth on all axes. Bound materials contain Principled BSDF connections to Material Output.",
+      "evidence": "Box.123 is a finite mesh with 8 vertices, 6 polygons and dimensions 1.55 × 0.64 × 0.10, bound to SceneActSurface_6. Rod has 64 vertices, 34 polygons and nonzero depth. The bound material has a Principled BSDF connected to Material Output.",
       "source_evidence": [
-        "scene_facts.json.objects[object_id=Box.123].finite_nonempty_mesh",
-        "scene_facts.json.objects[object_id=Box.123].dimensions_scene_units",
-        "scene_facts.json.objects[object_id=Box.123].material_slots",
-        "scene_facts.json.objects[object_id=Ball].vertices",
-        "scene_facts.json.objects[object_id=Ball].polygons",
-        "scene_facts.json.objects[object_id=Ball].dimensions_scene_units",
-        "scene_facts.json.materials.SceneActSurface_6.links"
+        "scene_facts.json:objects[object_id=Box.123].finite_nonempty_mesh",
+        "scene_facts.json:objects[object_id=Box.123].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.123].material_slots",
+        "scene_facts.json:objects[object_id=Rod].vertices",
+        "scene_facts.json:objects[object_id=Rod].polygons",
+        "scene_facts.json:objects[object_id=Rod].dimensions_scene_units",
+        "scene_facts.json:materials.SceneActSurface_6.links"
       ],
       "evidence_route": "scene_summary"
     },
     {
       "id": "R06",
       "score": 1,
-      "evidence": "The authored view clearly evokes the supplied classroom through repeated wooden desks, yellow lower walls, overhead fans and a green board before a burgundy and green stage surround, despite substantial simplification.",
+      "evidence": "The enclosed classroom, repeated wooden desks, overhead fans, yellow lower walls and green-framed burgundy stage with chalkboard clearly evoke the supplied classroom despite substantial simplification.",
       "source_evidence": [
         "author.png",
-        "wide_05.png",
-        "wide_06.png"
+        "delivered_final.png",
+        "wide_05.png"
       ],
       "evidence_route": "render"
     }
@@ -103,26 +108,26 @@
     {
       "id": "scene_fidelity",
       "score": 6,
-      "evidence": "The classroom and distinctive front color arrangement are recognizable, while openings, furniture density and architectural detail diverge.",
+      "evidence": "Distinctive classroom and stage cues survive, but furniture density, openings and architectural detail differ substantially.",
       "source_evidence": [
         "author.png",
-        "wide_05.png"
+        "wide_06.png"
       ]
     },
     {
       "id": "physics",
       "score": 7,
-      "evidence": "Desktops have visible supporting legs and fans have downrods. Most objects appear grounded, though the board stand lacks a convincing stabilizing base and wall shutters read as attached slabs.",
+      "evidence": "Desks have coherent supporting legs, books rest on tops and fans have downrods. Wall openings and board support remain schematic.",
       "source_evidence": [
         "detail_01.png",
         "detail_02.png",
-        "wide_04.png"
+        "wide_01.png"
       ]
     },
     {
       "id": "style_color",
       "score": 5,
-      "evidence": "Yellow, cream, green, burgundy and blue cues survive, but furniture is excessively pale and bags and curtains have rigid block silhouettes.",
+      "evidence": "Major accent colors correspond, but light furniture, rigid box-shaped bags and flat curtains lose important silhouettes and tonal relationships.",
       "source_evidence": [
         "author.png",
         "detail_01.png"
@@ -130,18 +135,18 @@
     },
     {
       "id": "realism",
-      "score": 4,
-      "evidence": "Consistent shading gives spatial depth, but slab curtains, blank pictures, box-shaped bags and uniformly repeated furniture make the room look like a rough model.",
+      "score": 3,
+      "evidence": "Identical sharp-edged desks, blank picture frames, slab curtains and block bags create a crude model appearance. Delivery noise further reduces clarity.",
       "source_evidence": [
+        "wide_04.png",
         "detail_01.png",
-        "wide_01.png",
-        "author.png"
+        "delivered_final.png"
       ]
     },
     {
       "id": "layout_spatial",
       "score": 5,
-      "evidence": "Forward-facing rows, central circulation and side-wall features preserve basic organization. Excessive regularity and generous spacing weaken the reference arrangement.",
+      "evidence": "Desks face the far teaching area and openings repeat along both sides, but uniform large gaps and reduced stage breadth alter the reference's spatial organization.",
       "source_evidence": [
         "author.png",
         "wide_05.png",
@@ -151,40 +156,40 @@
     {
       "id": "proportion_scale",
       "score": 4,
-      "evidence": "Furniture is undersized relative to openings and enclosure, bags are large relative to desks, and the stage surround is comparatively narrow.",
-      "source_evidence": [
-        "author.png",
-        "wide_04.png",
-        "detail_01.png"
-      ]
-    },
-    {
-      "id": "lighting_material",
-      "score": 4,
-      "evidence": "Soft contact shadows are coherent, but broadly flat illumination and similar uniform surfaces lose the reference's side lighting and distinction between wood, floor and fabric.",
+      "evidence": "Furniture is small within the enclosure, bags are unusually tall beside desks, and the teaching area is too narrow.",
       "source_evidence": [
         "author.png",
         "wide_05.png"
       ]
     },
     {
-      "id": "completeness",
-      "score": 5,
-      "evidence": "Numerous desks, fans, bags, books and the front board are included. Visible chairs, ceiling beams and tube lights, detailed doors and stage-side furnishings are absent or unrepresented.",
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Soft shadows establish volume, but washed-out wood and broadly even light poorly reproduce side illumination, material differentiation and the dark stage.",
       "source_evidence": [
         "author.png",
         "wide_06.png",
-        "detail_01.png",
-        "wide_04.png"
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "Repeated desks, fans, bags, books and chalkboard are present. Seating, front chairs, cabinets, ceiling beams and tube fixtures are absent or insufficiently represented.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_05.png",
+        "detail_01.png"
       ]
     }
   ],
-  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00020",
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00028",
   "judge_usage": {
-    "input_tokens": 256867,
-    "output_tokens": 1404,
+    "input_tokens": 271042,
+    "output_tokens": 1385,
     "observed_model": "unknown",
-    "seconds": 108.0945204840973
+    "seconds": 117.29226662497967
   },
   "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
 }

@@ -1,0 +1,184 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 61.25,
+  "S_BW": 80.625,
+  "started": 1794001921.7969766,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_113438548/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794001928.8973923,
+  "seconds": 7.1004157066345215,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "author.png recognizably reconstructs the framed machinery display, upper wheel and four pulleys, hanging tools, lower paired disks, red door, overhead pipe, and portions of the right window and bench. Architectural and machinery details are simplified.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The door remains left of the display, the window and bench remain right and behind it, the pipe is overhead, and the paired disks are below. Evaluator views mostly show wall backs or empty framing and do not contradict these authored relationships.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Display, wheel, pulley row, tools, and lower disks retain broadly plausible relative sizes. The display is somewhat narrower and its surrounding wall margins larger than the target, but proportions remain recognizable.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Pale walls and backing, dark machinery and frame, muted red door, blue-green pipe, and yellow label preserve the main color organization. Matte simplification is coherent despite reduced warmth and surface variation.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The authored display is clearly illuminated with coherent soft shadows. Lighting is flatter and cooler than the reference but does not obscure the required content.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The authored frame, pipe, disks, and machine exhibit thickness and shading; wide_03.png shows spatially separated wall slabs. Actual mesh records confirm volumetric frame, machine, and disk components rather than a single image plane.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "scene_facts.json.objects[object_id='Box.024'].dimensions_scene_units",
+        "scene_facts.json.objects[object_id='Box.039'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Rod.070'].world_aabb_approx"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "The scene contains 147 meshes. Architecture, display, machine, and lower equipment have addressable hierarchies with actual mesh children. Representative backing, machine body, pipe, and disk meshes have finite nonempty geometry and material slots linked to defined shader materials.",
+      "source_evidence": [
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id='display'].children",
+        "scene_facts.json.objects[object_id='machine'].children",
+        "scene_facts.json.objects[object_id='Box.023'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.039'].parent_chain",
+        "scene_facts.json.objects[object_id='Rod'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Rod.070'].material_slots",
+        "scene_facts.json.materials.SceneActSurface_28.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The distinctive machinery display is recognizable, but the surrounding architecture is less well represented, the lower equipment is cropped, and the machine silhouette is substantially simplified.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Frame and wheel assemblies look coherent, but mounting connections are underdeveloped. The machine's apparent opening is represented by a pale solid cylinder, reducing structural credibility.",
+      "source_evidence": [
+        "author.png",
+        "scene_facts.json.objects[object_id='Rod.067'].type",
+        "scene_facts.json.objects[object_id='Rod.067'].polygons",
+        "scene_facts.json.objects[object_id='Rod.067'].material_slots"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Main color blocks and dark-on-pale organization match well. Simplified shapes and lighter gray machinery lose some of the target's heavy industrial character.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Primitive machine forms, uniformly clean surfaces, visible render grain, and the pale circular substitute for an opening make the result read as a schematic model.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "Major left/right and vertical relationships are retained. Larger wall margins and limited visibility of the right room reduce correspondence; evaluator framing adds little usable detail.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Component sizes are broadly plausible, though the display is relatively narrow, the upper wheel is elongated, and the machinery has reduced bulk and complexity.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 6,
+      "evidence": "Soft illumination keeps the display legible with consistent shadows. Flatter light, weak material differentiation, and grain reduce the target's depth and atmosphere.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major equipment categories and the four small upper pulleys are present. Window architecture and machinery details are simplified, while the authored crop excludes the bottom stand and much of the adjacent room.",
+      "source_evidence": [
+        "author.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_113438548/1/judge_1",
+  "judge_usage": {
+    "input_tokens": 125189,
+    "output_tokens": 1515,
+    "observed_model": "unknown",
+    "seconds": 47.013008886016905
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

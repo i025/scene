@@ -1,0 +1,185 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 60.0,
+  "S_BW": 80.0,
+  "started": 1794000943.045062,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_109923183/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794000954.8985126,
+  "seconds": 11.853450536727905,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The upholstered chaise, pillow, partial foreground chair, paneled wall and floor clearly reproduce the scene identity. Window and curtain treatment is very schematic.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The chaise remains in front of the paneled wall with its raised head at left and foot at right; the partial chair is foreground left. The detail view shows the left window/curtain strip. Spacing is looser than the target.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Seat length, raised back, pillow and legs remain compatible with a chaise. The thinner frame and more upright back reduce similarity without making the main proportions implausible.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Pale striped upholstery, muted green frame, light wall and brown floor preserve the main color organization. Carving, textile pattern and parquet are strongly simplified.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The authored view is clearly readable with soft illumination and coherent shadow beneath the chaise. It is flatter and less warm than the reference, but broadly compatible.",
+      "source_evidence": [
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The authored view shows volumetric cushions, arms and legs; the detail view reveals the back from a complementary angle with changed occlusion. The wall-only evaluator views do not invalidate this evidence.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh objects locate the seat, pillow, frame, architecture and foreground seat in editable hierarchies. Box.030, Box.046, Rod.104, Box.001 and Box.053 have nonempty finite meshes and assigned materials with shader links.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.030].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.030].parent_chain",
+        "scene_facts.json.objects[object_id=Box.030].material_slots",
+        "scene_facts.json.objects[object_id=Box.046].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod.104].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.001].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.053].finite_nonempty_mesh",
+        "scene_facts.json.materials.SceneActSurface_10.links",
+        "scene_facts.json.materials.SceneActSurface_16.links",
+        "scene_facts.json.materials.SceneActSurface_13.links",
+        "scene_facts.json.materials.SceneActSurface_1.links",
+        "scene_facts.json.materials.SceneActSurface_19.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "Recognizable chaise and paneling, but the tubular frame, upright head and sparse surroundings lose much of the target's character.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 7,
+      "evidence": "Visible legs support the chaise and its main parts connect plausibly; the frame looks unusually slender and the pillow sits rigidly high.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "Broad palette and stripes correspond; ornate carved contours become simple rods and stepped arm panels.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Primitive joins, stiff cushion forms, uniform surfaces and pronounced render noise weaken credibility.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "Primary left-right and front-back relations remain correct, with increased wall spacing and a flattened window area.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Furniture scale is plausible, though the back is too upright, the frame too thin and the visible seat less substantial.",
+      "source_evidence": [
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Readable soft shadows and surface separation are present, but lighting is washed out and fabric, wood and curtain lack characteristic texture.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Main furniture, pillow, label, paneling, floor and partial chair are present. Window dressing, return-wall detailing and carved ornament are only rudimentary.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_109923183/1/judge_1",
+  "judge_usage": {
+    "input_tokens": 329235,
+    "output_tokens": 1398,
+    "observed_model": "unknown",
+    "seconds": 46.50891117518768
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

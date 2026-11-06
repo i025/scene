@@ -1,0 +1,199 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 61.25,
+  "S_BW": 80.625,
+  "started": 1794003521.3434827,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_104864364/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794003542.8248231,
+  "seconds": 21.481340408325195,
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The classroom is recognizable: repeated wooden desks and benches, yellow lower walls, tall side openings, ceiling fans, bags, and the curtained stage with a board are present.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Desk rows flank a central aisle leading to the stage; side openings and overhead fans preserve the main spatial relationships. Placement is more regular than the reference.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Desks, benches, bags, board, and fans have broadly plausible relative sizes within the room, despite slender furniture and generous spacing.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Cream and yellow walls, brown furniture, blue and dark bags, green board and side curtains, and a dark burgundy backdrop retain the main color organization. Surfaces are simplified and pale.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The bright interior remains legible with coherent soft shadows and bright side windows. Lighting is flatter than the reference and rendering is noisy, but major content is visible.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views show furniture tops, sides, legs, and changing occlusions within a volumetric room, establishing a genuine three-dimensional reconstruction.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh records provide editable architecture, desk parts, seating, board, and bags, with finite nonempty geometry, parent chains, and assigned node materials. The scene contains 388 meshes.",
+      "source_evidence": [
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id='Box'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.138'].type",
+        "scene_facts.json.objects[object_id='Box.138'].parent_chain",
+        "scene_facts.json.objects[object_id='Box.138'].material_slots",
+        "scene_facts.json.objects[object_id='Box.282'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.134'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Ball.015'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='left_desk_00'].children",
+        "scene_facts.json.materials.SceneActSurface_19.links",
+        "scene_facts.json.materials.SceneActSurface_21.nodes"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 7,
+      "evidence": "Strongly recognizable classroom identity and major features, with less architectural detail, simpler furniture, and a more orderly arrangement.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 5,
+      "evidence": "Desks generally meet the floor, but benches have only two narrow central supports. Board supports end above the platform, and door panels begin well above floor level.",
+      "source_evidence": [
+        "wide_01.png",
+        "detail_01.png",
+        "scene_facts.json.objects[object_id='Box.135'].world_aabb_approx",
+        "scene_facts.json.objects[object_id='Box.127'].world_aabb_approx",
+        "scene_facts.json.objects[object_id='Box.111'].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "The main palette corresponds well, but yellow walls and brown furniture look washed out; bags and curtains use very basic silhouettes.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Heavy grain, uniform block furniture, flat curtain panels, blank windows, and ellipsoidal bags make the scene read as a rough model.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The long room, central aisle, stage destination, and side furniture are preserved. Rows are unusually uniform, and seats are only provided for the central desk columns.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Most major size relationships are plausible, though furniture supports are thin, benches are narrow, and the room feels more spacious around the furniture.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Soft light makes the room readable, but weak directional contrast, persistent noise, and nearly uniform surface response lose the reference's material variation and darker furniture.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Major architecture, numerous desks and benches, fans, bags, speakers, and stage elements are included. Peripheral seating, furniture detailing, and opening details are reduced.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_104864364/1/judge_1",
+  "judge_usage": {
+    "input_tokens": 286361,
+    "output_tokens": 1520,
+    "observed_model": "unknown",
+    "seconds": 45.77121856017038
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

@@ -95,6 +95,11 @@ def compact_trajectory(text):
             events.append(item)
         elif kind in ('model_response','select'):
             events.append({key:value for key,value in event.items() if key not in ('time','call_dir')})
+        elif kind in ('build_started','build_completed','render_started','render_completed'):
+            fields=('event','step','status','seconds','returncode','timed_out','timeout',
+                    'timeout_seconds','remaining','memory_limit_exceeded','cpu_user_seconds',
+                    'cpu_system_seconds','peak_individual_rss_kib','sampled_peak_tree_rss_kib_lower_bound')
+            events.append({key:event[key] for key in fields if key in event})
         else:
             events.append(event)
     return {'projection':'Lossless request-prefix deduplication; repeated exact renderer log lines and Cycles progress removed. Full original transcript retained on disk.','events':events}
@@ -102,6 +107,8 @@ def compact_trajectory(text):
 
 def bound_payload(payload,limit=420000):
     """Same deterministic input projection for every method, independent of scores."""
+    declared_limit=limit
+    limit-=4096  # Leave room for the explicit projection record itself.
     changes=[]
     size=lambda:len(json.dumps(payload,ensure_ascii=False).encode())
     before=size()
@@ -116,5 +123,20 @@ def bound_payload(payload,limit=420000):
             if 'events' in trajectory:
                 trajectory['events']=[e for e in trajectory['events'] if e['event']!=kind]
                 changes.append({'scene_id':entry['scene_id'],'removed':kind,'retained':'Full H/system/P and all executed code/errors/results'})
-    payload['common_evidence_projection']={'original_compact_bytes':before,'limit_bytes':limit,'changes':changes,'full_raw_evidence_retained_on_disk':True,'selection_criterion':'size and fixed source order only, never score'}
+    for entry in payload['development']:
+        if size()<=limit:break
+        events=entry['trajectory']['events'] if entry['trajectory'] else []
+        successful={event['step'] for event in events if event['event']=='execution_result' and event['ok']}
+        for event in events:
+            if size()<=limit:break
+            if event['event']=='execute' and event['code']==entry['program']:
+                event['code']={'same_as':'development.program','step':event['step']}
+                changes.append({'scene_id':entry['scene_id'],'step':event['step'],'removed':'Duplicate of current full P only'})
+        for event in events:
+            if size()<=limit:break
+            if event['event']=='execute' and event['step'] in successful and isinstance(event['code'],str):
+                event['code']={'archived_successful_prototype':event['step'],'current_P':'development.program'}
+                changes.append({'scene_id':entry['scene_id'],'step':event['step'],'removed':'Earlier successful prototype code; all failed code/errors and current full P retained'})
+    payload['common_evidence_projection']={'original_compact_bytes':before,'limit_bytes':declared_limit,'changes':changes,'full_raw_evidence_retained_on_disk':True,'selection_criterion':'size and fixed source order only, never score'}
+    if size()>declared_limit:raise ValueError('Development evidence exceeds frozen byte budget after explicit projection: '+str(size()))
     return payload['common_evidence_projection']

@@ -1,0 +1,199 @@
+{
+  "artifact_id": "triangle_crossing",
+  "repeat": 2,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 73.33333333333333,
+  "S_dimension": 63.75,
+  "S_BW": 68.54166666666666,
+  "started": 1793997292.767768,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/triangle_crossing/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997299.9308994,
+  "seconds": 7.163131475448608,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are MESH objects with finite nonempty geometry, each containing 8 vertices and 6 polygons.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,6,7].type",
+        "scene_facts.json:objects[0,6,7].finite_nonempty_mesh",
+        "scene_facts.json:objects[0,6,7].vertices",
+        "scene_facts.json:objects[0,6,7].polygons"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children are both required parts, matching its declaration; both parts' parent fields confirm Assembly.",
+      "source_evidence": [
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[2].declared_children",
+        "scene_facts.json:objects[0].parent",
+        "scene_facts.json:objects[7].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target lower Z and Support upper Z both equal 1.0, with overlapping XY footprints. The measured normalized gap is zero.",
+      "source_evidence": [
+        "scene_facts.json:objects[7].world_aabb_approx",
+        "scene_facts.json:objects[6].world_aabb_approx",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Required dimensions are correct, but an additional nonempty Intruder mesh overlaps the target; the intersection measurement reports 10 triangle-pair crossings.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,6,7].dimensions_scene_units",
+        "scene_facts.json:objects[4].finite_nonempty_mesh",
+        "scene_facts.json:objects[4].world_aabb_approx",
+        "scene_facts.json:structural_measurements.mesh_intersection.crossings[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both parts assign Shared_orange.007, whose connected Principled shader has orange base color (0.65, 0.22, 0.05). Support assigns Support_gray.007 with gray base color (0.22, 0.28, 0.32).",
+      "source_evidence": [
+        "scene_facts.json:objects[0,7].material_slots",
+        "scene_facts.json:objects[6].material_slots",
+        "scene_facts.json:materials['Shared_orange.007'].nodes[1].inputs['Base Color']",
+        "scene_facts.json:materials['Shared_orange.007'].links",
+        "scene_facts.json:materials['Support_gray.007'].nodes[1].inputs['Base Color']",
+        "scene_facts.json:materials['Support_gray.007'].links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Orange colors and gray support are visible, but the supported form has an extra offset block, stepped outline and conspicuous black top patch. It does not communicate the required clean two-cube arrangement.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The overall arrangement is recognizable, but the supported cube's silhouette and top are substantially altered.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Support contact is correct, but the extra intersecting cube creates an implausible merged structure.",
+      "source_evidence": [
+        "scene_facts.json:structural_measurements.known_support.rows[0]",
+        "scene_facts.json:structural_measurements.mesh_intersection.crossings[0]",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Orange parts, gray support and matte styling fit the target; the stepped supported shape and black patch detract.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 5,
+      "evidence": "Simple shaded surfaces are consistent with the fixture style, but the intersecting form and black top patch reduce visual coherence.",
+      "source_evidence": [
+        "wide_03.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 8,
+      "evidence": "The supported left part and separate right cube retain the intended placement; extra geometry expands the supported cluster.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Named parts and support have exact required dimensions, but the extra block makes the visible supported form disproportionately wide.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,6,7].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 7,
+      "evidence": "Matte shading and face illumination are appropriate, with visible render grain and an anomalous black top region.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "All required objects and hierarchy are present, but the extra Intruder makes the object count incorrect.",
+      "source_evidence": [
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[0,4,6,7].finite_nonempty_mesh",
+        "scene_facts.json:mesh_count"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00026",
+  "judge_usage": {
+    "input_tokens": 28891,
+    "output_tokens": 1423,
+    "observed_model": "unknown",
+    "seconds": 44.97422186098993
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00026",
+  "display_order": [
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png",
+    "author.png"
+  ]
+}

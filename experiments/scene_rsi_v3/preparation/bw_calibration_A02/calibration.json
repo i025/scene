@@ -1,0 +1,322 @@
+{
+  "status": "completed",
+  "all_scheduled": 20,
+  "completed": 20,
+  "eval_failed": 0,
+  "pairs": [
+    {
+      "artifact_id": "correct",
+      "preview": false,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.0
+    },
+    {
+      "artifact_id": "detached_part",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 1.25
+    },
+    {
+      "artifact_id": "missing_declared_part",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.0
+    },
+    {
+      "artifact_id": "broken_support",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.625
+    },
+    {
+      "artifact_id": "shared_material_bad_edit",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.625
+    },
+    {
+      "artifact_id": "independent_local_edit",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 1.875
+    },
+    {
+      "artifact_id": "triangle_crossing",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.0
+    },
+    {
+      "artifact_id": "near_black",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.625
+    },
+    {
+      "artifact_id": "scale_error",
+      "preview": true,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 0.0
+    },
+    {
+      "artifact_id": "development_photo",
+      "preview": false,
+      "completed_pair": true,
+      "absolute_BW_repeat_difference": 1.875
+    }
+  ],
+  "maximum_absolute_repeat_difference": 1.875,
+  "promotion_delta_recommendation": 2,
+  "freeze_status": "ready_for_protocol_freeze",
+  "missing_requested_stressors": [],
+  "known_problem_detection": [
+    {
+      "fault": "missing_declared_part",
+      "legal_control": "correct",
+      "score_drop": 49.375,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R01",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    },
+    {
+      "fault": "detached_part",
+      "legal_control": "correct",
+      "score_drop": 7.291666666666657,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R02",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    },
+    {
+      "fault": "broken_support",
+      "legal_control": "correct",
+      "score_drop": 31.354166666666657,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R03",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    },
+    {
+      "fault": "triangle_crossing",
+      "legal_control": "correct",
+      "score_drop": 31.458333333333343,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R04",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    },
+    {
+      "fault": "near_black",
+      "legal_control": "correct",
+      "score_drop": 38.229166666666664,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R06",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    },
+    {
+      "fault": "scale_error",
+      "legal_control": "correct",
+      "score_drop": 26.458333333333343,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R04",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    },
+    {
+      "fault": "shared_material_bad_edit",
+      "legal_control": "independent_local_edit",
+      "score_drop": 19.791666666666657,
+      "lower_BW_than_control": true,
+      "target_criterion_id": "R05",
+      "fault_criterion_pass_rate": 0.0,
+      "legal_criterion_pass_rate": 1.0,
+      "criterion_detected_expected_problem": true,
+      "interpretation": "Known-fixture criterion is the sensitivity check. The BW difference is supplementary: correct uses formal views while bad fixtures use preview. No threshold retuning or statistical-significance claim."
+    }
+  ],
+  "legal_edit_requirement_evidence": [
+    {
+      "repeat": 1,
+      "rubric_scores": [
+        {
+          "id": "R01",
+          "score": 1,
+          "evidence": "All three required objects are native meshes with 8 vertices, 6 polygons, and finite nonempty geometry.",
+          "source_evidence": [
+            "scene_facts.json:objects[0,5,6].type",
+            "scene_facts.json:objects[0,5,6].finite_nonempty_mesh",
+            "scene_facts.json:objects[0,5,6].vertices",
+            "scene_facts.json:objects[0,5,6].polygons"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R02",
+          "score": 1,
+          "evidence": "Assembly's actual children match its declared children; both parts have Assembly as their parent.",
+          "source_evidence": [
+            "scene_facts.json:objects[2].children",
+            "scene_facts.json:objects[2].declared_children",
+            "scene_facts.json:objects[0].parent",
+            "scene_facts.json:objects[6].parent"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R03",
+          "score": 1,
+          "evidence": "Target lower Z and support upper Z both equal 1.0. Target XY bounds [-0.5,0.5] lie inside support bounds [-1,1], giving zero gap and overlapping footprints.",
+          "source_evidence": [
+            "scene_facts.json:objects[6].world_aabb_approx",
+            "scene_facts.json:objects[5].world_aabb_approx",
+            "scene_facts.json:structural_measurements.known_support.rows[0]"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R04",
+          "score": 1,
+          "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The complete object inventory contains only these three meshes and no Intruder.",
+          "source_evidence": [
+            "scene_facts.json:objects[0].dimensions_scene_units",
+            "scene_facts.json:objects[6].dimensions_scene_units",
+            "scene_facts.json:objects[5].dimensions_scene_units",
+            "scene_facts.json:objects",
+            "scene_facts.json:mesh_count"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R05",
+          "score": 1,
+          "evidence": "Assigned materials use connected Principled shaders with blue target RGB (0.02,0.08,0.80), orange unrelated-part RGB (0.65,0.22,0.05), and gray support RGB (0.22,0.28,0.32).",
+          "source_evidence": [
+            "scene_facts.json:objects[6].material_slots",
+            "scene_facts.json:objects[0].material_slots",
+            "scene_facts.json:objects[5].material_slots",
+            "scene_facts.json:materials.RSI_blue_Z_target_part_0.nodes[1].inputs.Base Color",
+            "scene_facts.json:materials.RSI_blue_Z_target_part_0.links",
+            "scene_facts.json:materials.Shared_orange.005.nodes[1].inputs.Base Color",
+            "scene_facts.json:materials.Shared_orange.005.links",
+            "scene_facts.json:materials.Support_gray.005.nodes[1].inputs.Base Color",
+            "scene_facts.json:materials.Support_gray.005.links"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R06",
+          "score": 1,
+          "evidence": "The delivered image and authored-camera rerender clearly show a blue cube resting on the gray support and a separate orange cube to its right.",
+          "source_evidence": [
+            "delivered_final.png",
+            "author.png",
+            "detail_01.png"
+          ],
+          "evidence_route": "render"
+        }
+      ],
+      "any_failed_requirement": false
+    },
+    {
+      "repeat": 2,
+      "rubric_scores": [
+        {
+          "id": "R01",
+          "score": 1,
+          "evidence": "All three required objects are native meshes, each with 8 vertices, 6 polygons and finite nonempty geometry.",
+          "source_evidence": [
+            "scene_facts.json:objects[0,6,7].type",
+            "scene_facts.json:objects[0,6,7].finite_nonempty_mesh",
+            "scene_facts.json:objects[0,6,7].vertices",
+            "scene_facts.json:objects[0,6,7].polygons"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R02",
+          "score": 1,
+          "evidence": "Assembly's actual children are both required parts, matching its declaration; both parts have Assembly as their parent.",
+          "source_evidence": [
+            "scene_facts.json:objects[2].children",
+            "scene_facts.json:objects[2].declared_children",
+            "scene_facts.json:objects[0].parent",
+            "scene_facts.json:objects[7].parent"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R03",
+          "score": 1,
+          "evidence": "Target lower Z and support upper Z both equal 1.0. Target XY bounds [-0.5,0.5] lie within support bounds [-1,1], giving overlap and zero contact gap.",
+          "source_evidence": [
+            "scene_facts.json:objects[7].world_aabb_approx",
+            "scene_facts.json:objects[6].world_aabb_approx",
+            "scene_facts.json:structural_measurements.known_support.rows[0]"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R04",
+          "score": 1,
+          "evidence": "Both parts measure exactly 1×1×1 and Support measures 2×2×1. The complete object inventory contains only these three meshes and no Intruder.",
+          "source_evidence": [
+            "scene_facts.json:objects[0].dimensions_scene_units",
+            "scene_facts.json:objects[7].dimensions_scene_units",
+            "scene_facts.json:objects[6].dimensions_scene_units",
+            "scene_facts.json:objects",
+            "scene_facts.json:mesh_count"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R05",
+          "score": 1,
+          "evidence": "Assigned materials have output-linked Principled base colors of blue (0.02,0.08,0.8), orange (0.65,0.22,0.05) and gray (0.22,0.28,0.32), respectively.",
+          "source_evidence": [
+            "scene_facts.json:objects[7].material_slots",
+            "scene_facts.json:objects[0].material_slots",
+            "scene_facts.json:objects[6].material_slots",
+            "scene_facts.json:materials.RSI_blue_Z_target_part_0.nodes[1].inputs.Base Color",
+            "scene_facts.json:materials.RSI_blue_Z_target_part_0.links",
+            "scene_facts.json:materials.Shared_orange.005.nodes[1].inputs.Base Color",
+            "scene_facts.json:materials.Shared_orange.005.links",
+            "scene_facts.json:materials.Support_gray.005.nodes[1].inputs.Base Color",
+            "scene_facts.json:materials.Support_gray.005.links"
+          ],
+          "evidence_route": "scene_summary"
+        },
+        {
+          "id": "R06",
+          "score": 1,
+          "evidence": "The delivered image and authored-camera rerender clearly show a blue cube resting on a gray support and a distinct orange cube to the right. Alternate views confirm separation and contact.",
+          "source_evidence": [
+            "delivered_final.png",
+            "author.png",
+            "wide_03.png",
+            "detail_01.png"
+          ],
+          "evidence_route": "render"
+        }
+      ],
+      "any_failed_requirement": false
+    }
+  ],
+  "manual_review_pending": false,
+  "legal_edit_BW_difference_from_correct": -2.1875,
+  "legal_edit_review": "Inspect rubric/eight-dimension evidence for any inappropriate edit penalty; different requested color and preview quality prevent interpreting the raw difference alone as a regression.",
+  "limitations": "Repeated fixed outputs measure judge variability only, not generator variance. Preview and formal quality are not an evolution curve. No human validation is claimed."
+}

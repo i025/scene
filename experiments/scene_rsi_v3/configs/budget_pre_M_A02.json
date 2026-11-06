@@ -1,0 +1,471 @@
+{
+  "created": 1794007046.284182,
+  "basis_saved_audit": "__PROJECT_ROOT__/work/scene_v3_archive/BUDGET_FEASIBILITY_PRE_M.json",
+  "basis_audit_time": 1794006640.701972,
+  "new_model_calls": 0,
+  "new_Blender_jobs": 0,
+  "platform_config_state_protocol_or_candidate_mutation": false,
+  "prospective_selection_manifest_order": [
+    "bw_0031",
+    "bw_0017",
+    "bw_0045"
+  ],
+  "unused_source_if_frozen": [
+    "bw_0085"
+  ],
+  "source_choice_uses_quality": false,
+  "minimum_required_selection_coverage_if_frozen": "all3 absolute, no H_start exception",
+  "research_cap": {
+    "input_tokens": 28000000,
+    "output_tokens": 2100000,
+    "reserve_fraction": 0.3
+  },
+  "global_cap": {
+    "input_tokens": 40000000,
+    "output_tokens": 3000000
+  },
+  "assumptions": {
+    "research_panels": "3 independent development sources each round; round1 H_start reuse, later9x3 generations",
+    "H_changes": "All10 candidates change H and retained versions remain distinct; conservative generation schedule",
+    "old_A01_dev_BW": "Preserved raw; not supplied to formal M. Only images/Q/function evidence used before final phase",
+    "deferred_dev_evaluation": "H_start12 + H_best12 development BW in final phase; no deleted past call costs",
+    "baseline_selection": "2 old H/Blender artifacts reused then rejudged plus one previously unrun Selection source;3 future fixed baseline judge sessions",
+    "extra_calibration": "20 fresh common evaluator judgments charged to research at observed prior calibration rate",
+    "boundary": "Exactly2 complete cases x both endpoints x3 sources =12 extra judges; existing views reused. Current code allows more unless prospectively frozen separately",
+    "test": "6 sources x2 H endpoints x primary1; preferred2 shown separately",
+    "checkpoint": "Conservative4 additional round5 development generations; round10 reuses final full endpoint",
+    "metadata_rate": "New corrected metadata fee/usage unmeasured; uses existing observed judge token rates, no assumed discount",
+    "retries": "No future service retries in table; already spent failures included; extra retries reduce headroom",
+    "M_context": "Only3 preflight Astra calls available;1.25/1.5/2x sensitivity, not proven bound",
+    "replay": "Optional frozen-M replay excluded; needs its own actual remainder check after main"
+  },
+  "scenarios": [
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 1,
+      "M_preflight_rate_multiplier": 1,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 28,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 12
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 479,
+      "research_input_estimate": 26896800.714285716,
+      "research_output_estimate": 1032546.642857143,
+      "global_input_estimate": 37173388.71428572,
+      "global_output_estimate": 1433588.642857143,
+      "research_input_headroom": 1103199.2857142836,
+      "research_output_headroom": 1067453.357142857,
+      "global_input_headroom": 2826611.2857142836,
+      "global_output_headroom": 1566411.357142857,
+      "final_phase_input_estimate": 10276588.0,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 4617200.0,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 15780,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": true,
+      "fits_global_mean_estimate": true,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 1,
+      "M_preflight_rate_multiplier": 1.25,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 28,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 12
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 479,
+      "research_input_estimate": 28051100.714285713,
+      "research_output_estimate": 1036491.642857143,
+      "global_input_estimate": 38327688.71428572,
+      "global_output_estimate": 1437533.642857143,
+      "research_input_headroom": -51100.71428571269,
+      "research_output_headroom": 1063508.357142857,
+      "global_input_headroom": 1672311.2857142873,
+      "global_output_headroom": 1562466.357142857,
+      "final_phase_input_estimate": 10276588.0,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 5771499.999999999,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 19725.0,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": false,
+      "fits_global_mean_estimate": true,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 1,
+      "M_preflight_rate_multiplier": 1.5,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 28,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 12
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 479,
+      "research_input_estimate": 29205400.714285716,
+      "research_output_estimate": 1040436.642857143,
+      "global_input_estimate": 39481988.71428572,
+      "global_output_estimate": 1441478.642857143,
+      "research_input_headroom": -1205400.7142857164,
+      "research_output_headroom": 1059563.357142857,
+      "global_input_headroom": 518011.2857142836,
+      "global_output_headroom": 1558521.357142857,
+      "final_phase_input_estimate": 10276588.0,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 6925800.0,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 23670.0,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": false,
+      "fits_global_mean_estimate": true,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 1,
+      "M_preflight_rate_multiplier": 2,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 28,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 12
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 479,
+      "research_input_estimate": 31514000.714285716,
+      "research_output_estimate": 1048326.642857143,
+      "global_input_estimate": 41790588.71428572,
+      "global_output_estimate": 1449368.642857143,
+      "research_input_headroom": -3514000.7142857164,
+      "research_output_headroom": 1051673.357142857,
+      "global_input_headroom": -1790588.7142857164,
+      "global_output_headroom": 1550631.357142857,
+      "final_phase_input_estimate": 10276588.0,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 9234400.0,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 31560,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": false,
+      "fits_global_mean_estimate": false,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 2,
+      "M_preflight_rate_multiplier": 1,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 40,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 24
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 527,
+      "research_input_estimate": 26896800.714285716,
+      "research_output_estimate": 1032546.642857143,
+      "global_input_estimate": 41009733.0,
+      "global_output_estimate": 1594269.5,
+      "research_input_headroom": 1103199.2857142836,
+      "research_output_headroom": 1067453.357142857,
+      "global_input_headroom": -1009733.0,
+      "global_output_headroom": 1405730.5,
+      "final_phase_input_estimate": 14112932.285714284,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 4617200.0,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 15780,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": true,
+      "fits_global_mean_estimate": false,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 2,
+      "M_preflight_rate_multiplier": 1.25,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 40,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 24
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 527,
+      "research_input_estimate": 28051100.714285713,
+      "research_output_estimate": 1036491.642857143,
+      "global_input_estimate": 42164033.0,
+      "global_output_estimate": 1598214.5,
+      "research_input_headroom": -51100.71428571269,
+      "research_output_headroom": 1063508.357142857,
+      "global_input_headroom": -2164032.9999999963,
+      "global_output_headroom": 1401785.5,
+      "final_phase_input_estimate": 14112932.285714284,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 5771499.999999999,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 19725.0,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": false,
+      "fits_global_mean_estimate": false,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 2,
+      "M_preflight_rate_multiplier": 1.5,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 40,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 24
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 527,
+      "research_input_estimate": 29205400.714285716,
+      "research_output_estimate": 1040436.642857143,
+      "global_input_estimate": 43318333.0,
+      "global_output_estimate": 1602159.5,
+      "research_input_headroom": -1205400.7142857164,
+      "research_output_headroom": 1059563.357142857,
+      "global_input_headroom": -3318333.0,
+      "global_output_headroom": 1397840.5,
+      "final_phase_input_estimate": 14112932.285714284,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 6925800.0,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 23670.0,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": false,
+      "fits_global_mean_estimate": false,
+      "not_a_guarantee": true
+    },
+    {
+      "panel": 3,
+      "M_session_cap": 3,
+      "selection_sources": 3,
+      "test_repeats": 2,
+      "M_preflight_rate_multiplier": 2,
+      "research_generation_total": 72,
+      "remaining_research_H_generations": 58,
+      "additional_final_H_generations": 40,
+      "research_judge_sessions": {
+        "fixed_baseline": 3,
+        "candidate_selection": 30,
+        "boundary": 12,
+        "common_calibration": 20
+      },
+      "final_judge_sessions": {
+        "H_start_dev_rejudge": 12,
+        "H_best_dev_judge": 12,
+        "test": 24
+      },
+      "research_CLI_at_observed_H_call_mean": 355,
+      "global_CLI_at_observed_H_call_mean": 527,
+      "research_input_estimate": 31514000.714285716,
+      "research_output_estimate": 1048326.642857143,
+      "global_input_estimate": 45626933.0,
+      "global_output_estimate": 1610049.5,
+      "research_input_headroom": -3514000.7142857164,
+      "research_output_headroom": 1051673.357142857,
+      "global_input_headroom": -5626933.0,
+      "global_output_headroom": 1389950.5,
+      "final_phase_input_estimate": 14112932.285714284,
+      "research_breakdown": {
+        "input": {
+          "already_spent_visible": 5805371,
+          "future_H_generation": 5267812.714285715,
+          "M_10rounds_3calls": 9234400.0,
+          "selection_fixed_baseline_and_candidates": 7552743,
+          "two_complete_boundary_cases": 2746452,
+          "20_common_calibration_rejudges": 907222.0
+        },
+        "output": {
+          "already_spent_visible": 235909,
+          "future_H_generation": 669295.142857143,
+          "M_10rounds_3calls": 31560,
+          "selection_fixed_baseline_and_candidates": 61066.5,
+          "two_complete_boundary_cases": 22206.0,
+          "20_common_calibration_rejudges": 28290.0
+        }
+      },
+      "fits_research_mean_estimate": false,
+      "fits_global_mean_estimate": false,
+      "not_a_guarantee": true
+    }
+  ],
+  "maximum_mean_M_input_per_call_at_research_cap": 190679.97619047613,
+  "maximum_M_input_multiplier_at_research_cap": 1.2389325317755966,
+  "conclusion": "With primaryTest1, measured-rate M1x and exactly2 boundarycases, proposed3/3/Selection3 fits both mean estimates. This is conditional, not certified worst-case feasibility;1.25x M context already threatens research cap, preferredTest2 exceeds global cap."
+}

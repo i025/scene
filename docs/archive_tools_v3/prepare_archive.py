@@ -26,9 +26,10 @@ SAFE_FIGURES = {'development_contact_sheet.png', 'evolution.png', 'quality_point
                  'dimensions_and_function.png', 'cost_and_timing.png', 'cpu_benchmark.png',
                  'research_chain.png', 'HM_lineage.png'}
 CORE_JSON = {'config.json', 'manifest.json', 'state.json', 'record.json', 'round0.json',
+             'record_before_A02_evaluator.json',
              'request.json', 'session.json', 'freeze.json', 'selection_freeze.json',
              'final_selection_freeze.json', 'proposal.json', 'decisions.json',
-             'observation.json', 'action_request.json', 'actions_index.json'}
+             'observation.json', 'action_request.json', 'actions_index.json', 'ledger.json'}
 
 
 def load(path):
@@ -59,6 +60,8 @@ def paths(source):
 
 def group_for(rel):
     parts = rel.parts
+    if parts[0] == 'meta_replay_stage':
+        return 'meta-replay'
     if parts[0] in {'preparation', 'session_staging', 'initial_m', 'fixed_h', 'configs', 'backend'}:
         return 'preparation'
     if parts[0] == 'rounds' and len(parts) > 1:
@@ -87,9 +90,63 @@ def placeholder(label):
     return stream.getvalue()
 
 
-def public_text(data, replacements):
+def embedded_public_specs(source, manifest, file_paths):
+    """Read only specs already embedded in generated task records, never attachments."""
+    declared = {str(Path(raw).resolve()): row['scene_id']
+                for row in manifest for raw in row.get('attachments', [])}
+    specs = {}
+    for path in file_paths:
+        if path.name != 'task.json':
+            continue
+        task = load(path)
+        sources = task.get('public_attachment_sources', [])
+        if not sources:
+            continue
+        instruction, cursor = task['instruction'], 0
+        markers = ['\nPUBLIC TASK ATTACHMENT ' + Path(raw).name + ':\n' for raw in sources]
+        starts = []
+        for marker in markers:
+            start = instruction.index(marker, cursor)
+            starts.append(start)
+            cursor = start + len(marker)
+        for index, raw in enumerate(sources):
+            key = str(Path(raw).resolve())
+            scene_id = declared[key]
+            end = starts[index + 1] if index + 1 < len(starts) else len(instruction)
+            body = instruction[starts[index] + len(markers[index]):end]
+            if not body.strip():
+                raise ValueError('Empty embedded public attachment: ' + str(path))
+            if key not in specs:
+                specs[key] = {'scene_id': scene_id, 'attachment_name': Path(raw).name,
+                              'source': 'BlenderWorld/tasks/' + scene_id + '/attachments/' + Path(raw).name,
+                              'body': body, 'task_records': []}
+            elif specs[key]['body'] != body:
+                raise ValueError('Different embedded spec revisions require explicit review: ' + str(path))
+            specs[key]['task_records'].append(str(path.relative_to(source)))
+    return list(specs.values())
+
+
+def public_text(data, replacements, embedded_specs=()):
     value = data.decode('utf-8')
     changes = []
+    for spec in embedded_specs:
+        marker = ('[WITHHELD_PUBLIC_TASK_ATTACHMENT: source=' + spec['source'] +
+                  '; task_id=' + spec['scene_id'] +
+                  '; redistribution_license_not_confirmed; full_original_retained_on_server]')
+        variants = {}
+        for ascii_only in (False, True):
+            old, new = spec['body'], marker
+            for _ in range(4):
+                variants[old] = new
+                old = json.dumps(old, ensure_ascii=ascii_only)[1:-1]
+                new = json.dumps(new, ensure_ascii=ascii_only)[1:-1]
+        count = 0
+        for old, new in sorted(variants.items(), key=lambda pair: len(pair[0]), reverse=True):
+            count += value.count(old)
+            value = value.replace(old, new)
+        if count:
+            changes.append({'kind': 'embedded_public_spec_withheld', 'task_id': spec['scene_id'],
+                            'source': spec['source'], 'count': count})
     for old, new in replacements:
         count = value.count(old)
         if count:
@@ -107,8 +164,10 @@ def keep_git(rel, size):
         return rel.name in CORE_JSON or rel.parts[0] in {'configs', 'metrics'} or size <= 262144
     if rel.name in {'system.txt', 'stage_events.jsonl'}:
         return True
+    if rel == Path('render_attempts.jsonl'):
+        return size <= 8_000_000
     if rel.suffix in {'.png', '.jpg', '.jpeg', '.webp'} and size <= 1_500_000:
-        return rel.parts[0] in {'figures', 'reports'} or rel.name in {
+        return rel.parts[0] in {'figures', 'reports'} or (rel.parts[:2] == ('meta_replay_stage', 'figures') and rel.name == 'replay_paired_points.png') or rel.name in {
             'final.png', 'reference.png', 'before.png', 'after.png', 'after_material.png',
             'after_move.png', 'object_map.png', 'functional_contact_sheet.png'}
     return False
@@ -156,6 +215,8 @@ def main():
     manifest, state = load(source / 'manifest.json'), load(source / 'state.json')
     file_paths = list(paths(source))
     restricted, approved_web, bw_ids = media_policy(source, manifest, file_paths)
+    embedded_specs = embedded_public_specs(source, manifest, file_paths)
+    embedded_spec_index = [{key: value for key, value in spec.items() if key != 'body'} for spec in embedded_specs]
     home = Path.home().resolve()
     home_alias = '/home/' + home.name
     project = source.parents[1]
@@ -207,7 +268,7 @@ def main():
         if SECRET.search(data):
             raise ValueError('Credential pattern requires review: ' + str(rel))
         if path.suffix in TEXT:
-            data, changes = public_text(data, replacements)
+            data, changes = public_text(data, replacements, embedded_specs)
             if changes:
                 redactions.append({'path':str(rel), 'changes':changes})
         target = destination / rel
@@ -233,8 +294,10 @@ def main():
         'indexed_artifacts':len(rows), 'groups':{key:len(value) for key,value in groups.items()},
         'all_experiment_terminal_required':False, 'phase_is_not_completion_evidence':True,
         'raw_logs_policy':'All permitted existing raw logs and generated outputs enter Release groups, including failed/incomplete records',
-        'path_redactions':'Text-only prefix replacement; original live files unchanged; binary .blend bytes not rewritten',
+        'path_redactions':'Text-only prefix replacement and declared embedded public spec body withholding; original live files unchanged; binary .blend bytes not rewritten',
         'reference_policy':'Unlicensed original BW media, derived reference copies and attachments withheld from Git and Release; generated scene renders preserved',
+        'embedded_public_spec_policy':'Bodies extracted only from existing generated task.json public_attachment_sources/instruction; raw attachment files and unused reserved Test specs never opened; plain and JSON-escaped bodies replaced by labelled WITHHELD markers in Git and Release; role/usage/budget/failure retained',
+        'embedded_public_spec_sources':embedded_spec_index,
         'binary_policy':'No binary content mutation except explicitly labelled public reference placeholders',
         'path_placeholders':{new:'External resource or run root; configure locally before running' for old,new in replacements}}
     if args.dry_run:
@@ -253,7 +316,7 @@ def main():
                     if SECRET.search(data):
                         raise ValueError('Credential pattern requires review: ' + str(rel))
                     if path.suffix in TEXT:
-                        data, changes = public_text(data, replacements)
+                        data, changes = public_text(data, replacements, embedded_specs)
                         if changes:
                             redactions.append({'path':str(rel), 'changes':changes})
                     item = tarfile.TarInfo(str(EXPERIMENT / rel)); item.size = len(data)
@@ -297,6 +360,7 @@ def main():
     write_csv(repo / 'artifacts_index_v3.csv', rows, fields)
     write_json(repo / 'docs/V3_ARCHIVE_STATE.json', receipt)
     write_json(repo / 'docs/V3_REDACTIONS.json', {'text_path_fields':redactions, 'license_exclusions':exclusions,
+               'embedded_public_spec_sources':embedded_spec_index,
                'raw_originals':'unchanged on original server', 'credentials_read':False,
                'placeholder_policy':'Any replacement placeholder is visibly labelled and never counted as an experimental result'})
     print(json.dumps({'indexed':len(rows), 'git_files':sum(row['git_status']=='included' for row in rows),

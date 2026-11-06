@@ -1,6 +1,7 @@
 {
   "blend_opened": true,
   "blender_version": "4.2.10 LTS",
+  "native_evidence_version": "authored_native_project_facts_A02",
   "objects": [
     {
       "object_id": "Area",
@@ -46,6 +47,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -96,6 +99,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": [
         "Z_target_part",
         "A_unrelated_part"
@@ -145,6 +150,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -193,6 +200,8 @@
       "hide_render": false,
       "modifiers": [],
       "material_slots": [],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -254,6 +263,8 @@
       "material_slots": [
         "Support_gray.002"
       ],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     },
     {
@@ -318,6 +329,8 @@
       "material_slots": [
         "Shared_orange.002"
       ],
+      "text_body": null,
+      "font_name": null,
       "declared_children": null
     }
   ],
@@ -353,6 +366,96 @@
         1.0
       ]
     ]
+  },
+  "authored_cameras": [
+    {
+      "object_id": "Fixture_camera",
+      "type": "ORTHO",
+      "lens_mm": 50.0,
+      "ortho_scale": 7.0,
+      "matrix_world": [
+        [
+          0.8650311231613159,
+          -0.21872864663600922,
+          0.45152953267097473,
+          7.0
+        ],
+        [
+          0.5017182230949402,
+          0.37711822986602783,
+          -0.7784990072250366,
+          -10.0
+        ],
+        [
+          1.6294208649014763e-08,
+          0.8999664783477783,
+          0.4359591603279114,
+          7.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "is_active_camera": true,
+      "linked_to_active_scene": true,
+      "hide_render": false
+    }
+  ],
+  "collections": [
+    {
+      "name": "Collection",
+      "parents": [
+        "Scene Collection"
+      ],
+      "children": [],
+      "direct_object_ids": [
+        "Area",
+        "Fixture_camera",
+        "Support",
+        "Z_target_part"
+      ],
+      "hide_render": false,
+      "is_active_scene_master": false
+    },
+    {
+      "name": "Scene Collection",
+      "parents": [],
+      "children": [
+        "Collection"
+      ],
+      "direct_object_ids": [
+        "Assembly",
+        "Root"
+      ],
+      "hide_render": false,
+      "is_active_scene_master": true
+    }
+  ],
+  "authored_render_configuration": {
+    "source": "Saved native scene, captured before evaluator camera/render overrides",
+    "engine": "CYCLES",
+    "cycles_use_denoising": false,
+    "cycles_denoiser": "OPENIMAGEDENOISE",
+    "cycles_samples": 4,
+    "cycles_device": "CPU",
+    "resolution_x": 256,
+    "resolution_y": 256,
+    "resolution_percentage": 100,
+    "image_file_format": "PNG",
+    "use_compositing": false,
+    "use_nodes": false,
+    "view_layer_denoising": [
+      {
+        "name": "ViewLayer",
+        "use_denoising": true,
+        "denoising_store_passes": false
+      }
+    ],
+    "compositor_denoise_nodes": [],
+    "compositor_inspection_scope": "Top-level scene compositor nodes and actual links; nested node groups not recursively inspected"
   },
   "unit_settings": {
     "system": "METRIC",
@@ -1265,5 +1368,25 @@
     "Object names and emitted relationships are declarations, not semantic ground truth.",
     "AABB extents are approximate; no mesh collision or true 3D fidelity is inferred.",
     "No metric scale accuracy or hidden geometry accuracy is measured."
-  ]
+  ],
+  "delivered_artifacts": [
+    {
+      "authored_filename": "final.png",
+      "exists": true,
+      "file_size_bytes": 47528,
+      "png_magic_valid": true,
+      "format": "PNG",
+      "width": 256,
+      "height": 256,
+      "mode": "RGB",
+      "full_decode_success": true,
+      "readable": true,
+      "validation_status": "decoded",
+      "error": null,
+      "provenance": "Original H-delivered file; not the evaluator author-camera rerender",
+      "content_changes": "none; no resizing, upsampling, conversion or repair",
+      "snapshot_filename": "delivered_final.png"
+    }
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02"
 }

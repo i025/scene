@@ -1,0 +1,70 @@
+diff --git a/outputs/scene_rsi_v3/code_snapshots/evaluator_before_native_project_facts/eval_blend.py b/outputs/scene_rsi_v3/eval_blend.py
+index 0fd5a0a..796db8d 100644
+--- a/outputs/scene_rsi_v3/code_snapshots/evaluator_before_native_project_facts/eval_blend.py
++++ b/outputs/scene_rsi_v3/eval_blend.py
+@@ -47,6 +47,8 @@ def scene_facts():
+             'modifiers': [{'name': m.name, 'type': m.type, 'show_render': m.show_render}
+                           for m in obj.modifiers],
+             'material_slots': [slot.material.name if slot.material else None for slot in obj.material_slots],
++            'text_body': obj.data.body if obj.type == 'FONT' else None,
++            'font_name': obj.data.font.name if obj.type == 'FONT' else None,
+             'declared_children': json.loads(obj['scene_rsi_expected_children'])
+                                  if 'scene_rsi_expected_children' in obj else None,
+         })
+@@ -59,12 +61,56 @@ def scene_facts():
+                              'packed': image.packed_file is not None,
+                              'resolved_exists': resolved.is_file()})
+     camera = scene.camera
++    collections = [scene.collection, *[c for c in bpy.data.collections if c != scene.collection]]
++    compositor_nodes = list(scene.node_tree.nodes) if scene.use_nodes and scene.node_tree else []
+     return {
+         'blend_opened': True, 'blender_version': bpy.app.version_string,
++        'native_evidence_version': 'authored_native_project_facts_A02',
+         'objects': objects, 'mesh_count': sum(o['type'] == 'MESH' for o in objects),
+         'camera': {'object_id': camera.name, 'type': camera.data.type,
+                    'lens_mm': camera.data.lens, 'ortho_scale': camera.data.ortho_scale,
+                    'matrix_world': ib.matrix_values(camera.matrix_world)} if camera else None,
++        'authored_cameras': [
++            {'object_id': obj.name, 'type': obj.data.type,
++             'lens_mm': obj.data.lens, 'ortho_scale': obj.data.ortho_scale,
++             'matrix_world': ib.matrix_values(obj.matrix_world),
++             'is_active_camera': obj == camera, 'linked_to_active_scene': obj.name in scene.objects,
++             'hide_render': obj.hide_render}
++            for obj in sorted(bpy.data.objects, key=lambda item: item.name) if obj.type == 'CAMERA'],
++        'collections': [
++            {'name': collection.name,
++             'parents': sorted(parent.name for parent in collections
++                               if collection.name in parent.children),
++             'children': sorted(child.name for child in collection.children),
++             'direct_object_ids': sorted(obj.name for obj in collection.objects),
++             'hide_render': collection.hide_render,
++             'is_active_scene_master': collection == scene.collection}
++            for collection in sorted(collections, key=lambda item: item.name)],
++        'authored_render_configuration': {
++            'source': 'Saved native scene, captured before evaluator camera/render overrides',
++            'engine': scene.render.engine, 'cycles_use_denoising': scene.cycles.use_denoising,
++            'cycles_denoiser': scene.cycles.denoiser, 'cycles_samples': scene.cycles.samples,
++            'cycles_device': scene.cycles.device,
++            'resolution_x': scene.render.resolution_x, 'resolution_y': scene.render.resolution_y,
++            'resolution_percentage': scene.render.resolution_percentage,
++            'image_file_format': scene.render.image_settings.file_format,
++            'use_compositing': scene.render.use_compositing, 'use_nodes': scene.use_nodes,
++            'view_layer_denoising': [
++                {'name': layer.name, 'use_denoising': layer.cycles.use_denoising,
++                 'denoising_store_passes': layer.cycles.denoising_store_passes}
++                for layer in scene.view_layers],
++            'compositor_denoise_nodes': [
++                {'name': node.name, 'muted': node.mute,
++                 'enabled_in_compositor': scene.render.use_compositing and not node.mute,
++                 'input_links': [{'from_node': link.from_node.name, 'from_socket': link.from_socket.name,
++                                  'to_socket': link.to_socket.name}
++                                 for socket in node.inputs for link in socket.links],
++                 'output_links': [{'to_node': link.to_node.name, 'to_socket': link.to_socket.name,
++                                   'from_socket': link.from_socket.name}
++                                  for socket in node.outputs for link in socket.links]}
++                for node in compositor_nodes if node.type == 'DENOISE'],
++            'compositor_inspection_scope': 'Top-level scene compositor nodes and actual links; nested node groups not recursively inspected',
++        },
+         'unit_settings': {'system': scene.unit_settings.system,
+                           'scale_length': scene.unit_settings.scale_length},
+         'color_management': {'view_transform': scene.view_settings.view_transform,

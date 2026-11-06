@@ -1,0 +1,196 @@
+{
+  "artifact_id": "broken_support",
+  "repeat": 1,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 66.66666666666667,
+  "S_dimension": 71.25,
+  "S_BW": 68.95833333333334,
+  "started": 1793997275.1289048,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/broken_support/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997280.3542943,
+  "seconds": 5.22538948059082,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are native meshes with finite nonempty geometry, each having 8 vertices and 6 polygons.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,5,6].type",
+        "scene_facts.json:objects[0,5,6].finite_nonempty_mesh",
+        "scene_facts.json:objects[0,5,6].vertices",
+        "scene_facts.json:objects[0,5,6].polygons"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children match its declared children; both parts identify Assembly as their parent.",
+      "source_evidence": [
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:objects[2].declared_children",
+        "scene_facts.json:objects[0].parent",
+        "scene_facts.json:objects[6].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Target lower Z is 3 while support upper Z is 1, leaving a 2-unit gap. XY footprints overlap, but the normalized vertical gap of 0.31524 exceeds 0.01.",
+      "source_evidence": [
+        "scene_facts.json:objects[6].world_aabb_approx.min",
+        "scene_facts.json:objects[5].world_aabb_approx.max",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Both parts measure 1×1×1 and Support measures 2×2×1. The complete inventory contains only these three meshes and no Intruder.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,5,6].dimensions_scene_units",
+        "scene_facts.json:objects",
+        "scene_facts.json:mesh_count"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both parts use the connected orange Principled shader with base color (0.65, 0.22, 0.05); Support uses the connected gray shader with base color (0.22, 0.28, 0.32).",
+      "source_evidence": [
+        "scene_facts.json:objects[0,6].material_slots",
+        "scene_facts.json:objects[5].material_slots",
+        "scene_facts.json:materials.Shared_orange.003.nodes[1].inputs.Base Color",
+        "scene_facts.json:materials.Shared_orange.003.links",
+        "scene_facts.json:materials.Support_gray.003.nodes[1].inputs.Base Color",
+        "scene_facts.json:materials.Support_gray.003.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Two orange cubes and the gray support are clearly visible, but the target cube floats well above the support instead of resting on it.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "Required shapes and colors correspond clearly, but the elevated target breaks the central arrangement.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 2,
+      "evidence": "The target visibly floats above its designated support with a measured 2-unit gap.",
+      "source_evidence": [
+        "delivered_final.png",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 10,
+      "evidence": "Simple sharp cubes, orange parts, and a matte gray support match the intended fixture style.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 5,
+      "evidence": "Surfaces and shading are consistent with the stylized fixture, but unsupported suspension undermines structural credibility.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 5,
+      "evidence": "Lateral placement and alignment over the support are preserved, but target height and vertical spacing are substantially wrong.",
+      "source_evidence": [
+        "delivered_final.png",
+        "scene_facts.json:objects[6].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 10,
+      "evidence": "The two equal unit cubes and the support's 2×2×1 proportions are correct.",
+      "source_evidence": [
+        "scene_facts.json:objects[0,5,6].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 9,
+      "evidence": "Matte surfaces and directional face shading communicate the forms clearly; slight render grain remains.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 10,
+      "evidence": "All three required geometric objects and the declared Assembly hierarchy are present.",
+      "source_evidence": [
+        "delivered_final.png",
+        "scene_facts.json:objects[2].children",
+        "scene_facts.json:mesh_count"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00029",
+  "judge_usage": {
+    "input_tokens": 22628,
+    "output_tokens": 1328,
+    "observed_model": "unknown",
+    "seconds": 37.09767448483035
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00029",
+  "display_order": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ]
+}

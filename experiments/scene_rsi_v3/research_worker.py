@@ -8,6 +8,7 @@ p=argparse.ArgumentParser();p.add_argument('mode',choices=['research','contract'
 r=json.loads(a.request.read_text());folder=Path(r['result_folder'])
 if a.mode=='contract':
     result=exercise_meta_interface(Path(r['M_candidate']),r['context'])
+    result['loaded_M_helpers']=[str(Path(m.__file__).resolve()) for m in list(sys.modules.values()) if getattr(m,'__file__',None) and Path(m.__file__).resolve().is_relative_to(Path(r['M_candidate']).resolve())]
     write_json(folder/'M_execution_contract.json',result)
 else:
     api=ResearchAPI(cfg(),Path(r['trace_folder']),Path(r['H']),Path(r['M_candidate']),r['scenes'],r['images'])

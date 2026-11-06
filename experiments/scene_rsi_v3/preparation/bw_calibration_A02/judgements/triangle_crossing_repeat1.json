@@ -1,0 +1,203 @@
+{
+  "artifact_id": "triangle_crossing",
+  "repeat": 1,
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 73.33333333333333,
+  "S_dimension": 63.75,
+  "S_BW": 68.54166666666666,
+  "started": 1793997292.767768,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/preparation/functional_fixtures/triangle_crossing/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1793997299.9308994,
+  "seconds": 7.163131475448608,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A02",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "All three required objects are native meshes with 8 vertices, 6 polygons, and finite_nonempty_mesh=true.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Z_target_part]",
+        "scene_facts.json:objects[object_id=A_unrelated_part]",
+        "scene_facts.json:objects[object_id=Support]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Assembly's actual children match its declared children; both parts have Assembly as their parent.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Assembly].children",
+        "scene_facts.json:objects[object_id=Assembly].declared_children",
+        "scene_facts.json:objects[object_id=Z_target_part].parent",
+        "scene_facts.json:objects[object_id=A_unrelated_part].parent"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Target minimum Z and support maximum Z both equal 1.0; XY footprints overlap. The measured normalized vertical gap is zero.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Z_target_part].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Support].world_aabb_approx",
+        "scene_facts.json:structural_measurements.known_support.rows[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Required dimensions are correct, but an additional visible Intruder mesh intersects Z_target_part; the crossing measurement reports 10 triangle pairs.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Z_target_part].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=A_unrelated_part].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Support].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Intruder]",
+        "scene_facts.json:structural_measurements.mesh_intersection.crossings"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Both named parts use the connected orange Principled shader with base color approximately [0.65,0.22,0.05,1]. Support uses the connected gray shader with base color [0.22,0.28,0.32,1].",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Z_target_part].material_slots",
+        "scene_facts.json:objects[object_id=A_unrelated_part].material_slots",
+        "scene_facts.json:objects[object_id=Support].material_slots",
+        "scene_facts.json:materials.Shared_orange.007.nodes",
+        "scene_facts.json:materials.Shared_orange.007.links",
+        "scene_facts.json:materials.Support_gray.007.nodes",
+        "scene_facts.json:materials.Support_gray.007.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Orange colors and gray support are clear, but the supported object appears as overlapping blocks with a stepped outline and black top patch, rather than the required single distinct cube.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The overall arrangement is recognizable, but extra overlapping geometry materially changes the supported cube.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Target-to-support contact is correct, but the extra block visibly interpenetrates the target.",
+      "source_evidence": [
+        "detail_01.png",
+        "scene_facts.json:structural_measurements.known_support.rows[0]",
+        "scene_facts.json:structural_measurements.mesh_intersection.crossings"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Orange parts, gray support, and matte styling match the intended appearance; the stepped silhouette and black patch undermine the simple cube design.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 5,
+      "evidence": "Simple matte shading is appropriate for this fixture, but overlapping surfaces and the black top artifact reduce visual coherence.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 8,
+      "evidence": "The supported part and separated right-hand cube retain the intended positions and spacing; extra geometry crowds the support.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Named object dimensions are exact, but the overlapping block makes the supported orange mass appear oversized.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Z_target_part].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=A_unrelated_part].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Support].dimensions_scene_units",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 7,
+      "evidence": "Directional shading and matte colors are readable and consistent with the target style; the conspicuous black top patch disrupts surface appearance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "All required objects and hierarchy are present, but an unwanted fourth mesh violates the intended object count.",
+      "source_evidence": [
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:objects[object_id=Assembly].children",
+        "scene_facts.json:objects[object_id=Intruder]",
+        "author.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00030",
+  "judge_usage": {
+    "input_tokens": 28891,
+    "output_tokens": 1522,
+    "observed_model": "unknown",
+    "seconds": 44.08575470838696
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence.",
+  "anonymous_session": "__EXPERIMENT_ROOT__/evaluation_sessions/E00030",
+  "display_order": [
+    "wide_01.png",
+    "detail_01.png",
+    "author.png",
+    "wide_03.png"
+  ]
+}

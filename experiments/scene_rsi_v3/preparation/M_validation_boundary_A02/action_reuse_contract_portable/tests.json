@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "fixture_only": true,
+  "new_model_calls": 0,
+  "new_Blender_jobs": 0,
+  "action_execution_count": 0,
+  "formal_H_or_M_changed": false,
+  "tests": [
+    {
+      "test": "one_scene",
+      "pass": true,
+      "expected_M_action_eligible": false,
+      "evidence": [
+        {
+          "action": "actions/example.py",
+          "successful_development_scene_ids": [
+            "fixture_a"
+          ],
+          "distinct_scene_count": 1,
+          "required_distinct_scenes": 2,
+          "pass": false,
+          "unmet_reason": "New or changed reusable action source needs successful execution on two distinct development scene IDs"
+        }
+      ]
+    },
+    {
+      "test": "two_scenes",
+      "pass": true,
+      "expected_M_action_eligible": true,
+      "evidence": [
+        {
+          "action": "actions/example.py",
+          "successful_development_scene_ids": [
+            "fixture_a",
+            "fixture_b"
+          ],
+          "distinct_scene_count": 2,
+          "required_distinct_scenes": 2,
+          "pass": true,
+          "unmet_reason": null
+        }
+      ]
+    },
+    {
+      "test": "second_failed",
+      "pass": true,
+      "expected_M_action_eligible": false,
+      "evidence": [
+        {
+          "action": "actions/example.py",
+          "successful_development_scene_ids": [
+            "fixture_a"
+          ],
+          "distinct_scene_count": 1,
+          "required_distinct_scenes": 2,
+          "pass": false,
+          "unmet_reason": "New or changed reusable action source needs successful execution on two distinct development scene IDs"
+        }
+      ]
+    }
+  ]
+}
