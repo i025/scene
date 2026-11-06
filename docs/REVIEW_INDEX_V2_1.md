@@ -17,7 +17,7 @@
 | pending不写0% | analyze.terminal_summary/execution_state | report_contracts、terminal_summary、scheduled_slots | statistics | 全分母结果仅全部结束时给；观察分母另报，失败Q保持null |
 | 成本和失败完整可查 | backend/codex_wrapper/budget | request/session/events/stderr/render_ledger | calls.csv、cost_gain | actual_model未知时unknown；无模型价格或隐含推理轮数猜测 |
 
-所有V2.1相对路径以 experiments/scene_rsi_v2_1 为根。可离线报告 reports/index.html，中文 reports/REPORT_ZH.md；统计源CSV在metrics，重画脚本analyze.py。Release大附件见 artifacts_index_v2_1.csv，未上传状态以该表与UPLOAD_SUMMARY_V2_1.md为准。
+所有V2.1相对路径以 experiments/scene_rsi_v2_1 为根。可离线报告 reports/index.html，中文 reports/REPORT_ZH.md；统计源CSV在metrics，重画脚本analyze.py。Release大附件见 artifacts_index_v2_1.csv，实际上传状态以该表与UPLOAD_SUMMARY_V2_1.md为准。
 
 ## 完成后的可审查结论
 
@@ -46,3 +46,7 @@
 重画统一入口 scripts/offline_v2_1.py → analyze.py。原报告被修正时保存旧版于report_history，原record.json的实测分数不变。完整CLI附件、所有blend、失败/未选候选随各运行tar.gz；上传与缺失状态以artifacts_index_v2_1.csv和UPLOAD_SUMMARY_V2_1.md为准。
 
 术语：terminal_summary中completed计已结束的终态记录，包含失败；succeeded才是执行成功数。逐场景execution_state区分completed/timeout/failed等状态，不能混用。归档验证结果见V2_1_ARCHIVE_VALIDATION.json。
+
+## 上传核对
+
+[全部7个Release附件](https://github.com/i025/scene/releases/tag/scene-rsi-v2.1-2026-11-06) 已上传，源码、CSV、PNG、HTML与下载地址均已实际读取。核对收据：V2_1_REMOTE_CONTENT_CHECK.json、V2_1_REMOTE_ASSET_CHECK.json；实际附件清单：V2_1_RELEASE_UPLOAD_STATE.json。此前认证失败保留在V2_1_UPLOAD_ATTEMPT.json中，不影响原始实验分数。

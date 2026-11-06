@@ -2,11 +2,15 @@
 
 ## 仓库和实际上传状态
 
-目标：https://github.com/i025/scene ，本地分支 `research/scene-rsi-v2.1`。实验归档提交 **`a3e73b98a6a6ca574fc23edec705b5c912b5cd29`** 已在本地保存；本摘要可由后续小提交保存，不制造自指循环。
+仓库：[i025/scene](https://github.com/i025/scene)。已推送分支：[research/scene-rsi-v2.1](https://github.com/i025/scene/tree/research/scene-rsi-v2.1)。实验归档提交：[a3e73b9](https://github.com/i025/scene/commit/a3e73b98a6a6ca574fc23edec705b5c912b5cd29)；后续上传索引和摘要提交另列，避免自指循环。
 
-**新分支未推送，Release未创建、7附件未上传。没有可用的远端提交或附件链接。** 已实际尝试HTTP/1.1推送；TLS证书校验通过，但GitHub返回401，Git凭据助手无可用凭据，非交互终端不能读取用户名。既有SSH读取也因主机名解析失败不可用，没有关闭证书或主机校验。失败收据见docs/V2_1_UPLOAD_ATTEMPT.json。远端可读取的V2仍为79f5b54；没有覆盖旧分支。
+**分支和全部7个完整附件已实际上传并核对。** [Release：scene-rsi-v2.1-2026-11-06](https://github.com/i025/scene/releases/tag/scene-rsi-v2.1-2026-11-06)，共449,528,152字节。2956个原始文件索引行和7个附件行均有实际下载URL及uploaded状态。无本轮待上传附件。
 
-这是认证阻塞，不是实验仍在后台，也不是模型服务导致未做终测。用户需在服务器终端恢复GitHub认证，不能把Token发到聊天。原有本地认证说明文件未提交。
+已经匿名读取远端README、审查索引、代码、指标CSV、真实PNG和HTML；7个附件的下载地址全部HTTP200，长度与GitHub资产列表一致。见docs/V2_1_REMOTE_CONTENT_CHECK.json、V2_1_REMOTE_ASSET_CHECK.json、V2_1_RELEASE_UPLOAD_STATE.json。不做文件哈希验证。
+
+此前401和凭据缓存不可读的失败收据全部保留于docs/V2_1_UPLOAD_ATTEMPT.json的earlier_attempts。最终通过用户明确指定的shell变量与Git标准ASKPASS接口认证，令牌只进入子进程环境，未显示、未加入归档；没有关闭证书或主机校验。旧V1/V2分支未被覆盖。本次上传不新增模型调用、重建、终测或渲染。
+
+Release标签指向上传时的代码/数据检查点；最终下载索引与上传状态以本分支文件为准。原始H/M、指标和本地实验现场保持原样。
 
 ## 实际完成范围
 
@@ -81,7 +85,7 @@ H0成功0/4，选中H*成功2/4；条件Q分别null与0.4609588253。失败另�
 - experiments/scene_rsi_v2_1/candidates/：实际H/M源码与diff；code_snapshots/：原冻结、payload修订、报告修订源码。
 - 代表性产物：results/r1/scene_rsi_v2_1/C2/test/commons_189918915/scene.blend、scene.py、final.png；同级commons_80372956也完整保留。以上相对实验根，完整文件在本地/附件，不强塞普通Git。
 
-完整7包总计449,528,152字节，覆盖所有现有V2.1运行、失败与未选候选。索引artifacts_index_v2_1.csv共2956原始文件行+7附件行；逐文件size为原件脱敏前大小，附件行是实际压缩包大小。下载URL均空，状态local_only，不能当作已上传。
+完整7包总计449,528,152字节，覆盖所有现有V2.1运行、失败与未选候选。索引artifacts_index_v2_1.csv共2956原始文件行+7附件行；逐文件size为原件脱敏前大小，附件行是实际压缩包大小。实际下载URL已逐包由GitHub返回并写入索引，状态全部为uploaded；API列表和匿名下载HEAD均已核对。
 
 附件名：r1--fixed_h0.tar.gz、r2--fixed_h0.tar.gz、r1--scene_rsi_v2_1.tar.gz、r2--scene_rsi_v2_1.tar.gz、smoke--fixed_h0.tar.gz、smoke--scene_rsi_v2_1.tar.gz、shared-evidence.tar.gz。服务器位置见本地work/scene_v2_1_archive/bundles。旧V1/V2的大产物仍保留原现场，不声称这7包包含它们。
 
@@ -95,13 +99,19 @@ H0成功0/4，选中H*成功2/4；条件Q分别null与0.4609588253。失败另�
 OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 MKL_NUM_THREADS=2 CUDA_VISIBLE_DEVICES= python scripts/offline_v2_1.py --experiment experiments/scene_rsi_v2_1 --output derived/v2_1_replot
 ```
 
-恢复GitHub凭据后，从归档仓库继续上传（本次未成功；不新跑实验）：
-
-```bash
-git -c http.version=HTTP/1.1 push -u origin research/scene-rsi-v2.1
-python scripts/github_release_v2_1.py --bundles ../../work/scene_v2_1_archive/bundles --state docs/V2_1_RELEASE_UPLOAD_STATE.json
-```
-
-上传器只在API成功后填真实URL与状态；上传后需提交附件索引与Release状态并推送，不改旧历史。恢复认证后再读取远端README/代码/CSV/PNG与附件确认，当前未做到，不能宣称上传验收通过。
+上传已完成，不需要重跑实验或再次上传。原有Release上传入口仍为scripts/github_release_v2_1.py；它核对已有同名附件大小，保留真实状态，不覆盖已有资产。新下载地址和远端检查记录已经提交，旧失败历史仍可审查。
 
 唯一实验续跑入口：`python outputs/scene_rsi_v2_1/resume.py`，在原项目根使用既有Python3.11。当前状态supplement_complete，只离线汇总，不产生新模型调用。新一轮研究需要新协议与目录，不能重用当前公开Test作盲测。
+
+
+## 直接审查链接
+
+- [README](https://github.com/i025/scene/blob/research/scene-rsi-v2.1/README.md)
+- [审查索引](https://github.com/i025/scene/blob/research/scene-rsi-v2.1/docs/REVIEW_INDEX_V2_1.md)
+- [AS-RUN协议](https://github.com/i025/scene/blob/research/scene-rsi-v2.1/docs/AS_RUN_PROTOCOL_V2_1.md)
+- [中文报告](https://github.com/i025/scene/blob/research/scene-rsi-v2.1/experiments/scene_rsi_v2_1/reports/REPORT_ZH.md)
+- [逐场景原始指标](https://github.com/i025/scene/blob/research/scene-rsi-v2.1/experiments/scene_rsi_v2_1/metrics/scene_metrics_flat.csv)
+- [真实可视化](https://github.com/i025/scene/tree/research/scene-rsi-v2.1/experiments/scene_rsi_v2_1/figures)
+- [完整附件和blend](https://github.com/i025/scene/releases/tag/scene-rsi-v2.1-2026-11-06)
+
+科研边界未改变：没有真实M后代、没有冻结M回放、没有配对视觉质量增益可测，不能据此宣称元能力提升。所有现有V2.1产物已上传；权重、环境、缓存、凭据和未使用的预留数据不属于公开附件。
