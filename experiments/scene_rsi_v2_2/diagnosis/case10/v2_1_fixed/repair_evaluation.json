@@ -1,0 +1,87 @@
+{
+  "scene_id": "case10",
+  "method": "v2_1_fixed",
+  "status": "completed",
+  "source": {
+    "checks": {
+      "camera": true,
+      "object_parameters": true,
+      "object_coverage": true,
+      "support_relations": true,
+      "material_edit": true,
+      "part_dependency_move": true
+    },
+    "all_pass": true,
+    "edit_observation": {
+      "applicable": true,
+      "measured_pass": true,
+      "target": "Box",
+      "non_target": {
+        "pass": true,
+        "checked_objects": 21,
+        "changed_fields": {},
+        "added_objects": [],
+        "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+      },
+      "meaning": "Execute current shared helper local_material; compare actual object parameters, geometry and shader values, not background pixels"
+    },
+    "part_move_observation": {
+      "group": "PrimaryItem",
+      "normalized_intent": "temporary fixed scene-unit displacement in a synthetic scene",
+      "displacement": [
+        0.25,
+        0.0,
+        0.0
+      ],
+      "errors": {
+        "Box.001": 0.0,
+        "Box.002": 0.0,
+        "Box.003": 0.0,
+        "Box.004": 0.0,
+        "Box.005": 0.0,
+        "Box": 0.0
+      }
+    }
+  },
+  "transfer": {
+    "checks": {
+      "camera": true,
+      "object_parameters": true,
+      "object_coverage": true,
+      "support_relations": true,
+      "material_edit": true,
+      "part_dependency_move": true
+    },
+    "all_pass": true,
+    "edit_observation": {
+      "applicable": true,
+      "measured_pass": true,
+      "target": "Box",
+      "non_target": {
+        "pass": true,
+        "checked_objects": 21,
+        "changed_fields": {},
+        "added_objects": [],
+        "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+      },
+      "meaning": "Execute current shared helper local_material; compare actual object parameters, geometry and shader values, not background pixels"
+    },
+    "part_move_observation": {
+      "group": "TransferItem",
+      "normalized_intent": "temporary fixed scene-unit displacement in a synthetic scene",
+      "displacement": [
+        0.25,
+        0.0,
+        0.0
+      ],
+      "errors": {
+        "Box.001": 0.0,
+        "Box.002": 0.0,
+        "Box.003": 0.0,
+        "Box.004": 0.0,
+        "Box.005": 0.0,
+        "Box": 0.0
+      }
+    }
+  }
+}

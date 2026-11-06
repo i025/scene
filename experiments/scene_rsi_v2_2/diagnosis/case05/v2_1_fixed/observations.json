@@ -1,0 +1,168 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case05",
+        "object_id": "PrimaryItem",
+        "hypothesis": "Render visibility suppresses the chair: all six PrimaryItem mesh descendants have hide_render=true. The public show(objects, visible) assigns visible directly to hide_render, which reverses the usual meaning of a visibility argument.",
+        "observation": "The green chair with a blue seat visible left of the cube in image 1 is entirely absent in image 2; the cube and room remain visible.",
+        "code_module": "object_coverage",
+        "probe": "isolate",
+        "alternatives": [
+          {
+            "module": "object_parameters",
+            "explanation": "Misplaced geometry could be concealed behind another mesh, although the supplied bounds and hide flags strongly favor visibility suppression.",
+            "predicted_probe_phenomenon": "Isolation would reveal an otherwise render-enabled chair if external occlusion alone caused its absence. With the supplied hide flags retained, the chair will remain absent.",
+            "predicted_direction": "unchanged"
+          },
+          {
+            "module": "material_edit",
+            "explanation": "An invisible surface shader could also suppress the chair's appearance, though the supplied alpha values are opaque and hide_render already explains the absence.",
+            "predicted_probe_phenomenon": "The chair remains absent after isolation if its material is invisible; isolation does not change materials or visibility flags.",
+            "predicted_direction": "unchanged"
+          }
+        ],
+        "probe_reason": "Isolate PrimaryItem while hiding other meshes. It does not unhide the target, so visibility suppression predicts continued absence. This probe can expose external occlusion only for render-enabled geometry; given the recorded hide flags, it cannot distinguish additional geometry or material faults. Predictions concern chair visibility, not overall image similarity after removing the room."
+      },
+      "execution": {
+        "probe": "isolate",
+        "target_selection": {
+          "object": "PrimaryItem",
+          "mesh_names": [
+            "Box",
+            "Box.001",
+            "Box.002",
+            "Box.003",
+            "Box.004",
+            "Box.005"
+          ],
+          "group_name": "PrimaryItem"
+        },
+        "target_mesh_visibility_before": [
+          {
+            "object_id": "Box",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.001",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.002",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.003",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.004",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.005",
+            "hide_render": true
+          }
+        ],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "kept_meshes": [
+          "Box",
+          "Box.001",
+          "Box.002",
+          "Box.003",
+          "Box.004",
+          "Box.005"
+        ],
+        "hidden_meshes": [
+          "Box.006",
+          "Box.007",
+          "Box.008"
+        ],
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_isolate.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.8344840691032017,
+        "lpips": 0.5693626999855042,
+        "dino": 0.08821797370910645,
+        "psnr": 17.886024850619084,
+        "overall": 0.6030767853240836
+      },
+      "quality_delta": -0.2131293638204499,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case05",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case05",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 21,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case05",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 0.0,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 9,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

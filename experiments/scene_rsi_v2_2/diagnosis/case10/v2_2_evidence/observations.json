@@ -1,0 +1,162 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case10",
+        "object_id": "Box.001",
+        "hypothesis": "A material edit may have propagated through a shared material. The supplied local_material function edits the existing material without copying it, and the backrest, seat, legs, and right-hand block all list SceneActSurface_0.",
+        "observation": "The backrest is blue in reconstruction 2 but pale green in reference 1. The legs and separate right-hand block also change from green to blue, while the seat remains blue.",
+        "probe": "isolate",
+        "code_module": "material_edit",
+        "alternatives": [
+          {
+            "module": "material_edit",
+            "explanation": "The backrest could have received an incorrect blue material assignment directly, independently of shared-material propagation.",
+            "predicted_probe_phenomenon": "The isolated backrest remains blue; isolation cannot distinguish direct assignment from a shared-material edit.",
+            "predicted_direction": "unchanged"
+          },
+          {
+            "module": "unknown",
+            "explanation": "Scene-dependent illumination or reflected blue light could contribute to the apparent color, although the supplied blue base color makes this less likely as the main cause.",
+            "predicted_probe_phenomenon": "Removing other meshes reduces their reflected-light contribution; the hue could move toward the reference if that contribution drives the mismatch.",
+            "predicted_direction": "improve"
+          }
+        ],
+        "probe_reason": "Isolating Box.001 tests whether the blue appearance persists without other mesh contributions. Persistence supports an intrinsic material explanation but cannot identify which material-edit mechanism occurred. Evaluate backrest hue, not full-image similarity after isolation."
+      },
+      "execution": {
+        "probe": "isolate",
+        "target_selection": {
+          "object": "Box.001",
+          "mesh_names": [
+            "Box.001"
+          ],
+          "group_name": null
+        },
+        "target_mesh_visibility_before": [
+          {
+            "object_id": "Box.001",
+            "hide_render": false
+          }
+        ],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "kept_meshes": [
+          "Box.001"
+        ],
+        "hidden_meshes": [
+          "Box",
+          "Box.002",
+          "Box.003",
+          "Box.004",
+          "Box.005",
+          "Box.006",
+          "Box.007",
+          "Box.008"
+        ],
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_isolate.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.8203228410342022,
+        "lpips": 0.4656636118888855,
+        "dino": 0.3788273334503174,
+        "psnr": 17.968203671869265,
+        "overall": 0.6813576319568252
+      },
+      "quality_delta": -0.23680734865633957,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case10",
+        "test": "material_preservation",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": false,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": false,
+          "checked_objects": 21,
+          "changed_fields": {
+            "Box.001": [
+              "materials"
+            ],
+            "Box.002": [
+              "materials"
+            ],
+            "Box.003": [
+              "materials"
+            ],
+            "Box.004": [
+              "materials"
+            ],
+            "Box.005": [
+              "materials"
+            ],
+            "Box.008": [
+              "materials"
+            ]
+          },
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case10",
+        "test": "hierarchy_parts",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case10",
+        "test": "composite_move",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 0.0,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 9,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

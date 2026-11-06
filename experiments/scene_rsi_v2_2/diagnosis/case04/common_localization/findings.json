@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case04",
+    "object_id": "PrimaryItem",
+    "observation": "The chair is substantially wider and taller in image 2: its back reaches near the top edge, and its seat extends farther toward the green block. The block and room corner remain approximately the same size and position.",
+    "hypothesis": "Excessive chair group scale is a plausible cause. The public size() function multiplies nominal scale by 1.45, consistent with the enlarged seat, back, and legs.",
+    "probe": "object_scale",
+    "code_module": "object_parameters",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "camera",
+        "explanation": "Camera magnification or pose could make the chair appear larger, although the relatively stable block and background weaken a global magnification explanation.",
+        "predicted_probe_phenomenon": "Scaling PrimaryItem by 1.1 enlarges only the chair further; the block and room geometry remain fixed, worsening chair size without correcting a camera mismatch.",
+        "predicted_direction": "worsen"
+      },
+      {
+        "module": "part_dependencies",
+        "explanation": "Coordinated dimensions or offsets of the chair's constituent parts could also produce an oversized silhouette.",
+        "predicted_probe_phenomenon": "The entire chair expands further, preserving internal proportions; any underlying part proportion errors persist.",
+        "predicted_direction": "worsen"
+      }
+    ],
+    "probe_reason": "Multiply PrimaryItem by 1.1 about its geometry AABB center at fixed camera. Predict further enlargement and increased overlap with the block. This tests local scale sensitivity, but all listed causes can worsen under this probe, so it cannot uniquely distinguish them. Centered scaling may also move feet below the floor; that side effect is not evidence of the original cause.",
+    "mapping_evidence": "PrimaryItem contains Seat/Box, Back/Box.001, and all four leg meshes, matching the visible blue seat and green chair structure. The supplied bounds support this grouping, without serving as segmentation. Its measured uniform scale is 1.45, matching the public size() multiplier.",
+    "uncertainty": "The visible size discrepancy and group mapping are clear; causal attribution remains provisional. Reference geometry and camera parameters are unavailable, approximate projected bounds do not exactly trace visible silhouettes, and the probe has not been executed."
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "checks": {
+    "structure": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    "material": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    "composite": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    },
+    "declared_parts": {
+      "required": true,
+      "applicable": true,
+      "measured_pass": true,
+      "gate_pass": true
+    }
+  },
+  "functional_pass": true,
+  "structure_pass": true,
+  "material_pass": true,
+  "composite_required": true,
+  "composite_pass": true,
+  "target_object": "accessories",
+  "geometry": {
+    "hierarchy_parts": {
+      "applicable": true,
+      "measured_pass": true,
+      "declared_groups": 46,
+      "missing": [],
+      "detached": [],
+      "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+    },
+    "known_support": {
+      "applicable": false,
+      "measured_pass": null,
+      "rows": [],
+      "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+    },
+    "mesh_intersection": {
+      "applicable": true,
+      "measured_pass": null,
+      "crossings": [],
+      "narrow_phase_pairs": 0,
+      "mesh_count": 539,
+      "tested_mesh_count": 64,
+      "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+    }
+  },
+  "semantic_object_completeness": null,
+  "support_collision_truth": null,
+  "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+}

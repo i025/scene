@@ -1,0 +1,433 @@
+--- before_B/pilot.py
++++ engineered_B/pilot.py
+@@ -262,7 +262,7 @@
+         png=output/f"probe_{request['probe']}.png"
+         metrics=None;delta=None
+         if result['status']=='completed' and png.exists():
+-            shutil.copy2(folder/'scene.blend',output/'scene.blend');shutil.copy2(png,output/'final.png')
++            shutil.copy2(output/'probe_scene.blend',output/'scene.blend');shutil.copy2(png,output/'final.png')
+             metrics=score(folder/'reference.png',output,config())
+             if metrics['valid']:delta=metrics['overall']-row['metrics']['overall']
+         observations['probes'].append({'request':request,'execution':result,'visual_metrics':metrics,'quality_delta':delta,'interpretation':'Controlled sensitivity, not unique causal attribution'})
+@@ -351,7 +351,10 @@
+                         diff=(source/'changes.diff').read_text().lower()
+                         risks=['geometry'] if any(word in diff for word in ['scale','part','support','mesh','primitive']) else ['camera','material','parts']
+                         post,unused_images=context_for(drows,prior,k,'after_patch',risks)
+-                        post['visual_findings']=read(source/'localization/findings.json',[])
++                        post['historical_visual_findings']=read(source/'localization/findings.json',[])
++                        post['visual_findings']=[]
++                        post['localization_status']='not_relocalized_after_patch'
++                        post['diff_risk_basis']='Approximate keyword screen only; not precise module attribution'
+                         post['already_executed_probe_count']=read(source/'stage2.json')['context_after_execution']['already_executed_probe_count']
+                         post_plan=meta_execute(source/'meta.py','plan_probes',post)
+                         post_observations=execute_plan(post,post_plan,drows,source/'post_patch_regression')
+@@ -386,4 +389,4 @@
+     write_json(ROOT/'state.json',{'phase':'main_complete','time':time.time(),'ledger':current()})
+ 
+ 
+-if __name__=='__main__':main()
++if __name__=='__main__':raise SystemExit('V2.2 performs no RSI evolution; use experiment.py or diagnosis_runner.py')
+--- before_B/strategies.py
++++ engineered_B/strategies.py
+@@ -1,7 +1,125 @@
+ """Executable two-stage initial meta-strategy; no model or filesystem calls."""
+ from pathlib import Path
+ 
+-INITIAL = '"""M0 V2.1: explicit failures and image-grounded object/probe decisions."""\ndef plan_probes(context):\n    budget=context[\'remaining_probe_budget\']\n    used=context[\'already_executed_probe_count\']\n    menu=context[\'available_probe_menu\']\n    development=context[\'development\']\n    findings=context[\'visual_findings\']\n    failures=[dict(scene_id=s[\'scene_id\'],**s[\'failure_evidence\']) for s in development if s[\'status\']!=\'complete\' or not s[\'functional\'][\'functional_pass\']]\n    probes=[]\n    for finding in findings:\n        scene=next(s for s in development if s[\'scene_id\']==finding[\'scene_id\'])\n        target=finding[\'object_id\']\n        if scene[\'status\']!=\'complete\' or finding[\'confidence\']==\'low\':continue\n        if finding[\'probe\'] not in menu:continue\n        if finding[\'probe\']!=\'camera_focal\' and (target in [None,\'unknown\'] or target not in scene[\'all_object_ids\']):continue\n        if finding[\'probe\']==\'camera_focal\':target=None\n        if len(probes)<budget:\n            probes.append(dict(scene_id=scene[\'scene_id\'],object_id=target,hypothesis=finding[\'hypothesis\'],observation=finding[\'observation\'],code_module=finding[\'code_module\'],probe=finding[\'probe\']))\n    regressions=[]\n    names=[\'hierarchy_parts\',\'material_preservation\',\'composite_move\']\n    if any(f[\'code_module\']==\'support_relations\' for f in findings):names=[\'known_support\',\'hierarchy_parts\',\'composite_move\']\n    elif \'geometry\' in context[\'modification_risks\']:names=[\'hierarchy_parts\',\'mesh_intersection\',\'composite_move\']\n    valid=[s for s in development if s[\'status\']==\'complete\']\n    if valid:\n        scene=min(valid,key=lambda s:s[\'metrics\'][\'overall\'])\n        regressions=[dict(scene_id=scene[\'scene_id\'],test=n,reason=\'Observed module and candidate diff risk\') for n in names if context[\'available_regression_menu\'][n][\'available\']][:context[\'remaining_regression_budget\']]\n    return dict(probes=probes,regressions=regressions,budget_seen=budget,used_seen=used,failure_diagnoses=failures,\n                no_probe_reason=None if probes else \'No confident mapping, valid blend, or remaining budget; use execution/coverage evidence\',\n                mapping_rule=\'Actual image discrepancy plus projected IDs; never default to largest/first mesh\')\n\n\ndef plan_patch(context,observations):\n    failures=[s[\'failure_evidence\'] for s in context[\'development\'] if s[\'status\']!=\'complete\']\n    measured=[o for o in observations[\'probes\'] if o[\'execution\'][\'status\']==\'completed\' and o[\'quality_delta\'] is not None]\n    best=max(measured,key=lambda o:o[\'quality_delta\']) if measured else None\n    regression_failures=[o for o in observations[\'regression\'] if o[\'result\'][\'measured_pass\'] is False]\n    unmeasured=[o for o in observations[\'regression\'] if o[\'result\'][\'measured_pass\'] is None]\n    if failures:\n        categories=[f[\'category\'] for f in failures]\n        module=\'policy_execution\' if any(c in [\'codex_timeout\',\'codex_call_failure\'] for c in categories) else \'program_generation_and_verification\'\n        decision=\'Use saved error/trajectory to change reusable execution or program-generation instructions. Service failures are not visual algorithm failures; do not perform geometry probes without valid blend.\'\n    elif regression_failures:\n        module=\'structure_and_edit_contract\'\n        decision=\'Repair the measured required structure/edit failure before improving appearance.\'\n    elif best and best[\'quality_delta\']>0.005:\n        module=\'camera\' if best[\'request\'][\'probe\']==\'camera_focal\' else \'object_parameters\' if best[\'request\'][\'probe\']==\'object_scale\' else \'object_coverage\'\n        decision=\'Sensitivity evidence supports studying this shared module; compare alternatives, not a unique cause or per-scene parameter copy.\'\n    else:\n        module=\'object_coverage_and_verification\'\n        decision=\'Tested perturbations do not show a meaningful quality gain. Revisit omissions or uncertain mapping; do not claim successful attribution.\'\n    return dict(shared_module=module,decision=decision,failure_diagnoses=failures,observed_deltas=[o[\'quality_delta\'] for o in measured],\n                regression_failures=regression_failures,unmeasured_regressions=unmeasured,observation_count=len(observations[\'probes\']),\n                best_probe=best[\'request\'] if best else None,candidate_type_allowed=[\'H-only\',\'M-only\',\'H+M\'],\n                scope=\'Shared H/M only; no task IDs or image-specific answer tables\',\n                instruction=\'Explain correspondence between actual observations and reusable code change. Retain fixed final gates and explicit unknowns.\')\n'
++INITIAL = r'''"""Engineered V2.2 strategy, not an automatically evolved M descendant."""
++
++
++def plan_probes(context):
++    budget=context['remaining_probe_budget']
++    used=context['already_executed_probe_count']
++    scenes={s['scene_id']:s for s in context['development']}
++    findings=context['visual_findings']
++    probes=[];hypotheses=[]
++    for finding in findings:
++        scene=scenes[finding['scene_id']]
++        explanations=finding['alternatives']
++        hypotheses.append({'scene_id':scene['scene_id'],'object_id':finding['object_id'],
++                           'observation':finding['observation'],'explanations':explanations,
++                           'evidence_kind':'visual_guess_with_projected_ID_not_ground_truth'})
++        if scene['status']!='complete' or finding['confidence']=='low':continue
++        if finding['probe'] not in context['available_probe_menu']:continue
++        object_id=None if finding['probe']=='camera_focal' else finding['object_id']
++        if finding['probe']!='camera_focal' and object_id not in scene['all_object_ids']:continue
++        if len(probes)<budget:
++            probes.append({'scene_id':scene['scene_id'],'object_id':object_id,
++                'hypothesis':finding['hypothesis'],'observation':finding['observation'],
++                'probe':finding['probe'],'code_module':finding['code_module'],
++                'alternatives':explanations,'probe_reason':finding['probe_reason']})
++    regressions=[]
++    for scene in context['development']:
++        if scene['status']!='complete':continue
++        relevant=[f['code_module'] for f in findings if f['scene_id']==scene['scene_id']]
++        names=[]
++        if 'material_edit' in relevant:names+=['material_preservation']
++        if 'support_relations' in relevant:names+=['known_support','hierarchy_parts','composite_move']
++        if 'part_dependencies' in relevant:names+=['hierarchy_parts','composite_move']
++        if any(m in relevant for m in ['camera','object_parameters']):names+=['camera_framing','known_support']
++        names+=['hierarchy_parts','material_preservation','composite_move']
++        chosen=[]
++        for name in names:
++            if name in chosen:continue
++            offered=context['available_regression_menu'][name]
++            if not offered['available']:continue
++            applicable=offered['scene_applicability'][scene['scene_id']]
++            if applicable is False:continue
++            chosen.append(name)
++            if len(regressions)<context['remaining_regression_budget']:
++                regressions.append({'scene_id':scene['scene_id'],'test':name,
++                    'reason':'Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing'})
++    failures=[{'scene_id':s['scene_id'],**s['failure_evidence']} for s in context['development'] if s['status']!='complete']
++    return {'probes':probes,'regressions':regressions,'hypotheses':hypotheses,
++            'budget_seen':budget,'used_seen':used,'failure_diagnoses':failures,
++            'no_probe_reason':None if probes else 'No valid current blend, confident real target, or remaining budget. Read failure stages rather than invent geometry evidence.'}
++
++
++def plan_patch(context,observations):
++    failures=[s['failure_evidence'] for s in context['development'] if s['status']!='complete']
++    if failures:
++        categories=[f['category'] for f in failures]
++        service=any(c in ['codex_service_failure','codex_timeout'] for c in categories)
++        module='unresolved_service' if service else 'program_generation_and_verification'
++        return {'shared_module':module,'decision':'Service failure cannot identify a 3D fault; retain H and record infrastructure failure.' if service else 'Use observed failure stage and traceback to repair the reusable construction/verification contract, not camera parameters without an image.',
++                'failure_diagnoses':failures,'supported_explanations':[],
++                'unresolved_explanations':categories,'observations_received':observations,
++                'scope':'No image-specific parameter copying; no attribution from build.py existence',
++                'evidence_status':'infrastructure' if service else 'measured_execution_error'}
++    supported=[];unresolved=[];evidence=[];modules=[]
++    for row in observations['regression']:
++        result=row['result'];name=row['request']['test']
++        if result['measured_pass'] is False:
++            module={'known_support':'support_relations','hierarchy_parts':'part_dependencies',
++                    'composite_move':'part_dependencies','material_preservation':'material_edit',
++                    'camera_framing':'camera'}.get(name)
++            if module:
++                modules.append(module)
++                supported.append({'module':module,'test':name,'kind':'direct_current_program_or_declared_relation_measurement','result':result})
++        elif result['measured_pass'] is None:
++            unresolved.append({'test':name,'reason':'Unavailable measurement is not passing evidence'})
++    for row in observations['probes']:
++        request=row['request'];execution=row['execution']
++        alternatives=request['alternatives']
++        evidence.append({'request':request,'actual_measurement':execution,
++                         'visual_metric_delta':row['quality_delta'],
++                         'alternatives':alternatives,'interpretation':'Controlled sensitivity, not a unique cause'})
++        if execution['status']!='completed':
++            unresolved.append({'hypothesis':request['hypothesis'],'reason':'Probe did not execute'});continue
++        finding_module=request['code_module'];probe=request['probe']
++        controlled=(execution['geometry_unchanged'] is True if probe=='camera_focal'
++                    else execution['non_target_preserved'] is True and execution['fixed_camera'] is True
++                    if probe=='object_scale' else False)
++        if probe=='isolate':
++            visibility=execution['target_mesh_visibility_before']
++            if visibility and all(v['hide_render'] for v in visibility) and finding_module=='object_coverage':
++                modules.append('object_coverage')
++                supported.append({'module':'object_coverage','hypothesis':request['hypothesis'],
++                    'reason':'The image-localized target exists but all its measured meshes are excluded from rendering; isolation never unhides it. This distinguishes a render-visibility exclusion from mere depth occlusion, without treating full-image Q as causal truth.',
++                    'visibility_measurement':visibility})
++            else:unresolved.append({'module':finding_module,'reason':'Isolation can expose membership, but full-image Q cannot distinguish omission from correct context removal'})
++        elif controlled and row['quality_delta'] is not None:
++            delta=row['quality_delta']
++            direction='improve' if delta>.005 else 'worsen' if delta<-.005 else 'unchanged'
++            matched=[a for a in alternatives if a['predicted_direction']==direction]
++            unspecified=[a for a in alternatives if a['predicted_direction']=='unknown']
++            candidate_modules=list(dict.fromkeys(a['module'] for a in matched))
++            if len(candidate_modules)==1 and not unspecified:
++                module=candidate_modules[0];modules.append(module)
++                supported.append({'module':module,'hypotheses':matched,'observed_direction':direction,
++                    'reason':'The actual controlled response matches a pre-probe prediction and differs from the other supplied predictions. Support is conditional on those hypotheses, not unique causal truth.'})
++            else:unresolved.append({'module':finding_module,'observed_direction':direction,
++                    'matched_predictions':matched,'unknown_predictions':unspecified,
++                    'reason':'The observed response did not distinguish the competing pre-probe predictions'})
++        else:unresolved.append({'module':finding_module,'reason':'Sensitivity measurement does not distinguish the candidate explanations'})
++    direct=[s['module'] for s in supported if 'test' in s]
++    unique=list(dict.fromkeys(direct or modules))
++    module=unique[0] if len(unique)==1 else 'unresolved'
++    return {'shared_module':module,
++            'decision':'Repair the measured shared behavior for '+module if module!='unresolved' else 'Retain competing explanations; permit coder to investigate supplied source, without claiming unique localization.',
++            'supported_explanations':supported,'unresolved_explanations':unresolved,
++            'probe_evidence':evidence,'observations_received':observations,
++            'scope':'Change the reusable parameter transformation, support/dependency or material ownership rule across scenes; never copy fixture object names, IDs or per-image constants.',
++            'evidence_status':'supported_not_unique' if module!='unresolved' else 'unresolved',
++            'provenance':'Engineer-written V2.2 M; no automatic meta-evolution or capacity-improvement claim'}
++'''
+ 
+ COMMON = '''You modify the shared image-to-editable-3D reconstruction procedure H and executable meta-program M. Only policy.py, system.txt, meta.py may change. Return complete replacement files in JSON {"files":[{"path":"...","content":"..."}],"rationale":"...","scope":"...","evidence_alignment":"..."}. H-only, M-only and H+M are all valid. H is policy.solve(task,runtime), using ONLY runtime.ask(messages), execute(code), select(step), remaining(), image(path). Fixed inner budget: 3 fresh CLI sessions, 2 Blender executions, 600 seconds. M MUST expose plan_probes(context) and plan_patch(context,observations); no old plan compatibility. Context always includes explicit probe and regression budgets/menus, real object IDs, development evidence, modification_risks and archive. Context includes visual_findings from a budgeted independent development image-localizer and per-scene failure_evidence with actual error/trajectory. Preserve explicit failure and unknown paths. See executed M source and two-stage trace. Preserve this contract for descendants. M uses only standard pure Python: no files, I/O, tools, APIs, eval/exec, introspection or hidden subagents. Never encode scene IDs, dataset paths or per-image answers. Only development raw inputs are supplied; Selection aggregates may guide future proposals. Final evaluator and resource policy immutable. No external tools/web/subagents. Do not generate a single-scene P instead of shared H. Genuine executable M changes are allowed but do not claim improved meta ability from code change alone. Return complete files only for changed allowed paths; keep unmodified files implicitly. The structured observations were already interpreted by executable M; follow or explicitly explain disagreement with its decision. A scene-specific probe is temporary and not the final H. Use SceneAct API from supplied sources. Avoid unnecessary changes. The candidate will be executed on other images.'''
+ 
+--- before_B/inspect_blend.py
++++ engineered_B/inspect_blend.py
+@@ -494,6 +494,7 @@
+         write_json(output / 'probe.json', {'status':'not_applicable','object_id':object_id,'reason':'Requested real object has no Mesh geometry'})
+         return
+     report = {"probe": name, "target_selection": target,
++              "target_mesh_visibility_before": [{"object_id":n,"hide_render":bool(bpy.data.objects[n].hide_render)} for n in target['mesh_names']],
+               "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy"}
+     before = snapshot_objects()
+     if name == "camera_focal":
+@@ -537,6 +538,9 @@
+         report["kept_meshes"] = sorted(kept)
+         report["hidden_meshes"] = sorted(hidden)
+     render(output, f"probe_{name}.png", ledger)
++    bpy.ops.wm.save_as_mainfile(filepath=str(output / 'probe_scene.blend'))
++    report['probe_blend']='probe_scene.blend'
++    report['original_scene_not_modified']=True
+     report.update({"status": "completed", "images": ledger["images"], "render_attempts": ledger["render_attempts"]})
+     write_json(output / "probe.json", report)
+ 
+--- before_B/diagnostics.py
++++ engineered_B/diagnostics.py
+@@ -4,29 +4,56 @@
+ from PIL import Image, ImageDraw
+ 
+ 
++def classify_failure(valid, functional, status, calls, executions, events):
++    failed=[c for c in calls if c['status']=='failed']
++    trace=str(status['error'])
++    last_stage=events[-1]['stage'] if events else None
++    outer_exhausted='outer_scene_deadline' in trace or 'BudgetExceeded' in trace
++    if valid:
++        category=('structure_check_failure' if not functional['checks']['structure']['gate_pass'] else
++                  'edit_or_regression_failure' if not functional['functional_pass'] else 'successful_visual_reconstruction')
++    elif failed:
++        category='codex_timeout' if any('TimeoutExpired' in str(c.get('error')) for c in failed) else 'codex_service_failure'
++    elif 'outer_scene_deadline' in trace:
++        category='outer_total_budget_exhausted'
++    elif executions:
++        final=executions[-1];error=str(final['error'])
++        names=[e['stage'] for e in events]
++        timeout='TimeoutExpired' in error
++        if timeout:
++            if 'render_started' in names and 'render_completed' not in names:category='render_timeout'
++            elif last_stage=='boolean_started':category='blender_geometry_timeout'
++            elif 'scene_build_started' in names and 'scene_build_completed' not in names:category='blender_scene_build_timeout_unresolved'
++            else:category='outer_total_budget_exhausted' if outer_exhausted else 'execution_timeout_stage_unknown'
++        elif 'scene_build_started' not in names and 'python_validation_started' in names:category='python_program_construction_error'
++        elif 'render_started' in names:category='blender_render_error'
++        elif 'scene_build_started' in names:category='blender_scene_build_error'
++        else:category='execution_failure_stage_unknown'
++    elif outer_exhausted:category='outer_total_budget_exhausted'
++    elif any(word in trace for word in ['SyntaxError','JSONDecodeError','Invalid','parse']):category='python_program_construction_error'
++    else:category='program_generation_failure_undetermined'
++    return {'category':category,'last_observed_stage':last_stage,
++            'outer_budget_exhausted':outer_exhausted,
++            'attribution':'Stage/log evidence only. Scene build timeout without finer events is not proven Boolean/mesh overload.'}
++
++
+ def failure_evidence(row):
+     folder=Path(row['alias_of'] if 'alias_of' in row else row['folder'])
+     calls=[json.loads(p.read_text()) for p in sorted(folder.glob('student_calls/*/session.json'))]
++    execution_paths=sorted(folder.glob('steps/*/result.json'))
++    executions=[json.loads(p.read_text()) for p in execution_paths]
++    event_paths=sorted(folder.glob('steps/*/stage_events.jsonl'))
++    latest_events=[json.loads(line) for line in event_paths[-1].read_text().splitlines()] if event_paths else []
++    measured=classify_failure(row['metrics']['valid'],row['functional'],row['runtime_status'],calls,executions,latest_events)
+     failed=[c for c in calls if c['status']=='failed']
+-    status=row['runtime_status'];trace=str(status)
+-    logs=[]
+-    for p in sorted(folder.glob('steps/*/stderr*')):
+-        logs.append({'path':str(p),'text':p.read_text(errors='replace')[-12000:]})
+-    executions=[json.loads(p.read_text()) for p in sorted(folder.glob('steps/*/result.json'))]
+-    execution_failures=[e for e in executions if not e['ok']]
+-    if not row['metrics']['valid'] and failed:
+-        category='codex_timeout' if any('TimeoutExpired' in str(c) for c in failed) else 'codex_call_failure'
+-    elif not row['metrics']['valid']:
+-        category='blender_execution_failure' if list(folder.glob('steps/*/build.py')) else 'program_generation_failure'
+-    elif not row['functional']['checks']['structure']['gate_pass']:
+-        category='structure_check_failure'
+-    elif not row['functional']['functional_pass']:
+-        category='edit_or_regression_failure'
+-    else:category='successful_visual_reconstruction'
+-    return {'category':category,'runtime_status':status,'failed_calls':[{k:c.get(k) for k in ['status','error','exit_code','seconds','call_dir']} for c in failed],
+-            'execution_errors':logs,'execution_failures':[{'error':e['error'],'stdout':e['stdout'][-12000:],'stderr':e['stderr'][-12000:]} for e in execution_failures],'related_modules':['policy.py','system.txt'],
++    logs=[{'path':str(p),'text':p.read_text(errors='replace')[-12000:]} for p in sorted(folder.glob('steps/*/stderr*'))]
++    return {**measured,'runtime_status':row['runtime_status'],
++            'failed_calls':[{k:c.get(k) for k in ['status','error','exit_code','seconds','call_dir']} for c in failed],
++            'execution_errors':logs,
++            'execution_failures':[{'error':e['error'],'stdout':e['stdout'][-12000:],'stderr':e['stderr'][-12000:]} for e in executions if not e['ok']],
++            'stage_event_paths':list(map(str,event_paths)), 'related_modules':['policy.py','system.txt'],
+             'valid_blend':row['metrics']['valid'],'visual_quality':row['metrics']['overall'],
+-            'quality_interpretation':'Measured continuous Q; low quality localized by image evidence, not an arbitrary success threshold'}
++            'quality_interpretation':'Continuous measured Q is not geometry truth; infrastructure errors do not identify a visual module'}
+ 
+ 
+ def object_map(render, objects, output):
+@@ -59,9 +86,14 @@
+         images=scene['attached_images']
+         objects=scene['objects']
+         projection=object_map(images[1],objects,case/'object_map.png')
+-        prompt='Identify a concrete visible discrepancy between reference image 1 and reconstruction image 2. Image 3 is the SAME reconstruction with approximate projected object/group bounds (not segmentation). Use only actual object IDs below. Largest mesh, floor, or first name is NOT evidence of fault. State uncertainty; use object_id="unknown" when mapping is ambiguous, and camera_focal may use object_id=null. Choose at most two discriminating sensitivity probes: camera_focal multiplies the existing lens by 1.1 at fixed geometry/pose; object_scale multiplies the named object/group by 1.1 about its GEOMETRY AABB CENTER (not its origin), fixed camera; isolate hides OTHER meshes but does not unhide the target. No other probe parameters are available. Do not infer unique causality from an image. Return JSON findings. Each finding: scene_id, object_id, observation, hypothesis, probe, code_module, confidence. code_module is camera,object_parameters,object_coverage,support_relations,material_edit,or unknown. No fixture labels or hidden truth are supplied.\n'+json.dumps({'scene_id':scene['scene_id'],'objects':projection,'measured_structure':scene['structure'],'metrics':scene['metrics']},ensure_ascii=False)
+-        schema={'type':'object','additionalProperties':False,'properties':{'findings':{'type':'array','maxItems':2,'items':{'type':'object','additionalProperties':False,'properties':{'scene_id':{'type':'string'},'object_id':{'type':['string','null']},'observation':{'type':'string'},'hypothesis':{'type':'string'},'probe':{'type':'string','enum':['camera_focal','object_scale','isolate']},'code_module':{'type':'string'},'confidence':{'type':'string','enum':['low','medium','high']}},'required':['scene_id','object_id','observation','hypothesis','probe','code_module','confidence']}}},'required':['findings']}
+-        text,session=call(prompt,config()['proposer'],case/'visual_call',[*images,str(case/'object_map.png')],role='development_localizer',schema=schema)
++        prompt='Identify a concrete visible discrepancy between reference image 1 and reconstruction image 2. Image 3 is the SAME reconstruction with approximate projected object/group bounds (not segmentation). Use only actual object IDs below. Largest mesh, floor, or first name is NOT evidence of fault. State uncertainty; use object_id="unknown" when mapping is ambiguous, and camera_focal may use object_id=null. Choose at most two discriminating sensitivity probes: camera_focal multiplies the existing lens by 1.1 at fixed geometry/pose; object_scale multiplies the named object/group by 1.1 about its GEOMETRY AABB CENTER (not its origin), fixed camera; isolate hides OTHER meshes but does not unhide the target. No other probe parameters are available. Do not infer unique causality from an image. Return JSON findings. For each discrepancy give two plausible alternatives when possible, each with module, explanation, predicted_probe_phenomenon and predicted_direction (improve/worsen/unchanged/unknown for the chosen probe at the supplied magnitude, predicted BEFORE observing it). State why the chosen probe distinguishes them, or why it cannot; never promise unique attribution. Each finding: scene_id, object_id, observation, hypothesis, probe, code_module, confidence, alternatives, probe_reason, mapping_evidence, uncertainty. code_module is camera,object_parameters,object_coverage,support_relations,part_dependencies,material_edit,or unknown. No fixture labels or hidden truth are supplied.\n'+json.dumps({'scene_id':scene['scene_id'],'objects':projection,'measured_structure':scene['structure'],'metrics':scene['metrics'],'public_program':scene['public_program']},ensure_ascii=False)
++        schema={'type':'object','additionalProperties':False,'properties':{'findings':{'type':'array','maxItems':2,'items':{'type':'object','additionalProperties':False,'properties':{'scene_id':{'type':'string'},'object_id':{'type':['string','null']},'observation':{'type':'string'},'hypothesis':{'type':'string'},'probe':{'type':'string','enum':['camera_focal','object_scale','isolate']},'code_module':{'type':'string'},'confidence':{'type':'string','enum':['low','medium','high']},'alternatives':{'type':'array','minItems':2,'maxItems':3,'items':{'type':'object','additionalProperties':False,'properties':{'module':{'type':'string'},'explanation':{'type':'string'},'predicted_probe_phenomenon':{'type':'string'},'predicted_direction':{'type':'string','enum':['improve','worsen','unchanged','unknown']}},'required':['module','explanation','predicted_probe_phenomenon','predicted_direction']}},'probe_reason':{'type':'string'},'mapping_evidence':{'type':'string'},'uncertainty':{'type':'string'}},'required':['scene_id','object_id','observation','hypothesis','probe','code_module','confidence','alternatives','probe_reason','mapping_evidence','uncertainty']}}},'required':['findings']}
++        saved=case/'visual_call/session.json'
++        if saved.exists():
++            session=read(saved)
++            if session['status']!='complete':raise RuntimeError('Saved failed/interrupted common visual call is retained; no automatic resampling')
++            text=(case/'visual_call/response.txt').read_text()
++        else:text,session=call(prompt,config()['proposer'],case/'visual_call',[*images,str(case/'object_map.png')],role='development_localizer',schema=schema)
+         findings=json.loads(text)['findings']
+         ids={o['name'] for o in objects}
+         for finding in findings:
+--- before_B/analyze.py
++++ engineered_B/analyze.py
+@@ -163,6 +163,7 @@
+     save(ROOT/'metrics/A_scene_metrics.json',rows);table(ROOT/'metrics/A_scene_metrics.csv',rows)
+     save(ROOT/'metrics/A_summary.json',summary);table(ROOT/'metrics/A_paired_metrics.csv',pairs)
+     figures(rows,summary,pairs)
++    diagnosis_analysis()
+     report(rows,summary,pairs)
+     print(json.dumps(summary,indent=2))
+ 
+@@ -208,4 +209,149 @@
+     (ROOT/'reports/index.html').write_text('<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V2.2</title><style>body{max-width:1280px;margin:24px auto;font-family:sans-serif;padding:16px;background:#f7f8fa;color:#17212b}img{max-width:100%}figure{margin:24px 0;padding:16px;background:white}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;padding:20px}a{color:#1656b0}</style>'+body+'</html>')
+ 
+ 
++"""Functions appended to the existing V2.2 offline analyzer after experiment A."""
++
++
++def diagnosis_analysis():
++    truth_path=ROOT/'diagnosis/ground_truth_evaluator_only.json'
++    if not truth_path.exists():return
++    truth=read(truth_path);rows=[]
++    for item in truth:
++        case=item['scene_id'];folder=ROOT/'diagnosis'/case
++        for method in ['v2_1_fixed','v2_2_evidence']:
++            dest=folder/method;result=read(dest/'result.json') if (dest/'result.json').exists() else None
++            stage1=read(dest/'stage1.json')['decision'] if (dest/'stage1.json').exists() else None
++            stage2=read(dest/'stage2.json')['decision'] if (dest/'stage2.json').exists() else None
++            decision_change=read(dest/'stage2.json')['module_changed_by_observations'] if stage2 else None
++            observations=read(dest/'observations.json') if (dest/'observations.json').exists() else None
++            status=result['status'] if result else 'failed_dependency' if (folder/'common_localization_failure.json').exists() else 'running' if stage1 else 'not_started'
++            probes=stage1['probes'] if stage1 else []
++            target=probes[0]['object_id'] if probes else None
++            module=probes[0]['code_module'] if probes else None
++            measured=observations['probes'] if observations else []
++            applicable=item['camera_object_applicable']
++            final_module=stage2['shared_module'] if stage2 else None
++            repair_calls=[read(p) for p in dest.glob('repair_call/session.json')]
++            localizer_calls=[read(p) for p in (folder/'common_localization').glob('*/visual_call/session.json')]
++            discriminated=[]
++            for p in measured:
++                delta=p['quality_delta'];alternatives=p['request']['alternatives']
++                if delta is None or p['execution']['status']!='completed' or p['request']['probe']=='isolate':
++                    discriminated.append(None);continue
++                direction='improve' if delta>.005 else 'worsen' if delta<-.005 else 'unchanged'
++                matched=[a for a in alternatives if a['predicted_direction']==direction]
++                discriminated.append(len(matched)==1 and all(a['predicted_direction']!='unknown' for a in alternatives))
++            terminal=status in ['completed','failed','timeout','invalid','failed_dependency']
++            source=result['source_pass'] if result else None;transfer=result['transfer_pass'] if result else None
++            ledger_paths=list(dest.rglob('render_ledger.json')) if dest.exists() else []
++            frames=sum(read(p)['render_attempts'] for p in ledger_paths)
++            row={'method':method,'run_id':case,'scene_id':case,'split':'controlled_diagnosis',
++                 'candidate_id':'shared_helper_repair','parent_id':'injected_shared_H0',
++                 'H_version':f'diagnosis/{case}/shared_h0.py','M_version':'V2.1 frozen M0' if method=='v2_1_fixed' else 'engineer-written V2.2',
++                 'status':status,'fault_module_evaluator_only':item['fault_module'],'allowed_modules':item['allowed_modules'],
++                 'target_object':target,'object_applicable':applicable,
++                 'object_hit_top1':target in item['allowed_object_ids'] if stage1 and applicable else None,
++                 'module_top1':module,'module_hit_top1':module in item['allowed_modules'] if stage1 else None,
++                 'module_hit_any':any(p['code_module'] in item['allowed_modules'] for p in probes) if stage1 else None,
++                 'final_module':final_module,'final_module_hit':final_module in item['allowed_modules'] if stage2 else None,
++                 'final_module_related_hit':final_module in item['allowed_related_modules'] if stage2 else None,
++                 'module_changed_by_observations':decision_change,
++                 'probes_requested':len(probes) if stage1 else None,
++                 'probes_executed':sum(p['execution']['status']=='completed' for p in measured) if observations else None,
++                 'pre_prediction_discrimination':discriminated,
++                 'source_repair_measured_pass':source,'transfer_measured_pass':transfer,
++                 'source_repair_utility':float(source is True) if terminal else None,
++                 'transfer_utility':float(transfer is True) if terminal else None,
++                 'own_repair_cli_sessions':len(repair_calls),'shared_visual_sessions_seen':len(localizer_calls),
++                 'allocated_cli_sessions':len(repair_calls)+len(localizer_calls)/2,
++                 'known_own_input_tokens':sum(s['input_tokens'] or 0 for s in repair_calls),
++                 'known_own_output_tokens':sum(s['output_tokens'] or 0 for s in repair_calls),
++                 'own_usage_unknown':sum(s['total_tokens'] is None for s in repair_calls),
++                 'shared_known_input_tokens':sum(s['input_tokens'] or 0 for s in localizer_calls),
++                 'shared_known_output_tokens':sum(s['output_tokens'] or 0 for s in localizer_calls),
++                 'own_cli_seconds':sum(s['seconds'] for s in repair_calls),
++                 'own_render_attempts':frames,'device':'CPU',
++                 'failure_reason':result['failure_reason'] if result and 'failure_reason' in result else None,
++                 'folder':str(dest.relative_to(ROOT))}
++            rows.append(row)
++    summary={}
++    for method in ['v2_1_fixed','v2_2_evidence']:
++        group=[r for r in rows if r['method']==method]
++        done=[r for r in group if r['status'] in ['completed','failed','timeout','invalid','failed_dependency']]
++        d={'scheduled':len(group),'terminal':len(done),'not_started':sum(r['status']=='not_started' for r in group),
++           'actual_repair_results':sum(r['source_repair_measured_pass'] is not None for r in group)}
++        for key in ['object_hit_top1','module_hit_top1','module_hit_any','final_module_hit','final_module_related_hit','source_repair_measured_pass','transfer_measured_pass']:
++            values=[r[key] for r in group if r[key] is not None]
++            d[key]={'passed':sum(v is True for v in values),'measured_n':len(values),
++                    'applicable_scheduled':sum(r['object_applicable'] for r in group) if key=='object_hit_top1' else len(group)}
++        d.update(own_repair_cli_sessions=sum(r['own_repair_cli_sessions'] for r in group),
++                 probes_requested=sum(r['probes_requested'] or 0 for r in group),
++                 probes_executed=sum(r['probes_executed'] or 0 for r in group),
++                 prediction_direction_discrimination={'passed':sum(v is True for r in group for v in r['pre_prediction_discrimination']),
++                     'measured_n':sum(v is not None for r in group for v in r['pre_prediction_discrimination'])},
++                 decision_changed_by_observations={'changed':sum(r['module_changed_by_observations'] is True for r in group),
++                     'measured_n':sum(r['module_changed_by_observations'] is not None for r in group)},
++                 shared_visual_sessions_seen=sum(r['shared_visual_sessions_seen'] for r in group),
++                 allocated_cli_sessions=sum(r['allocated_cli_sessions'] for r in group),
++                 own_render_attempts=sum(r['own_render_attempts'] for r in group),
++                 source_utility_all_scheduled=average([r['source_repair_utility'] for r in done]) if len(done)==len(group) else None,
++                 transfer_utility_all_scheduled=average([r['transfer_utility'] for r in done]) if len(done)==len(group) else None)
++        summary[method]=d
++    summary['interpretation']={'tasks':'10 parameterized rooms from two controlled template families, 5 fault types x2; not 10 natural scene samples',
++        'localizer':'One common astra image call per case. Same output delivered to both fixed M programs; shared cost split equally only for accounting.',
++        'repair':'One astra coding opportunity per arm/case with identical public API contract hints; any helper module may be repaired even if M is wrong/unresolved.',
++        'discrimination':'Match to a unique pre-probe predicted Q direction among stated alternatives; not unique causal truth, isolation full-image Q excluded.',
++        'transfer':'New helper parameters, geometry width, names and mesh/material sharing; not proof of natural-image reconstruction transfer or M self-improvement.'}
++    save(ROOT/'metrics/C_diagnosis.json',rows);table(ROOT/'metrics/C_diagnosis.csv',rows)
++    save(ROOT/'metrics/C_summary.json',summary)
++    diagnosis_figures(rows,summary)
++
++
++def diagnosis_figures(rows,summary):
++    methods=['v2_1_fixed','v2_2_evidence']
++    keys=['object_hit_top1','module_hit_top1','final_module_hit','source_repair_measured_pass','transfer_measured_pass']
++    fig,axes=plt.subplots(1,5,figsize=(15,3.8))
++    for ax,key in zip(axes,keys):
++        for index,method in enumerate(methods):
++            d=summary[method][key];n=d['measured_n']
++            if n:ax.bar(index,d['passed']/n,width=.5);ax.text(index,d['passed']/n+.04,f"{d['passed']}/{n}",ha='center',fontsize=9)
++            group=[r for r in rows if r['method']==method and r[key] is not None]
++            ax.scatter([index+(i-len(group)/2)*.016 for i in range(len(group))],[int(r[key]) for r in group],s=18,color='black',alpha=.55)
++        ax.set_title(key.replace('_',' '),fontsize=8);ax.set_xticks([0,1],['V2.1 M0','V2.2'],rotation=15);ax.set_ylim(-.08,1.28)
++    fig.suptitle('Raw points + measured denominators; 10 scheduled tasks/arm, object N/A for 2 camera cases',fontsize=10)
++    fig.tight_layout();fig.savefig(ROOT/'figures/figure3_diagnosis_comparison.png',dpi=160);plt.close(fig)
++    fig,axes=plt.subplots(1,2,figsize=(10,3.8))
++    for method in methods:
++        group=[r for r in rows if r['method']==method and r['source_repair_utility'] is not None]
++        x=[];y=[];cost=0;total=0
++        for r in group:cost+=r['allocated_cli_sessions'];total+=r['source_repair_utility'];x.append(cost);y.append(total/len(x))
++        axes[0].plot(x,y,'o-',label=method)
++        axes[1].scatter([r['own_render_attempts'] for r in group],[r['source_repair_utility'] for r in group],label=method)
++    axes[0].set(xlabel='Cumulative own + half common CLI sessions',ylabel='Source repair utility',title='Common visual cost allocated, never double-counted')
++    axes[1].set(xlabel='Own probe + repair render attempts',ylabel='Source repair utility',title='CPU only; shared setup frames excluded here')
++    for ax in axes:ax.legend(fontsize=8);ax.grid(alpha=.2)
++    fig.tight_layout();fig.savefig(ROOT/'figures/figure5_C_cost.png',dpi=160);plt.close(fig)
++    success=next((r for r in rows if r['method']=='v2_2_evidence' and r['final_module_hit'] is True and r['source_repair_measured_pass'] is True),None)
++    failure=next((r for r in rows if r['final_module_hit'] is False or r['source_repair_measured_pass'] is False),None)
++    selected=[r for r in [success,failure] if r]
++    save(ROOT/'metrics/diagnostic_case_selection.json',{'rule':'First V2.2 correct final module + measured source repair; first actual wrong module or failed source repair across frozen case order. A wrong module may still be repaired by coder.',
++         'selected':[{'scene_id':r['scene_id'],'method':r['method'],'final_module_hit':r['final_module_hit'],'repair_pass':r['source_repair_measured_pass']} for r in selected],
++         'missing_failure':failure is None,'missing_success':success is None})
++    if selected:
++        canvas=Image.new('RGB',(1500,len(selected)*390),'white');draw=ImageDraw.Draw(canvas)
++        for i,r in enumerate(selected):
++            dest=ROOT/r['folder'];case=dest.parent
++            probes=sorted((dest/'probes').glob('*/probe_*.png'))
++            pictures=[case/'reference.png',case/'final.png',case/'common_localization/0/object_map.png',probes[0] if probes else None,dest/'source_repaired.png',dest/'transfer_repaired.png']
++            for j,(picture,label) in enumerate(zip(pictures,['Reference','Faulty H','Actual object projection','Selected sensitivity probe','Repaired source','Independent helper transfer'])):
++                tile(canvas,(j*250,i*390,250,240),picture,label+'\n'+r['scene_id']+' '+r['method'])
++            text=f"{r['scene_id']} {r['method']}: target={r['target_object']}; stage1 module={r['module_top1']}; final={r['final_module']}; module correct={r['final_module_hit']}; repair={r['source_repair_measured_pass']}; transfer={r['transfer_measured_pass']}"
++            draw.text((8,i*390+246),text,font=FONT,fill='black')
++            obs=read(dest/'observations.json')
++            draw.text((8,i*390+267),'Actual probe deltas: '+str([p['quality_delta'] for p in obs['probes']]),font=FONT,fill='black')
++            diff=(dest/'changes.diff').read_text().splitlines() if (dest/'changes.diff').exists() else ['No code output']
++            for n,line in enumerate(diff[:5]):draw.text((8,i*390+290+n*17),line[:170],font=FONT,fill='black')
++        canvas.save(ROOT/'figures/figure4_diagnostic_cases.png')
++
++
+ if __name__=='__main__':main()

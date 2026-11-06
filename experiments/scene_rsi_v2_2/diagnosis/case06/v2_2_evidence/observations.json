@@ -1,0 +1,168 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case06",
+        "object_id": "PrimaryItem",
+        "hypothesis": "Render visibility suppresses the chair assembly. All six descendant meshes have hide_render=true. The supplied show(objects, visible) assigns visible directly to hide_render, reversing the apparent intended meaning of its argument.",
+        "observation": "The green-backed, blue-seated chair and its legs visible at center-left in image 1 are entirely absent in image 2; the green block remains visible.",
+        "probe": "isolate",
+        "code_module": "object_coverage",
+        "alternatives": [
+          {
+            "module": "object_parameters",
+            "explanation": "Occlusion from incorrect relative placement could also explain an absent chair visually, although the explicit hide_render flags strongly favor visibility suppression.",
+            "predicted_probe_phenomenon": "Isolation would expose a chair hidden solely by other meshes. With the supplied hide flags retained, it will remain absent even if occlusion also exists.",
+            "predicted_direction": "unchanged"
+          },
+          {
+            "module": "material_edit",
+            "explanation": "A shader contribution problem could additionally suppress chair surfaces; the reported Principled Weight is zero, though the visible block shares the green material, weakening this explanation.",
+            "predicted_probe_phenomenon": "Isolation does not repair materials or visibility flags, so the chair should remain absent.",
+            "predicted_direction": "unchanged"
+          }
+        ],
+        "probe_reason": "Isolate PrimaryItem while preserving its descendants' visibility states. The predicted result is no chair. This tests external occlusion only if the target is render-enabled; with the supplied flags, it cannot distinguish visibility suppression from a concurrent material problem or occlusion. It does not uniquely attribute the fault."
+      },
+      "execution": {
+        "probe": "isolate",
+        "target_selection": {
+          "object": "PrimaryItem",
+          "mesh_names": [
+            "Box",
+            "Box.001",
+            "Box.002",
+            "Box.003",
+            "Box.004",
+            "Box.005"
+          ],
+          "group_name": "PrimaryItem"
+        },
+        "target_mesh_visibility_before": [
+          {
+            "object_id": "Box",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.001",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.002",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.003",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.004",
+            "hide_render": true
+          },
+          {
+            "object_id": "Box.005",
+            "hide_render": true
+          }
+        ],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "kept_meshes": [
+          "Box",
+          "Box.001",
+          "Box.002",
+          "Box.003",
+          "Box.004",
+          "Box.005"
+        ],
+        "hidden_meshes": [
+          "Box.006",
+          "Box.007",
+          "Box.008"
+        ],
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_isolate.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.8286337824860274,
+        "lpips": 0.5679855346679688,
+        "dino": 0.10320103168487549,
+        "psnr": 18.358532174067424,
+        "overall": 0.6040829212201655
+      },
+      "quality_delta": -0.1858955582421863,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case06",
+        "test": "hierarchy_parts",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case06",
+        "test": "material_preservation",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 21,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case06",
+        "test": "composite_move",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 0.0,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 9,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case09",
+    "object_id": "Box.008",
+    "observation": "The separate block on the right is green in reference image 1 but blue in reconstruction image 2. The chair back and legs show the same color discrepancy, while the seat is blue in both.",
+    "hypothesis": "Material editing may affect shared material data: local_material mutates the existing material without copying it, and the block and all chair meshes share SceneActSurface_0. A seat color edit could therefore propagate to parts intended to remain green.",
+    "probe": "isolate",
+    "code_module": "material_edit",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "material_edit",
+        "explanation": "The block could have received an incorrect blue color directly, independently of shared-material propagation.",
+        "predicted_probe_phenomenon": "Isolating Box.008 leaves its surfaces blue because its material assignment and base color remain unchanged.",
+        "predicted_direction": "unchanged"
+      },
+      {
+        "module": "unknown",
+        "explanation": "Scene-dependent illumination or reflected blue light could contribute to the apparent color, although the explicit blue base color makes this less likely as the principal cause.",
+        "predicted_probe_phenomenon": "Removing other meshes could reduce a reflected color cast; movement toward green would support a scene-interaction contribution.",
+        "predicted_direction": "unknown"
+      }
+    ],
+    "probe_reason": "Isolate hides other meshes while retaining the visible block, testing whether its blue appearance depends on surrounding geometry. Persistent blue supports an intrinsic material explanation but cannot distinguish shared-data mutation from a directly incorrect assignment.",
+    "mapping_evidence": "The right-hand block lies within the supplied Sideboard bounds; Box.008 is that group's sole mesh. Its reported material is SceneActSurface_0 with blue Base Color [0.04, 0.12, 0.72], also assigned to the seat, back, and legs.",
+    "uncertainty": "The color discrepancy and object mapping are clear. Shared material data and the mutation code support the hypothesis, but call order and intended reference materials are unavailable. No probe has been executed; isolation also changes shadows and indirect illumination."
+  }
+]

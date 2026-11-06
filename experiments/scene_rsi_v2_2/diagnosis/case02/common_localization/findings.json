@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case02",
+    "object_id": null,
+    "observation": "Both furniture objects are larger in image 2: the chair spans approximately x=49–169 versus x=72–158 in image 1, and the green block spans x=171–228 versus x=159–199. The chair also extends higher and lower.",
+    "hypothesis": "Excess camera magnification plausibly explains the shared enlargement. The public frame function explicitly sets lens to nominal_lens * 1.4.",
+    "probe": "camera_focal",
+    "code_module": "camera",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "object_parameters",
+        "explanation": "Both furniture objects could have oversized geometry relative to the reference.",
+        "predicted_probe_phenomenon": "Increasing the lens by 1.1 would further enlarge both oversized silhouettes and also magnify room features.",
+        "predicted_direction": "worsen"
+      },
+      {
+        "module": "camera",
+        "explanation": "A camera positioned too close could also produce larger furniture projections without an incorrect focal length.",
+        "predicted_probe_phenomenon": "Increasing the lens by 1.1 would further enlarge the furniture while preserving the existing perspective relationships.",
+        "predicted_direction": "worsen"
+      }
+    ],
+    "probe_reason": "At fixed pose and geometry, multiplying the lens by 1.1 should worsen the observed enlargement under the leading hypothesis. Tracking furniture and room landmarks tests a shared magnification response, but all listed explanations predict worsening, so this probe cannot uniquely distinguish focal length, distance, and geometry scale.",
+    "mapping_evidence": "The visible blue seat, green back and legs correspond to PrimaryItem descendants; the separate green block corresponds to Sideboard/Box.008. Their shared enlargement motivates a camera-level finding with no single object blamed. The explicit 1.4 lens multiplier provides additional code evidence.",
+    "uncertainty": "The discrepancy is clear, but its unique cause is not established. The nominal lens is not reference ground truth, and approximate projected bounds are not segmentation. Confidence reflects the visible shared enlargement and the directly relevant code, not exclusive causal attribution. Predictions assume a perspective camera."
+  }
+]

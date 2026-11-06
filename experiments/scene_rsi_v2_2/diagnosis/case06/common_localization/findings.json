@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case06",
+    "object_id": "PrimaryItem",
+    "observation": "The green-backed, blue-seated chair and its legs visible at center-left in image 1 are entirely absent in image 2; the green block remains visible.",
+    "hypothesis": "Render visibility suppresses the chair assembly. All six descendant meshes have hide_render=true. The supplied show(objects, visible) assigns visible directly to hide_render, reversing the apparent intended meaning of its argument.",
+    "probe": "isolate",
+    "code_module": "object_coverage",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "object_parameters",
+        "explanation": "Occlusion from incorrect relative placement could also explain an absent chair visually, although the explicit hide_render flags strongly favor visibility suppression.",
+        "predicted_probe_phenomenon": "Isolation would expose a chair hidden solely by other meshes. With the supplied hide flags retained, it will remain absent even if occlusion also exists.",
+        "predicted_direction": "unchanged"
+      },
+      {
+        "module": "material_edit",
+        "explanation": "A shader contribution problem could additionally suppress chair surfaces; the reported Principled Weight is zero, though the visible block shares the green material, weakening this explanation.",
+        "predicted_probe_phenomenon": "Isolation does not repair materials or visibility flags, so the chair should remain absent.",
+        "predicted_direction": "unchanged"
+      }
+    ],
+    "probe_reason": "Isolate PrimaryItem while preserving its descendants' visibility states. The predicted result is no chair. This tests external occlusion only if the target is render-enabled; with the supplied flags, it cannot distinguish visibility suppression from a concurrent material problem or occlusion. It does not uniquely attribute the fault.",
+    "mapping_evidence": "PrimaryItem contains the seat Box, back Box.001, and four leg meshes Box.002–Box.005. Their spatial arrangement, blue seat material, green back/leg material, and approximate center-left projected bounds jointly match the missing chair; the mapping does not rely on name order or mesh size.",
+    "uncertainty": "The missing chair is visually clear and the recorded mesh visibility flags directly support suppression. The images alone do not establish causality, and the supplied program does not include call arguments proving how those flags were set. Bounds are not segmentation, and isolation cannot reveal additional shape or material discrepancies while the meshes remain hidden."
+  }
+]

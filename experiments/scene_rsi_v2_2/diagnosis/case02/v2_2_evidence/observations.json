@@ -1,0 +1,111 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case02",
+        "object_id": null,
+        "hypothesis": "Excess camera magnification plausibly explains the shared enlargement. The public frame function explicitly sets lens to nominal_lens * 1.4.",
+        "observation": "Both furniture objects are larger in image 2: the chair spans approximately x=49–169 versus x=72–158 in image 1, and the green block spans x=171–228 versus x=159–199. The chair also extends higher and lower.",
+        "probe": "camera_focal",
+        "code_module": "camera",
+        "alternatives": [
+          {
+            "module": "object_parameters",
+            "explanation": "Both furniture objects could have oversized geometry relative to the reference.",
+            "predicted_probe_phenomenon": "Increasing the lens by 1.1 would further enlarge both oversized silhouettes and also magnify room features.",
+            "predicted_direction": "worsen"
+          },
+          {
+            "module": "camera",
+            "explanation": "A camera positioned too close could also produce larger furniture projections without an incorrect focal length.",
+            "predicted_probe_phenomenon": "Increasing the lens by 1.1 would further enlarge the furniture while preserving the existing perspective relationships.",
+            "predicted_direction": "worsen"
+          }
+        ],
+        "probe_reason": "At fixed pose and geometry, multiplying the lens by 1.1 should worsen the observed enlargement under the leading hypothesis. Tracking furniture and room landmarks tests a shared magnification response, but all listed explanations predict worsening, so this probe cannot uniquely distinguish focal length, distance, and geometry scale."
+      },
+      "execution": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": null,
+          "mesh_names": [],
+          "group_name": null
+        },
+        "target_mesh_visibility_before": [],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 74.19999694824219,
+        "focal_length_after": 81.6199951171875,
+        "geometry_unchanged": true,
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.7246517351547919,
+        "lpips": 0.44606828689575195,
+        "dino": 0.9469776749610901,
+        "psnr": 20.313278535820032,
+        "overall": 0.750690761913195
+      },
+      "quality_delta": -0.04324194894557187,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case02",
+        "test": "camera_framing",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "meaning": "Camera validity only; no reference framing ground truth"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case02",
+        "test": "known_support",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "rows": [
+          {
+            "pair": {
+              "object": "Box.002",
+              "support": "Box.006"
+            },
+            "normalized_vertical_gap": 0.0,
+            "footprint_overlap_approx": true,
+            "measured_pass": true
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case02",
+        "test": "hierarchy_parts",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    }
+  ]
+}

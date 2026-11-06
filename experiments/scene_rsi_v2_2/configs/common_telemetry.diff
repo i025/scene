@@ -1,0 +1,92 @@
+--- v2_1/backend/runtime.py
++++ v2_2/backend/runtime.py
+@@ -62,6 +62,7 @@
+         folder.mkdir(parents=True)
+         (folder / 'build.py').write_text(code)
+         settings, environment = render_settings(self.config, folder)
++        environment['SCENE_RSI_TELEMETRY'] = str(folder / 'stage_events.jsonl')
+         settings.update(threads=2, width=self.task['width'], height=self.task['height'])
+         write_json(folder / 'render_settings.json', settings)
+         command = [self.config['blender']['executable'], '--background', '-noaudio', '--factory-startup',
+@@ -70,6 +71,7 @@
+                    '--output-dir', str(folder)]
+         self.log({'event': 'execute', 'step': self.executions, 'code': code, 'command': command})
+         error = None
++        execution_started = time.monotonic()
+         try:
+             with (folder / 'stdout.log').open('w') as stdout, (folder / 'stderr.log').open('w') as stderr:
+                 subprocess.run(command, cwd=folder, stdout=stdout, stderr=stderr, check=True,
+@@ -83,6 +85,7 @@
+         except Exception as exc:
+             error = repr(exc)
+         result = {'ok': error is None, 'step': self.executions, 'error': error,
++                  'seconds': time.monotonic() - execution_started,
+                   'stdout': (folder / 'stdout.log').read_text(errors='replace') if (folder / 'stdout.log').exists() else '',
+                   'stderr': (folder / 'stderr.log').read_text(errors='replace') if (folder / 'stderr.log').exists() else '',
+                   'image': str(folder / 'final.png') if error is None else None}
+--- v2_1/backend/render.py
++++ v2_2/backend/render.py
+@@ -8,6 +8,7 @@
+ 
+ def render_scene(output_dir, settings):
+     import bpy
++    from telemetry import event
+     scene = bpy.context.scene
+     if scene.camera is None:
+         raise ValueError('Scene needs a camera matching the input photograph')
+@@ -38,8 +39,15 @@
+     scene.render.image_settings.color_depth = '8'
+     scene.render.filepath = str(output_dir / 'final.png')
+     # Save and render the identical scene. No calibration or forced camera pose.
++    meshes = [o for o in scene.objects if o.type == 'MESH']
++    event('scene_built', meshes=len(meshes), vertices=sum(len(o.data.vertices) for o in meshes),
++          polygons=sum(len(o.data.polygons) for o in meshes),
++          remaining_boolean_modifiers=sum(m.type == 'BOOLEAN' for o in meshes for m in o.modifiers))
++    event('save_started')
+     bpy.ops.wm.save_as_mainfile(filepath=str(output_dir / 'scene.blend'))
++    event('render_started')
+     bpy.ops.render.render(write_still=True)
++    event('render_completed')
+     (output_dir / 'camera.json').write_text(json.dumps({
+         'matrix_world': [list(row) for row in scene.camera.matrix_world],
+         'lens': scene.camera.data.lens, 'type': scene.camera.data.type,
+@@ -55,7 +63,9 @@
+     parser.add_argument('--validate-only', action='store_true')
+     args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
+     sys.path.insert(0, str(Path(__file__).resolve().parent))
++    from telemetry import event
+     if args.code:
++        event('python_validation_started')
+         tree=ast.parse(args.code.read_text())
+         for node in ast.walk(tree):
+             if isinstance(node,(ast.Import,ast.ImportFrom)):
+@@ -64,7 +74,9 @@
+             if isinstance(node,ast.Call):
+                 if isinstance(node.func,ast.Name) and node.func.id in {'exec','eval','open','__import__','compile'}:raise ValueError('Scene program external execution/file IO is prohibited')
+                 if isinstance(node.func,ast.Attribute) and node.func.attr in {'render','save_as_mainfile','open_mainfile','load'}:raise ValueError('Scene program must not render, save or load external files')
++        event('scene_build_started')
+         runpy.run_path(str(args.code), run_name='__sceneact_build__')
++        event('scene_build_completed')
+     else:
+         import bpy
+         bpy.ops.wm.open_mainfile(filepath=str(args.scene))
+--- v2_1/backend/sceneact/blender_scene.py
++++ v2_2/backend/sceneact/blender_scene.py
+@@ -85,12 +85,17 @@
+             result=meshes[0]
+             mode={'union':'UNION','intersection':'INTERSECT','difference':'DIFFERENCE'}[node.operation]
+             for tool in meshes[1:]:
++                from telemetry import event
+                 bpy.context.view_layer.objects.active=result
+                 modifier=result.modifiers.new('SceneActCSG','BOOLEAN')
+                 modifier.operation=mode
+                 modifier.object=tool
+                 modifier.solver='EXACT'
++                event('boolean_started', operation=mode, object_id=result.name,
++                      vertices=len(result.data.vertices), tool_vertices=len(tool.data.vertices))
+                 bpy.ops.object.modifier_apply(modifier=modifier.name)
++                event('boolean_completed', operation=mode, object_id=result.name,
++                      vertices=len(result.data.vertices))
+                 bpy.data.objects.remove(tool,do_unlink=True)
+             objects.append(result)
+         else:

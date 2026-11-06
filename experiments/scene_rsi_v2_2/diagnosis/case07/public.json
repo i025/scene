@@ -1,0 +1,35 @@
+{
+  "scene_id": "case07",
+  "variant": 6,
+  "nominal_parameters": {
+    "lens": 58,
+    "scale": [
+      1,
+      1,
+      1
+    ],
+    "visible": true,
+    "support_z": 0.0,
+    "rgba": [
+      0.04,
+      0.12,
+      0.72,
+      1
+    ]
+  },
+  "edit_observation": {
+    "applicable": true,
+    "measured_pass": true,
+    "target": "Box",
+    "non_target": {
+      "pass": true,
+      "checked_objects": 21,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "meaning": "Execute current shared helper local_material; compare actual object parameters, geometry and shader values, not background pixels"
+  },
+  "public_program": "SceneAct room construction calls frame(camera, lens), size(group, scale), support(group, support_z), show(objects, visible), local_material(target, rgba). No task-conditional dispatch.\ndef frame(camera, nominal_lens):\n    camera.data.lens=nominal_lens\n\ndef size(group, nominal_scale):\n    group.scale=tuple(nominal_scale)\n\ndef show(objects, visible):\n    for obj in objects:obj.hide_render=not visible\n\ndef support(group, nominal_z):\n    group.location.z=nominal_z+.8\n\ndef local_material(obj, rgba):\n    obj.data=obj.data.copy()\n    for i,original in enumerate(list(obj.data.materials)):\n        material=original.copy()\n        obj.data.materials[i]=material\n        material.diffuse_color=rgba\n        material.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=rgba\n",
+  "source_scope": "Auxiliary shared fixture H, not natural-image H0/r1-C2; explicit API contracts can make repair easy."
+}

@@ -1,0 +1,110 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "findings": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scene_id": {
+            "type": "string"
+          },
+          "object_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observation": {
+            "type": "string"
+          },
+          "hypothesis": {
+            "type": "string"
+          },
+          "probe": {
+            "type": "string",
+            "enum": [
+              "camera_focal",
+              "object_scale",
+              "isolate"
+            ]
+          },
+          "code_module": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "alternatives": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "module": {
+                  "type": "string"
+                },
+                "explanation": {
+                  "type": "string"
+                },
+                "predicted_probe_phenomenon": {
+                  "type": "string"
+                },
+                "predicted_direction": {
+                  "type": "string",
+                  "enum": [
+                    "improve",
+                    "worsen",
+                    "unchanged",
+                    "unknown"
+                  ]
+                }
+              },
+              "required": [
+                "module",
+                "explanation",
+                "predicted_probe_phenomenon",
+                "predicted_direction"
+              ]
+            }
+          },
+          "probe_reason": {
+            "type": "string"
+          },
+          "mapping_evidence": {
+            "type": "string"
+          },
+          "uncertainty": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "scene_id",
+          "object_id",
+          "observation",
+          "hypothesis",
+          "probe",
+          "code_module",
+          "confidence",
+          "alternatives",
+          "probe_reason",
+          "mapping_evidence",
+          "uncertainty"
+        ]
+      }
+    }
+  },
+  "required": [
+    "findings"
+  ]
+}

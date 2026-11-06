@@ -1,0 +1,159 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case03",
+        "object_id": "PrimaryItem",
+        "hypothesis": "The chair group has insufficient uniform scale. The public size() function multiplies nominal scale by 0.58, consistent with the measured PrimaryItem transform and the visible reduction.",
+        "observation": "The reconstruction chair is substantially smaller: its seat is narrower and its back reaches much lower than in the reference. The green block and room framing appear essentially unchanged.",
+        "probe": "object_scale",
+        "code_module": "object_parameters",
+        "alternatives": [
+          {
+            "module": "camera",
+            "explanation": "Camera projection could contribute to the apparent size mismatch, though the matching block and room make a global focal error less plausible.",
+            "predicted_probe_phenomenon": "Scaling only the chair by 1.1 partially improves its apparent size while leaving any camera-related room or block errors unresolved.",
+            "predicted_direction": "improve"
+          },
+          {
+            "module": "part_dependencies",
+            "explanation": "Coordinated undersizing of the chair's component geometry could produce a similar silhouette independently of the parent scale.",
+            "predicted_probe_phenomenon": "The entire chair grows and its overall size discrepancy decreases, but any incorrect internal proportions persist.",
+            "predicted_direction": "improve"
+          }
+        ],
+        "probe_reason": "Increase PrimaryItem by 1.1 about its geometry AABB center at fixed camera. This tests whether selective enlargement improves the chair-to-block size relationship while preserving room framing. Both alternatives can also show partial improvement, so this probe cannot uniquely identify the responsible module."
+      },
+      "execution": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "PrimaryItem",
+          "mesh_names": [
+            "Box",
+            "Box.001",
+            "Box.002",
+            "Box.003",
+            "Box.004",
+            "Box.005"
+          ],
+          "group_name": "PrimaryItem"
+        },
+        "target_mesh_visibility_before": [
+          {
+            "object_id": "Box",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.001",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.002",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.003",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.004",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.005",
+            "hide_render": false
+          }
+        ],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          0.5799999833106995,
+          0.5799999833106995,
+          0.5799999833106995
+        ],
+        "scale_after": [
+          0.6380000114440918,
+          0.6380000114440918,
+          0.6380000114440918
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          0.0,
+          0.0,
+          0.7829999923706055
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.9182370224658863,
+        "lpips": 0.15622888505458832,
+        "dino": 0.9275203943252563,
+        "psnr": 26.303845534376965,
+        "overall": 0.9085894448579754
+      },
+      "quality_delta": 0.0059080288592024965,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case03",
+        "test": "camera_framing",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "meaning": "Camera validity only; no reference framing ground truth"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case03",
+        "test": "known_support",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "rows": [
+          {
+            "pair": {
+              "object": "Box.002",
+              "support": "Box.006"
+            },
+            "normalized_vertical_gap": 0.0,
+            "footprint_overlap_approx": true,
+            "measured_pass": true
+          }
+        ],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case03",
+        "test": "hierarchy_parts",
+        "reason": "Check actual current H behavior and declared relations related to the visual hypotheses; unknown applicability remains measurable, not passing"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case03",
+    "object_id": "PrimaryItem",
+    "observation": "The reconstruction chair is substantially smaller: its seat is narrower and its back reaches much lower than in the reference. The green block and room framing appear essentially unchanged.",
+    "hypothesis": "The chair group has insufficient uniform scale. The public size() function multiplies nominal scale by 0.58, consistent with the measured PrimaryItem transform and the visible reduction.",
+    "probe": "object_scale",
+    "code_module": "object_parameters",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "camera",
+        "explanation": "Camera projection could contribute to the apparent size mismatch, though the matching block and room make a global focal error less plausible.",
+        "predicted_probe_phenomenon": "Scaling only the chair by 1.1 partially improves its apparent size while leaving any camera-related room or block errors unresolved.",
+        "predicted_direction": "improve"
+      },
+      {
+        "module": "part_dependencies",
+        "explanation": "Coordinated undersizing of the chair's component geometry could produce a similar silhouette independently of the parent scale.",
+        "predicted_probe_phenomenon": "The entire chair grows and its overall size discrepancy decreases, but any incorrect internal proportions persist.",
+        "predicted_direction": "improve"
+      }
+    ],
+    "probe_reason": "Increase PrimaryItem by 1.1 about its geometry AABB center at fixed camera. This tests whether selective enlargement improves the chair-to-block size relationship while preserving room framing. Both alternatives can also show partial improvement, so this probe cannot uniquely identify the responsible module.",
+    "mapping_evidence": "The bounds overlay associates PrimaryItem with the chair; its descendants comprise the blue seat Box, green back Box.001, and four leg meshes Box.002–Box.005. This mapping uses geometry, materials, and hierarchy rather than the target-selection rule.",
+    "uncertainty": "The size discrepancy is clear, but reference transforms are unavailable and no probe has been executed. The 10% increase is smaller than the visible mismatch. Center-based scaling also lowers the feet below their current floor-contact plane, so support artifacts would be a probe side effect rather than proof of an existing support fault."
+  }
+]

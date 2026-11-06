@@ -1,0 +1,43 @@
+{
+  "frozen_utc_epoch": 1793933617.5552905,
+  "H_versions": [
+    "fixed_h/H0",
+    "fixed_h/r1_C2"
+  ],
+  "H_source": {
+    "git_base": "3a593b3b33d94d7ebc702e316aa8ab1716db156a",
+    "original_runtime": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_1",
+    "H0": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_1/backend/harnesses/baseline",
+    "r1_C2": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_1/candidates/r1/scene_rsi_v2_1/C2",
+    "H_copied_files": [
+      "policy.py",
+      "system.txt"
+    ],
+    "M_control": "__SERVER_USER_ROOT__/Documents/Codex/2026-11-02/scene-rsi-rsi-1-3d-blender/outputs/scene_rsi_v2_1/initial_meta/scene_rsi_v2_1/meta.py",
+    "sceneact": "V2.1 runtime backend/sceneact; instrumentation only in V2.2"
+  },
+  "n_scenes": 6,
+  "repetitions": 2,
+  "scheduled_reconstructions": 24,
+  "configuration": "config.json",
+  "CLI_upper_forecast": {
+    "smoke_measured": 3,
+    "A": 72,
+    "C_common_localization": 10,
+    "C_repairs": 20,
+    "extra_reserve": 20,
+    "total_upper": 125,
+    "cap": 180
+  },
+  "frame_upper_forecast": 360,
+  "frame_cap": 600,
+  "wall_forecast": "A generation at most 24*600s = 4h, plus CPU metrics/mechanical measurements; single heavy job; no unallocated GPU",
+  "remote_sampling_seed": null,
+  "failure_raw_metrics": null,
+  "failure_utility": 0,
+  "quality": "V2.1 Q: (clip(SSIM,0,1)+1-clip(LPIPS,0,1)+(1+clip(DINO,-1,1))/2)/3",
+  "pairing": "scene_id and repetition; Q difference only both valid",
+  "H_change_allowed": false,
+  "M_search": false,
+  "telemetry": "Common timestamp instrumentation only; actual SceneAct Boolean starts/completions, mesh sizes, build/render stages; retained modifiers are not executed operations"
+}

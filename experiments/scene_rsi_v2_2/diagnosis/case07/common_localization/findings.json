@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case07",
+    "object_id": "PrimaryItem",
+    "observation": "The reconstruction chair is about 23 pixels higher than the reference: its back, seat, and feet shift upward together, while the right-hand green block stays approximately aligned. The chair appears to float above the floor.",
+    "hypothesis": "The chair group's support height is excessive. The supplied support function adds 0.8 to nominal_z; reconstruction leg bottoms are at z=0.8 while the floor top is at z=0. This supports a placement error.",
+    "probe": "object_scale",
+    "code_module": "support_relations",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "object_parameters",
+        "explanation": "Incorrect chair dimensions could contribute to the apparent foot clearance and silhouette mismatch.",
+        "predicted_probe_phenomenon": "Scaling PrimaryItem by 1.1 about its geometry AABB center increases width and height. Feet move downward but the back top moves upward; a genuinely undersized chair would gain silhouette coverage.",
+        "predicted_direction": "unknown"
+      },
+      {
+        "module": "camera",
+        "explanation": "Camera framing or pose could shift the chair's projection, although the aligned block and room make a global camera error less likely.",
+        "predicted_probe_phenomenon": "Chair-only scaling leaves the block and room fixed and cannot correct a camera-induced displacement; it expands the chair around its existing center.",
+        "predicted_direction": "worsen"
+      }
+    ],
+    "probe_reason": "The 1.1 centered scale tests dimension sensitivity: under the support-height hypothesis, the feet lower slightly but the top rises farther from the reference, and the elevated center persists. This can distinguish a size contribution from a coherent placement error, but cannot uniquely separate placement from camera pose.",
+    "mapping_evidence": "The blue Seat mesh and green Back and Leg0–Leg3 descendants identify PrimaryItem as the visible chair. Their common upward displacement motivates group-level mapping; selection does not rely on group ordering or size.",
+    "uncertainty": "The visible displacement and supplied geometry strongly support excess elevation, but the reference has no measured 3D geometry. Bounds are approximate and do not match every visible edge. The probe is proposed, not executed, and cannot establish unique causality."
+  }
+]

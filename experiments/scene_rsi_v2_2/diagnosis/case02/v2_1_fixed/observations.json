@@ -1,0 +1,126 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case02",
+        "object_id": null,
+        "hypothesis": "Excess camera magnification plausibly explains the shared enlargement. The public frame function explicitly sets lens to nominal_lens * 1.4.",
+        "observation": "Both furniture objects are larger in image 2: the chair spans approximately x=49–169 versus x=72–158 in image 1, and the green block spans x=171–228 versus x=159–199. The chair also extends higher and lower.",
+        "code_module": "camera",
+        "probe": "camera_focal",
+        "alternatives": [
+          {
+            "module": "object_parameters",
+            "explanation": "Both furniture objects could have oversized geometry relative to the reference.",
+            "predicted_probe_phenomenon": "Increasing the lens by 1.1 would further enlarge both oversized silhouettes and also magnify room features.",
+            "predicted_direction": "worsen"
+          },
+          {
+            "module": "camera",
+            "explanation": "A camera positioned too close could also produce larger furniture projections without an incorrect focal length.",
+            "predicted_probe_phenomenon": "Increasing the lens by 1.1 would further enlarge the furniture while preserving the existing perspective relationships.",
+            "predicted_direction": "worsen"
+          }
+        ],
+        "probe_reason": "At fixed pose and geometry, multiplying the lens by 1.1 should worsen the observed enlargement under the leading hypothesis. Tracking furniture and room landmarks tests a shared magnification response, but all listed explanations predict worsening, so this probe cannot uniquely distinguish focal length, distance, and geometry scale."
+      },
+      "execution": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": null,
+          "mesh_names": [],
+          "group_name": null
+        },
+        "target_mesh_visibility_before": [],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 74.19999694824219,
+        "focal_length_after": 81.6199951171875,
+        "geometry_unchanged": true,
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.7246517351547919,
+        "lpips": 0.44606828689575195,
+        "dino": 0.9469776749610901,
+        "psnr": 20.313278535820032,
+        "overall": 0.750690761913195
+      },
+      "quality_delta": -0.04324194894557187,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case02",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case02",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 21,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case02",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 5.960464477539063e-08,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 9,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

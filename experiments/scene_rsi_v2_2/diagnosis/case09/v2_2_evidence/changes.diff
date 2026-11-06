@@ -1,0 +1,50 @@
+--- shared_H0.py
++++ shared_H_repaired.py
+@@ -1,19 +1,37 @@
+ def frame(camera, nominal_lens):
+-    camera.data.lens=nominal_lens
++    camera.data.lens = nominal_lens
++
+ 
+ def size(group, nominal_scale):
+-    group.scale=tuple(nominal_scale)
++    group.scale = tuple(nominal_scale)
++
+ 
+ def show(objects, visible):
+-    for obj in objects:obj.hide_render=not visible
++    for obj in objects:
++        obj.hide_render = not visible
++
+ 
+ def support(group, nominal_z):
+-    group.location.z=nominal_z
++    group.location.z = nominal_z
++
+ 
+ def local_material(obj, rgba):
+-    obj.data=obj.data
+-    for i,original in enumerate(list(obj.data.materials)):
+-        material=original
+-        obj.data.materials[i]=material
+-        material.diffuse_color=rgba
+-        material.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=rgba
++    rgba = tuple(rgba)
++    # Capture effective materials, including object-linked overrides.
++    originals = [slot.material for slot in obj.material_slots]
++    # Isolate data-linked slot assignments without changing geometry.
++    obj.data = obj.data.copy()
++    copies = {}
++    for slot, original in zip(obj.material_slots, originals):
++        if original is None:
++            continue
++        key = original.as_pointer()
++        if key not in copies:
++            material = original.copy()
++            material.diffuse_color = rgba
++            if material.node_tree is not None:
++                for node in material.node_tree.nodes:
++                    if node.type == 'BSDF_PRINCIPLED':
++                        node.inputs['Base Color'].default_value = rgba
++            copies[key] = material
++        slot.material = copies[key]

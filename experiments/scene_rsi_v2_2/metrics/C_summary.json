@@ -1,0 +1,123 @@
+{
+  "v2_1_fixed": {
+    "scheduled": 10,
+    "terminal": 10,
+    "not_started": 0,
+    "actual_repair_results": 10,
+    "object_hit_top1": {
+      "passed": 6,
+      "measured_n": 8,
+      "applicable_scheduled": 8
+    },
+    "module_hit_top1": {
+      "passed": 9,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "module_hit_any": {
+      "passed": 9,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "final_module_hit": {
+      "passed": 2,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "final_module_related_hit": {
+      "passed": 8,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "source_repair_measured_pass": {
+      "passed": 10,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "transfer_measured_pass": {
+      "passed": 10,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "own_repair_cli_sessions": 10,
+    "probes_requested": 9,
+    "probes_executed": 9,
+    "prediction_direction_discrimination": {
+      "passed": 0,
+      "measured_n": 5
+    },
+    "decision_changed_by_observations": {
+      "changed": 6,
+      "measured_n": 10
+    },
+    "shared_visual_sessions_seen": 10,
+    "allocated_cli_sessions": 15.0,
+    "own_render_attempts": 29,
+    "source_utility_all_scheduled": 1.0,
+    "transfer_utility_all_scheduled": 1.0
+  },
+  "v2_2_evidence": {
+    "scheduled": 10,
+    "terminal": 10,
+    "not_started": 0,
+    "actual_repair_results": 10,
+    "object_hit_top1": {
+      "passed": 6,
+      "measured_n": 8,
+      "applicable_scheduled": 8
+    },
+    "module_hit_top1": {
+      "passed": 9,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "module_hit_any": {
+      "passed": 9,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "final_module_hit": {
+      "passed": 6,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "final_module_related_hit": {
+      "passed": 6,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "source_repair_measured_pass": {
+      "passed": 10,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "transfer_measured_pass": {
+      "passed": 10,
+      "measured_n": 10,
+      "applicable_scheduled": 10
+    },
+    "own_repair_cli_sessions": 10,
+    "probes_requested": 9,
+    "probes_executed": 9,
+    "prediction_direction_discrimination": {
+      "passed": 0,
+      "measured_n": 5
+    },
+    "decision_changed_by_observations": {
+      "changed": 6,
+      "measured_n": 10
+    },
+    "shared_visual_sessions_seen": 10,
+    "allocated_cli_sessions": 15.0,
+    "own_render_attempts": 29,
+    "source_utility_all_scheduled": 1.0,
+    "transfer_utility_all_scheduled": 1.0
+  },
+  "interpretation": {
+    "tasks": "10 parameterized rooms from two controlled template families, 5 fault types x2; not 10 natural scene samples",
+    "localizer": "One common astra image call per case. Same output delivered to both fixed M programs; shared cost split equally only for accounting.",
+    "repair": "One astra coding opportunity per arm/case with identical public API contract hints; any helper module may be repaired even if M is wrong/unresolved.",
+    "discrimination": "Match to a unique pre-probe predicted Q direction among stated alternatives; not unique causal truth, isolation full-image Q excluded.",
+    "transfer": "New helper parameters, geometry width, names and mesh/material sharing; not proof of natural-image reconstruction transfer or M self-improvement."
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "method": "fixed_h",
+  "run_id": "r2",
+  "scene_id": "commons_192968130",
+  "split": "fixed_version_test",
+  "candidate_id": "H0",
+  "parent_id": null,
+  "H_version": "fixed_h/H0",
+  "M_version": null,
+  "model_roles": {
+    "student": "gpt-6.1-sol/medium",
+    "meta": "gpt-6-astra/medium",
+    "editor": "gpt-6.1-sol/medium",
+    "judge": "gpt-6-astra/medium"
+  },
+  "status": "complete",
+  "metrics": {
+    "valid": true,
+    "ssim": 0.24358989145264517,
+    "lpips": 0.6529029011726379,
+    "dino": 0.783876895904541,
+    "psnr": 9.856446932955647,
+    "overall": 0.49420847941075924
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "material": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "composite": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      },
+      "declared_parts": {
+        "required": true,
+        "applicable": true,
+        "measured_pass": true,
+        "gate_pass": true
+      }
+    },
+    "functional_pass": true,
+    "structure_pass": true,
+    "material_pass": true,
+    "composite_required": true,
+    "composite_pass": true,
+    "target_object": "burner_0",
+    "geometry": {
+      "hierarchy_parts": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 5,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      },
+      "known_support": {
+        "applicable": false,
+        "measured_pass": null,
+        "rows": [],
+        "meaning": "Declared support; normalized AABB contact approximation, not true mesh support"
+      },
+      "mesh_intersection": {
+        "applicable": true,
+        "measured_pass": null,
+        "crossings": [
+          {
+            "objects": [
+              "Box.001",
+              "Box.002"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.001",
+              "Box.003"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.002",
+              "Box.003"
+            ],
+            "triangle_pairs": 8
+          },
+          {
+            "objects": [
+              "Box.040",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.041",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.042",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.043",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.044",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.045",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.046",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.047",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.048",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.049",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.050",
+              "Box.051"
+            ],
+            "triangle_pairs": 6
+          },
+          {
+            "objects": [
+              "Box.051",
+              "Box.052"
+            ],
+            "triangle_pairs": 4
+          },
+          {
+            "objects": [
+              "Box.053",
+              "Box.055"
+            ],
+            "triangle_pairs": 10
+          },
+          {
+            "objects": [
+              "Box.054",
+              "Box.055"
+            ],
+            "triangle_pairs": 10
+          },
+          {
+            "objects": [
+              "Box.056",
+              "Ball"
+            ],
+            "triangle_pairs": 36
+          }
+        ],
+        "narrow_phase_pairs": 18,
+        "mesh_count": 1190,
+        "tested_mesh_count": 64,
+        "meaning": "Triangle surface crossings; intended joints may also intersect. No containment test or semantic collision truth; supplemental, not hard gate"
+      }
+    },
+    "semantic_object_completeness": null,
+    "support_collision_truth": null,
+    "interpretation": "Mechanical operations; emitted-part integrity; natural-image semantic completeness unknown. Optional failed checks retained but do not gate."
+  },
+  "target_object": "burner_0",
+  "device": "CPU",
+  "seconds": 612.0034242952242,
+  "usage": {
+    "calls": 3,
+    "input_tokens": 115571,
+    "output_tokens": 9848,
+    "cached_input_tokens": 16384,
+    "total_tokens": 125419,
+    "seconds": 271.1279233004898,
+    "cost_usd": "unknown",
+    "executions": 2
+  },
+  "runtime_status": {
+    "error": null,
+    "seconds": 572.5942878890783
+  },
+  "failure_type": null,
+  "resource_wait_seconds": 0,
+  "service_queue_seconds": null,
+  "folder": "__EXPERIMENT_ROOT__/results/r2/fixed_h/H0/fixed_version_test/commons_192968130",
+  "selected": null,
+  "device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "render_device_history": [
+    {
+      "device": "CPU",
+      "cuda_visible_devices": "",
+      "gpu_uuid": null,
+      "gpu_index": null,
+      "enabled_cycles_devices": []
+    }
+  ],
+  "functional_device_mapping": {
+    "device": "CPU",
+    "cuda_visible_devices": "",
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "enabled_cycles_devices": []
+  },
+  "task_utility_v2": 0.49420847941075924
+}

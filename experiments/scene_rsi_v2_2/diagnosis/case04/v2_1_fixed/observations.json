@@ -1,0 +1,174 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case04",
+        "object_id": "PrimaryItem",
+        "hypothesis": "Excessive chair group scale is a plausible cause. The public size() function multiplies nominal scale by 1.45, consistent with the enlarged seat, back, and legs.",
+        "observation": "The chair is substantially wider and taller in image 2: its back reaches near the top edge, and its seat extends farther toward the green block. The block and room corner remain approximately the same size and position.",
+        "code_module": "object_parameters",
+        "probe": "object_scale",
+        "alternatives": [
+          {
+            "module": "camera",
+            "explanation": "Camera magnification or pose could make the chair appear larger, although the relatively stable block and background weaken a global magnification explanation.",
+            "predicted_probe_phenomenon": "Scaling PrimaryItem by 1.1 enlarges only the chair further; the block and room geometry remain fixed, worsening chair size without correcting a camera mismatch.",
+            "predicted_direction": "worsen"
+          },
+          {
+            "module": "part_dependencies",
+            "explanation": "Coordinated dimensions or offsets of the chair's constituent parts could also produce an oversized silhouette.",
+            "predicted_probe_phenomenon": "The entire chair expands further, preserving internal proportions; any underlying part proportion errors persist.",
+            "predicted_direction": "worsen"
+          }
+        ],
+        "probe_reason": "Multiply PrimaryItem by 1.1 about its geometry AABB center at fixed camera. Predict further enlargement and increased overlap with the block. This tests local scale sensitivity, but all listed causes can worsen under this probe, so it cannot uniquely distinguish them. Centered scaling may also move feet below the floor; that side effect is not evidence of the original cause."
+      },
+      "execution": {
+        "probe": "object_scale",
+        "target_selection": {
+          "object": "PrimaryItem",
+          "mesh_names": [
+            "Box",
+            "Box.001",
+            "Box.002",
+            "Box.003",
+            "Box.004",
+            "Box.005"
+          ],
+          "group_name": "PrimaryItem"
+        },
+        "target_mesh_visibility_before": [
+          {
+            "object_id": "Box",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.001",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.002",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.003",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.004",
+            "hide_render": false
+          },
+          {
+            "object_id": "Box.005",
+            "hide_render": false
+          }
+        ],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "scale_before": [
+          1.4500000476837158,
+          1.4500000476837158,
+          1.4500000476837158
+        ],
+        "scale_after": [
+          1.5950000286102295,
+          1.5950000286102295,
+          1.5950000286102295
+        ],
+        "scale_factor": 1.1,
+        "pivot_world_scene_units": [
+          0.0,
+          0.0,
+          1.9574999809265137
+        ],
+        "pivot_rule": "Target geometry AABB center; avoids moving geometry center when SceneAct group origin is world zero",
+        "fixed_camera": true,
+        "non_target_preserved": true,
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_object_scale.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.7706227751481544,
+        "lpips": 0.3394257724285126,
+        "dino": 0.8635163307189941,
+        "psnr": 19.82630058217453,
+        "overall": 0.7876517226930463
+      },
+      "quality_delta": -0.036543093982039476,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case04",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case04",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 21,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case04",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 5.960464477539063e-08,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 9,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "probes": [],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case08",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": false,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [
+          {
+            "parent": "PrimaryItem",
+            "child": "Back"
+          }
+        ],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case08",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 21,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case08",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": false,
+        "relative_matrix_error": 0.0,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 11,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": false,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [
+            {
+              "parent": "PrimaryItem",
+              "child": "Back"
+            }
+          ],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

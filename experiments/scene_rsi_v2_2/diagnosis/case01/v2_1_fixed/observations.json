@@ -1,0 +1,126 @@
+{
+  "probes": [
+    {
+      "request": {
+        "scene_id": "case01",
+        "object_id": null,
+        "hypothesis": "An overly short camera lens contributes to the reduced scene occupancy. The supplied frame() explicitly sets the lens to nominal_lens * .68.",
+        "observation": "The reconstruction is framed much wider: the chair and green block appear substantially smaller, and the wall’s top and right edges are visible where the reference crops them out.",
+        "code_module": "camera",
+        "probe": "camera_focal",
+        "alternatives": [
+          {
+            "module": "camera",
+            "explanation": "Excessive camera distance could also make both objects appear smaller.",
+            "predicted_probe_phenomenon": "Increasing the existing lens by 1.1 enlarges both objects and tightens the room crop, partially improving framing even if camera distance is responsible; perspective differences remain.",
+            "predicted_direction": "improve"
+          },
+          {
+            "module": "object_parameters",
+            "explanation": "The chair and block could both have undersized geometry relative to the room.",
+            "predicted_probe_phenomenon": "The 1.1 lens change improves their apparent sizes but also enlarges the room; incorrect object-to-room proportions remain.",
+            "predicted_direction": "improve"
+          }
+        ],
+        "probe_reason": "At fixed pose and geometry, a 1.1 lens multiplier should move the shared size and crop discrepancy toward the reference. Comparing room boundaries alongside both objects can help distinguish global framing from object sizing, but this probe cannot uniquely separate focal length from camera distance."
+      },
+      "execution": {
+        "probe": "camera_focal",
+        "target_selection": {
+          "object": null,
+          "mesh_names": [],
+          "group_name": null
+        },
+        "target_mesh_visibility_before": [],
+        "interpretation": "Controlled observation, not proof of causal attribution or true 3D accuracy",
+        "focal_length_before": 35.36000061035156,
+        "focal_length_after": 38.895999908447266,
+        "geometry_unchanged": true,
+        "probe_blend": "probe_scene.blend",
+        "original_scene_not_modified": true,
+        "status": "completed",
+        "images": [
+          "probe_camera_focal.png"
+        ],
+        "render_attempts": 1
+      },
+      "visual_metrics": {
+        "valid": true,
+        "ssim": 0.7842939504684917,
+        "lpips": 0.3297085762023926,
+        "dino": 0.9330310225486755,
+        "psnr": 21.990592455199852,
+        "overall": 0.807033628513479
+      },
+      "quality_delta": 0.03184005382045374,
+      "interpretation": "Controlled sensitivity, not unique causal attribution"
+    }
+  ],
+  "regression": [
+    {
+      "request": {
+        "scene_id": "case01",
+        "test": "hierarchy_parts",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "declared_groups": 2,
+        "missing": [],
+        "detached": [],
+        "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case01",
+        "test": "material_preservation",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "target_success": true,
+        "target_geometry_preserved": true,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 21,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "target": "Box",
+        "adapter": "Execute current shared H local_material on a temporary in-memory scene; not the safe ib.set_blue operation"
+      }
+    },
+    {
+      "request": {
+        "scene_id": "case01",
+        "test": "composite_move",
+        "reason": "Observed module and candidate diff risk"
+      },
+      "result": {
+        "applicable": true,
+        "measured_pass": true,
+        "relative_matrix_error": 0.0,
+        "non_target": {
+          "pass": true,
+          "checked_objects": 9,
+          "changed_fields": {},
+          "added_objects": [],
+          "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+        },
+        "declared_integrity": {
+          "applicable": true,
+          "measured_pass": true,
+          "declared_groups": 2,
+          "missing": [],
+          "detached": [],
+          "meaning": "Integrity of emitted part declarations; not completeness against reference image"
+        },
+        "type": "mechanical_not_text"
+      }
+    }
+  ]
+}

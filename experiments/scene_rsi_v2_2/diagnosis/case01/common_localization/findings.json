@@ -1,0 +1,28 @@
+[
+  {
+    "scene_id": "case01",
+    "object_id": null,
+    "observation": "The reconstruction is framed much wider: the chair and green block appear substantially smaller, and the wall’s top and right edges are visible where the reference crops them out.",
+    "hypothesis": "An overly short camera lens contributes to the reduced scene occupancy. The supplied frame() explicitly sets the lens to nominal_lens * .68.",
+    "probe": "camera_focal",
+    "code_module": "camera",
+    "confidence": "high",
+    "alternatives": [
+      {
+        "module": "camera",
+        "explanation": "Excessive camera distance could also make both objects appear smaller.",
+        "predicted_probe_phenomenon": "Increasing the existing lens by 1.1 enlarges both objects and tightens the room crop, partially improving framing even if camera distance is responsible; perspective differences remain.",
+        "predicted_direction": "improve"
+      },
+      {
+        "module": "object_parameters",
+        "explanation": "The chair and block could both have undersized geometry relative to the room.",
+        "predicted_probe_phenomenon": "The 1.1 lens change improves their apparent sizes but also enlarges the room; incorrect object-to-room proportions remain.",
+        "predicted_direction": "improve"
+      }
+    ],
+    "probe_reason": "At fixed pose and geometry, a 1.1 lens multiplier should move the shared size and crop discrepancy toward the reference. Comparing room boundaries alongside both objects can help distinguish global framing from object sizing, but this probe cannot uniquely separate focal length from camera distance.",
+    "mapping_evidence": "This is a scene-wide framing observation, so no mesh attribution is required. The visible chair and separate green block correspond to PrimaryItem and Sideboard through their hierarchy, materials, and approximate bounds. The supplied frame() provides direct evidence of a lens multiplier.",
+    "uncertainty": "The visible framing discrepancy is clear, but the nominal lens and reference camera are unknown. The .68 multiplier is suggestive, not proof of unique causality. A 10% increase likely provides only partial improvement; predictions have not been tested."
+  }
+]
