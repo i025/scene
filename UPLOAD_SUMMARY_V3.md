@@ -10,9 +10,9 @@ H请求模型 gpt-6.1-terra / medium；M与共享编码 gpt-6-astra / medium；�
 CPU 8，内存上限 32 GB，Blender 1×8线程，CPU-only，未使用GPU（数量0）。
 H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样下界，阶段时长不相加作总墙钟。
 
-正式场景记录 58；有效执行 58，终测状态 partially_completed，已结束记录 1。
+正式场景记录 63；有效执行 62，终测状态 partially_completed，已结束记录 6。
 终测重复计划：{"repeats": 2, "source": "test_repeat_plan.json", "finalized": true}。未开始/缺测保持null，服务评价失败与生成失败分开。
-生成失败分类：{}；外部评价失败：{"external_judge_failure": 1}。
+生成失败分类：{"model_call_timeout": 1}；外部评价失败：{"external_judge_failure": 1}。
 
 | 划分 / H | 全预定 | 执行完成 / 成功 | BW覆盖 | 条件BW | 条件Q | 端到端BW效用 |
 |---|---:|---|---:|---:|---:|---:|
@@ -22,20 +22,21 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 | selection / H03 | 3 | 3 / 3 | 3 | 29.9927 | 0.3827 | 29.9927 |
 | development / H04 | 12 | 12 / 12 | 12 | 76.9213 | 0.4428 | 76.9213 |
 | selection / H04 | 3 | 3 / 3 | 3 | 37.8952 | 0.3520 | 37.8952 |
+| test / H04 | 12 | 3 / 2 | 2 | 39.4062 | 0.3761 | pending/null |
 | selection / H05 | 3 | 3 / 3 | 3 | 31.6594 | 0.3915 | 31.6594 |
 | selection / H06 | 3 | 3 / 3 | 3 | 34.8893 | 0.3542 | 34.8893 |
 | selection / H08 | 3 | 3 / 3 | 3 | 36.4369 | 0.3577 | 36.4369 |
 | selection / H10 | 3 | 3 / 3 | 3 | 34.8893 | 0.3582 | 34.8893 |
 | development / historical_r1_C2_start | 12 | 12 / 12 | 12 | 77.9282 | 0.4413 | 77.9282 |
 | selection / historical_r1_C2_start | 3 | 3 / 3 | 3 | 31.6594 | 0.3659 | 31.6594 |
-| test / historical_r1_C2_start | 12 | 1 / 1 | 1 | 48.4375 | 0.4426 | pending/null |
+| test / historical_r1_C2_start | 12 | 3 / 3 | 3 | 44.6250 | 0.3737 | pending/null |
 
-独立来源配对：0/6 来源、0 对双方成功且已评分的生成；来源等权条件BW差 pending/null。全预定来源的端到端BW效用差 pending/null；完整效用覆盖 0/6。重复和视角不作为独立场景。
+独立来源配对：2/6 来源、2 对双方成功且已评分的生成；来源等权条件BW差 -3.3125。全预定来源的端到端BW效用差 pending/null；完整效用覆盖 1/6。重复和视角不作为独立场景。
 
 [终测逐来源配对数据](experiments/scene_rsi_v3/metrics/paired_test_sources.csv) / [逐生成点](experiments/scene_rsi_v3/metrics/paired_test_generations.csv)。
 
-实际CLI会话 315；usage可见 313/315；已知输入/输出token 27283387/989421（不是缺失部分的估计）。
-主根渲染预算扣额 798；主根+独立回放根联合扣额 798，包括保守预扣；精确实际attempt/completed仍unknown，分来源证据见render_evidence.csv。
+实际CLI会话 332；usage可见 329/332；已知输入/输出token 29178413/1057268（不是缺失部分的估计）。
+主根渲染预算扣额 858；主根+独立回放根联合扣额 858，包括保守预扣；精确实际attempt/completed仍unknown，分来源证据见render_evidence.csv。
 文字编辑状态：{}；机械结构/编辑检查不等于语义目标正确。
 冻结元回放状态：not_recorded，优先读取真实独立收据；原state中的历史字段：None。本工具不从H分数曲线推断元能力，未完成真实回放就不作元能力提升结论。
 
@@ -54,7 +55,7 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 
 主要评价为 **BW-style / CLI-adapted**，不是官方榜单分数；开发preview与正式Selection/Test分开。全部数据是探索性研究，历史暴露和来源独立性限制保留。
 本轮平台与M0属于工程实现；只有实际模型提出、保存diff并执行的H/M变化才属于自动演化。可执行后代与动作复用都不自动等于能力改善。
-原始冻结平台保留：True；实际续跑A03快照保留：True；A04编码修复快照保留：True。整理版分析脚本不替换实际执行的H/M/生成器/评价器快照。
+原始冻结平台保留：True；实际续跑A03快照保留：True；A04编码修复快照保留：True；A05终测续跑快照保留：True。整理版分析脚本不替换实际执行的H/M/生成器/评价器快照。
 
 ## 审查入口
 
@@ -62,6 +63,7 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 - [A01实际平台修订](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_01.md)：公开附件已通过同一入口转发；原偏离记录保留，M0未变。修订在首个BW正式任务和首轮正式M前完成，已有10个H生成结果按相同信息条件复用。
 - [A03实际修订与操作员重跑](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_03.md) / [A03源码](experiments/scene_rsi_v3/code_snapshots/platform_A03/)：首个M提案产生后修复原生照明证据；M提案原样保留、旧产物不覆盖、共同重跑与预算分配明确记录。
 - [A04无损编码修复](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_04.md) / [A04源码](experiments/scene_rsi_v3/code_snapshots/platform_A04/)：第6轮后、第7轮M调用前修复JSON空格触发的证据大小检查；H/M、评分和预算不变，原中断保留。
+- [A05网络恢复与冻结续跑](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_05.md)：保留服务超时失败，不替换样本，原终测前H/M冻结与时间戳不变；不是自动M修改。
 - [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) / [本地HTML](experiments/scene_rsi_v3/reports/index.html)
 - [逐轮](experiments/scene_rsi_v3/metrics/rounds.csv) / [逐场景](experiments/scene_rsi_v3/metrics/scenes.csv) / [动作](experiments/scene_rsi_v3/metrics/actions.csv)
 - [CLI](experiments/scene_rsi_v3/metrics/cli_audit.csv) / [时序](experiments/scene_rsi_v3/metrics/timing.csv) / [渲染记录](experiments/scene_rsi_v3/metrics/render_evidence.csv)
@@ -70,12 +72,12 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 
 ## 上传与尚未完成项
 
-Git发布：push_failed_local_commits_retained；Release：not_uploaded；远端读取确认：not_run。
+Git发布：not_pushed；Release：not_uploaded；远端读取确认：not_run。
 Release实际收据链接：尚无上传成功收据。未获分发许可的BW原始参考及附件保留本地，公开占位不算实验结果。
 可选回放入口：skipped_not_ready；入口是否执行：False；前后保存request计数差 0 次CLI会话。精确底层model_requests=null，不将整条收尾链称为零调用。归档自身模型/Blender调用为0，回放另计。入口退出码0也不自动证明回放完成或元能力提高，实际结果仍以独立回放记录为准。
 改动M内容参与后续研发的保存证据：[{"M_version": "M07", "round": 8, "executed_changed_files": ["actions/appearance_audit.py"]}, {"M_version": "M07", "round": 9, "executed_changed_files": ["actions/appearance_audit.py"]}]；审计状态：changed_content_execution_observed。证据仅到改动入口/模块/动作的实际参与，不是语句覆盖或能力提升。详见[源码与执行关联审计](experiments/scene_rsi_v3/metrics/M_changed_content_execution_audit.json)。
 
-实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/f9025880c9dfd8bc0cd26e130d7e1702ec1ff204)。此链接指向已确定的数据提交，摘要的后续提交不自指。
+实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/8f66c0a92b42cc585194f99911defc65b61be746)。此链接指向已确定的数据提交，摘要的后续提交不自指。
 
 ## 离线与续跑
 
