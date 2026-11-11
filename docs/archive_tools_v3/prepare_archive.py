@@ -158,6 +158,8 @@ def public_text(data, replacements, embedded_specs=()):
 def keep_git(rel, size):
     if rel.name in {'LICENSE', 'COPYING', 'NOTICE'}:
         return True
+    if rel.parts[0]=='figures' and rel.name in SAFE_FIGURES and size<=8_000_000:
+        return True
     if rel.suffix in {'.py', '.sh', '.md', '.diff', '.csv', '.yaml', '.yml', '.toml', '.html', '.css', '.svg'}:
         return size <= 8_000_000
     if rel.suffix == '.json':

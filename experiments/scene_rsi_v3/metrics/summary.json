@@ -5,10 +5,10 @@
   "paired_final_test": {
     "statistical_unit": "independent source, not repeat or view",
     "sources_scheduled": 6,
-    "sources_with_scored_pair": 0,
-    "matched_successful_generation_pairs": 0,
-    "conditional_BW_difference_source_mean": null,
-    "sources_with_complete_utility": 0,
+    "sources_with_scored_pair": 2,
+    "matched_successful_generation_pairs": 2,
+    "conditional_BW_difference_source_mean": -3.3125,
+    "sources_with_complete_utility": 1,
     "all_scheduled_BW_utility_difference_source_mean": null
   },
   "data_source_counts": {
@@ -41,25 +41,26 @@
     },
     "algorithm_gain_comparison": false
   },
-  "raw_scene_records": 60,
+  "raw_scene_records": 65,
   "superseded_selection_records_excluded_from_primary": 2,
-  "scene_records": 58,
+  "scene_records": 63,
   "scene_status_counts": {
-    "completed": 58
+    "completed": 62,
+    "failed": 1
   },
-  "scene_execution_success_count": 58,
-  "scene_execution_success_rate_over_recorded_tasks": 1.0,
+  "scene_execution_success_count": 62,
+  "scene_execution_success_rate_over_recorded_tasks": 0.9841269841269841,
   "scene_all_scheduled_denominator": null,
   "all_scheduled_denominator_note": "No inference from the number of record files; use frozen task schedule",
-  "BW_measured_count": 52,
+  "BW_measured_count": 56,
   "BW_measurement_scope": "Current effective evaluator protocol; superseded pre_A02 measurements are retained in evaluator_revision.csv",
   "BW_pre_A02_scored_record_count": 12,
   "BW_conditional_means_by_split": {
     "development": 77.42476851851852,
     "selection": 33.851264476264475,
-    "test": 48.4375
+    "test": 42.5375
   },
-  "test_completed": 1,
+  "test_completed": 6,
   "test_status": "partially_completed",
   "test_repeat_policy": {
     "repeats": 2,
@@ -69,21 +70,21 @@
   "test_scheduled_sources": 6,
   "test_planned_comparison_slots": 24,
   "test_expected_unique_generations": 24,
-  "test_execution_success_rate_all_scheduled": 0.041666666666666664,
+  "test_execution_success_rate_all_scheduled": 0.20833333333333334,
   "timing_measurement_types": {
-    "process_tree": 946,
-    "numeric_metric_stage": 178
+    "process_tree": 1000,
+    "numeric_metric_stage": 186
   },
   "render_accounting": {
-    "render_budget_charged": 798,
-    "main_render_budget_charged": 798,
+    "render_budget_charged": 858,
+    "main_render_budget_charged": 858,
     "replay_render_budget_charged": null,
-    "combined_render_budget_charged": 798,
-    "render_budget_charge_events": 671,
+    "combined_render_budget_charged": 858,
+    "render_budget_charge_events": 723,
     "render_budget_source": "render_attempts.jsonl",
     "actual_render_attempts_exact": null,
     "actual_render_completed_exact": null,
-    "selected_evidence_scope_count": 316,
+    "selected_evidence_scope_count": 336,
     "selected_recorded_counts_by_source_type": {
       "outer_prelaunch_ledger": {
         "scope_count": 6,
@@ -91,19 +92,19 @@
         "recorded_completed": 3
       },
       "per_view_render_metadata": {
-        "scope_count": 65,
-        "recorded_attempts": 420,
-        "recorded_completed": 420
+        "scope_count": 69,
+        "recorded_attempts": 456,
+        "recorded_completed": 456
       },
       "render_ledger": {
-        "scope_count": 61,
-        "recorded_attempts": 183,
-        "recorded_completed": 183
+        "scope_count": 65,
+        "recorded_attempts": 195,
+        "recorded_completed": 195
       },
       "stage_render_events": {
-        "scope_count": 184,
-        "recorded_attempts": 177,
-        "recorded_completed": 177
+        "scope_count": 196,
+        "recorded_attempts": 189,
+        "recorded_completed": 189
       }
     },
     "same_scope_source_precedence": "per-view metadata, else stage events, else ledger; no duplicate addition within a scope",
@@ -123,17 +124,17 @@
     },
     "coverage_note": "Global guard ledger measures budget charges; functional() reserves 3 even when fewer frames are applicable. Physical renderer counts are not comprehensively instrumented; exact actual totals remain unknown. Recorded counters from different interface semantics are reported separately, not added into an exact total."
   },
-  "cli_sessions": 315,
+  "cli_sessions": 332,
   "cli_by_role": {
-    "judge": 111,
+    "judge": 115,
     "M": 19,
     "preparation": 3,
-    "H": 182
+    "H": 195
   },
-  "known_input_tokens": 27283387,
-  "known_output_tokens": 989421,
-  "usage_coverage_sessions": 313,
-  "usage_total_sessions": 315,
+  "known_input_tokens": 29178413,
+  "known_output_tokens": 1057268,
+  "usage_coverage_sessions": 329,
+  "usage_total_sessions": 332,
   "cost_usd": null,
   "actual_model_request_count": null,
   "actual_M_descendant_count": 1,
@@ -264,6 +265,27 @@
       "function_measured": 3,
       "function_pass": 3,
       "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "H04",
+      "split": "test",
+      "all_scheduled": 12,
+      "planned_repeats": 2,
+      "repeat_plan_source": "test_repeat_plan.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 2,
+      "execution_success_rate_all_scheduled": 0.16666666666666666,
+      "BW_measured": 2,
+      "evaluation_coverage": 0.16666666666666666,
+      "BW_conditional_mean": 39.40625,
+      "Q_conditional_mean": 0.3760533044334604,
+      "end_to_end_BW_utility": null,
+      "function_measured": 3,
+      "function_pass": 2,
+      "independent_sources_observed": 2,
       "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
     },
     {
@@ -399,18 +421,18 @@
       "planned_repeats": 2,
       "repeat_plan_source": "test_repeat_plan.json",
       "repeat_plan_finalized": true,
-      "records_saved": 1,
-      "execution_finished": 1,
-      "execution_success": 1,
-      "execution_success_rate_all_scheduled": 0.08333333333333333,
-      "BW_measured": 1,
-      "evaluation_coverage": 0.08333333333333333,
-      "BW_conditional_mean": 48.4375,
-      "Q_conditional_mean": 0.44255945304634065,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 0.25,
+      "BW_measured": 3,
+      "evaluation_coverage": 0.25,
+      "BW_conditional_mean": 44.625,
+      "Q_conditional_mean": 0.37365595072827523,
       "end_to_end_BW_utility": null,
-      "function_measured": 1,
-      "function_pass": 1,
-      "independent_sources_observed": 1,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 2,
       "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
     }
   ],
@@ -464,7 +486,7 @@
     },
     {
       "path": "figures/cost_and_timing.png",
-      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为798，主根+独立回放根联合扣额为798，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。",
+      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为858，主根+独立回放根联合扣额为858，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。",
       "sources": [
         "metrics/cli_audit.csv",
         "metrics/timing.csv",

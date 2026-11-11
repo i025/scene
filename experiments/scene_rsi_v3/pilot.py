@@ -353,7 +353,12 @@ def run_10_rounds():
         if t in [5,10]:shutil.copytree(mpath(state['M_retained']),ROOT/'code_snapshots'/f'M_round{t:02d}',dirs_exist_ok=True)
     write_json(ROOT/'budget_phase.json',{'phase':'final'})
     state.update(H_best=state['H_retained'],final_selection_frozen=True)
-    write_json(ROOT/'final_selection_freeze.json',{'time':time.time(),'rounds':10,'H_best':state['H_best'],'selection_only':True,'M_final':state['M_retained']})
+    frozen=ROOT/'final_selection_freeze.json'
+    choice={'rounds':10,'H_best':state['H_best'],'selection_only':True,'M_final':state['M_retained']}
+    if frozen.exists():
+        original=read(frozen)
+        if any(original[key]!=value for key,value in choice.items()):raise RuntimeError('Resume cannot change the selection frozen before Final Test')
+    else:write_json(frozen,{'time':time.time(),**choice})
     write_json(ROOT/'state.json',state)
     # Full development endpoints; identical versions deliberately reuse logged artifacts.
     for s in manifest('development'):

@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--commit', required=True)
     parser.add_argument('--repo', type=Path, default=ROOT / 'archive' / 'scene')
     parser.add_argument('--release-state', default='docs/V3_RELEASE_UPLOAD_STATE.json')
-    parser.add_argument('--png', default='experiments/scene_rsi_v3/figures/cpu_benchmark.png')
+    parser.add_argument('--png', default='experiments/scene_rsi_v3/figures/shared_patch_case.png')
     args = parser.parse_args()
     receipt = {'requested_commit': args.commit, 'branch': BRANCH, 'time': time.time(),
                'core_files': [], 'release_assets': [], 'complete': False,

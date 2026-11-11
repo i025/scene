@@ -607,9 +607,15 @@ def plot_shared_patch_case(actions, scenes, rounds, manifest):
         material_summary.append({'object_id':obj['object_id'],'mesh_count':obj['mesh_count'],
                                  'unlinked_input_defaults':{key:sorted(value) for key,value in values.items()},
                                  'linked_inputs':sorted(linked)})
+    compact_pairs=[{'scene_id':pair['scene_id'],**{role:{key:pair[role][key] for key in
+                   ['record_path','H_version','status','BW','Q','functional_pass']} if pair[role] else None
+                   for role in ['parent','candidate']}} for pair in pairs]
     facts={'case_selection':'Post-ten-round illustration: earliest completed action in a round with an H candidate, independent of acceptance or score',
-           'round':number,'action':action,'H_parent':row['H_parent'],'H_candidate':row['H_candidate'],
-           'H_accepted':row['H_accepted'],'proposal':proposal,'selection_pairs':pairs,
+           'round':number,'action_source':action['source'],'action_name':action['action_name'],
+           'action_scene_id':observation['scene_id'],'expectation':action['expected'],
+           'H_parent':row['H_parent'],'H_candidate':row['H_candidate'],
+           'H_accepted':row['H_accepted'],'proposal_source':relative(candidate/'proposal.json'),
+           'M_after_observation':proposal['analysis'],'H_diff_source':relative(candidate/'H.diff'),'selection_pairs':compact_pairs,
            'material_summary':material_summary,'causal_effect_verified':False}
     (ROOT/'metrics/shared_patch_case.json').write_text(json.dumps(facts,ensure_ascii=False,indent=2)+'\n')
     fig,axes=plt.subplots(len(pairs)+1,4,figsize=(17,4*(len(pairs)+1)))
@@ -643,6 +649,28 @@ def plot_shared_patch_case(actions, scenes, rounds, manifest):
              +f"Candidate retained: {row['H_accepted']}. No causal or meta-ability improvement inferred.")
     sources=['metrics/shared_patch_case.json',action['source'],relative(candidate/'proposal.json'),relative(candidate/'H.diff'),'metrics/scenes.csv','metrics/actions.csv','metrics/rounds.csv']
     return figure('shared_patch_case.png','十轮结束后按时间选择最早具有真实动作与共享H候选的研发回合，不按收益挑选；展示全部三张Selection来源。上行是实际开发参考、重建、原生测量与后续代码修改；下行是不同来源的真实产物与指标。只说明程序研发链运行；独立生成的差异不能证明动作的因果收益。只读材质检查没有干预渲染，也不自动确认亮度的唯一原因。',sources)
+
+
+def service_event_rows():
+    rows=[]
+    for path in sorted(ROOT.rglob('request.json')):
+        events=path.with_name('events.jsonl');session_path=path.with_name('session.json')
+        if not events.exists() or not session_path.exists():continue
+        request=read(path);session=read(session_path)
+        for line_number,line in enumerate(events.read_text().splitlines(),1):
+            if not line.strip():continue
+            event=json.loads(line)
+            if event['type']=='error':message=event['message']
+            elif event.get('item',{}).get('type')=='error':message=event['item']['message']
+            else:continue
+            category=('transport_refused' if 'Connection refused' in message else
+                      'model_capacity' if 'at capacity' in message else 'other_CLI_error_event')
+            rows.append({'session_path':relative(path.parent),'role':request['role'],
+                         'requested_model':request['requested_model'],'session_status':session['status'],
+                         'session_seconds':session.get('seconds'),'event_line':line_number,
+                         'event_time':None,'category':category,'message':message,
+                         'model_request_count':None,'interpretation':'Observable service event, not a model inference count or geometry failure'})
+    return rows
 
 
 def plot_semantic_edits(state,config):
@@ -767,6 +795,8 @@ def report():
         'observable_model_requests_lower_bound', 'exact_model_requests', 'request_visibility_coverage',
         'command_executions', 'file_changes', 'image_reads', 'image_attachment_count', 'visible_subagent_calls',
         'visible_tools', 'input_tokens', 'output_tokens', 'cached_input_tokens', 'cost_usd', 'H_execution_bypass_detected'])
+    service_events=service_event_rows()
+    save_csv('cli_service_events.csv',service_events,['session_path','role','requested_model','session_status','session_seconds','event_line','event_time','category','message','model_request_count','interpretation'])
     save_csv('timing.csv', timing, ['record_path', 'line_number', 'measurement_type', 'stage', 'scope', 'started', 'finished', 'seconds', 'returncode',
         'timed_out', 'timeout_seconds', 'memory_limit_exceeded', 'memory_limit_bytes', 'cpu_user_seconds',
         'cpu_system_seconds', 'cpu_seconds', 'peak_individual_rss_kib',
@@ -867,7 +897,7 @@ def report():
         f"全预定来源的端到端BW效用差 {show(paired_summary['all_scheduled_BW_utility_difference_source_mean'])}，"
         f"完整效用覆盖 {paired_summary['sources_with_complete_utility']}/{paired_summary['sources_scheduled']}；缺失评价和pending不当零。")
     markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', data_sizes_text,'',test_plan_text, '',paired_text,'', render_note, '', limits_text, '',
-        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md) · [A03灯光证据与操作员中断记录](../PROTOCOL_AMENDMENT_03.md) · [A04无损证据编码修复](../PROTOCOL_AMENDMENT_04.md)','',
+        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md) · [A03灯光证据与操作员中断记录](../PROTOCOL_AMENDMENT_03.md) · [A04无损证据编码修复](../PROTOCOL_AMENDMENT_04.md) · [A05网络恢复与冻结续跑](../PROTOCOL_AMENDMENT_05.md)','',
         '请求模型与可确认路由分开见 cli_audit.csv；没有路由元数据时 observed_model=unknown。费用未知，不宣称降本。', '',
         '## 十轮实际状态', '', '| round | status | H retained | M retained | type |', '|---|---|---|---|---|']
     if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
@@ -882,7 +912,7 @@ def report():
     (ROOT / 'reports/REPORT_ZH.md').write_text('\n'.join(markdown) + '\n')
     body = '<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V3</title><style>body{font:16px/1.6 sans-serif;max-width:1400px;margin:24px auto;padding:0 20px;color:#17202a}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #ccd;padding:6px;vertical-align:top;word-break:break-word}figure{margin:25px 0}code{background:#f4f5f6}a{color:#125d98}</style><h1>Scene-RSI V3 实际运行报告</h1>'
     body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>'+html.escape(paired_text)+'</p><p>' + html.escape(render_note) + '</p><p>' + html.escape(limits_text) + '</p>'
-    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a> · <a href="../PROTOCOL_AMENDMENT_03.md">A03修订</a> · <a href="../PROTOCOL_AMENDMENT_04.md">A04无损证据编码修复</a></p>'
+    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a> · <a href="../PROTOCOL_AMENDMENT_03.md">A03修订</a> · <a href="../PROTOCOL_AMENDMENT_04.md">A04无损证据编码修复</a> · <a href="../PROTOCOL_AMENDMENT_05.md">A05网络恢复续跑</a></p>'
     body += '<p><a href="REPORT_ZH.md">中文Markdown</a> · <a href="../metrics/summary.json">原始汇总JSON</a> · <a href="../analyze.py">离线重画脚本</a> · <a href="../manifest.json">来源与暴露记录</a></p>'
     if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
         body += '<p><a href="../PROTOCOL_AMENDMENT_01.md">A01实际平台修订</a>：公开附件已统一转发；旧偏离文档保留为历史。M0未变，修订在首个BW正式任务和首轮正式M前完成，10个H生成产物按相同信息条件复用。</p>'
@@ -891,7 +921,7 @@ def report():
         body += '<figure><img src="../' + item['path'] + '"><figcaption>' + html.escape(item['caption']) + '<br>来源：'
         body += ' · '.join('<a href="../' + name + '">' + html.escape(name) + '</a>' for name in item['sources'])
         body += ' · <a href="../analyze.py">生成脚本</a></figcaption></figure>'
-    body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary', 'render_evidence','evaluator_revision']) + '</ul>'
+    body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary', 'render_evidence','evaluator_revision','cli_service_events','paired_test_sources','semantic_edit_summary']) + '</ul>'
     body += '<p>没有实际记录的诊断链、元回放和结构收益保持未验证；报告不会以概念图或其他场景代替缺失结果。</p></html>'
     (ROOT / 'reports/index.html').write_text(body)
     print(json.dumps({key: value for key, value in summary.items() if key != 'figures'}, ensure_ascii=False, indent=2))

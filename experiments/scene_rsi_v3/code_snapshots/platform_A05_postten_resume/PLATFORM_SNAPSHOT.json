@@ -1,0 +1,57 @@
+{
+  "time_utc": "2026-11-11T00:44:01.659657+00:00",
+  "scope": "post-ten-round resume only",
+  "snapshot": "code_snapshots/platform_A05_postten_resume",
+  "protocol": "PROTOCOL_AMENDMENT_05.md",
+  "original_service_pause": {
+    "reason": "Connection refused",
+    "session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0016/1/student_calls/001_1794356160085661583",
+    "time": 1794357060.5503962,
+    "note": "Service/transport evidence; no attribution to scene algorithm; no further submissions until explicit recovery"
+  },
+  "recovery": {
+    "time": 1794357774.386393,
+    "old_launch": "launches/005_resume.json",
+    "old_launch_status": "failed",
+    "cause": "Configured local proxy 127.0.0.1:7897 refused connection, causing CLI 900-second timeout and Git push failure",
+    "recovery_evidence": {
+      "socket_127_0_0_1_7897": "connected",
+      "https_github_com": "HTTP 200 through unchanged configured proxy",
+      "https_chatgpt_com": "HTTP 200 through unchanged configured proxy",
+      "model_probe_calls": 0
+    },
+    "global_proxy_changed": false,
+    "models_changed": false,
+    "terminal_generation_resampling": false,
+    "failed_attempt_retained": "results/H04/test/bw_0016/1",
+    "remaining_schedule": "Original 6 sources x 2 endpoints x 2 repeats; keep failed task in denominator; no replacement generation",
+    "completed_rounds_preserved": 10,
+    "original_selection_freeze": {
+      "time": 1794353588.910698,
+      "rounds": 10,
+      "H_best": "H04",
+      "selection_only": true,
+      "M_final": "M07"
+    }
+  },
+  "tests": {
+    "status": "passed",
+    "checks": [
+      "first freeze saved",
+      "same selection resume preserves original bytes and timestamp",
+      "different resumed selection rejected without changing original"
+    ],
+    "new_CLI": 0,
+    "new_Blender": 0,
+    "fixture_only": true
+  },
+  "H_M_changed": false,
+  "original_final_freeze_preserved": true,
+  "failed_task_resampled": false,
+  "models_resources_evaluator_budgets_changed": false,
+  "new_model_probe_calls": 0,
+  "previous_partial_local_commits": [
+    "f9025880c9dfd8bc0cd26e130d7e1702ec1ff204",
+    "5efa87be6ffe81bb2149078a67518b0df2846fc2"
+  ]
+}

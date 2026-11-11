@@ -1,0 +1,246 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 12.0,
+  "S_dimension": 41.25,
+  "S_BW": 26.625,
+  "started": 1794361686.100326,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/test/bw_0023/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794362522.2236729,
+  "seconds": 836.1233468055725,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "Repeated ribs and bilateral clustered supports exist, but vault infill consists of tilted boxes rather than cross-vault surfaces. Assigned stone shaders have noise bump but constant base colors and no aged-grime variation.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.015].vertices",
+        "scene_facts.json:objects[object_id=Box.015].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.096].material_slots",
+        "scene_facts.json:materials.SceneActSurface_1.links",
+        "scene_facts.json:materials.SceneActSurface_2.links",
+        "scene_facts.json:materials.SceneActSurface_5.links"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "Several bays recede behind the staircase, but the broad, squat roof profile and thin supports materially change the reference's tall Gothic proportions. The stair reads as a small isolated flight instead of an integrated grand level change.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_02.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Thirteen pale stone steps descend from the upper landing toward the floor. Repeated crossed iron rods form lattice ornament along the stair edge, with dark-red assigned shading and a separate gold-toned handrail accent.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.049].matrix_world",
+        "scene_facts.json:objects[object_id=Box.050].matrix_world",
+        "scene_facts.json:objects[object_id=Box.074].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.216].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.217].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.256].material_slots",
+        "scene_facts.json:materials.SceneActSurface_2",
+        "scene_facts.json:materials.SceneActSurface_6",
+        "scene_facts.json:materials.SceneActSurface_7"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Suspension, radial arms and eight bulbs are modeled, and a nearby warm area light functions. However, the body shader is a rough nonmetallic ochre dielectric, and all bulb materials have zero emission; the complete brass-and-glowing-bulb treatment is not established.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Rod.258].matrix_world",
+        "scene_facts.json:objects[object_id=Ball.191].material_slots",
+        "scene_facts.json:material_dependencies[material=SceneActSurface_8].objects",
+        "scene_facts.json:materials.SceneActSurface_7.nodes",
+        "scene_facts.json:materials.SceneActSurface_8.nodes",
+        "scene_facts.json:authored_lights[0]"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "Two spheres have correct relative size and camera-depth order, with connected facing-dependent rainbow color and transparency for the bubble and opaque rough magenta for the smaller sphere. However, the bubble is centered at x=3.0, alongside the right wall at x=3.17, instead of within open mid-corridor airspace.",
+      "source_evidence": [
+        "scene_facts.json:collections[name=Spheres].direct_object_ids",
+        "scene_facts.json:objects[object_id=Ball.199].matrix_world",
+        "scene_facts.json:objects[object_id=Ball.200].matrix_world",
+        "scene_facts.json:objects[object_id=Ball.200].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.002].matrix_world",
+        "scene_facts.json:materials.Thin-film iridescent bubble.links",
+        "scene_facts.json:materials.SceneActSurface_9.nodes",
+        "scene_facts.json:camera.matrix_world"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Warm chandelier-associated and far-end area lights exist. However, the purported far opening is an opaque, nonemissive box placed against an unbroken far wall, so the requested daylight-entry chain and open far-end atmospheric depth are not realized.",
+      "source_evidence": [
+        "scene_facts.json:authored_lights[0]",
+        "scene_facts.json:authored_lights[1]",
+        "scene_facts.json:objects[object_id=Box.003]",
+        "scene_facts.json:objects[object_id=Box.004]",
+        "scene_facts.json:materials.SceneActSurface_3.nodes"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "The author composition includes a lower diagonal railing and receding upper architecture, but heavy noise, bare rectangular panels, angular roof construction and exposed gray gaps make the delivered image look unfinished rather than polished property marketing.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R08",
+      "score": 0,
+      "evidence": "The editable project opens and uses Cycles, but global final-render denoising is disabled, the view transform is AgX rather than Filmic, and four requested named collections are empty.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:authored_render_configuration.cycles_use_denoising",
+        "scene_facts.json:authored_render_configuration.engine",
+        "scene_facts.json:color_management.view_transform",
+        "scene_facts.json:collections[name=Vaults].direct_object_ids",
+        "scene_facts.json:collections[name=Columns].direct_object_ids",
+        "scene_facts.json:collections[name=Chandelier].direct_object_ids",
+        "scene_facts.json:collections[name=Staircase & railing].direct_object_ids"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "The original delivered file is a valid, fully decoded PNG, but measures 512×288 rather than 3840×2160.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].format",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success",
+        "scene_facts.json:delivered_artifacts[0].width",
+        "scene_facts.json:delivered_artifacts[0].height"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 4,
+      "evidence": "The principal objects are recognizable, but the Gothic enclosure is substantially simplified and its spatial character changed.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 3,
+      "evidence": "Columns receive ribs, but roof-wall gaps and the unsupported-looking stair and landing weaken structural credibility. Intentional AR hovering is acceptable.",
+      "source_evidence": [
+        "wide_02.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Cream stone, red railing and contrasting rainbow and magenta spheres preserve the broad palette; architectural outlines and ornament are oversimplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 2,
+      "evidence": "Noisy rendering, primitive architectural junctions, blank panels and exposed background strongly undermine a believable heritage interior.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 5,
+      "evidence": "Bilateral bays, overhead chandelier, foreground diagonal railing and nearer-right/farther-left spheres retain key relationships, but the staircase lacks a convincing surrounding level layout.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 4,
+      "evidence": "Repeated bays convey depth, but the room is broad relative to its height, supports are spindly and the staircase looks undersized within the hall.",
+      "source_evidence": [
+        "wide_02.png",
+        "wide_03.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Warm brightness and soft contact shading are present, alongside a colorful reflective bubble. Uniform pale surfaces and a blank far-end panel fail to convey rich stone or convincing daylight entry.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Both spheres, repeated supports and ribs, staircase, red lattice railing and chandelier are present. Complete vault surfaces, resolved openings and finished architectural detailing remain deficient.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_02.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0023/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 389250,
+    "output_tokens": 2329,
+    "observed_model": "unknown",
+    "seconds": 87.8103709849529
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

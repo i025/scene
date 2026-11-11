@@ -13,7 +13,7 @@ CPU 8，内存上限 32 GB，Blender 1×8线程，CPU-only，未使用GPU（数�
 H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样下界，阶段时长不相加作总墙钟。
 
 
-独立来源配对：0/6 来源、0 对双方成功且已评分的生成；来源等权条件BW差 pending/null。全预定来源的端到端BW效用差 pending/null；完整效用覆盖 0/6。重复和视角不作为独立场景。
+独立来源配对：2/6 来源、2 对双方成功且已评分的生成；来源等权条件BW差 -3.3125。全预定来源的端到端BW效用差 pending/null；完整效用覆盖 1/6。重复和视角不作为独立场景。
 
 ![历史开发图全体面板](experiments/scene_rsi_v3/figures/development_contact_sheet.png)
 ![真实候选与实际保留版本](experiments/scene_rsi_v3/figures/evolution.png)

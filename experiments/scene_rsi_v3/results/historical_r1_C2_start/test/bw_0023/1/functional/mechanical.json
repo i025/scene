@@ -1,0 +1,91 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "chandelier",
+    "kind": "group",
+    "mesh_names": [
+      "Ball.002",
+      "Ball.003",
+      "Ball.004",
+      "Ball.005",
+      "Ball.006",
+      "Ball.007",
+      "Ball.008",
+      "Ball.009",
+      "Ball.010",
+      "Rod.312",
+      "Rod.313",
+      "Rod.314",
+      "Rod.315",
+      "Rod.316",
+      "Rod.317",
+      "Rod.318",
+      "Rod.319",
+      "Rod.320",
+      "Rod.321",
+      "Rod.322",
+      "Rod.323",
+      "Rod.324",
+      "Rod.325",
+      "Rod.326",
+      "Rod.327",
+      "Rod.328",
+      "Rod.329",
+      "Rod.330",
+      "Rod.331",
+      "Rod.332",
+      "Rod.333",
+      "Rod.334",
+      "Rod.335",
+      "Rod.336",
+      "Rod.337"
+    ],
+    "group_name": "chandelier",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 844,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": true,
+    "displacement_scene_units": [
+      3.516594171524048,
+      0.0,
+      0.0
+    ],
+    "displacement_normalized": [
+      0.1,
+      0,
+      0
+    ],
+    "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+    "target_success": true,
+    "relation_max_abs_matrix_delta": 1.1920928955078125e-07,
+    "part_relations_preserved": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 808,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "pass": true,
+    "edited_blend": "edited.blend"
+  },
+  "render_attempts": 3,
+  "renders_completed": 3
+}
