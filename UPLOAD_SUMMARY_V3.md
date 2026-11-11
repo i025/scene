@@ -10,7 +10,7 @@ H请求模型 gpt-6.1-terra / medium；M与共享编码 gpt-6-astra / medium；�
 CPU 8，内存上限 32 GB，Blender 1×8线程，CPU-only，未使用GPU（数量0）。
 H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样下界，阶段时长不相加作总墙钟。
 
-正式场景记录 63；有效执行 62，终测状态 partially_completed，已结束记录 6。
+正式场景记录 63；有效执行 62，终测状态 partially_completed，已结束记录 6，另有未结算终测中断 1。
 终测重复计划：{"repeats": 2, "source": "test_repeat_plan.json", "finalized": true}。未开始/缺测保持null，服务评价失败与生成失败分开。
 生成失败分类：{"model_call_timeout": 1}；外部评价失败：{"external_judge_failure": 1}。
 
@@ -72,12 +72,12 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 
 ## 上传与尚未完成项
 
-Git发布：push_failed_local_commits_retained；Release：not_uploaded；远端读取确认：not_run。
+Git发布：not_pushed；Release：not_uploaded；远端读取确认：not_run。
 Release实际收据链接：尚无上传成功收据。未获分发许可的BW原始参考及附件保留本地，公开占位不算实验结果。
 可选回放入口：skipped_not_ready；入口是否执行：False；前后保存request计数差 0 次CLI会话。精确底层model_requests=null，不将整条收尾链称为零调用。归档自身模型/Blender调用为0，回放另计。入口退出码0也不自动证明回放完成或元能力提高，实际结果仍以独立回放记录为准。
 改动M内容参与后续研发的保存证据：[{"M_version": "M07", "round": 8, "executed_changed_files": ["actions/appearance_audit.py"]}, {"M_version": "M07", "round": 9, "executed_changed_files": ["actions/appearance_audit.py"]}]；审计状态：changed_content_execution_observed。证据仅到改动入口/模块/动作的实际参与，不是语句覆盖或能力提升。详见[源码与执行关联审计](experiments/scene_rsi_v3/metrics/M_changed_content_execution_audit.json)。
 
-实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/8f66c0a92b42cc585194f99911defc65b61be746)。此链接指向已确定的数据提交，摘要的后续提交不自指。
+实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/77b454cd96330ab3766cb4063cfc6f7f2ff12650)。此链接指向已确定的数据提交，摘要的后续提交不自指。
 
 ## 离线与续跑
 
