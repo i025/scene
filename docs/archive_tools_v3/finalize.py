@@ -235,7 +235,7 @@ def summary_text(data,launch,publication,core_commit,replay=None):
         '全部通过Codex CLI。observed_model与请求模型分开；没有元数据则unknown，本地费用未知，不宣称降本。',
         f"CPU {config['resources']['cpu_total']}，内存上限 {config['resources']['memory_limit_gb']} GB，Blender {config['resources']['blender_workers']}×{config['resources']['threads_per_blender']}线程，CPU-only，未使用GPU（数量0）。",
         f"H整场{config['budget']['seconds']}秒、CLI{config['model']['timeout']}秒、build{config['blender']['build_timeout']}秒、render{config['blender']['render_timeout']}秒。进程树RSS为采样下界，阶段时长不相加作总墙钟。",'',
-        f"正式场景记录 {summary['scene_records']}；有效执行 {summary['scene_execution_success_count']}，终测状态 {summary['test_status']}，已结束记录 {summary['test_completed']}。",
+        f"正式场景记录 {summary['scene_records']}；有效执行 {summary['scene_execution_success_count']}，终测状态 {summary['test_status']}，已结束记录 {summary['test_completed']}，另有未结算终测中断 {summary.get('test_interrupted_without_final_record','unknown')}。",
         f"终测重复计划：{json.dumps(summary['test_repeat_policy'],ensure_ascii=False)}。未开始/缺测保持null，服务评价失败与生成失败分开。",
         f"生成失败分类：{json.dumps(data['scene_failures'],ensure_ascii=False)}；外部评价失败：{json.dumps(data['evaluation_failures'],ensure_ascii=False)}。",'',
         '| 划分 / H | 全预定 | 执行完成 / 成功 | BW覆盖 | 条件BW | 条件Q | 端到端BW效用 |','|---|---:|---|---:|---:|---:|---:|']

@@ -673,6 +673,24 @@ def service_event_rows():
     return rows
 
 
+def interrupted_generation_rows():
+    rows=[]
+    for path in sorted((ROOT/'results').glob('*/*/*/*/status.json')):
+        if path.with_name('record.json').exists():continue
+        status=read(path)
+        if not status.get('error'):continue
+        version,split,scene,repeat=path.relative_to(ROOT/'results').parts[:4]
+        sessions=[read(p) for p in path.parent.glob('student_calls/*/session.json')]
+        rows.append({'H_version':version,'split':split,'scene_id':scene,'repeat':int(repeat),
+                     'status':'interrupted','raw_generation_error':status['error'],
+                     'generation_seconds':status['seconds'],'CLI_statuses':[s['status'] for s in sessions],
+                     'scene_blend_exists':path.with_name('scene.blend').exists(),
+                     'final_image_exists':path.with_name('final.png').exists(),
+                     'BW':None,'Q':None,'utility':None,'source':relative(path),
+                     'interpretation':'Saved generation error; final task record was not written. Not an unstarted sample or a measured geometry score.'})
+    return rows
+
+
 def plot_semantic_edits(state,config):
     versions=list(dict.fromkeys([state['H_start'],state.get('H_best',state.get('H_retained',state['H_start']))]))
     planned=[(version,scene) for scene in config['pilot']['semantic_edit_subset'] for version in versions]
@@ -809,8 +827,14 @@ def report():
     scenes=[row for row in scenes if row['primary_analysis']]
     test_policy = test_repeat_policy(config)
     paired_sources,paired_points=paired_test_data(scenes,manifest,state,test_policy['repeats'])
+    interrupted_attempts=interrupted_generation_rows()
+    save_csv('interrupted_generation_attempts.csv',interrupted_attempts,['H_version','split','scene_id','repeat','status','raw_generation_error','generation_seconds','CLI_statuses','scene_blend_exists','final_image_exists','BW','Q','utility','source','interpretation'])
+    for point in paired_points:
+        for attempt in interrupted_attempts:
+            if point['status']=='not_started' and attempt['split']=='test' and all(point[key]==attempt[key] for key in ['scene_id','H_version','repeat']):
+                point.update(status='interrupted',attempt_source=attempt['source'])
     save_csv('paired_test_sources.csv',paired_sources,list(paired_sources[0]) if paired_sources else ['scene_id'])
-    save_csv('paired_test_generations.csv',paired_points,['scene_id','role','H_version','repeat','status','BW','Q','utility'])
+    save_csv('paired_test_generations.csv',paired_points,['scene_id','role','H_version','repeat','status','BW','Q','utility','attempt_source'])
     paired_summary={'statistical_unit':'independent source, not repeat or view',
         'sources_scheduled':len(paired_sources),
         'sources_with_scored_pair':sum(row['paired_successful_generations']>0 for row in paired_sources),
@@ -836,6 +860,8 @@ def report():
     test_finished = sum(row['status'] in TERMINAL for row in test_records)
     test_status = 'pending' if not test_records else 'all_scheduled_records_terminal' if expected_test is not None and test_finished==expected_test else 'partially_completed'
     summary = {'phase': state['phase'], 'rounds_completed': len(finished_rounds), 'rounds_scheduled': 10,'paired_final_test':paired_summary,
+        'interrupted_generation_attempts_without_final_record':len(interrupted_attempts),
+        'test_interrupted_without_final_record':sum(row['split']=='test' for row in interrupted_attempts),
         'data_source_counts':dict(Counter(row['split'] for row in manifest)),
         'evaluator_revision':{'paired_record_count':len(revisions),
             'inspection_status':inspection['status'] if inspection is not None else None,
@@ -876,6 +902,7 @@ def report():
     (ROOT / 'metrics/summary.json').write_text(json.dumps(summary, ensure_ascii=False, indent=2) + '\n')
     status_text = (f"本轮状态：{state['phase']}；正式研发完成 {len(finished_rounds)}/10 轮。"
         f"保存了 {len(scenes)} 条正式场景记录、当前有效评价协议 {summary['BW_measured_count']} 次BW测量；修订前已测BW记录 {summary['BW_pre_A02_scored_record_count']} 条另行保留。终测 {summary['test_status']}（已完成记录 {test_finished}）。"
+        f"另有 {summary['test_interrupted_without_final_record']} 个已开始但未写入最终任务记录的终测中断，不作not_started。"
         f"实际CLI会话 {len(cli)} 次（包括准备阶段），usage可见 {len(known_usage)}/{len(cli)}。")
     data_sizes_text='当前manifest来源数：'+ '、'.join(f'{name}={count}' for name,count in summary['data_source_counts'].items())+'；Selection绝对覆盖按实际冻结配置，不沿用旧4图口径。'
     revision_text=(f"A02评价器修订保留{len(revisions)}条前后记录；旧状态{summary['evaluator_revision']['old_evaluation_statuses']}，"
@@ -921,7 +948,7 @@ def report():
         body += '<figure><img src="../' + item['path'] + '"><figcaption>' + html.escape(item['caption']) + '<br>来源：'
         body += ' · '.join('<a href="../' + name + '">' + html.escape(name) + '</a>' for name in item['sources'])
         body += ' · <a href="../analyze.py">生成脚本</a></figcaption></figure>'
-    body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary', 'render_evidence','evaluator_revision','cli_service_events','paired_test_sources','semantic_edit_summary']) + '</ul>'
+    body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary', 'render_evidence','evaluator_revision','cli_service_events','paired_test_sources','semantic_edit_summary','interrupted_generation_attempts']) + '</ul>'
     body += '<p>没有实际记录的诊断链、元回放和结构收益保持未验证；报告不会以概念图或其他场景代替缺失结果。</p></html>'
     (ROOT / 'reports/index.html').write_text(body)
     print(json.dumps({key: value for key, value in summary.items() if key != 'figures'}, ensure_ascii=False, indent=2))

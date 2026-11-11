@@ -3,7 +3,7 @@
 [A01实际平台修订](../PROTOCOL_AMENDMENT_01.md)：公开附件已统一转发，原偏离文档保留为历史；M0未变，修订在首个BW正式任务和首轮正式M前完成，10个已生成H产物按相同信息条件复用。
 
 
-本轮状态：generation；正式研发完成 10/10 轮。保存了 63 条正式场景记录、当前有效评价协议 56 次BW测量；修订前已测BW记录 12 条另行保留。终测 partially_completed（已完成记录 6）。实际CLI会话 332 次（包括准备阶段），usage可见 329/332。
+本轮状态：generation；正式研发完成 10/10 轮。保存了 63 条正式场景记录、当前有效评价协议 56 次BW测量；修订前已测BW记录 12 条另行保留。终测 partially_completed（已完成记录 6）。另有 1 个已开始但未写入最终任务记录的终测中断，不作not_started。实际CLI会话 332 次（包括准备阶段），usage可见 329/332。
 
 当前manifest来源数：development=12、selection=3、reserved_unused_budget_A02=1、test=6、meta_replay=2；Selection绝对覆盖按实际冻结配置，不沿用旧4图口径。
 
