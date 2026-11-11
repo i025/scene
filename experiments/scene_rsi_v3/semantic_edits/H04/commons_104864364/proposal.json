@@ -1,0 +1,13 @@
+{
+  "target_object_ids": [
+    "Box.220",
+    "Box.221",
+    "Box.222",
+    "Box.223",
+    "Box.224",
+    "Box.225"
+  ],
+  "target_reason": "选择画面中心偏右、靠近中央过道的一张课桌（desk_2_2）：包括桌面、挡板和四条桌腿。",
+  "semantic_uncertainty": "该课桌与长凳共用父级，但长凳看起来是独立家具，因此未作为目标。画面中多张课桌外观相似，所选位置依据对象坐标和相机视角判断。",
+  "edit_code": "import bpy\n\n\ndef edit():\n    target_ids = (\n        'Box.220', 'Box.221', 'Box.222',\n        'Box.223', 'Box.224', 'Box.225',\n    )\n    blue = (0.02, 0.08, 0.8, 1.0)\n    material = bpy.data.materials.new(name='Technical Blue Desk')\n    material.diffuse_color = blue\n    material.roughness = 0.45\n    material.use_nodes = True\n    nodes = material.node_tree.nodes\n    nodes.clear()\n    output = nodes.new('ShaderNodeOutputMaterial')\n    principled = nodes.new('ShaderNodeBsdfPrincipled')\n    principled.inputs['Base Color'].default_value = blue\n    principled.inputs['Roughness'].default_value = 0.45\n    material.node_tree.links.new(principled.outputs['BSDF'], output.inputs['Surface'])\n\n    for object_id in target_ids:\n        obj = bpy.data.objects[object_id]\n        obj.data = obj.data.copy()\n        for slot in obj.material_slots:\n            slot.link = 'OBJECT'\n            slot.material = material\n"
+}

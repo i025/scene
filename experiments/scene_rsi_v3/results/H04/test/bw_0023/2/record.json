@@ -8,10 +8,10 @@
   "M_version": "M07",
   "repeat": 2,
   "status": "completed",
-  "evaluation_status": "eval_failed",
+  "evaluation_status": "completed",
   "failure_type": null,
   "valid": true,
-  "eligible": false,
+  "eligible": true,
   "loaded_H_modules": [
     "__EXPERIMENT_ROOT__/candidates/C04/H/policy.py"
   ],
@@ -33,10 +33,10 @@
     "label": "BW-style / CLI-adapted",
     "preview": false,
     "execution_status": "completed",
-    "evaluation_status": "eval_failed",
-    "S_rubric": null,
-    "S_dimension": null,
-    "S_BW": null,
+    "evaluation_status": "completed",
+    "S_rubric": 12.0,
+    "S_dimension": 47.5,
+    "S_BW": 29.75,
     "started": 1794367850.8455675,
     "images": [
       "author.png",
@@ -54,7 +54,7 @@
     "threads": 8,
     "renders_attempted": 9,
     "renders_completed": 9,
-    "failure_type": "external_judge_failure",
+    "failure_type": null,
     "finished": 1794368894.6825535,
     "seconds": 1043.836986064911,
     "delivered_images": [
@@ -62,7 +62,217 @@
     ],
     "delivery_evidence_version": "original_delivery_metadata_A02",
     "native_evidence_version": "authored_native_project_facts_A03_lighting",
-    "evaluation_error": "Service submissions paused: __EXPERIMENT_ROOT__/service_pause.json"
+    "evaluation_error": null,
+    "rubric_scores": [
+      {
+        "id": "R01",
+        "score": 0,
+        "evidence": "Repeated ribs and bilateral clustered supports are present, but the required aged stone treatment is incomplete. Sandstone noise only drives bump, with no grime variation; vault ribs use uniform shaders without bump or aging.",
+        "source_evidence": [
+          "scene_facts.json:objects[object_id='Rod.181'].material_slots",
+          "scene_facts.json:objects[object_id='Rod'].material_slots",
+          "scene_facts.json:materials['Aged warm sandstone'].links",
+          "scene_facts.json:materials.SceneActSurface_3.nodes",
+          "scene_facts.json:materials.SceneActSurface_2.links"
+        ],
+        "evidence_route": "scene_summary"
+      },
+      {
+        "id": "R02",
+        "score": 0,
+        "evidence": "The repeated hall has depth, but reads substantially broader and less vertically imposing than the reference. The short, isolated stair and small chandelier do not preserve the requested architectural scale hierarchy.",
+        "source_evidence": [
+          "author.png",
+          "wide_03.png",
+          "detail_02.png"
+        ],
+        "evidence_route": "render"
+      },
+      {
+        "id": "R03",
+        "score": 0,
+        "evidence": "Pale descending steps and red diagonal lattice with gold-colored rails exist. However, the last tread ends at z=0.555–0.685 above a floor ending at z=0, without a connecting lower landing. The balusters also terminate above the stair rather than connecting to it.",
+        "source_evidence": [
+          "scene_facts.json:objects[object_id='Box.069'].world_aabb_approx",
+          "scene_facts.json:objects[object_id='Box'].world_aabb_approx",
+          "scene_facts.json:objects[object_id='Rod.330'].world_aabb_approx",
+          "scene_facts.json:objects[object_id='Staircase & railing'].children",
+          "scene_facts.json:materials.SceneActSurface_8.nodes",
+          "scene_facts.json:materials.SceneActSurface_7.nodes"
+        ],
+        "evidence_route": "scene_summary"
+      },
+      {
+        "id": "R04",
+        "score": 0,
+        "evidence": "Six functioning emissive bulbs are assigned, but the suspension ends at z=3.7 while the body ends at z=3.4 and arms below z=3.365, leaving the fixture disconnected. The body shader is a rough gold-colored dielectric, without brass metallic response.",
+        "source_evidence": [
+          "scene_facts.json:objects[object_id='Rod.331'].world_aabb_approx",
+          "scene_facts.json:objects[object_id='Ball'].world_aabb_approx",
+          "scene_facts.json:objects[object_id='Rod.332'].world_aabb_approx",
+          "scene_facts.json:materials.SceneActSurface_7.nodes",
+          "scene_facts.json:materials['Warm luminous glass'].links",
+          "scene_facts.json:materials['Warm luminous glass'].nodes"
+        ],
+        "evidence_route": "scene_summary"
+      },
+      {
+        "id": "R05",
+        "score": 0,
+        "evidence": "Two spheres have the correct size and depth ordering, with connected facing-angle rainbow color and transmission on the larger sphere and opaque rough magenta on the smaller. However, the large sphere is centered at x=4.2 inside the right wall's x=4.13–4.37 slab, rather than hovering in open corridor airspace.",
+        "source_evidence": [
+          "scene_facts.json:collections[name='Spheres'].direct_object_ids",
+          "scene_facts.json:objects[object_id='Ball.007'].matrix_world",
+          "scene_facts.json:objects[object_id='Ball.007'].dimensions_scene_units",
+          "scene_facts.json:objects[object_id='Box.002'].matrix_world",
+          "scene_facts.json:objects[object_id='Box.002'].dimensions_scene_units",
+          "scene_facts.json:objects[object_id='Ball.008'].matrix_world",
+          "scene_facts.json:materials['Thin-film interference'].links",
+          "scene_facts.json:materials['Matte deep magenta'].nodes"
+        ],
+        "evidence_route": "scene_summary"
+      },
+      {
+        "id": "R06",
+        "score": 1,
+        "evidence": "A warm 850-energy area light sits beside the chandelier, supported by emissive bulbs. A broad 2800-energy far-end light and luminous distant panels provide fill. The author view is bright and warm, with readable distant architecture and soft vault shading.",
+        "source_evidence": [
+          "scene_facts.json:authored_lights[object_id='SceneActArea']",
+          "scene_facts.json:authored_lights[object_id='SceneActArea.001']",
+          "scene_facts.json:materials['Warm luminous glass'].nodes",
+          "scene_facts.json:materials['Soft distant daylight'].nodes",
+          "scene_facts.json:objects[object_id='Box.045'].matrix_world",
+          "author.png"
+        ],
+        "evidence_route": "scene_summary"
+      },
+      {
+        "id": "R07",
+        "score": 0,
+        "evidence": "The down-hall perspective and lower diagonal railing are established, but the delivered image is visibly noisy and primitive, with schematic architecture and little visible staircase. It lacks polished heritage-property marketing quality.",
+        "source_evidence": [
+          "delivered_final.png",
+          "author.png"
+        ],
+        "evidence_route": "render"
+      },
+      {
+        "id": "R08",
+        "score": 0,
+        "evidence": "The editable blend opens, uses Cycles and connected shaders, and has the requested populated collections. However, scene-level final denoising is disabled and the original view transform is AgX rather than Filmic.",
+        "source_evidence": [
+          "scene_facts.json:blend_opened",
+          "scene_facts.json:collections",
+          "scene_facts.json:authored_render_configuration.engine",
+          "scene_facts.json:authored_render_configuration.cycles_use_denoising",
+          "scene_facts.json:color_management.view_transform"
+        ],
+        "evidence_route": "scene_summary"
+      },
+      {
+        "id": "R09",
+        "score": 0,
+        "evidence": "The original delivered final.png is a valid fully decoded PNG, but measures 512×288 instead of 3840×2160.",
+        "source_evidence": [
+          "scene_facts.json:delivered_artifacts[0].png_magic_valid",
+          "scene_facts.json:delivered_artifacts[0].full_decode_success",
+          "scene_facts.json:delivered_artifacts[0].width",
+          "scene_facts.json:delivered_artifacts[0].height"
+        ],
+        "evidence_route": "scene_summary"
+      }
+    ],
+    "dimension_scores": [
+      {
+        "id": "scene_fidelity",
+        "score": 5,
+        "evidence": "Recognizable Gothic hall, diagonal red railing, chandelier and paired spheres; architectural richness and reference proportions are substantially simplified.",
+        "source_evidence": [
+          "author.png",
+          "delivered_final.png"
+        ]
+      },
+      {
+        "id": "physics",
+        "score": 3,
+        "evidence": "The bubble intersects architecture, the chandelier suspension has a visible gap, and the stairs and railing lack convincing connections to their supports.",
+        "source_evidence": [
+          "wide_04.png",
+          "detail_01.png",
+          "detail_02.png"
+        ]
+      },
+      {
+        "id": "style_color",
+        "score": 6,
+        "evidence": "Warm cream architecture, red-and-gold railing, magenta sphere and rainbow bubble reproduce the main palette, but segmented ribs and simplified fixture shapes lose heritage character.",
+        "source_evidence": [
+          "author.png",
+          "wide_03.png",
+          "detail_01.png"
+        ]
+      },
+      {
+        "id": "realism",
+        "score": 3,
+        "evidence": "Heavy sampling noise, plain slab construction, angular rib joints and weak material differentiation make the result read as an unfinished model.",
+        "source_evidence": [
+          "delivered_final.png",
+          "wide_02.png",
+          "detail_02.png"
+        ]
+      },
+      {
+        "id": "layout_spatial",
+        "score": 6,
+        "evidence": "Bilateral supports and successive bays establish depth, with the nearer bubble rightward and smaller sphere farther left. Bubble placement in the side wall and the isolated stair weaken spatial coherence.",
+        "source_evidence": [
+          "author.png",
+          "wide_03.png",
+          "wide_04.png"
+        ]
+      },
+      {
+        "id": "proportion_scale",
+        "score": 4,
+        "evidence": "The hall is overly broad relative to its height, the chandelier is modest, and the short stair lacks a believable transition between occupied levels.",
+        "source_evidence": [
+          "author.png",
+          "wide_03.png",
+          "detail_02.png"
+        ]
+      },
+      {
+        "id": "lighting_material",
+        "score": 5,
+        "evidence": "Warm bright illumination and soft architectural shadows work, but the far panels read flat, stone lacks convincing aging, and the bubble looks mostly like a rainbow-coated solid.",
+        "source_evidence": [
+          "author.png",
+          "wide_04.png",
+          "wide_05.png"
+        ]
+      },
+      {
+        "id": "completeness",
+        "score": 6,
+        "evidence": "All principal object categories and two AR spheres are present. Finished vault surfaces, connected stair and chandelier construction, and the requested final-output specifications remain incomplete.",
+        "source_evidence": [
+          "author.png",
+          "wide_03.png",
+          "detail_01.png",
+          "scene_facts.json:authored_render_configuration",
+          "scene_facts.json:delivered_artifacts[0]"
+        ]
+      }
+    ],
+    "judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0023/2/judge_A03_2",
+    "judge_usage": {
+      "input_tokens": 312487,
+      "output_tokens": 2282,
+      "observed_model": "unknown",
+      "seconds": 89.77120537729934
+    },
+    "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
   "functional": {
     "checks": {
@@ -146539,7 +146749,7 @@
     },
     "interpretation": "Mechanical structure/material operation; no text editor or natural-image 3D ground truth. Support AABB approximate; optional collision crossings not full solidity truth."
   },
-  "e2e_utility": null,
+  "e2e_utility": 29.75,
   "folder": "__EXPERIMENT_ROOT__/results/H04/test/bw_0023/2",
   "seconds": 1666.28347422136,
   "generation_seconds": 580.8603304079734,
@@ -146562,5 +146772,14 @@
     "runtime_ask_attempts": 3,
     "cli_sessions": 3,
     "executions": 3
+  },
+  "evaluation_recovery": {
+    "amendment": "A06",
+    "original_record": "__EXPERIMENT_ROOT__/results/H04/test/bw_0023/2/evaluation_recovery_A06/before_record.json",
+    "original_judge_sessions": 1,
+    "new_judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0023/2/judge_A03_2",
+    "seconds": 90.06708979606628,
+    "H_regenerated": false,
+    "new_renders": 0
   }
 }

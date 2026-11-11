@@ -24,7 +24,8 @@ CREDENTIAL_FILES = {'.env', 'auth.json', 'credentials.json', '.netrc', 'id_rsa',
 SECRET = re.compile(rb'(?:ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----)')
 SAFE_FIGURES = {'development_contact_sheet.png', 'evolution.png', 'quality_points.png',
                  'dimensions_and_function.png', 'cost_and_timing.png', 'cpu_benchmark.png',
-                 'research_chain.png', 'HM_lineage.png', 'shared_patch_case.png', 'final_test_pairs.png','semantic_edit_results.png'}
+                 'research_chain.png', 'HM_lineage.png', 'shared_patch_case.png', 'final_test_pairs.png','semantic_edit_results.png',
+                 'M07_action_evidence.png', 'final_test_contact_sheet.png', 'final_test_quality.png'}
 CORE_JSON = {'config.json', 'manifest.json', 'state.json', 'record.json', 'round0.json',
              'record_before_A02_evaluator.json', 'record_before_A03_evaluator.json',
              'request.json', 'session.json', 'freeze.json', 'selection_freeze.json',

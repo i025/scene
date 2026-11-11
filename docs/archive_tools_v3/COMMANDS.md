@@ -1,4 +1,43 @@
-# V3归档与发布工具
+# V3最终收尾：当前入口
+
+本轮使用A06终测恢复入口，实际状态以 `outputs/scene_rsi_v3/launches/008_finish_test.json`、`metrics/final_test_schedule.csv`、逐项record和真实进程为准。不要用本文后半部分的早期launch编号判断当前状态。
+
+```bash
+# 在原服务器项目根目录、原有venv中运行。已有任务会由实验锁阻止重复启动。
+python outputs/scene_rsi_v3/launch.py finish_test
+```
+
+该入口只补冻结24项中未开始的任务及尚未使用的共同评审重试；已评分任务直接复用，两项生成超时不重抽。全部完成后重复调用不会开启第11轮。服务暂停标记不会自动删除；恢复检查和A06原始记录保留于 `preparation/final_completion_01/`。
+
+离线复核：在已解压原13包和最终两个更新包的仓库根目录中，激活含NumPy/Matplotlib/Pillow的已有Python环境。以下在新目录中重算全部报告，适配公开归档中的路径占位，不调用模型、不运行Blender、不下载权重：
+
+```bash
+python docs/archive_tools_v3/offline_v3.py \
+  --experiment experiments/scene_rsi_v3 --output derived/v3_final_review_01
+```
+
+原服务器保留真实路径的源码目录仍可单独执行 `audit_m07.py`、`final_statistics.py`、`analyze.py report`；公开归档应使用上述路径重映射入口。公开终测联系表的Reference列明确标注许可未确认；含真实参考的完整版本只保留原服务器 `work/scene_v3_archive/private_final_test_contact_sheet.png`，不会进入Git/Release。原始BW参考可按manifest的task_id从原来源获取，不在公开重画中静默下载。
+
+`finish_after_test.py --launch outputs/scene_rsi_v3/launches/008_finish_test.json` 是单次、有界的收尾批任务：等真实launch终态后整理报告，先补原 `S20261111T034024Z` Release缺失的六包，已成功七包按平台收据与字节大小复用而不覆盖；再只打包preparation/final两个更新组。baseline及round01–10在恢复入口中没有写入，按显式运行版本复用原附件。状态保存在 `work/scene_v3_archive/final_completion_pipeline/status.json`。不运行模型、Blender或第11轮，不在服务失败后无限重试。
+
+最终增量归档入口要求原13包实际完成：
+
+```bash
+python work/scene_v3_archive/finalize.py \
+  --launch outputs/scene_rsi_v3/launches/008_finish_test.json --publish --auth bashrc \
+  --base-release-state docs/V3_RELEASE_UPLOAD_STATE_S20261111T034024Z.json \
+  --delta-groups preparation final
+```
+
+发布总上限7200秒只适用于大附件传输；正式模型900秒、H3600秒、构建1200秒、渲染600秒和研究调用/token预算未改变。最终读取确认同时覆盖基础13包和两个更新包，部分上传不会仅凭退出码或本地commit当成完成。
+
+冻结元回放不在本次自动收尾批任务中。只有终测和归档完成后再用已有 `replay_stage/frozen_replay.py prepare` 检查真实预算、独立任务与后代证据；未ready不得声称执行或元能力改善。
+
+## 历史工具准备说明
+
+以下为初始编写工具时的记录与早期命令示例；“尚未执行”和003等编号仅描述当时，不是当前完成状态。
+
+# V3归档与发布工具（历史）
 
 `prepare_archive.py`、`offline_v3.py`不调用模型、不执行Blender、不操作Git、不覆盖V1–V2.4。V3可处于未完成状态；状态按实际保存，不把准备/会话结束当成十轮结束。下方另列的`publish.py`与`finalize.py`会按明确选项提交或发布。
 

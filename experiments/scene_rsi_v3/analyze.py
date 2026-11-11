@@ -238,7 +238,7 @@ def get_cli():
 
 def get_timings():
     records = []
-    for path in sorted(ROOT.rglob('*process.json')):
+    for path in sorted([*ROOT.rglob('*process.json'), *ROOT.rglob('*_timing.json')]):
         data = read(path)
         if 'seconds' not in data or 'command' not in data:
             continue
@@ -936,6 +936,19 @@ def report():
                      '来源：' + '、'.join('[' + name + '](../' + name + ')' for name in item['sources']) + '；生成脚本：[analyze.py](../analyze.py)。']
     markdown += ['', '## 重画命令', '', '```bash', f"{config.get('python_executable', '__SCENEEVOLVE_REPRO__/work/.venv/bin/python')} {ROOT / 'analyze.py'} report", '```', '',
                  '本命令只读取保存的记录、图片和配置，不运行模型或Blender。续跑入口由主runner提供，不由报告触发。']
+    supplements = [
+        ('FINAL_TEST_SUMMARY_ZH.md', 'final_test_contact_sheet.png', 'final_statistics.py',
+         '冻结的六来源、两流程、两重复全部进入联系表，失败留空；原始BW参考的公开再分发许可未确认，公开版本明确留出Reference列，本地完整参考联系表另存服务器。'),
+        ('FINAL_TEST_SUMMARY_ZH.md', 'final_test_quality.png', 'final_statistics.py',
+         '全部实测重复点、八维来源等权均值和每来源配对差异；不把重复或视角当成独立场景。来源CSV和不确定性算法见独立终测统计报告。'),
+        ('M07_REVIEW_ZH.md', 'M07_action_evidence.png', 'audit_m07.py',
+         '按时间展示全部六次真实只读材质检查。原生节点测量进入下一次M决策；没有主动干预渲染或M能力增强结论。')]
+    for report_name, figure_name, generator, caption in supplements:
+        if (ROOT / 'reports' / report_name).exists():
+            markdown += ['', '[专项审查与原始数据](' + report_name + ')', '',
+                         '![' + caption + '](../figures/' + figure_name + ')', '', caption,
+                         '生成脚本：[' + generator + '](../' + generator + ')。']
+    markdown += ['', '[A06终测服务恢复规则](../PROTOCOL_AMENDMENT_06.md)：只补未开始任务和一个原协议允许但尚未发出的评审重试；原失败保留，不改变H04/M07选择。']
     (ROOT / 'reports/REPORT_ZH.md').write_text('\n'.join(markdown) + '\n')
     body = '<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V3</title><style>body{font:16px/1.6 sans-serif;max-width:1400px;margin:24px auto;padding:0 20px;color:#17202a}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #ccd;padding:6px;vertical-align:top;word-break:break-word}figure{margin:25px 0}code{background:#f4f5f6}a{color:#125d98}</style><h1>Scene-RSI V3 实际运行报告</h1>'
     body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>'+html.escape(paired_text)+'</p><p>' + html.escape(render_note) + '</p><p>' + html.escape(limits_text) + '</p>'
@@ -949,6 +962,11 @@ def report():
         body += ' · '.join('<a href="../' + name + '">' + html.escape(name) + '</a>' for name in item['sources'])
         body += ' · <a href="../analyze.py">生成脚本</a></figcaption></figure>'
     body += '<h2>原始证据</h2><ul>' + ''.join('<li><a href="../metrics/' + name + '.csv">' + name + '.csv</a></li>' for name in ['rounds', 'scenes', 'actions', 'cli_audit', 'timing', 'group_summary', 'render_evidence','evaluator_revision','cli_service_events','paired_test_sources','semantic_edit_summary','interrupted_generation_attempts']) + '</ul>'
+    body += '<p><a href="../PROTOCOL_AMENDMENT_06.md">A06终测服务恢复规则</a>：保留旧失败与原H04/M07选择，只恢复尚未使用的共同评审重试和未开始任务。</p>'
+    for report_name, figure_name, generator, caption in supplements:
+        if (ROOT / 'reports' / report_name).exists():
+            body += '<figure><img src="../figures/' + figure_name + '"><figcaption>' + html.escape(caption)
+            body += ' · <a href="' + report_name + '">专项审查与原始数据</a> · <a href="../' + generator + '">生成脚本</a></figcaption></figure>'
     body += '<p>没有实际记录的诊断链、元回放和结构收益保持未验证；报告不会以概念图或其他场景代替缺失结果。</p></html>'
     (ROOT / 'reports/index.html').write_text(body)
     print(json.dumps({key: value for key, value in summary.items() if key != 'figures'}, ensure_ascii=False, indent=2))

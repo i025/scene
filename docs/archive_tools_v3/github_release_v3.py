@@ -24,6 +24,9 @@ def release_body(receipt):
         status = phase + '：未完成项目原样保留，不将中断计为完成'
     else:
         status = 'incomplete snapshot：快照记录活动阶段，不根据旧state推断当前进程仍在运行'
+    base_note=('\n\n本Release仅上传 preparation/final 两个增量包；未变动的baseline及round01–10复用已完成附件：'
+               +receipt['base_release_url']+'。先将基础13包解压到新的复核目录，再覆盖解压本次两个更新包；原实验及旧附件不改写。'
+               if 'base_release_url' in receipt else '')
     return (f'Scene-RSI V3 实际产物快照，归档状态：{status}。\n\n'
             f'快照 phase={phase}；实际完成研发轮次={rounds}/10；'
             f'H保留版本={state.get("H_retained", state.get("H_start", "unknown"))}；'
@@ -34,7 +37,7 @@ def release_body(receipt):
             '解压各 tar.gz 至仓库根目录。BW质量是 BW-style / CLI-adapted，不能作为官方榜单分数。\n\n'
             f'分支：{BRANCH}；核心入口 README、experiments/scene_rsi_v3/reports/index.html、'
             '逐场景与逐轮CSV，以及 artifacts_index_v3.csv。'
-            '发布不启动模型或Blender，不修改科学结果，不做内容哈希验证。')
+            '发布不启动模型或Blender，不修改科学结果，不做内容哈希验证。'+base_note)
 
 
 def auth_session(source):

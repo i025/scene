@@ -1,0 +1,262 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 28.125,
+  "S_dimension": 51.25,
+  "S_BW": 39.6875,
+  "started": 1794404081.3135865,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0011/2/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794404333.3745532,
+  "seconds": 252.0609667301178,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The 4.85-wide principal wall and 2.05-deep return preserve the basic corner organization, with plausibly scaled cabinet and display. Completion fails: the continuous ceiling slab closes the plenum immediately above the grid, and the object inventory contains no supplementary cleanroom fixtures.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.001].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.002].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.016].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.039].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.040].world_aabb_approx",
+        "scene_facts.json.objects"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Both principal walls have blue surface materials and repeated vertical joint geometry, visibly reading as modular coated panels.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.001].material_slots",
+        "scene_facts.json.objects[object_id=Box.002].material_slots",
+        "scene_facts.json.objects[object_id=Box.005].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.011].dimensions_scene_units",
+        "scene_facts.json.materials.SceneActSurface_1.nodes",
+        "scene_facts.json.materials.SceneActSurface_2.nodes",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Continuous rounded white skirting follows the principal wall bases and corner; the light-gray floor is smooth and joint-free.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "An orthogonal grid and three flat light panels are present, but the solid overhead surface conceals the required open plenum, distributed hangers, and routed services. Panels also sit across grid divisions rather than fitting its bays.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_05.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "The cabinet has paired door-like panels, handles, and horizontal bars, but its frame reads as matte painted material and its opaque inserts do not show shelves behind glass.",
+      "source_evidence": [
+        "detail_01.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The central feature fills its wall area but depicts coarse geometric stems and radial spokes, not recognizable dandelion photography.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "A rectangular display is mounted on the right return, but its lettering appears mirrored and the date is not legibly communicated.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_05.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R08",
+      "score": 0,
+      "evidence": "Blue walls and matte floor/ceiling are distinguishable by color, but the cabinet lacks identifiable brushed stainless steel and reflective or transmissive glazing.",
+      "source_evidence": [
+        "detail_01.png",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "The delivered view includes all three principal subjects, corner, floor, and ceiling without callouts or obstruction. However, heavy noise, simplified surfaces, and schematic feature details make it read as an unfinished preview rather than a presentation-ready realistic interior.",
+      "source_evidence": [
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R10",
+      "score": 1,
+      "evidence": "The project opens with 296 editable meshes, assigned node materials, three area lights, and an active perspective camera. Dependencies resolve and the saved engine is Cycles; the delivered image is consistent with the scene and its low-sample configuration.",
+      "source_evidence": [
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id=Box.001].finite_nonempty_mesh",
+        "scene_facts.json.materials",
+        "scene_facts.json.authored_lights",
+        "scene_facts.json.authored_cameras",
+        "scene_facts.json.required_dependencies_available",
+        "scene_facts.json.authored_render_configuration",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R11",
+      "score": 0,
+      "evidence": "The original final.png decodes successfully as PNG but measures 512×293, not 1920×1080.",
+      "source_evidence": [
+        "scene_facts.json.delivered_artifacts[0].width",
+        "scene_facts.json.delivered_artifacts[0].height",
+        "scene_facts.json.delivered_artifacts[0].full_decode_success",
+        "scene_facts.json.delivered_artifacts[0].format"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The blue corner and left-center-right subject arrangement are recognizable, but the photographic mural, cabinet construction, and exposed plenum are poorly reproduced.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 5,
+      "evidence": "Walls and floor form a coherent corner with broadly plausible placement. Ceiling lights cross grid members, base trim has an unfinished exposed end, and cabinet details lack convincing construction.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "Blue cladding, pale floor, dark ceiling, and purple botanical accents preserve the main palette; geometric line art and a white-looking cabinet alter the intended appearance.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Perspective and soft contact shadows establish depth, but conspicuous noise, opaque cabinet panels, reversed lettering, and crude botanical geometry undermine realism.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "Cabinet left, feature center, and display on the right return retain the requested organization, with uncluttered foreground space and visible corner relationships.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Room, cabinet, and display have broadly plausible relative sizes. The cabinet is shallow and the ceiling assembly has almost no visible plenum depth.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.016].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.001].dimensions_scene_units",
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Lighting is broadly even with soft gradients, but the material classes are weakly differentiated and the delivered render remains highly noisy.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "The major object categories are represented, including three ceiling panels, but photographic treatment, credible glass/steel, readable display information, visible plenum systems, and requested final resolution are missing.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "detail_01.png",
+        "scene_facts.json.delivered_artifacts[0]"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0011/2/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 236457,
+    "output_tokens": 2023,
+    "observed_model": "unknown",
+    "seconds": 70.71893846429884
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

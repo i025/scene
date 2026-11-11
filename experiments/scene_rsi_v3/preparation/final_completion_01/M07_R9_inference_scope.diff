@@ -1,0 +1,11 @@
+--- audit_m07_before_R9_scope_review.py
++++ audit_m07.py
+@@ -160,7 +160,7 @@
+ 
+ ## 第9轮：观测反驳假设，停止研发
+ 
+-M07指定教室 left_green_panel/right_green_panel/blue_lower_wall/wooden_top/wall_hook。实际测量确认两个面板分配不同的程序材质，Base Color是linked，反驳了该次记录中的错配材质猜测；默认颜色不能当成最终纹理颜色。后续转向宿舍 diffuser_0/shade_0/floor/lower/door_0，确认灯罩扩散面Emission Strength为0而场景另有Area灯。
++M07指定教室 left_green_panel/right_green_panel/blue_lower_wall/wooden_top/wall_hook。实际测量确认两个面板分配不同的程序材质，Base Color是linked。后续M决策据此拒绝了当时怀疑的分配错误；审查只将它解释为不同材质绑定已落实，不能据此排除所有材质错配或证明纹理、节点输出与参考图对应正确。默认颜色不能当成最终纹理颜色。后续转向宿舍 diffuser_0/shade_0/floor/lower/door_0，确认灯罩扩散面Emission Strength为0而场景另有Area灯。
+ 
+ M最终认为这些信息仍无法区分遮挡、位置与照明效应，不支持跨图统一修改，选择stop。第9轮是unchanged，没有生成新的H候选，没有Selection拒绝或通过事件，不应包装为“又一次修复成功”。
+ 

@@ -1,0 +1,21 @@
+--- final_statistics_before_null_timing_fix.py
++++ final_statistics.py
+@@ -189,8 +189,9 @@
+                            'observable_turns': sum(s['observable_cli_turns'] for s in sessions if isinstance(s.get('observable_cli_turns'), int)),
+                            'visible_tool_calls': sum(s['visible_tools'] for s in sessions if isinstance(s.get('visible_tools'), int)),
+                            'exact_model_requests': None, 'cost_usd': None})
+-    leaf = [t for t in timing if t['measurement_type'] == 'process_tree'
++    leaf_all = [t for t in timing if t['measurement_type'] == 'process_tree'
+             and t['command'][0] in [config['blender']['executable'], config['model']['command']]]
++    leaf = [t for t in leaf_all if isinstance(t['seconds'], (int, float))]
+     blender = [t for t in leaf if t['command'][0] == config['blender']['executable']]
+     slow = sorted(leaf, key=lambda t: t['seconds'], reverse=True)[:12]
+     save_csv('final_cost_by_role.csv', role_costs)
+@@ -218,6 +219,7 @@
+                'cost_usd': None, 'CLI_cost_by_role': role_costs,
+                'completion_cost_delta': completion_delta, 'completion_cost_baseline': before_cost,
+                'render_accounting': render_cost,
++               'leaf_process_wall_time_unmeasured': [t['record_path'] for t in leaf_all if not isinstance(t['seconds'], (int, float))],
+                'Blender_leaf_processes_measured': len(blender),
+                'Blender_leaf_CPU_seconds': sum(t['cpu_seconds'] for t in blender if t['cpu_seconds'] is not None),
+                'Blender_leaf_wall_seconds_cumulative': sum(t['seconds'] for t in blender),

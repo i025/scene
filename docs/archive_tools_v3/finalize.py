@@ -198,7 +198,11 @@ def facts(source):
     replay_receipt=read(replay_receipt_path) if replay_receipt_path.exists() else None
     observed_replay=replay_receipt if replay_receipt is not None else replay_status
     changed_audit=changed_content_audit(source)
+    final_stats=read(source/'metrics/final_test_summary.json') if (source/'metrics/final_test_summary.json').exists() else None
+    m07=read(source/'metrics/M07_review.json') if (source/'metrics/M07_review.json').exists() else None
     return {'state':state,'config':config,'summary':summary,'rounds':rounds,'H_best_or_current':H,
+        'final_test_statistics':final_stats,
+        'M07_review_summary':{key:m07[key] for key in ['changed_files','entrypoint_identical','action_count','subsequent_M07_action_count','H08_validation_delta','best_H_created_before_M07','retained_H_updates_after_M07','meta_capability_improvement_established']} if m07 else None,
         'round_statuses':dict(Counter(row['status'] for row in rounds)),
         'terminal_rounds':sum(row['status'] in TERMINAL for row in rounds),
         'H_accepted':sum(row['H_accepted'] for row in rounds),'M_accepted':len(accepted_M),
@@ -284,11 +288,21 @@ def summary_text(data,launch,publication,core_commit,replay=None):
         lines += [f"已实际读取确认的归档提交：[查看提交](https://github.com/i025/scene/commit/{publication['verified_commit']})。后续收据提交不反向改变这次读取的对象。"]
     if core_commit:
         lines += ['',f'实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/{core_commit})。此链接指向已确定的数据提交，摘要的后续提交不自指。']
+    if data['final_test_statistics'] is not None:
+        result=data['final_test_statistics']
+        lines += ['', '## 六来源终测与M07专项审查', '',
+                  '[完整终测统计](experiments/scene_rsi_v3/reports/FINAL_TEST_SUMMARY_ZH.md) / [24项原始数据](experiments/scene_rsi_v3/metrics/final_test_raw.csv) / [六来源配对](experiments/scene_rsi_v3/metrics/final_test_sources.csv)。',
+                  f"Selection BW：{result['selection_start_BW']:.6f} → {result['selection_H04_BW']:.6f}；Final Test BW配对差及来源bootstrap区间：{json.dumps(result['paired_differences']['BW'],ensure_ascii=False)}。",
+                  f"失败零效用差：{json.dumps(result['paired_differences']['BW_utility'],ensure_ascii=False)}。生成失败计零效用、原始测量保持null；评价服务失败与pending不计零。",
+                  'H的实际改动边界：H02改变了内层反馈的数据流，每次有效渲染后重新附上原参考图与当前渲染，并加入共享比较指导；H04在此基础上增加数值投影代码示例和相机调整指导。这是共享重建流程和提示的变化，不是新增由固定runner强制执行的投影校准器。H08的材质指导也只是共享生成/修复指导，未成为独立材质修复模块。实际差异见C02/C04/C08的H.diff，不把提示中的代码示例写成已强制执行的新算法。',
+                  '[M07源码与全动作审查](experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md)：'+json.dumps(data['M07_review_summary'],ensure_ascii=False)+'。H04产生于第4轮，早于M07，不能将H04收益归因于M07。']
+    if publication.get('base_release_url'):
+        lines += ['', '原13包的基础Release：'+publication['base_release_url']+'；本次仅上传preparation/final两个更新包，未变化的baseline与round01–10按显式版本复用原附件，不重复上传。']
     lines += ['', '## 离线与续跑','',
         '离线重画（不调用模型/Blender）：', '```bash',
         'python docs/archive_tools_v3/offline_v3.py --experiment experiments/scene_rsi_v3 --output derived/v3_review_01','```',
         '仅在实际存在未完成任务并经现场核对后，激活原有venv并在服务器项目根目录续跑；收尾工具本次不执行此命令：','```bash',
-        'python outputs/scene_rsi_v3/launch.py resume','```',
+        'python outputs/scene_rsi_v3/launch.py finish_test','```',
         'resume仅补未完成任务，不重抽终态失败、不启动第11轮。完整完成时无须续跑；不足部分明确保留pending。']
     return '\n'.join(lines)+'\n'
 
@@ -307,7 +321,11 @@ def replace_readme(old,summary):
               '![真实候选与实际保留版本](experiments/scene_rsi_v3/figures/evolution.png)',
               '![真实研究动作与负结果](experiments/scene_rsi_v3/figures/shared_patch_case.png)',
               '![终测原始重复与独立来源配对](experiments/scene_rsi_v3/figures/final_test_pairs.png)',
-              '![实际成本与耗时](experiments/scene_rsi_v3/figures/cost_and_timing.png)','',
+              '![实际成本与耗时](experiments/scene_rsi_v3/figures/cost_and_timing.png)',
+              '![六来源终测全部重复](experiments/scene_rsi_v3/figures/final_test_contact_sheet.png)',
+              '![六来源BW与八维分项](experiments/scene_rsi_v3/figures/final_test_quality.png)',
+              '![M07六次实际动作](experiments/scene_rsi_v3/figures/M07_action_evidence.png)','',
+              '[终测专项统计](experiments/scene_rsi_v3/reports/FINAL_TEST_SUMMARY_ZH.md) · [M07深入审查](experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md)。公开BW参考列因许可未确认而留空；含真实参考的完整联系表仅保留本地。','',
               'BW-style / CLI-adapted，不是官方榜单。开发历史图为研发已暴露数据；失败、服务故障、缺测与pending分开。没有真实冻结元回放就不宣称元能力提升。',
               '以下V2.4原文逐字保留，其数值不属于V3。','','---','']
     return '\n'.join(intro)+old_tail
@@ -329,6 +347,15 @@ def review_text():
 | A05终测服务中断与续跑 | [续跑快照](../experiments/scene_rsi_v3/code_snapshots/platform_A05_postten_resume/) / [原始恢复证据](../experiments/scene_rsi_v3/preparation/service_recovery_01/) | [服务事件](../experiments/scene_rsi_v3/metrics/cli_service_events.csv) / [协议](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_05.md) | Connection refused后900秒超时保留；不重抽失败，不将传输失败归因为几何退化 |
 | 结构与编辑保持 | [固定回归](../experiments/scene_rsi_v3/regression.py) / [文字编辑器](../experiments/scene_rsi_v3/semantic_edit.py) | [机械检查](../experiments/scene_rsi_v3/metrics/scenes.csv) / [文字编辑](../experiments/scene_rsi_v3/metrics/semantic_edit_summary.csv) → [实际前后图](../experiments/scene_rsi_v3/figures/semantic_edit_results.png) / [校准夹具](../experiments/scene_rsi_v3/preparation/functional_fixtures/index.html) | 文字编辑是否实际执行以逐任务状态为准；未完成不作通过结论，中心家具语义身份未独立验证，无自然图像3D真值 |
 | 成本与失败来源 | [固定运行时](../experiments/scene_rsi_v3/backend/runtime.py) | [CLI](../experiments/scene_rsi_v3/metrics/cli_audit.csv) / [时序](../experiments/scene_rsi_v3/metrics/timing.csv) / [渲染证据](../experiments/scene_rsi_v3/metrics/render_evidence.csv) → [成本图](../experiments/scene_rsi_v3/figures/cost_and_timing.png) | 全局frame字段为预算扣额，实际精确帧总量未知；缺失usage不计为零 |
+
+## 终测收尾与M07专项审查
+
+| 主张 → 问题 | 对应代码 | 原始数据 → 图表 | 局限 |
+|---|---|---|---|
+| 24项原计划是否结算 | [A06恢复入口](../experiments/scene_rsi_v3/finish_test.py) / [修订](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_06.md) | [逐项状态](../experiments/scene_rsi_v3/metrics/final_test_schedule.csv) / [完整原始值](../experiments/scene_rsi_v3/metrics/final_test_raw.csv) → [全部来源与重复](../experiments/scene_rsi_v3/figures/final_test_contact_sheet.png) | 保留两项生成失败；已有生成结果只恢复尚未使用的固定评审重试，旧失败另存原件 |
+| 六来源的收益和不确定性 | [统计脚本](../experiments/scene_rsi_v3/final_statistics.py) | [来源配对](../experiments/scene_rsi_v3/metrics/final_test_sources.csv) / [完整统计](../experiments/scene_rsi_v3/reports/FINAL_TEST_SUMMARY_ZH.md) → [质量与八维](../experiments/scene_rsi_v3/figures/final_test_quality.png) | 事后补充的六来源bootstrap，小样本探索性；重复和视角不是独立来源，未用Test重新选H |
+| M07真实修改及作用 | [M07差异](../experiments/scene_rsi_v3/candidates/C07/M.diff) / [动作源码](../experiments/scene_rsi_v3/candidates/C07/M/actions/appearance_audit.py) | [逐动作证据](../experiments/scene_rsi_v3/metrics/M07_action_review.csv) / [深入审查](../experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md) → [全部六次动作](../experiments/scene_rsi_v3/figures/M07_action_evidence.png) | meta.py未变；H04早于M07；H08拒绝、R9停止、H10拒绝，没有元能力增强证明 |
+| 修正外部BW耗时覆盖 | [报告修订说明](../experiments/scene_rsi_v3/REPORT_ADAPTATION_FINAL_COMPLETION.md) | [耗时](../experiments/scene_rsi_v3/metrics/timing.csv) / [角色成本](../experiments/scene_rsi_v3/metrics/final_cost_by_role.csv) → [成本图](../experiments/scene_rsi_v3/figures/cost_and_timing.png) | 旧汇总漏读*_timing.json，旧表图保留；不叠加父子进程作用域，不把补日志解释成速度收益 |
 
 归档只整理已存在产物，不调用模型/Blender、不补采样。实际执行H/M与冻结源码保留，整理版分析脚本单列。BW未获分发许可的原始参考及附件不公开；完整许可与上传状态见[附件索引](../artifacts_index_v3.csv)。
 '''
@@ -364,6 +391,39 @@ def mark_git_uploaded(index,core,tracked):
         writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
 
 
+def link_immutable_base_groups(index,base,new_groups):
+    """The finisher never writes baseline/round groups; reuse their explicit run archives."""
+    if base['remote_asset_listing_verified'] is not True:
+        raise RuntimeError('Base Release has not completed its remote listing verification')
+    assets={asset['name']:asset for asset in base['assets']}
+    with index.open(newline='') as stream:
+        reader=csv.DictReader(stream);fields,rows=reader.fieldnames,list(reader)
+    fields.append('bundle_snapshot_tag')
+    for row in rows:
+        row['bundle_snapshot_tag']=''
+        if row['archive_group'] not in new_groups and row['git_status']!='withheld_license':
+            asset=assets[row['bundle_name']]
+            row.update(upload_status='uploaded',download_url=asset['url'],not_uploaded_reason='',
+                       bundle_snapshot_tag=base['tag'])
+    with index.open('w',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
+
+
+def index_private_contact_sheet(index):
+    path=WORK/'private_final_test_contact_sheet.png'
+    with index.open(newline='') as stream:
+        reader=csv.DictReader(stream);fields,rows=reader.fieldnames,list(reader)
+    row={field:'' for field in fields}
+    row.update(run_id='continuous_10',artifact_type='local_only_reference_contact_sheet',
+               relative_path='local_only/private_final_test_contact_sheet.png',
+               source_size_bytes=path.stat().st_size,file_size_bytes=path.stat().st_size,
+               git_status='withheld_license',upload_status='not_uploaded',archive_group='local_private',
+               not_uploaded_reason='Contains original BlenderWorld references; redistribution permission not confirmed; retained at server work/scene_v3_archive/private_final_test_contact_sheet.png')
+    rows.append(row)
+    with index.open('w',newline='') as stream:
+        writer=csv.DictWriter(stream,fieldnames=fields);writer.writeheader();writer.writerows(rows)
+
+
 def finalize(args):
     source,repo = args.source.resolve(),args.repo.resolve()
     snapshot = args.snapshot_id or datetime.now(timezone.utc).strftime('S%Y%m%dT%H%M%SZ')
@@ -376,7 +436,8 @@ def finalize(args):
         bundles=Path(receipt['bundles'])
         packed=read(bundles/'PACK_RECEIPT.json')
         rows=[json.loads(line) for line in (folder/'pack_all_groups.stdout.log').read_text().splitlines()]
-        if {row['group'] for row in rows}!=set(packed['groups']):raise ValueError('Pack log does not cover every planned group')
+        expected=packed['new_groups'] if 'new_groups' in packed else packed['groups']
+        if {row['group'] for row in rows}!=set(expected):raise ValueError('Pack log does not cover every planned new group')
         for row in rows:
             if Path(row['path']).parent!=bundles or Path(row['path']).stat().st_size!=row['bytes']:
                 raise ValueError('Recorded archive path or byte size differs')
@@ -410,6 +471,8 @@ def finalize(args):
         stage('optional_replay_preparation')
         replay = optional_replay(args.replay_entry,folder,source)
         stage('offline_report',replay=replay)
+        required([sys.executable,str(source/'audit_m07.py')],folder,'offline_M07_review')
+        required([sys.executable,str(source/'final_statistics.py'),'--private-output',str(WORK/'private_final_test_contact_sheet.png')],folder,'offline_final_statistics')
         required([sys.executable,str(source/'analyze.py'),'report'],folder,'offline_report')
         data = facts(source)
         write(source/'metrics/M_changed_content_execution_audit.json',data['M_changed_content_execution_audit'])
@@ -419,9 +482,34 @@ def finalize(args):
         common = [sys.executable,str(WORK/'prepare_archive.py'),'--source',str(source),'--repo',str(repo),'--bundles',str(bundles),'--tag',tag]
         stage('prepare_core',tag=tag,bundles=str(bundles))
         required(common,folder,'prepare_core')
+        index_private_contact_sheet(repo/'artifacts_index_v3.csv')
+        derived=WORK/('offline_final_'+snapshot)
+        required([sys.executable,str(WORK/'offline_v3.py'),'--experiment',str(repo/EXPERIMENT),'--output',str(derived)],folder,'offline_core_reproduction',timeout=1800)
+        original_stats=read(source/'metrics/final_test_summary.json')
+        derived_stats=read(derived/'experiment/metrics/final_test_summary.json')
+        for key in ['records_finished','execution_success','BW_measured','endpoints','paired_differences']:
+            if original_stats[key]!=derived_stats[key]:raise RuntimeError('Offline core reproduction changed final statistics: '+key)
+        shutil.copy2(derived/'OFFLINE_RUN.json',repo/'docs'/('V3_OFFLINE_REPRODUCTION_'+snapshot+'.json'))
         stage('pack_all_groups')
-        required(common+['--pack'],folder,'pack_all_groups',timeout=7200)
+        if args.base_release_state:
+            if args.delta_groups!=['preparation','final']:
+                raise ValueError('V3 completion changes only preparation and final archive groups')
+            base=read(repo/args.base_release_state)
+            link_immutable_base_groups(repo/'artifacts_index_v3.csv',base,args.delta_groups)
+            for group in args.delta_groups:
+                required(common+['--pack','--only-group',group],folder,'pack_'+group,timeout=7200)
+            packed=read(bundles/'PACK_RECEIPT.json')
+            packed.update(new_groups=args.delta_groups,reused_groups=[g for g in packed['groups'] if g not in args.delta_groups],
+                          base_release_url=base['release_url'],base_release_tag=base['tag'],
+                          reuse_basis='Explicit unchanged historical baseline/round run versions; finisher writes only new final/preparation/semantic outputs; no content fingerprints')
+            write(bundles/'PACK_RECEIPT.json',packed)
+            write(repo/'docs/V3_ARCHIVE_STATE.json',packed)
+            (folder/'pack_all_groups.stdout.log').write_text(''.join((folder/('pack_'+g+'.stdout.log')).read_text() for g in args.delta_groups))
+            stage('pack_all_groups',incremental_base_state=str(args.base_release_state),new_archive_groups=args.delta_groups)
+        else:
+            required(common+['--pack'],folder,'pack_all_groups',timeout=7200)
     publication = {'git':'not_pushed','release':'not_uploaded','verification':'not_run','release_url':None}
+    if args.base_release_state:publication['base_release_url']=read(repo/args.base_release_state)['release_url']
     text = summary_text(data,launch,publication,None,replay)
     (repo/'README.md').write_text(replace_readme((repo/'README.md').read_text(),text))
     review = repo/'docs/V3_REVIEW_INDEX.md'
@@ -429,7 +517,7 @@ def finalize(args):
     if review.exists():shutil.copy2(review,repo/old_review)
     review.write_text(review_text())
     tools = repo/'docs/archive_tools_v3';tools.mkdir(parents=True,exist_ok=True)
-    for name in ['prepare_archive.py','offline_v3.py','finalize.py','publish.py','github_release_v3.py','verify_remote.py','apply_A02_after_baseline.py','COMMANDS.md']:
+    for name in ['prepare_archive.py','offline_v3.py','finalize.py','finish_after_test.py','publish.py','github_release_v3.py','verify_remote.py','apply_A02_after_baseline.py','COMMANDS.md']:
         shutil.copy2(WORK/name,tools/name)
     replay_tools=tools/'replay_stage';replay_tools.mkdir(exist_ok=True)
     for path in sorted((WORK/'replay_stage').iterdir()):
@@ -437,6 +525,8 @@ def finalize(args):
             shutil.copy2(path,replay_tools/path.name)
     paths = [EXPERIMENT,Path('README.md'),Path('artifacts_index_v3.csv'),Path('docs/V3_ARCHIVE_STATE.json'),
              Path('docs/V3_REDACTIONS.json'),Path('docs/V3_REVIEW_INDEX.md'),old_review,Path('docs/archive_tools_v3')]
+    if args.base_release_state:paths.append(args.base_release_state)
+    if not args.resume_publication:paths.append(Path('docs')/('V3_OFFLINE_REPRODUCTION_'+snapshot+'.json'))
     stage('commit_core')
     core = commit(repo,paths,folder,'data_'+snapshot)
     text = summary_text(data,launch,publication,core,replay)
@@ -466,6 +556,19 @@ def finalize(args):
                 if state_path.exists():
                     verify = [sys.executable,str(WORK/'verify_remote.py'),'--commit',latest,'--repo',str(repo),'--release-state',release_state]
                     verified = run(verify,folder,'verify_remote',timeout=900)==0
+                    if verified and args.base_release_state:
+                        shutil.copy2(WORK/'REMOTE_VERIFICATION.json',folder/'DELTA_REMOTE_VERIFICATION.json')
+                        base_verify=[sys.executable,str(WORK/'verify_remote.py'),'--commit',latest,'--repo',str(repo),'--release-state',str(args.base_release_state)]
+                        verified=run(base_verify,folder,'verify_base_release',timeout=1200)==0
+                        shutil.copy2(WORK/'REMOTE_VERIFICATION.json',folder/'BASE_REMOTE_VERIFICATION.json')
+                        delta_receipt=read(folder/'DELTA_REMOTE_VERIFICATION.json')
+                        base_receipt=read(folder/'BASE_REMOTE_VERIFICATION.json')
+                        write(WORK/'REMOTE_VERIFICATION.json',{'requested_commit':latest,'complete':verified,
+                              'branch':BRANCH,'new_model_calls':0,'new_Blender_jobs':0,
+                              'core_files':delta_receipt['core_files'],
+                              'release_assets':delta_receipt['release_assets']+base_receipt['release_assets'],
+                              'delta_receipt':str(folder/'DELTA_REMOTE_VERIFICATION.json'),
+                              'base_receipt':str(folder/'BASE_REMOTE_VERIFICATION.json')})
                     publication['verification']='passed' if verified else 'failed_or_partial_readability'
                     if verified:publication['verified_commit']=latest
                     remote_receipt = WORK/'REMOTE_VERIFICATION.json'
@@ -505,7 +608,7 @@ def finalize(args):
                       'commit_url':'https://github.com/i025/scene/commit/'+latest,'publication':publication,
                       'archive_model_calls':0,'archive_Blender_jobs':0,'optional_replay':replay,
                       'joint_recorded_usage':data['joint_recorded_usage']},ensure_ascii=False))
-    return 0 if not args.publish or (publication['verification']=='passed' and publication['git']=='data_and_readability_receipt_pushed') else 1
+    return 0 if not args.publish or (publication['release']=='uploaded' and publication['verification']=='passed' and publication['git']=='data_and_readability_receipt_pushed') else 1
 
 
 def self_test():
@@ -600,6 +703,8 @@ def main():
     parser.add_argument('--wait',action='store_true');parser.add_argument('--wait-hours',type=float,default=36)
     parser.add_argument('--snapshot-id');parser.add_argument('--tag');parser.add_argument('--publish',action='store_true')
     parser.add_argument('--resume-publication',action='store_true',help='Reuse a recorded completed pack; no model, render, report or pack rerun')
+    parser.add_argument('--base-release-state',type=Path,help='Completed base Release receipt for immutable baseline/round archives')
+    parser.add_argument('--delta-groups',nargs='+',help='V3 final completion updates preparation and final only')
     parser.add_argument('--replay-entry',type=Path,help='Explicit root-reviewed Python entry; prepare checks real eligibility after main terminal')
     parser.add_argument('--auth',choices=['git','bashrc'],default='git');parser.add_argument('--self-test',action='store_true')
     args=parser.parse_args()

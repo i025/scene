@@ -1,0 +1,228 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 44.0,
+  "S_dimension": 47.5,
+  "S_BW": 45.75,
+  "started": 1794394573.3761158,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/test/bw_0039/2/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794394890.0952384,
+  "seconds": 316.71912264823914,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The entrance-to-window organization is recognizable, but the right enclosure ends near the entrance, leaving a large open black void beside the rear room.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "Repeated brown studs occupy the left side, but their backing is a plain surface without readable individual bricks or masonry courses.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "The far-right window has a dark recessed surround, off-white framing, and distinct stacked upper and lower sash regions.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The ladder has paired rails, steps, hinges and braces near the window, but reads as a pale matte freestanding A-frame without upper wall support. A rear foot extends beyond the floor edge.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "wide_06.png",
+        "detail_02.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "A light rectangular box is mounted on the near-left framing with a connected conduit descending toward the floor.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Numerous wooden strips form a foreground concentration, but masonry is represented by sparse, clean rectangular blocks rather than an irregular rubble field. Several strips appear suspended above the floor.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "Readable brick masonry is absent, the ladder lacks convincing aluminum character, and the far wall is smooth and uniform despite its lower slats. Exposed floor areas look clean.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "Warm illumination and a concentrated bright high-left work lamp establish the intended atmosphere while keeping the modeled objects legible.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R09",
+      "score": 1,
+      "evidence": "The original PNG decodes successfully and shows the entrance-facing composition with the principal objects together. The Blender project opens and contains separate editable meshes, assigned node materials, three lights and an active authored camera corresponding to the delivered view.",
+      "source_evidence": [
+        "scene_facts.json.delivered_artifacts[0].full_decode_success",
+        "scene_facts.json.delivered_artifacts[0].snapshot_filename",
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.objects[object_id=Box.028].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.079].material_slots",
+        "scene_facts.json.materials.SceneActSurface_24.links",
+        "scene_facts.json.authored_lights",
+        "scene_facts.json.authored_cameras[0].is_active_camera",
+        "scene_facts.json.camera.matrix_world",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The main objects and overall arrangement correspond, but missing masonry, incomplete enclosure and clean surfaces substantially weaken the reconstruction.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Framing and utility connections are broadly coherent; floating-looking strips and a ladder foot beyond the floor undermine support plausibility.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Brown timber, white framing, blue window regions and a red ladder accent preserve broad color cues, but shapes and surfaces are excessively uniform.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Pristine box-shaped rubble, smooth walls, simplified ladder joints and visible render noise produce a schematic construction scene.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Left framing and utilities, the rear-right window, ladder and foreground debris retain useful spatial relationships, but the right wall enclosure is incomplete.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Most objects have recognizable relative sizes, but the tall wall system, elongated window and strongly extended ladder stance depart from the compact reference arrangement.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Warm localized light and shadows work well, but timber, masonry and aluminum lack the requested surface differentiation and wear.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Window, ladder, framing, electrical box, conduit, lamp and plentiful strips are present. Exposed brickwork and a complete room enclosure remain missing.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_06.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0039/2/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 186284,
+    "output_tokens": 1557,
+    "observed_model": "unknown",
+    "seconds": 69.21061082696542
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

@@ -45,7 +45,16 @@ def main():
     session.proxies.update(requests.utils.get_environ_proxies('https://api.github.com'))
     paths = ['README.md', 'experiments/scene_rsi_v3/pilot.py',
              'experiments/scene_rsi_v3/metrics/rounds.csv', 'experiments/scene_rsi_v3/metrics/scenes.csv',
-             'experiments/scene_rsi_v3/metrics/actions.csv', 'experiments/scene_rsi_v3/reports/index.html', args.png]
+             'experiments/scene_rsi_v3/metrics/actions.csv', 'experiments/scene_rsi_v3/reports/index.html', args.png,
+             'docs/V3_REVIEW_INDEX.md', 'experiments/scene_rsi_v3/finish_test.py',
+             'experiments/scene_rsi_v3/metrics/final_test_raw.csv',
+             'experiments/scene_rsi_v3/metrics/final_test_sources.csv',
+             'experiments/scene_rsi_v3/metrics/final_completion_cost_delta.csv',
+             'experiments/scene_rsi_v3/reports/FINAL_TEST_SUMMARY_ZH.md',
+             'experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md',
+             'experiments/scene_rsi_v3/figures/final_test_contact_sheet.png',
+             'experiments/scene_rsi_v3/figures/final_test_quality.png',
+             'experiments/scene_rsi_v3/figures/M07_action_evidence.png']
     for path in paths:
         url = f'https://raw.githubusercontent.com/i025/scene/{args.commit}/{path}'
         response = session.get(url, timeout=30)

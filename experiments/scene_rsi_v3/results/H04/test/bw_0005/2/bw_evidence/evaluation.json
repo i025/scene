@@ -1,0 +1,232 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 22.22222222222222,
+  "S_dimension": 53.75,
+  "S_BW": 37.986111111111114,
+  "started": 1794401851.986549,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/test/bw_0005/2/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794402049.2940834,
+  "seconds": 197.30753445625305,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The sparse storage arrangement recalls the classroom, but the windows cover only part of the back wall, the shell visibly opens onto gray background, and ancillary classroom furnishings are largely absent.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Several low wooden units have clearly readable open compartments, with both back-wall storage and freestanding middle and foreground cabinets.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Trays and geometric blocks are recognizable, but the shelf contents are plain solid cuboids without recognizable wooden-box construction.",
+      "source_evidence": [
+        "wide_05.png",
+        "wide_06.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Two light-wood activity tables and small stools sit among the low cabinets. A round red rug lies flat beneath the foreground unit; the furniture proportions broadly read as child-sized.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_04.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "The cream and pale warm palette is appropriate, but large furniture and floor surfaces lack discernible natural wood grain.",
+      "source_evidence": [
+        "wide_02.png",
+        "detail_01.png",
+        "detail_02.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The active camera uses suitable 24 mm perspective optics, but its position (2.15, -5.30, 2.65) is along the front edge, about 3.1 scene units from the right boundary, rather than near a room corner. The horizontal overview is otherwise uncluttered.",
+      "source_evidence": [
+        "scene_facts.json:camera.type",
+        "scene_facts.json:camera.lens_mm",
+        "scene_facts.json:camera.matrix_world",
+        "scene_facts.json:objects[object_id=Box].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.003].world_aabb_approx",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "Ambient illumination is bright and shelf interiors remain legible, but the opaque-looking window panels receive a diagonal light patch rather than convincingly supplying the principal daylight key.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R08",
+      "score": 0,
+      "evidence": "The original delivered PNG decodes successfully but measures 512×288, not 1920×1080.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].width",
+        "scene_facts.json:delivered_artifacts[0].height",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "The editable classroom project opens and uses Cycles, but it saves only 16 samples with scene denoising disabled and no active compositor denoising. The original delivered image has conspicuous sampling noise.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:authored_render_configuration.engine",
+        "scene_facts.json:authored_render_configuration.cycles_samples",
+        "scene_facts.json:authored_render_configuration.cycles_use_denoising",
+        "scene_facts.json:authored_render_configuration.use_compositing",
+        "scene_facts.json:authored_render_configuration.compositor_denoise_nodes",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "Low storage, activity tables, windows and the red rug retain the main classroom vocabulary, but the room and supporting contents are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Most furnishings appear stable, but dark seams and imperfect panel connections weaken construction credibility; some shelf contents appear slightly separated from their supports.",
+      "source_evidence": [
+        "wide_03.png",
+        "wide_06.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Warm pale furniture, cream walls and a muted red rug create a coherent palette, though shapes are repetitive and heavily simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Untextured cuboids, opaque windows, exposed shell edges and conspicuous noise make the result read as an unfinished blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Perimeter and island storage relationships are easy to follow, but the arrangement is sparse and some table access is squeezed between cabinets.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Tables, stools and low shelving have generally coherent child-oriented proportions, although the broad empty floor and oversized plank spacing weaken room-scale cues.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Soft warm illumination keeps furniture legible, but natural grain is absent and the windows do not convincingly transmit daylight.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_02.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "Most principal furniture categories are present, but the shell, ancillary furnishings and learning assortment are underdeveloped, and the delivered image misses resolution and cleanliness requirements.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "scene_facts.json:delivered_artifacts[0].width",
+        "scene_facts.json:delivered_artifacts[0].height"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0005/2/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 160227,
+    "output_tokens": 1735,
+    "observed_model": "unknown",
+    "seconds": 61.07191705191508
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

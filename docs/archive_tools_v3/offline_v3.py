@@ -77,6 +77,15 @@ def main():
     spec.loader.exec_module(analyze)
     analyze.ROOT = view
     analyze.read = read
+    sys.path[:0] = [str(view), str(view/'backend')]
+    sys.modules['analyze'] = analyze
+    for name in ['audit_m07', 'final_statistics']:
+        spec = importlib.util.spec_from_file_location(name, view/(name+'.py'))
+        supplement = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(supplement)
+        supplement.ROOT = view
+        supplement.read = read
+        supplement.report()
     analyze.main()
     note = ('本次只重算已保存记录、重画真实已有图像，不重测视觉指标，不调用模型、Blender或GPU。'
             '文本为独立副本，较大原始日志与媒体只通过只读用途链接引用。'

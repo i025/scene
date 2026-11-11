@@ -1,0 +1,19 @@
+--- audit_m07_before_material_scope_review.py
++++ audit_m07.py
+@@ -88,6 +88,7 @@
+              'causal_action_benefit_established': False, 'meta_capability_improvement_established': False,
+              'limitations': ['No action intervention or diagnostic render was requested',
+                             'Shader socket defaults are not evaluated shading; linked inputs may override them',
++                            'Group material mesh_count increments per material slot; no global material.users or dependency audit; repeated slots on one mesh may count twice',
+                             'No controlled counterfactual M000 comparison or completed frozen replay',
+                             'Action-index status created_pending_reuse is catalog metadata, not execution evidence; traces establish actual reuse']}
+     metrics = ROOT / 'metrics';metrics.mkdir(exist_ok=True)
+@@ -143,7 +144,7 @@
+ 
+ M07 与 M000 的 `meta.py` 完全相同；初始策略提示也未改变。真实差异是新增39行的 `actions/appearance_audit.py`，并在 `actions_index.json` 注册动作。它是研究动作库扩展，不是规划入口改写或普通代码整理。Astra在第7轮提出并保留了此M-only后代，共享H仍为H04。索引里残留的 `created_pending_reuse` 是目录元数据，不能当作实际执行结论；以下调用轨迹才是执行证据。
+ 
+-动作接收明确的 `object_ids`，检查这些对象及其Mesh后代的材质槽、Principled/Emission节点默认值与linked标志、材质在组内的使用次数，同时读取真实灯光、World背景、色彩管理、曝光和gamma。对象不存在时写missing。它不改几何、相机、材质或灯光，不渲染，不求解链接节点网络，也不测量像素亮度、可见性或唯一原因。
++动作接收明确的 `object_ids`，检查这些对象及其Mesh后代的材质槽、Principled/Emission节点默认值与linked标志、材质在组内的使用次数，同时读取真实灯光、World背景、色彩管理、曝光和gamma。对象不存在时写missing。它不改几何、相机、材质或灯光，不渲染，不求解链接节点网络，也不测量像素亮度、可见性或唯一原因。`mesh_count`实际按所选对象树的材质槽累加，同一Mesh重复槽可能重复计数；没有读取全局`material.users`，也没有建立跨对象依赖图。因此这不是完整的共享材质回归测试。World和灯光字段也是配置读数，不能当作最终渲染照明测量。
+ 
+ ## 第7轮：动作创建与两场景复用
+ 

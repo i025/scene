@@ -1,13 +1,13 @@
 {
   "experiment": "experiments/scene_rsi_v3",
   "source_status": {
-    "phase": "generation",
+    "phase": "all_scheduled_terminal",
     "round_completed": 10,
     "formal_started": true,
     "H_start": "historical_r1_C2_start",
     "M_start": "M000",
     "resume_policy": "Only unfinished work; never round11 or resample terminal failures",
-    "current_scene": "bw_0023",
+    "current_scene": "bw_0011",
     "current_H": "H04",
     "current_split": "test",
     "H_retained": "H04",
@@ -17,15 +17,16 @@
     "platform_snapshot": "code_snapshots/platform_A04",
     "H_best": "H04",
     "final_selection_frozen": true,
-    "postfreeze_resume_snapshot": "code_snapshots/platform_A05_postten_resume"
+    "postfreeze_resume_snapshot": "code_snapshots/platform_A05_postten_resume",
+    "meta_replay_status": "pending_budget_and_actual_descendant_check"
   },
   "source_files_untouched": true,
   "new_model_calls": 0,
   "new_render_frames": 0,
-  "archive_created": 1794368962.3119833,
-  "indexed_artifacts": 16671,
+  "archive_created": 1794405449.0332363,
+  "indexed_artifacts": 20383,
   "groups": {
-    "preparation": 3966,
+    "preparation": 4424,
     "round01": 754,
     "round02": 1388,
     "round03": 590,
@@ -36,7 +37,7 @@
     "round08": 657,
     "round09": 69,
     "round10": 629,
-    "final": 1212,
+    "final": 4361,
     "baseline": 3139
   },
   "all_experiment_terminal_required": false,
@@ -79,6 +80,17 @@
         "results/historical_r1_C2_start/selection/bw_0031/1/task.json",
         "results/historical_r1_C2_start/selection/bw_0031/2/task.json"
       ]
+    },
+    {
+      "scene_id": "bw_0056",
+      "attachment_name": "scene_spec.md",
+      "source": "BlenderWorld/tasks/bw_0056/attachments/scene_spec.md",
+      "task_records": [
+        "results/H04/test/bw_0056/1/task.json",
+        "results/H04/test/bw_0056/2/task.json",
+        "results/historical_r1_C2_start/test/bw_0056/1/task.json",
+        "results/historical_r1_C2_start/test/bw_0056/2/task.json"
+      ]
     }
   ],
   "binary_policy": "No binary content mutation except explicitly labelled public reference placeholders",
@@ -89,5 +101,25 @@
     "__BLENDERWORLD_ROOT__": "External resource or run root; configure locally before running",
     "__COMMONS_DATA_ROOT__": "External resource or run root; configure locally before running",
     "__SERVER_USER_ROOT__": "External resource or run root; configure locally before running"
-  }
+  },
+  "new_groups": [
+    "preparation",
+    "final"
+  ],
+  "reused_groups": [
+    "round01",
+    "round02",
+    "round03",
+    "round04",
+    "round05",
+    "round06",
+    "round07",
+    "round08",
+    "round09",
+    "round10",
+    "baseline"
+  ],
+  "base_release_url": "https://github.com/i025/scene/releases/tag/scene-rsi-v3-10rounds-S20261111T034024Z",
+  "base_release_tag": "scene-rsi-v3-10rounds-S20261111T034024Z",
+  "reuse_basis": "Explicit unchanged historical baseline/round run versions; finisher writes only new final/preparation/semantic outputs; no content fingerprints"
 }

@@ -1,0 +1,10 @@
+--- finalize_before_H_scope_review.py
++++ finalize.py
+@@ -294,6 +294,7 @@
+                   '[完整终测统计](experiments/scene_rsi_v3/reports/FINAL_TEST_SUMMARY_ZH.md) / [24项原始数据](experiments/scene_rsi_v3/metrics/final_test_raw.csv) / [六来源配对](experiments/scene_rsi_v3/metrics/final_test_sources.csv)。',
+                   f"Selection BW：{result['selection_start_BW']:.6f} → {result['selection_H04_BW']:.6f}；Final Test BW配对差及来源bootstrap区间：{json.dumps(result['paired_differences']['BW'],ensure_ascii=False)}。",
+                   f"失败零效用差：{json.dumps(result['paired_differences']['BW_utility'],ensure_ascii=False)}。生成失败计零效用、原始测量保持null；评价服务失败与pending不计零。",
++                  'H的实际改动边界：H02改变了内层反馈的数据流，每次有效渲染后重新附上原参考图与当前渲染，并加入共享比较指导；H04在此基础上增加数值投影代码示例和相机调整指导。这是共享重建流程和提示的变化，不是新增由固定runner强制执行的投影校准器。H08的材质指导也只是共享生成/修复指导，未成为独立材质修复模块。实际差异见C02/C04/C08的H.diff，不把提示中的代码示例写成已强制执行的新算法。',
+                   '[M07源码与全动作审查](experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md)：'+json.dumps(data['M07_review_summary'],ensure_ascii=False)+'。H04产生于第4轮，早于M07，不能将H04收益归因于M07。']
+     if publication.get('base_release_url'):
+         lines += ['', '原13包的基础Release：'+publication['base_release_url']+'；本次仅上传preparation/final两个更新包，未变化的baseline与round01–10按显式版本复用原附件，不重复上传。']

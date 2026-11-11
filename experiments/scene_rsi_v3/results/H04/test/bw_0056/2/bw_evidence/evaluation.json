@@ -1,0 +1,286 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 15.151515151515152,
+  "S_dimension": 40.0,
+  "S_BW": 27.575757575757578,
+  "started": 1794398707.530912,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/test/bw_0056/2/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794399504.3123238,
+  "seconds": 796.7814118862152,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The bright, plain rectangular room and seamed floor are present, but ceiling lights visibly project below the ceiling rather than forming recessed panels.",
+      "source_evidence": [
+        "author.png",
+        "wide_02.png",
+        "wide_03.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The dominant arrangement is preserved, but proportions are implausible: the operator's forearm is 1.129 scene units versus a 0.341 upper arm, and the HMI measures 0.63 by 0.95 against a 0.72-wide belt.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod.020].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Rod.019].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.103].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.041].dimensions_scene_units",
+        "scene_facts.json.camera.matrix_world"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "A substantial depth-running assembly exists, but body and framing shaders have zero metallic response and uniform roughness 0.65, failing the specified stainless PBR treatment.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.039].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.039].material_slots",
+        "scene_facts.json.materials.SceneActSurface_6.nodes",
+        "scene_facts.json.materials.SceneActSurface_3.nodes",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "The continuous pale belt extends through the assembly. Six aligned trays repeat at 0.8-unit intervals immediately above its surface; its shader is nonmetallic with roughness 0.65.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.041].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.056].matrix_world",
+        "scene_facts.json.objects[object_id=Box.057].matrix_world",
+        "scene_facts.json.objects[object_id=Box.058].matrix_world",
+        "scene_facts.json.objects[object_id=Box.059].matrix_world",
+        "scene_facts.json.objects[object_id=Box.060].matrix_world",
+        "scene_facts.json.objects[object_id=Box.061].matrix_world",
+        "scene_facts.json.materials.SceneActSurface_8.nodes",
+        "wide_06.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "The large panel has a simple column, arm and ball support, but its display shader has emission strength zero and the final screen is blank.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod.015].matrix_world",
+        "scene_facts.json.objects[object_id=Rod.016].matrix_world",
+        "scene_facts.json.objects[object_id=Box.105].material_slots",
+        "scene_facts.json.materials.SceneActSurface_15.nodes",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Repeated cylinder/piston pairs and guide rods exist, but the construction lacks credible fitted linkages. Cylinder mounting plates are separated from the upper cross-member, and mechanisms read as sparse primitive arrays.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Rod.001].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.087].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.086].world_aabb_approx",
+        "scene_facts.json.objects[object_id=mechanisms].children",
+        "wide_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "Transparent side and end panels form a recognizable enclosure, but the frames use a nonmetallic shader rather than stainless steel. The panels rely on low alpha with zero transmission and weak glass response.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.062].material_slots",
+        "scene_facts.json.objects[object_id=Box.068].material_slots",
+        "scene_facts.json.objects[object_id=Box.078].material_slots",
+        "scene_facts.json.materials.SceneActSurface_3.nodes",
+        "scene_facts.json.materials.SceneActSurface_11.nodes",
+        "scene_facts.json.materials.SceneActSurface_12.nodes",
+        "wide_03.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "Exactly two white-coated staff with simplified pale hair coverings appear; the foreground worker reaches toward the HMI and the second recedes at left.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "Ceiling panels have zero emission; illumination comes from three large angled area lights. The cool pale mood is present, but surfaces are flat and the delivered image has distracting noise rather than controlled metal/glass highlights.",
+      "source_evidence": [
+        "scene_facts.json.materials.SceneActSurface_4.nodes",
+        "scene_facts.json.authored_lights",
+        "scene_facts.json.authored_render_configuration.cycles_samples",
+        "scene_facts.json.authored_render_configuration.cycles_use_denoising",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R10",
+      "score": 0,
+      "evidence": "Operator-HMI interaction and receding conveyor are prominent, but no moderate focal separation is apparent. Heavy noise and low contrast compromise mechanical readability for callouts.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R11",
+      "score": 0,
+      "evidence": "The editable project opens and uses Cycles, but the final machine's primitive construction, flat material response and weak contacts fail the required realistic treatment.",
+      "source_evidence": [
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.authored_cameras",
+        "scene_facts.json.authored_render_configuration.engine",
+        "delivered_final.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R12",
+      "score": 0,
+      "evidence": "The original final.png is a valid, fully decoded PNG, but its native 512×341 dimensions are plainly preview-sized rather than high resolution.",
+      "source_evidence": [
+        "scene_facts.json.delivered_artifacts[0].width",
+        "scene_facts.json.delivered_artifacts[0].height",
+        "scene_facts.json.delivered_artifacts[0].full_decode_success",
+        "scene_facts.json.delivered_artifacts[0].format"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The principal subjects and arrangement correspond, but equipment complexity and architectural detail are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 3,
+      "evidence": "Several supports and mounting interfaces are incomplete; the foreground worker lacks grounded legs, and machine components appear suspended.",
+      "source_evidence": [
+        "wide_03.png",
+        "wide_01.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Pale whites and cool teal coloration fit the cleanroom theme, but blocky silhouettes and a black torso band distract.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 2,
+      "evidence": "Primitive equipment, absent active screen detail, weak contacts and heavy noise produce an unfinished blockout appearance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Foreground operator, upper-right HMI, left background worker and depth-running conveyor preserve the main spatial relationships.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 3,
+      "evidence": "The elongated operating arm and oversized panel undermine otherwise recognizable room and conveyor proportions.",
+      "source_evidence": [
+        "wide_03.png",
+        "wide_06.png",
+        "scene_facts.json.objects[object_id=Rod.020].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 3,
+      "evidence": "Broad cool illumination is present, but material differentiation is weak, steel reads as plastic, and the original render is very noisy.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "scene_facts.json.materials.SceneActSurface_9.nodes"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "Room, conveyor, trays, guards, HMI and two staff are present; functional mounting detail, linkages, active display and finished delivery quality remain deficient.",
+      "source_evidence": [
+        "wide_02.png",
+        "wide_03.png",
+        "wide_06.png",
+        "delivered_final.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0056/2/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 138442,
+    "output_tokens": 2372,
+    "observed_model": "unknown",
+    "seconds": 76.19016597792506
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

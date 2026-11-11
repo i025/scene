@@ -1,0 +1,283 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 24.242424242424242,
+  "S_dimension": 43.75,
+  "S_BW": 33.996212121212125,
+  "started": 1794397612.2014205,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0056/2/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794398249.062175,
+  "seconds": 636.8607544898987,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The final view presents the line inside a bright, plain cleanroom with pale walls, repeated ceiling panels and grid, and a pale seamed floor.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The broad foreground/background arrangement is retained, but the operator's approximately 0.94-unit forearm sleeve plus 0.34-unit hand is implausibly long relative to the approximately 2-unit person. The elevated HMI and distant operating position produce an unusable scale relationship.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod.035].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Rod.036].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Ball.005].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.111].matrix_world",
+        "scene_facts.json.objects[object_id=Ball.001].matrix_world"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "A substantial depth-running cabinet and two identification plates exist, but the framing uses a nonmetallic shader and does not achieve the required stainless-steel treatment.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.037].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.103].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.104].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.067].material_slots",
+        "scene_facts.json.materials.SceneActSurface_8.nodes[1].inputs",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "One continuous pale belt runs through the processing area. Nine aligned trays repeat at approximately 0.47-unit intervals, closely above the belt without severe floating or clipping. Its shader is nonmetallic with roughness 0.48.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.044].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.049].matrix_world",
+        "scene_facts.json.objects[object_id=Box.051].matrix_world",
+        "scene_facts.json.objects[object_id=Box.065].matrix_world",
+        "scene_facts.json.materials.SceneActSurface_10.nodes[1].inputs",
+        "wide_06.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "The display has emission, but its face reads as blank. The front support arm ends short of the panel housing, and the assembly lacks credible mounting interfaces and multiple articulated joints.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod.030].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.111].world_aabb_approx",
+        "scene_facts.json.objects[object_id=HMI].children",
+        "scene_facts.json.materials.SceneActSurface_18.nodes[1].inputs",
+        "author.png",
+        "wide_06.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "Repeated cylinder-and-piston pairs, shafts, rails and beams are present. However, the elevated mechanism lacks a credible supporting frame and fitted linkage system; simple repeated rods and blocks do not establish the requested integrated mechanisms.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod.011].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Rod.012].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.083].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.094].world_aabb_approx",
+        "scene_facts.json.objects[object_id=packaging line].children",
+        "wide_06.png",
+        "detail_02.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "Three transparent panes preserve visibility and outline a guard area, but their framing is nonmetallic and the uprights stop above the work deck without connecting feet or brackets.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.072].material_slots",
+        "scene_facts.json.objects[object_id=Box.078].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.081].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.067].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.039].world_aabb_approx",
+        "scene_facts.json.materials.SceneActSurface_8.nodes[1].inputs",
+        "wide_05.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "Exactly two simple staff figures wear white coats and pale hair coverings. The foreground figure reaches toward the HMI; the second recedes behind and left.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "Ceiling panels have weak emission and broad area lights supply cool illumination, but the delivered image is heavily noisy and washed out. Metal and transparent surfaces lack the required clean, controlled reflective definition.",
+      "source_evidence": [
+        "scene_facts.json.materials.SceneActSurface_5.nodes[1].inputs",
+        "scene_facts.json.authored_lights",
+        "scene_facts.json.authored_render_configuration.cycles_samples",
+        "scene_facts.json.authored_render_configuration.cycles_use_denoising",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R10",
+      "score": 0,
+      "evidence": "The operator-HMI gesture and receding conveyor are prominent, but restrained foreground focus separation is not visible. Heavy noise and weak contrast obscure assemblies and compromise callout readability.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R11",
+      "score": 0,
+      "evidence": "The project opens with editable geometry, camera, lights and Cycles settings. Nevertheless, the final image's primitive mechanisms, implausible connections and flat, noisy material response fail the required coherent realistic treatment.",
+      "source_evidence": [
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.authored_cameras",
+        "scene_facts.json.authored_render_configuration.engine",
+        "delivered_final.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R12",
+      "score": 0,
+      "evidence": "The original final.png is a valid, fully decoded PNG, but its native 512 × 341 pixels are plainly preview-sized rather than high resolution.",
+      "source_evidence": [
+        "scene_facts.json.delivered_artifacts[0].width",
+        "scene_facts.json.delivered_artifacts[0].height",
+        "scene_facts.json.delivered_artifacts[0].full_decode_success",
+        "scene_facts.json.delivered_artifacts[0].format"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The cleanroom, two staff, raised HMI and depth-running conveyor correspond recognizably, but equipment structure is substantially simplified.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 3,
+      "evidence": "The cabinet has feet and trays follow the belt, but guard and mechanism supports and HMI mounting are incomplete.",
+      "source_evidence": [
+        "wide_05.png",
+        "wide_06.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Pale white and cool teal colors fit the requested mood, but washed-out contrast and generic primitive silhouettes weaken recognition.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Perspective is coherent, but crude mechanical construction, elongated anatomy, blank display and pervasive noise undermine credibility.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Foreground operator, upper-right screen, right-side conveyor and background staff retain the main spatial ordering, although the interaction is stretched and the rear person is heavily occluded.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 4,
+      "evidence": "Room, belt and cabinet broadly share plausible scale, but the oversized reach and high HMI substantially weaken human-equipment proportions.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "scene_facts.json.objects[object_id=Rod.035].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 3,
+      "evidence": "Broad cool illumination is appropriate, but noise, pale tonal compression and weak differentiation between metal, glass and painted surfaces reduce material clarity.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Most major object categories and both staff are present. Functional mounting, fitted mechanisms, an active screen and a high-resolution deliverable remain incomplete.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_06.png",
+        "scene_facts.json.delivered_artifacts[0]"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0056/2/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 157037,
+    "output_tokens": 2540,
+    "observed_model": "unknown",
+    "seconds": 81.34541100822389
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

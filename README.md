@@ -3,7 +3,7 @@
 本区依据保存的运行与候选记录整理；不把退出码0、会话结束或旧state单独当成全部实验完成。
 [完整收尾摘要](UPLOAD_SUMMARY_V3.md) · [审查索引](docs/V3_REVIEW_INDEX.md) · [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) · [离线HTML](experiments/scene_rsi_v3/reports/index.html)
 
-监看的真实launch终态：failed，退出码 1；state阶段：generation。
+监看的真实launch终态：completed，退出码 0；state阶段：all_scheduled_terminal。
 保存终态研发回合 10/10；H接受 2 次，M接受 1 个。失败、拒绝和unchanged保留，不能称十次成功升级。
 各轮状态：{"completed": 10}。后代版本作为后续轮次父代：['M07']；这个版本关系不证明改动内容真正执行。
 
@@ -13,13 +13,18 @@ CPU 8，内存上限 32 GB，Blender 1×8线程，CPU-only，未使用GPU（数�
 H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样下界，阶段时长不相加作总墙钟。
 
 
-独立来源配对：2/6 来源、2 对双方成功且已评分的生成；来源等权条件BW差 -3.3125。全预定来源的端到端BW效用差 pending/null；完整效用覆盖 1/6。重复和视角不作为独立场景。
+独立来源配对：6/6 来源、10 对双方成功且已评分的生成；来源等权条件BW差 -0.0130。全预定来源的端到端BW效用差 -1.0182；完整效用覆盖 6/6。重复和视角不作为独立场景。
 
 ![历史开发图全体面板](experiments/scene_rsi_v3/figures/development_contact_sheet.png)
 ![真实候选与实际保留版本](experiments/scene_rsi_v3/figures/evolution.png)
 ![真实研究动作与负结果](experiments/scene_rsi_v3/figures/shared_patch_case.png)
 ![终测原始重复与独立来源配对](experiments/scene_rsi_v3/figures/final_test_pairs.png)
 ![实际成本与耗时](experiments/scene_rsi_v3/figures/cost_and_timing.png)
+![六来源终测全部重复](experiments/scene_rsi_v3/figures/final_test_contact_sheet.png)
+![六来源BW与八维分项](experiments/scene_rsi_v3/figures/final_test_quality.png)
+![M07六次实际动作](experiments/scene_rsi_v3/figures/M07_action_evidence.png)
+
+[终测专项统计](experiments/scene_rsi_v3/reports/FINAL_TEST_SUMMARY_ZH.md) · [M07深入审查](experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md)。公开BW参考列因许可未确认而留空；含真实参考的完整联系表仅保留本地。
 
 BW-style / CLI-adapted，不是官方榜单。开发历史图为研发已暴露数据；失败、服务故障、缺测与pending分开。没有真实冻结元回放就不宣称元能力提升。
 以下V2.4原文逐字保留，其数值不属于V3。

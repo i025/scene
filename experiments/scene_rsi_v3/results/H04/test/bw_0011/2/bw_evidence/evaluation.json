@@ -1,0 +1,252 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 37.5,
+  "S_dimension": 48.75,
+  "S_BW": 43.125,
+  "started": 1794404711.773544,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/test/bw_0011/2/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794405019.0133426,
+  "seconds": 307.2397985458374,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The main corner organization is present, but the reconstruction lacks conventionally completed equipment and supplementary fixtures. The cabinet is a shallow facade: its main body is only 0.10 deep and shelf strips are 0.012 deep versus a 2.04 height.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.001].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.002].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.022].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.024].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Clean laboratory].children"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Connected perpendicular blue wall meshes have repeated full-height seam geometry and blue surface assignments; the principal walls visibly read as modular coated panels.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.001].material_slots",
+        "scene_facts.json:objects[object_id=Box.002].matrix_world",
+        "scene_facts.json:objects[object_id=Box.003].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.008].dimensions_scene_units",
+        "scene_facts.json:materials.SceneActSurface_1.nodes",
+        "scene_facts.json:materials.SceneActSurface_2.nodes",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Continuous rounded white skirting follows both principal wall bases and meets a smooth, seamless light-gray floor. The profile is rather tubular but visibly rounded.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "An orthogonal ceiling grid and three flat panels are visible, but distributed suspension connections and distinct routed services are not clearly readable. Panels sit across grid lines rather than convincingly within bays.",
+      "source_evidence": [
+        "author.png",
+        "wide_02.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "The left component has two door outlines and horizontal strips, but reads as a shallow opaque facade. Brushed stainless steel, glass transmission or reflection, and interior shelf depth are absent.",
+      "source_evidence": [
+        "detail_01.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The full-height central feature is a geometric arrangement of straight stems and radial lines, not recognizable dandelion photography.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "A framed rectangular display is mounted on the right return and shows 09:29:07 with a smaller recognizable 2026 11 11 date.",
+      "source_evidence": [
+        "wide_03.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R08",
+      "score": 0,
+      "evidence": "Blue walls and matte floor are distinguishable by color, but cabinet framing and glazing both appear diffuse and opaque. The required stainless-steel and glass responses are not distinguishable.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "The delivered view includes all three subjects, the corner, ceiling and clear foreground without numbered callouts. However, pronounced noise, simplified facade geometry and undifferentiated materials make it read as a preliminary rendering rather than a presentation-ready realistic interior.",
+      "source_evidence": [
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R10",
+      "score": 1,
+      "evidence": "The project opens with 196 editable meshes, assigned materials, three area lights and an active perspective camera. Dependencies resolve and the saved engine is Cycles; the delivered image is consistent with the scene and its low-sample configuration.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:materials",
+        "scene_facts.json:authored_lights",
+        "scene_facts.json:camera",
+        "scene_facts.json:required_dependencies_available",
+        "scene_facts.json:authored_render_configuration",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R11",
+      "score": 0,
+      "evidence": "The original final.png is a valid, fully decoded PNG, but its measured dimensions are 512×293 rather than 1920×1080.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].width",
+        "scene_facts.json:delivered_artifacts[0].height",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success",
+        "scene_facts.json:delivered_artifacts[0].png_magic_valid"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The blue corner and three principal subjects preserve the recognizable arrangement, but the photographic mural, cabinet construction and plenum detail are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Walls and floor have coherent contact, but ceiling panels cross grid members, suspension connections are unclear, and the cabinet lacks credible storage depth.",
+      "source_evidence": [
+        "wide_05.png",
+        "detail_01.png",
+        "scene_facts.json:objects[object_id=Box.022].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "Blue cladding, pale gray floor and dark ceiling retain the broad palette. The pale linear mural and white cabinet lose much of the target's visual character.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Perspective and soft shading establish three dimensions, but heavy delivered-image noise, primitive detailing and opaque glazing strongly reduce realism.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The cabinet remains left, feature central and display on the receding right wall, with unobstructed foreground and overhead assembly.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Wall height and principal object sizes are broadly plausible, but the cabinet is implausibly shallow and the ceiling assembly extends far beyond the finished corner.",
+      "source_evidence": [
+        "wide_05.png",
+        "scene_facts.json:objects[object_id=Box.022].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.041].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Illumination is broadly even with soft gradients, but glass and brushed metal lack convincing responses and the LED faces look like dull white slabs.",
+      "source_evidence": [
+        "author.png",
+        "wide_02.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "All major object categories have representations, but photography, functional cabinet interiors, readable plenum connections and supplementary cleanroom fixtures are missing or incomplete.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_05.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/test/bw_0011/2/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 174107,
+    "output_tokens": 2015,
+    "observed_model": "unknown",
+    "seconds": 68.56261820159853
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

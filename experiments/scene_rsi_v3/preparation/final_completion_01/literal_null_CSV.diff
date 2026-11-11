@@ -1,0 +1,11 @@
+--- final_statistics_before_literal_null_CSV.py
++++ final_statistics.py
+@@ -35,7 +35,7 @@
+     with (ROOT / 'metrics' / name).open('w', newline='') as stream:
+         writer = csv.DictWriter(stream, fieldnames=list(rows[0]));writer.writeheader()
+         writer.writerows({k: json.dumps(v, ensure_ascii=False) if isinstance(v, (dict, list))
+-                         else v for k, v in row.items()} for row in rows)
++                         else 'null' if v is None else v for k, v in row.items()} for row in rows)
+ 
+ 
+ def bootstrap(values):

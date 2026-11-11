@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "target_object_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_reason": {
+      "type": "string"
+    },
+    "semantic_uncertainty": {
+      "type": "string"
+    },
+    "edit_code": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "target_object_ids",
+    "target_reason",
+    "semantic_uncertainty",
+    "edit_code"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "A06",
+  "time": 1794391639.7755694,
+  "stage": "after ten rounds and immutable H04/M07 selection; before missing judge retry and remaining 16 Final Test jobs",
+  "reason": "Service interruption left one unused fixed judge retry and terminal generation failures that the old resume path unnecessarily revisited",
+  "scope": "A completion entry reuses every scored artifact and skips terminal generation failures; it restores only an unused original judge retry on an identical saved blend and images",
+  "existing_test_records": 8,
+  "existing_BW_scores": 5,
+  "new_generation_slots": 16,
+  "existing_generation_failures_kept": 2,
+  "missing_judge_retry": {
+    "scene_id": "bw_0023",
+    "H": "H04",
+    "repeat": 2,
+    "actual_sessions_already_used": 1,
+    "actual_sessions_allowed": 2,
+    "next_session": "judge_A03_2",
+    "new_H_generation": false,
+    "new_renders": 0
+  },
+  "health_check": "preparation/final_completion_01/health.json",
+  "health_check_new_CLI_sessions": 1,
+  "retry_rule_changed": false,
+  "models_budgets_rubrics_rendering_thresholds_changed": false,
+  "H_best_reselection": false,
+  "previous_failed_records_preserved": "evaluation_recovery_A06/before_record.json and before_evaluation.json; original failed CLI directories remain unchanged",
+  "sources": "code_snapshots/platform_A06_final_completion",
+  "tests": "preparation/final_completion_01/test_results.json"
+}

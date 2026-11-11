@@ -3,15 +3,15 @@
 [A01实际平台修订](../PROTOCOL_AMENDMENT_01.md)：公开附件已统一转发，原偏离文档保留为历史；M0未变，修订在首个BW正式任务和首轮正式M前完成，10个已生成H产物按相同信息条件复用。
 
 
-本轮状态：generation；正式研发完成 10/10 轮。保存了 65 条正式场景记录、当前有效评价协议 56 次BW测量；修订前已测BW记录 12 条另行保留。终测 partially_completed（已完成记录 8）。另有 0 个已开始但未写入最终任务记录的终测中断，不作not_started。实际CLI会话 336 次（包括准备阶段），usage可见 332/336。
+本轮状态：all_scheduled_terminal；正式研发完成 10/10 轮。保存了 81 条正式场景记录、当前有效评价协议 73 次BW测量；修订前已测BW记录 12 条另行保留。终测 all_scheduled_records_terminal（已完成记录 24）。另有 0 个已开始但未写入最终任务记录的终测中断，不作not_started。实际CLI会话 406 次（包括准备阶段），usage可见 402/406。
 
 当前manifest来源数：development=12、selection=3、reserved_unused_budget_A02=1、test=6、meta_replay=2；Selection绝对覆盖按实际冻结配置，不沿用旧4图口径。
 
 终测每来源每端点计划 2 次生成；依据 test_repeat_plan.json，预算分支已冻结。 H_best与H_start相同时复用同一版本的真实产物，不增加独立生成数。
 
-独立来源配对：2/6 来源有双方成功且实测的生成对，合计 2 对生成；来源等权条件BW差 -3.312。全预定来源的端到端BW效用差 pending，完整效用覆盖 1/6；缺失评价和pending不当零。
+独立来源配对：6/6 来源有双方成功且实测的生成对，合计 10 对生成；来源等权条件BW差 -0.013。全预定来源的端到端BW效用差 -1.018，完整效用覆盖 6/6；缺失评价和pending不当零。
 
-主根渲染预算扣额 render_budget_charged=873，主根+独立回放根联合扣额=873，分别读取两根render_attempts.jsonl且不重复相加；functional()一次保守预扣3帧，N/A时实际可能更少，因此不将原render_attempts字段解释为精确帧数。实际全局尝试数和完成数保持unknown/null。render_evidence.csv逐目录选择一种记录来源，避免stage事件、逐视角metadata与ledger重复相加。 早期CPU基准6次命令（3次成功、3次初始导入失败）已在冻结前补扣，原补扣证据保留。
+主根渲染预算扣额 render_budget_charged=1117，主根+独立回放根联合扣额=1117，分别读取两根render_attempts.jsonl且不重复相加；functional()一次保守预扣3帧，N/A时实际可能更少，因此不将原render_attempts字段解释为精确帧数。实际全局尝试数和完成数保持unknown/null。render_evidence.csv逐目录选择一种记录来源，避免stage事件、逐视角metadata与ledger重复相加。 早期CPU基准6次命令（3次成功、3次初始导入失败）已在冻结前补扣，原补扣证据保留。
 
 所有结果均为 BW-style / CLI-adapted，不是官方榜单分数。开发历史图已暴露；同模型研发与评审存在偏差。未完成项保留pending/null；没有真实冻结元回放时不宣称元能力改善。进程树RSS为0.1秒采样下界；嵌套阶段墙钟和CPU作用域有重叠，不相加冒充总耗时。
 
@@ -68,7 +68,7 @@ A02评价器修订保留14条前后记录；旧状态{'completed': 12, 'eval_fai
 
 ![真实实验图](../figures/cost_and_timing.png)
 
-实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为873，主根+独立回放根联合扣额为873，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。
+实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为1117，主根+独立回放根联合扣额为1117，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。
 
 来源：[metrics/cli_audit.csv](../metrics/cli_audit.csv)、[metrics/timing.csv](../metrics/timing.csv)、[metrics/render_evidence.csv](../metrics/render_evidence.csv)、[render_attempts.jsonl](../render_attempts.jsonl)、[preparation/cpu_benchmark_budget_correction.json](../preparation/cpu_benchmark_budget_correction.json)；生成脚本：[analyze.py](../analyze.py)。
 
@@ -94,7 +94,7 @@ H与M分别记录实际使用、保留和动作观测次数。不变代码不作
 
 预先固定的两张开发图、共同起点与H_best；同一文字编辑器、同一指令和调用/执行上限，展示全部四个预定编辑。快照测量目标颜色、几何与非目标保持，真实中心家具语义身份仍未独立验证。不同于直接预定义机械操作；未完成与失败留空，不用其他案例替代。
 
-来源：[metrics/semantic_edit_summary.csv](../metrics/semantic_edit_summary.csv)、[semantic_edit.py](../semantic_edit.py)；生成脚本：[analyze.py](../analyze.py)。
+来源：[metrics/semantic_edit_summary.csv](../metrics/semantic_edit_summary.csv)、[semantic_edit.py](../semantic_edit.py)、[semantic_edits/historical_r1_C2_start/commons_109923183/status.json](../semantic_edits/historical_r1_C2_start/commons_109923183/status.json)、[semantic_edits/H04/commons_109923183/status.json](../semantic_edits/H04/commons_109923183/status.json)、[semantic_edits/historical_r1_C2_start/commons_104864364/status.json](../semantic_edits/historical_r1_C2_start/commons_104864364/status.json)、[semantic_edits/H04/commons_104864364/status.json](../semantic_edits/H04/commons_104864364/status.json)；生成脚本：[analyze.py](../analyze.py)。
 
 ![真实实验图](../figures/shared_patch_case.png)
 
@@ -109,3 +109,26 @@ __SCENEEVOLVE_REPRO__/work/.venv/bin/python __EXPERIMENT_ROOT__/analyze.py repor
 ```
 
 本命令只读取保存的记录、图片和配置，不运行模型或Blender。续跑入口由主runner提供，不由报告触发。
+
+[专项审查与原始数据](FINAL_TEST_SUMMARY_ZH.md)
+
+![冻结的六来源、两流程、两重复全部进入联系表，失败留空；原始BW参考的公开再分发许可未确认，公开版本明确留出Reference列，本地完整参考联系表另存服务器。](../figures/final_test_contact_sheet.png)
+
+冻结的六来源、两流程、两重复全部进入联系表，失败留空；原始BW参考的公开再分发许可未确认，公开版本明确留出Reference列，本地完整参考联系表另存服务器。
+生成脚本：[final_statistics.py](../final_statistics.py)。
+
+[专项审查与原始数据](FINAL_TEST_SUMMARY_ZH.md)
+
+![全部实测重复点、八维来源等权均值和每来源配对差异；不把重复或视角当成独立场景。来源CSV和不确定性算法见独立终测统计报告。](../figures/final_test_quality.png)
+
+全部实测重复点、八维来源等权均值和每来源配对差异；不把重复或视角当成独立场景。来源CSV和不确定性算法见独立终测统计报告。
+生成脚本：[final_statistics.py](../final_statistics.py)。
+
+[专项审查与原始数据](M07_REVIEW_ZH.md)
+
+![按时间展示全部六次真实只读材质检查。原生节点测量进入下一次M决策；没有主动干预渲染或M能力增强结论。](../figures/M07_action_evidence.png)
+
+按时间展示全部六次真实只读材质检查。原生节点测量进入下一次M决策；没有主动干预渲染或M能力增强结论。
+生成脚本：[audit_m07.py](../audit_m07.py)。
+
+[A06终测服务恢复规则](../PROTOCOL_AMENDMENT_06.md)：只补未开始任务和一个原协议允许但尚未发出的评审重试；原失败保留，不改变H04/M07选择。
