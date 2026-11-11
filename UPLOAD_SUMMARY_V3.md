@@ -73,10 +73,11 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 
 ## 上传与尚未完成项
 
-Git发布：core_and_summary_pushed；Release：uploaded；远端读取确认：not_run。
+Git发布：core_and_summary_pushed；Release：uploaded；远端读取确认：passed。
 Release实际收据链接：https://github.com/i025/scene/releases/tag/scene-rsi-v3-10rounds-S20261111T141701Z_final。未获分发许可的BW原始参考及附件保留本地，公开占位不算实验结果。
 可选回放入口：not_started；入口是否执行：False；前后保存request计数差 0 次CLI会话。精确底层model_requests=null，不将整条收尾链称为零调用。归档自身模型/Blender调用为0，回放另计。入口退出码0也不自动证明回放完成或元能力提高，实际结果仍以独立回放记录为准。
 改动M内容参与后续研发的保存证据：[{"M_version": "M07", "round": 8, "executed_changed_files": ["actions/appearance_audit.py"]}, {"M_version": "M07", "round": 9, "executed_changed_files": ["actions/appearance_audit.py"]}]；审计状态：changed_content_execution_observed。证据仅到改动入口/模块/动作的实际参与，不是语句覆盖或能力提升。详见[源码与执行关联审计](experiments/scene_rsi_v3/metrics/M_changed_content_execution_audit.json)。
+已实际读取确认的归档提交：[查看提交](https://github.com/i025/scene/commit/f2e8e2e650799abcaf165011b76eb925073f753b)。后续收据提交不反向改变这次读取的对象。
 
 实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/e54d0a42cacce486b4be0475615ba08f47408643)。此链接指向已确定的数据提交，摘要的后续提交不自指。
 
