@@ -1,4 +1,4 @@
-"""Minimal anonymous remote reads after publishing; no model, Blender or hashes."""
+"""Public core/media reads and existing-auth API listing; no model, Blender or hashes."""
 import argparse
 import csv
 import io
@@ -21,6 +21,7 @@ def main():
     parser.add_argument('--commit', required=True)
     parser.add_argument('--repo', type=Path, default=ROOT / 'archive' / 'scene')
     parser.add_argument('--release-state', default='docs/V3_RELEASE_UPLOAD_STATE.json')
+    parser.add_argument('--auth-source', choices=['git', 'environment'])
     parser.add_argument('--png', default='experiments/scene_rsi_v3/figures/shared_patch_case.png')
     args = parser.parse_args()
     receipt = {'requested_commit': args.commit, 'branch': BRANCH, 'time': time.time(),
@@ -54,7 +55,11 @@ def main():
              'experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md',
              'experiments/scene_rsi_v3/figures/final_test_contact_sheet.png',
              'experiments/scene_rsi_v3/figures/final_test_quality.png',
-             'experiments/scene_rsi_v3/figures/M07_action_evidence.png']
+             'experiments/scene_rsi_v3/figures/M07_action_evidence.png',
+             'experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_07.md',
+             'experiments/scene_rsi_v3/A07_EDIT_RECOVERY.json',
+             'experiments/scene_rsi_v3/recover_edits.py',
+             'experiments/scene_rsi_v3/figures/semantic_edit_results.png']
     for path in paths:
         url = f'https://raw.githubusercontent.com/i025/scene/{args.commit}/{path}'
         response = session.get(url, timeout=30)
@@ -69,19 +74,27 @@ def main():
                 image.load(); item['decoded_size'] = list(image.size)
         receipt['core_files'].append(item); save()
     local = json.loads((args.repo / args.release_state).read_text())
-    response = session.get('https://api.github.com/repos/i025/scene/releases/tags/' + local['tag'], timeout=30)
+    api_session = session
+    if args.auth_source is not None:
+        from github_release_v3 import auth_session
+        api_session = auth_session(args.auth_source)
+        receipt.update(API_auth_source=args.auth_source, credentials_read=True,
+                       credential_values_printed_or_saved=False,
+                       public_core_and_asset_reads='anonymous; API listing authenticated due observed shared-IP rate limit')
+        save()
+    response = api_session.get('https://api.github.com/repos/i025/scene/releases/tags/' + local['tag'], timeout=30)
     if response.status_code != 200:
         receipt['failure'] = {'stage': 'public_release_listing', 'http_status': response.status_code,
                               'reason': 'No repeated retries; API limit or permission must be reported'}; save()
     response.raise_for_status()
     release = response.json()
-    response = session.get('https://api.github.com/repos/i025/scene/releases/' + str(release['id']) + '/assets',
+    response = api_session.get('https://api.github.com/repos/i025/scene/releases/' + str(release['id']) + '/assets',
                            params={'per_page': 100}, timeout=30)
     response.raise_for_status()
     assets = {a['name']: a for a in response.json()}
     for item in local['assets']:
         asset = assets[item['name']]
-        if asset['size'] != item['size_bytes'] or asset['browser_download_url'] != item['url']:
+        if asset['state'] != 'uploaded' or asset['size'] != item['size_bytes'] or asset['browser_download_url'] != item['url']:
             raise ValueError('Release listing differs from upload receipt: ' + item['name'])
         response = session.head(item['url'], allow_redirects=True, timeout=45)
         response.raise_for_status()
@@ -89,7 +102,7 @@ def main():
         if length is not None and length != asset['size']:
             raise ValueError('Public asset HEAD length differs: ' + item['name'])
         receipt['release_assets'].append({'name': item['name'], 'url': item['url'], 'size_bytes': asset['size'],
-                                          'public_http_status': response.status_code, 'http_content_length': length})
+                                          'public_http_status': response.status_code, 'public_asset_state': asset['state'], 'http_content_length': length})
         save()
     receipt.update(complete=True, release_url=release['html_url']); save()
     print(json.dumps({'commit': args.commit, 'core_files_read': len(receipt['core_files']),

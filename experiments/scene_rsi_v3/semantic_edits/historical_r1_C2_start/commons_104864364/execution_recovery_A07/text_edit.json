@@ -1,0 +1,31 @@
+{
+  "test_type": "fixed_text_instruction_editing",
+  "instruction": "将画面中心的一件独立家具表面改为蓝色，保持它的几何及其余对象不变",
+  "targets": [
+    "Box.216",
+    "Box.217",
+    "Box.218",
+    "Box.219",
+    "Box.220",
+    "Box.221"
+  ],
+  "target_surface_blue": true,
+  "target_material_changed": true,
+  "target_geometry_preserved": true,
+  "non_target_preservation": {
+    "pass": true,
+    "checked_objects": 805,
+    "changed_fields": {},
+    "added_objects": [],
+    "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+  },
+  "camera_world_preserved": true,
+  "mechanical_pass": true,
+  "semantic_target_correctness": null,
+  "semantic_target_correctness_status": "not_independently_validated",
+  "editor_calls": 1,
+  "repair_calls": 0,
+  "blender_executions": 1,
+  "render_attempts": 2,
+  "limits": "Snapshots cover measured geometry/transforms/materials/topology/parent and scalar modifier/constraint/camera/light parameters; not arbitrary drivers or nested shader-group internals. Target center/furniture identity has no independent semantic ground truth."
+}

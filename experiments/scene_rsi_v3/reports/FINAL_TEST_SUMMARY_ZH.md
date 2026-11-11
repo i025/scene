@@ -40,10 +40,10 @@ H的实际改动边界：H02改变了内层反馈的数据流，每次有效渲�
 | judge | 133 | {'completed': 132, 'failed': 1} | 23186902 | 225747 | 132 | 7910.2899 |
 | preparation | 4 | {'completed': 3, 'failed': 1} | 53341 | 11228 | 3 | 240.5344 |
 
-本次收尾新增（与health.json中恢复检查前的实际预算快照作差；已知token增量不是缺失用量估计）：{"cli_sessions": 70, "render_attempts": 244, "known_input_tokens": 5800236, "known_output_tokens": 241158, "usage_known_sessions": 70, "usage_unknown_sessions": 0, "observable_tool_calls": 0}
+本次收尾新增（与health.json中恢复检查前的实际预算快照作差；已知token增量不是缺失用量估计）：{"cli_sessions": 70, "render_attempts": 252, "known_input_tokens": 5800236, "known_output_tokens": 241158, "usage_known_sessions": 70, "usage_unknown_sessions": 0, "observable_tool_calls": 0}
 [收尾前后成本CSV](../metrics/final_completion_cost_delta.csv)。整个V3累计见上表；费用仍unknown。
 
-实测Blender叶进程 1425 个，累计该作用域CPU秒 165974.72；其阶段墙钟累加值不是全研究墙钟。渲染预算扣额 1117，全局精确实际帧数仍unknown，逐目录证据见render_evidence.csv。
+实测Blender叶进程 1429 个，累计该作用域CPU秒 166129.53；其阶段墙钟累加值不是全研究墙钟。渲染预算扣额 1125，全局精确实际帧数仍unknown，逐目录证据见render_evidence.csv。
 费用不可见，精确底层模型请求数unknown；CLI会话、可观测turn、工具执行和token分开。远端排队与推理无法准确拆分，不伪造纯推理秒数。[角色成本CSV](../metrics/final_cost_by_role.csv)、[最慢实际子进程](../metrics/final_slowest_processes.csv)。旧耗时汇总漏读BW的*_timing.json已按事后报告说明补入，旧表图保留。
 
 原始Q、PSNR、SSIM、LPIPS、DINO、Rubric与八维分项、required/applicable/measured_pass/gate_pass、设备和调用数均保留在[逐项CSV](../metrics/final_test_raw.csv)。[来源CSV](../metrics/final_test_sources.csv)、[端点CSV](../metrics/final_test_endpoints.csv)、[汇总JSON](../metrics/final_test_summary.json)。

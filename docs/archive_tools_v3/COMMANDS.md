@@ -1,3 +1,13 @@
+# A07补充：文字编辑执行器的确定性恢复
+
+24项终测全部终态，未新增研发回合。四项原文字编辑因Blender重复校验导入非Blender依赖失败，原失败保留；recover_edits.py已使用原edit.py、原对象与原blend完成每项一次共同执行恢复，无新模型调用。恢复后的机械检查4/4通过，语义身份仍未独立验证。再次调用只跳过已有A07终态，不重新生成编辑程序。
+
+```bash
+python outputs/scene_rsi_v3/recover_edits.py
+```
+
+原13包已完成上传核对；S20261111T135531Z_final的中间Git数据已推送，Release上传阶段为保存公共修复证据而停止，原包/日志/提交完整保留，不替换同名附件。之后的新A07快照仍只生成preparation/final两个更新包，旧baseline和round01–10按原13包复用。最终以新快照收据为准。
+
 # V3最终收尾：当前入口
 
 本轮使用A06终测恢复入口，实际状态以 `outputs/scene_rsi_v3/launches/008_finish_test.json`、`metrics/final_test_schedule.csv`、逐项record和真实进程为准。不要用本文后半部分的早期launch编号判断当前状态。

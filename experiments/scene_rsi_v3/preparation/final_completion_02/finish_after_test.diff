@@ -1,0 +1,17 @@
+--- before_finish_after_test.py
++++ finish_after_test.py
+@@ -15,12 +15,13 @@
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--launch', type=Path, required=True)
++    parser.add_argument('--status-dir', type=Path, default=WORK / 'final_completion_pipeline')
+     args = parser.parse_args()
+     lock = (WORK / 'finish_after_test.lock').open('a')
+     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+     os.sched_setaffinity(0, set(range(8)))
+     source, repo = PROJECT / 'outputs/scene_rsi_v3', PROJECT / 'archive/scene'
+-    folder = WORK / 'final_completion_pipeline'
++    folder = args.status_dir.resolve()
+     folder.mkdir(exist_ok=False)
+     receipt = {'status': 'waiting_test', 'started': time.time(), 'pid': os.getpid(),
+                'launch': str(args.launch), 'new_research_rounds': 0,

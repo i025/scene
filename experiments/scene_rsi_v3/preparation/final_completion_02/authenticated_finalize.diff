@@ -1,0 +1,16 @@
+--- before_authenticated_finalize.py
++++ finalize.py
+@@ -556,11 +556,11 @@
+             if final_push_ok:
+                 stage('verify_remote')
+                 if state_path.exists():
+-                    verify = [sys.executable,str(WORK/'verify_remote.py'),'--commit',latest,'--repo',str(repo),'--release-state',release_state]
++                    verify = publisher+['verify','--commit',latest]
+                     verified = run(verify,folder,'verify_remote',timeout=900)==0
+                     if verified and args.base_release_state:
+                         shutil.copy2(WORK/'REMOTE_VERIFICATION.json',folder/'DELTA_REMOTE_VERIFICATION.json')
+-                        base_verify=[sys.executable,str(WORK/'verify_remote.py'),'--commit',latest,'--repo',str(repo),'--release-state',str(args.base_release_state)]
++                        base_verify=publisher+['verify','--commit',latest,'--state',str(args.base_release_state)]
+                         verified=run(base_verify,folder,'verify_base_release',timeout=1200)==0
+                         shutil.copy2(WORK/'REMOTE_VERIFICATION.json',folder/'BASE_REMOTE_VERIFICATION.json')
+                         delta_receipt=read(folder/'DELTA_REMOTE_VERIFICATION.json')

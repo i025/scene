@@ -74,15 +74,15 @@
   "test_expected_unique_generations": 24,
   "test_execution_success_rate_all_scheduled": 0.9166666666666666,
   "timing_measurement_types": {
-    "process_tree": 1928,
+    "process_tree": 1933,
     "numeric_metric_stage": 220
   },
   "render_accounting": {
-    "render_budget_charged": 1117,
-    "main_render_budget_charged": 1117,
+    "render_budget_charged": 1125,
+    "main_render_budget_charged": 1125,
     "replay_render_budget_charged": null,
-    "combined_render_budget_charged": 1117,
-    "render_budget_charge_events": 948,
+    "combined_render_budget_charged": 1125,
+    "render_budget_charge_events": 956,
     "render_budget_source": "render_attempts.jsonl",
     "actual_render_attempts_exact": null,
     "actual_render_completed_exact": null,
@@ -488,7 +488,7 @@
     },
     {
       "path": "figures/cost_and_timing.png",
-      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为1117，主根+独立回放根联合扣额为1117，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。",
+      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为1125，主根+独立回放根联合扣额为1125，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。",
       "sources": [
         "metrics/cli_audit.csv",
         "metrics/timing.csv",
@@ -530,7 +530,7 @@
     },
     {
       "path": "figures/semantic_edit_results.png",
-      "caption": "预先固定的两张开发图、共同起点与H_best；同一文字编辑器、同一指令和调用/执行上限，展示全部四个预定编辑。快照测量目标颜色、几何与非目标保持，真实中心家具语义身份仍未独立验证。不同于直接预定义机械操作；未完成与失败留空，不用其他案例替代。",
+      "caption": "预先固定的两张开发图、共同起点与H_best；同一文字编辑器、同一指令和模型调用上限，展示全部四个预定编辑。A07仅恢复公共执行器错误：保留原失败，每项额外一次相同程序执行，累计两次，未新增模型调用或人工修补编辑程序。快照测量目标颜色、几何与非目标保持，真实中心家具语义身份仍未独立验证。不同于直接预定义机械操作；未完成与失败留空，不用其他案例替代。",
       "sources": [
         "metrics/semantic_edit_summary.csv",
         "semantic_edit.py",

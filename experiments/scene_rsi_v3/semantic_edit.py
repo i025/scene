@@ -188,8 +188,8 @@ def worker(blend, output):
     guard('render')
     render_scene(before_folder, settings)
     (before_folder / 'final.png').rename(output / 'before.png')
-    code = (output / 'edit.py').read_text()
-    validate_editor_code(code)
+    # Parent validates the exact saved code before launching this Blender worker.
+    # Importing the model/CLI stack here would require non-Blender dependencies.
     runpy.run_path(str(output / 'edit.py'))['edit']()
     bpy.context.view_layer.update()
     after = edit_snapshot()

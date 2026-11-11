@@ -17,13 +17,14 @@ TAG = 'scene-rsi-v3-10rounds-2026-11-07'
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['status', 'push', 'release'])
+    parser.add_argument('action', choices=['status', 'push', 'release', 'verify'])
     parser.add_argument('--repo', type=Path, default=ROOT / 'archive' / 'scene')
     parser.add_argument('--auth', choices=['git', 'bashrc'], default='git')
     parser.add_argument('--tag', default=TAG)
     parser.add_argument('--bundles', type=Path, default=WORK / 'bundles')
     parser.add_argument('--state', default='docs/V3_RELEASE_UPLOAD_STATE.json')
     parser.add_argument('--index', default='artifacts_index_v3.csv')
+    parser.add_argument('--commit')
     args = parser.parse_args()
     remote = subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=args.repo, text=True).strip()
     if remote not in {'https://github.com/i025/scene.git', 'git@github.com:i025/scene.git'}:
@@ -44,6 +45,12 @@ def main():
         command = git + ['ls-remote', '--heads', 'origin', BRANCH]
     elif args.action == 'push':
         command = git + ['push', '-u', 'origin', BRANCH]
+    elif args.action == 'verify':
+        if args.commit is None:
+            raise ValueError('Verification requires an explicit pushed commit')
+        command = [sys.executable, str(WORK / 'verify_remote.py'), '--commit', args.commit,
+                   '--repo', str(args.repo.resolve()), '--release-state', args.state,
+                   '--auth-source', 'environment' if args.auth == 'bashrc' else 'git']
     else:
         command = [sys.executable, str(WORK / 'github_release_v3.py'), '--bundles', str(args.bundles.resolve()),
                    '--state', args.state, '--index', args.index, '--tag', args.tag,

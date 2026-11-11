@@ -1,0 +1,34 @@
+--- before_analyze.py
++++ analyze.py
+@@ -704,11 +704,14 @@
+              'instruction':config['pilot']['semantic_edit_instruction'],'checks':checks,
+              'semantic_target_correctness':status.get('semantic_target_correctness'),
+              'semantic_target_correctness_status':'not_independently_validated',
++             'editor_calls':status.get('editor_calls'), 'blender_executions':status.get('blender_executions'),
++             'execution_recovery_A07':status.get('execution_recovery_A07'),
+              'source':relative(status_path) if status_path.exists() else None}
+         rows.append(row)
+         if status_path.exists():sources.append(relative(status_path))
++        artifact_folder = folder / status['artifact_subdirectory'] if 'artifact_subdirectory' in status else folder
+         for axis,name in zip(axes[index,:2],['before.png','after.png']):
+-            path=folder/name
++            path=artifact_folder/name
+             if path.exists():
+                 with Image.open(path) as image:axis.imshow(image.convert('RGB'))
+             else:axis.text(.5,.5,status['status']+' / no saved image',ha='center')
+@@ -716,10 +719,12 @@
+         import textwrap
+         detail='Same fixed text instruction: change central furniture surface to blue; preserve geometry and all other objects.\nStatus: '+status['status']
+         detail+='\nMEASURED CHECKS: '+json.dumps(checks,ensure_ascii=True)[:1000]
+-        detail+='\nText-to-edit procedure, one Terra call / one execution / no repair. Center/furniture semantic identity NOT independently validated.'
++        detail+='\nText-to-edit procedure, one Terra call / no model repair. Center/furniture semantic identity NOT independently validated.'
++        if 'execution_recovery_A07' in status:
++            detail+='\nA07 common executor fix: original failed execution preserved; one deterministic replay of identical edit.py. Total Blender executions: '+str(status['blender_executions'])
+         axes[index,2].text(0,1,'\n'.join(textwrap.wrap(detail,55)),va='top',fontsize=8);axes[index,2].axis('off')
+-    save_csv('semantic_edit_summary.csv',rows,['H_version','scene_id','status','instruction','checks','semantic_target_correctness','semantic_target_correctness_status','source'])
+-    return figure('semantic_edit_results.png','预先固定的两张开发图、共同起点与H_best；同一文字编辑器、同一指令和调用/执行上限，展示全部四个预定编辑。快照测量目标颜色、几何与非目标保持，真实中心家具语义身份仍未独立验证。不同于直接预定义机械操作；未完成与失败留空，不用其他案例替代。',sources)
++    save_csv('semantic_edit_summary.csv',rows,['H_version','scene_id','status','instruction','checks','semantic_target_correctness','semantic_target_correctness_status','editor_calls','blender_executions','execution_recovery_A07','source'])
++    return figure('semantic_edit_results.png','预先固定的两张开发图、共同起点与H_best；同一文字编辑器、同一指令和模型调用上限，展示全部四个预定编辑。A07仅恢复公共执行器错误：保留原失败，每项额外一次相同程序执行，累计两次，未新增模型调用或人工修补编辑程序。快照测量目标颜色、几何与非目标保持，真实中心家具语义身份仍未独立验证。不同于直接预定义机械操作；未完成与失败留空，不用其他案例替代。',sources)
+ 
+ 
+ def plot_lineage(rounds, actions):

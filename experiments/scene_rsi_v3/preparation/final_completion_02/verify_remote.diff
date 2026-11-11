@@ -1,0 +1,15 @@
+--- before_verify_remote.py
++++ verify_remote.py
+@@ -54,7 +54,11 @@
+              'experiments/scene_rsi_v3/reports/M07_REVIEW_ZH.md',
+              'experiments/scene_rsi_v3/figures/final_test_contact_sheet.png',
+              'experiments/scene_rsi_v3/figures/final_test_quality.png',
+-             'experiments/scene_rsi_v3/figures/M07_action_evidence.png']
++             'experiments/scene_rsi_v3/figures/M07_action_evidence.png',
++             'experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_07.md',
++             'experiments/scene_rsi_v3/A07_EDIT_RECOVERY.json',
++             'experiments/scene_rsi_v3/recover_edits.py',
++             'experiments/scene_rsi_v3/figures/semantic_edit_results.png']
+     for path in paths:
+         url = f'https://raw.githubusercontent.com/i025/scene/{args.commit}/{path}'
+         response = session.get(url, timeout=30)

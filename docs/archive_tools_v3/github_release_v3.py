@@ -85,7 +85,7 @@ def main():
     state = {'release_url': release['html_url'], 'tag': args.tag, 'assets': [],
              'source_status': receipt['source_status'], 'credentials_saved': False,
              'published_at': time.time(), 'content_hash_verification': False,
-             'matching_rule': 'Existing same-name assets reused only when recorded byte size matches; no overwrite'}
+             'matching_rule': 'Reuse only state=uploaded plus matching byte size; starter is incomplete; no overwrite'}
     existing = {asset['name']: asset for asset in release.get('assets', [])}
     args.state.parent.mkdir(parents=True, exist_ok=True)
     for path in files:
@@ -102,9 +102,11 @@ def main():
             asset = response.json()
             if asset['size'] != path.stat().st_size:
                 raise ValueError('GitHub reported a different uploaded byte size: ' + path.name)
+        if asset['state'] != 'uploaded':
+            raise ValueError('Release asset is incomplete (state=' + asset['state'] + '); use a new snapshot tag without overwriting: ' + path.name)
         state['assets'].append({'name': asset['name'], 'size_bytes': asset['size'],
                                 'url': asset['browser_download_url'], 'status': 'uploaded',
-                                'reused_existing_same_size': reused})
+                                'reused_existing_same_size': reused, 'server_state': asset['state']})
         args.state.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n')
         with args.index.open(newline='') as stream:
             reader = csv.DictReader(stream)
@@ -120,8 +122,8 @@ def main():
         print(json.dumps(state['assets'][-1]), flush=True)
     response = session.get(api + '/releases/' + str(release['id']) + '/assets', params={'per_page': 100}, timeout=30)
     response.raise_for_status()
-    remote = {asset['name']: asset['size'] for asset in response.json()}
-    if not all(remote[asset['name']] == asset['size_bytes'] for asset in state['assets']):
+    remote = {asset['name']: asset for asset in response.json()}
+    if not all(remote[asset['name']]['size'] == asset['size_bytes'] and remote[asset['name']]['state'] == 'uploaded' for asset in state['assets']):
         raise ValueError('Remote Release asset listing differs from the saved receipt')
     state['remote_asset_listing_verified'] = True
     args.state.write_text(json.dumps(state, ensure_ascii=False, indent=2) + '\n')
