@@ -211,6 +211,8 @@ def facts(source):
         'semantic_target_independent_validation':'not inferred from editing execution or preservation',
         'representative_blend':str((Path(representative['folder'])/'scene.blend').relative_to(source)) if representative else None,
         'frozen_platform_snapshot_present':(source/'code_snapshots/platform_frozen').is_dir(),
+        'active_A03_snapshot_present':(source/'code_snapshots/platform_A03').is_dir(),
+        'active_A04_snapshot_present':(source/'code_snapshots/platform_A04').is_dir(),
         'meta_replay_status':observed_replay['status'] if observed_replay is not None else state.get('meta_replay_status','not_recorded'),
         'meta_replay_status_record':replay_status,'meta_replay_completion_receipt':replay_receipt,
         'historical_state_meta_replay_status':state.get('meta_replay_status'),
@@ -238,6 +240,10 @@ def summary_text(data,launch,publication,core_commit,replay=None):
         '| 划分 / H | 全预定 | 执行完成 / 成功 | BW覆盖 | 条件BW | 条件Q | 端到端BW效用 |','|---|---:|---|---:|---:|---:|---:|']
     for row in summary['group_summary']:
         lines.append(f"| {row['split']} / {row['H_version']} | {number(row['all_scheduled'])} | {row['execution_finished']} / {row['execution_success']} | {row['BW_measured']} | {number(row['BW_conditional_mean'])} | {number(row['Q_conditional_mean'])} | {number(row['end_to_end_BW_utility'])} |")
+    if 'paired_final_test' in summary:
+        pairs=summary['paired_final_test']
+        lines += ['',f"独立来源配对：{pairs['sources_with_scored_pair']}/{pairs['sources_scheduled']} 来源、{pairs['matched_successful_generation_pairs']} 对双方成功且已评分的生成；来源等权条件BW差 {number(pairs['conditional_BW_difference_source_mean'])}。全预定来源的端到端BW效用差 {number(pairs['all_scheduled_BW_utility_difference_source_mean'])}；完整效用覆盖 {pairs['sources_with_complete_utility']}/{pairs['sources_scheduled']}。重复和视角不作为独立场景。",'',
+                  '[终测逐来源配对数据](experiments/scene_rsi_v3/metrics/paired_test_sources.csv) / [逐生成点](experiments/scene_rsi_v3/metrics/paired_test_generations.csv)。']
     lines += ['',f"实际CLI会话 {summary['cli_sessions']}；usage可见 {summary['usage_coverage_sessions']}/{summary['usage_total_sessions']}；已知输入/输出token {summary['known_input_tokens']}/{summary['known_output_tokens']}（不是缺失部分的估计）。",
         f"主根渲染预算扣额 {summary['render_accounting']['render_budget_charged']}；主根+独立回放根联合扣额 {number(data['joint_recorded_usage']['combined_render_budget_charged'])}，包括保守预扣；精确实际attempt/completed仍unknown，分来源证据见render_evidence.csv。",
         f"文字编辑状态：{json.dumps(data['semantic_edit_statuses'],ensure_ascii=False)}；机械结构/编辑检查不等于语义目标正确。",
@@ -247,10 +253,12 @@ def summary_text(data,launch,publication,core_commit,replay=None):
         lines.append(f"| {row['round']} | {row['H_parent']} / {row['M_parent']} | {row['candidate_type']} | {row['H_accepted']} / {row['M_accepted']} | {row['H_retained']} / {row['M_retained']} | {row['status']} |")
     lines += ['', '主要评价为 **BW-style / CLI-adapted**，不是官方榜单分数；开发preview与正式Selection/Test分开。全部数据是探索性研究，历史暴露和来源独立性限制保留。',
         '本轮平台与M0属于工程实现；只有实际模型提出、保存diff并执行的H/M变化才属于自动演化。可执行后代与动作复用都不自动等于能力改善。',
-        f"冻结平台源码保留：{data['frozen_platform_snapshot_present']}。整理版分析脚本不替换实际执行的H/M/生成器/评价器快照。",'',
+        f"原始冻结平台保留：{data['frozen_platform_snapshot_present']}；实际续跑A03快照保留：{data['active_A03_snapshot_present']}；A04编码修复快照保留：{data['active_A04_snapshot_present']}。整理版分析脚本不替换实际执行的H/M/生成器/评价器快照。",'',
         '## 审查入口','',
         '- [README](README.md) / [审查索引](docs/V3_REVIEW_INDEX.md)',
         '- [A01实际平台修订](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_01.md)：公开附件已通过同一入口转发；原偏离记录保留，M0未变。修订在首个BW正式任务和首轮正式M前完成，已有10个H生成结果按相同信息条件复用。',
+        '- [A03实际修订与操作员重跑](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_03.md) / [A03源码](experiments/scene_rsi_v3/code_snapshots/platform_A03/)：首个M提案产生后修复原生照明证据；M提案原样保留、旧产物不覆盖、共同重跑与预算分配明确记录。',
+        '- [A04无损编码修复](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_04.md) / [A04源码](experiments/scene_rsi_v3/code_snapshots/platform_A04/)：第6轮后、第7轮M调用前修复JSON空格触发的证据大小检查；H/M、评分和预算不变，原中断保留。',
         '- [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) / [本地HTML](experiments/scene_rsi_v3/reports/index.html)',
         '- [逐轮](experiments/scene_rsi_v3/metrics/rounds.csv) / [逐场景](experiments/scene_rsi_v3/metrics/scenes.csv) / [动作](experiments/scene_rsi_v3/metrics/actions.csv)',
         '- [CLI](experiments/scene_rsi_v3/metrics/cli_audit.csv) / [时序](experiments/scene_rsi_v3/metrics/timing.csv) / [渲染记录](experiments/scene_rsi_v3/metrics/render_evidence.csv)',
@@ -292,8 +300,11 @@ def replace_readme(old,summary):
              '[完整收尾摘要](UPLOAD_SUMMARY_V3.md) · [审查索引](docs/V3_REVIEW_INDEX.md) · [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) · [离线HTML](experiments/scene_rsi_v3/reports/index.html)','']
     # Summary text is already derived from real records. Keep its substantive status lines.
     intro += summary.splitlines()[3:12]
+    intro += ['',next((line for line in summary.splitlines() if line.startswith('独立来源配对：')),'独立来源配对数据尚未保存。')]
     intro += ['', '![历史开发图全体面板](experiments/scene_rsi_v3/figures/development_contact_sheet.png)',
               '![真实候选与实际保留版本](experiments/scene_rsi_v3/figures/evolution.png)',
+              '![真实研究动作与负结果](experiments/scene_rsi_v3/figures/shared_patch_case.png)',
+              '![终测原始重复与独立来源配对](experiments/scene_rsi_v3/figures/final_test_pairs.png)',
               '![实际成本与耗时](experiments/scene_rsi_v3/figures/cost_and_timing.png)','',
               'BW-style / CLI-adapted，不是官方榜单。开发历史图为研发已暴露数据；失败、服务故障、缺测与pending分开。没有真实冻结元回放就不宣称元能力提升。',
               '以下V2.4原文逐字保留，其数值不属于V3。','','---','']
@@ -309,9 +320,11 @@ def review_text():
 |---|---|---|---|
 | 共享H起点及实际候选 | [H_start](../experiments/scene_rsi_v3/fixed_h/historical_r1_C2_start/) / [所有候选](../experiments/scene_rsi_v3/candidates/) | [rounds](../experiments/scene_rsi_v3/metrics/rounds.csv) → [演化图](../experiments/scene_rsi_v3/figures/evolution.png) | 历史r1/C2不是original_H0，10轮是连续轨迹 |
 | M决策、动作与后续实际执行 | [初始M](../experiments/scene_rsi_v3/initial_m/) / [研究接口](../experiments/scene_rsi_v3/research.py) | [动作表](../experiments/scene_rsi_v3/metrics/actions.csv) / [真实轨迹](../experiments/scene_rsi_v3/meta_traces/) → [研究链](../experiments/scene_rsi_v3/figures/research_chain.png) | 新动作、可执行后代和后续使用不是能力提高的充分证据 |
-| Selection选择及独立Test覆盖 | [冻结平台](../experiments/scene_rsi_v3/code_snapshots/platform_frozen/) | [协议](../experiments/scene_rsi_v3/protocol.md) / [逐场景](../experiments/scene_rsi_v3/metrics/scenes.csv) → [全部点](../experiments/scene_rsi_v3/figures/quality_points.png) | pending不填零，BW为CLI适配，同模型评审偏差 |
+| Selection选择及独立Test覆盖 | [实际续跑平台](../experiments/scene_rsi_v3/code_snapshots/platform_A04/) / [报告整理差异](../experiments/scene_rsi_v3/REPORT_ADAPTATION_AFTER_ROUND10.md) | [逐生成](../experiments/scene_rsi_v3/metrics/scenes.csv) / [独立来源配对](../experiments/scene_rsi_v3/metrics/paired_test_sources.csv) → [原始点与差异](../experiments/scene_rsi_v3/figures/final_test_pairs.png) | 生成重复与视角不作独立来源，pending不填零；同模型评审偏差 |
 | A01平台修订与真实公开输入 | [A01修订](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_01.md) / [A01源码](../experiments/scene_rsi_v3/code_snapshots/platform_A01/) | 旧001工程暂停退出143及新002续跑记录保留；已有10个H生成复用 | M0未变，修订在首个BW正式任务和首轮正式M前；旧偏离文档是历史记录 |
-| 结构与编辑保持 | [固定回归](../experiments/scene_rsi_v3/regression.py) / [文字编辑器](../experiments/scene_rsi_v3/semantic_edit.py) | [逐项检查](../experiments/scene_rsi_v3/metrics/scenes.csv) → [结构/编辑夹具](../experiments/scene_rsi_v3/preparation/functional_fixtures/index.html) | 机械编辑与语义目标正确性区分，无自然图像3D真值 |
+| A03评价器修复与中断重跑 | [A03修订](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_03.md) / [固定原生收集器](../experiments/scene_rsi_v3/eval_blend.py) | 旧score/facts/record全部保留，scenes.csv的primary_analysis区分原attempt；成本含全部失败与中断 | 发生在首个H-only提案后，不冒充pre-M；A03照明字段的评分抖动未重测 |
+| A04研究证据编码修复 | [实际源码](../experiments/scene_rsi_v3/code_snapshots/platform_A04/) / [修订](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_04.md) | 第7轮失败包428577字节→无损紧凑JSON405383字节，9个实际面板与stub通过；0模型/Blender调用 | 原6轮、H/M、原始证据、评分与硬预算不变；不是自动M后代 |
+| 结构与编辑保持 | [固定回归](../experiments/scene_rsi_v3/regression.py) / [文字编辑器](../experiments/scene_rsi_v3/semantic_edit.py) | [机械检查](../experiments/scene_rsi_v3/metrics/scenes.csv) / [文字编辑](../experiments/scene_rsi_v3/metrics/semantic_edit_summary.csv) → [实际前后图](../experiments/scene_rsi_v3/figures/semantic_edit_results.png) / [校准夹具](../experiments/scene_rsi_v3/preparation/functional_fixtures/index.html) | 文字编辑流程真实执行；中心家具语义身份未独立验证，无自然图像3D真值 |
 | 成本与失败来源 | [固定运行时](../experiments/scene_rsi_v3/backend/runtime.py) | [CLI](../experiments/scene_rsi_v3/metrics/cli_audit.csv) / [时序](../experiments/scene_rsi_v3/metrics/timing.csv) / [渲染证据](../experiments/scene_rsi_v3/metrics/render_evidence.csv) → [成本图](../experiments/scene_rsi_v3/figures/cost_and_timing.png) | 全局frame字段为预算扣额，实际精确帧总量未知；缺失usage不计为零 |
 
 归档只整理已存在产物，不调用模型/Blender、不补采样。实际执行H/M与冻结源码保留，整理版分析脚本单列。BW未获分发许可的原始参考及附件不公开；完整许可与上传状态见[附件索引](../artifacts_index_v3.csv)。
@@ -557,7 +570,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source',type=Path,default=PROJECT/'outputs/scene_rsi_v3')
     parser.add_argument('--repo',type=Path,default=PROJECT/'archive/scene')
-    parser.add_argument('--launch',type=Path,default=PROJECT/'outputs/scene_rsi_v3/launches/003_resume.json')
+    parser.add_argument('--launch',type=Path,default=PROJECT/'outputs/scene_rsi_v3/launches/005_resume.json')
     parser.add_argument('--wait',action='store_true');parser.add_argument('--wait-hours',type=float,default=36)
     parser.add_argument('--snapshot-id');parser.add_argument('--tag');parser.add_argument('--publish',action='store_true')
     parser.add_argument('--replay-entry',type=Path,help='Explicit root-reviewed Python entry; prepare checks real eligibility after main terminal')

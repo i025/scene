@@ -1,0 +1,339 @@
+"""Read-only BW-style scene evidence and fixed evaluator cameras in Blender.
+
+The evaluator changes cameras and render parameters only, never the saved project.
+Camera locations are framing rules, not visual error localization or geometry truth.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import sys
+import time
+from pathlib import Path
+
+import bpy
+from mathutils import Vector
+
+ROOT = Path(__file__).resolve().parent
+sys.path[:0] = [str(ROOT), str(ROOT / 'backend')]
+from budget import guard
+import inspect_blend as ib
+
+
+def write_json(path, value):
+    Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
+
+
+def lighting_node_values(data):
+    """Read the saved lighting graph, including disabled graphs, without edits."""
+    tree = data.node_tree
+    nodes = []
+    if tree is not None:
+        for node in sorted(tree.nodes, key=lambda item: item.name):
+            inputs = {socket.identifier: ib.json_number(socket.default_value)
+                      for socket in node.inputs if hasattr(socket, 'default_value')}
+            outputs = {socket.identifier: ib.json_number(socket.default_value)
+                       for socket in node.outputs if hasattr(socket, 'default_value')}
+            record = {'name': node.name, 'type': node.bl_idname, 'muted': node.mute,
+                      'inputs': inputs, 'outputs': outputs,
+                      'input_linked': {socket.identifier: socket.is_linked for socket in node.inputs}}
+            if hasattr(node, 'is_active_output'):
+                record['is_active_output'] = node.is_active_output
+            if hasattr(node, 'image'):
+                record['image'] = node.image.name if node.image else None
+            if node.type == 'GROUP':
+                record['node_group'] = node.node_tree.name if node.node_tree else None
+            nodes.append(record)
+    return {
+        'node_tree_present': tree is not None, 'nodes': nodes,
+        'links': sorted([link.from_node.name, link.from_socket.identifier,
+                         link.to_node.name, link.to_socket.identifier]
+                        for link in tree.links) if tree is not None else [],
+        'node_inspection_scope': 'Saved top-level lighting nodes and actual links; '
+                                 'nested node groups are identified, not recursively inspected',
+    }
+
+
+def light_values(obj, scene):
+    light = obj.data
+    return {
+        'object_id': obj.name, 'data_name': light.name, 'type': light.type,
+        'linked_to_active_scene': obj.name in scene.objects, 'hide_render': obj.hide_render,
+        'matrix_world': ib.matrix_values(obj.matrix_world),
+        'color': list(light.color), 'energy': light.energy, 'use_nodes': light.use_nodes,
+        'use_shadow': light.use_shadow,
+        'size': light.size if light.type == 'AREA' else None,
+        'size_y': light.size_y if light.type == 'AREA' and light.shape in {'RECTANGLE', 'ELLIPSE'} else None,
+        'shape': light.shape if light.type == 'AREA' else None,
+        'angle': light.angle if light.type == 'SUN' else None,
+        'shadow_soft_size': light.shadow_soft_size if light.type in {'POINT', 'SPOT'} else None,
+        **lighting_node_values(light),
+    }
+
+
+def scene_facts():
+    from regression import geometric_checks
+
+    bpy.context.view_layer.update()
+    scene = bpy.context.scene
+    objects = []
+    for obj in sorted(scene.objects, key=lambda item: item.name):
+        objects.append({
+            'object_id': obj.name, 'type': obj.type,
+            'parent': obj.parent.name if obj.parent else None,
+            'children': sorted(child.name for child in obj.children),
+            'parent_chain': ib.parent_chain(obj),
+            'matrix_world': ib.matrix_values(obj.matrix_world),
+            'dimensions_scene_units': list(obj.dimensions),
+            'world_aabb_approx': ib.world_bounds(obj),
+            'vertices': len(obj.data.vertices) if obj.type == 'MESH' else None,
+            'polygons': len(obj.data.polygons) if obj.type == 'MESH' else None,
+            'finite_nonempty_mesh': ib.mesh_valid(obj) if obj.type == 'MESH' else None,
+            'hide_render': obj.hide_render,
+            'modifiers': [{'name': m.name, 'type': m.type, 'show_render': m.show_render}
+                          for m in obj.modifiers],
+            'material_slots': [slot.material.name if slot.material else None for slot in obj.material_slots],
+            'text_body': obj.data.body if obj.type == 'FONT' else None,
+            'font_name': obj.data.font.name if obj.type == 'FONT' else None,
+            'declared_children': json.loads(obj['scene_rsi_expected_children'])
+                                 if 'scene_rsi_expected_children' in obj else None,
+        })
+    dependencies = []
+    for image in bpy.data.images:
+        if image.source not in {'FILE', 'SEQUENCE'} or not image.filepath:
+            continue
+        resolved = Path(bpy.path.abspath(image.filepath))
+        dependencies.append({'image': image.name, 'authored_path': image.filepath,
+                             'packed': image.packed_file is not None,
+                             'resolved_exists': resolved.is_file()})
+    camera = scene.camera
+    collections = [scene.collection, *[c for c in bpy.data.collections if c != scene.collection]]
+    compositor_nodes = list(scene.node_tree.nodes) if scene.use_nodes and scene.node_tree else []
+    return {
+        'blend_opened': True, 'blender_version': bpy.app.version_string,
+        'native_evidence_version': 'authored_native_project_facts_A03_lighting',
+        'objects': objects, 'mesh_count': sum(o['type'] == 'MESH' for o in objects),
+        'camera': {'object_id': camera.name, 'type': camera.data.type,
+                   'lens_mm': camera.data.lens, 'ortho_scale': camera.data.ortho_scale,
+                   'matrix_world': ib.matrix_values(camera.matrix_world)} if camera else None,
+        'authored_cameras': [
+            {'object_id': obj.name, 'type': obj.data.type,
+             'lens_mm': obj.data.lens, 'ortho_scale': obj.data.ortho_scale,
+             'matrix_world': ib.matrix_values(obj.matrix_world),
+             'is_active_camera': obj == camera, 'linked_to_active_scene': obj.name in scene.objects,
+             'hide_render': obj.hide_render}
+            for obj in sorted(bpy.data.objects, key=lambda item: item.name) if obj.type == 'CAMERA'],
+        'authored_lights': [light_values(obj, scene)
+                            for obj in sorted(bpy.data.objects, key=lambda item: item.name)
+                            if obj.type == 'LIGHT'],
+        'authored_world': {
+            'name': scene.world.name, 'color': list(scene.world.color),
+            'use_nodes': scene.world.use_nodes, **lighting_node_values(scene.world),
+        } if scene.world is not None else None,
+        'collections': [
+            {'name': collection.name,
+             'parents': sorted(parent.name for parent in collections
+                               if collection.name in parent.children),
+             'children': sorted(child.name for child in collection.children),
+             'direct_object_ids': sorted(obj.name for obj in collection.objects),
+             'hide_render': collection.hide_render,
+             'is_active_scene_master': collection == scene.collection}
+            for collection in sorted(collections, key=lambda item: item.name)],
+        'authored_render_configuration': {
+            'source': 'Saved native scene, captured before evaluator camera/render overrides',
+            'engine': scene.render.engine, 'cycles_use_denoising': scene.cycles.use_denoising,
+            'cycles_denoiser': scene.cycles.denoiser, 'cycles_samples': scene.cycles.samples,
+            'cycles_device': scene.cycles.device,
+            'resolution_x': scene.render.resolution_x, 'resolution_y': scene.render.resolution_y,
+            'resolution_percentage': scene.render.resolution_percentage,
+            'image_file_format': scene.render.image_settings.file_format,
+            'use_compositing': scene.render.use_compositing, 'use_nodes': scene.use_nodes,
+            'view_layer_denoising': [
+                {'name': layer.name, 'use_denoising': layer.cycles.use_denoising,
+                 'denoising_store_passes': layer.cycles.denoising_store_passes}
+                for layer in scene.view_layers],
+            'compositor_denoise_nodes': [
+                {'name': node.name, 'muted': node.mute,
+                 'enabled_in_compositor': scene.render.use_compositing and not node.mute,
+                 'input_links': [{'from_node': link.from_node.name, 'from_socket': link.from_socket.name,
+                                  'to_socket': link.to_socket.name}
+                                 for socket in node.inputs for link in socket.links],
+                 'output_links': [{'to_node': link.to_node.name, 'to_socket': link.to_socket.name,
+                                   'from_socket': link.from_socket.name}
+                                  for socket in node.outputs for link in socket.links]}
+                for node in compositor_nodes if node.type == 'DENOISE'],
+            'compositor_inspection_scope': 'Top-level scene compositor nodes and actual links; nested node groups not recursively inspected',
+        },
+        'unit_settings': {'system': scene.unit_settings.system,
+                          'scale_length': scene.unit_settings.scale_length},
+        'color_management': {'view_transform': scene.view_settings.view_transform,
+                             'look': scene.view_settings.look,
+                             'exposure': scene.view_settings.exposure,
+                             'gamma': scene.view_settings.gamma},
+        'authored_resolution': [scene.render.resolution_x, scene.render.resolution_y],
+        'declared_supports': json.loads(scene.get('scene_rsi_supports', '[]')),
+        'structural_measurements': geometric_checks(),
+        'materials': {material.name: ib.material_values(material) for material in bpy.data.materials},
+        'material_dependencies': [
+            {'material': material.name, 'objects': sorted(obj.name for obj in scene.objects
+             if any(slot.material == material for slot in obj.material_slots))}
+            for material in sorted(bpy.data.materials, key=lambda item: item.name)],
+        'texture_dependencies': dependencies,
+        'required_dependencies_available': all(d['packed'] or d['resolved_exists'] for d in dependencies),
+        'limits': ['Object names and emitted relationships are declarations, not semantic ground truth.',
+                   'AABB extents are approximate; no mesh collision or true 3D fidelity is inferred.',
+                   'No metric scale accuracy or hidden geometry accuracy is measured.'],
+    }
+
+
+def camera_plan(facts, settings):
+    meshes = [o for o in bpy.context.scene.objects if ib.mesh_valid(o) and not o.hide_render]
+    framing_meshes = [o for o in meshes if not ib.is_structural(o)] or meshes
+    boxes = [ib.world_bounds(o) for o in framing_meshes]
+    room_boxes = [ib.world_bounds(o) for o in meshes]
+    if not boxes:
+        raise ValueError('No finite nonempty mesh for evaluator camera framing')
+    subject = ib.bounds(Vector(p) for box in boxes for p in [box['min'], box['max']])
+    room = ib.bounds(Vector(p) for box in room_boxes for p in [box['min'], box['max']])
+    low, high = Vector(subject['min']), Vector(subject['max'])
+    room_low, room_high = Vector(room['min']), Vector(room['max'])
+    span = high - low
+    diagonal = max(span.length, 1e-3)
+    center = (low + high) / 2
+    room_center = (room_low + room_high) / 2
+    room_span = room_high - room_low
+    views = []
+    if facts['camera'] is not None:
+        authored_width, authored_height = facts['authored_resolution']
+        authored_scale = settings['resolution'] / max(authored_width, authored_height)
+        views.append({'view_id': 'author', 'kind': 'author',
+                      'camera_object': facts['camera']['object_id'],
+                      'file': 'author.png', 'camera_matrix_world': facts['camera']['matrix_world'],
+                      'resolution': [max(1, round(authored_width * authored_scale)),
+                                     max(1, round(authored_height * authored_scale))]})
+    # Six in-bounds wide camera positions; two additional closer spatial details.
+    # This selection is fixed before seeing candidate quality and never names a fault.
+    angles = [0, math.pi / 3, 2 * math.pi / 3, math.pi,
+              4 * math.pi / 3, 5 * math.pi / 3]
+    for index, angle in enumerate(angles):
+        if settings['interior']:
+            position = Vector((room_center.x + .34 * max(room_span.x, 1e-3) * math.cos(angle),
+                               room_center.y + .34 * max(room_span.y, 1e-3) * math.sin(angle),
+                               room_low.z + (.48 if index % 2 == 0 else .64) * max(room_span.z, 1e-3)))
+        else:
+            position = center + Vector((diagonal * math.cos(angle), diagonal * math.sin(angle),
+                                        diagonal * (.35 if index % 2 == 0 else .65)))
+        target = center.copy()
+        if (target - position).length < diagonal * .01:
+            target.x += diagonal * .1
+        views.append({'view_id': f'wide_{index + 1:02d}', 'kind': 'wide',
+                      'position': list(position), 'target': list(target),
+                      'lens_mm': 20 if settings['interior'] else 42,
+                      'file': f'wide_{index + 1:02d}.png'})
+    for index, fraction in enumerate([.3, .7]):
+        target = Vector((low.x + span.x * fraction, center.y, low.z + span.z * .45))
+        if settings['interior']:
+            position = Vector((room_low.x + room_span.x * fraction,
+                               room_low.y + room_span.y * (.28 if index == 0 else .72),
+                               room_low.z + room_span.z * .52))
+        else:
+            position = target + Vector((diagonal * .2, diagonal * (-.35 if index == 0 else .35),
+                                         diagonal * .22))
+        if (target - position).length < diagonal * .01:
+            target.y += diagonal * .1
+        views.append({'view_id': f'detail_{index + 1:02d}', 'kind': 'detail',
+                      'position': list(position), 'target': list(target),
+                      'lens_mm': 38, 'file': f'detail_{index + 1:02d}.png'})
+    if settings['preview']:
+        views = [v for v in views if v['view_id'] in {'author', 'wide_01', 'wide_03', 'detail_01'}]
+    return {'rule_version': 'bw_style_fixed_inbounds_v3_1', 'subject_bounds_approx': subject,
+            'room_bounds_approx': room, 'interior': settings['interior'], 'views': views,
+            'view_selection_limit': 'Fixed spatial framing adaptation, not official adaptive agent selection. '
+              'Name-based exclusion of architectural meshes is used only for framing; not diagnosis. '
+              'Details use fixed spatial regions, not candidate-specific semantic object targeting. '
+              'In-bounds camera positions can still be occluded; authored defects are never repaired.'}
+
+
+def render_view(folder, settings, view_id):
+    plan = json.loads((folder / 'view_plan.json').read_text())
+    view = next(v for v in plan['views'] if v['view_id'] == view_id)
+    scene = bpy.context.scene
+    if view['kind'] == 'author':
+        scene.camera = bpy.data.objects[view['camera_object']]
+    else:
+        data = bpy.data.cameras.new('_BW_evaluation_camera')
+        camera = bpy.data.objects.new('_BW_evaluation_camera', data)
+        scene.collection.objects.link(camera)
+        camera.location = Vector(view['position'])
+        camera.rotation_euler = (Vector(view['target']) - camera.location).to_track_quat('-Z', 'Y').to_euler()
+        data.lens = view['lens_mm']
+        data.clip_start = max(plan['subject_bounds_approx']['diagonal_scene_units'] * 1e-5, 1e-5)
+        data.clip_end = max(plan['room_bounds_approx']['diagonal_scene_units'] * 100, 100)
+        scene.camera = camera
+    scene.render.engine = 'CYCLES'
+    scene.cycles.device = 'CPU'
+    scene.render.threads_mode = 'FIXED'
+    scene.render.threads = settings['threads']
+    resolution = view['resolution'] if view['kind'] == 'author' else [settings['resolution']] * 2
+    scene.render.resolution_x, scene.render.resolution_y = resolution
+    scene.render.resolution_percentage = 100
+    scene.cycles.samples = settings['samples']
+    scene.cycles.seed = settings['seed']
+    scene.cycles.use_animated_seed = False
+    scene.cycles.use_adaptive_sampling = False
+    scene.render.use_border = False
+    scene.render.image_settings.file_format = 'PNG'
+    scene.render.filepath = str(folder / view['file'])
+    bpy.context.view_layer.update()
+    guard('render')
+    result = {'view_id': view_id, 'status': 'running', 'started': time.time(),
+              'engine': scene.render.engine, 'resolution': resolution,
+              'samples': scene.cycles.samples, 'device': scene.cycles.device,
+              'threads': scene.render.threads, 'seed': scene.cycles.seed,
+              'denoise': scene.cycles.use_denoising,
+              'camera_matrix_world': ib.matrix_values(scene.camera.matrix_world),
+              'color_management': {'view_transform': scene.view_settings.view_transform,
+                                   'look': scene.view_settings.look,
+                                   'exposure': scene.view_settings.exposure,
+                                   'gamma': scene.view_settings.gamma},
+              'source_unchanged': 'Source project opened read-only and never saved',
+              'preview': settings['preview'], 'file': view['file']}
+    write_json(folder / f'{view_id}_render.json', result)
+    bpy.ops.render.render(write_still=True)
+    result.update(status='completed', finished=time.time())
+    result['seconds'] = result['finished'] - result['started']
+    write_json(folder / f'{view_id}_render.json', result)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--blend', required=True, type=Path)
+    parser.add_argument('--folder', required=True, type=Path)
+    parser.add_argument('--settings', required=True, type=Path)
+    parser.add_argument('--view-id')
+    args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
+    settings = json.loads(args.settings.read_text())
+    args.folder.mkdir(parents=True, exist_ok=True)
+    bpy.ops.wm.open_mainfile(filepath=str(args.blend.resolve()))
+    # Copying a native project must not break its declared relative texture paths.
+    # Resolve only the same artifact's original asset folder; never search or repair
+    # visual contents. Source and copied blend files remain untouched on disk.
+    restored = []
+    for image in bpy.data.images:
+        if image.filepath.startswith('//') and image.packed_file is None:
+            source = Path(settings['dependency_source_folder']) / image.filepath[2:]
+            restored.append({'image': image.name, 'authored_path': image.filepath,
+                             'source_path': str(source.resolve()), 'exists': source.is_file()})
+            image.filepath = str(source.resolve())
+    write_json(args.folder / 'dependency_resolution.json', restored)
+    if args.view_id:
+        render_view(args.folder, settings, args.view_id)
+    else:
+        facts = scene_facts()
+        write_json(args.folder / 'scene_facts.json', facts)
+        write_json(args.folder / 'view_plan.json', camera_plan(facts, settings))
+
+
+if __name__ == '__main__':
+    main()

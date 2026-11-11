@@ -1,0 +1,53 @@
+{
+  "ok": false,
+  "step": 1,
+  "error": "build exited 1",
+  "failure_type": "invalid_generated_program",
+  "seconds": 0.5485151647590101,
+  "stages": {
+    "build": {
+      "status": "failed",
+      "pid": 2125918,
+      "command": [
+        "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+        "--background",
+        "-noaudio",
+        "--factory-startup",
+        "--disable-autoexec",
+        "--threads",
+        "8",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "__EXPERIMENT_ROOT__/backend/render.py",
+        "--",
+        "--settings",
+        "__EXPERIMENT_ROOT__/results/H03/selection/bw_0045/1/steps/001/render_settings.json",
+        "--output-dir",
+        "__EXPERIMENT_ROOT__/results/H03/selection/bw_0045/1/steps/001",
+        "--code",
+        "__EXPERIMENT_ROOT__/results/H03/selection/bw_0045/1/steps/001/build.py",
+        "--build-only"
+      ],
+      "started": 1794335601.681519,
+      "finished": 1794335602.2288747,
+      "seconds": 0.5473558828234673,
+      "returncode": 1,
+      "timed_out": false,
+      "timeout_seconds": 1200,
+      "memory_limit_exceeded": false,
+      "memory_limit_bytes": 34359738368,
+      "cpu_user_seconds": 0.34,
+      "cpu_system_seconds": 0.16,
+      "peak_individual_rss_kib": 287848,
+      "sampled_peak_tree_rss_kib_lower_bound": 280156.0,
+      "sample_interval_seconds": 0.1,
+      "sampled_process_count": 2,
+      "cpu_scope": "GNU time waited child and reaped descendants",
+      "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+    }
+  },
+  "stdout": "[build]\n",
+  "stderr": "[build]\nTraceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 129, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 99, in main\n    if any(n not in {'sceneact','bpy','math','mathutils','numpy','random','itertools','collections'} for n in names):raise ValueError('Scene program import outside frozen contract')\n                                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Scene program import outside frozen contract\n",
+  "image": null
+}

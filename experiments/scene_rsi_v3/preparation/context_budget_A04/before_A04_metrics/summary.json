@@ -1,0 +1,422 @@
+{
+  "phase": "generation",
+  "rounds_completed": 6,
+  "rounds_scheduled": 10,
+  "data_source_counts": {
+    "development": 12,
+    "selection": 3,
+    "reserved_unused_budget_A02": 1,
+    "test": 6,
+    "meta_replay": 2
+  },
+  "evaluator_revision": {
+    "paired_record_count": 14,
+    "inspection_status": "passed",
+    "inspected_saved_artifact_count": 24,
+    "inspection_new_H_calls": 0,
+    "inspection_new_renders": 0,
+    "old_evaluation_statuses": {
+      "completed": 12,
+      "eval_failed": 2
+    },
+    "old_audited_failure_classes": {
+      "scored": 12,
+      "operator_pause_before_judge": 1,
+      "missing_delivery_evidence": 1
+    },
+    "old_saved_CLI_request_count": 14,
+    "new_saved_CLI_request_count": 3,
+    "new_evaluation_statuses": {
+      "pending_current_evaluation": 13,
+      "completed": 1
+    },
+    "algorithm_gain_comparison": false
+  },
+  "raw_scene_records": 50,
+  "superseded_selection_records_excluded_from_primary": 2,
+  "scene_records": 48,
+  "scene_status_counts": {
+    "completed": 48
+  },
+  "scene_execution_success_count": 48,
+  "scene_execution_success_rate_over_recorded_tasks": 1.0,
+  "scene_all_scheduled_denominator": null,
+  "all_scheduled_denominator_note": "No inference from the number of record files; use frozen task schedule",
+  "BW_measured_count": 21,
+  "BW_measurement_scope": "Current effective evaluator protocol; superseded pre_A02 measurements are retained in evaluator_revision.csv",
+  "BW_pre_A02_scored_record_count": 12,
+  "BW_conditional_means_by_split": {
+    "development": null,
+    "selection": 33.33360092288664,
+    "test": null
+  },
+  "test_completed": 0,
+  "test_status": "pending",
+  "test_repeat_policy": {
+    "repeats": 1,
+    "source": "config.json:pilot.final_test.primary_repeats",
+    "finalized": false
+  },
+  "test_scheduled_sources": 6,
+  "test_planned_comparison_slots": 12,
+  "test_expected_unique_generations": null,
+  "test_execution_success_rate_all_scheduled": null,
+  "timing_measurement_types": {
+    "process_tree": 772,
+    "numeric_metric_stage": 110
+  },
+  "render_accounting": {
+    "render_budget_charged": 627,
+    "main_render_budget_charged": 627,
+    "replay_render_budget_charged": null,
+    "combined_render_budget_charged": 627,
+    "render_budget_charge_events": 520,
+    "render_budget_source": "render_attempts.jsonl",
+    "actual_render_attempts_exact": null,
+    "actual_render_completed_exact": null,
+    "selected_evidence_scope_count": 257,
+    "selected_recorded_counts_by_source_type": {
+      "outer_prelaunch_ledger": {
+        "scope_count": 6,
+        "recorded_attempts": 6,
+        "recorded_completed": 3
+      },
+      "per_view_render_metadata": {
+        "scope_count": 46,
+        "recorded_attempts": 309,
+        "recorded_completed": 309
+      },
+      "render_ledger": {
+        "scope_count": 51,
+        "recorded_attempts": 153,
+        "recorded_completed": 153
+      },
+      "stage_render_events": {
+        "scope_count": 154,
+        "recorded_attempts": 147,
+        "recorded_completed": 147
+      }
+    },
+    "same_scope_source_precedence": "per-view metadata, else stage events, else ledger; no duplicate addition within a scope",
+    "CPU_benchmark_budget_correction": {
+      "reason": "Six preparation Blender render-attempt commands predated first global guard event; three failed during initial import and three rendered successfully. Charge all six conservatively to frame safety cap; distinguish actual completed frames=3.",
+      "attempts": 6,
+      "completed": 3,
+      "process_records": [
+        "preparation/cpu_benchmark/threads_004/process.json",
+        "preparation/cpu_benchmark/threads_002/process.json",
+        "preparation/cpu_benchmark/threads_008/process.json",
+        "preparation/cpu_benchmark_corrected_import/threads_004/process.json",
+        "preparation/cpu_benchmark_corrected_import/threads_002/process.json",
+        "preparation/cpu_benchmark_corrected_import/threads_008/process.json"
+      ],
+      "time": 1793999786.6650667
+    },
+    "coverage_note": "Global guard ledger measures budget charges; functional() reserves 3 even when fewer frames are applicable. Physical renderer counts are not comprehensively instrumented; exact actual totals remain unknown. Recorded counters from different interface semantics are reported separately, not added into an exact total."
+  },
+  "cli_sessions": 243,
+  "cli_by_role": {
+    "judge": 80,
+    "M": 9,
+    "preparation": 3,
+    "H": 151
+  },
+  "known_input_tokens": 17890401,
+  "known_output_tokens": 789679,
+  "usage_coverage_sessions": 242,
+  "usage_total_sessions": 243,
+  "cost_usd": null,
+  "actual_model_request_count": null,
+  "actual_M_descendant_count": 0,
+  "action_observations": 0,
+  "meta_capability_improvement": "not established by H trajectory",
+  "group_summary": [
+    {
+      "H_version": "H01",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 32.5495337995338,
+      "Q_conditional_mean": 0.3495793152942614,
+      "end_to_end_BW_utility": 32.5495337995338,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "H02",
+      "split": "development",
+      "all_scheduled": null,
+      "planned_repeats": 1,
+      "repeat_plan_source": "one generation per requested source/version",
+      "repeat_plan_finalized": true,
+      "records_saved": 6,
+      "execution_finished": 6,
+      "execution_success": 6,
+      "execution_success_rate_all_scheduled": null,
+      "BW_measured": 0,
+      "evaluation_coverage": null,
+      "BW_conditional_mean": null,
+      "Q_conditional_mean": 0.3913131977732985,
+      "end_to_end_BW_utility": null,
+      "function_measured": 6,
+      "function_pass": 6,
+      "independent_sources_observed": 6,
+      "note": "Development intermediate-panel denominator not inferred"
+    },
+    {
+      "H_version": "H02",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 34.68968531468531,
+      "Q_conditional_mean": 0.37902318267620816,
+      "end_to_end_BW_utility": 34.68968531468531,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "H03",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 29.992715617715618,
+      "Q_conditional_mean": 0.38272551267378724,
+      "end_to_end_BW_utility": 29.992715617715618,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "H04",
+      "split": "development",
+      "all_scheduled": null,
+      "planned_repeats": 1,
+      "repeat_plan_source": "one generation per requested source/version",
+      "repeat_plan_finalized": true,
+      "records_saved": 9,
+      "execution_finished": 9,
+      "execution_success": 9,
+      "execution_success_rate_all_scheduled": null,
+      "BW_measured": 0,
+      "evaluation_coverage": null,
+      "BW_conditional_mean": null,
+      "Q_conditional_mean": 0.46067728610373027,
+      "end_to_end_BW_utility": null,
+      "function_measured": 9,
+      "function_pass": 9,
+      "independent_sources_observed": 9,
+      "note": "Development intermediate-panel denominator not inferred"
+    },
+    {
+      "H_version": "H04",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 37.895229770229776,
+      "Q_conditional_mean": 0.35204228904766877,
+      "end_to_end_BW_utility": 37.89522977022977,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "H05",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 31.659382284382286,
+      "Q_conditional_mean": 0.3914659674794884,
+      "end_to_end_BW_utility": 31.659382284382286,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "H06",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 34.88927738927739,
+      "Q_conditional_mean": 0.354211561874714,
+      "end_to_end_BW_utility": 34.88927738927739,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "historical_r1_C2_start",
+      "split": "development",
+      "all_scheduled": 12,
+      "planned_repeats": 1,
+      "repeat_plan_source": "one generation per requested source/version",
+      "repeat_plan_finalized": true,
+      "records_saved": 12,
+      "execution_finished": 12,
+      "execution_success": 12,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 0,
+      "evaluation_coverage": 0.0,
+      "BW_conditional_mean": null,
+      "Q_conditional_mean": 0.44134001632305436,
+      "end_to_end_BW_utility": null,
+      "function_measured": 12,
+      "function_pass": 12,
+      "independent_sources_observed": 12,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    {
+      "H_version": "historical_r1_C2_start",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 31.659382284382286,
+      "Q_conditional_mean": 0.36587847565144327,
+      "end_to_end_BW_utility": 31.659382284382286,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    }
+  ],
+  "figures": [
+    {
+      "path": "figures/development_contact_sheet.png",
+      "caption": "历史开发图按预定顺序全部展示，n=12来源；这些图片为研发已暴露数据，不是泛化证据。同一H版本复用同一产物标reuse，失败或未运行保留空位。",
+      "sources": [
+        "manifest.json",
+        "metrics/scenes.csv",
+        "metrics/rounds.csv"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/evolution.png",
+      "caption": "蓝线记录实际保留版本的晋升时验证评分，圆点为接受候选、叉号为未接受候选；后续边界复评原始记录另见scenes.csv中的bw_judgments，不反向覆盖历史决策点。资格恢复晋升不自动代表配对视觉增益。不对未运行轮次填零；连续轨迹不是十次独立重复。",
+      "sources": [
+        "metrics/rounds.csv",
+        "round0.json"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/quality_points.png",
+      "caption": "当前有效评价协议下各划分逐生成 BW 点；开发 preview 与正式 Selection/Test 分开。修订前评分完整另存evaluator_revision.csv，不混作同协议提升。缺测和未开始不显示零分。统计单位为生成产物，独立场景数另见CSV。",
+      "sources": [
+        "metrics/scenes.csv",
+        "metrics/evaluator_revision.csv"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/dimensions_and_function.png",
+      "caption": "当前有效评价协议的逐产物八维评分与实际功能测量计数；修订前评分另存evaluator_revision.csv。未测不算失败，也不算通过。required/applicable/measured_pass/gate_pass原始对象完整保留于CSV。机械编辑不等于文字编辑能力。",
+      "sources": [
+        "metrics/scenes.csv",
+        "metrics/evaluator_revision.csv"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/cost_and_timing.png",
+      "caption": "实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为627，主根+独立回放根联合扣额为627，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。",
+      "sources": [
+        "metrics/cli_audit.csv",
+        "metrics/timing.csv",
+        "metrics/render_evidence.csv",
+        "render_attempts.jsonl",
+        "preparation/cpu_benchmark_budget_correction.json"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/cpu_benchmark.png",
+      "caption": "同一历史场景、同一512×512/Cycles16配置的2/4/8线程微基准，各一次；不是算法速度比较。首次psutil导入错误3次均保留，不纳入成功吞吐。",
+      "sources": [
+        "preparation/cpu_benchmark_corrected_import/cpu_benchmark.json"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/research_chain.png",
+      "caption": "按时间选择第一条完成的正式研究动作，无论成功或失败；图像和观测均来自该动作。动作执行本身不证明原因唯一或H改善，后续决策、diff和迁移结果需合并审查。",
+      "sources": [
+        "metrics/actions.csv",
+        "metrics/rounds.csv"
+      ],
+      "script": "analyze.py"
+    },
+    {
+      "path": "figures/HM_lineage.png",
+      "caption": "H与M分别记录实际使用、保留和动作观测次数。不变代码不作为后代，M可执行或被使用不等于能力改善；末轮尚未再执行的M不能声称已发挥作用。",
+      "sources": [
+        "metrics/rounds.csv",
+        "metrics/actions.csv"
+      ],
+      "script": "analyze.py"
+    }
+  ]
+}

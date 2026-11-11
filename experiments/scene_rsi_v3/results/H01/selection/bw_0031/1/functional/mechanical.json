@@ -1,0 +1,96 @@
+{
+  "test_type": "prescribed_Blender_operations_not_text_instruction_editing",
+  "target_selection": {
+    "object": "GRID_mimic_panel",
+    "kind": "group",
+    "mesh_names": [
+      "Ball.069",
+      "Ball.070",
+      "Ball.071",
+      "Ball.072",
+      "Ball.073",
+      "Ball.074",
+      "Ball.075",
+      "Ball.076",
+      "Ball.077",
+      "Ball.078",
+      "Ball.079",
+      "Box.094",
+      "Box.095",
+      "Box.096",
+      "Box.097",
+      "Box.098",
+      "Box.099",
+      "Box.100",
+      "Box.101",
+      "Box.102",
+      "Box.103",
+      "Box.104",
+      "Box.105",
+      "Box.106",
+      "Box.107",
+      "Box.108",
+      "Box.109",
+      "Box.110",
+      "Rod.028",
+      "Rod.029",
+      "Rod.030",
+      "Rod.031",
+      "Rod.032",
+      "Rod.033",
+      "Rod.034",
+      "Rod.035",
+      "Rod.036",
+      "Rod.037",
+      "Rod.038",
+      "Rod.039"
+    ],
+    "group_name": "GRID_mimic_panel",
+    "rule": "lexicographically first non-root EMPTY with >=2 nonstructural finite mesh descendants"
+  },
+  "original_blend_unchanged": true,
+  "relation_tolerance": 1e-05,
+  "material": {
+    "applicable": true,
+    "target_success": true,
+    "target_geometry_unchanged": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 448,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "operation": "Copy target mesh/materials, replace target surface with blue Principled shader",
+    "pass": true,
+    "edited_blend": "edited_material.blend"
+  },
+  "move": {
+    "applicable": true,
+    "displacement_scene_units": [
+      1.2001816034317017,
+      0.0,
+      0.0
+    ],
+    "displacement_normalized": [
+      0.1,
+      0,
+      0
+    ],
+    "normalization": "nonstructural scene AABB diagonal; no true metric scale",
+    "target_success": true,
+    "relation_max_abs_matrix_delta": 0.0,
+    "part_relations_preserved": true,
+    "non_target_preservation": {
+      "pass": true,
+      "checked_objects": 407,
+      "changed_fields": {},
+      "added_objects": [],
+      "comparison": "Exact direct comparison of matrices, local vertices, material values/nodes and parent; no hashes"
+    },
+    "pass": true,
+    "edited_blend": "edited.blend"
+  },
+  "render_attempts": 3,
+  "renders_completed": 3
+}

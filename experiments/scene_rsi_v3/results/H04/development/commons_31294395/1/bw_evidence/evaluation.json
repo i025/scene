@@ -1,0 +1,195 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 53.75,
+  "S_BW": 76.875,
+  "started": 1794354623.6635551,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_31294395/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354639.6843958,
+  "seconds": 16.020840644836426,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The bed, olive armchair, two tall windows, portrait, decorative screen, side table, cabinet, rugs and room corner establish the corresponding bedroom despite substantial simplification.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The bed remains on the right, armchair in front of its foot, windows and portrait on the rear wall, and screen behind the furniture. Spacing and chair orientation differ, but the principal layout remains recognizable.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Furniture and window sizes remain broadly plausible relative to one another. The rounded chair and elongated bed are imperfect approximations without a decisive functional scale mismatch.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Olive upholstery, brown wooden furniture and walls, white bedding and trim, green blinds, and blue-gold screen retain the main color organization. Historical silhouettes and patterns are heavily simplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The scene is legible with soft illumination and coherent furniture shadows. Lighting is flatter and brighter than the reference, but does not obscure major content or fundamentally contradict its daytime setting.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views reveal the bed's depth, separate footboard, chair back and legs, and changing occlusion, establishing volumetric geometry.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Major elements have addressable hierarchies with actual mesh children: bed base Box.037, chair back Ball.015, screen panel Box.032 and wall Box.001 have finite nonempty geometry and material slots. Referenced materials contain connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id='bed'].children",
+        "scene_facts.json.objects[object_id='Box.037'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.037'].material_slots",
+        "scene_facts.json.objects[object_id='Ball.015'].parent_chain",
+        "scene_facts.json.objects[object_id='Ball.015'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.032'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.001'].finite_nonempty_mesh",
+        "scene_facts.json.materials.SceneActSurface_25.links",
+        "scene_facts.json.materials.SceneActSurface_35.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "Recognizable object ensemble and color arrangement, but primitive furniture shapes and reduced decorative detail weaken historical fidelity.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Bed and chair have visible supports and mostly coherent assembly. Rigid slab bedding and the angular hanging tablecloth are physically unconvincing.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Principal colors correspond, but the egg-shaped chair, plain rectangular bed and abstract screen lose much of the reference's period styling.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Heavy visible noise, ellipsoidal cushions, sharp box edges and minimal fabric detail make the scene read as a rough blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Main left-right and front-back relationships survive, although the chair faces more directly forward and furniture spacing feels less compact.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Overall furniture scale is plausible, with a noticeably rounder chair, stretched bed silhouette and simplified window proportions.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Soft shadows convey volume, but flat illumination, weak material differentiation and severe grain reduce surface quality and the reference's window-lit atmosphere.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major furniture and architectural features are represented. The visible bedside round table is absent, while wallpaper, rugs, portraits and screen artwork are substantially reduced.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_31294395/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 117265,
+    "output_tokens": 1406,
+    "observed_model": "unknown",
+    "seconds": 42.368976037018
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

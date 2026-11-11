@@ -1,0 +1,39 @@
+{
+  "status": "passed_pure_contracts_only",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "error_evidence": [
+    {
+      "response": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/selection/bw_0045/1/judge_A02_1/response.txt",
+      "evaluation_status": "eval_failed",
+      "evaluation_error": "R06 cannot be fully evaluated: scene_facts.json records light-object transforms but omits light energy, color, and world illumination settings needed to establish dominant cool overhead illumination.",
+      "R06_score": null
+    },
+    {
+      "response": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/selection/bw_0045/1/judge_A02_2/response.txt",
+      "evaluation_status": "eval_failed",
+      "evaluation_error": "R06 cannot be fully evaluated: scene_facts.json records light transforms but omits light energy, color, and world illumination settings needed to establish the configured principal illumination.",
+      "R06_score": null
+    }
+  ],
+  "edited_live_file": "__EXPERIMENT_ROOT__/eval_blend.py",
+  "preserved_old_source": "__EXPERIMENT_ROOT__/preparation/native_evidence_A03/eval_blend_before_A03.py",
+  "diff": "__EXPERIMENT_ROOT__/preparation/native_evidence_A03/eval_blend_A03.diff",
+  "pure_contract_results": "__EXPERIMENT_ROOT__/preparation/native_evidence_A03/pure_tests/test_results.json",
+  "existing_functions_changed": [
+    "scene_facts"
+  ],
+  "new_helpers": [
+    "lighting_node_values",
+    "light_values"
+  ],
+  "unchanged_execution_and_render_functions": [
+    "write_json",
+    "camera_plan",
+    "render_view",
+    "main"
+  ],
+  "model_calls": 0,
+  "Blender_jobs": 0,
+  "renders": 0,
+  "limits": "Pure stubs validate collection contract and unchanged render-function source; no actual Blender inspection or rejudging was performed by this engineering task."
+}

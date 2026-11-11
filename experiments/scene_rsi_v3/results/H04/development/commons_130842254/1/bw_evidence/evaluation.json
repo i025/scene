@@ -1,0 +1,190 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 83.33333333333333,
+  "S_dimension": 51.25,
+  "S_BW": 67.29166666666666,
+  "started": 1794354057.693185,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_130842254/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354070.790747,
+  "seconds": 13.097561836242676,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The central stone feature, wooden table, range and main hearth are recognizable, but the reference's broad recessed arch over the left range and right arched alcove are not reconstructed as corresponding architectural spaces.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The table surrounds the central stone feature, with the range behind-left, main hearth behind and floor vessels to the right. These preserve the principal spatial arrangement despite simplified enclosure and increased emptiness.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Table, central stone feature, hearth and vessels retain broadly plausible relative sizes. The stone shaft is slimmer and the tabletop more expansive, but the main proportions remain recognizable.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Pale masonry and plaster, brown wood, gray paving and a dark hearth preserve the main color and surface distinctions. Forms and vessel colors are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Soft overhead illumination keeps the principal objects legible, with coherent contact shadows and a dark hearth. The result is brighter and less atmospheric than the reference, without obscuring content.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The oblique and side views show actual table legs, stone-feature volume, counter depth and separated floor vessels with changed occlusion and perspective.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh data support editable major elements: Box.239 is the table top, Box.253 the stone shaft, Box.234 the range body, and Rod.113 a floor vessel. Each has finite nonempty geometry, parent chains and assigned materials; corresponding material shader links are present.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.239]",
+        "scene_facts.json:objects[object_id=Box.253]",
+        "scene_facts.json:objects[object_id=Box.234]",
+        "scene_facts.json:objects[object_id=Rod.113]",
+        "scene_facts.json:materials.SceneActSurface_204.links",
+        "scene_facts.json:materials.SceneActSurface_208.links",
+        "scene_facts.json:materials.SceneActSurface_200.links",
+        "scene_facts.json:materials.SceneActSurface_218.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The principal kitchen ensemble is recognizable, but flattened architecture, missing side alcoves and sparse repeated props lose much of its identity.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Table legs and resting vessels provide plausible support. The large masonry feature appears supported by a relatively thin wooden tabletop, and hearth openings read as shallow dark surfaces.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "The broad muted stone, plaster, wood and dark-hearth palette corresponds, but identical vessel profiles and clean block forms lose historical character.",
+      "source_evidence": [
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Repetitive cylindrical dishes, uniformly clean surfaces, shallow hearth geometry and visible render noise produce a schematic model appearance.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Major left/right and front/back relationships survive, while the room is much emptier and the recessed wall spaces are poorly represented.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Major object scales are broadly coherent, although the central feature is more slender and the table has substantially more unused surface.",
+      "source_evidence": [
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Illumination and shadows are coherent and readable, but weak surface variation, reduced hearth depth and grain diminish material credibility.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 4,
+      "evidence": "The table, central stone feature, range, main hearth and several vessels are included; side alcoves and much of the varied cookware, food and hearth equipment are absent or heavily reduced.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_130842254/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 409675,
+    "output_tokens": 1407,
+    "observed_model": "unknown",
+    "seconds": 48.885005708783865
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

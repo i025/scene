@@ -107,7 +107,7 @@ class ResearchAPI:
                 'A failed second execution or repeated execution on one scene does not satisfy reuse. '
                 'For a proposal target H or M, relative path, full '
                 'content and reason. H keeps solve(task,runtime), M keeps research(context,api). '
-                'Leave unused strings empty, parameters_json="{}", changes=[] when not proposing.\n'+json.dumps(packet,ensure_ascii=False))
+                'Leave unused strings empty, parameters_json="{}", changes=[] when not proposing.\n'+json.dumps(packet,ensure_ascii=False,separators=(',',':')))
         if len(prompt.encode())>self.cfg['pilot']['max_M_prompt_bytes']:
             write_json(self.folder/'prompt_budget_failure.json',{'bytes':len(prompt.encode()),'limit':self.cfg['pilot']['max_M_prompt_bytes'],'new_CLI_submitted':False})
             raise RuntimeError('M input-size budget exhausted before any new CLI submission')

@@ -1,0 +1,35 @@
+[
+  {
+    "decision": "action",
+    "scene_id": "commons_105241439",
+    "action_name": "actions/appearance_audit.py",
+    "parameters_json": "{\"object_ids\":[\"left_green_panel\",\"right_green_panel\",\"blue_lower_wall\",\"wooden_top\",\"wall_hook\"]}",
+    "expectation": "Determine whether the two board panels actually received their distinct procedural materials and whether the washed appearance extends to unlinked materials. No diagnostic render is needed.",
+    "analysis": "Across all three development pairs, structural checks pass while visible errors remain. The chaise has disconnected upholstery/frame contours and an offscreen foreground chair; the bunk room has misplaced ceiling/lamp features and weak light-dark separation; the classroom has close board bounds but loses the broad contrasting wipe patterns and rich surface colors. These are not explained by one camera correction. Before prescribing appearance changes, inspect actual shader assignments: the classroom program selects panels by dimensions and chooses their material using local obj.location.x after parenting. A mistaken assignment is a competing explanation to insufficient procedural contrast or excessive illumination. This audit can distinguish assignment facts from appearance hypotheses, without claiming shader defaults measure rendered brightness.",
+    "scope": "",
+    "new_action_source": "",
+    "changes": []
+  },
+  {
+    "decision": "action",
+    "scene_id": "commons_118588033",
+    "action_name": "actions/appearance_audit.py",
+    "parameters_json": "{\"object_ids\":[\"diffuser_0\",\"shade_0\",\"floor\",\"lower\",\"door_0\"]}",
+    "expectation": "Check whether the visible lamp diffuser emits light or only reflects it, and record materials for nearby bright and dark regions. No render is needed.",
+    "analysis": "The classroom audit confirms distinct procedural materials on both panels, rejecting the suspected assignment error. It does not establish excessive illumination: linked shader inputs and rendered brightness remain separate. Across the three references, the chaise still has major contour and crop errors, the classroom has close board bounds but missing broad wipe patterns, and the bunk room loses the bright lamp underside and surrounding darkness. The bunk program creates separate area lights but assigns the visible diffuser an ordinary pale material. Audit its realized shader before considering shared guidance to distinguish visible luminous surfaces from lights that illuminate other objects. If emission is absent, that supports an implementation omission, although lamp placement, shade occlusion and illumination remain competing explanations for its rendered appearance. No universal exposure or material multiplier is justified.",
+    "scope": "",
+    "new_action_source": "",
+    "changes": []
+  },
+  {
+    "decision": "stop",
+    "scene_id": "",
+    "action_name": "",
+    "parameters_json": "{}",
+    "expectation": "",
+    "analysis": "No shared change is sufficiently supported. Across three development scenes, the chaise retains major silhouette and crop errors, the bunk room has misplaced overhead features and a dark lamp underside, and the classroom has close board bounds but incorrect wipe patterns. The classroom audit confirms distinct procedural materials, rejecting the suspected assignment failure. The bunk audit confirms zero diffuser emission, but does not separate its visible effect from shade occlusion, placement, or illumination. These findings support different local corrections, not a universal lighting adjustment. Existing H guidance already covers contour, coverage, and appearance review; further general instructions have no demonstrated advantage here. Retain current H/M without claiming improvement.",
+    "scope": "",
+    "new_action_source": "",
+    "changes": []
+  }
+]

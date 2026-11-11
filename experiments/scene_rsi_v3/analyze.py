@@ -90,10 +90,10 @@ def evaluator_revision(path):
     folder=path.parent;old=read(folder/'record_before_A02_evaluator.json');current=read(path)
     before,now=old['bw'],current['bw']
     evidence=read(folder/'bw_evidence/evidence_status.json') if (folder/'bw_evidence/evidence_status.json').exists() else {}
-    revised=(now.get('native_evidence_version')=='authored_native_project_facts_A02'
+    revised=(now.get('native_evidence_version')==read(ROOT/'config.json')['evaluation']['native_evidence_version']
              and now.get('delivery_evidence_version')=='original_delivery_metadata_A02')
     old_calls=[p/'request.json' for p in folder.iterdir() if p.is_dir() and re.fullmatch(r'judge_\d+',p.name) and (p/'request.json').exists()]
-    fresh_calls=[p/'request.json' for p in folder.glob('judge_A02_*') if (p/'request.json').exists()]
+    fresh_calls=[p/'request.json' for p in folder.glob('judge_A*') if (p/'request.json').exists()]
     old_sessions=[read(p.with_name('session.json')) for p in old_calls if p.with_name('session.json').exists()]
     return {'scene_id':current['scene_id'],'split':current['split'],'H_version':current['H_version'],'repeat':current['repeat'],
         'old_record_path':relative(folder/'record_before_A02_evaluator.json'),'current_record_path':relative(path),
@@ -111,11 +111,11 @@ def evaluator_revision(path):
         'old_known_output_tokens':sum(s['output_tokens'] for s in old_sessions if isinstance(s.get('output_tokens'),int)),
         'old_usage_known_session_count':sum(isinstance(s.get('input_tokens'),int) for s in old_sessions),
         'current_raw_evaluation_status':now['evaluation_status'],'current_raw_BW':now.get('S_BW'),
-        'current_result_native_version':now.get('native_evidence_version') or 'pre_A02',
-        'current_result_delivery_version':now.get('delivery_evidence_version') or 'pre_A02',
+        'current_result_native_version':now.get('native_evidence_version') or 'unknown',
+        'current_result_delivery_version':now.get('delivery_evidence_version') or 'unknown',
         'available_native_version':evidence.get('native_evidence_version'),'available_delivery_version':evidence.get('delivery_evidence_version'),
-        'available_evidence_status':evidence.get('evaluation_status'),'current_result_is_A02':revised,
-        'new_evaluation_status':now['evaluation_status'] if revised else 'pending_A02_evaluation',
+        'available_evidence_status':evidence.get('evaluation_status'),'current_result_is_current_protocol':revised,
+        'new_evaluation_status':now['evaluation_status'] if revised else 'pending_current_evaluation',
         'new_BW':now.get('S_BW') if revised else None,'new_S_rubric':now.get('S_rubric') if revised else None,
         'new_S_dimension':now.get('S_dimension') if revised else None,
         'new_failure_type':now.get('failure_type') if revised else None,
@@ -132,6 +132,9 @@ def get_evaluator_revisions():
 
 def get_scenes():
     records = []
+    expected_native=read(ROOT/'config.json')['evaluation']['native_evidence_version']
+    selection_repeats=read(ROOT/'configs/selection_repeats.json')
+    exclusion_reasons=read(ROOT/'configs/selection_repeat_rationale.json')
     for path in sorted((ROOT / 'results').rglob('record.json')):
         row = read(path)
         if 'scene_id' not in row:
@@ -139,11 +142,15 @@ def get_scenes():
         metrics = row.get('metrics') or {}
         bw = row.get('bw') or {}
         revision=evaluator_revision(path) if path.with_name('record_before_A02_evaluator.json').exists() else None
-        if revision is not None and not revision['current_result_is_A02']:
+        if (bw.get('native_evidence_version')!=expected_native
+                or bw.get('delivery_evidence_version')!='original_delivery_metadata_A02'):
             bw={**bw,'S_BW':None,'S_rubric':None,'S_dimension':None,'dimension_scores':[],
-                'rubric_scores':None,'evaluation_status':'pending_A02_evaluation'}
+                'rubric_scores':None,'evaluation_status':'pending_current_evaluation'}
         functional = row.get('functional') or {}
-        records.append({**row, 'record_path': relative(path),
+        primary=(row['split']!='selection' or row['repeat']==selection_repeats[row['H_version']][row['scene_id']])
+        records.append({**row, 'record_path': relative(path), 'primary_analysis':primary,
+            'analysis_scope':'primary' if primary else 'superseded_selection_attempt_retained_raw',
+            'excluded_primary_reason':None if primary else exclusion_reasons[row['H_version']][row['scene_id']][str(row['repeat'])],
             'record_raw_BW':row['bw'].get('S_BW'),'record_raw_evaluation_status':row['bw']['evaluation_status'],
             'evaluator_revision_status':revision['new_evaluation_status'] if revision is not None else None,
             'Q': metrics.get('overall'), 'PSNR': metrics.get('psnr'), 'SSIM': metrics.get('ssim'),
@@ -333,7 +340,12 @@ def figure(name, caption, sources):
 def plot_evolution(rounds):
     plt.figure(figsize=(10, 4))
     base_path = ROOT / 'round0.json'
-    baseline = read(base_path)['selection']['S_BW'] if base_path.exists() else None
+    baseline_record=read(base_path) if base_path.exists() else None
+    config=read(ROOT/'config.json')
+    current=(baseline_record is not None
+             and baseline_record.get('platform_version')==config['pilot']['platform_version']
+             and baseline_record['selection']['evaluation_completed']==config['pilot']['selection_size'])
+    baseline=baseline_record['selection']['S_BW'] if current else None
     retained = [(0, baseline)] if isinstance(baseline, (int,float)) else []
     previous = baseline
     measured = []
@@ -371,6 +383,62 @@ def plot_quality(scenes):
         axis.set_title(f'{split}: n={len(rows)} measured generations')
         axis.set_ylim(0, 100); axis.set_ylabel('BW-style / CLI-adapted')
     return figure('quality_points.png', '当前有效评价协议下各划分逐生成 BW 点；开发 preview 与正式 Selection/Test 分开。修订前评分完整另存evaluator_revision.csv，不混作同协议提升。缺测和未开始不显示零分。统计单位为生成产物，独立场景数另见CSV。', ['metrics/scenes.csv','metrics/evaluator_revision.csv'])
+
+
+def paired_test_data(scenes, manifest, state, repeats):
+    start=state['H_start'];best=state.get('H_best',state.get('H_retained',start))
+    rows=[];points=[]
+    for scene in manifest:
+        if scene['split']!='test':continue
+        groups={}
+        row={'scene_id':scene['scene_id'],'H_start':start,'H_best':best,'planned_repeats':repeats,
+             'same_H_artifact_reuse':start==best}
+        for role,version in [('start',start),('best',best)]:
+            records={record['repeat']:record for record in scenes if record['split']=='test'
+                     and record['scene_id']==scene['scene_id'] and record['H_version']==version}
+            groups[role]=records
+            row[role+'_finished']=sum(record['status'] in TERMINAL for record in records.values())
+            row[role+'_execution_success']=sum(record['valid'] is True for record in records.values())
+            row[role+'_BW_measured']=sum(record['BW'] is not None for record in records.values())
+            row[role+'_BW_conditional']=mean(record['BW'] for record in records.values())
+            utilities=[records[index]['e2e_BW_utility'] if index in records else None for index in range(1,repeats+1)]
+            row[role+'_BW_utility']=mean(utilities) if all(value is not None for value in utilities) else None
+            for index in range(1,repeats+1):
+                record=records.get(index)
+                points.append({'scene_id':scene['scene_id'],'role':role,'H_version':version,'repeat':index,
+                    'status':record['status'] if record else 'not_started','BW':record['BW'] if record else None,
+                    'Q':record['Q'] if record else None,'utility':record['e2e_BW_utility'] if record else None})
+        paired=[(groups['start'][index],groups['best'][index]) for index in range(1,repeats+1)
+                if index in groups['start'] and index in groups['best']
+                and groups['start'][index]['valid'] and groups['best'][index]['valid']
+                and groups['start'][index]['BW'] is not None and groups['best'][index]['BW'] is not None]
+        row['paired_successful_generations']=len(paired)
+        row['BW_paired_difference']=mean(right['BW']-left['BW'] for left,right in paired)
+        row['Q_paired_difference']=mean(right['Q']-left['Q'] for left,right in paired if left['Q'] is not None and right['Q'] is not None)
+        row['BW_utility_difference']=row['best_BW_utility']-row['start_BW_utility'] if row['best_BW_utility'] is not None and row['start_BW_utility'] is not None else None
+        rows.append(row)
+    return rows,points
+
+
+def plot_test_pairs(rows, points):
+    fig,axes=plt.subplots(1,2,figsize=(13,4))
+    for index,row in enumerate(rows):
+        for role,color,offset in [('start','#315f9c',-.12),('best','#16834a',.12)]:
+            values=[point for point in points if point['scene_id']==row['scene_id'] and point['role']==role and point['BW'] is not None]
+            for point in values:
+                axes[0].scatter(index+offset+.025*(point['repeat']-1),point['BW'],color=color,s=24,alpha=.55)
+            value=row[role+'_BW_conditional']
+            if value is not None:axes[0].scatter(index+offset,value,color=color,marker='D',s=55)
+        delta=row['BW_paired_difference']
+        if delta is None:axes[1].text(index,0,'pending /\nno scored pair',rotation=90,ha='center',va='bottom',fontsize=8)
+        else:axes[1].scatter(index,delta,color='#16834a' if delta>=0 else '#be4b36',s=50)
+    if not any(point['BW'] is not None for point in points):axes[0].text(.5,.5,'Final Test pending',transform=axes[0].transAxes,ha='center')
+    axes[0].set_ylim(0,100);axes[0].set_ylabel('BW-style / CLI-adapted')
+    axes[0].set_title('Raw repeats + source means (diamonds): blue start, green best')
+    axes[1].axhline(0,color='#999',linewidth=.8);axes[1].set_ylabel('Best - start BW, matched successful repeat IDs')
+    axes[1].set_title('One conditional difference per independent source')
+    for axis in axes:axis.set_xticks(range(len(rows)),[row['scene_id'] for row in rows],rotation=35,ha='right')
+    return figure('final_test_pairs.png','按真实独立来源聚合重复生成；左图保留全部实测原始点与每来源条件均值，右图仅在同一repeat双方都成功且取得BW时计算差异。失败原始BW仍为null；失败计零的端到端效用另列CSV，评价服务失败与pending不填零。同一H复用不是独立生成。没有置信区间或显著性声明。',['metrics/paired_test_sources.csv','metrics/paired_test_generations.csv','metrics/scenes.csv'])
 
 
 def plot_dimensions_and_functions(scenes):
@@ -484,9 +552,9 @@ def plot_research_chain(actions, scenes, rounds):
         parent_H = rounds[round_number-1].get('H_parent')
         scene = next((row for row in scenes if row['scene_id']==observation['scene_id']
                       and row['split']=='development' and row['H_version']==parent_H),None)
-        paths = [Path(scene['folder']) / 'final.png' if scene else None,
-                 Path(observation['render']) if observation.get('render') else None]
-        for axis, path, title in zip(axes[:2], paths, ['Current reconstruction', 'Actual action output']):
+        paths = [Path(scene['folder']) / 'reference.png' if scene else None,
+                 Path(scene['folder']) / 'final.png' if scene else None]
+        for axis, path, title in zip(axes[:2], paths, ['Actual reference', 'Current reconstruction']):
             if path is not None and path.exists():
                 with Image.open(path) as image:
                     axis.imshow(image.convert('RGB'))
@@ -494,15 +562,118 @@ def plot_research_chain(actions, scenes, rounds):
                 axis.text(.5, .5, 'No rendered output', ha='center')
             axis.set_title(title)
         detail = 'Action: ' + str(action['action_name']) + '\nExpected: ' + json.dumps(action['expected'], ensure_ascii=True)[:300]
-        detail += '\nObserved: ' + json.dumps(observation.get('measurement'), ensure_ascii=True)[:900]
-        detail += '\nActual decision linkage: see decisions.json and candidate H.diff.'
+        detail += '\nObserved: ' + json.dumps(observation.get('measurement'), ensure_ascii=True)[:600]
+        candidate=ROOT/'candidates'/f'C{round_number:02d}'
+        proposal=read(candidate/'proposal.json')
+        detail += '\nFinal decision: '+proposal['analysis'][:450]
+        detail += '\nActual changed files: '+str([(change['target'],change['path']) for change in proposal['changes']])
+        detail += '\nRead-only facts; no diagnostic render.' if not observation.get('render') else '\nDiagnostic render retained with raw action record.'
         import textwrap
         axes[2].text(0, 1, '\n'.join(textwrap.wrap(detail, 58)), va='top', fontsize=8)
-        sources = ['metrics/actions.csv', action['source'], 'metrics/rounds.csv']
+        sources = ['metrics/actions.csv', action['source'], 'metrics/rounds.csv',relative(candidate/'proposal.json'),relative(candidate/'M.diff'),relative(candidate/'H.diff')]
     else:
         axes[1].text(.5, .5, 'No completed formal research action yet.\nResearch chain pending.', ha='center')
         sources = ['metrics/actions.csv', 'metrics/rounds.csv']
     return figure('research_chain.png', '按时间选择第一条完成的正式研究动作，无论成功或失败；图像和观测均来自该动作。动作执行本身不证明原因唯一或H改善，后续决策、diff和迁移结果需合并审查。', sources)
+
+
+def plot_shared_patch_case(actions, scenes, rounds, manifest):
+    """Post-run process illustration, selected by chronology rather than gain."""
+    linked=[action for action in actions if action['status']=='completed'
+            and rounds[int(action['round_id'].removeprefix('round'))-1]['H_candidate'] is not None]
+    if not linked:
+        return None
+    action=linked[0];number=int(action['round_id'].removeprefix('round'))
+    row=rounds[number-1];candidate=ROOT/'candidates'/f'C{number:02d}'
+    proposal=read(candidate/'proposal.json');observation=action['output']
+    development=next(scene for scene in scenes if scene['split']=='development'
+                     and scene['scene_id']==observation['scene_id'] and scene['H_version']==row['H_parent'])
+    pairs=[]
+    for item in manifest:
+        if item['split']!='selection':continue
+        parent=next((scene for scene in scenes if scene['scene_id']==item['scene_id']
+                     and scene['split']=='selection' and scene['H_version']==row['H_parent']),None)
+        child=next((scene for scene in scenes if scene['scene_id']==item['scene_id']
+                    and scene['split']=='selection' and scene['H_version']==row['H_candidate']),None)
+        pairs.append({'scene_id':item['scene_id'],'parent':parent,'candidate':child})
+    material_summary=[]
+    for obj in observation['measurement']['objects']:
+        values={'Roughness':set(),'Metallic':set()};linked=set()
+        for material in obj['materials']:
+            for node in material['shader_nodes']:
+                for name,socket in node['inputs'].items():
+                    if socket['linked']:linked.add(name)
+                    elif name in values:values[name].add(socket['value'])
+        material_summary.append({'object_id':obj['object_id'],'mesh_count':obj['mesh_count'],
+                                 'unlinked_input_defaults':{key:sorted(value) for key,value in values.items()},
+                                 'linked_inputs':sorted(linked)})
+    facts={'case_selection':'Post-ten-round illustration: earliest completed action in a round with an H candidate, independent of acceptance or score',
+           'round':number,'action':action,'H_parent':row['H_parent'],'H_candidate':row['H_candidate'],
+           'H_accepted':row['H_accepted'],'proposal':proposal,'selection_pairs':pairs,
+           'material_summary':material_summary,'causal_effect_verified':False}
+    (ROOT/'metrics/shared_patch_case.json').write_text(json.dumps(facts,ensure_ascii=False,indent=2)+'\n')
+    fig,axes=plt.subplots(len(pairs)+1,4,figsize=(17,4*(len(pairs)+1)))
+    for axis in axes.flat:axis.axis('off')
+    def show_image(axis,path,title):
+        if path is not None and path.exists():
+            with Image.open(path) as image:axis.imshow(image.convert('RGB'))
+        else:axis.text(.5,.5,'No saved output',ha='center')
+        axis.set_title(title)
+    def text(axis,value):
+        import textwrap
+        axis.text(0,1,'\n'.join(textwrap.wrap(value,49)),va='top',fontsize=9)
+    show_image(axes[0,0],Path(development['folder'])/'reference.png','Development reference (exposed)')
+    show_image(axes[0,1],Path(development['folder'])/'final.png',row['H_parent']+' current reconstruction')
+    text(axes[0,2],'ACTION: '+action['action_name']+'\nEXPECTED: '+str(action['expected'])[:350]
+         +'\nMEASURED (excerpt): '+json.dumps(material_summary,ensure_ascii=True)[:700]
+         +'\nRead-only inspection; no intervention render. Full values in linked JSON.')
+    patch=(candidate/'H.diff').read_text()
+    added='\n'.join(line for line in patch.splitlines() if line.startswith('+') and not line.startswith('+++'))
+    text(axes[0,3],'M AFTER OBSERVATION: '+proposal['analysis'][:500]
+         +'\nACTUAL H DIFF (excerpt): '+added[:400])
+    for index,pair in enumerate(pairs,1):
+        parent,child=pair['parent'],pair['candidate']
+        text(axes[index,0],pair['scene_id']+'\nSelection; fixed source order.\nSeparate generation per H.\nAuthor views shown; BW uses independent fixed evaluation views.')
+        for axis,record,label in [(axes[index,1],parent,row['H_parent']),(axes[index,2],child,row['H_candidate'])]:
+            show_image(axis,Path(record['folder'])/'final.png' if record else None,label)
+        text(axes[index,3],f"BW: {show(parent['BW']) if parent else 'pending'} -> {show(child['BW']) if child else 'pending'}\n"
+             +f"Q: {show(parent['Q']) if parent else 'pending'} -> {show(child['Q']) if child else 'pending'}\n"
+             +f"Execution: {parent['status'] if parent else 'pending'} / {child['status'] if child else 'pending'}\n"
+             +f"Functional: {parent['functional_pass'] if parent else 'pending'} / {child['functional_pass'] if child else 'pending'}\n"
+             +f"Candidate retained: {row['H_accepted']}. No causal or meta-ability improvement inferred.")
+    sources=['metrics/shared_patch_case.json',action['source'],relative(candidate/'proposal.json'),relative(candidate/'H.diff'),'metrics/scenes.csv','metrics/actions.csv','metrics/rounds.csv']
+    return figure('shared_patch_case.png','十轮结束后按时间选择最早具有真实动作与共享H候选的研发回合，不按收益挑选；展示全部三张Selection来源。上行是实际开发参考、重建、原生测量与后续代码修改；下行是不同来源的真实产物与指标。只说明程序研发链运行；独立生成的差异不能证明动作的因果收益。只读材质检查没有干预渲染，也不自动确认亮度的唯一原因。',sources)
+
+
+def plot_semantic_edits(state,config):
+    versions=list(dict.fromkeys([state['H_start'],state.get('H_best',state.get('H_retained',state['H_start']))]))
+    planned=[(version,scene) for scene in config['pilot']['semantic_edit_subset'] for version in versions]
+    fig,axes=plt.subplots(len(planned),3,figsize=(13,3.5*len(planned)),squeeze=False)
+    rows=[];sources=['metrics/semantic_edit_summary.csv','semantic_edit.py']
+    for index,(version,scene) in enumerate(planned):
+        folder=ROOT/'semantic_edits'/version/scene;status_path=folder/'status.json'
+        status=read(status_path) if status_path.exists() else {'status':'not_started'}
+        checks=status['checks'] if 'checks' in status else None
+        row={'H_version':version,'scene_id':scene,'status':status['status'],
+             'instruction':config['pilot']['semantic_edit_instruction'],'checks':checks,
+             'semantic_target_correctness':status.get('semantic_target_correctness'),
+             'semantic_target_correctness_status':'not_independently_validated',
+             'source':relative(status_path) if status_path.exists() else None}
+        rows.append(row)
+        if status_path.exists():sources.append(relative(status_path))
+        for axis,name in zip(axes[index,:2],['before.png','after.png']):
+            path=folder/name
+            if path.exists():
+                with Image.open(path) as image:axis.imshow(image.convert('RGB'))
+            else:axis.text(.5,.5,status['status']+' / no saved image',ha='center')
+            axis.set_title(version+' / '+scene+' / '+name);axis.axis('off')
+        import textwrap
+        detail='Same fixed text instruction: change central furniture surface to blue; preserve geometry and all other objects.\nStatus: '+status['status']
+        detail+='\nMEASURED CHECKS: '+json.dumps(checks,ensure_ascii=True)[:1000]
+        detail+='\nText-to-edit procedure, one Terra call / one execution / no repair. Center/furniture semantic identity NOT independently validated.'
+        axes[index,2].text(0,1,'\n'.join(textwrap.wrap(detail,55)),va='top',fontsize=8);axes[index,2].axis('off')
+    save_csv('semantic_edit_summary.csv',rows,['H_version','scene_id','status','instruction','checks','semantic_target_correctness','semantic_target_correctness_status','source'])
+    return figure('semantic_edit_results.png','预先固定的两张开发图、共同起点与H_best；同一文字编辑器、同一指令和调用/执行上限，展示全部四个预定编辑。快照测量目标颜色、几何与非目标保持，真实中心家具语义身份仍未独立验证。不同于直接预定义机械操作；未完成与失败留空，不用其他案例替代。',sources)
 
 
 def plot_lineage(rounds, actions):
@@ -539,7 +710,7 @@ def group_statistics(scenes, manifest, state, test_policy):
         measured = [row for row in rows if row['evaluation_status']=='completed' and row['BW'] is not None]
         utilities = [row['e2e_BW_utility'] for row in rows if row['e2e_BW_utility'] is not None]
         groups.append({'H_version':version,'split':split,'all_scheduled':scheduled,
-            'planned_repeats':repeats,'repeat_plan_source':test_policy['source'] if split=='test' else 'one generation per requested source/version',
+            'planned_repeats':repeats,'repeat_plan_source':test_policy['source'] if split=='test' else 'configs/selection_repeats.json' if split=='selection' else 'one generation per requested source/version',
             'repeat_plan_finalized':test_policy['finalized'] if split=='test' else True,
             'records_saved':len(rows),'execution_finished':len(completed),'execution_success':len(passed),
             'execution_success_rate_all_scheduled':len(passed)/scheduled if scheduled and completed else None,
@@ -576,12 +747,12 @@ def report():
         'scene_id','split','H_version','repeat','old_record_path','current_record_path','old_evaluation_status',
         'old_BW','old_S_rubric','old_S_dimension','old_failure_type','old_audited_failure_class',
         'current_raw_evaluation_status','current_raw_BW','current_result_native_version','current_result_delivery_version',
-        'available_native_version','available_delivery_version','current_result_is_A02','new_evaluation_status','new_BW',
+        'available_native_version','available_delivery_version','current_result_is_current_protocol','new_evaluation_status','new_BW',
         'old_CLI_request_count','new_CLI_request_count','algorithm_gain_comparison'])
     save_csv('rounds.csv', rounds, ['round', 'H_parent', 'M_parent', 'H_candidate', 'M_candidate', 'candidate_type',
-        'proposal_returned', 'new_source_candidate', 'M_program_used', 'interrupted_phase',
+        'proposal_returned', 'new_source_candidate', 'M_program_used', 'interrupted_phase', 'platform_snapshot', 'research_packet_version',
         'H_accepted', 'M_accepted', 'H_retained', 'M_retained', 'status', 'selection', 'reason', 'usage'])
-    save_csv('scenes.csv', scenes, ['scene_id', 'split', 'H_version', 'M_version', 'repeat', 'status', 'valid',
+    save_csv('scenes.csv', scenes, ['primary_analysis','analysis_scope','excluded_primary_reason','scene_id', 'split', 'H_version', 'M_version', 'repeat', 'status', 'valid',
         'evaluation_status', 'BW', 'S_rubric', 'S_dimension', 'dimensions', 'rubric_results', 'Q', 'PSNR', 'SSIM',
         'LPIPS', 'DINO', 'functional_pass', 'functional_checks', 'e2e_BW_utility', 'model_roles', 'device',
         'seconds', 'generation_seconds', 'evaluation_scope', 'failure_type', 'eligible',
@@ -604,14 +775,29 @@ def report():
     render_rows,render_summary = get_render_accounting()
     save_csv('render_evidence.csv',render_rows,['scope_path','selected_source_type','selected_sources','recorded_attempts',
         'recorded_completed','ledger_source','ledger_recorded_attempts','ledger_recorded_completed','exact_whole_experiment_count','note'])
+    raw_scene_count=len(scenes)
+    scenes=[row for row in scenes if row['primary_analysis']]
     test_policy = test_repeat_policy(config)
+    paired_sources,paired_points=paired_test_data(scenes,manifest,state,test_policy['repeats'])
+    save_csv('paired_test_sources.csv',paired_sources,list(paired_sources[0]) if paired_sources else ['scene_id'])
+    save_csv('paired_test_generations.csv',paired_points,['scene_id','role','H_version','repeat','status','BW','Q','utility'])
+    paired_summary={'statistical_unit':'independent source, not repeat or view',
+        'sources_scheduled':len(paired_sources),
+        'sources_with_scored_pair':sum(row['paired_successful_generations']>0 for row in paired_sources),
+        'matched_successful_generation_pairs':sum(row['paired_successful_generations'] for row in paired_sources),
+        'conditional_BW_difference_source_mean':mean(row['BW_paired_difference'] for row in paired_sources),
+        'sources_with_complete_utility':sum(row['BW_utility_difference'] is not None for row in paired_sources),
+        'all_scheduled_BW_utility_difference_source_mean':mean(row['BW_utility_difference'] for row in paired_sources)
+            if paired_sources and all(row['BW_utility_difference'] is not None for row in paired_sources) else None}
     groups = group_statistics(scenes, manifest, state, test_policy)
     save_csv('group_summary.csv', groups, ['H_version','split','all_scheduled','planned_repeats','repeat_plan_source','repeat_plan_finalized','records_saved','execution_finished','execution_success',
         'execution_success_rate_all_scheduled','BW_measured','evaluation_coverage','BW_conditional_mean','Q_conditional_mean',
         'end_to_end_BW_utility','function_measured','function_pass','independent_sources_observed','note'])
-    figures = [contact_sheet(manifest, scenes, rounds, state), plot_evolution(rounds), plot_quality(scenes),
+    figures = [contact_sheet(manifest, scenes, rounds, state), plot_evolution(rounds), plot_quality(scenes),plot_test_pairs(paired_sources,paired_points),
                plot_dimensions_and_functions(scenes), plot_cost(cli, timing, render_summary), plot_cpu_benchmark(),
-               plot_research_chain(actions, scenes, rounds), plot_lineage(rounds, actions)]
+               plot_research_chain(actions, scenes, rounds), plot_lineage(rounds, actions),plot_semantic_edits(state,config)]
+    shared_case=plot_shared_patch_case(actions,scenes,rounds,manifest)
+    if shared_case is not None:figures.append(shared_case)
     finished_rounds = [row for row in rounds if row['status'] in TERMINAL]
     known_usage = [row for row in cli if isinstance(row.get('input_tokens'), int) and isinstance(row.get('output_tokens'), int)]
     test_records = [row for row in scenes if row['split']=='test']
@@ -619,7 +805,7 @@ def report():
     expected_test = test_sources * test_policy['repeats'] * len({state['H_start'],state['H_best']}) if state.get('final_selection_frozen') else None
     test_finished = sum(row['status'] in TERMINAL for row in test_records)
     test_status = 'pending' if not test_records else 'all_scheduled_records_terminal' if expected_test is not None and test_finished==expected_test else 'partially_completed'
-    summary = {'phase': state['phase'], 'rounds_completed': len(finished_rounds), 'rounds_scheduled': 10,
+    summary = {'phase': state['phase'], 'rounds_completed': len(finished_rounds), 'rounds_scheduled': 10,'paired_final_test':paired_summary,
         'data_source_counts':dict(Counter(row['split'] for row in manifest)),
         'evaluator_revision':{'paired_record_count':len(revisions),
             'inspection_status':inspection['status'] if inspection is not None else None,
@@ -632,6 +818,7 @@ def report():
             'new_saved_CLI_request_count':sum(row['new_CLI_request_count'] for row in revisions),
             'new_evaluation_statuses':dict(Counter(row['new_evaluation_status'] for row in revisions)),
             'algorithm_gain_comparison':False},
+        'raw_scene_records':raw_scene_count,'superseded_selection_records_excluded_from_primary':raw_scene_count-len(scenes),
         'scene_records': len(scenes), 'scene_status_counts': dict(Counter(row['status'] for row in scenes)),
         'scene_execution_success_count': sum(row.get('valid') is True for row in scenes),
         'scene_execution_success_rate_over_recorded_tasks': sum(row.get('valid') is True for row in scenes) / len(scenes) if scenes else None,
@@ -675,8 +862,12 @@ def report():
     limits_text = ('所有结果均为 BW-style / CLI-adapted，不是官方榜单分数。开发历史图已暴露；同模型研发与评审存在偏差。'
         '未完成项保留pending/null；没有真实冻结元回放时不宣称元能力改善。进程树RSS为0.1秒采样下界；'
         '嵌套阶段墙钟和CPU作用域有重叠，不相加冒充总耗时。')
-    markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', data_sizes_text,'',test_plan_text, '', render_note, '', limits_text, '',
-        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md)','',
+    paired_text=(f"独立来源配对：{paired_summary['sources_with_scored_pair']}/{paired_summary['sources_scheduled']} 来源有双方成功且实测的生成对，"
+        f"合计 {paired_summary['matched_successful_generation_pairs']} 对生成；来源等权条件BW差 {show(paired_summary['conditional_BW_difference_source_mean'])}。"
+        f"全预定来源的端到端BW效用差 {show(paired_summary['all_scheduled_BW_utility_difference_source_mean'])}，"
+        f"完整效用覆盖 {paired_summary['sources_with_complete_utility']}/{paired_summary['sources_scheduled']}；缺失评价和pending不当零。")
+    markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', data_sizes_text,'',test_plan_text, '',paired_text,'', render_note, '', limits_text, '',
+        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md) · [A03灯光证据与操作员中断记录](../PROTOCOL_AMENDMENT_03.md) · [A04无损证据编码修复](../PROTOCOL_AMENDMENT_04.md)','',
         '请求模型与可确认路由分开见 cli_audit.csv；没有路由元数据时 observed_model=unknown。费用未知，不宣称降本。', '',
         '## 十轮实际状态', '', '| round | status | H retained | M retained | type |', '|---|---|---|---|---|']
     if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
@@ -690,8 +881,8 @@ def report():
                  '本命令只读取保存的记录、图片和配置，不运行模型或Blender。续跑入口由主runner提供，不由报告触发。']
     (ROOT / 'reports/REPORT_ZH.md').write_text('\n'.join(markdown) + '\n')
     body = '<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V3</title><style>body{font:16px/1.6 sans-serif;max-width:1400px;margin:24px auto;padding:0 20px;color:#17202a}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #ccd;padding:6px;vertical-align:top;word-break:break-word}figure{margin:25px 0}code{background:#f4f5f6}a{color:#125d98}</style><h1>Scene-RSI V3 实际运行报告</h1>'
-    body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>' + html.escape(render_note) + '</p><p>' + html.escape(limits_text) + '</p>'
-    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a></p>'
+    body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>'+html.escape(paired_text)+'</p><p>' + html.escape(render_note) + '</p><p>' + html.escape(limits_text) + '</p>'
+    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a> · <a href="../PROTOCOL_AMENDMENT_03.md">A03修订</a> · <a href="../PROTOCOL_AMENDMENT_04.md">A04无损证据编码修复</a></p>'
     body += '<p><a href="REPORT_ZH.md">中文Markdown</a> · <a href="../metrics/summary.json">原始汇总JSON</a> · <a href="../analyze.py">离线重画脚本</a> · <a href="../manifest.json">来源与暴露记录</a></p>'
     if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
         body += '<p><a href="../PROTOCOL_AMENDMENT_01.md">A01实际平台修订</a>：公开附件已统一转发；旧偏离文档保留为历史。M0未变，修订在首个BW正式任务和首轮正式M前完成，10个H生成产物按相同信息条件复用。</p>'

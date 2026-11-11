@@ -5,7 +5,7 @@
   "source_id": "commons_104864364",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,8 +23,8 @@
     "psnr": 9.759106869445468,
     "overall": 0.41535931601038073,
     "metric_timing": {
-      "model_load_seconds": 0.00026074890047311783,
-      "compute_seconds": 0.5003291899338365,
+      "model_load_seconds": 0.00014258688315749168,
+      "compute_seconds": 0.6748748160898685,
       "model_cache_hit": true,
       "threads": 8
     }
@@ -35,8 +35,8 @@
     "execution_status": "completed",
     "evaluation_status": "completed",
     "S_rubric": 100.0,
-    "S_dimension": 61.25,
-    "S_BW": 80.625,
+    "S_dimension": 60.0,
+    "S_BW": 80.0,
     "started": 1794003521.3434827,
     "images": [
       "author.png",
@@ -52,12 +52,17 @@
     "failure_type": null,
     "finished": 1794003542.8248231,
     "seconds": 21.481340408325195,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "The classroom is recognizable: repeated wooden desks and benches, yellow lower walls, tall side openings, ceiling fans, bags, and the curtained stage with a board are present.",
+        "evidence": "Recognizable classroom with repeated desks and benches, bags, ceiling fans, side openings, and a curtained stage with a board.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -68,18 +73,17 @@
       {
         "id": "R02",
         "score": 1,
-        "evidence": "Desk rows flank a central aisle leading to the stage; side openings and overhead fans preserve the main spatial relationships. Placement is more regular than the reference.",
+        "evidence": "Long room, longitudinal furniture rows, central aisle, side openings, overhead fans, and far-end stage preserve the main spatial relationships, despite more regular spacing.",
         "source_evidence": [
           "author.png",
-          "wide_01.png",
-          "detail_01.png"
+          "wide_01.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R03",
         "score": 1,
-        "evidence": "Desks, benches, bags, board, and fans have broadly plausible relative sizes within the room, despite slender furniture and generous spacing.",
+        "evidence": "Furniture, openings, board, and fans have broadly compatible relative sizes. Bags are somewhat oversized and benches unusually slender.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -90,9 +94,9 @@
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Cream and yellow walls, brown furniture, blue and dark bags, green board and side curtains, and a dark burgundy backdrop retain the main color organization. Surfaces are simplified and pale.",
+        "evidence": "Cream upper walls, yellow lower band, brown furniture, blue and dark bags, and green stage sides retain the main color organization. Surfaces are simplified and noticeably paler.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ],
         "evidence_route": "render"
@@ -100,17 +104,17 @@
       {
         "id": "R05",
         "score": 1,
-        "evidence": "The bright interior remains legible with coherent soft shadows and bright side windows. Lighting is flatter than the reference and rendering is noisy, but major content is visible.",
+        "evidence": "Bright interior illumination keeps the major content legible with coherent soft shadows, although it is flatter and noisier than the reference.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "Complementary views show furniture tops, sides, legs, and changing occlusions within a volumetric room, establishing a genuine three-dimensional reconstruction.",
+        "evidence": "Complementary views show actual furniture thickness, legs, separated bench geometry, and changing occlusion within the room.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -122,19 +126,18 @@
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Actual mesh records provide editable architecture, desk parts, seating, board, and bags, with finite nonempty geometry, parent chains, and assigned node materials. The scene contains 388 meshes.",
+        "evidence": "Major elements have editable mesh descendants: Box.138 and Box.139 form desk components, Box.282 and Box.283 form seating, Box defines the floor, and Box.134 defines the board. These contain finite nonempty meshes, parent chains, and assigned materials with connected surface shaders.",
         "source_evidence": [
-          "scene_facts.json.mesh_count",
-          "scene_facts.json.objects[object_id='Box'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='Box.138'].type",
-          "scene_facts.json.objects[object_id='Box.138'].parent_chain",
-          "scene_facts.json.objects[object_id='Box.138'].material_slots",
-          "scene_facts.json.objects[object_id='Box.282'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='Box.134'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='Ball.015'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='left_desk_00'].children",
+          "scene_facts.json.objects[object_id=Box.138].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box.138].parent_chain",
+          "scene_facts.json.objects[object_id=Box.139].dimensions_scene_units",
+          "scene_facts.json.objects[object_id=Box.282].material_slots",
+          "scene_facts.json.objects[object_id=Box.283].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box.134].material_slots",
           "scene_facts.json.materials.SceneActSurface_19.links",
-          "scene_facts.json.materials.SceneActSurface_21.nodes"
+          "scene_facts.json.materials.SceneActSurface_21.links",
+          "scene_facts.json.materials.SceneActSurface_17.links"
         ],
         "evidence_route": "scene_summary"
       }
@@ -143,39 +146,40 @@
       {
         "id": "scene_fidelity",
         "score": 7,
-        "evidence": "Strongly recognizable classroom identity and major features, with less architectural detail, simpler furniture, and a more orderly arrangement.",
+        "evidence": "Main classroom identity is strong; the furniture construction, floor pattern, stage depth, and architectural detail are substantially simplified.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "detail_01.png",
+          "wide_01.png"
         ]
       },
       {
         "id": "physics",
         "score": 5,
-        "evidence": "Desks generally meet the floor, but benches have only two narrow central supports. Board supports end above the platform, and door panels begin well above floor level.",
+        "evidence": "Desks have floor-reaching supports, but benches use two thin posts without broad feet. Board supports visibly stop above the platform, and door panels are raised above floor level.",
         "source_evidence": [
           "wide_01.png",
           "detail_01.png",
-          "scene_facts.json.objects[object_id='Box.135'].world_aabb_approx",
-          "scene_facts.json.objects[object_id='Box.127'].world_aabb_approx",
-          "scene_facts.json.objects[object_id='Box.111'].world_aabb_approx"
+          "scene_facts.json.objects[object_id=Box.135].world_aabb_approx",
+          "scene_facts.json.objects[object_id=Box.127].world_aabb_approx",
+          "scene_facts.json.objects[object_id=Box.111].world_aabb_approx"
         ]
       },
       {
         "id": "style_color",
-        "score": 7,
-        "evidence": "The main palette corresponds well, but yellow walls and brown furniture look washed out; bags and curtains use very basic silhouettes.",
+        "score": 6,
+        "evidence": "The key palette survives, but brown furniture and yellow walls are washed out; bags and curtains have primitive silhouettes.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "realism",
         "score": 4,
-        "evidence": "Heavy grain, uniform block furniture, flat curtain panels, blank windows, and ellipsoidal bags make the scene read as a rough model.",
+        "evidence": "Heavy render grain, identical block-built furniture, oval bags, flat curtains, and uniform surfaces reduce material and structural credibility.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png",
           "detail_01.png"
         ]
@@ -183,17 +187,16 @@
       {
         "id": "layout_spatial",
         "score": 7,
-        "evidence": "The long room, central aisle, stage destination, and side furniture are preserved. Rows are unusually uniform, and seats are only provided for the central desk columns.",
+        "evidence": "Room depth and the principal stage, aisle, and side-wall relationships are preserved. Furniture is more rigidly repeated and the foreground feels more open.",
         "source_evidence": [
           "author.png",
-          "wide_01.png",
-          "wide_03.png"
+          "wide_01.png"
         ]
       },
       {
         "id": "proportion_scale",
         "score": 7,
-        "evidence": "Most major size relationships are plausible, though furniture supports are thin, benches are narrow, and the room feels more spacious around the furniture.",
+        "evidence": "Most functional proportions are plausible, with deviations in the tall bags, narrow bench seats, and slender supporting elements.",
         "source_evidence": [
           "author.png",
           "wide_01.png"
@@ -202,16 +205,16 @@
       {
         "id": "lighting_material",
         "score": 5,
-        "evidence": "Soft light makes the room readable, but weak directional contrast, persistent noise, and nearly uniform surface response lose the reference's material variation and darker furniture.",
+        "evidence": "Lighting is readable and broadly consistent with daytime, but weak directional contrast, pale surfaces, and pervasive noise obscure material distinctions.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "completeness",
         "score": 7,
-        "evidence": "Major architecture, numerous desks and benches, fans, bags, speakers, and stage elements are included. Peripheral seating, furniture detailing, and opening details are reduced.",
+        "evidence": "Major architectural and furnishing categories are represented in substantial numbers. Detailed desk frames, shutters, stage folds, and tabletop belongings are reduced or omitted.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -219,12 +222,12 @@
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_104864364/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_104864364/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 286361,
-      "output_tokens": 1520,
+      "input_tokens": 303772,
+      "output_tokens": 1482,
       "observed_model": "unknown",
-      "seconds": 45.77121856017038
+      "seconds": 51.90940959006548
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -147984,9 +147987,9 @@
     },
     "interpretation": "Mechanical structure/material operation; no text editor or natural-image 3D ground truth. Support AABB approximate; optional collision crossings not full solidity truth."
   },
-  "e2e_utility": 80.625,
+  "e2e_utility": 80.0,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_104864364/1",
-  "seconds": 345.3094526990317,
+  "seconds": 53.81747450493276,
   "generation_seconds": 265.35141186602414,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

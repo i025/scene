@@ -1,0 +1,79 @@
+--- eval_blend_before_A03.py
++++ eval_blend.py
+@@ -23,6 +23,53 @@
+ 
+ def write_json(path, value):
+     Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
++
++
++def lighting_node_values(data):
++    """Read the saved lighting graph, including disabled graphs, without edits."""
++    tree = data.node_tree
++    nodes = []
++    if tree is not None:
++        for node in sorted(tree.nodes, key=lambda item: item.name):
++            inputs = {socket.identifier: ib.json_number(socket.default_value)
++                      for socket in node.inputs if hasattr(socket, 'default_value')}
++            outputs = {socket.identifier: ib.json_number(socket.default_value)
++                       for socket in node.outputs if hasattr(socket, 'default_value')}
++            record = {'name': node.name, 'type': node.bl_idname, 'muted': node.mute,
++                      'inputs': inputs, 'outputs': outputs,
++                      'input_linked': {socket.identifier: socket.is_linked for socket in node.inputs}}
++            if hasattr(node, 'is_active_output'):
++                record['is_active_output'] = node.is_active_output
++            if hasattr(node, 'image'):
++                record['image'] = node.image.name if node.image else None
++            if node.type == 'GROUP':
++                record['node_group'] = node.node_tree.name if node.node_tree else None
++            nodes.append(record)
++    return {
++        'node_tree_present': tree is not None, 'nodes': nodes,
++        'links': sorted([link.from_node.name, link.from_socket.identifier,
++                         link.to_node.name, link.to_socket.identifier]
++                        for link in tree.links) if tree is not None else [],
++        'node_inspection_scope': 'Saved top-level lighting nodes and actual links; '
++                                 'nested node groups are identified, not recursively inspected',
++    }
++
++
++def light_values(obj, scene):
++    light = obj.data
++    return {
++        'object_id': obj.name, 'data_name': light.name, 'type': light.type,
++        'linked_to_active_scene': obj.name in scene.objects, 'hide_render': obj.hide_render,
++        'matrix_world': ib.matrix_values(obj.matrix_world),
++        'color': list(light.color), 'energy': light.energy, 'use_nodes': light.use_nodes,
++        'use_shadow': light.use_shadow,
++        'size': light.size if light.type == 'AREA' else None,
++        'size_y': light.size_y if light.type == 'AREA' and light.shape in {'RECTANGLE', 'ELLIPSE'} else None,
++        'shape': light.shape if light.type == 'AREA' else None,
++        'angle': light.angle if light.type == 'SUN' else None,
++        'shadow_soft_size': light.shadow_soft_size if light.type in {'POINT', 'SPOT'} else None,
++        **lighting_node_values(light),
++    }
+ 
+ 
+ def scene_facts():
+@@ -65,7 +112,7 @@
+     compositor_nodes = list(scene.node_tree.nodes) if scene.use_nodes and scene.node_tree else []
+     return {
+         'blend_opened': True, 'blender_version': bpy.app.version_string,
+-        'native_evidence_version': 'authored_native_project_facts_A02',
++        'native_evidence_version': 'authored_native_project_facts_A03_lighting',
+         'objects': objects, 'mesh_count': sum(o['type'] == 'MESH' for o in objects),
+         'camera': {'object_id': camera.name, 'type': camera.data.type,
+                    'lens_mm': camera.data.lens, 'ortho_scale': camera.data.ortho_scale,
+@@ -77,6 +124,13 @@
+              'is_active_camera': obj == camera, 'linked_to_active_scene': obj.name in scene.objects,
+              'hide_render': obj.hide_render}
+             for obj in sorted(bpy.data.objects, key=lambda item: item.name) if obj.type == 'CAMERA'],
++        'authored_lights': [light_values(obj, scene)
++                            for obj in sorted(bpy.data.objects, key=lambda item: item.name)
++                            if obj.type == 'LIGHT'],
++        'authored_world': {
++            'name': scene.world.name, 'color': list(scene.world.color),
++            'use_nodes': scene.world.use_nodes, **lighting_node_values(scene.world),
++        } if scene.world is not None else None,
+         'collections': [
+             {'name': collection.name,
+              'parents': sorted(parent.name for parent in collections

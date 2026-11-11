@@ -1,0 +1,51 @@
+--- H_parent/policy.py
++++ H_candidate/policy.py
+@@ -37,6 +37,27 @@
+ check of crops, occlusions, silhouettes and broad appearance.
+ '''
+ 
++MATERIAL_GUIDANCE = '''
++Implement the surface distinctions you actually identify in the reference. SceneAct's
++color argument sets base color; its generated Principled materials otherwise start with
++Roughness 0.65 and Metallic 0. A comment or asset name such as glossy, glass, metal or
++light does not implement that appearance. After realize, customize the assigned shader
++for the few large or visually distinctive surfaces whose highlights, reflections or
++emission matter. Use image evidence rather than making every surface glossy. Painted
++metal and dielectric glass need not use a metallic shader; a bright window need not be
++transparent. Do not prescribe one material or lighting adjustment for every scene.
++Select actual mesh descendants through the named semantic asset/part hierarchy. Materials
++are shared by SceneAct finish, so check their users before changing nodes; copy and assign
++a material to the intended subset when other users require a different surface response.
++For a promised material correction, briefly print the selected part, assigned material,
++and relevant final shader values or linked inputs after customization. This verifies
++implementation only. Reflections also depend on geometry, surface orientation and what
++is illuminated or reflected; shader values alone cannot verify the rendered result.
++Keep silhouette, framing and major overlaps ahead of material detail. In the full render,
++compare broad light/dark regions and the position and extent of highlights against the
++reference before deciding on further changes.
++'''
++
+ 
+ def solve(task, runtime):
+     prompt = (Path(__file__).parent / 'system.txt').read_text()
+@@ -52,7 +73,7 @@
+     )
+     messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [
+         {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +
+-         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}" + guidance + PROJECTION_GUIDANCE},
++         f"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}" + guidance + PROJECTION_GUIDANCE + MATERIAL_GUIDANCE},
+         runtime.image(task['image'])]}]
+     while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:
+         response = runtime.ask(messages)
+@@ -92,7 +113,10 @@
+                     'the actual surface profile, component proportions, negative spaces, '
+                     'and broad light/dark distribution instead of adding repeated tiny parts. '
+                     'Distinguish observed brightness from material color: illumination and '
+-                    'surface orientation also affect it. Make only image-supported corrections '
++                    'surface orientation also affect it. If proposing a surface correction, '
++                    'implement and verify its assigned shader settings after realize, checking '
++                    'shared material users; descriptive comments alone do not change a shader. '
++                    'Make only image-supported corrections '
+                     'in a complete revised program, or reply DONE. '
+                 ) + f'Remaining: {runtime.remaining()}'}
+             ])

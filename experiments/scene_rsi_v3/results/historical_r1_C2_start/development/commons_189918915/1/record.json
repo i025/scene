@@ -5,7 +5,7 @@
   "source_id": "commons_189918915",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,8 +23,8 @@
     "psnr": 9.729623507443463,
     "overall": 0.3552343104685815,
     "metric_timing": {
-      "model_load_seconds": 0.00030633434653282166,
-      "compute_seconds": 0.552791376132518,
+      "model_load_seconds": 0.00018594786524772644,
+      "compute_seconds": 0.5736015499569476,
       "model_cache_hit": true,
       "threads": 8
     }
@@ -35,8 +35,8 @@
     "execution_status": "completed",
     "evaluation_status": "completed",
     "S_rubric": 100.0,
-    "S_dimension": 57.5,
-    "S_BW": 78.75,
+    "S_dimension": 56.25,
+    "S_BW": 78.125,
     "started": 1794002870.2714498,
     "images": [
       "author.png",
@@ -52,22 +52,28 @@
     "failure_type": null,
     "finished": 1794002889.2418718,
     "seconds": 18.97042202949524,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "Tall loaded shelving, repeated ceiling lights, roof ribs and a gridded skylight clearly reconstruct the warehouse identity.",
+        "evidence": "Tall loaded shelving, roof ribs and beams, linear ceiling lights, and a gridded skylight clearly establish the corresponding warehouse interior.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "wide_01.png",
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R02",
         "score": 1,
-        "evidence": "The main rack recedes along the left beneath the roof, with vertically stacked loads and lights extending along the aisle. Major spatial relationships remain recognizable.",
+        "evidence": "The main rack recedes along the left, loads occupy stacked tiers, and ceiling lights and skylight remain overhead. The arrangement is recognizable despite reduced rack dominance in the authored framing.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -78,7 +84,7 @@
       {
         "id": "R03",
         "score": 1,
-        "evidence": "Loads fit the repeated shelf bays, and tall racks, overhead lighting and skylight have plausible relative sizes.",
+        "evidence": "Loads fit within repeated shelf bays, and tall racks sit beneath a high industrial ceiling. Relative dimensions remain functionally plausible.",
         "source_evidence": [
           "author.png",
           "wide_01.png"
@@ -88,9 +94,9 @@
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Beige loads, ochre pallets, gray framing and a darker warm roof remain distinguishable. Simplification reduces surface character but preserves broad color correspondence.",
+        "evidence": "Beige packages, ochre pallets, gray framing, a darker roof, and bright fixtures retain recognizable surface distinctions. The treatment is substantially simpler and paler than the target.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png"
         ],
         "evidence_route": "render"
@@ -98,38 +104,35 @@
       {
         "id": "R05",
         "score": 1,
-        "evidence": "Bright overhead strips and skylight establish compatible warm industrial lighting. Heavy noise reduces clarity, but the authored scene remains legible.",
+        "evidence": "Warm overhead illumination and bright ceiling fixtures preserve the general atmosphere and keep the main content legible, although heavy noise weakens surface clarity.",
         "source_evidence": [
-          "author.png"
+          "author.png",
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "Complementary views reveal box depth, shelf undersides, posts and separated rows, supporting genuine spatial geometry. The obstructed detail view does not negate those views.",
+        "evidence": "Complementary views show package depth, shelf undersides, posts, and an aisle with changing occlusion, establishing a volumetric scene.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
-          "wide_03.png",
-          "detail_01.png"
+          "wide_03.png"
         ],
         "evidence_route": "either"
       },
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Rack upright Box.067, pallet Box.113 and load Box.117 are separately addressable MESH objects with finite nonempty geometry, parent chains and assigned materials. Their materials contain connected shader/output nodes.",
+        "evidence": "Actual rack, pallet, load, and roof meshes have nonempty geometry, assigned materials, and addressable parent chains. For example, Box.067, Box.113, and Box.117 are valid meshes with distinct dimensions and material slots; their materials have connected surface shaders.",
         "source_evidence": [
-          "scene_facts.json.objects[object_id=Box.067].type",
           "scene_facts.json.objects[object_id=Box.067].finite_nonempty_mesh",
           "scene_facts.json.objects[object_id=Box.067].parent_chain",
-          "scene_facts.json.objects[object_id=Box.067].material_slots",
-          "scene_facts.json.objects[object_id=Box.113].finite_nonempty_mesh",
           "scene_facts.json.objects[object_id=Box.113].material_slots",
           "scene_facts.json.objects[object_id=Box.117].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.117].parent_chain",
-          "scene_facts.json.objects[object_id=Box.117].material_slots",
+          "scene_facts.json.objects[object_id=Box.117].dimensions_scene_units",
+          "scene_facts.json.objects[object_id=Box].finite_nonempty_mesh",
           "scene_facts.json.materials.SceneActSurface_9.links",
           "scene_facts.json.materials.SceneActSurface_10.links",
           "scene_facts.json.materials.SceneActSurface_12.links"
@@ -141,16 +144,16 @@
       {
         "id": "scene_fidelity",
         "score": 6,
-        "evidence": "The warehouse and upward aisle composition correspond, but repetitive block loads and simplified shelving lose substantial reference specificity.",
+        "evidence": "The warehouse and characteristic ceiling composition are recognizable, but generic blocks and simplified framing lose much of the target's industrial complexity.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png"
         ]
       },
       {
         "id": "physics",
         "score": 5,
-        "evidence": "Posts and braces form a plausible framework, but pallet support across the sparse cross members is not convincingly resolved; connection details are minimal.",
+        "evidence": "Posts, beams, and diagonal braces form a plausible framework. Pallets appear inset from the longitudinal beams, leaving their load-bearing connections visually unclear.",
         "source_evidence": [
           "wide_01.png",
           "wide_03.png"
@@ -159,18 +162,18 @@
       {
         "id": "style_color",
         "score": 6,
-        "evidence": "Warm neutral colors and contrasting loads, pallets and structure correspond broadly. Framing is noticeably paler and package surfaces more uniform.",
+        "evidence": "Warm neutral packages and ochre pallet surfaces correspond broadly, but pale framing and uniform block silhouettes weaken the dark steel and varied cargo appearance.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png"
         ]
       },
       {
         "id": "realism",
         "score": 3,
-        "evidence": "Severe render grain, sharp primitive boxes and sparse package and connection details substantially weaken credibility.",
+        "evidence": "Heavy grain, sharp primitive boxes, repetitive surfaces, and sparse packaging detail make the result read as a rough reconstruction.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png",
           "wide_03.png"
         ]
@@ -178,16 +181,17 @@
       {
         "id": "layout_spatial",
         "score": 7,
-        "evidence": "Repeated shelving levels and receding ceiling fixtures preserve the main arrangement, although the authored framing gives the ceiling greater prominence.",
+        "evidence": "Stacked storage, longitudinal recession, overhead structure, and skylight placement preserve the main spatial identity. The authored view devotes more attention to the ceiling.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "wide_01.png",
+          "wide_03.png"
         ]
       },
       {
         "id": "proportion_scale",
         "score": 7,
-        "evidence": "Shelf clearances, load sizes and high roof are broadly coherent; simplified rack members and unusually uniform loads reduce accuracy.",
+        "evidence": "Shelf spacing, load sizes, and ceiling height form a reasonable warehouse reconstruction, though loads are more uniform and framework appears lighter than the target.",
         "source_evidence": [
           "author.png",
           "wide_01.png"
@@ -195,17 +199,17 @@
       },
       {
         "id": "lighting_material",
-        "score": 5,
-        "evidence": "Overhead lighting produces readable warm illumination and shadow, but heavy noise and weak material differentiation obscure surface quality.",
+        "score": 4,
+        "evidence": "Overhead lighting produces coherent warm shadows, but severe noise and weak material differentiation diminish clarity and tangible surface character.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png"
         ]
       },
       {
         "id": "completeness",
         "score": 7,
-        "evidence": "Major racks, numerous loads, pallets, roof structure, lights and skylight are present. Distinctive yellow rack fittings and varied wrapped-package detail are largely omitted.",
+        "evidence": "Major racks, many loads, pallets, roof structure, lights, and skylight are present. Rack fittings, wrapping, labels, and richer package variation remain simplified or absent.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -213,12 +217,12 @@
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_189918915/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_189918915/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 280498,
-      "output_tokens": 1393,
+      "input_tokens": 299345,
+      "output_tokens": 1415,
       "observed_model": "unknown",
-      "seconds": 42.96011410607025
+      "seconds": 51.142507863696665
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -137626,9 +137630,9 @@
     },
     "interpretation": "Mechanical structure/material operation; no text editor or natural-image 3D ground truth. Support AABB approximate; optional collision crossings not full solidity truth."
   },
-  "e2e_utility": 78.75,
+  "e2e_utility": 78.125,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_189918915/1",
-  "seconds": 310.9314330108464,
+  "seconds": 52.709351491648704,
   "generation_seconds": 237.62757467059419,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

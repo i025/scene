@@ -1,0 +1,64 @@
+--- platform_A03/model_evidence.py
++++ platform_A04/model_evidence.py
+@@ -137,6 +137,7 @@
+             if event['event']=='execute' and event['step'] in successful and isinstance(event['code'],str):
+                 event['code']={'archived_successful_prototype':event['step'],'current_P':'development.program'}
+                 changes.append({'scene_id':entry['scene_id'],'step':event['step'],'removed':'Earlier successful prototype code; all failed code/errors and current full P retained'})
+-    payload['common_evidence_projection']={'original_compact_bytes':before,'limit_bytes':declared_limit,'changes':changes,'full_raw_evidence_retained_on_disk':True,'selection_criterion':'size and fixed source order only, never score'}
+-    if size()>declared_limit:raise ValueError('Development evidence exceeds frozen byte budget after explicit projection: '+str(size()))
++    payload['common_evidence_projection']={'original_compact_bytes':before,'limit_bytes':declared_limit,'changes':changes,'full_raw_evidence_retained_on_disk':True,'selection_criterion':'size and fixed source order only, never score','encoding':'A04 compact JSON; projection order and intermediate legacy-size cutoffs unchanged'}
++    wire_size=len(json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode())
++    if wire_size>declared_limit:raise ValueError('Development evidence exceeds frozen byte budget after explicit projection: '+str(wire_size))
+     return payload['common_evidence_projection']
+--- platform_A03/research.py
++++ platform_A04/research.py
+@@ -107,7 +107,7 @@
+                 'A failed second execution or repeated execution on one scene does not satisfy reuse. '
+                 'For a proposal target H or M, relative path, full '
+                 'content and reason. H keeps solve(task,runtime), M keeps research(context,api). '
+-                'Leave unused strings empty, parameters_json="{}", changes=[] when not proposing.\n'+json.dumps(packet,ensure_ascii=False))
++                'Leave unused strings empty, parameters_json="{}", changes=[] when not proposing.\n'+json.dumps(packet,ensure_ascii=False,separators=(',',':')))
+         if len(prompt.encode())>self.cfg['pilot']['max_M_prompt_bytes']:
+             write_json(self.folder/'prompt_budget_failure.json',{'bytes':len(prompt.encode()),'limit':self.cfg['pilot']['max_M_prompt_bytes'],'new_CLI_submitted':False})
+             raise RuntimeError('M input-size budget exhausted before any new CLI submission')
+--- platform_A03/pilot.py
++++ platform_A04/pilot.py
+@@ -332,7 +332,8 @@
+         write_json(folder/'error.json',{'error':reason,'traceback':traceback.format_exc(),'phase':'proposal_or_validation'})
+     row={'round':t,'H_parent':h,'M_parent':m,'H_candidate':h_candidate if kind in ['H-only','H+M'] else None,'M_candidate':m_candidate if kind in ['M-only','H+M'] else None,'proposal_returned':proposal is not None,'new_source_candidate':kind!='unchanged',
+          'candidate_type':kind,'H_accepted':h_ok,'M_accepted':m_ok,'H_retained':h_candidate if h_ok else h,'M_retained':m_candidate if m_ok else m,
+-         'status':status,'selection':selected,'reason':reason,'usage':current(),'M_program_used':str(mpath(m)/'meta.py'),'action_count':len(api.executed_actions),'sessions':api.sessions,'frames':api.frames,'proposal_path':str(folder/'proposal.json')}
++         'status':status,'selection':selected,'reason':reason,'usage':current(),'M_program_used':str(mpath(m)/'meta.py'),'action_count':len(api.executed_actions),'sessions':api.sessions,'frames':api.frames,'proposal_path':str(folder/'proposal.json'),
++         'platform_snapshot':c['pilot']['platform_snapshot'],'research_packet_version':c['pilot']['research_packet_version']}
+     write_json(dest/'record.json',row)
+     print(json.dumps(row,ensure_ascii=False),flush=True);return row
+ 
+--- platform_A03/analyze.py
++++ platform_A04/analyze.py
+@@ -591,7 +591,7 @@
+         'available_native_version','available_delivery_version','current_result_is_current_protocol','new_evaluation_status','new_BW',
+         'old_CLI_request_count','new_CLI_request_count','algorithm_gain_comparison'])
+     save_csv('rounds.csv', rounds, ['round', 'H_parent', 'M_parent', 'H_candidate', 'M_candidate', 'candidate_type',
+-        'proposal_returned', 'new_source_candidate', 'M_program_used', 'interrupted_phase',
++        'proposal_returned', 'new_source_candidate', 'M_program_used', 'interrupted_phase', 'platform_snapshot', 'research_packet_version',
+         'H_accepted', 'M_accepted', 'H_retained', 'M_retained', 'status', 'selection', 'reason', 'usage'])
+     save_csv('scenes.csv', scenes, ['primary_analysis','analysis_scope','excluded_primary_reason','scene_id', 'split', 'H_version', 'M_version', 'repeat', 'status', 'valid',
+         'evaluation_status', 'BW', 'S_rubric', 'S_dimension', 'dimensions', 'rubric_results', 'Q', 'PSNR', 'SSIM',
+@@ -691,7 +691,7 @@
+         '未完成项保留pending/null；没有真实冻结元回放时不宣称元能力改善。进程树RSS为0.1秒采样下界；'
+         '嵌套阶段墙钟和CPU作用域有重叠，不相加冒充总耗时。')
+     markdown = ['# Scene-RSI V3 中文实验报告', '', status_text, '', data_sizes_text,'',test_plan_text, '', render_note, '', limits_text, '',
+-        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md) · [A03灯光证据与操作员中断记录](../PROTOCOL_AMENDMENT_03.md)','',
++        revision_text,'','[评价修订逐记录表](../metrics/evaluator_revision.csv) · [A02协议修订](../PROTOCOL_AMENDMENT_02.md) · [A03灯光证据与操作员中断记录](../PROTOCOL_AMENDMENT_03.md) · [A04无损证据编码修复](../PROTOCOL_AMENDMENT_04.md)','',
+         '请求模型与可确认路由分开见 cli_audit.csv；没有路由元数据时 observed_model=unknown。费用未知，不宣称降本。', '',
+         '## 十轮实际状态', '', '| round | status | H retained | M retained | type |', '|---|---|---|---|---|']
+     if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
+@@ -706,7 +706,7 @@
+     (ROOT / 'reports/REPORT_ZH.md').write_text('\n'.join(markdown) + '\n')
+     body = '<!doctype html><html lang="zh"><meta charset="utf-8"><title>Scene-RSI V3</title><style>body{font:16px/1.6 sans-serif;max-width:1400px;margin:24px auto;padding:0 20px;color:#17202a}img{max-width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #ccd;padding:6px;vertical-align:top;word-break:break-word}figure{margin:25px 0}code{background:#f4f5f6}a{color:#125d98}</style><h1>Scene-RSI V3 实际运行报告</h1>'
+     body += '<p>' + html.escape(status_text) + '</p><p>' + html.escape(test_plan_text) + '</p><p>' + html.escape(render_note) + '</p><p>' + html.escape(limits_text) + '</p>'
+-    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a> · <a href="../PROTOCOL_AMENDMENT_03.md">A03修订</a></p>'
++    body += '<p>'+html.escape(data_sizes_text)+'</p><p>'+html.escape(revision_text)+'</p><p><a href="../metrics/evaluator_revision.csv">评价器修订逐记录表</a> · <a href="../PROTOCOL_AMENDMENT_02.md">A02协议修订</a> · <a href="../PROTOCOL_AMENDMENT_03.md">A03修订</a> · <a href="../PROTOCOL_AMENDMENT_04.md">A04无损证据编码修复</a></p>'
+     body += '<p><a href="REPORT_ZH.md">中文Markdown</a> · <a href="../metrics/summary.json">原始汇总JSON</a> · <a href="../analyze.py">离线重画脚本</a> · <a href="../manifest.json">来源与暴露记录</a></p>'
+     if (ROOT/'PROTOCOL_AMENDMENT_01.md').exists():
+         body += '<p><a href="../PROTOCOL_AMENDMENT_01.md">A01实际平台修订</a>：公开附件已统一转发；旧偏离文档保留为历史。M0未变，修订在首个BW正式任务和首轮正式M前完成，10个H生成产物按相同信息条件复用。</p>'

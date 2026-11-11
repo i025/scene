@@ -1,0 +1,203 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 56.25,
+  "S_BW": 78.125,
+  "started": 1794001276.7403078,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_118588033/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794001293.290908,
+  "seconds": 16.550600290298462,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "Recognizable ship compartment with three bunks, lockers, enclosure, desk and chair, benches, ventilator, overhead pipes and beams, and two-tone pillar. Details are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Bunks remain left of the central enclosure and lockers; the pillar stands forward on the right beside the fixture partition. The foreground is considerably more spacious, but principal spatial relationships remain recognizable.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Furniture and structural elements retain broadly plausible relative sizes. The room feels oversized and the bunks long relative to the chair, without making their functions implausible.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Red-brown flooring, cream walls and pipes, dark frames, green benches, gray lockers and red wall fixture preserve the main color organization. Boxy simplification reduces shape fidelity.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Overhead illumination keeps the major contents legible with coherent shading. Heavy render noise and flatter illumination weaken the atmosphere but do not obscure the scene.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views show actual depth, changing occlusion, furniture sides and the enclosure interior, establishing a volumetric reconstruction.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh objects include architectural slabs, separate bunk platforms and mattresses, locker bodies, and cylindrical pillar and enclosure components. They have finite nonempty geometry, parent chains and assigned materials with connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.001].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.015].parent_chain",
+        "scene_facts.json.objects[object_id=Box.016].material_slots",
+        "scene_facts.json.objects[object_id=Box.081].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod].type",
+        "scene_facts.json.objects[object_id=Rod.031].finite_nonempty_mesh",
+        "scene_facts.json.materials.SceneActSurface_15.links",
+        "scene_facts.json.materials.SceneActSurface_13.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The distinctive object ensemble is recognizable, but the spacious, sparse presentation loses much of the reference's cramped industrial character.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Frames and platforms mostly connect plausibly, but lockers visibly lack floor support and the chair back appears disconnected from its seat.",
+      "source_evidence": [
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Main colors and dark-versus-light organization correspond well; rigid rectangular bedding, chair and fixtures reduce silhouette accuracy.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Heavy grain, sharp primitive geometry, sparse detailing and unsupported furnishings make the scene look like an unfinished blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Principal left-right and front-back relationships survive, but excessive open floor and separation between foreground machinery and bunks weaken the reference density.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Most objects have usable proportions, although the room and long bunks dominate the small desk and chair more than in the reference.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Lighting is readable and shadows are coherent, but severe sampling noise and largely uniform surface response limit material distinction and atmosphere.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major furnishings and architectural features are present across views. Machinery louvers, pipe fittings, lamp profiles and wall-fixture details are substantially reduced.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_118588033/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 161645,
+    "output_tokens": 1456,
+    "observed_model": "unknown",
+    "seconds": 43.74211664777249
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

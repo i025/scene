@@ -1,0 +1,204 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 55.0,
+  "S_BW": 77.5,
+  "started": 1794354855.0236137,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_192968130/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354867.9774084,
+  "seconds": 12.953794717788696,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The slatted wall, white door, low cabinet, right-side counter, dark sink and cooktop, overhead cabinetry and extractor establish the corresponding kitchen interior, although details are simplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The low cabinet remains left of the door, the kitchen runs along the right wall, the sink lies beyond the foreground cooktop, and upper cabinets sit above the counter. Evaluator wide views are obstructed and do not establish layout defects.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Major silhouettes and relative sizes remain broadly plausible. The counter appears broader and the extractor more elongated than the target, but the overall reconstruction remains compatible.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Warm brown slats and cabinets, pale architectural surfaces, and dark appliances preserve the main color organization. Surface detail is sparse but the principal categories remain distinguishable.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Major content remains clearly visible under broadly compatible bright interior lighting. The illumination is flatter and less warm than the reference, with conspicuous noise, but does not obscure the required scene.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The counter and overhead cabinets show spatial depth, and the complementary cabinet view shows volumetric furniture. Native geometry confirms separate finite meshes with nonzero three-dimensional extents.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "scene_facts.json.objects[object_id=Box.081].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.084].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.092].world_aabb_approx"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual hierarchy links locate separate door, slat, cabinet, countertop and appliance meshes. These have finite nonempty geometry and assigned materials with valid shader connections; the groups are not merely empty declarations.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=door_leaf].children",
+        "scene_facts.json.objects[object_id=Box.077].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.030].parent_chain",
+        "scene_facts.json.objects[object_id=Box.081].material_slots",
+        "scene_facts.json.objects[object_id=Box.085].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.091].material_slots",
+        "scene_facts.json.materials.SceneActSurface_13.links",
+        "scene_facts.json.materials.SceneActSurface_23.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The distinctive composition is recognizable, but cabinet articulation, sink depth, stone detail and lighting character are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 5,
+      "evidence": "Furniture generally appears grounded and architecture coherent, but the sink is represented by thin stacked solid slabs rather than a usable recessed basin.",
+      "source_evidence": [
+        "detail_01.png",
+        "author.png",
+        "scene_facts.json.objects[object_id=Box.089].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.089].vertices",
+        "scene_facts.json.objects[object_id=Box.085].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "The brown, cream and black palette corresponds well; uniform surfaces and blocklike cabinetry lose much of the target's refined character.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Heavy visible render noise, minimally articulated cabinetry, a flat sink and sparse surface detail make the result read as an unfinished blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The principal left/right, front/back and vertical relationships are preserved, though counter spacing and framing differ.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Door and low cabinet proportions are plausible; the broad counter, elongated extractor and shallow sink reduce proportional fidelity.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Lighting supports recognition but lacks the target's warm localized cabinet illumination. Noisy, largely uniform surface responses weaken material differentiation.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "All principal visible object categories are represented, including switches and burner rings, but sink construction, cabinet divisions and extractor detailing remain rudimentary.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_192968130/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 122209,
+    "output_tokens": 1532,
+    "observed_model": "unknown",
+    "seconds": 43.62697893101722
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

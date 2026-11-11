@@ -1,0 +1,203 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 88.88888888888889,
+  "S_dimension": 48.75,
+  "S_BW": 68.81944444444444,
+  "started": 1794001600.928083,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_105241439/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794001608.9535968,
+  "seconds": 8.025513887405396,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The classroom is recognizable: a divided green board, blue lower wall, pale upper wall, hanging notice, desks and chair elements correspond to the main reference content.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The notice remains above the board, furniture sits in front, and the nearer left and right desks retain the reference's broad arrangement. Furniture height defects do not erase this layout identity.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Complementary views show extremely low desks and chair backs emerging directly from the floor. These visible furniture proportions are incompatible with functional classroom seating.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Green board panels, blue wall paint, pale plaster and tan furniture preserve the main color and surface distinctions, although colors are paler and wear is substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Bright, soft illumination keeps all major authored-view content legible. Lighting is flatter than the reference but does not obscure the reconstruction.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Alternate views reveal tabletop thickness, cylindrical supports, separate chair backs and spatial separation from the wall, establishing actual three-dimensional construction.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh objects for wall, board, furniture tops and supports have finite nonempty geometry, material slots and parent chains. The corresponding materials contain connected shader data, so major elements are independently addressable.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.004].material_slots",
+        "scene_facts.json.objects[object_id=Box.032].parent_chain",
+        "scene_facts.json.objects[object_id=Box.036].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod.036].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=middle_desk].children",
+        "scene_facts.json.materials.SceneActSurface_21.links",
+        "scene_facts.json.materials.SceneActSurface_4.001.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The front-wall composition closely identifies the target, but furniture structure and the distinctive erased chalk patterns are weakly reproduced.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 2,
+      "evidence": "Chairs visibly emerge from the floor and desks are severely sunken. Recorded foreground seat elevations below the floor corroborate the visible structural problem.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "scene_facts.json.objects[object_id=Box.034].matrix_world",
+        "scene_facts.json.objects[object_id=Box.038].matrix_world",
+        "scene_facts.json.objects[object_id=Box.002].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "The main palette is recognizable, but muted green, lighter blue and pale wood reduce the reference's rich contrast; furniture silhouettes are overly rectangular.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Visible grain, uniform clean surfaces, procedural board mottling and sunken furniture substantially weaken credibility.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The board, notice and left/right furniture placement match the broad composition, although furniture elevations and floor relationships are poor.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 3,
+      "evidence": "Board and notice proportions are convincing, but extremely short exposed desk supports and nearly buried chairs break functional relative scale.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Soft shadows and readable surfaces are coherent, but flat illumination, render noise and limited material variation lose the reference's warmth and aged texture.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "The major wall features and three desk positions are represented. Chair visibility and usable structure are compromised, and fine wear and chalk details are simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_105241439/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 100062,
+    "output_tokens": 1468,
+    "observed_model": "unknown",
+    "seconds": 40.5306385839358
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

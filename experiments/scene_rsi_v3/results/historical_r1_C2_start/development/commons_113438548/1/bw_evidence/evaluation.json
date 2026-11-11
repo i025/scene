@@ -1,0 +1,193 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 58.75,
+  "S_BW": 79.375,
+  "started": 1794001921.7969766,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_113438548/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794001928.8973923,
+  "seconds": 7.1004157066345215,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The framed machinery display, upper wheel and four pulleys, hanging tools, lower circular plates, red door and overhead pipe clearly identify the scene. The window and bench are only marginally visible and substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The door remains left of the display, pipe above, circular plates below, and window and bench to the right. Spacing and framing differ, but the principal arrangement remains recognizable.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Wheel, pulleys, tools and lower plates retain broadly compatible relative sizes. The display is narrower and the surrounding wall more expansive than the reference, without making the objects implausible.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Pale wall and backing, dark machinery, reddish door, blue-green pipe and yellow label preserve the main color organization. Mechanical silhouettes are simplified and surfaces considerably cleaner.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The authored view is adequately illuminated with coherent soft shadows and readable components. Lighting is flatter and less warm than the reference, but does not obscure the scene.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Separate volumetric meshes form the architecture, machinery and plates. Their measured depth and transforms support genuine geometry; the alternate views show wall and floor depth despite poor framing.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id='Box.039'].dimensions_scene_units",
+        "scene_facts.json.objects[object_id='Rod.070'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Rod.070'].world_aabb_approx",
+        "author.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh objects have nonempty finite geometry, assigned materials and addressable parent chains. Display, machine and lower-equipment groups contain editable geometry rather than only empty declarations.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id='display'].children",
+        "scene_facts.json.objects[object_id='Box.023'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.039'].parent_chain",
+        "scene_facts.json.objects[object_id='Box.039'].material_slots",
+        "scene_facts.json.objects[object_id='Rod.070'].finite_nonempty_mesh",
+        "scene_facts.json.materials.SceneActSurface_23.nodes",
+        "scene_facts.json.materials.SceneActSurface_23.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The machinery display is unmistakably related, but simplified mechanisms and reduced architectural context weaken fidelity.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "The main frame and plates read as mounted objects, while several small tools and mechanical pieces have weak or unclear attachment details.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "The main palette and dark-on-light organization correspond well; lighter machinery and primitive shapes lose the aged industrial character.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Blocky machinery, uniformly clean surfaces and conspicuous render grain make the scene read as a basic model.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Principal directional relationships survive, but the enlarged upper wall gap, compressed lower framing and narrow right-side context change the composition.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Component sizes are broadly plausible, though the frame is slender and machinery shapes and proportions are approximate.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 6,
+      "evidence": "Soft illumination provides legibility and consistent shadows, but weak material differentiation and flatter lighting reduce depth and atmosphere.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Most display components and both lower plates are represented. The architectural surround is simplified, the window arch is not reproduced, and the final crop excludes the lower stand.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "scene_facts.json.objects[object_id='window'].children"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_113438548/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 132482,
+    "output_tokens": 1384,
+    "observed_model": "unknown",
+    "seconds": 42.59658457804471
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

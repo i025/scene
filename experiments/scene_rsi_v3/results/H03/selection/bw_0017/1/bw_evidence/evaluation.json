@@ -1,0 +1,265 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 9.090909090909092,
+  "S_dimension": 51.25,
+  "S_BW": 30.170454545454547,
+  "started": 1794334955.261127,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H03/selection/bw_0017/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794335437.4860413,
+  "seconds": 482.22491431236267,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "Repeated beams, purlins and windows exist, but the roof is a plain box without profiling. Column web and flange boxes intersect centrally rather than forming I-sections. The delivered hero does not explain structural junctions clearly.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.001]",
+        "scene_facts.json:objects[object_id=Box.004].matrix_world",
+        "scene_facts.json:objects[object_id=Box.005].matrix_world",
+        "scene_facts.json:objects[object_id=Box.034]",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Foreground conveyors, intermediate upright tank, rear raised machinery and left window wall preserve the broad zoning. Relative equipment and building sizes remain broadly plausible despite simplification.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Three substantial machine bodies and supported decking are present. Their hero-visible housings read as uniform pale gray blocks without the required brushed stainless response.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.149]",
+        "scene_facts.json:objects[object_id=Box.162]",
+        "scene_facts.json:objects[object_id=Box.175]",
+        "scene_facts.json:objects[object_id=Box.093]",
+        "scene_facts.json:materials.SceneActSurface_6.nodes",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Three stairs have matching yellow handrails, and front and rear guarding is substantial. Exposed deck ends lack returning protection, and the uniform yellow material has no required wear or surface variation.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=platforms_and_stairs].children",
+        "scene_facts.json:objects[object_id=Rod.038]",
+        "scene_facts.json:materials.SceneActSurface_7.nodes",
+        "author.png",
+        "wide_02.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "Utilities comprise only two short exhausts and sparse process pipes. No readable reducer or foil wrinkling is present; several hanging rods terminate without attaching to utilities.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=ductwork].children",
+        "scene_facts.json:objects[object_id=Rod.094].matrix_world",
+        "scene_facts.json:materials.SceneActSurface_8.nodes",
+        "author.png",
+        "wide_04.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The upright tank has cylindrical geometry, formed heads and three small feet in front of the platform. Its nozzles are plain cylinders without flanges, and its finish is clean bright teal rather than worn dark green.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=green_tank].children",
+        "scene_facts.json:objects[object_id=Rod.099]",
+        "scene_facts.json:objects[object_id=Rod.100]",
+        "scene_facts.json:materials.SceneActSurface_9.nodes",
+        "wide_05.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "Blue conveyor beds, rollers, legs and side rails exist across the foreground. The purported drive assemblies are isolated plain boxes without recognizable motor, gearbox or drive connections; names alone do not establish functional drives.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.190]",
+        "scene_facts.json:objects[object_id=Rod.101]",
+        "scene_facts.json:objects[object_id=Box.202]",
+        "scene_facts.json:objects[object_id=Box.215]",
+        "scene_facts.json:objects[object_id=Box.228]",
+        "author.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 0,
+      "evidence": "Continuous green flooring shows reflections and the systems are color-separated. However, illumination reads as broad studio fill rather than dominant side-window daylight, and stainless and foil lack differentiated surface character.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_02.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R09",
+      "score": 0,
+      "evidence": "Principal equipment is jointly recognizable, but the hero presents a nearly frontal equipment row with weak hall-depth communication, departing from the requested diagonal review viewpoint. Small, noisy structural details further limit callout use.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R10",
+      "score": 0,
+      "evidence": "The editable project opens, uses Cycles and AgX, and has no external image textures. However, native scene denoising is disabled at 16 samples and the original delivered hero has conspicuous noise rather than a moderately denoised result.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:authored_render_configuration",
+        "scene_facts.json:color_management.view_transform",
+        "scene_facts.json:texture_dependencies",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R11",
+      "score": 0,
+      "evidence": "The original final.png is valid and fully decodes as PNG, but measures 512×267 instead of 3840×2160.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].png_magic_valid",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success",
+        "scene_facts.json:delivered_artifacts[0].width",
+        "scene_facts.json:delivered_artifacts[0].height"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The main industrial subjects and color grouping are recognizable, but machinery and utilities are heavily simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Deck legs and stairs provide readable support, while disconnected hangers, unfinished utilities and weak connection detailing reduce installation plausibility.",
+      "source_evidence": [
+        "wide_02.png",
+        "wide_04.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "Yellow guarding, blue conveyors, green floor and tank distinguish systems well, but pale machinery and teal tank depart from the target's material character.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Primitive housings, faceted curved surfaces, sparse fittings and conspicuous noise produce a blockout-like industrial scene.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The main front-to-back zones and left window relationship survive, though the equipment row is more regular and spatially sparse.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Machine, tank, railing and hall sizes broadly cohere. Thin platform supports and sparse conveyor rollers weaken the industrial scale impression.",
+      "source_evidence": [
+        "wide_02.png",
+        "wide_05.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Soft shadows and floor reflections establish volume, but uniform surfaces and weak window-key lighting fail to convey the specified material distinctions.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_02.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 5,
+      "evidence": "All broad object classes appear, but dense services, fittings, roof profiling, structural connections and identifiable conveyor drives remain incomplete.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H03/selection/bw_0017/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 271612,
+    "output_tokens": 2123,
+    "observed_model": "unknown",
+    "seconds": 63.89910846715793
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

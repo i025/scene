@@ -5,7 +5,7 @@
   "source_id": "commons_92056365",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,8 +23,8 @@
     "psnr": 9.685347803646243,
     "overall": 0.3538201052170191,
     "metric_timing": {
-      "model_load_seconds": 0.00030169496312737465,
-      "compute_seconds": 0.5697060730308294,
+      "model_load_seconds": 0.00016447808593511581,
+      "compute_seconds": 0.5493717049248517,
       "model_cache_hit": true,
       "threads": 8
     }
@@ -52,12 +52,17 @@
     "failure_type": null,
     "finished": 1794004719.1473684,
     "seconds": 20.38415002822876,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "The restaurant is recognizable through left-side booths, repeated pedestal tables and chairs, pendant lamps, broad corner windows, ceiling strips, tiled floor and plants, though forms are simplified.",
+        "evidence": "Recognizable restaurant reconstruction includes booth rows, pedestal tables and chairs, pendant lights, ceiling seams, tiled floor, corner windows and plants. Furniture and vegetation are simplified.",
         "source_evidence": [
           "author.png",
           "wide_03.png",
@@ -68,9 +73,10 @@
       {
         "id": "R02",
         "score": 1,
-        "evidence": "The author view retains booths on the left, tables and chairs through the center and right, windows across the back and right, and overhead pendants. Repetition is more regular and spacing more open than the target.",
+        "evidence": "Left booths, central aisle, center/right dining furniture and rear/right window walls retain the main spatial arrangement. Spacing is more regular and open than the target.",
         "source_evidence": [
           "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ],
         "evidence_route": "render"
@@ -78,7 +84,7 @@
       {
         "id": "R03",
         "score": 1,
-        "evidence": "Tables, seating and ceiling clearance remain functionally plausible relative to one another. Chair backs and floor tiles are somewhat oversized, without destroying the overall scale relationship.",
+        "evidence": "Tables, seats and room height have plausible relative proportions. Chair backs and floor tiles are oversized relative to target details, without destroying functional recognition.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -89,9 +95,9 @@
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Light ceiling and tabletops contrast with darker seating, floor and pendant silhouettes. Boxy seating and simplified lamps preserve recognizable correspondence despite reduced material distinction.",
+        "evidence": "Light ceiling and tables contrast with darker seating, floor and pendant shades. Rectangular furniture and suspended dark fixtures preserve the main style, despite simplified silhouettes and uniform surface response.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ],
         "evidence_route": "render"
@@ -99,17 +105,17 @@
       {
         "id": "R05",
         "score": 1,
-        "evidence": "The bright window perimeter and readable interior are broadly compatible with daytime illumination. Heavy noise and flat shading reduce quality but do not obscure the major content.",
+        "evidence": "Bright window regions and visible interior furniture broadly match the daylight setting. Heavy grain and flat illumination reduce quality, but major content remains identifiable.",
         "source_evidence": [
           "author.png",
-          "wide_03.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "Complementary views reveal table thickness, chair backs and seats, pedestal supports and changing occlusion across a three-dimensional room.",
+        "evidence": "Complementary views reveal furniture sides, pedestal supports and changing occlusion across a volumetric room, establishing genuine three-dimensional construction.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -121,19 +127,18 @@
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Architecture, furniture and lamps have addressable mesh parts with finite nonempty geometry and assigned node materials. Actual parent chains connect these meshes to editable groups; this is supported beyond names alone.",
+        "evidence": "Actual hierarchy links locate architecture, booths, chairs and lamps with valid mesh children. Box.139 and Box.143 have nonempty mesh geometry and assigned tabletop/seating materials; Rod.010 supplies pedestal geometry and Ball supplies lamp volume. Materials contain connected surface shaders.",
         "source_evidence": [
-          "scene_facts.json.objects[object_id=Box.001].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.139].type",
-          "scene_facts.json.objects[object_id=Box.139].parent_chain",
+          "scene_facts.json.objects[object_id=Restaurant].children",
+          "scene_facts.json.objects[object_id=table_0_1].children",
+          "scene_facts.json.objects[object_id=Box.139].finite_nonempty_mesh",
           "scene_facts.json.objects[object_id=Box.139].material_slots",
           "scene_facts.json.objects[object_id=Box.143].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Rod.011].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box.143].material_slots",
+          "scene_facts.json.objects[object_id=Rod.010].finite_nonempty_mesh",
           "scene_facts.json.objects[object_id=Ball].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=table_0_1].children",
           "scene_facts.json.materials.SceneActSurface_10.links",
-          "scene_facts.json.materials.SceneActSurface_13.nodes",
-          "scene_facts.json.materials.SceneActSurface_14.links"
+          "scene_facts.json.materials.SceneActSurface_13.links"
         ],
         "evidence_route": "scene_summary"
       }
@@ -142,90 +147,84 @@
       {
         "id": "scene_fidelity",
         "score": 6,
-        "evidence": "Major restaurant elements and their broad arrangement correspond, but the elevated author viewpoint, sparse plants, blank windows and primitive furniture substantially weaken resemblance.",
+        "evidence": "Main restaurant identity is retained, but the elevated composition, sparse vegetation, blank windows and blocky furniture lose much of the target's specificity.",
         "source_evidence": [
-          "author.png",
-          "wide_03.png",
-          "detail_01.png"
+          "delivered_final.png",
+          "wide_03.png"
         ]
       },
       {
         "id": "physics",
-        "score": 4,
-        "evidence": "Individual chairs and tables have visible pedestal supports and lamps have cords. Booth benches appear unsupported beneath their seats, and the plant occupies the same foreground area as a table.",
+        "score": 5,
+        "evidence": "Individual chairs and tables show pedestal supports and lamps have suspension cords. Booth benches have inadequately explained support, and some furniture connections appear detached.",
         "source_evidence": [
           "wide_01.png",
           "wide_03.png",
-          "author.png"
+          "detail_01.png"
         ]
       },
       {
         "id": "style_color",
         "score": 6,
-        "evidence": "Monochrome tonal organization is retained, but rigid slab furniture, square bases and flattened pendant bodies lack the reference silhouettes' refinement.",
+        "evidence": "Grayscale tonal organization corresponds well; boxy seats, square bases and flattened lamp bodies approximate rather than reproduce the characteristic silhouettes.",
         "source_evidence": [
-          "author.png",
-          "wide_01.png",
-          "detail_01.png"
+          "delivered_final.png",
+          "wide_01.png"
         ]
       },
       {
         "id": "realism",
-        "score": 3,
-        "evidence": "Severe render noise, uniformly simple surfaces, blank exterior panels and schematic vegetation produce an unfinished architectural blockout appearance.",
+        "score": 4,
+        "evidence": "Consistent perspective supports a believable room, but heavy render noise, primitive furniture, sticklike foliage and blank window panels produce a rough blockout appearance.",
         "source_evidence": [
-          "author.png",
-          "wide_03.png",
-          "detail_01.png"
+          "delivered_final.png",
+          "wide_03.png"
         ]
       },
       {
         "id": "layout_spatial",
-        "score": 7,
-        "evidence": "Left booths, central circulation and right-side dining beneath pendants preserve the spatial identity. The furniture grid is more uniform and the room feels more elongated and sparse.",
+        "score": 6,
+        "evidence": "Booths and dining tables occupy corresponding sides around an aisle and adjacent window walls. Repetitive alignment, broader gaps and reduced planting simplify the spatial character.",
         "source_evidence": [
           "author.png",
-          "detail_01.png",
-          "wide_03.png"
+          "detail_01.png"
         ]
       },
       {
         "id": "proportion_scale",
         "score": 6,
-        "evidence": "Furniture remains plausible against room height, but tall rectangular chair backs, broad booth tables and coarse floor divisions alter the target's relative proportions.",
+        "evidence": "Furniture heights and table-to-seat relationships are generally usable. Tall planar backs, large floor modules and short pendant drops weaken proportional similarity.",
         "source_evidence": [
-          "author.png",
           "wide_01.png",
           "detail_01.png"
         ]
       },
       {
         "id": "lighting_material",
-        "score": 5,
-        "evidence": "Bright perimeter lighting keeps geometry readable, while weak surface differentiation, featureless glazing and noisy soft shadows lose much of the target's depth.",
+        "score": 4,
+        "evidence": "Scene remains legible with bright perimeter windows, but illumination is flat and noisy; glazing, upholstery and metal supports have weak visual differentiation.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_03.png"
         ]
       },
       {
         "id": "completeness",
         "score": 7,
-        "evidence": "Repeated seating, tables, pendants, architectural divisions and vegetation are present in substantial numbers. Plant density, exterior context and furniture construction details are considerably reduced.",
+        "evidence": "Major architectural and furniture categories are present in substantial numbers. Dense planting, exterior window detail and finer furniture construction are substantially simplified.",
         "source_evidence": [
           "author.png",
-          "wide_01.png",
           "wide_03.png",
           "detail_01.png"
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_92056365/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_92056365/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 326886,
-      "output_tokens": 1486,
+      "input_tokens": 347764,
+      "output_tokens": 1466,
       "observed_model": "unknown",
-      "seconds": 50.39425178291276
+      "seconds": 52.31077591981739
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -172980,7 +172979,7 @@
   },
   "e2e_utility": 77.5,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_92056365/1",
-  "seconds": 356.7131414199248,
+  "seconds": 53.929546202067286,
   "generation_seconds": 271.5670096119866,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

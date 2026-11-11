@@ -1,0 +1,260 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 34.61538461538461,
+  "S_dimension": 43.75,
+  "S_BW": 39.18269230769231,
+  "started": 1794342704.4113827,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H05/selection/bw_0045/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794342905.6294649,
+  "seconds": 201.21808218955994,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "Repeated silver pipe dividers have plausible bay spacing and metallic highlights, but the installation is incomplete: several longitudinal rails run behind the dividers without connecting supports. The bends are visibly segmented.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Rod.008].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.073].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Rod.076].world_aabb_approx",
+        "scene_facts.json:materials.SceneActSurface_11.nodes",
+        "author.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The raised platform and curb are present and concrete shaders are matte. However, the sparse straw is placed on the adjacent aisle, leaving the lying beds without the required bedding.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.001].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.002].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Rod.088].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.109].matrix_world",
+        "scene_facts.json:materials.SceneActSurface_1.nodes",
+        "author.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Seven resting animal assemblies include irregular coat patches, but their anatomy is strongly simplified and lower divider returns visibly enter their bodies. The smoother muzzle shader does not produce a clearly readable wet muzzle in the finished view.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Ball].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Rod.006].matrix_world",
+        "scene_facts.json:objects[object_id=Ball.006].material_slots",
+        "scene_facts.json:materials.SceneActSurface_15.nodes",
+        "scene_facts.json:materials.Broad Holstein coat markings.links",
+        "author.png",
+        "wide_05.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The long platform, curb and adjacent circulation area preserve some spatial relationships. However, architecture consists of a single rear wall rather than an enclosed bay, and the door is applied in front of an uninterrupted wall mesh without an opening.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=architecture].children",
+        "scene_facts.json:objects[object_id=Box.004].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.004].vertices",
+        "scene_facts.json:objects[object_id=Box.008].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.001].dimensions_scene_units",
+        "wide_06.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "A substantial blue door-like element has framing, a seam and an overhead header against matte gray walls. It does not occupy a retained opening: the solid rear-wall box continues behind it.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.004].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.004].modifiers",
+        "scene_facts.json:objects[object_id=Box.007].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.008].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.009].dimensions_scene_units",
+        "scene_facts.json:materials.SceneActSurface_4.nodes",
+        "detail_01.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The principal area light is above the scene at z=7, with blue-biased color and energy 1500, supplemented by a weaker elevated light. The finished image shows neutral-cool overhead illumination.",
+      "source_evidence": [
+        "scene_facts.json:authored_lights[0].matrix_world",
+        "scene_facts.json:authored_lights[0].color",
+        "scene_facts.json:authored_lights[0].energy",
+        "scene_facts.json:authored_lights[1].energy",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "The saved perspective camera corresponds to the delivered composition and gives readable row recession. Nevertheless, faceted ellipsoidal cows, crude anatomy and minimally detailed architecture create a strongly stylized treatment rather than the required realism.",
+      "source_evidence": [
+        "scene_facts.json:camera",
+        "scene_facts.json:authored_cameras[0].is_active_camera",
+        "scene_facts.json:objects[object_id=Ball].polygons",
+        "scene_facts.json:objects[object_id=Ball].modifiers",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "The original final.png exists, fully decodes as a 512×285 PNG, and visibly depicts the requested barn subject. This criterion specifies no minimum resolution.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].exists",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success",
+        "scene_facts.json:delivered_artifacts[0].format",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R09",
+      "score": 1,
+      "evidence": "The Blender project opens and contains editable meshes for architecture, dividers, beds and cows, assigned materials, overhead lights and the active camera matching the finished image.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:objects[object_id=Box.001].finite_nonempty_mesh",
+        "scene_facts.json:objects[object_id=Rod].finite_nonempty_mesh",
+        "scene_facts.json:objects[object_id=Ball].finite_nonempty_mesh",
+        "scene_facts.json:material_dependencies",
+        "scene_facts.json:authored_lights",
+        "scene_facts.json:authored_cameras",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The stall row, resting cattle, raised curb and blue door are recognizable, but enclosure, animal forms and surface detail depart substantially from the target.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 3,
+      "evidence": "Cows generally contact the bed, but divider returns penetrate bodies, several rails lack supports, and the worker's legs terminate above the floor.",
+      "source_evidence": [
+        "wide_05.png",
+        "wide_06.png",
+        "scene_facts.json:objects[object_id=Rod.085].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Silver equipment, blue architecture and black-and-white patches preserve the main palette; angular pipes and rounded toy-like cattle weaken silhouette fidelity.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 2,
+      "evidence": "Repeated faceted animal primitives, rigid tails, crude faces and nearly featureless surfaces make the scene look like an early blockout.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 5,
+      "evidence": "A continuous aisle and raised stall row read clearly in perspective, but the enclosing architecture and actual doorway are missing.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_06.png",
+        "scene_facts.json:objects[object_id=Box.004].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 4,
+      "evidence": "Equipment spacing and height are broadly adult-scaled, but swollen cow bodies, underspecified limbs and off-center bay occupancy undermine useful scale communication.",
+      "source_evidence": [
+        "wide_06.png",
+        "author.png",
+        "scene_facts.json:objects[object_id=Rod.008].matrix_world"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Cool illumination, contact shadows and pipe highlights are coherent. Concrete lacks surface character, wet noses are unreadable, and the original image is visibly noisy.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Most major object categories and multiple cattle are supplied with both deliverables, but bed bedding, complete enclosure, a real opening and credible equipment connections remain incomplete.",
+      "source_evidence": [
+        "wide_06.png",
+        "delivered_final.png",
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:delivered_artifacts[0]"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H05/selection/bw_0045/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 196477,
+    "output_tokens": 2393,
+    "observed_model": "unknown",
+    "seconds": 65.1482094079256
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

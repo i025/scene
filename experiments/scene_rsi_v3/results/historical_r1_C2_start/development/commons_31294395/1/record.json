@@ -5,7 +5,7 @@
   "source_id": "commons_31294395",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,9 +23,9 @@
     "psnr": 8.676775174567526,
     "overall": 0.3224852603549358,
     "metric_timing": {
-      "model_load_seconds": 3.7406754661351442,
-      "compute_seconds": 0.6403467152267694,
-      "model_cache_hit": false,
+      "model_load_seconds": 0.00015419861301779747,
+      "compute_seconds": 0.5699968030676246,
+      "model_cache_hit": true,
       "threads": 8
     }
   },
@@ -35,8 +35,8 @@
     "execution_status": "completed",
     "evaluation_status": "completed",
     "S_rubric": 100.0,
-    "S_dimension": 55.0,
-    "S_BW": 77.5,
+    "S_dimension": 53.75,
+    "S_BW": 76.875,
     "started": 1794003903.073408,
     "images": [
       "author.png",
@@ -52,14 +52,20 @@
     "failure_type": null,
     "finished": 1794003916.2906573,
     "seconds": 13.217249393463135,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "The bedroom is recognizable through the wooden bed, white bedding, green armchair, paired tall windows, portraits, screen, cabinets, and room corner. Details are substantially simplified.",
+        "evidence": "The bed, green upholstered chair, paired tall windows, blue-and-gold screen, portraits, small furniture and trimmed room corner clearly identify the reference bedroom. Architectural and decorative detail is substantially simplified.",
         "source_evidence": [
           "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ],
         "evidence_route": "render"
@@ -67,18 +73,17 @@
       {
         "id": "R02",
         "score": 1,
-        "evidence": "Windows and cabinets remain left, the screen stands behind the foreground chair, and the bed occupies the right side. Chair orientation and spacing differ, but the main layout remains identifiable.",
+        "evidence": "Windows and cabinets remain left, the screen stands behind the foreground armchair, and the bed occupies the right side. Chair orientation and spacing differ, but the principal layout remains recognizable.",
         "source_evidence": [
           "author.png",
-          "wide_03.png",
-          "detail_01.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R03",
         "score": 1,
-        "evidence": "Bed, windows, cabinets, and seating retain broadly plausible relative sizes. The chair back and bed footboard are exaggerated without making their functions implausible.",
+        "evidence": "Bed, seating and tall windows retain broadly plausible relative sizes. The armchair is bulkier and the bed footboard more dominant than in the reference, without making their functions implausible.",
         "source_evidence": [
           "author.png",
           "wide_03.png"
@@ -88,26 +93,27 @@
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Brown walls and furniture, white bedding and trim, green upholstery and shades, and the blue-and-gold screen preserve the principal color organization. Furniture silhouettes and decorative surfaces are crude.",
+        "evidence": "Brown walls and wooden furniture, white bedding and trim, green upholstery and shades, and the blue-and-gold screen preserve the main color organization. Rounded cushions and blocky joinery simplify the historical silhouettes.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R05",
         "score": 1,
-        "evidence": "The authored scene is legible with bright left-side illumination and coherent shading. It is flatter and brighter than the target, with substantial render noise, but required content remains visible.",
+        "evidence": "The main objects remain legible under broadly compatible illumination from the left. Lighting is flatter and brighter than the reference and visibly noisy, but does not obscure the required scene.",
         "source_evidence": [
-          "author.png"
+          "author.png",
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "Complementary views reveal the bed's depth, the armchair's side profile and legs, and changing furniture occlusion, establishing volumetric construction.",
+        "evidence": "Complementary views reveal the bed's depth, the armchair's side profile and spatial separation from the window wall, establishing volumetric construction rather than a single image plane.",
         "source_evidence": [
           "author.png",
           "wide_03.png",
@@ -118,19 +124,17 @@
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Actual mesh objects support the editable hierarchy: bed base Box.050, chair back Ball.016, wall Box.001, and screen panel Box.043 have finite nonempty meshes and assigned materials. Their parent chains locate them in separate groups, and linked shader data exists.",
+        "evidence": "The scene contains 117 meshes. Bed components such as Box.050 and Box.051 and chair components such as Ball.016 and Ball.017 have finite nonempty geometry, material slots and parent chains into their respective groups. Assigned materials contain connected surface shaders.",
         "source_evidence": [
+          "scene_facts.json.mesh_count",
           "scene_facts.json.objects[object_id=Box.050].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.050].parent_chain",
-          "scene_facts.json.objects[object_id=Box.050].material_slots",
-          "scene_facts.json.objects[object_id=Ball.016].type",
+          "scene_facts.json.objects[object_id=Box.051].parent_chain",
           "scene_facts.json.objects[object_id=Ball.016].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Ball.016].parent_chain",
-          "scene_facts.json.objects[object_id=Box.001].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.043].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Ball.017].material_slots",
           "scene_facts.json.objects[object_id=bed].children",
+          "scene_facts.json.objects[object_id=armchair].children",
           "scene_facts.json.materials.SceneActSurface_17.links",
-          "scene_facts.json.materials.SceneActSurface_32.nodes"
+          "scene_facts.json.materials.SceneActSurface_33.links"
         ],
         "evidence_route": "scene_summary"
       }
@@ -139,54 +143,53 @@
       {
         "id": "scene_fidelity",
         "score": 6,
-        "evidence": "The distinctive furniture ensemble is recognizable, but simplified shapes, missing visible door, altered chair orientation, and reduced ornament weaken fidelity.",
+        "evidence": "The distinctive furniture and palette establish correspondence, but primitive silhouettes, missing door detail and altered chair presentation reduce fidelity.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "delivered_final.png"
         ]
       },
       {
         "id": "physics",
-        "score": 6,
-        "evidence": "Furniture generally reads as assembled and supported. The rigid diamond-shaped tablecloth and screen without clear floor support weaken physical credibility.",
+        "score": 5,
+        "evidence": "Furniture generally reads as assembled and supported. The rigid diamond-shaped tablecloth and screen without convincing visible floor support weaken physical plausibility.",
         "source_evidence": [
           "author.png",
-          "wide_03.png",
-          "detail_01.png"
+          "detail_01.png",
+          "wide_03.png"
         ]
       },
       {
         "id": "style_color",
         "score": 6,
-        "evidence": "Major color families correspond, but the bulbous chair, boxlike bed, pale wood appearance, and abstract portraits lose much of the historical furniture character.",
+        "evidence": "The major colors correspond well, but the bulbous armchair, rectangular bed and simplified artwork lose much of the reference's period character.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "realism",
         "score": 3,
-        "evidence": "Primitive furniture forms, rigid bedding, minimal decorative detail, and pervasive sampling noise produce a rough blockout appearance.",
+        "evidence": "Heavy rendering grain, ellipsoidal pillows, slab bedding and minimally detailed furniture make the room read as an early geometric approximation.",
         "source_evidence": [
-          "author.png",
-          "wide_03.png"
+          "delivered_final.png",
+          "author.png"
         ]
       },
       {
         "id": "layout_spatial",
         "score": 6,
-        "evidence": "Principal left-right and foreground-background relationships survive, though the chair faces differently and the composition is less tightly grouped.",
+        "evidence": "Principal left-right and foreground-background relationships survive, though the foreground chair faces differently and the bed-screen grouping is less compact.",
         "source_evidence": [
           "author.png",
-          "wide_03.png",
-          "detail_01.png"
+          "delivered_final.png"
         ]
       },
       {
         "id": "proportion_scale",
         "score": 6,
-        "evidence": "Overall furniture scale is plausible, but the tall rounded chair back, heavy footboard, and narrow screen depart from the target proportions.",
+        "evidence": "Most relative sizes are serviceable, while the armchair's inflated cushions and tall, broad footboard distort the reference balance.",
         "source_evidence": [
           "author.png",
           "wide_03.png"
@@ -195,29 +198,29 @@
       {
         "id": "lighting_material",
         "score": 4,
-        "evidence": "Lighting makes the room readable, but broad bright fill, severe noise, and weak fabric, wood, and wallpaper differentiation diminish the target atmosphere.",
+        "evidence": "Readable shading and contact shadows provide depth, but pervasive noise, weak material differentiation and reduced window-to-interior contrast diminish the target atmosphere.",
         "source_evidence": [
-          "author.png",
-          "detail_01.png"
+          "delivered_final.png",
+          "author.png"
         ]
       },
       {
         "id": "completeness",
         "score": 7,
-        "evidence": "Most major furniture and both windows are represented, including smaller seating and rugs. The visible door is absent, and wallpaper, screen artwork, and furniture detailing are substantially reduced.",
+        "evidence": "Most major furnishings, both windows, wall pictures and rugs are represented. The visible door is absent, and wallpaper, textile patterns and furniture detailing are heavily reduced.",
         "source_evidence": [
           "author.png",
           "detail_01.png",
-          "wide_03.png"
+          "delivered_final.png"
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_31294395/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_31294395/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 114190,
-      "output_tokens": 1467,
+      "input_tokens": 120398,
+      "output_tokens": 1483,
       "observed_model": "unknown",
-      "seconds": null
+      "seconds": 44.86885670712218
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -38523,9 +38526,9 @@
     },
     "interpretation": "Mechanical structure/material operation; no text editor or natural-image 3D ground truth. Support AABB approximate; optional collision crossings not full solidity truth."
   },
-  "e2e_utility": 77.5,
+  "e2e_utility": 76.875,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_31294395/1",
-  "seconds": 6.635352133307606,
+  "seconds": 46.235345053020865,
   "generation_seconds": 304.3205935647711,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

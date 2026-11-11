@@ -1,0 +1,53 @@
+{
+  "ok": false,
+  "step": 1,
+  "error": "build exited 1",
+  "failure_type": "blender_build_error",
+  "seconds": 0.5453511537052691,
+  "stages": {
+    "build": {
+      "status": "failed",
+      "pid": 2210754,
+      "command": [
+        "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+        "--background",
+        "-noaudio",
+        "--factory-startup",
+        "--disable-autoexec",
+        "--threads",
+        "8",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "__EXPERIMENT_ROOT__/backend/render.py",
+        "--",
+        "--settings",
+        "__EXPERIMENT_ROOT__/results/H04/development/commons_109923183/1/steps/001/render_settings.json",
+        "--output-dir",
+        "__EXPERIMENT_ROOT__/results/H04/development/commons_109923183/1/steps/001",
+        "--code",
+        "__EXPERIMENT_ROOT__/results/H04/development/commons_109923183/1/steps/001/build.py",
+        "--build-only"
+      ],
+      "started": 1794339980.325603,
+      "finished": 1794339980.8694296,
+      "seconds": 0.5438281870447099,
+      "returncode": 1,
+      "timed_out": false,
+      "timeout_seconds": 1200,
+      "memory_limit_exceeded": false,
+      "memory_limit_bytes": 34359738368,
+      "cpu_user_seconds": 0.38,
+      "cpu_system_seconds": 0.17,
+      "peak_individual_rss_kib": 287852,
+      "sampled_peak_tree_rss_kib_lower_bound": 278896.0,
+      "sample_interval_seconds": 0.1,
+      "sampled_process_count": 2,
+      "cpu_scope": "GNU time waited child and reaped descendants",
+      "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+    }
+  },
+  "stdout": "[build]\n",
+  "stderr": "[build]\nTraceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 129, in <module>\n    main()\n  File \"__EXPERIMENT_ROOT__/backend/render.py\", line 104, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"__EXPERIMENT_ROOT__/results/H04/development/commons_109923183/1/steps/001/build.py\", line 187, in <module>\n    fillet_box((0.74, 0.60, 0.045), radius=0.06,\n  File \"__EXPERIMENT_ROOT__/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n",
+  "image": null
+}

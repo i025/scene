@@ -1,0 +1,195 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 71.25,
+  "S_BW": 85.625,
+  "started": 1794354169.464763,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_187101683/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354180.9549117,
+  "seconds": 11.490148782730103,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The yellow sofa, left pillow, dark coffee table, two cups, flower pot, pale wall, floor and right curtain clearly reconstruct the intended area.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The table remains in front of the sofa, flowers between the cups, pillow on the left and curtain behind the right side. The more frontal composition preserves the main spatial relationships.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Furniture and tabletop objects have plausible relative sizes. The sofa is more upright and the cups broader than the reference, without a severe functional scale mismatch.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Warm yellow upholstery, dark table and pot, white cups, green leaves and pale blue flowers preserve the main color contrasts. Shapes and surfaces are simplified.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Soft, bright illumination keeps all main content legible with coherent shadows. The lighting is flatter and less strongly directional than the reference but retains a compatible daytime atmosphere.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The side view reveals sofa depth, cushion volumes, table thickness and legs, and spatial separation of the tabletop objects, establishing genuine three-dimensional construction.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh records locate sofa components, tabletop, cups and pot in separate parent chains. Box.018, Box.042, Rod.132, Rod.139 and Rod.146 have finite nonempty meshes and assigned materials with connected shader outputs.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.018].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.018].parent_chain",
+        "scene_facts.json.objects[object_id=Box.042].material_slots",
+        "scene_facts.json.objects[object_id=Rod.132].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod.139].parent_chain",
+        "scene_facts.json.objects[object_id=Rod.146].finite_nonempty_mesh",
+        "scene_facts.json.materials.SceneActSurface_11.links",
+        "scene_facts.json.materials.SceneActSurface_13.links",
+        "scene_facts.json.materials.SceneActSurface_16.links",
+        "scene_facts.json.materials.SceneActSurface_19.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 7,
+      "evidence": "The scene identity is clear, though the frontal composition, rigid upholstery and straight curtain strips lose reference-specific character.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 8,
+      "evidence": "Furniture appears grounded and tabletop objects supported. The pillow and curtain have simplified, rigid forms, but no major visible floating or destructive intersections appear.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "Main colors correspond well, but the sofa is paler and more geometric; cups resemble cylindrical mugs and the curtain lacks gathered fabric folds.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 5,
+      "evidence": "Coherent shading supports object recognition, but visible render grain, rounded block cushions, bead-like blossoms and uniform surfaces give a schematic appearance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 8,
+      "evidence": "All major directional and adjacency relationships are retained. The table arrangement is more regular and the authored viewpoint more frontal.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Overall furniture and accessory scale is credible, while the taller-looking sofa, shallow seating and broad cups differ from reference proportions.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 6,
+      "evidence": "Objects are evenly readable with soft contact shadows, but the reference's stronger side lighting and differentiated fabric, wood and ceramic texture are weakly represented.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 9,
+      "evidence": "All principal furniture, both cup settings, the flower arrangement, pillow and background surfaces are present; fine fabric and tabletop details are simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_187101683/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 304389,
+    "output_tokens": 1397,
+    "observed_model": "unknown",
+    "seconds": 43.96362141473219
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

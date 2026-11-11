@@ -1,0 +1,122 @@
+{
+  "created_utc": "2026-11-07T00:12:55.057783+00:00",
+  "scope": "Prospective A03 25-percent minimum reserve sensitivity proposal; engineering read-only, not applied configuration",
+  "timing": "After first formal M000 completed one actual CLI and H-only proposal; this is not a pre-M revision",
+  "actual_first_M_proposal": {
+    "program": "initial_m/meta.py",
+    "completed_real_CLI_sessions": 1,
+    "change_targets": [
+      "H"
+    ],
+    "actions_executed": 0,
+    "proposal_reused_not_resampled": true
+  },
+  "global_caps_unchanged": {
+    "max_cli_sessions": 1200,
+    "max_render_frames": 3000,
+    "max_input_tokens": 40000000,
+    "max_output_tokens": 3000000
+  },
+  "reserve_fraction_proposal": 0.25,
+  "proposal_research_caps": {
+    "cli_sessions": 900,
+    "render_attempts": 2250,
+    "known_input_tokens": 30000000,
+    "known_output_tokens": 2250000
+  },
+  "proposal_minimum_final_reserve": {
+    "cli_sessions": 300,
+    "render_attempts": 750,
+    "known_input_tokens": 10000000,
+    "known_output_tokens": 750000
+  },
+  "final_phase_rule": "Minimum25% is not a maximum final allocation. Existing guard uses full global caps in final; final can spend actual global remainder, e.g.11.141M when research spent28.859M. No added global budget.",
+  "forecast_basis_previous_actual_current": {
+    "cli_sessions": 115,
+    "render_attempts": 257,
+    "known_input_tokens": 8221059,
+    "known_output_tokens": 290983,
+    "usage_known_sessions": 114,
+    "usage_unknown_sessions": 1,
+    "observable_tool_calls": 0
+  },
+  "forecast_basis_audit": "work/scene_v3_archive/budget_A03.json",
+  "latest_actual_current_at_this_read": {
+    "cli_sessions": 116,
+    "render_attempts": 257,
+    "known_input_tokens": 8221059,
+    "known_output_tokens": 290983,
+    "usage_known_sessions": 114,
+    "usage_unknown_sessions": 2,
+    "observable_tool_calls": 0
+  },
+  "latest_request_vs_saved_session_coverage": {
+    "request_count": 116,
+    "saved_usage_sessions": 116,
+    "request_without_saved_session_count": 0
+  },
+  "proposal_research_remaining_from_latest_known": {
+    "cli_sessions": 784,
+    "render_attempts": 1993,
+    "known_input_tokens": 21778941,
+    "known_output_tokens": 1959017
+  },
+  "final_estimate_source": "configs/budget_pre_M_A02.json scenarios[0].final_phase_input_estimate; historical rate estimate, not a new Test measurement",
+  "scenarios": [
+    {
+      "M_remaining_input_multiplier": 1,
+      "remaining_boundary_cases": 1,
+      "research_input_total_estimate": 28859104.2,
+      "research30M_headroom": 1140895.8000000007,
+      "actual_global_remainder_for_final_at_research_estimate": 11140895.8,
+      "final_input_estimate_from_original_A02_plan": 10276588.0,
+      "global_input_total_estimate": 39135692.2,
+      "global40M_headroom": 864307.799999997,
+      "fits_both_input_estimates": true,
+      "research_CLI_estimate": 355,
+      "research900CLI_headroom": 545,
+      "research_output_total_estimate": 1086551.6,
+      "research2_25M_output_headroom": 1163448.4,
+      "not_a_guarantee": true
+    },
+    {
+      "M_remaining_input_multiplier": 1.25,
+      "remaining_boundary_cases": 1,
+      "research_input_total_estimate": 29910220.95,
+      "research30M_headroom": 89779.05000000075,
+      "actual_global_remainder_for_final_at_research_estimate": 10089779.05,
+      "final_input_estimate_from_original_A02_plan": 10276588.0,
+      "global_input_total_estimate": 40186808.95,
+      "global40M_headroom": -186808.95000000298,
+      "fits_both_input_estimates": false,
+      "research_CLI_estimate": 355,
+      "research900CLI_headroom": 545,
+      "research_output_total_estimate": 1094874.35,
+      "research2_25M_output_headroom": 1155125.65,
+      "not_a_guarantee": true
+    }
+  ],
+  "needed_formal_A03_measurement": {
+    "scene_id": "bw_0045",
+    "H_version": "historical_r1_C2_start",
+    "generation_reuse": 1,
+    "role": "judge",
+    "count_as": "Already-required canonical A03 baseline rejudgment, not an extra preparation or M call",
+    "purpose": "Measure actual updated lighting/world native evidence usage and evaluability before relying on old judge rate",
+    "M_access": "Do not expose per-scene Selection output to M; only frozen aggregate acceptance route",
+    "this_audit_executed_the_call": false
+  },
+  "accounting_refresh_rule": "Once that planned judge completes, use budget.current again and reduce remaining baseline judges from3 to2 when it is one of the three canonical primary records; avoid double-counting it as both spent and future.",
+  "risks": [
+    "Future M input sizes and H/native evidence complexity may exceed observed means;1.25x M already exceeds40M total despite fitting30M research",
+    "A03 lighting metadata actual judge rate not yet included in forecast; source-private Test judge complexity remains unmeasured",
+    "Final10.277M is from older A02 cost assumptions;25% reserves10M minimum and does not itself guarantee that larger expected final cost",
+    "Unknown usage and future service retries are not assigned zero; one-pass future judge estimates exclude retry cost",
+    "CLI/render/output quotas look looser than input tokens; no fee/discount inferred"
+  ],
+  "recommendation": "At mean measured rates25% reserve plus one remaining complete boundary case fits both input estimates with0.864M global margin; record as conditional feasibility, validate planned A03 baseline judge rate, preserve all6Test and10round tasks, never claim certified budget sufficiency.",
+  "new_model_calls": 0,
+  "new_Blender_jobs": 0,
+  "main_source_config_state_scores_or_H_M_changed": false,
+  "Test_images_specs_or_rubrics_read": false
+}

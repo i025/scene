@@ -1,0 +1,270 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 46.15384615384615,
+  "S_dimension": 43.75,
+  "S_BW": 44.95192307692308,
+  "started": 1794346133.6275184,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H06/selection/bw_0045/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794346337.157512,
+  "seconds": 203.52999353408813,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "Ten repeated round-pipe divider assemblies and three longitudinal rails establish recognizable free-stall equipment. Approximately 1.03-unit spacing and 1.4-unit height are understandable against the adult figure. Silver-gray pipes show highlights, supported by metallic 0.75 and roughness 0.27.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Rod].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Rod.009].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.008].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Rod.090].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Ball.188].world_aabb_approx",
+        "scene_facts.json:materials.SceneActSurface_10.nodes",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The raised platform, curb, and matte concrete response are supported. However, the twenty identical tiny rectangular bedding pieces do not read as recognizable scattered straw in the delivered view.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.001].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.002].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.026].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=bedding].children",
+        "scene_facts.json:materials.SceneActSurface_1.nodes",
+        "scene_facts.json:materials.SceneActSurface_3.nodes",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Seven patterned recumbent animals are present, but divider planes align with animal centers rather than bay boundaries. The foreground lower divider visibly crosses the torso. Cow anatomy is highly simplified, and the visible pink muzzle does not communicate wetness despite a separate smoother nose material.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Ball.090].matrix_world",
+        "scene_facts.json:objects[object_id=Rod.016].matrix_world",
+        "scene_facts.json:objects[object_id=Ball.096].material_slots",
+        "scene_facts.json:materials.SceneActSurface_11.links",
+        "scene_facts.json:materials.SceneActSurface_14.nodes",
+        "author.png",
+        "wide_06.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "A long raised platform and continuous adjacent walking space are present. The architecture is a single rear wall rather than an enclosed bay, and the door is applied in front of uninterrupted wall boxes rather than occupying an opening. This does not preserve the required enclosure and opening organization.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=barn].children",
+        "scene_facts.json:objects[object_id=Box.003].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.004].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.023].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.001].world_aabb_approx",
+        "wide_05.png",
+        "wide_06.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "Matte gray background walls and a blue element with framing and seams are present. However, the small door leaf sits against a continuous wall without a retained opening; its construction does not establish the required substantial industrial metal door in that opening.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.003].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.004].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.023].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.024].world_aabb_approx",
+        "scene_facts.json:materials.SceneActSurface_7.nodes",
+        "wide_01.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "A downward-facing overhead area light at z=7 provides 1600 energy with cool RGB (0.82, 0.90, 1.0), exceeding the secondary area's 650 energy. The final view has neutral-cool illumination and soft shadows beneath the equipment and animals.",
+      "source_evidence": [
+        "scene_facts.json:authored_lights[0].matrix_world",
+        "scene_facts.json:authored_lights[0].energy",
+        "scene_facts.json:authored_lights[0].color",
+        "scene_facts.json:authored_lights[1].energy",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "The active 48 mm perspective camera corresponds to the delivered composition and clearly presents recession along the row. The treatment nevertheless remains strongly stylized: cows are visibly assembled from faceted ellipsoids, the worker is a block figure, and architecture lacks realistic construction detail.",
+      "source_evidence": [
+        "scene_facts.json:camera",
+        "scene_facts.json:objects[object_id=Ball.090].vertices",
+        "scene_facts.json:objects[object_id=Ball.094].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Box.046].dimensions_scene_units",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "Original final.png exists, is a valid PNG, and fully decodes at 512×285. Its supplied snapshot is identifiable as the finished barn render; this criterion specifies no minimum resolution.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].exists",
+        "scene_facts.json:delivered_artifacts[0].png_magic_valid",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success",
+        "scene_facts.json:delivered_artifacts[0].width",
+        "scene_facts.json:delivered_artifacts[0].height",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R09",
+      "score": 1,
+      "evidence": "The Blender project opened successfully and contains 341 meshes with editable architecture, platform, divider assemblies, animals, assigned materials, overhead lights, and the active camera corresponding to the finished render.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:objects[object_id=Box.001].finite_nonempty_mesh",
+        "scene_facts.json:objects[object_id=Rod.008].finite_nonempty_mesh",
+        "scene_facts.json:objects[object_id=Ball.090].finite_nonempty_mesh",
+        "scene_facts.json:materials",
+        "scene_facts.json:authored_lights",
+        "scene_facts.json:camera",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The cattle, repeated silver dividers, raised bed, blue door, and rear wall are recognizable, but the sparse single-row reconstruction and simplified architecture only partially reproduce the target organization.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png",
+        "wide_05.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 3,
+      "evidence": "Platform and posts generally appear supported, but dividers cross cow torsos, animals have weak bed contact, and the worker appears suspended above the floor.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "scene_facts.json:objects[object_id=Rod.100].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Black-and-white coats, silver equipment, gray architecture, and blue accents match the broad palette. Dense mottling and rounded toy-like animal silhouettes differ substantially from the target.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Faceted primitive animals, identical poses, schematic human geometry, pristine blank surfaces, and visible render noise substantially weaken realism.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 4,
+      "evidence": "The row, curb, and aisle provide clear perspective and walking space, but enclosure and rear opening are not credibly reconstructed and animals are misaligned with stall bays.",
+      "source_evidence": [
+        "wide_05.png",
+        "wide_06.png",
+        "scene_facts.json:objects[object_id=Box.003].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.023].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 4,
+      "evidence": "The human establishes a useful approximate divider-height cue. Overlong divider loops, narrow occupied spacing, oversized elongated cow forms, and a door shorter than the adult weaken relative scale.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "scene_facts.json:objects[object_id=Box.023].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Ball.188].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Cool soft illumination, pipe highlights, and diffuse concrete are coherent. Concrete lacks surface variation, coats look procedural, and wet muzzle differentiation is weak.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "scene_facts.json:materials.SceneActSurface_10.nodes",
+        "scene_facts.json:materials.SceneActSurface_14.nodes"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Repeated equipment, seven cows, raised platform, curb, wall, blue door element, lighting, image, and editable project are present. Enclosure, functional opening, recognizable bedding, and anatomical detail remain incomplete.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_06.png",
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:delivered_artifacts[0]"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H06/selection/bw_0045/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 263973,
+    "output_tokens": 2785,
+    "observed_model": "unknown",
+    "seconds": 73.18868080433458
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

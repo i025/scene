@@ -1,0 +1,196 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 88.88888888888889,
+  "S_dimension": 51.25,
+  "S_BW": 70.06944444444444,
+  "started": 1794354280.5523093,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_189918915/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354296.6531856,
+  "seconds": 16.100876331329346,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "Multi-tier warehouse racks, many rectangular loads, ribbed roofing, crossbeams, strip lights and a gridded skylight are recognizable, though substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Goods remain stacked in receding rack bays beneath the roof, with an adjacent aisle and overhead lighting. The authored framing gives the ceiling too much emphasis but preserves the main relationships.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Loads fit within rack bays and the tall shelving is reasonably scaled to the industrial roof. Simplified members do not create a decisive relative-scale failure.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "author.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The prominent pale rack framework and washed-out blocks lose the reference's dark steel structure, strong yellow supports and distinct wrapped freight appearance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Bright overhead strips and skylight coexist with a darker warm roof; shelving and goods remain legible despite severe sampling noise and flat surface response.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views show real shelf depth, box side and top faces, uprights and aisle parallax.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Racks, loads and roof are independently addressable through actual parent chains. Example meshes Box.068, Box.115, Box.210 and Box have nonempty finite geometry and material slots linked to valid surface shaders.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.068]",
+        "scene_facts.json:objects[object_id=Box.115]",
+        "scene_facts.json:objects[object_id=Box.210]",
+        "scene_facts.json:objects[object_id=Box]",
+        "scene_facts.json:objects[object_id=left_rack].children",
+        "scene_facts.json:materials.SceneActSurface_7.links",
+        "scene_facts.json:materials.SceneActSurface_9.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The warehouse identity and overhead landmarks correspond, but generic shelving and ceiling-heavy composition weaken resemblance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Loads visibly rest on shelf levels and racks have uprights and diagonal bracing; connections and pallet supports remain rudimentary.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 4,
+      "evidence": "Muted beige and olive tones loosely correspond, but pale framing and weak yellow accents lose the defining contrast.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Severe noise, featureless cuboid loads and repetitive simple members make the result resemble an unfinished blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Parallel rack rows, vertical levels and receding overhead fixtures establish the right spatial pattern, with overly open spacing and weak enclosure.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Bay, load and roof proportions are generally plausible; rack members and pallet detailing lack the reference's structural complexity.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Warm overhead light gives readable forms, but heavy noise, weak material differentiation and flat bright freight reduce quality.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Repeated freight bays, roof beams, strips and skylight are present; prominent yellow rack hardware and detailed pallet-wrapped loads are heavily simplified or absent.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_189918915/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 412307,
+    "output_tokens": 1342,
+    "observed_model": "unknown",
+    "seconds": 52.75458647822961
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

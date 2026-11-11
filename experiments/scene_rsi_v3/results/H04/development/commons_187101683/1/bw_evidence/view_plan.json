@@ -1,0 +1,119 @@
+{
+  "rule_version": "bw_style_fixed_inbounds_v3_1",
+  "subject_bounds_approx": {
+    "min": [
+      -5.0,
+      -5.0,
+      -0.10000000149011612
+    ],
+    "max": [
+      5.0,
+      5.0,
+      4.980000019073486
+    ],
+    "diagonal_scene_units": 15.026855905069551,
+    "kind": "approximate_AABB_not_mesh_collision"
+  },
+  "room_bounds_approx": {
+    "min": [
+      -5.0,
+      -5.0,
+      -0.10000000149011612
+    ],
+    "max": [
+      5.0,
+      5.0,
+      4.980000019073486
+    ],
+    "diagonal_scene_units": 15.026855905069551,
+    "kind": "approximate_AABB_not_mesh_collision"
+  },
+  "interior": true,
+  "views": [
+    {
+      "view_id": "author",
+      "kind": "author",
+      "camera_object": "SceneActView",
+      "file": "author.png",
+      "camera_matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.05000000074505806
+        ],
+        [
+          0.0,
+          0.11833372712135315,
+          -0.9929738640785217,
+          -7.599999904632568
+        ],
+        [
+          0.0,
+          0.9929738640785217,
+          0.11833372712135315,
+          1.9500000476837158
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "resolution": [
+        512,
+        342
+      ]
+    },
+    {
+      "view_id": "wide_01",
+      "kind": "wide",
+      "position": [
+        3.4000000953674316,
+        0.0,
+        2.338399887084961
+      ],
+      "target": [
+        0.0,
+        0.0,
+        2.440000057220459
+      ],
+      "lens_mm": 20,
+      "file": "wide_01.png"
+    },
+    {
+      "view_id": "wide_03",
+      "kind": "wide",
+      "position": [
+        -1.7000000476837158,
+        2.944486379623413,
+        2.338399887084961
+      ],
+      "target": [
+        0.0,
+        0.0,
+        2.440000057220459
+      ],
+      "lens_mm": 20,
+      "file": "wide_03.png"
+    },
+    {
+      "view_id": "detail_01",
+      "kind": "detail",
+      "position": [
+        -2.0,
+        -2.200000047683716,
+        2.541599988937378
+      ],
+      "target": [
+        -2.0,
+        0.0,
+        2.185999870300293
+      ],
+      "lens_mm": 38,
+      "file": "detail_01.png"
+    }
+  ],
+  "view_selection_limit": "Fixed spatial framing adaptation, not official adaptive agent selection. Name-based exclusion of architectural meshes is used only for framing; not diagnosis. Details use fixed spatial regions, not candidate-specific semantic object targeting. In-bounds camera positions can still be occluded; authored defects are never repaired."
+}

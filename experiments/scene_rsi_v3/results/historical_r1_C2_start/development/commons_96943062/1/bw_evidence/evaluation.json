@@ -1,0 +1,202 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 58.75,
+  "S_BW": 79.375,
+  "started": 1794003186.3525174,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_96943062/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794003201.559977,
+  "seconds": 15.207459688186646,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The classroom is recognizable through its pale enclosure, suspended ceiling grid, right-wall whiteboard, flag, rear fixtures, dark floor, and scattered construction debris.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The whiteboard remains on the right, fixtures at the rear, partition on the left, and yellow sheets below the board with other debris across the floor. Spacing is looser, but the principal relationships remain identifiable.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "The board, fixtures, ceiling modules, and debris have broadly plausible relative sizes. The room appears more elongated and the yellow material thicker and flatter than the target, without making their functions implausible.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Pale walls and board contrast with the dark floor; yellow sheets and the red-blue flag preserve the main color accents. Simplified matte surfaces remain distinguishable.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The principal contents remain visible under soft interior illumination. Heavy noise and a dark foreground reduce quality, but do not conceal the required scene.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views reveal partition thickness, separate floor debris, board depth, and changing spatial relationships, establishing a genuine three-dimensional construction.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "The scene contains 93 meshes. Architecture, board, fixtures, and debris resolve through actual parent-child chains to nonempty meshes with material slots and linked material shaders.",
+      "source_evidence": [
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id='Box.001'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.038'].parent_chain",
+        "scene_facts.json.objects[object_id='Box.038'].material_slots",
+        "scene_facts.json.objects[object_id='Box.065'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.080'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='whiteboard'].children",
+        "scene_facts.json.materials.SceneActSurface_12.links",
+        "scene_facts.json.materials.SceneActSurface_42.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The defining classroom contents correspond, but the spacious, low-looking composition and uniformly simplified damage depart from the target.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "Walls, board, ceiling, and debris generally read as supported. The rigid flag and block-like sheet stack weaken structural and material plausibility.",
+      "source_evidence": [
+        "wide_03.png",
+        "detail_01.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "The principal palette is preserved, though walls appear cooler, yellow sheets paler, and debris shapes more regular than the target.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Severe grain, pristine rectangular debris, rigid sheet layers, and limited surface variation make the result read as a rough reconstruction.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "Major left-right and foreground-background relationships survive, although the authored view leaves excessive empty foreground and pushes rear fixtures farther away.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Most objects remain functionally plausible, but the elongated board and room, small-looking rear fixtures, and thick yellow stack reduce proportional similarity.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Soft lighting makes the scene legible, but pronounced foreground darkness and pervasive noise obscure texture and weaken the reference's daylight atmosphere.",
+      "source_evidence": [
+        "delivered_final.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major visible elements are included. Ceiling damage, the board division, hanging fabric, and irregular broken debris are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_96943062/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 109148,
+    "output_tokens": 1455,
+    "observed_model": "unknown",
+    "seconds": 42.88260442717001
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

@@ -66,8 +66,8 @@
     "research_sessions_per_round": 3,
     "diagnostic_frames_per_round": 16,
     "research_seconds_per_round": 7200,
-    "reserve_fraction": 0.3,
-    "status": "A02_frozen_before_first_formal_M",
+    "reserve_fraction": 0.25,
+    "status": "A04_after_round6_before_first_round7_M",
     "retry_limit": 1,
     "semantic_edit_subset": [
       "commons_109923183",
@@ -104,11 +104,13 @@
       },
       "rule": "After full dev endpoint/checkpoint generation, before any Final Test, select ALL six scenes x BOTH endpoints x two repeats iff all fixed remaining-budget conditions hold; otherwise fixed primary one repeat. Never use Test scores, no partial second-repeat group."
     },
-    "platform_version": "V3_A02_delivery_native_facts_and_budgeted_10rounds",
+    "platform_version": "V3_A03_native_lighting_and_explicit_operator_repeats",
     "development_panel_size": 3,
     "selection_size": 3,
-    "boundary_case_limit": 2,
-    "max_M_prompt_bytes": 480000
+    "boundary_case_limit": 1,
+    "max_M_prompt_bytes": 480000,
+    "platform_snapshot": "code_snapshots/platform_A04",
+    "research_packet_version": "A04_lossless_compact_JSON"
   },
   "resources": {
     "policy": "cpu_only",
@@ -167,6 +169,8 @@
     "boundary_width": 1,
     "development_frequency": "Independent preview BW only full H_start/H_best endpoints. Research panels use actual reference/render, Q and native functional evidence; no per-version preview judge unless already cached. Selection/Test always complete official-quality BW-style evaluation.",
     "promotion_delta": 2,
-    "calibration_report": "preparation/bw_calibration_A02/calibration.json"
+    "calibration_report": "preparation/bw_calibration_A02/calibration.json",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
+    "judge_revision": "judge_A03"
   }
 }

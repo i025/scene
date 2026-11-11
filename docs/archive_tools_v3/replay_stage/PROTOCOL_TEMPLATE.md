@@ -17,29 +17,31 @@
 
 ## 相同显式档案、固定 M 与 K=1
 
-共同显式研发档案固定前三张历史开发图：`commons_109923183`、`commons_118588033`、`commons_105241439`。每个陌生 H 起点先独立运行这三图，M000 与 M_final 获得完全相同的该起点 P、参考、渲染、对象、功能、错误轨迹和 H 源码；不回收主 Test。两个 M 的上下文字典只允许 `M_sources` 不同。`available_probe_menu=[]` 对双方相同，并明确动作库从各自 `M_sources` 读取，外部无固定五选一菜单。
+共同显式研发档案固定前三张历史开发图：`commons_109923183`、`commons_118588033`、`commons_105241439`。每个陌生 H 起点先独立运行这三图，M000 与 M_final 获得完全相同的该起点 P、参考、渲染、完整对象清单、功能、错误轨迹和 H 源码；不回收主 Test。允许差异仅为冻结 `M_sources` 程序/动作库及其派生的真实动作名索引 `available_probe_menu`。不会清空菜单或隐藏后代动作；公共 ResearchAPI、总工具权限、资源和预算相同，外部没有固定五选一菜单。
 
 实际加载只读 M 源码快照；临时动作目录为独立可写副本，新增动作只用于本次回放，不形成下一代 M。只接受 H 提案，含任何 M 修改的最终提案作 inadmissible 保存，不删 M 修改后继续采用 H，也不重新采样。一次未修改/失败/停止同样占本次 K=1 机会。
 
-固定模型及 CLI 权限复用主冻结平台：H Terra medium、M 与独立评审 Astra medium。每次回放最多3研究CLI、8诊断帧、7200活动秒；H每场最多3 CLI/2构建，其他活动时限与正式质量不增加。M 与共享 H 代码修改均通过现有 CLI，不直接 API。元策略必须由其 `research()` 真正执行，继续使用 `ResearchAPI` 和 `research_worker.py`。
+固定模型及 CLI 权限复用主正式 A03 冻结平台：H Terra medium、M 与独立评审 Astra medium。每次回放最多3研究CLI、8诊断帧、7200活动秒；H每场最多3 CLI/2构建，其他活动时限与正式质量不增加。M 与共享 H 代码修改均通过现有 CLI，不直接 API。元策略必须由其 `research()` 真正执行，继续使用同一 A03 `ResearchAPI` 和 `research_worker.py`，包括完整对象清单、420k上下文投影和480k字节提示上限。M0 源码保持原初始版本，不因此回退公共接口。
 
 ## 独立的新阶段选择与测试
 
 预留 `bw_0082` 只作本阶段 Selection，`bw_0092` 只作本阶段 Test；两者与主 dev/Selection/Test 均不同，不读取主 Test 作为回放研发输入。两者原媒体历史暴露不完全可证，整个回放仍为 exploratory。正式任务 query 给 H，rubric 仅评价器可见。当前准备未打开它们的像素或 rubric。
 
-主线最初冻结平台仅传 primary reference+query；A01 于首次正式 BW 评价及任何正式 M 提案前统一补充了 metadata 公开文本附件，未改变 H_start/M000，也未新增修复用模型调用。原核对保留为历史快照，更新见 `MAIN_INPUT_METADATA_DEVIATION_A01_UPDATE.json`。本阶段仍复制旧 `platform_frozen`，再由独立输入适配统一追加 metadata 的 `attachments` 白名单公开文本规格，因此不重复追加，输入路由与主线 A01 相同；不读取 rubric 文件，也不按模型返回的路径任意读文件。当前两个预留任务仅有 layout/spec 文本，无额外图附件；若冻结清单出现非文本附件，入口明确停止，不静默忽略。M0/M_final 在同一陌生H起点上输入相同。阶段预算和 Selection 规模仍与主线不同，不将跨阶段分差归因于 M。stage Test 附件只在四个选择冻结后，由 Test 的实际生成入口加载；prepare 只记录元数据路径，不打开附件内容。
+主线最初冻结平台仅传 primary reference+query；A01 于首次正式 BW 评价及任何正式 M 提案前统一补充了 metadata 公开文本附件，未改变 H_start/M000，也未新增修复用模型调用。原核对保留为历史快照，更新见 `MAIN_INPUT_METADATA_DEVIATION_A01_UPDATE.json`。本阶段只复制后续正式固定 `platform_A03`，直接使用其中已经转发 metadata 公开文本规格的 `prepare_task`，不再追加一层包装或拼接附件，因而不会重复。rubric 仍只由固定评价器读取，M0/M_final 在同一陌生H起点上输入相同。阶段预算和 Selection 规模仍与主线不同，不将跨阶段分差归因于 M。stage Test 附件只在四个选择冻结后，由 Test 的实际生成入口加载；prepare 只记录元数据路径，不打开附件内容。
 
-每起点×每 M 各1个主要 H 提案；共同 Selection 对比同一 H_base 与各候选。候选须完成1/1执行、1/1独立BW评价及所有必要功能门槛，再以 BW 至少提升2.5接受；H_base 始终回退，不因它失败放松候选绝对资格。父代明确生成失败/功能不合格时可资格恢复，单列而非成对视觉提升。评审服务缺测不触发恢复。
+每起点×每 M 各1个主要 H 提案；共同 Selection 对比同一 H_base 与各候选。候选须完成1/1执行、1/1独立BW评价及所有必要功能门槛，再按实际固定 `platform_A03/config.json` 的 `evaluation.promotion_delta` 判断 BW 增益；不硬编码历史门槛，实际数值与来源写入 `stage_freeze.json`。H_base 始终回退，不因它失败放松候选绝对资格。父代明确生成失败/功能不合格时可资格恢复，单列而非成对视觉提升。评审服务缺测不触发恢复。
 
-本阶段固定单次独立评审，按主平台共同规则服务失败最多重试一次；不做边界重评。这是相对主四图+边界评审协议的明确适配，只有1张Selection/1张Test，无法支持普遍元能力结论。所有4次选择均冻结后才运行新阶段 Test；对每个起点基线和各 M 所选 H 统一评价，完全相同 H 引用同一产物并记 reuse，不当新独立样本。
+本阶段全部 `run_scene` 明确使用 repeat1。复制 A03 后，主线的 operator 重跑矩阵仅另存 `configs/selection_repeats_main_source.json` 作为来源记录；实际 `configs/selection_repeats.json` 改为回放自身6个 H 标签（2起点、4候选）对 `bw_0082` 的完整 repeat1 矩阵。主线 `bw_0031` 的 repeat2 不继承到回放，不能从多个产物中按分数选择。独立 replay 报告直接读取本阶段已存结果，不调用十轮分析；即使离线调用所复制的 `get_scenes()`，其 Selection 标签也由本阶段矩阵覆盖。
+
+本阶段固定单次独立评审，按主平台共同规则服务失败最多重试一次；不做边界重评。这是相对主 A03 三张 Selection 加有界边界复评协议的明确适配，只有1张Selection/1张Test，无法支持普遍元能力结论。主阶段仍为12张开发来源、每轮3张开发图/最多3次M会话、3张Selection及6张Test，`bw_0085` 未使用；这些不等同于本阶段的3张共同开发图/1张Selection/1张Test。所有4次选择均冻结后才运行新阶段 Test；对每个起点基线和各 M 所选 H 统一评价，完全相同 H 引用同一产物并记 reuse，不当新独立样本。
 
 报告每个陌生起点上相对相同 H_base 的 Test BW/Q、执行、功能和独立效用变化，保留4个原始提案点、未修改/失败分母与研究成本。两个起点×各一次提案仅为可行性证据；M代码变多、动作变多或H得分曲线均不证明元能力递归提升。
 
 ## 预算、隔离与记录
 
-阶段目录固定 `outputs/scene_rsi_v3/meta_replay_stage`，从 `code_snapshots/platform_frozen` 仅复制已冻结源码/配置，不复制任何旧 session/results。不修改主 runner、H/M、配置或原日志。
+阶段目录固定 `outputs/scene_rsi_v3/meta_replay_stage`，唯一平台来源是主线 `code_snapshots/platform_A03` 的实际固定源码/配置快照，不复制任何旧 session/results。A03 尚未冻结时一律 pending，不使用 A02 或更早平台回退，也不从动态最新主目录局部覆盖代码。`stage_freeze.json` 明确保存该固定版本及路径。原初始 `M000` 仍从 `platform_frozen/initial_m` 读取和冻结；这只是策略源码起点，不是运行平台回退。不修改主 runner、H/M、配置或原日志。
 
-固定评分平台显式应用交付证据修订 `original_delivery_metadata_A02`：复制主线已修正的 `bw_evaluate.py`，覆盖旧平台副本；没有其他固定文件覆盖。原评分器未给 judge 原始交付 `final.png` 的实际格式、尺寸和附件，导致可直接判定不合格的条目被记成证据缺失。修正版只测量并附加原交付图，不上采样、不改变作品或 rubric。阶段 `code_snapshots/poststage_fixed_evaluator_A02` 保存覆盖前后源码及真实 diff，`stage_freeze.json` 记录来源、版本与已通过的纯验收；不能把工程修复当成 M 自动改进。其余旧冻结平台与 A01 输入适配的组合保持明确，M0/M_final 使用完全相同的固定评分入口。
+正式 A03 快照整体包括修正后的 `bw_evaluate.py` 与 `eval_blend.py`：原始交付图格式/尺寸/真实附件、原生引擎/降噪、Collection关系、相机、真实FONT文本及 LIGHT energy/color/world 灯光事实等证据通过同一入口提供，不上采样、不改变作品或 rubric。此处不实现 overlay 兼容层，M0/M_final 使用完全相同的固定评分入口；工程修复不算 M 自动改进。A03 发生在首轮 M000 已1次真实调用产生 H-only 提案之后，不称 pre-M 修订；A02 的20次校准历史保留，A03灯光补充后的抖动未重新量化，不新增20次评审。此前未执行的 A02/局部覆盖计划及审计 JSON 保留为准备历史，不能解释为阶段已经运行。
 
 阶段上限为 `min(100 CLI, 主全局剩余CLI)`、`min(300渲染扣额, 主全局剩余渲染)`；可见输入/输出token上限严格取主全局剩余。预定保守数量上界：18次H重建×最多3CLI + 4次研究×3CLI + 12次独立评审×最多2尝试 = 90 CLI；渲染扣额约230（18×14的极端简单加和不适用：6个开发基线不做BW，12个Selection/Test产物才做9视图）。这些是上界估算，不是实际消耗或费用。可见token缺测保留覆盖率，不以unknown当零成本。单次远端返回后才能知道实际usage，临界token限额不能保证预先准确预测；余额不足时不启动或按原边界停机，不追正结果。
 

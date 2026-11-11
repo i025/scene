@@ -121,7 +121,8 @@ def enrich_delivered_evidence(evidence_folder):
         'original_artifact_untouched': True, 'original_scene_facts_backup': previous.name,
         'attached_images': delivered_images, 'metadata': metadata,
     })
-    status.update(delivered_images=delivered_images, delivery_evidence_version='original_delivery_metadata_A02')
+    status.update(delivered_images=delivered_images, delivery_evidence_version='original_delivery_metadata_A02',
+                  native_evidence_version=facts['native_evidence_version'])
     write_json(status_path, status)
     return status
 

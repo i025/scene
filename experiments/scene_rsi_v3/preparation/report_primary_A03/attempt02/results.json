@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "checks_passed": [
+    "three_primary_plus_one_superseded_retained_raw",
+    "primary_success_rate_3_of_3_not_4_of_3",
+    "A02_score_excluded_under_A03_with_raw_value_retained",
+    "old_native_primary_row_is_pending_not_measured",
+    "Test_not_started_status_pending_and_rate_null",
+    "Test_frozen_but_not_started_rate_null",
+    "native_and_delivery_protocol_gates_agree",
+    "missing_current_native_and_delivery_versions_are_unknown",
+    "unversioned_old_baseline_not_plotted",
+    "old_platform_baseline_not_plotted",
+    "current_platform_partial_coverage_not_plotted",
+    "current_platform_complete_baseline_plotted"
+  ],
+  "three_plus_one": {
+    "raw_rows": 4,
+    "primary_rows": 3,
+    "group": {
+      "H_version": "Hstart",
+      "split": "selection",
+      "all_scheduled": 3,
+      "planned_repeats": 1,
+      "repeat_plan_source": "configs/selection_repeats.json",
+      "repeat_plan_finalized": true,
+      "records_saved": 3,
+      "execution_finished": 3,
+      "execution_success": 3,
+      "execution_success_rate_all_scheduled": 1.0,
+      "BW_measured": 3,
+      "evaluation_coverage": 1.0,
+      "BW_conditional_mean": 70,
+      "Q_conditional_mean": 0.4,
+      "end_to_end_BW_utility": 70.0,
+      "function_measured": 3,
+      "function_pass": 3,
+      "independent_sources_observed": 3,
+      "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+    },
+    "old_raw_BW": 20,
+    "old_effective_BW": null
+  },
+  "mixed_protocol_primary_group": {
+    "H_version": "Hstart",
+    "split": "selection",
+    "all_scheduled": 3,
+    "planned_repeats": 1,
+    "repeat_plan_source": "configs/selection_repeats.json",
+    "repeat_plan_finalized": true,
+    "records_saved": 3,
+    "execution_finished": 3,
+    "execution_success": 3,
+    "execution_success_rate_all_scheduled": 1.0,
+    "BW_measured": 2,
+    "evaluation_coverage": 0.6666666666666666,
+    "BW_conditional_mean": 70,
+    "Q_conditional_mean": 0.4,
+    "end_to_end_BW_utility": null,
+    "function_measured": 3,
+    "function_pass": 3,
+    "independent_sources_observed": 3,
+    "note": "Frozen source coverage; Test repetitions from explicit budget-only plan or primary minimum"
+  },
+  "pending_Test": {
+    "status": "pending",
+    "finished": 0,
+    "expected_if_frozen": 12,
+    "rate": null
+  },
+  "protocol_gate": {
+    "get_scenes_effective_BW": null,
+    "evaluator_revision_new_BW": null,
+    "inconsistent_protocol_gate": false
+  },
+  "missing_current_versions": {
+    "current_result_native_version": "unknown",
+    "current_result_delivery_version": "unknown",
+    "old_native_version": "authored_native_project_facts_A02"
+  },
+  "plot_evolution_cases": {
+    "unversioned_old_baseline": [],
+    "old_platform_full_coverage": [],
+    "current_platform_partial_coverage": [],
+    "current_platform_full_coverage": [
+      {
+        "x": [
+          0
+        ],
+        "y": [
+          80
+        ]
+      }
+    ]
+  },
+  "previous_findings": "Original audit results and fixture source remain in the parent report_primary_A03 folder unchanged.",
+  "model_calls": 0,
+  "Blender_jobs": 0,
+  "main_report_executed": false,
+  "source_modified": false
+}

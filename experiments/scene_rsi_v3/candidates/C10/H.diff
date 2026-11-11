@@ -1,0 +1,113 @@
+--- H_parent/policy.py
++++ H_candidate/policy.py
+@@ -4,11 +4,16 @@
+ 
+ 
+ PROJECTION_GUIDANCE = '''
+-Use a small numerical projection check before committing camera changes. Choose a few
+-explicit world-space landmarks corresponding to reference points you can actually identify:
+-for example a window corner, a furniture top corner and a foreground contour endpoint.
+-Record reference estimates separately from computed projections. Use points on geometry,
+-not an EMPTY's origin or a whole-room bounding box. Include foreground and background.
++Use a small numerical projection check before committing camera or major geometry changes.
++Choose a few explicit world-space landmarks corresponding to reference points you can
++actually identify, distributed across foreground, main subject and background. Use points
++on geometry, not an EMPTY's origin or a whole-room bounding box. Record reference estimates
++separately from computed projections. Keep each reference point's identity and estimate
++stable across revisions. If you correct an estimate or change correspondence, explain why;
++never move the reference estimate merely to make the current reconstruction appear closer.
++A feature cropped by an image boundary supplies a crop constraint, not an exact location
++for an unseen physical corner. Mark uncertain correspondences and do not fit them tightly.
++
+ After realize and set_view, update Blender's view layer. For a world point p, project using:
+     from mathutils import Vector
+     bpy.context.view_layer.update()
+@@ -21,20 +26,33 @@
+     clip = projection @ cam.matrix_world.inverted() @ Vector((*p, 1.0))
+     uv = None if clip.w <= 1e-8 else (
+         .5 * (clip.x / clip.w + 1), .5 * (1 - clip.y / clip.w))
+-Use the original image aspect for these calculations and the final camera. Coordinates
+-are x right and y down. Print a compact reference-versus-projected landmark table in
+-execution output. This requires no render. Projection checks do not establish visibility,
+-silhouette, material appearance or correct hidden geometry.
+-When changing camera aim, position or lens, compute the same landmark projections before
+-and after a small trial change to verify the direction rather than guessing. Restore a
+-trial that moves the selected landmarks the wrong way. With a fixed camera position,
+-aiming upward generally moves stationary scene features downward in the image. Lens
+-changes scale positions about the principal point; moving the camera changes foreground
+-and background differently. Do not compensate a local dimension or placement error by
+-moving every matching background feature. Keep this check small: a few landmarks and
+-candidate parameter adjustments, not a large search. Do not force uncertain point
+-correspondences or optimize hidden bounds. The complete rendered view remains the final
+-check of crops, occlusions, silhouettes and broad appearance.
++Use the original image aspect throughout. Coordinates are x right and y down.
++Projection checks do not establish visibility, silhouette, material appearance or correct
++hidden geometry. The complete rendered view remains the final check.
++
++Make the projection check affect the chosen parameters, rather than merely printing a
++report after choosing them. Before revising a major asset or camera, identify which anchors
++should improve and which already matching anchors should remain stable. For the same
++landmarks, compare the previous state, a small trial and the proposed final state. Recompute
++world points after geometry transformations, including the actual scale pivot and offsets.
++Check both ends of an affected contour: increasing height about its base primarily moves
++its top, while preserving the top requires a different pivot or compensating translation.
++A trial moving in the correct direction does not justify an arbitrarily larger final step.
++Check the final step for overshoot and regressions before committing it.
++
++For confidently matched points, print reference, previous projection, candidate projection
++and residuals in original-image pixels. Use this small table to shorten, revise or restore
++an edit that overshoots or damages a protected anchor. If a tradeoff is necessary, state
++which visible discrepancy takes priority and why. Do not require every uncertain landmark
++to improve and do not run a large search. Keep reference estimates, computed points and
++observed rendered contours distinct. A known numerical regression must not be described
++as preserving a matching feature.
++
++With a fixed camera position, aiming upward generally moves stationary scene features
++downward in the image. Lens changes scale positions about the principal point; moving the
++camera changes foreground and background differently. Do not compensate a local dimension
++or placement error by moving every matching background feature. Retain the full scene and
++original author-view aspect when checking crops, occlusions and broad appearance.
+ '''
+ 
+ 
+@@ -79,21 +97,25 @@
+                     'record reference versus rendered estimates for several of your anchors, '
+                     'including at least one background and one foreground feature. Check crops, '
+                     'edge slopes, overlaps, silhouette and internal gaps. Do not simply repeat '
+-                    'the intended reference bounds as if the render achieved them. Rank the '
+-                    'largest discrepancies by visible extent and contrast. For each proposed '
+-                    'correction, name the parameter and predict which anchors or contours will '
+-                    'move and in what direction. Verify camera-change directions with the small '
+-                    'numerical projection check before the next render; keep computed point '
+-                    'projections distinct from observed visible contours. '
+-                    'A common translation, scale error, or edge-slope '
+-                    'error may suggest camera changes; inconsistent errors may require asset '
+-                    'placement or proportion changes. Check multiple anchors before choosing, '
+-                    'and preserve already matching regions. If bounds mostly agree, inspect '
+-                    'the actual surface profile, component proportions, negative spaces, '
+-                    'and broad light/dark distribution instead of adding repeated tiny parts. '
+-                    'Distinguish observed brightness from material color: illumination and '
+-                    'surface orientation also affect it. Make only image-supported corrections '
+-                    'in a complete revised program, or reply DONE. '
++                    'the intended reference bounds as if the render achieved them. Keep the '
++                    'reference correspondences stable; explain any corrected estimate. '
++                    'Rank the largest discrepancies by visible extent and contrast. For each '
++                    'proposed correction, name its parameter, predict the direction of movement '
++                    'and name an already matching anchor to protect. In the revised program, '
++                    'compare previous and final candidate projections for the same points before '
++                    'committing camera or major geometry changes. Include geometry scale pivots '
++                    'and translations in this check. A correct small-trial direction alone is '
++                    'insufficient: shorten or revise a final step that overshoots or damages '
++                    'protected anchors, and explain any necessary tradeoff. '
++                    'A common translation, scale error or edge-slope error may suggest camera '
++                    'changes; inconsistent errors may require asset placement or proportion '
++                    'changes. Check multiple anchors before choosing and preserve matching '
++                    'regions. If bounds mostly agree, inspect surface profile, component '
++                    'proportions, negative spaces and broad light/dark distribution instead '
++                    'of adding repeated tiny parts. Distinguish observed brightness from '
++                    'material color: illumination and surface orientation also affect it. '
++                    'Computed projections are not observed visible contours. Make only '
++                    'image-supported corrections in a complete revised program, or reply DONE. '
+                 ) + f'Remaining: {runtime.remaining()}'}
+             ])
+         else:

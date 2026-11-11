@@ -5,7 +5,7 @@
   "source_id": "commons_192968130",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,8 +23,8 @@
     "psnr": 10.99237647340078,
     "overall": 0.4812868926431631,
     "metric_timing": {
-      "model_load_seconds": 0.0002705673687160015,
-      "compute_seconds": 0.6004632511176169,
+      "model_load_seconds": 0.000151823740452528,
+      "compute_seconds": 0.5109727829694748,
       "model_cache_hit": true,
       "threads": 8
     }
@@ -52,63 +52,71 @@
     "failure_type": null,
     "finished": 1794005027.8627346,
     "seconds": 12.846396446228027,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "The slatted timber wall, white door, low black-and-white unit, stone counter, cooktop, upper cabinets and extractor establish the reference scene. The sink is reduced to a flat dark inset.",
+        "evidence": "The kitchen run, upper cabinets, extractor, cooktop, rear dark inset, slatted wall, white door and low black-and-white unit clearly reproduce the main scene identity. The sink is substantially simplified.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "detail_01.png",
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R02",
         "score": 1,
-        "evidence": "The kitchen remains on the right, with upper cabinets above the counter, the sink beyond the cooktop, and the low unit left of the rear door.",
+        "evidence": "The kitchen remains on the right, with cabinets above the counter, cooktop forward of the rear inset, and the low unit left of the door on the slatted back wall.",
         "source_evidence": [
           "author.png",
-          "detail_01.png",
-          "wide_03.png"
+          "detail_01.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R03",
         "score": 0,
-        "evidence": "The countertop and upper cabinets are excessively deep, and the cooktop is oversized relative to the door and counter height. The complementary view confirms these are more than foreground perspective effects.",
+        "evidence": "The counter and upper cabinets are excessively deep relative to the door and working height. The counter depth is 1.80 against a door-panel width of 0.78 and counter height near 0.93; the broad worktop and oversized hob visibly depart from the reference proportions.",
         "source_evidence": [
           "author.png",
           "wide_03.png",
-          "detail_01.png"
+          "scene_facts.json.objects[object_id=Box.095].dimensions_scene_units",
+          "scene_facts.json.objects[object_id=Box.082].dimensions_scene_units",
+          "scene_facts.json.objects[object_id=Box.103].dimensions_scene_units"
         ],
         "evidence_route": "either"
       },
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Warm timber slats, dark brown cabinets, pale stone and backsplash, white door and black appliances preserve the principal color and surface contrasts.",
+        "evidence": "Brown cabinetry and timber slats, pale stone and backsplash, white door, and dark appliances preserve the main color and surface organization despite simplified finishes.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R05",
         "score": 1,
-        "evidence": "The authored view is bright and legible with coherent shading. Its flatter illumination weakens the reference's warm accent lighting but does not obscure the required content.",
+        "evidence": "The authored composition is sufficiently illuminated to identify all major elements. Lighting is flatter and less locally warm than the reference, but does not obscure the required content.",
         "source_evidence": [
-          "author.png"
+          "author.png",
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "Complementary views show cabinet depth, countertop thickness and changing spatial relationships, establishing a volumetric scene. The blank wide_01 view does not negate the other views.",
+        "evidence": "Complementary views show cabinet depth, counter thickness, floor perspective and changing occlusion, establishing a volumetric scene. The blank wide_01 view does not negate the clear views.",
         "source_evidence": [
           "author.png",
           "wide_03.png",
@@ -120,18 +128,15 @@
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Actual mesh objects provide separately addressable architecture, slats, door, cabinetry and appliances. Their finite geometry, parent chains and assigned node materials substantiate editability beyond group names.",
+        "evidence": "Actual mesh objects provide separately addressable architecture, slats, door, low unit and kitchen components. Representative objects have finite nonempty meshes, assigned materials and parent chains; material nodes connect to surface outputs.",
         "source_evidence": [
-          "scene_facts.json.objects[object_id='Box.030'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='Box.082'].parent_chain",
-          "scene_facts.json.objects[object_id='Box.094'].type",
-          "scene_facts.json.objects[object_id='Box.095'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='Box.095'].material_slots",
-          "scene_facts.json.objects[object_id='Box.103'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='Box.111'].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id='kitchen'].children",
-          "scene_facts.json.materials['Warm veined stone'].nodes",
-          "scene_facts.json.materials['SceneActSurface_10'].links"
+          "scene_facts.json.objects[object_id=Box.030].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box.082].parent_chain",
+          "scene_facts.json.objects[object_id=Box.091].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box.095].material_slots",
+          "scene_facts.json.objects[object_id=Box.103].finite_nonempty_mesh",
+          "scene_facts.json.materials['Warm veined stone'].links",
+          "scene_facts.json.materials.SceneActSurface_28.links"
         ],
         "evidence_route": "scene_summary"
       }
@@ -140,16 +145,17 @@
       {
         "id": "scene_fidelity",
         "score": 7,
-        "evidence": "The distinctive kitchen and slatted rear wall are recognizable, though appliance geometry and cabinet proportions are simplified.",
+        "evidence": "The distinctive kitchen and slatted-wall composition is recognizable, though counter proportions, sink detail and surface character differ.",
         "source_evidence": [
           "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "physics",
         "score": 6,
-        "evidence": "Cabinets and low furniture appear supported, with coherent counter connections. The sink reads as a surface plate rather than a usable basin.",
+        "evidence": "Major furnishings appear supported and cabinetry connects coherently. The sink reads as a flat surface insert rather than a usable basin, and cabinet construction is rudimentary.",
         "source_evidence": [
           "author.png",
           "wide_03.png"
@@ -158,66 +164,67 @@
       {
         "id": "style_color",
         "score": 7,
-        "evidence": "The timber, cream, white and black palette corresponds well; broad cabinet surfaces lack the reference's wood character.",
+        "evidence": "The warm wood, white surfaces and black accents correspond well; uniform cabinet faces and prominent burner outlines reduce stylistic fidelity.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "delivered_final.png"
         ]
       },
       {
         "id": "realism",
         "score": 4,
-        "evidence": "Heavy render noise, boxlike cabinetry, flat sink treatment and sparse surface detail substantially reduce credibility.",
+        "evidence": "Heavy visible render noise, sharp box geometry, flat sink treatment and sparse construction detail make the delivered result look preliminary.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_03.png"
         ]
       },
       {
         "id": "layout_spatial",
-        "score": 7,
-        "evidence": "Major adjacency and ordering are preserved, while expanded countertop depth and generous spacing weaken the compact reference arrangement.",
+        "score": 8,
+        "evidence": "Main left/right, front/back and vertical relationships are retained, with a more expansive worktop and circulation area.",
         "source_evidence": [
           "author.png",
-          "detail_01.png",
-          "wide_03.png"
+          "detail_01.png"
         ]
       },
       {
         "id": "proportion_scale",
-        "score": 5,
-        "evidence": "Door and low unit proportions are plausible, but the deep kitchen units and large cooktop are poorly balanced against them.",
+        "score": 4,
+        "evidence": "Door and low unit are plausible, but the unusually deep counter and upper cabinetry, large hob and tall working gap weaken relative scale.",
         "source_evidence": [
           "author.png",
           "wide_03.png",
-          "detail_01.png"
+          "scene_facts.json.objects[object_id=Box.095].dimensions_scene_units",
+          "scene_facts.json.objects[object_id=Box.103].dimensions_scene_units"
         ]
       },
       {
         "id": "lighting_material",
         "score": 5,
-        "evidence": "Surfaces remain readable with consistent shading, but noise and weak localized warm lighting diminish material definition and atmosphere.",
+        "evidence": "Lighting maintains legibility and broad surface contrasts, but noise and weak local illumination flatten the reference's warmer, more differentiated atmosphere.",
         "source_evidence": [
-          "author.png",
-          "wide_03.png"
+          "delivered_final.png",
+          "author.png"
         ]
       },
       {
         "id": "completeness",
         "score": 7,
-        "evidence": "Most major visible elements are included, including the extractor and wall switches. Basin depth, draining detail and refined cabinet construction remain underdeveloped.",
+        "evidence": "Most major visible elements are represented, including the extractor and wall fittings; basin depth, drainer detail and cabinet articulation remain simplified.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "detail_01.png",
+          "wide_03.png"
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_192968130/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_192968130/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 118785,
-      "output_tokens": 1408,
+      "input_tokens": 125615,
+      "output_tokens": 1521,
       "observed_model": "unknown",
-      "seconds": 41.70665840012953
+      "seconds": 44.78440831275657
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -43955,7 +43962,7 @@
   },
   "e2e_utility": 74.44444444444444,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_192968130/1",
-  "seconds": 299.71214074920863,
+  "seconds": 46.28377250395715,
   "generation_seconds": 235.8766822773032,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

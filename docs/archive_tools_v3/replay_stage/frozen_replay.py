@@ -19,7 +19,7 @@ DEV = ('commons_109923183', 'commons_118588033', 'commons_105241439')
 SELECTION, TEST = 'bw_0082', 'bw_0092'
 MAX_CLI, MAX_FRAMES = 100, 300
 PLANNED_CLI, PLANNED_FRAMES = 90, 230
-DELIVERY_EVIDENCE_VERSION = 'original_delivery_metadata_A02'
+PLATFORM_VERSION = 'platform_A04'
 
 
 def read(path):
@@ -133,22 +133,21 @@ def descendant_execution_audit(main):
             'ability_improvement_verified': False, 'new_model_calls': 0, 'new_Blender_jobs': 0}
 
 
-def evaluator_overlay_audit(main):
-    source = main / 'bw_evaluate.py'
-    code = source.read_text()
-    functions = {node.name for node in ast.parse(code).body if isinstance(node, ast.FunctionDef)}
-    test_path = main / 'preparation/delivery_evidence_contract_02/test_results.json'
-    test_status = read(test_path)['status'] if test_path.exists() else 'not_saved'
-    valid = 'enrich_delivered_evidence' in functions and DELIVERY_EVIDENCE_VERSION in code and test_status == 'passed'
-    return {'eligible': valid, 'source': str(source), 'delivery_evidence_version': DELIVERY_EVIDENCE_VERSION,
-            'contract_test_record': str(test_path), 'contract_test_status': test_status,
-            'source_copy_policy': 'Overlay corrected fixed main bw_evaluate.py after copying original platform_frozen; preserve both exact sources and diff',
-            'other_fixed_files_overlaid': [], 'new_model_calls_for_audit': 0, 'new_Blender_jobs_for_audit': 0}
+def platform_snapshot_audit(main):
+    source = main / 'code_snapshots' / PLATFORM_VERSION
+    required = ['config.json', 'pilot.py', 'research.py', 'research_worker.py', 'model_evidence.py',
+                'bw_evaluate.py', 'eval_blend.py', 'backend/runtime.py', 'backend/codex_wrapper.py',
+                'initial_m/meta.py', 'analyze.py', 'configs/selection_repeats.json']
+    missing = [name for name in required if not (source / name).is_file()]
+    return {'eligible': not missing, 'source': str(source), 'version': PLATFORM_VERSION,
+            'missing_required_snapshot_files': missing,
+            'reason': 'Fixed formal A04 snapshot is available' if not missing else 'Fixed formal A04 snapshot has not been completely frozen',
+            'source_copy_policy': 'Only the complete fixed platform_A04 snapshot; no old-platform fallback or partial live-source overlays',
+            'main_live_source_files_used': [], 'new_model_calls_for_audit': 0, 'new_Blender_jobs_for_audit': 0}
 
 
-def readiness(main):
-    state, cfg = read(main / 'state.json'), read(main / 'config.json')
-    problems, rows = [], []
+def main_completion_check(main):
+    state, problems = read(main / 'state.json'), []
     if state['round_completed'] != 10 or state['phase'] != 'all_scheduled_terminal':
         problems.append('Main ten rounds and scheduled endpoint work are not terminal')
     if (main / 'experiment.lock').exists():
@@ -159,14 +158,20 @@ def readiness(main):
                 problems.append('Main launcher owns its exclusive flock; do not start concurrent replay')
             else:
                 fcntl.flock(lock, fcntl.LOCK_UN)
+    return state, problems
+
+
+def readiness(main):
+    state, problems = main_completion_check(main)
+    cfg, rows = read(main / 'config.json'), []
     m0 = main / 'code_snapshots/platform_frozen/initial_m'
     descendant_audit = descendant_execution_audit(main)
     final = descendant_audit['final_executed_descendant']
     if final is None:
         problems.append('No changed executable M content has saved execution evidence in subsequent formal research; text/library availability is insufficient')
-    evaluator_overlay = evaluator_overlay_audit(main)
-    if not evaluator_overlay['eligible']:
-        problems.append('Corrected fixed delivery-evidence evaluator or its deterministic contract evidence is unavailable')
+    platform_snapshot = platform_snapshot_audit(main)
+    if not platform_snapshot['eligible']:
+        problems.append(platform_snapshot['reason'])
     requests = [(path, read(path)['context']['H_sources']) for path in sorted((main / 'candidates').glob('C*/research_request.json'))]
     hstart = sources(main / 'fixed_h/historical_r1_C2_start')
     for name, path in starts(main).items():
@@ -219,7 +224,7 @@ def readiness(main):
             'main_phase': state['phase'], 'main_rounds_completed': state['round_completed'],
             'M0_source': str(m0), 'final_executed_descendant': final,
             'M_changed_content_execution_audit': descendant_audit, 'historical_starts': rows,
-            'fixed_evaluator_overlay': evaluator_overlay,
+            'fixed_platform_snapshot': platform_snapshot,
             'global_usage_before_stage': spent, 'global_remaining_before_stage': remaining,
             'planned_token_estimate': {'method': 'Maximum visible single-session usage by role times frozen planned role counts; not a guarantee',
                                       'role_session_counts': planned_calls, 'observed_maxima': maxima, 'estimated': estimated_tokens},
@@ -236,35 +241,40 @@ def copy_program(source, destination, *, readonly=False):
     destination.chmod(0o555 if readonly else 0o755)
 
 
+def selection_repeat_plan():
+    labels = [f'B{index:02d}' for index in range(2)]
+    labels += [f'B{index:02d}_{label}_C1' for index in range(2) for label in ['M0', 'Mfinal']]
+    return {label: {SELECTION: 1} for label in labels}
+
+
 def prepare(main, stage, audit):
-    platform = main / 'code_snapshots/platform_frozen'
+    fixed_platform = audit['fixed_platform_snapshot']
+    if not fixed_platform['eligible']:
+        raise RuntimeError('Fixed formal A04 platform snapshot is not ready')
+    platform = Path(fixed_platform['source'])
     if list(platform.rglob('session.json')) or list(platform.rglob('request.json')) or (platform / 'results').exists():
         raise ValueError('Platform copy must contain code/configuration, not old execution history')
     shutil.copytree(platform, stage, ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
-    evaluator = audit['fixed_evaluator_overlay']
-    if not evaluator['eligible']:
-        raise RuntimeError('Fixed evaluator overlay contract is not ready')
-    evaluator_snapshot = stage / 'code_snapshots/poststage_fixed_evaluator_A02'
-    evaluator_snapshot.mkdir(parents=True)
-    old_evaluator = (stage / 'bw_evaluate.py').read_text()
-    corrected_evaluator = Path(evaluator['source']).read_text()
-    (evaluator_snapshot / 'before_bw_evaluate.py').write_text(old_evaluator)
-    (evaluator_snapshot / 'bw_evaluate.py').write_text(corrected_evaluator)
-    (evaluator_snapshot / 'evaluator.diff').write_text(''.join(difflib.unified_diff(
-        old_evaluator.splitlines(True), corrected_evaluator.splitlines(True),
-        fromfile='platform_frozen/bw_evaluate.py', tofile='poststage_fixed_evaluator_A02/bw_evaluate.py')))
-    shutil.copy2(evaluator['source'], stage / 'bw_evaluate.py')
-    write(evaluator_snapshot / 'overlay_record.json', evaluator)
-    c = read(main / 'config.json')
+    write(stage / 'configs/selection_repeats_main_source.json', read(platform / 'configs/selection_repeats.json'))
+    write(stage / 'configs/selection_repeats.json', selection_repeat_plan())
+    c = read(platform / 'config.json')
     write(stage / 'config_v3_source.json', c)
     remaining = audit['global_remaining_before_stage']
     c['results_dir'] = str(stage)
     c['dataset']['manifest'] = str(stage / 'manifest.json')
     c['budget'].update(model_calls=3, executions=2)
-    c['pilot'].update(name='scene_rsi_v3_frozen_meta_replay', research_sessions_per_round=3,
+    c['pilot'].update(name='scene_rsi_v3_frozen_meta_replay', rounds=0, development_panel_size=3,
+                      selection_size=1, research_sessions_per_round=3,
                       diagnostic_frames_per_round=8, max_cli_sessions=min(MAX_CLI, remaining['cli_sessions']),
                       max_render_frames=min(MAX_FRAMES, remaining['render_attempts']),
                       max_input_tokens=remaining['known_input_tokens'], max_output_tokens=remaining['known_output_tokens'])
+    c['pilot'].update(semantic_edit_subset=[], checkpoint_development_subset_size=0, boundary_case_limit=0,
+                      final_test={'primary_repeats': 1, 'independent_sources': 1,
+                                  'decision_before_any_test_generation': True,
+                                  'rule': 'One fixed stage Test source only after all four K=1 choices freeze'},
+                      forecast={'scope': 'Optional frozen-M replay only; main forecast preserved in config_v3_source.json',
+                                'H_cli_upper': 54, 'M_cli_upper': 12, 'judge_cli_upper_with_one_service_retry': 24,
+                                'all_cli_forecast_upper': PLANNED_CLI, 'render_forecast_upper': PLANNED_FRAMES})
     write(stage / 'config.json', c)
     write(stage / 'budget_phase.json', {'phase': 'final', 'independent_stage': 'frozen_M_replay'})
     selected = []
@@ -287,9 +297,14 @@ def prepare(main, stage, audit):
           'M_frozen': True, 'K': 1, 'independent_starts': 2, 'planned_CLI_upper_bound': PLANNED_CLI,
           'planned_render_charge_upper_bound': PLANNED_FRAMES, 'stage_caps': c['pilot'],
           'source_copy': str(platform), 'evaluation': 'BW-style / CLI-adapted; one Selection/one Test; no boundary rejudge',
-          'fixed_evaluator_overlay': {**evaluator, 'stage_snapshot': str(evaluator_snapshot)},
-          'public_input_route': 'Old platform_frozen plus this stage public-spec adapter; equivalent to main A01 routing, not an information advantage',
-          'same_explicit_context_except': ['M_sources'], 'data_status': 'exploratory', 'global_main_cap': read(main / 'config.json')['pilot']})
+          'fixed_platform_snapshot': fixed_platform,
+          'promotion_delta': c['evaluation']['promotion_delta'],
+          'promotion_delta_source': 'Copied fixed platform_A04/config.json evaluation.promotion_delta; never a hardcoded historical value',
+          'selection_repeat_plan': selection_repeat_plan(),
+          'selection_repeat_plan_source': 'Independent stage configs/selection_repeats.json; all six stage H labels use repeat1, no inherited main operator-replay IDs',
+          'public_input_route': 'Unmodified fixed A04 prepare_task forwards metadata-declared public specs exactly once',
+          'same_explicit_context_except': ['M_sources', 'available_probe_menu derived only from each frozen M_sources'],
+          'data_status': 'exploratory', 'global_main_cap': read(main / 'config.json')['pilot']})
     write(stage / 'state.json', {'phase': 'prepared_not_executed', 'completed_trials': 0,
                                 'formal_V3_rounds_added': 0, 'M_evolution_allowed': False})
 
@@ -305,23 +320,6 @@ def load_platform(stage):
         for label in ['M0', 'Mfinal']:
             lookup[f'B{index:02d}_{label}_C1'] = stage / 'trials' / f'B{index:02d}_{label}' / 'H'
     module.hpath = lambda label: lookup[label]
-    original_prepare_task = module.prepare_task
-    attachment_allowlist = read(stage / 'public_attachment_allowlist.json')
-
-    def prepare_task_with_public_specs(scene, folder):
-        task = original_prepare_task(scene, folder)
-        assert scene['attachments'] == attachment_allowlist[scene['scene_id']]
-        task['public_attachment_sources'] = []
-        for raw in attachment_allowlist[scene['scene_id']]:
-            path = Path(raw)
-            if path.suffix.lower() not in {'.txt', '.md', '.yaml', '.yml', '.json'} or 'rubric' in path.name.lower():
-                raise ValueError('This frozen subset supports only metadata-declared public text specs, never rubric labels')
-            task['instruction'] += '\nPUBLIC TASK ATTACHMENT ' + path.name + ':\n' + path.read_text()
-            task['public_attachment_sources'].append(str(path))
-        write(folder / 'task.json', task)
-        return task
-
-    module.prepare_task = prepare_task_with_public_specs
     return module
 
 
@@ -346,18 +344,19 @@ def run_trial(p, stage, start, label, baseline, parent_selection):
         write(trial / 'record.json', row)
         return row
     packet, scenes, images = p.context_for(baseline, start, stage / 'frozen_M/M0', 1)
-    packet['available_probe_menu'] = []
     packet['fixed_goal'] = ('Frozen-M K=1 replay. Only H changes are admissible. Never propose M changes. '
-                            'Own action library is in M_sources; external available_probe_menu is not restrictive. '
+                            'Own action library is in M_sources; the menu lists those actual action filenames and is not restrictive. '
                             'Temporary actions are permitted, no M evolution or access to Selection/Test raw data.')
     shared = json.loads(json.dumps(packet))
     shared.pop('M_sources')
+    shared.pop('available_probe_menu')
     common = stage / 'common_context' / (start + '.json')
     if common.exists():
         assert read(common) == shared, 'Explicit development archives differ between frozen M arms'
     else:
         write(common, shared)
     packet['M_sources'] = p.sources(stage / 'frozen_M' / label)
+    packet['available_probe_menu'] = [name for name in packet['M_sources'] if name.startswith('actions/')]
     request = {'context': packet, 'scenes': scenes, 'images': images, 'H': str(trial / 'H'),
                'M_candidate': str(trial / 'M_actions'), 'M_program': str(stage / 'frozen_M' / label),
                'trace_folder': str(trial / 'trace'), 'result_folder': str(trial)}
@@ -399,7 +398,7 @@ def run_trial(p, stage, start, label, baseline, parent_selection):
         changed = {name for name in set(before) | set(after) if before.get(name) != after.get(name)}
         (trial / 'H.diff').write_text(''.join(''.join(difflib.unified_diff(before.get(name, '').splitlines(True), after.get(name, '').splitlines(True), fromfile='H_base/' + name, tofile='H_candidate/' + name)) for name in sorted(changed)))
         if changed:
-            evaluated = p.run_scene(p.manifest('selection')[0], candidate, label)
+            evaluated = p.run_scene(p.manifest('selection')[0], candidate, label, repeat=1)
             used = {str(Path(path).relative_to(trial / 'H')) for path in evaluated['loaded_H_modules']}
             effective = bool(changed & ({'policy.py', 'system.txt'} | used))
             accepted, gain, recovery = choose(evaluated, parent_selection, p.cfg()['evaluation']['promotion_delta'])
@@ -433,6 +432,7 @@ def write_report(stage, rows):
                'terminal_trials': len(rows), 'complete_valid_paired_starts': complete,
                'independent_test_sources': 1, 'unfamiliar_H_conditions': 2, 'K': 1,
                'MetaImp_at_1': sum(pair['paired_gain_difference'] for pair in pairs) / 2 if complete == 2 else None,
+               'promotion_delta': read(stage / 'stage_freeze.json')['promotion_delta'],
                'pairs': pairs, 'meta_capability_conclusion': 'Feasibility only; one continuous V3 trajectory, two H conditions and one Test source cannot establish general recursive improvement',
                'data_source': 'replay_results.csv and each trial/results record', 'plot_script': str(Path(__file__).resolve())}
     write(stage / 'replay_summary.json', summary)
@@ -474,6 +474,9 @@ def write_report(stage, rows):
 
 
 def run(main, stage):
+    _, problems = main_completion_check(main)
+    if problems:
+        raise RuntimeError('Replay pending: ' + '; '.join(problems))
     if not stage.exists():
         audit = readiness(main)
         if audit['status'] != 'ready_for_root_execution_decision':
@@ -482,12 +485,13 @@ def run(main, stage):
     if (stage / 'state.json').exists() and read(stage / 'state.json')['phase'] == 'all_scheduled_terminal':
         print('Frozen replay already terminal; no new proposal or resampling')
         return
+    assert read(stage / 'stage_freeze.json')['fixed_platform_snapshot']['version'] == PLATFORM_VERSION
     p = load_platform(stage)
     rows = []
     for index in range(2):
         start = f'B{index:02d}'
-        dev = [p.run_scene(s, start, 'shared_frozen_replay', evaluate_bw=False) for s in p.manifest('development')]
-        parent = p.run_scene(p.manifest('selection')[0], start, 'shared_frozen_replay')
+        dev = [p.run_scene(s, start, 'shared_frozen_replay', repeat=1, evaluate_bw=False) for s in p.manifest('development')]
+        parent = p.run_scene(p.manifest('selection')[0], start, 'shared_frozen_replay', repeat=1)
         order = ['M0', 'Mfinal'] if index == 0 else ['Mfinal', 'M0']
         for label in order:
             rows.append(run_trial(p, stage, start, label, dev, parent))
@@ -495,9 +499,9 @@ def run(main, stage):
           'selection_only': True, 'choices': rows, 'no_Test_feedback_used': True})
     for index in range(2):
         start = f'B{index:02d}'
-        baseline = p.run_scene(p.manifest('test')[0], start, 'shared_frozen_replay')
+        baseline = p.run_scene(p.manifest('test')[0], start, 'shared_frozen_replay', repeat=1)
         for row in [r for r in rows if r['start'] == start]:
-            tested = p.run_scene(p.manifest('test')[0], row['selected_H'], row['M'])
+            tested = p.run_scene(p.manifest('test')[0], row['selected_H'], row['M'], repeat=1)
             both = tested['bw']['evaluation_status'] == baseline['bw']['evaluation_status'] == 'completed'
             row.update(test_BW=tested['bw']['S_BW'], base_test_BW=baseline['bw']['S_BW'],
                        test_gain=tested['bw']['S_BW'] - baseline['bw']['S_BW'] if both else None,
@@ -566,9 +570,16 @@ def main():
         run(main_root, main_root / 'meta_replay_stage')
     else:
         # Match the V3 launcher's whole-tree CPU/RSS bound without editing it.
-        sys.path.insert(0, str(main_root / 'backend'))
+        _, problems = main_completion_check(main_root)
+        if problems:
+            raise RuntimeError('Replay pending: ' + '; '.join(problems))
+        platform = platform_snapshot_audit(main_root)
+        if not platform['eligible']:
+            raise RuntimeError('Replay pending: ' + platform['reason'])
+        platform_root = Path(platform['source'])
+        sys.path.insert(0, str(platform_root / 'backend'))
         from processes import cpu_environment, run_measured
-        c = read(main_root / 'config.json')
+        c = read(platform_root / 'config.json')
         with (HERE / 'replay_execution.lock').open('a') as own_lock, (main_root / 'experiment.lock').open('r') as main_lock:
             fcntl.flock(own_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
             fcntl.flock(main_lock, fcntl.LOCK_SH | fcntl.LOCK_NB)

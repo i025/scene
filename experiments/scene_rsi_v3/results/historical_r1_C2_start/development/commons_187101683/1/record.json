@@ -5,7 +5,7 @@
   "source_id": "commons_187101683",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,8 +23,8 @@
     "psnr": 11.42722783283141,
     "overall": 0.5326403483257726,
     "metric_timing": {
-      "model_load_seconds": 0.0002333167940378189,
-      "compute_seconds": 0.5877031278796494,
+      "model_load_seconds": 0.00019752001389861107,
+      "compute_seconds": 0.4692062372341752,
       "model_cache_hit": true,
       "threads": 8
     }
@@ -35,8 +35,8 @@
     "execution_status": "completed",
     "evaluation_status": "completed",
     "S_rubric": 100.0,
-    "S_dimension": 63.75,
-    "S_BW": 81.875,
+    "S_dimension": 65.0,
+    "S_BW": 82.5,
     "started": 1794002564.9948337,
     "images": [
       "author.png",
@@ -52,21 +52,27 @@
     "failure_type": null,
     "finished": 1794002574.7280445,
     "seconds": 9.733210802078247,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "The yellow sofa, left pillow, dark coffee table, two tea settings, flower pot, pale wall and right curtain clearly reconstruct the intended setting.",
+        "evidence": "Yellow sofa, left pillow, dark coffee table, two tea settings, flowers, rear wall and right curtain clearly reconstruct the scene identity.",
         "source_evidence": [
-          "author.png"
+          "author.png",
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R02",
         "score": 1,
-        "evidence": "The table remains in front of the sofa, with flowers between the cups, a pillow at left and curtain behind the right end. The main spatial identity is preserved.",
+        "evidence": "Table remains in front of the sofa, flowers between the cups, pillow on the left and curtain behind the right end. Frontal framing simplifies the reference perspective.",
         "source_evidence": [
           "author.png",
           "wide_01.png"
@@ -76,19 +82,20 @@
       {
         "id": "R03",
         "score": 1,
-        "evidence": "Furniture and tabletop objects retain broadly compatible relative sizes. The sofa is noticeably shallow and its base tall, but the arrangement remains a plausible simplified reconstruction.",
+        "evidence": "Furniture and tabletop objects have broadly compatible relative sizes. Sofa depth is compressed and its base unusually tall, but functions remain recognizable.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "wide_01.png",
+          "detail_01.png"
         ],
         "evidence_route": "either"
       },
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Warm yellow upholstery, dark table and pot, white cups, green foliage and gray curtain preserve the main color contrasts. Shapes and surfaces are substantially simplified.",
+        "evidence": "Warm yellow upholstery, dark table and pot, white cups, green foliage and gray curtain preserve the main color organization despite simplified surfaces.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ],
         "evidence_route": "render"
@@ -96,17 +103,17 @@
       {
         "id": "R05",
         "score": 1,
-        "evidence": "The author view is clearly illuminated with coherent shading and visible contents. Lighting is flatter and less directional than the reference, but preserves a bright indoor atmosphere. The blank evaluator view does not invalidate this.",
+        "evidence": "All principal objects are legible with coherent soft shadows. Lighting is flatter and less strongly right-directed than the reference, without obscuring content.",
         "source_evidence": [
           "author.png",
-          "wide_03.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "The complementary side view shows sofa depth, tabletop depth and cylindrical cup and pot volumes with changed occlusion, establishing genuine three-dimensional representation.",
+        "evidence": "Complementary side and detail views reveal furniture thickness, cup volumes and spatial separation, establishing genuine three-dimensional construction.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -117,17 +124,16 @@
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Actual mesh records locate sofa, table, cups and pot through parent chains. Box.024, Box.037, Rod.085, Rod.092 and Rod.098 have finite nonempty meshes and assigned materials with connected shader outputs; these are editable geometry rather than empty declarations.",
+        "evidence": "Actual hierarchy links locate sofa, table, tea settings and plant meshes. Box.013, Box.037, Rod.085, Rod.092 and Rod.098 are nonempty MESH objects with material slots; their assigned materials have connected surface shaders.",
         "source_evidence": [
-          "scene_facts.json.objects[object_id=Box.024].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.024].parent_chain",
-          "scene_facts.json.objects[object_id=Box.037].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Living room].children",
+          "scene_facts.json.objects[object_id=Box.013].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Box.037].parent_chain",
           "scene_facts.json.objects[object_id=Box.037].material_slots",
           "scene_facts.json.objects[object_id=Rod.085].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Rod.092].parent_chain",
-          "scene_facts.json.objects[object_id=Rod.098].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id=Rod.092].finite_nonempty_mesh",
           "scene_facts.json.objects[object_id=Rod.098].material_slots",
-          "scene_facts.json.materials.SceneActSurface_14.links",
+          "scene_facts.json.materials.SceneActSurface_11.links",
           "scene_facts.json.materials.SceneActSurface_17.links",
           "scene_facts.json.materials.SceneActSurface_21.links",
           "scene_facts.json.materials.SceneActSurface_24.links"
@@ -139,16 +145,16 @@
       {
         "id": "scene_fidelity",
         "score": 7,
-        "evidence": "The subject and main arrangement correspond clearly, while rigid upholstery, sparse flowers and angular curtains lose much of the reference character.",
+        "evidence": "Main composition is readily recognizable, but blocky upholstery, sparse flowers and rigid curtain folds lose much of the reference character.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "physics",
         "score": 7,
-        "evidence": "Furniture and tabletop items appear supported without major visible floating. Cups have flat, filled-looking tops, and the rigid pillow lacks convincing fabric compression.",
+        "evidence": "Furniture and tabletop objects appear supported. Rigid pillow construction and cup tops with little apparent cavity reduce physical credibility.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -158,18 +164,18 @@
       {
         "id": "style_color",
         "score": 6,
-        "evidence": "The main palette is preserved, but upholstery is paler and blockier; curtains resemble straight strips rather than flowing cloth.",
+        "evidence": "Major colors correspond, but the sofa is paler and flatter; curtain, cups and flowers have conspicuously simplified silhouettes.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "realism",
         "score": 4,
-        "evidence": "Primitive forms, mechanically arranged foliage, flat cup interiors and visible render noise limit believability despite consistent object recognition.",
+        "evidence": "Visible sampling noise, geometric fabric forms and sparse repetitive foliage give an early blockout appearance.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "wide_01.png",
           "detail_01.png"
         ]
@@ -177,7 +183,7 @@
       {
         "id": "layout_spatial",
         "score": 8,
-        "evidence": "The front/back and left/right relationships are closely retained, including the right-offset table and central flowers. The composition is more frontal and regular.",
+        "evidence": "Principal front/back and left/right relationships are preserved, with a plausible gap between sofa and table.",
         "source_evidence": [
           "author.png",
           "wide_01.png"
@@ -186,37 +192,38 @@
       {
         "id": "proportion_scale",
         "score": 6,
-        "evidence": "Table, cups and pot have reasonable relative sizes, but the sofa has a tall base and unusually shallow seating; the flower arrangement is narrower than the target.",
+        "evidence": "Table and accessories are plausibly sized, but the sofa has shallow seating, thin back cushions and a disproportionately tall lower base.",
         "source_evidence": [
-          "author.png",
-          "wide_01.png"
+          "wide_01.png",
+          "detail_01.png",
+          "author.png"
         ]
       },
       {
         "id": "lighting_material",
         "score": 5,
-        "evidence": "Illumination is readable and shadows coherent, but the reference's side-lit warmth and surface variation are weakly reproduced. Upholstery, wood and carpet lack distinct texture.",
+        "evidence": "Soft illumination maintains visibility, but weak directional contrast and uniform surface response poorly convey upholstery, wood and ceramic differences.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "completeness",
-        "score": 8,
-        "evidence": "All major furnishings and both tea settings are present, together with the wall, floor and right curtain. The bright window-edge treatment and smaller surface details are missing or simplified.",
+        "score": 9,
+        "evidence": "All principal furniture and accessory counts are present, including two cups and saucers, one pillow, flowers and the right curtain; finer textile and floral details are simplified.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "delivered_final.png"
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_187101683/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_187101683/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 223093,
-      "output_tokens": 1457,
+      "input_tokens": 235964,
+      "output_tokens": 1386,
       "observed_model": "unknown",
-      "seconds": 46.334736166056246
+      "seconds": 45.73698773793876
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -117358,9 +117365,9 @@
     },
     "interpretation": "Mechanical structure/material operation; no text editor or natural-image 3D ground truth. Support AABB approximate; optional collision crossings not full solidity truth."
   },
-  "e2e_utility": 81.875,
+  "e2e_utility": 82.5,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_187101683/1",
-  "seconds": 283.89727513864636,
+  "seconds": 47.122252232860774,
   "generation_seconds": 219.06637705815956,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

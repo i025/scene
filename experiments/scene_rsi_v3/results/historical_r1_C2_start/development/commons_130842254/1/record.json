@@ -5,7 +5,7 @@
   "source_id": "commons_130842254",
   "split": "development",
   "H_version": "historical_r1_C2_start",
-  "M_version": "M000",
+  "M_version": "M07",
   "repeat": 1,
   "status": "completed",
   "evaluation_status": "completed",
@@ -23,8 +23,8 @@
     "psnr": 10.662413412014368,
     "overall": 0.48998312355726953,
     "metric_timing": {
-      "model_load_seconds": 0.00027289101853966713,
-      "compute_seconds": 0.5379137326963246,
+      "model_load_seconds": 0.00016586994752287865,
+      "compute_seconds": 0.5840205731801689,
       "model_cache_hit": true,
       "threads": 8
     }
@@ -35,8 +35,8 @@
     "execution_status": "completed",
     "evaluation_status": "completed",
     "S_rubric": 100.0,
-    "S_dimension": 57.5,
-    "S_BW": 78.75,
+    "S_dimension": 61.25,
+    "S_BW": 80.625,
     "started": 1794002281.6923766,
     "images": [
       "author.png",
@@ -52,14 +52,20 @@
     "failure_type": null,
     "finished": 1794002293.4795353,
     "seconds": 11.787158727645874,
+    "delivered_images": [
+      "delivered_final.png"
+    ],
+    "delivery_evidence_version": "original_delivery_metadata_A02",
+    "native_evidence_version": "authored_native_project_facts_A03_lighting",
     "evaluation_error": null,
     "rubric_scores": [
       {
         "id": "R01",
         "score": 1,
-        "evidence": "The central stone feature, surrounding wooden worktable, dishes, rear arched hearth and grate, left cooking counter, and right alcove identify the historical kitchen. Furnishings are substantially simplified.",
+        "evidence": "The central stone feature, surrounding wooden worktable and vessels, large arched hearth with grate, left cooking counter, and right alcove clearly identify the kitchen. Architectural depth and furnishings are simplified.",
         "source_evidence": [
           "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ],
         "evidence_route": "render"
@@ -67,46 +73,47 @@
       {
         "id": "R02",
         "score": 1,
-        "evidence": "The table surrounds the central shaft in front of the hearth; the cooking counter remains left and floor vessels right. The principal spatial relationships survive.",
+        "evidence": "The table surrounds the central stone feature in front of the hearth; the counter remains left and the floor vessels right. Major adjacency and enclosure relationships remain recognizable.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R03",
         "score": 1,
-        "evidence": "Tableware, counter, table and hearth retain plausible relative sizes. The central shaft is slimmer and its cap more stepped than the reference, but the overall proportions remain recognizable.",
+        "evidence": "Table, vessels, counter, and hearth retain plausible relative sizes. The central shaft is noticeably slimmer and its cap more stepped, but overall proportions remain a reasonable simplified reconstruction.",
         "source_evidence": [
-          "author.png"
+          "author.png",
+          "wide_01.png"
         ],
         "evidence_route": "either"
       },
       {
         "id": "R04",
         "score": 1,
-        "evidence": "Pale masonry and plaster, brown wood, dark hearth and ironwork, and cream, ochre and gray vessels remain distinguishable. Surfaces are much cleaner and paler than the target.",
+        "evidence": "Pale masonry and walls, brown wood, dark hearth and ironwork, and cream, ochre, and gray vessels preserve the main color organization. Surfaces are much cleaner and more uniform than the target.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R05",
         "score": 1,
-        "evidence": "Soft illumination makes the authored scene legible with coherent contact shadows and dark hearth contrast. The blank wide_03.png evaluator view does not establish an authored lighting failure.",
+        "evidence": "Soft illumination keeps the authored composition legible, with coherent contact shadows and a dark hearth. The result is flatter and brighter than the reference but does not obscure major content.",
         "source_evidence": [
           "author.png",
-          "wide_03.png"
+          "delivered_final.png"
         ],
         "evidence_route": "render"
       },
       {
         "id": "R06",
         "score": 1,
-        "evidence": "The complementary views show actual table thickness, shaft side faces, projecting counter and changing occlusion, supporting a volumetric reconstruction.",
+        "evidence": "Complementary views show actual table thickness, projecting counter, volumetric shaft and cap, and changing occlusion. The scene is not a single image plane.",
         "source_evidence": [
           "author.png",
           "wide_01.png",
@@ -117,18 +124,17 @@
       {
         "id": "R07",
         "score": 1,
-        "evidence": "Actual mesh objects include the table top Box.106, shaft Box.094, counter Box.087 and vessel Ball.005, each with finite nonempty geometry, parent chains and material slots. Their assigned materials contain connected surface shaders.",
+        "evidence": "Actual mesh records locate the table, shaft, counter, vessels, and ironwork within parent hierarchies. Representative meshes have finite nonempty geometry and assigned materials with linked surface shaders.",
         "source_evidence": [
-          "scene_facts.json.objects[object_id=Box.106].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.106].parent_chain",
-          "scene_facts.json.objects[object_id=Box.106].material_slots",
-          "scene_facts.json.objects[object_id=Box.094].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Box.087].finite_nonempty_mesh",
-          "scene_facts.json.objects[object_id=Ball.005].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id='Box.106'].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id='Box.106'].parent_chain",
+          "scene_facts.json.objects[object_id='Box.106'].material_slots",
+          "scene_facts.json.objects[object_id='Box.094'].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id='Box.087'].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id='Ball.005'].finite_nonempty_mesh",
+          "scene_facts.json.objects[object_id='Rod.013'].finite_nonempty_mesh",
           "scene_facts.json.materials.SceneActSurface_19.links",
-          "scene_facts.json.materials.SceneActSurface_15.links",
-          "scene_facts.json.materials.SceneActSurface_13.links",
-          "scene_facts.json.materials.SceneActSurface_22.links"
+          "scene_facts.json.materials.SceneActSurface_15.links"
         ],
         "evidence_route": "scene_summary"
       }
@@ -137,80 +143,85 @@
       {
         "id": "scene_fidelity",
         "score": 6,
-        "evidence": "The defining arrangement is recognizable, but shallow hearth treatment, simplified shaft and sparse repetitive props lose much of the historical character.",
+        "evidence": "The distinctive kitchen arrangement is recognizable, but shallow arches, repetitive props, and the altered central silhouette reduce fidelity.",
         "source_evidence": [
           "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "physics",
-        "score": 6,
-        "evidence": "Table legs and counter provide visible support and most vessels sit plausibly. The large masonry feature appears carried by the wooden tabletop, while hearth openings read as shallow surface constructions.",
+        "score": 7,
+        "evidence": "Table legs and counter provide visible support and most props sit plausibly. Architectural openings read as shallow facades rather than substantial recesses.",
         "source_evidence": [
           "author.png",
-          "wide_01.png"
+          "wide_01.png",
+          "detail_01.png"
         ]
       },
       {
         "id": "style_color",
         "score": 6,
-        "evidence": "Broad material colors correspond, but pale uniform stone, regular tiles and the stair-stepped cap differ from the worn, irregular reference forms.",
+        "evidence": "Broad material colors correspond, but pale uniform surfaces, regular tiles, and a stair-stepped cap lose much of the historical character.",
         "source_evidence": [
-          "author.png"
+          "author.png",
+          "delivered_final.png"
         ]
       },
       {
         "id": "realism",
         "score": 4,
-        "evidence": "Repeated rounded dish primitives, featureless surfaces, shallow recesses and visible render noise produce a schematic model rather than a convincing historic interior.",
+        "evidence": "Primitive vessel shapes, flat architectural recesses, pristine surfaces, and visible render grain produce a schematic model appearance.",
         "source_evidence": [
-          "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       },
       {
         "id": "layout_spatial",
         "score": 7,
-        "evidence": "Main adjacency and front-back relationships are preserved; the room is more open and the peripheral furnishing distribution less dense.",
+        "evidence": "Main left/right and foreground/background relationships are preserved. The floor field and uniformly spaced props make the arrangement more regular and sparse.",
+        "source_evidence": [
+          "author.png",
+          "delivered_final.png"
+        ]
+      },
+      {
+        "id": "proportion_scale",
+        "score": 6,
+        "evidence": "Functional object sizes are broadly plausible, though the central shaft is slender, the cap has different proportions, and paving units look oversized.",
         "source_evidence": [
           "author.png",
           "wide_01.png"
         ]
       },
       {
-        "id": "proportion_scale",
-        "score": 6,
-        "evidence": "Major relative sizes are broadly plausible, though the central feature is slender, the table is squat and broad, and floor tiles are unusually regular.",
-        "source_evidence": [
-          "author.png"
-        ]
-      },
-      {
         "id": "lighting_material",
-        "score": 5,
-        "evidence": "Lighting is coherent and readable, but uniform matte responses and bright clean surfaces lose the reference's soot-darkened masonry, wood variation and deeper ambient shadows.",
+        "score": 6,
+        "evidence": "Soft shadows and clear exposure support legibility. Limited material variation and weak tonal depth miss the weathered, shadowed atmosphere.",
         "source_evidence": [
           "author.png",
-          "detail_01.png"
+          "delivered_final.png"
         ]
       },
       {
         "id": "completeness",
-        "score": 6,
-        "evidence": "Major architectural features and furnishing groups are present. Varied cookware, baskets, hanging implements and tabletop food displays are reduced to sparse generic substitutes.",
+        "score": 7,
+        "evidence": "Major architecture, central furniture, dishes, floor vessels, and ironwork are represented; secondary utensils, varied food displays, and hearth detail are substantially reduced.",
         "source_evidence": [
           "author.png",
+          "delivered_final.png",
           "detail_01.png"
         ]
       }
     ],
-    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_130842254/1/judge_1",
+    "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_130842254/1/judge_A03_1",
     "judge_usage": {
-      "input_tokens": 213756,
-      "output_tokens": 1405,
+      "input_tokens": 226738,
+      "output_tokens": 1410,
       "observed_model": "unknown",
-      "seconds": 43.504321875050664
+      "seconds": 46.159621600061655
     },
     "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
   },
@@ -94009,9 +94020,9 @@
     },
     "interpretation": "Mechanical structure/material operation; no text editor or natural-image 3D ground truth. Support AABB approximate; optional collision crossings not full solidity truth."
   },
-  "e2e_utility": 78.75,
+  "e2e_utility": 80.625,
   "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_130842254/1",
-  "seconds": 360.8871025526896,
+  "seconds": 47.634953167289495,
   "generation_seconds": 295.0592468800023,
   "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
   "device": "CPU",

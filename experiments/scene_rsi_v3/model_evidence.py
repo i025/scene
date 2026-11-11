@@ -137,6 +137,7 @@ def bound_payload(payload,limit=420000):
             if event['event']=='execute' and event['step'] in successful and isinstance(event['code'],str):
                 event['code']={'archived_successful_prototype':event['step'],'current_P':'development.program'}
                 changes.append({'scene_id':entry['scene_id'],'step':event['step'],'removed':'Earlier successful prototype code; all failed code/errors and current full P retained'})
-    payload['common_evidence_projection']={'original_compact_bytes':before,'limit_bytes':declared_limit,'changes':changes,'full_raw_evidence_retained_on_disk':True,'selection_criterion':'size and fixed source order only, never score'}
-    if size()>declared_limit:raise ValueError('Development evidence exceeds frozen byte budget after explicit projection: '+str(size()))
+    payload['common_evidence_projection']={'original_compact_bytes':before,'limit_bytes':declared_limit,'changes':changes,'full_raw_evidence_retained_on_disk':True,'selection_criterion':'size and fixed source order only, never score','encoding':'A04 compact JSON; projection order and intermediate legacy-size cutoffs unchanged'}
+    wire_size=len(json.dumps(payload,ensure_ascii=False,separators=(',',':')).encode())
+    if wire_size>declared_limit:raise ValueError('Development evidence exceeds frozen byte budget after explicit projection: '+str(wire_size))
     return payload['common_evidence_projection']

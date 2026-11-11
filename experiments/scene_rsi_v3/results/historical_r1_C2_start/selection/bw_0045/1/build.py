@@ -1,23 +1,26 @@
-# Reference inventory, estimated normalized image bounds:
-# - Raised concrete resting platform: (0.00, 0.46)-(1.00, 1.00), partly hidden
-#   by cows; front curb separates it from the straw-covered aisle.
-# - Recumbent Holstein cows: approximately (0.00, 0.27)-(0.84, 0.93).
-#   The nearest cow has a broad white body, black patches, folded legs, an udder,
-#   a dark head, pale muzzle, ears and a tail. Other cows overlap and are partly
-#   occluded by both their neighbors and the rails.
-# - Galvanized tubular stall dividers: (0.00, 0.15)-(1.00, 0.82). Repeated
-#   elongated curved rails and upright supports overlap the cows. Far ends are
-#   obscured or outside the frame.
-# - Back wall: (0.00, 0.00)-(1.00, 0.32), gray concrete below pale panels, with
-#   blue structural posts and a blue door near the left center.
-# - A partially visible worker stands at the far right, behind the rails.
-# - Foreground aisle contains sparse straw and patches of darker wet concrete.
+# Reference inventory (approximate normalized image bounds):
+# - Concrete lower wall and pale upper panels (0, 0)-(1, .34), blue posts,
+#   and blue double door near (.38, .10). The wall extends beyond the frame.
+# - Repeated galvanized stall dividers (0, .15)-(1, .81): long upper rails,
+#   curved returns, open gaps and floor-mounted upright supports.
+# - Reclining Holstein cows (0, .25)-(.84, .93), overlapping one another and
+#   the dividers. The nearest shows a broad flank, dark head and pale muzzle,
+#   folded legs, udder, soiled rump and tail. Far animals are partly obscured.
+# - Raised concrete beds and curb (0, .50)-(1, 1), straw-covered aisle at
+#   lower left, and scattered damp marks on the concrete at lower right.
+# - Worker in blue at the far right, partly occluded by the equipment.
 #
-# Expanded primitive estimate: architecture ~18; platform and aisle ~12;
-# eight stall dividers at 15 primitives each ~120; cross rails and uprights
-# ~20; five cows at about 19 primitives each ~95; worker ~8; scattered straw
-# and floor marks ~35. Total approximately 310 mesh primitives.
-# Cows and stall layout remain separate named assets with editable child parts.
+# Review of the second render: the row recedes toward the center of the
+# image, while the reference shows a much more lateral view, with several
+# cows spread across the frame. The foreground cow's head and the worker
+# are obscured or outside the view. The hide pattern is too finely mottled,
+# and the bedding aisle is missing from the foreground. This revision moves
+# the camera to the other side of the row, lowers it, uses larger coat
+# markings, and keeps the wall and floor continuous beyond the frame.
+#
+# Expanded primitive estimate: architecture and beds ~30; 10 dividers at
+# 17 primitives each plus cross rails ~173; 8 cows at ~22 each ~176;
+# worker ~7; bedding and marks ~36. Total approximately 422 primitives.
 
 from sceneact import *
 import bpy
@@ -25,174 +28,238 @@ import math
 import random
 
 random.seed(17)
+scene = Scene("Modern dairy barn free stalls")
 
-scene = Scene("Modern dairy free-stall barn")
-
-concrete = (0.48, 0.49, 0.47)
-curbmat = (0.52, 0.53, 0.51)
-floorgray = (0.43, 0.44, 0.41)
-wallgray = (0.40, 0.42, 0.42)
-panelwhite = (0.72, 0.75, 0.75)
-blue = (0.025, 0.12, 0.27)
-steel = (0.57, 0.61, 0.61)
-white = (0.79, 0.77, 0.69)
-black = (0.035, 0.038, 0.034)
-pink = (0.53, 0.38, 0.34)
-hoof = (0.19, 0.18, 0.16)
-straw = (0.48, 0.43, 0.29)
+concrete = (.43, .44, .42)
+wallgray = (.39, .41, .40)
+panelwhite = (.73, .75, .75)
+blue = (.018, .065, .15)
+steel = (.52, .56, .56)
+white = (.72, .70, .62)
+black = (.025, .028, .025)
+pink = (.48, .34, .30)
+hoof = (.15, .14, .12)
 
 def ellipsoid(center, scale, color):
-    n = ball(1, center=center, color=color)
-    n.resize(scale, pivot=center)
-    return n
+    obj = ball(1, center=center, color=color)
+    obj.resize(scale, pivot=center)
+    return obj
 
-# Enclosing architecture and the long working surfaces.
-building = Asset("Barn architecture")
-building.include("concrete floor", box((16, 15, .16), center=(0, 0, -.13), color=floorgray))
-building.include("rear concrete wall", box((16, .20, 1.55), center=(0, 5.1, .77), color=wallgray))
-building.include("upper light wall panels", box((16, .18, 2.6), center=(0, 5.1, 2.85), color=panelwhite))
-for x in (-7.1, -3.55, 0, 3.55, 7.1):
-    building.include("blue structural post %.2f" % x,
-                     box((.15, .24, 4.3), center=(x, 4.96, 2.15), color=blue))
-for x in (-6.0, -4.8, -2.4, -1.2, 1.2, 2.4, 4.8, 6.0):
-    building.include("panel seam %.2f" % x,
-                     box((.024, .025, 2.55), center=(x, 4.98, 2.85), color=(.47,.51,.52)))
-building.include("blue door", box((1.40, .07, 2.15), center=(-2.45, 4.94, 1.08), color=blue))
-building.include("door inset upper", box((1.15, .025, .79), center=(-2.45, 4.89, 1.51), color=(.035,.16,.34)))
-building.include("door inset lower", box((1.15, .025, .82), center=(-2.45, 4.89, .55), color=(.025,.12,.27)))
-building.include("door horizontal rail", box((1.3,.045,.065), center=(-2.45,4.86,1.02), color=(.10,.23,.38)))
-scene.include("barn", building)
+barn = Asset("Barn architecture")
+barn.include("continuous concrete floor",
+             box((28, 22, .16), center=(0, 0, -.14),
+                 color=(.35, .36, .33)))
+barn.include("lower concrete wall",
+             box((28, .20, 1.50), center=(0, 5.15, .75),
+                 color=wallgray))
+barn.include("upper insulated panels",
+             box((28, .18, 3.0), center=(0, 5.15, 3.0),
+                 color=panelwhite))
+for i, x in enumerate((-10.7, -7.1, -3.55, 0, 3.55, 7.1, 10.7)):
+    barn.include("blue structural column %02d" % i,
+                 box((.16, .25, 4.5), center=(x, 5.00, 2.25),
+                     color=blue))
+for i, x in enumerate((-8.3, -6.0, -4.8, -2.4, -1.2, 1.2, 2.4, 4.8, 6.0, 8.3)):
+    barn.include("vertical panel seam %02d" % i,
+                 box((.018, .025, 2.9), center=(x, 5.04, 2.95),
+                     color=(.48, .51, .50)))
+barn.include("blue door frame",
+             box((1.55, .08, 2.20), center=(-2.45, 5.01, 1.10),
+                 color=(.012, .045, .11)))
+barn.include("blue double door",
+             box((1.38, .025, 1.98), center=(-2.45, 4.95, 1.08),
+                 color=(.02, .08, .18)))
+barn.include("door middle stile",
+             box((.055, .025, 1.98), center=(-2.45, 4.925, 1.08),
+                 color=(.015, .052, .12)))
+barn.include("door cross bar",
+             box((1.38, .025, .055), center=(-2.45, 4.92, 1.04),
+                 color=(.015, .052, .12)))
+scene.include("barn architecture", barn)
 
-platform = Asset("Raised concrete beds")
-platform.include("platform slab", box((13, 6.8, .22), center=(0, .65, .05), color=concrete))
-platform.include("front curb", box((13, .18, .28), center=(0, -2.79, .10), color=curbmat))
-for x in (-4.8, -2.4, 0, 2.4, 4.8):
-    platform.include("slab joint %.1f" % x, box((.018,6.65,.008), center=(x,.65,.165), color=(.31,.32,.30)))
-scene.include("resting platform", platform)
+beds = Asset("Raised resting beds and aisle")
+beds.include("resting slab",
+             box((22, 8.0, .20), center=(0, 1.15, .05),
+                 color=concrete))
+beds.include("front curb",
+             box((22, .17, .28), center=(0, -2.88, .08),
+                 color=(.48, .49, .46)))
+beds.include("bedding aisle",
+             box((22, 5.0, .025), center=(0, -5.42, -.04),
+                 color=(.37, .34, .24)))
+for i, x in enumerate((-7.2, -4.8, -2.4, 0, 2.4, 4.8, 7.2)):
+    beds.include("slab joint %02d" % i,
+                 box((.015, 7.9, .006), center=(x, 1.15, .154),
+                     color=(.28, .29, .27)))
+scene.include("raised beds", beds)
 
-# Stall dividers lie in vertical X/Z planes. Each has a long open side and
-# curved return, so the occupied space and gaps remain visible between cows.
 stalls = Asset("Galvanized stall partitions")
-for j in range(8):
-    y = -2.35 + j * .96
-    pts = [(-2.65,y,1.34), (-1.95,y,1.36), (.65,y,1.36),
-           (1.25,y,1.32), (1.44,y,1.18), (1.43,y,.80),
-           (1.27,y,.68), (.83,y,.69)]
+for j in range(10):
+    y = -2.36 + j * .94
+    points = [
+        (-2.85, y, 1.35), (-1.95, y, 1.36),
+        (.63, y, 1.36), (1.20, y, 1.33),
+        (1.43, y, 1.19), (1.43, y, .84),
+        (1.29, y, .70), (.82, y, .70)
+    ]
     stalls.include("curved divider %02d" % j,
-                   sweep_tube(points=pts, radius=.038, color=steel))
-    stalls.include("floor upright %02d" % j,
-                   rod(.044, start=(1.38,y,.17), end=(1.38,y,1.19), color=steel))
-    stalls.include("rear foot %02d" % j,
-                   rod(.035, start=(-2.40,y,.17), end=(-2.40,y,1.35), color=steel))
-# Rails running across the row provide continuity and overlapping depth.
-for x,z in [(-2.40,1.36), (1.33,1.32)]:
-    stalls.include("cross rail %.2f" % x,
-                   rod(.037, start=(x,-2.65,z), end=(x,4.78,z), color=steel))
+                   sweep_tube(points=points, radius=.038, color=steel))
+    stalls.include("front upright %02d" % j,
+                   rod(.043, start=(1.38, y, .16),
+                       end=(1.38, y, 1.21), color=steel))
+    stalls.include("rear upright %02d" % j,
+                   rod(.035, start=(-2.55, y, .16),
+                       end=(-2.55, y, 1.35), color=steel))
+for i, (x, z) in enumerate(((-2.55, 1.36), (1.35, 1.31), (1.46, .42))):
+    stalls.include("continuous cross rail %02d" % i,
+                   rod(.035, start=(x, -2.9, z),
+                       end=(x, 6.4, z), color=steel))
 scene.include("stall equipment", stalls)
 
-# A cow is built from broad smooth volumes and visible irregular patches.
-# Neighboring cows share the same scale but vary their markings and poses.
+coat_tag = (.72, .70, .62)
+dark_coat = (.07, .07, .06)
+
 def make_cow(name, x, y, scale=1.0, variant=0):
     cow = Asset(name)
     s = scale
-    def point(a,b,c):
-        return (x+a*s, y+b*s, .17+c*s)
-    def blob(label, a,b,c, sx,sy,sz, col):
-        cow.include(label, ellipsoid(point(a,b,c), (sx*s,sy*s,sz*s), col))
 
-    blob("barrel", -.25,0,.55, 1.02,.43,.43, white)
-    blob("rounded rump", -1.00,0,.48, .49,.41,.37, white)
-    blob("shoulder", .42,0,.56, .53,.41,.43, white)
-    blob("neck", .88,0,.64, .48,.30,.32, black)
-    blob("head", 1.20,-.02,.62, .36,.24,.25, black)
-    blob("muzzle", 1.48,-.03,.53, .18,.20,.13, (0.51,.46,.43))
-    blob("wet nose", 1.59,-.04,.54, .09,.15,.075, (0.20,.20,.19))
-    blob("near ear", 1.16,-.27,.78, .19,.105,.065, black)
-    blob("far ear", 1.11,.27,.78, .18,.10,.06, black)
-    blob("near eye", 1.31,-.234,.71, .035,.020,.035, (0.01,.01,.01))
-    blob("folded front leg", .57,-.20,.22, .47,.18,.14, white)
-    blob("front hoof", .93,-.22,.20, .18,.16,.09, hoof)
-    blob("folded hind leg", -.83,-.16,.22, .44,.25,.16, white)
-    blob("hind hoof", -1.15,-.27,.18, .19,.14,.09, hoof)
-    blob("udder", -.67,-.08,.20, .31,.24,.17, pink)
+    def p(a, b, c):
+        return (x + a*s, y + b*s, .16 + c*s)
 
-    # Visible side patches: thin ellipsoids on the camera-facing side of barrel.
-    patches = [(-.62,-.403,.65,.29,.035,.23),
-               (-.05,-.424,.56,.26,.035,.27),
-               (.43,-.382,.70,.22,.035,.23),
-               (-.95,-.34,.39,.25,.035,.16)]
-    if variant % 2:
-        patches = [(-.76,-.39,.66,.38,.035,.20),
-                   (-.23,-.426,.46,.24,.035,.22),
-                   (.27,-.405,.64,.34,.035,.27)]
-    for i,(a,b,c,sx,sy,sz) in enumerate(patches):
-        blob("side marking %d" % i,a,b,c,sx,sy,sz,black)
-    blob("top marking", -.22,.04,.94, .36,.26,.028, black)
-    tailpts = [point(-1.32,.10,.45), point(-1.48,-.03,.20),
-               point(-1.57,-.12,.06), point(-1.77,-.25,.045)]
-    cow.include("tail", sweep_tube(points=tailpts, radius=.025*s, color=(.25,.23,.19)))
+    def blob(label, a, b, c, sx, sy, sz, col):
+        cow.include(label, ellipsoid(p(a, b, c),
+                                     (sx*s, sy*s, sz*s), col))
+
+    base = coat_tag if variant != 1 else dark_coat
+    blob("broad barrel", -.22, 0, .56, 1.02, .45, .44, base)
+    blob("rounded rump", -.97, 0, .49, .48, .42, .38, base)
+    blob("shoulder", .43, 0, .55, .52, .40, .42, base)
+    blob("neck", .86, 0, .65, .45, .30, .31, black)
+    blob("head", 1.19, -.02, .64, .34, .23, .24, black)
+    blob("pale muzzle", 1.46, -.03, .53, .18, .19, .12,
+         (.48, .43, .40))
+    blob("wet nose", 1.57, -.035, .54, .09, .15, .07,
+         (.12, .13, .12))
+    blob("near ear", 1.12, -.26, .79, .18, .10, .06, black)
+    blob("far ear", 1.12, .25, .79, .18, .10, .06, black)
+    blob("near eye", 1.29, -.235, .71, .03, .018, .03,
+         (.008, .008, .008))
+    blob("folded front leg", .56, -.20, .21, .48, .18, .13, base)
+    blob("front hoof", .94, -.22, .19, .17, .15, .085, hoof)
+    blob("folded hind leg", -.82, -.17, .22, .44, .24, .15, base)
+    blob("hind hoof", -1.15, -.25, .18, .18, .14, .09, hoof)
+    blob("udder", -.64, -.10, .18, .30, .22, .15, pink)
+    blob("soiled rump", -1.17, -.23, .42, .24, .19, .24,
+         (.32, .30, .23))
+    cow.include("tail",
+                sweep_tube(points=[p(-1.30, .10, .44),
+                                   p(-1.46, -.02, .20),
+                                   p(-1.56, -.14, .04),
+                                   p(-1.78, -.25, .025)],
+                           radius=.023*s, color=(.24, .22, .18)))
     return cow
 
-# Bodies point toward the head rail. The nearest animals have the largest
-# visible area; rear animals are partially obscured by the intervening rails.
-cow_positions = [
-    (-.15,-1.86,1.03,0),
-    (-.42,-.86,1.00,1),
-    (-.65,.15,.98,0),
-    (-.38,1.18,.95,1),
-    (-.70,2.18,.92,0),
-    (-.35,3.15,.90,1),
-    (-.75,4.05,.86,0),
+positions = [
+    (-.15, -1.87, 1.08, 0),
+    (-.43, -.92, 1.04, 1),
+    (-.68, .04, 1.01, 0),
+    (-.40, 1.02, .99, 1),
+    (-.73, 1.98, .97, 0),
+    (-.40, 2.93, .95, 1),
+    (-.76, 3.87, .92, 0),
+    (-.48, 4.79, .90, 0),
 ]
-for k,(x,y,s,v) in enumerate(cow_positions):
-    scene.include("cow %02d" % (k+1), make_cow("Holstein %02d" % (k+1),x,y,s,v))
+for k, (x, y, s, v) in enumerate(positions):
+    scene.include("cow %02d" % k, make_cow("Holstein %02d" % k, x, y, s, v))
 
-# Sparse, thin bedding strands and dark wet marks keep the floor readable.
-bedding = Asset("Bedding and aisle marks")
-for i in range(22):
-    x = random.uniform(-6.0, 5.0)
-    y = random.uniform(-5.3, -2.95)
-    length = random.uniform(.18,.55)
-    angle = random.uniform(-.5,.5)
-    bedding.include("straw strand %02d" % i,
-        rod(.008, start=(x,y,.005),
-            end=(x+length*math.cos(angle),y+length*math.sin(angle),.006),
-            color=straw))
+surface = Asset("Bedding and floor marks")
+for i in range(24):
+    x = random.uniform(-6, 5)
+    y = random.uniform(-5.7, -3.0)
+    length = random.uniform(.14, .45)
+    angle = random.uniform(-1.0, 1.0)
+    surface.include("straw %02d" % i,
+                    rod(.006, start=(x, y, -.023),
+                        end=(x + length*math.cos(angle),
+                             y + length*math.sin(angle), -.022),
+                        color=(.55, .47, .29)))
 for i in range(12):
-    x = random.uniform(1.7,5.3)
-    y = random.uniform(-2.5,.2)
-    bedding.include("wet floor patch %02d" % i,
-        ellipsoid((x,y,.174), (random.uniform(.08,.25),random.uniform(.06,.16),.006),
-                  (.28,.30,.28)))
-scene.include("bedding and marks", bedding)
+    x = random.uniform(1.7, 5.0)
+    y = random.uniform(-2.55, 1.2)
+    surface.include("damp patch %02d" % i,
+                    ellipsoid((x, y, .154),
+                              (random.uniform(.07, .23),
+                               random.uniform(.05, .14), .005),
+                              (.25, .27, .25)))
+scene.include("bedding and marks", surface)
 
-# A worker in the far aisle provides a human scale reference.
 worker = Asset("Worker in blue coveralls")
-worker.include("torso", ellipsoid((5.35,4.65,1.29),(.23,.15,.39),(.07,.19,.35)))
-worker.include("head", ellipsoid((5.35,4.64,1.79),(.13,.12,.17),(.42,.29,.23)))
-worker.include("dark hair", ellipsoid((5.35,4.65,1.91),(.14,.12,.08),(.07,.06,.05)))
-worker.include("left leg", rod(.085,start=(5.25,4.65,.15),end=(5.28,4.65,.98),color=(.10,.13,.19)))
-worker.include("right leg", rod(.085,start=(5.46,4.65,.15),end=(5.42,4.65,.98),color=(.10,.13,.19)))
-worker.include("left arm", rod(.07,start=(5.17,4.65,1.50),end=(5.05,4.55,1.05),color=(.07,.19,.35)))
-worker.include("right arm", rod(.07,start=(5.51,4.65,1.48),end=(5.61,4.53,1.09),color=(.07,.19,.35)))
+worker.include("torso", ellipsoid((5.35, 4.70, 1.29),
+                                  (.22, .15, .38), (.045, .13, .25)))
+worker.include("head", ellipsoid((5.35, 4.69, 1.78),
+                                 (.12, .11, .16), (.38, .27, .21)))
+worker.include("hair", ellipsoid((5.35, 4.70, 1.90),
+                                 (.13, .11, .07), (.06, .05, .04)))
+worker.include("left leg", rod(.08, start=(5.25, 4.70, .15),
+                                end=(5.28, 4.70, .98), color=(.08, .10, .14)))
+worker.include("right leg", rod(.08, start=(5.45, 4.70, .15),
+                                 end=(5.41, 4.70, .98), color=(.08, .10, .14)))
+worker.include("left arm", rod(.065, start=(5.17, 4.70, 1.49),
+                                end=(5.04, 4.57, 1.07), color=(.045, .13, .25)))
+worker.include("right arm", rod(.065, start=(5.52, 4.70, 1.48),
+                                 end=(5.61, 4.56, 1.09), color=(.045, .13, .25)))
 scene.include("worker", worker)
 
 realize(scene)
 
-# Configure material response after realization. SceneAct creates one material
-# for each finish; classify by approximate base color.
+# Shared irregular hide material. Broad noise produces large black patches;
+# smaller noise perturbs their edges.
+coat = bpy.data.materials.new("Irregular Holstein hide")
+coat.use_nodes = True
+nodes = coat.node_tree.nodes
+links = coat.node_tree.links
+bsdf = nodes.get("Principled BSDF")
+bsdf.inputs["Roughness"].default_value = .82
+tex = nodes.new("ShaderNodeTexNoise")
+tex.inputs["Scale"].default_value = 1.8
+tex.inputs["Detail"].default_value = 2.0
+tex.inputs["Roughness"].default_value = .58
+tex.inputs["Distortion"].default_value = .25
+coord = nodes.new("ShaderNodeTexCoord")
+ramp = nodes.new("ShaderNodeValToRGB")
+ramp.color_ramp.elements[0].position = .43
+ramp.color_ramp.elements[0].color = (.018, .021, .018, 1)
+ramp.color_ramp.elements[1].position = .47
+ramp.color_ramp.elements[1].color = (.72, .70, .62, 1)
+links.new(coord.outputs["Generated"], tex.inputs["Vector"])
+links.new(tex.outputs["Fac"], ramp.inputs["Fac"])
+links.new(ramp.outputs["Color"], bsdf.inputs["Base Color"])
+
+for obj in bpy.data.objects:
+    if obj.type != 'MESH':
+        continue
+    for i, mat in enumerate(obj.data.materials):
+        if not mat:
+            continue
+        c = mat.diffuse_color
+        if abs(c[0]-.72) < .015 and abs(c[1]-.70) < .015 and abs(c[2]-.62) < .015:
+            obj.data.materials[i] = coat
+
 for mat in bpy.data.materials:
+    if mat == coat:
+        continue
     mat.use_nodes = True
-    bsdf = mat.node_tree.nodes.get("Principled BSDF")
-    if bsdf:
-        c = bsdf.inputs["Base Color"].default_value
-        if abs(c[0]-.57)<.04 and abs(c[1]-.61)<.04 and abs(c[2]-.61)<.04:
-            bsdf.inputs["Metallic"].default_value = .72
-            bsdf.inputs["Roughness"].default_value = .27
-        elif c[0] < .08 and c[1] < .08 and c[2] < .08:
-            bsdf.inputs["Roughness"].default_value = .64
-        else:
-            bsdf.inputs["Roughness"].default_value = .83
+    bs = mat.node_tree.nodes.get("Principled BSDF")
+    if not bs:
+        continue
+    c = bs.inputs["Base Color"].default_value
+    if abs(c[0]-.52) < .025 and abs(c[1]-.56) < .025 and abs(c[2]-.56) < .025:
+        bs.inputs["Metallic"].default_value = .72
+        bs.inputs["Roughness"].default_value = .28
+    elif abs(c[0]-.12) < .015 and abs(c[1]-.13) < .015:
+        bs.inputs["Roughness"].default_value = .23
+    else:
+        bs.inputs["Roughness"].default_value = .82
 
 sc = bpy.context.scene
 if sc.world is None:
@@ -205,9 +272,11 @@ output = sc.world.node_tree.nodes.get("World Output")
 if output is None:
     output = sc.world.node_tree.nodes.new("ShaderNodeOutputWorld")
 sc.world.node_tree.links.new(background.outputs["Background"], output.inputs["Surface"])
-background.inputs["Color"].default_value = (0.69,0.76,0.82,1)
-background.inputs["Strength"].default_value = .65
+background.inputs["Color"].default_value = (.68, .73, .78, 1)
+background.inputs["Strength"].default_value = .55
 
-set_view((7.7,-12.8,5.7), (0,.65,.75), lens=38)
-area_emitter((0,-1,7), power=1800, size=8, target=(0,0,0), color=(.80,.88,1.0))
-area_emitter((-5,3,5), power=900, size=6, target=(0,1,0), color=(.86,.92,1.0))
+set_view((-7.0, -10.0, 3.5), (0, .55, .85), lens=49)
+area_emitter((0, -1, 7), power=1500, size=8,
+             target=(0, 0, 0), color=(.82, .88, 1.0))
+area_emitter((-5, 3, 5), power=650, size=6,
+             target=(0, 1, 0), color=(.87, .92, 1.0))

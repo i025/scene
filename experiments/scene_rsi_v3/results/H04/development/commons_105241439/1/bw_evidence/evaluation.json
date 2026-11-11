@@ -1,0 +1,201 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 61.25,
+  "S_BW": 80.625,
+  "started": 1794353856.0290682,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_105241439/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794353864.8915138,
+  "seconds": 8.862445592880249,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The two-panel green board, blue lower wall, pale upper wall, hanging notice, and three desk/chair arrangements clearly identify the reference classroom.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The notice remains above the board, with the rear desk left of center and foreground desks on the left and right. The principal wall and furniture relationships are preserved.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Board aspect ratio, notice size, and projected desk widths closely correspond to the target. Furniture proportions are simplified but remain recognizable.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Green board, blue paint, cream wall, pale wooden furniture, and gray supports retain distinct surface identities. Colors are lighter and wear is less convincing than the target.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Bright, soft illumination leaves all principal content legible. Reduced contrast and visible sampling noise weaken the atmosphere without obscuring the scene.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views reveal tabletop depth, separate legs, chair seats, and furniture spacing in front of the wall, establishing genuine three-dimensional construction.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual wall, board, notice, desk and chair components are finite nonempty meshes with material slots and addressable parent chains. Their materials contain connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id='Box'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.004'].material_slots",
+        "scene_facts.json.objects[object_id='Box.032'].parent_chain",
+        "scene_facts.json.objects[object_id='Box.047'].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id='Box.044'].parent_chain",
+        "scene_facts.json.objects[object_id='Rod.004'].finite_nonempty_mesh",
+        "scene_facts.json.materials['Left board wiped surface'].links",
+        "scene_facts.json.materials.SceneActSurface_19.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 7,
+      "evidence": "Strong correspondence in composition and major content, but the distinctive erased chalk swirls, aged surfaces, and furniture contours are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Desks have plausible leg arrangements, but chairs have only two short back-support rods and no complete ground-reaching support structure, making the seats physically unconvincing.",
+      "source_evidence": [
+        "wide_01.png",
+        "scene_facts.json.objects[object_id='rear_chair'].children",
+        "scene_facts.json.objects[object_id='foreground_left_chair'].children",
+        "scene_facts.json.objects[object_id='Rod.002'].world_aabb_approx",
+        "scene_facts.json.objects[object_id='Box.002'].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "The principal palette matches, but washed-out wood and blue paint, rectangular chair backs, and uniform vertical board streaks lose much of the reference character.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Visible render noise, sharp primitive furniture shapes, sparse construction details, and minimal aging produce a rough model appearance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 8,
+      "evidence": "Principal horizontal and vertical placements closely match, and alternate views establish consistent foreground and rear furniture spacing.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Major projected proportions fit the target well, though the rear chair's large seat-to-back separation and tall desk-to-seat relationship are less convincing in depth.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Soft lighting provides clear visibility and coherent shadows, but weak tonal contrast, generic furniture surfaces, and noisy shading reduce material credibility.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 8,
+      "evidence": "All major reference-visible object categories and furniture counts are represented. Chair support construction and characteristic wear details remain incomplete.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "scene_facts.json.objects[object_id='Classroom'].children",
+        "scene_facts.json.objects[object_id='rear_chair'].children"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_105241439/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 85910,
+    "output_tokens": 1468,
+    "observed_model": "unknown",
+    "seconds": 45.97516923118383
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

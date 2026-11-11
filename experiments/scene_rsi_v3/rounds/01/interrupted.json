@@ -1,0 +1,6 @@
+{
+  "phase": "evaluation",
+  "error": "RuntimeError('Service submissions paused: __EXPERIMENT_ROOT__/protocol_pause.json')",
+  "traceback": "Traceback (most recent call last):\n  File \"__EXPERIMENT_ROOT__/pilot.py\", line 302, in run_round\n    m_ok=False;write_json(folder/'M_validation_error.json',{'error':repr(error)})\n                  ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"__EXPERIMENT_ROOT__/pilot.py\", line 189, in selection\n  File \"__EXPERIMENT_ROOT__/pilot.py\", line 189, in <listcomp>\n  File \"__EXPERIMENT_ROOT__/pilot.py\", line 66, in run_scene\n    check_service_pause()\n  File \"__EXPERIMENT_ROOT__/backend/codex_wrapper.py\", line 24, in check_service_pause\n    raise RuntimeError('Service submissions paused: '+str(pause))\nRuntimeError: Service submissions paused: __EXPERIMENT_ROOT__/protocol_pause.json\n",
+  "round_complete": false
+}

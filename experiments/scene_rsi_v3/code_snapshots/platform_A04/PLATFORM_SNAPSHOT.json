@@ -1,0 +1,140 @@
+{
+  "time_utc": "2026-11-10T21:54:40.861005+00:00",
+  "nature": "as-run lossless JSON encoding repair; not an M descendant",
+  "first_effective_round": 7,
+  "completed_rounds_preserved": 6,
+  "evaluation_platform_version_unchanged": "V3_A03_native_lighting_and_explicit_operator_repeats",
+  "research_packet_version": "A04_lossless_compact_JSON",
+  "code_snapshot": "code_snapshots/platform_A04",
+  "protocol": "PROTOCOL_AMENDMENT_04.md",
+  "failure": {
+    "phase": "evidence_packaging",
+    "error": "Development evidence exceeds frozen byte budget after explicit projection: 428577",
+    "round_complete": false,
+    "M_call_started": false,
+    "candidate_produced": false,
+    "launch": "launches/004_resume.json",
+    "failure_class": "fixed_platform_context_byte_limit"
+  },
+  "tests": {
+    "status": "passed",
+    "panels": [
+      {
+        "H": "historical_r1_C2_start",
+        "start": 0,
+        "bytes": 397908
+      },
+      {
+        "H": "historical_r1_C2_start",
+        "start": 3,
+        "bytes": 395906
+      },
+      {
+        "H": "historical_r1_C2_start",
+        "start": 6,
+        "bytes": 396163
+      },
+      {
+        "H": "historical_r1_C2_start",
+        "start": 9,
+        "bytes": 392256
+      },
+      {
+        "H": "H02",
+        "start": 6,
+        "bytes": 392888
+      },
+      {
+        "H": "H02",
+        "start": 9,
+        "bytes": 388413
+      },
+      {
+        "H": "H04",
+        "start": 0,
+        "bytes": 391452
+      },
+      {
+        "H": "H04",
+        "start": 3,
+        "bytes": 397112
+      },
+      {
+        "H": "H04",
+        "start": 6,
+        "bytes": 405383
+      }
+    ],
+    "legacy_comparison": [
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": null,
+        "evidence_fields_identical": true
+      },
+      {
+        "legacy_error": "Development evidence exceeds frozen byte budget after explicit projection: 428577",
+        "evidence_fields_identical": true
+      }
+    ],
+    "actual_failed_packet_default_bytes": 428577,
+    "actual_failed_packet_compact_bytes": 405383,
+    "stub_calls": [
+      {
+        "prompt_bytes": 407916,
+        "attachments": 6
+      }
+    ],
+    "same_evidence_fields": true,
+    "new_CLI_calls": 0,
+    "new_Blender_jobs": 0,
+    "packet_limit_bytes": 420000,
+    "M_prompt_limit_bytes": 480000
+  },
+  "H_M_sources_unchanged": true,
+  "new_model_calls": 0,
+  "new_Blender_jobs": 0,
+  "M_resampling": false,
+  "actual_usage_at_freeze": {
+    "cli_sessions": 243,
+    "render_attempts": 627,
+    "known_input_tokens": 17890401,
+    "known_output_tokens": 789679,
+    "usage_known_sessions": 242,
+    "usage_unknown_sessions": 1,
+    "observable_tool_calls": 0
+  },
+  "final_reserve_fraction": 0.25,
+  "total_caps_unchanged": {
+    "max_cli_sessions": 1200,
+    "max_render_frames": 3000,
+    "max_input_tokens": 40000000,
+    "max_output_tokens": 3000000
+  }
+}

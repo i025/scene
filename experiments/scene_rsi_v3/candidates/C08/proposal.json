@@ -1,0 +1,1119 @@
+{
+  "changes": [
+    {
+      "target": "H",
+      "path": "policy.py",
+      "content": "import json\nfrom pathlib import Path\nimport re\n\n\nPROJECTION_GUIDANCE = '''\nUse a small numerical projection check before committing camera changes. Choose a few\nexplicit world-space landmarks corresponding to reference points you can actually identify:\nfor example a window corner, a furniture top corner and a foreground contour endpoint.\nRecord reference estimates separately from computed projections. Use points on geometry,\nnot an EMPTY's origin or a whole-room bounding box. Include foreground and background.\nAfter realize and set_view, update Blender's view layer. For a world point p, project using:\n    from mathutils import Vector\n    bpy.context.view_layer.update()\n    sc = bpy.context.scene\n    cam = sc.camera\n    dg = bpy.context.evaluated_depsgraph_get()\n    projection = cam.calc_matrix_camera(dg, x=sc.render.resolution_x,\n        y=sc.render.resolution_y, scale_x=sc.render.pixel_aspect_x,\n        scale_y=sc.render.pixel_aspect_y)\n    clip = projection @ cam.matrix_world.inverted() @ Vector((*p, 1.0))\n    uv = None if clip.w <= 1e-8 else (\n        .5 * (clip.x / clip.w + 1), .5 * (1 - clip.y / clip.w))\nUse the original image aspect for these calculations and the final camera. Coordinates\nare x right and y down. Print a compact reference-versus-projected landmark table in\nexecution output. This requires no render. Projection checks do not establish visibility,\nsilhouette, material appearance or correct hidden geometry.\nWhen changing camera aim, position or lens, compute the same landmark projections before\nand after a small trial change to verify the direction rather than guessing. Restore a\ntrial that moves the selected landmarks the wrong way. With a fixed camera position,\naiming upward generally moves stationary scene features downward in the image. Lens\nchanges scale positions about the principal point; moving the camera changes foreground\nand background differently. Do not compensate a local dimension or placement error by\nmoving every matching background feature. Keep this check small: a few landmarks and\ncandidate parameter adjustments, not a large search. Do not force uncertain point\ncorrespondences or optimize hidden bounds. The complete rendered view remains the final\ncheck of crops, occlusions, silhouettes and broad appearance.\n'''\n\nMATERIAL_GUIDANCE = '''\nImplement the surface distinctions you actually identify in the reference. SceneAct's\ncolor argument sets base color; its generated Principled materials otherwise start with\nRoughness 0.65 and Metallic 0. A comment or asset name such as glossy, glass, metal or\nlight does not implement that appearance. After realize, customize the assigned shader\nfor the few large or visually distinctive surfaces whose highlights, reflections or\nemission matter. Use image evidence rather than making every surface glossy. Painted\nmetal and dielectric glass need not use a metallic shader; a bright window need not be\ntransparent. Do not prescribe one material or lighting adjustment for every scene.\nSelect actual mesh descendants through the named semantic asset/part hierarchy. Materials\nare shared by SceneAct finish, so check their users before changing nodes; copy and assign\na material to the intended subset when other users require a different surface response.\nFor a promised material correction, briefly print the selected part, assigned material,\nand relevant final shader values or linked inputs after customization. This verifies\nimplementation only. Reflections also depend on geometry, surface orientation and what\nis illuminated or reflected; shader values alone cannot verify the rendered result.\nKeep silhouette, framing and major overlaps ahead of material detail. In the full render,\ncompare broad light/dark regions and the position and extent of highlights against the\nreference before deciding on further changes.\n'''\n\n\ndef solve(task, runtime):\n    prompt = (Path(__file__).parent / 'system.txt').read_text()\n    guidance = (\n        '\\nBefore writing the complete program, choose a small set of visible image anchors '\n        'distributed across foreground, main subject and background. Record their approximate '\n        'normalized positions or bounds in program comments, together with a few dominant edge '\n        'directions and overlaps. Use the original image aspect throughout. These are visual '\n        'estimates, not ground-truth calibration. Parameterize camera pose, target and lens '\n        'separately from major asset dimensions and positions. Prioritize the contours and '\n        'large light/dark regions that occupy the image; fine detail cannot repair incorrect '\n        'framing or a wrong silhouette.'\n    )\n    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [\n        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +\n         f\"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}\" + guidance + PROJECTION_GUIDANCE + MATERIAL_GUIDANCE},\n        runtime.image(task['image'])]}]\n    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:\n        response = runtime.ask(messages)\n        messages.append(response)\n        text = response['content'] or ''\n        blocks = re.findall(r'```python\\s*\\n(.*?)```', text, re.S)\n        if not blocks:\n            if text.strip().upper() == 'DONE':\n                return\n            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})\n            continue\n        if runtime.remaining()['executions'] <= 0:\n            return\n        result = runtime.execute(blocks[-1])\n        content = [{'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'})}]\n        if result.get('image'):\n            content.extend([\n                {'type': 'text', 'text': 'Original reference, unchanged:'},\n                runtime.image(task['image']),\n                {'type': 'text', 'text': 'Current complete rendered camera view:'},\n                runtime.image(result['image']),\n                {'type': 'text', 'text': (\n                    'Compare these two images directly. In brief comments before any revised code, '\n                    'record reference versus rendered estimates for several of your anchors, '\n                    'including at least one background and one foreground feature. Check crops, '\n                    'edge slopes, overlaps, silhouette and internal gaps. Do not simply repeat '\n                    'the intended reference bounds as if the render achieved them. Rank the '\n                    'largest discrepancies by visible extent and contrast. For each proposed '\n                    'correction, name the parameter and predict which anchors or contours will '\n                    'move and in what direction. Verify camera-change directions with the small '\n                    'numerical projection check before the next render; keep computed point '\n                    'projections distinct from observed visible contours. '\n                    'A common translation, scale error, or edge-slope '\n                    'error may suggest camera changes; inconsistent errors may require asset '\n                    'placement or proportion changes. Check multiple anchors before choosing, '\n                    'and preserve already matching regions. If bounds mostly agree, inspect '\n                    'the actual surface profile, component proportions, negative spaces, '\n                    'and broad light/dark distribution instead of adding repeated tiny parts. '\n                    'Distinguish observed brightness from material color: illumination and '\n                    'surface orientation also affect it. If proposing a surface correction, '\n                    'implement and verify its assigned shader settings after realize, checking '\n                    'shared material users; descriptive comments alone do not change a shader. '\n                    'Make only image-supported corrections '\n                    'in a complete revised program, or reply DONE. '\n                ) + f'Remaining: {runtime.remaining()}'}\n            ])\n        else:\n            content.append({'type': 'text', 'text': (\n                'No rendered image is available. Repair the reported execution failure using '\n                'the actual error evidence; do not infer visual defects from this failure. '\n                'Return a complete corrected program if an execution remains, or DONE. '\n            ) + f'Remaining: {runtime.remaining()}'})\n        messages.append({'role': 'user', 'content': content})\n",
+      "rationale": "Native audits confirm that intended glossy and metallic distinctions were left at SceneAct defaults in two development scenes, despite successful shader customization elsewhere. Add targeted material implementation and assignment verification while preserving projection guidance, geometry priorities, author aspect and runtime controls. This is a proposed general instruction, not a claim of measured visual improvement."
+    }
+  ],
+  "analysis": "Compared all three development pairs: bedroom chair/bed contours and restaurant pendant profiles remain substantial geometry errors, while the kitchen has relatively close background anchors but weak surface differentiation. The two read-only audits matched expectations: kitchen glass, backsplash and extractor retain roughness 0.65 and metallic 0; restaurant metal supports also retain these defaults, while its glazing successfully uses an explicit emission shader. Bedroom source likewise customizes wall color texture but leaves other surface responses at defaults. These facts establish an implementation gap, not a unique explanation of rendered brightness or proof that lower roughness improves scores. Propose a narrow H instruction connecting image-supported material intent to actual shader assignments and shared-material checks. Preserve camera/geometry priorities and existing execution policy. No new or changed M action is retained; no diagnostic render was needed. Visual benefit remains to be evaluated on Selection.",
+  "observations": [
+    {
+      "request": {
+        "decision": "action",
+        "scene_id": "commons_192968130",
+        "action_name": "actions/appearance_audit.py",
+        "parameters_json": "{\"object_ids\":[\"cooktop\",\"kitchen\",\"upper_cabinets\"],\"render\":false}",
+        "expectation": "Determine whether the promised glossy backsplash, black glass cooktop and metallic extractor received distinct shader settings or retain SceneAct's default roughness of 0.65 and metallic of 0. The result will determine whether a shared material-implementation verification instruction is warranted.",
+        "analysis": "Across all three development pairs, successful structure does not establish visual fidelity. The bedroom retains substantial chair and bed silhouette errors; the restaurant retains pendant-profile and furniture-layout errors; the kitchen has comparatively close background anchors but lacks the reference's strong glass reflections and differentiated cabinet/metal surfaces. Competing explanations for the kitchen appearance include surface orientation, illumination, and unimplemented material intent. Its final program explicitly promises a glossy finish yet contains no Principled shader customization. Inspect actual shader values before attributing the discrepancy. This read-only audit requires no diagnostic render and preserves author aspect.",
+        "scope": "",
+        "new_action_source": "",
+        "changes": []
+      },
+      "observation": {
+        "status": "completed",
+        "measurement": {
+          "status": "ok",
+          "objects": [
+            {
+              "object_id": "cooktop",
+              "mesh_count": 1,
+              "materials": [
+                {
+                  "name": "SceneActSurface_23",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.00800000037997961,
+                            0.012000000104308128,
+                            0.014000000432133675,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "object_id": "kitchen",
+              "mesh_count": 4,
+              "materials": [
+                {
+                  "name": "SceneActSurface_17",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.25,
+                            0.10000000149011612,
+                            0.03500000014901161,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_18",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.7599999904632568,
+                            0.75,
+                            0.7200000286102295,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_15",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.25,
+                            0.11999999731779099,
+                            0.054999999701976776,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_16",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.7599999904632568,
+                            0.7400000095367432,
+                            0.6800000071525574,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "object_id": "upper_cabinets",
+              "mesh_count": 6,
+              "materials": [
+                {
+                  "name": "SceneActSurface_24",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.11500000208616257,
+                            0.041999999433755875,
+                            0.014000000432133675,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_27",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.3499999940395355,
+                            0.3400000035762787,
+                            0.3100000023841858,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_28",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.1599999964237213,
+                            0.15000000596046448,
+                            0.12999999523162842,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_26",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.09000000357627869,
+                            0.03400000184774399,
+                            0.012000000104308128,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_25",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.07500000298023224,
+                            0.026000000536441803,
+                            0.00800000037997961,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_29",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            1.0,
+                            0.8999999761581421,
+                            0.6600000262260437,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "lights": [
+            {
+              "name": "SceneActArea",
+              "type": "AREA",
+              "energy": 500.0,
+              "color": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "position": [
+                -3.5,
+                -1.5,
+                3.4000000953674316
+              ]
+            },
+            {
+              "name": "SceneActArea.001",
+              "type": "AREA",
+              "energy": 150.0,
+              "color": [
+                1.0,
+                0.8199999928474426,
+                0.6200000047683716
+              ],
+              "position": [
+                1.100000023841858,
+                -1.0,
+                2.049999952316284
+              ]
+            }
+          ],
+          "world_backgrounds": [
+            {
+              "color": [
+                0.75,
+                0.7400000095367432,
+                0.7099999785423279,
+                1.0
+              ],
+              "strength": 0.550000011920929,
+              "color_linked": false
+            }
+          ],
+          "view_transform": "AgX",
+          "exposure": 0.0,
+          "gamma": 1.0,
+          "limitation": "Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution."
+        },
+        "process": {
+          "status": "completed",
+          "pid": 2381662,
+          "command": [
+            "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+            "--background",
+            "--disable-autoexec",
+            "--threads",
+            "8",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "__EXPERIMENT_ROOT__/action_worker.py",
+            "--",
+            "--blend",
+            "__EXPERIMENT_ROOT__/results/H04/development/commons_192968130/1/scene.blend",
+            "--action",
+            "__EXPERIMENT_ROOT__/candidates/C08/M/actions/appearance_audit.py",
+            "--context",
+            "__EXPERIMENT_ROOT__/meta_traces/round08/actions/01/context.json",
+            "--output",
+            "__EXPERIMENT_ROOT__/meta_traces/round08/actions/01/measurement.json"
+          ],
+          "started": 1794348760.2779436,
+          "finished": 1794348761.0079575,
+          "seconds": 0.7300157039426267,
+          "returncode": 0,
+          "timed_out": false,
+          "timeout_seconds": 1200,
+          "memory_limit_exceeded": false,
+          "memory_limit_bytes": 34359738368,
+          "cpu_user_seconds": 0.4,
+          "cpu_system_seconds": 0.23,
+          "peak_individual_rss_kib": 292408,
+          "sampled_peak_tree_rss_kib_lower_bound": 262344.0,
+          "sample_interval_seconds": 0.1,
+          "sampled_process_count": 2,
+          "cpu_scope": "GNU time waited child and reaped descendants",
+          "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+        },
+        "render": null,
+        "expectation": "Determine whether the promised glossy backsplash, black glass cooktop and metallic extractor received distinct shader settings or retain SceneAct's default roughness of 0.65 and metallic of 0. The result will determine whether a shared material-implementation verification instruction is warranted.",
+        "action": "actions/appearance_audit.py",
+        "scene_id": "commons_192968130",
+        "M": "__EXPERIMENT_ROOT__/candidates/C08/M"
+      }
+    },
+    {
+      "request": {
+        "decision": "action",
+        "scene_id": "commons_92056365",
+        "action_name": "actions/appearance_audit.py",
+        "parameters_json": "{\"object_ids\":[\"table_04\",\"chair_00\",\"pendant_00\",\"rear_glazing\"],\"render\":false}",
+        "expectation": "Check whether metal supports and pendant surfaces retain default roughness and metallic values while the explicitly customized glazing uses emission. This distinguishes missing material implementation from a blanket failure to customize shaders and informs a narrowly scoped shared H instruction.",
+        "analysis": "The kitchen audit confirmed that the promised glossy surfaces and metallic extractor retain roughness 0.65 and metallic 0; the light-strip mesh also has zero emission, although a separate warm area light exists. This establishes an implementation gap, not the unique cause of the appearance mismatch. Across the three references, bedroom upholstery and bed contours, restaurant pendant profiles and furniture overlap, and kitchen reflections remain distinct problems; a universal lighting or material adjustment would be unsupported. Audit a second scene's contrasting surface families before proposing guidance to implement and verify image-supported material distinctions without displacing silhouette work. The restaurant program explicitly assigns emissive glazing but only colors its metal supports, providing a useful positive control. No diagnostic render is needed.",
+        "scope": "",
+        "new_action_source": "",
+        "changes": []
+      },
+      "observation": {
+        "status": "completed",
+        "measurement": {
+          "status": "ok",
+          "objects": [
+            {
+              "object_id": "table_04",
+              "mesh_count": 4,
+              "materials": [
+                {
+                  "name": "SceneActSurface_11",
+                  "mesh_count": 2,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.4300000071525574,
+                            0.44999998807907104,
+                            0.4300000071525574,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_10",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.18000000715255737,
+                            0.1899999976158142,
+                            0.18000000715255737,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_9",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.6100000143051147,
+                            0.6200000047683716,
+                            0.6000000238418579,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "object_id": "chair_00",
+              "mesh_count": 7,
+              "materials": [
+                {
+                  "name": "SceneActSurface_12",
+                  "mesh_count": 2,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.08500000089406967,
+                            0.09000000357627869,
+                            0.08500000089406967,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_11",
+                  "mesh_count": 4,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.4300000071525574,
+                            0.44999998807907104,
+                            0.4300000071525574,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_13",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.3199999928474426,
+                            0.33000001311302185,
+                            0.3199999928474426,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "object_id": "pendant_00",
+              "mesh_count": 4,
+              "materials": [
+                {
+                  "name": "SceneActSurface_14",
+                  "mesh_count": 3,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.02500000037252903,
+                            0.029999999329447746,
+                            0.027000000700354576,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "SceneActSurface_15",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "BSDF_PRINCIPLED",
+                      "inputs": {
+                        "Base Color": {
+                          "value": [
+                            0.03500000014901161,
+                            0.03999999910593033,
+                            0.03500000014901161,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Roughness": {
+                          "value": 0.6499999761581421,
+                          "linked": false
+                        },
+                        "Metallic": {
+                          "value": 0.0,
+                          "linked": false
+                        },
+                        "Emission Color": {
+                          "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Emission Strength": {
+                          "value": 0.0,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "object_id": "rear_glazing",
+              "mesh_count": 1,
+              "materials": [
+                {
+                  "name": "Bright_window_glazing",
+                  "mesh_count": 1,
+                  "shader_nodes": [
+                    {
+                      "type": "EMISSION",
+                      "inputs": {
+                        "Color": {
+                          "value": [
+                            0.9100000262260437,
+                            0.9300000071525574,
+                            0.8999999761581421,
+                            1.0
+                          ],
+                          "linked": false
+                        },
+                        "Strength": {
+                          "value": 1.25,
+                          "linked": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "lights": [
+            {
+              "name": "SceneActArea",
+              "type": "AREA",
+              "energy": 650.0,
+              "color": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "position": [
+                0.0,
+                3.0,
+                3.25
+              ]
+            },
+            {
+              "name": "SceneActArea.001",
+              "type": "AREA",
+              "energy": 400.0,
+              "color": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "position": [
+                -3.0,
+                -5.0,
+                3.0999999046325684
+              ]
+            },
+            {
+              "name": "SceneActArea.002",
+              "type": "AREA",
+              "energy": 500.0,
+              "color": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "position": [
+                4.0,
+                3.0,
+                2.5999999046325684
+              ]
+            }
+          ],
+          "world_backgrounds": [
+            {
+              "color": [
+                0.8299999833106995,
+                0.8500000238418579,
+                0.8299999833106995,
+                1.0
+              ],
+              "strength": 0.550000011920929,
+              "color_linked": false
+            }
+          ],
+          "view_transform": "AgX",
+          "exposure": 0.0,
+          "gamma": 1.0,
+          "limitation": "Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution."
+        },
+        "process": {
+          "status": "completed",
+          "pid": 2382301,
+          "command": [
+            "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+            "--background",
+            "--disable-autoexec",
+            "--threads",
+            "8",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "__EXPERIMENT_ROOT__/action_worker.py",
+            "--",
+            "--blend",
+            "__EXPERIMENT_ROOT__/results/H04/development/commons_92056365/1/scene.blend",
+            "--action",
+            "__EXPERIMENT_ROOT__/candidates/C08/M/actions/appearance_audit.py",
+            "--context",
+            "__EXPERIMENT_ROOT__/meta_traces/round08/actions/02/context.json",
+            "--output",
+            "__EXPERIMENT_ROOT__/meta_traces/round08/actions/02/measurement.json"
+          ],
+          "started": 1794348783.82732,
+          "finished": 1794348784.550863,
+          "seconds": 0.7235437617637217,
+          "returncode": 0,
+          "timed_out": false,
+          "timeout_seconds": 1200,
+          "memory_limit_exceeded": false,
+          "memory_limit_bytes": 34359738368,
+          "cpu_user_seconds": 0.54,
+          "cpu_system_seconds": 0.58,
+          "peak_individual_rss_kib": 328388,
+          "sampled_peak_tree_rss_kib_lower_bound": 325684.0,
+          "sample_interval_seconds": 0.1,
+          "sampled_process_count": 2,
+          "cpu_scope": "GNU time waited child and reaped descendants",
+          "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+        },
+        "render": null,
+        "expectation": "Check whether metal supports and pendant surfaces retain default roughness and metallic values while the explicitly customized glazing uses emission. This distinguishes missing material implementation from a blanket failure to customize shaders and informs a narrowly scoped shared H instruction.",
+        "action": "actions/appearance_audit.py",
+        "scene_id": "commons_92056365",
+        "M": "__EXPERIMENT_ROOT__/candidates/C08/M"
+      }
+    }
+  ],
+  "decision": {
+    "decision": "propose",
+    "scene_id": "",
+    "action_name": "",
+    "parameters_json": "{}",
+    "expectation": "",
+    "analysis": "Compared all three development pairs: bedroom chair/bed contours and restaurant pendant profiles remain substantial geometry errors, while the kitchen has relatively close background anchors but weak surface differentiation. The two read-only audits matched expectations: kitchen glass, backsplash and extractor retain roughness 0.65 and metallic 0; restaurant metal supports also retain these defaults, while its glazing successfully uses an explicit emission shader. Bedroom source likewise customizes wall color texture but leaves other surface responses at defaults. These facts establish an implementation gap, not a unique explanation of rendered brightness or proof that lower roughness improves scores. Propose a narrow H instruction connecting image-supported material intent to actual shader assignments and shared-material checks. Preserve camera/geometry priorities and existing execution policy. No new or changed M action is retained; no diagnostic render was needed. Visual benefit remains to be evaluated on Selection.",
+    "scope": "",
+    "new_action_source": "",
+    "changes": [
+      {
+        "target": "H",
+        "path": "policy.py",
+        "content": "import json\nfrom pathlib import Path\nimport re\n\n\nPROJECTION_GUIDANCE = '''\nUse a small numerical projection check before committing camera changes. Choose a few\nexplicit world-space landmarks corresponding to reference points you can actually identify:\nfor example a window corner, a furniture top corner and a foreground contour endpoint.\nRecord reference estimates separately from computed projections. Use points on geometry,\nnot an EMPTY's origin or a whole-room bounding box. Include foreground and background.\nAfter realize and set_view, update Blender's view layer. For a world point p, project using:\n    from mathutils import Vector\n    bpy.context.view_layer.update()\n    sc = bpy.context.scene\n    cam = sc.camera\n    dg = bpy.context.evaluated_depsgraph_get()\n    projection = cam.calc_matrix_camera(dg, x=sc.render.resolution_x,\n        y=sc.render.resolution_y, scale_x=sc.render.pixel_aspect_x,\n        scale_y=sc.render.pixel_aspect_y)\n    clip = projection @ cam.matrix_world.inverted() @ Vector((*p, 1.0))\n    uv = None if clip.w <= 1e-8 else (\n        .5 * (clip.x / clip.w + 1), .5 * (1 - clip.y / clip.w))\nUse the original image aspect for these calculations and the final camera. Coordinates\nare x right and y down. Print a compact reference-versus-projected landmark table in\nexecution output. This requires no render. Projection checks do not establish visibility,\nsilhouette, material appearance or correct hidden geometry.\nWhen changing camera aim, position or lens, compute the same landmark projections before\nand after a small trial change to verify the direction rather than guessing. Restore a\ntrial that moves the selected landmarks the wrong way. With a fixed camera position,\naiming upward generally moves stationary scene features downward in the image. Lens\nchanges scale positions about the principal point; moving the camera changes foreground\nand background differently. Do not compensate a local dimension or placement error by\nmoving every matching background feature. Keep this check small: a few landmarks and\ncandidate parameter adjustments, not a large search. Do not force uncertain point\ncorrespondences or optimize hidden bounds. The complete rendered view remains the final\ncheck of crops, occlusions, silhouettes and broad appearance.\n'''\n\nMATERIAL_GUIDANCE = '''\nImplement the surface distinctions you actually identify in the reference. SceneAct's\ncolor argument sets base color; its generated Principled materials otherwise start with\nRoughness 0.65 and Metallic 0. A comment or asset name such as glossy, glass, metal or\nlight does not implement that appearance. After realize, customize the assigned shader\nfor the few large or visually distinctive surfaces whose highlights, reflections or\nemission matter. Use image evidence rather than making every surface glossy. Painted\nmetal and dielectric glass need not use a metallic shader; a bright window need not be\ntransparent. Do not prescribe one material or lighting adjustment for every scene.\nSelect actual mesh descendants through the named semantic asset/part hierarchy. Materials\nare shared by SceneAct finish, so check their users before changing nodes; copy and assign\na material to the intended subset when other users require a different surface response.\nFor a promised material correction, briefly print the selected part, assigned material,\nand relevant final shader values or linked inputs after customization. This verifies\nimplementation only. Reflections also depend on geometry, surface orientation and what\nis illuminated or reflected; shader values alone cannot verify the rendered result.\nKeep silhouette, framing and major overlaps ahead of material detail. In the full render,\ncompare broad light/dark regions and the position and extent of highlights against the\nreference before deciding on further changes.\n'''\n\n\ndef solve(task, runtime):\n    prompt = (Path(__file__).parent / 'system.txt').read_text()\n    guidance = (\n        '\\nBefore writing the complete program, choose a small set of visible image anchors '\n        'distributed across foreground, main subject and background. Record their approximate '\n        'normalized positions or bounds in program comments, together with a few dominant edge '\n        'directions and overlaps. Use the original image aspect throughout. These are visual '\n        'estimates, not ground-truth calibration. Parameterize camera pose, target and lens '\n        'separately from major asset dimensions and positions. Prioritize the contours and '\n        'large light/dark regions that occupy the image; fine detail cannot repair incorrect '\n        'framing or a wrong silhouette.'\n    )\n    messages = [{'role': 'system', 'content': prompt}, {'role': 'user', 'content': [\n        {'type': 'text', 'text': 'Reconstruct this RGB image. Match its camera and framing. ' +\n         f\"Image dimensions: {task['width']} x {task['height']}. Budget: {runtime.remaining()}\" + guidance + PROJECTION_GUIDANCE + MATERIAL_GUIDANCE},\n        runtime.image(task['image'])]}]\n    while runtime.remaining()['model_calls'] > 0 and runtime.remaining()['seconds'] > 0:\n        response = runtime.ask(messages)\n        messages.append(response)\n        text = response['content'] or ''\n        blocks = re.findall(r'```python\\s*\\n(.*?)```', text, re.S)\n        if not blocks:\n            if text.strip().upper() == 'DONE':\n                return\n            messages.append({'role': 'user', 'content': 'Return one complete program in a python code block, or DONE.'})\n            continue\n        if runtime.remaining()['executions'] <= 0:\n            return\n        result = runtime.execute(blocks[-1])\n        content = [{'type': 'text', 'text': json.dumps({k: v for k, v in result.items() if k != 'image'})}]\n        if result.get('image'):\n            content.extend([\n                {'type': 'text', 'text': 'Original reference, unchanged:'},\n                runtime.image(task['image']),\n                {'type': 'text', 'text': 'Current complete rendered camera view:'},\n                runtime.image(result['image']),\n                {'type': 'text', 'text': (\n                    'Compare these two images directly. In brief comments before any revised code, '\n                    'record reference versus rendered estimates for several of your anchors, '\n                    'including at least one background and one foreground feature. Check crops, '\n                    'edge slopes, overlaps, silhouette and internal gaps. Do not simply repeat '\n                    'the intended reference bounds as if the render achieved them. Rank the '\n                    'largest discrepancies by visible extent and contrast. For each proposed '\n                    'correction, name the parameter and predict which anchors or contours will '\n                    'move and in what direction. Verify camera-change directions with the small '\n                    'numerical projection check before the next render; keep computed point '\n                    'projections distinct from observed visible contours. '\n                    'A common translation, scale error, or edge-slope '\n                    'error may suggest camera changes; inconsistent errors may require asset '\n                    'placement or proportion changes. Check multiple anchors before choosing, '\n                    'and preserve already matching regions. If bounds mostly agree, inspect '\n                    'the actual surface profile, component proportions, negative spaces, '\n                    'and broad light/dark distribution instead of adding repeated tiny parts. '\n                    'Distinguish observed brightness from material color: illumination and '\n                    'surface orientation also affect it. If proposing a surface correction, '\n                    'implement and verify its assigned shader settings after realize, checking '\n                    'shared material users; descriptive comments alone do not change a shader. '\n                    'Make only image-supported corrections '\n                    'in a complete revised program, or reply DONE. '\n                ) + f'Remaining: {runtime.remaining()}'}\n            ])\n        else:\n            content.append({'type': 'text', 'text': (\n                'No rendered image is available. Repair the reported execution failure using '\n                'the actual error evidence; do not infer visual defects from this failure. '\n                'Return a complete corrected program if an execution remains, or DONE. '\n            ) + f'Remaining: {runtime.remaining()}'})\n        messages.append({'role': 'user', 'content': content})\n",
+        "rationale": "Native audits confirm that intended glossy and metallic distinctions were left at SceneAct defaults in two development scenes, despite successful shader customization elsewhere. Add targeted material implementation and assignment verification while preserving projection guidance, geometry priorities, author aspect and runtime controls. This is a proposed general instruction, not a claim of measured visual improvement."
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+--- M_parent/actions/appearance_audit.py
++++ M_candidate/actions/appearance_audit.py
+@@ -0,0 +1,39 @@
++"""Read-only shader and illumination facts for explicitly selected objects."""
++def run(context):
++    import bpy
++    sc = bpy.context.scene
++    rows = []
++    for name in context['parameters']['object_ids']:
++        root = sc.objects.get(name)
++        if root is None:
++            rows.append({'object_id': name, 'status': 'missing'})
++            continue
++        meshes = [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']
++        materials = {}
++        for obj in meshes:
++            for slot in obj.material_slots:
++                mat = slot.material
++                if mat is None:
++                    continue
++                if mat.name not in materials:
++                    nodes = []
++                    if mat.use_nodes and mat.node_tree:
++                        for node in mat.node_tree.nodes:
++                            if node.type not in ('BSDF_PRINCIPLED', 'EMISSION'):
++                                continue
++                            inputs = {}
++                            for key in ('Base Color', 'Color', 'Roughness', 'Metallic', 'Emission', 'Emission Color', 'Emission Strength', 'Strength'):
++                                socket = node.inputs.get(key)
++                                if socket is not None:
++                                    value = socket.default_value
++                                    inputs[key] = {'value': float(value) if isinstance(value, (int, float)) else list(value), 'linked': bool(socket.is_linked)}
++                            nodes.append({'type': node.type, 'inputs': inputs})
++                    materials[mat.name] = {'name': mat.name, 'mesh_count': 0, 'shader_nodes': nodes}
++                materials[mat.name]['mesh_count'] += 1
++        rows.append({'object_id': name, 'mesh_count': len(meshes), 'materials': list(materials.values())})
++    world = []
++    if sc.world and sc.world.use_nodes and sc.world.node_tree:
++        for node in sc.world.node_tree.nodes:
++            if node.type == 'BACKGROUND':
++                world.append({'color': list(node.inputs['Color'].default_value), 'strength': float(node.inputs['Strength'].default_value), 'color_linked': bool(node.inputs['Color'].is_linked)})
++    return {'status': 'ok', 'objects': rows, 'lights': [{'name': o.name, 'type': o.data.type, 'energy': float(o.data.energy), 'color': list(o.data.color), 'position': list(o.matrix_world.translation)} for o in sc.objects if o.type == 'LIGHT'], 'world_backgrounds': world, 'view_transform': sc.view_settings.view_transform, 'exposure': float(sc.view_settings.exposure), 'gamma': float(sc.view_settings.gamma), 'limitation': 'Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution.'}

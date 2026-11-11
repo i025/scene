@@ -1,0 +1,196 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 67.5,
+  "S_BW": 83.75,
+  "started": 1794353956.7170644,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_113438548/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794353966.5721257,
+  "seconds": 9.855061292648315,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The framed tool display, upper handwheel and four disks, hanging tools, lower paired chucks, red door, window and bench clearly reconstruct the scene identity, despite simplified machinery.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The door remains left of the central display, the window and bench remain right, and the paired chucks sit below the tools. Obstructed evaluator views do not contradict this clear arrangement.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Display, handwheel, tools and lower disks retain broadly compatible relative sizes. The display is somewhat elongated and the machinery more blocky, without a decisive scale mismatch.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Cream architecture, a rusty red door, dark framing and machinery, brown bench and yellow label preserve the main color organization. Matte simplification remains recognizable.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The main objects remain legible under coherent soft illumination. Lighting is flatter and less window-driven than the reference, but does not obscure required content.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Separate nonempty meshes have actual depth: the pillar is 0.4 units deep, the vise body 0.22, and the lower disk 0.08. Rendered projections and shadows agree with volumetric construction.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.002].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.044].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Rod.088].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod.088].dimensions_scene_units",
+        "author.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Major elements are addressable through actual mesh objects and parent hierarchies. The pillar, door, display backing, vise and chucks have finite nonempty geometry and assigned materials with connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.002].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.005].parent_chain",
+        "scene_facts.json.objects[object_id=Box.026].material_slots",
+        "scene_facts.json.objects[object_id=Box.044].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod.088].parent_chain",
+        "scene_facts.json.objects[object_id=Rod.096].material_slots",
+        "scene_facts.json.materials.SceneActSurface_16.links",
+        "scene_facts.json.materials.SceneActSurface_14.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 7,
+      "evidence": "Strong overall correspondence, with substantial simplification of the vise, chuck jaws, window and architectural detailing.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "The main assembly reads as wall-mounted, but small tool attachments and machinery connections are schematic and sometimes visually unsupported.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "The major palette matches well; uniform surfaces and rectangular machinery lose the reference's irregular industrial silhouettes.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 5,
+      "evidence": "Coherent shading supports depth, but primitive forms, uniformly clean surfaces and visible rendering noise reduce credibility.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 8,
+      "evidence": "Principal left/right and vertical relationships are preserved. Frontal framing reduces the reference's sense of the adjoining interior.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 7,
+      "evidence": "Major relative sizes are plausible; the taller-looking display and simplified vise and chuck proportions introduce moderate deviations.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 6,
+      "evidence": "Soft shadows and readable tonal separation work, but muted window brightness, uniform material response and grain weaken the reference atmosphere.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 8,
+      "evidence": "Most major objects and the distinctive wheel counts are present. Smaller fittings, architectural trim and machinery details are reduced or omitted.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_113438548/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 138474,
+    "output_tokens": 1415,
+    "observed_model": "unknown",
+    "seconds": 40.632728886790574
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

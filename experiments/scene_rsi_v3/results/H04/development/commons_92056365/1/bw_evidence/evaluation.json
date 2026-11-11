@@ -1,0 +1,204 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 52.5,
+  "S_BW": 76.25,
+  "started": 1794354739.4048176,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_92056365/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354759.6476455,
+  "seconds": 20.242827892303467,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The restaurant is recognizable: repeated tables, left booths, individual chairs, hanging lamps, corner windows, lined ceiling and right foreground plant are present. Furniture and vegetation are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The authored view retains left-side booths, central and right dining furniture, rear/right windows, overhead pendants and right foreground vegetation. Spacing and chair orientations are only approximate.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Tables, seating and ceiling clearance remain functionally recognizable and broadly plausible. Chair backs and foreground lamps are comparatively bulky, without destroying the overall scale correspondence.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Light ceiling and tabletops contrast with dark seating, floor and pendants. This preserves the main tonal organization, although bulbous lamps and slab-like chairs lose distinctive reference silhouettes.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The entire dining area remains legible with bright windows and coherent soft shading. Heavy grain and flat illumination weaken the bright daylight atmosphere but do not obscure the main content.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views show furniture sides, table pedestals, lamp volumes and changed occlusions, establishing a spatial scene rather than a single textured plane.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh components have nonempty geometry, assigned materials and traversable parent hierarchies. Examples include architecture Box, booth Box.073, tabletop Box.095, chair Box.113 and pendant Ball.010; their material records contain connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.073].parent_chain",
+        "scene_facts.json.objects[object_id=Box.095].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.113].material_slots",
+        "scene_facts.json.objects[object_id=Ball.010].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=chair_00].children",
+        "scene_facts.json.materials.SceneActSurface_9.links",
+        "scene_facts.json.materials.SceneActSurface_12.links",
+        "scene_facts.json.materials.SceneActSurface_14.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The major restaurant arrangement is recognizable, but generic chairs, rounded lamp bodies, sparse plants and blank windows substantially reduce resemblance.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 5,
+      "evidence": "Tables have pedestals and lamps have suspension cords. Seating supports look insufficiently grounded in several views, and the very large foreground tabletop has a disproportionately small central support.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Broad grayscale contrast is retained, but blocky seating and closed, flattened lamp forms lose the reference's characteristic furniture design.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Severe render noise, uniformly simple surfaces, blank window panels and rigid vegetation make the result look like an unfinished blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Broad left/center/right zoning and corner windows survive; repetitive chair orientation and loose table-to-chair relationships weaken the dining layout.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Most furniture fits the room plausibly. Tall rectangular chair backs, flattened oversized foreground lamps and the stretched foreground table reduce proportional fidelity.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Objects are readable with consistent shading, but grain, weak material differentiation and flat window brightness substantially diminish daylight and surface quality.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Major architectural and furniture categories are covered with repeated instances. Chair arms and pedestal-style chair bases, fuller planting and finer ceiling/window details are missing or simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_92056365/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 332078,
+    "output_tokens": 1487,
+    "observed_model": "unknown",
+    "seconds": 46.91368091106415
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

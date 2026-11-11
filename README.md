@@ -1,29 +1,30 @@
-# Scene-RSI V3：开放研究动作与十轮连续演化（运行中）
+# Scene-RSI V3：十轮连续演化的实际状态
 
-V3 已冻结协议并启动真实运行，**目前尚未完成十轮或终测**。H 使用用户选定的 `gpt-6.1-terra`，M/共享编码与独立评审使用 `gpt-6-astra`，均为 medium，通过本机 Codex CLI。实际路由和本地费用不可见，不宣称已降本。
+本区依据保存的运行与候选记录整理；不把退出码0、会话结束或旧state单独当成全部实验完成。
+[完整收尾摘要](UPLOAD_SUMMARY_V3.md) · [审查索引](docs/V3_REVIEW_INDEX.md) · [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) · [离线HTML](experiments/scene_rsi_v3/reports/index.html)
 
-固定起点是历史 V2.1 r1/C2 的 `historical_r1_C2_start`，不是 original_H0。正式基线按新模型、预算和评分重新执行；当前不拿旧结果充当新比较。8 CPU、32 GB、单 Blender×8线程、CPU-only。数据与历史暴露均保留，整轮属于探索性研究。
+监看的真实launch终态：failed，退出码 1；state阶段：generation。
+保存终态研发回合 10/10；H接受 2 次，M接受 1 个。失败、拒绝和unchanged保留，不能称十次成功升级。
+各轮状态：{"completed": 10}。后代版本作为后续轮次父代：['M07']；这个版本关系不证明改动内容真正执行。
 
-- [运行前冻结协议](experiments/scene_rsi_v3/protocol.md) / [冻结配置与准备消耗](experiments/scene_rsi_v3/configs/freeze.json)
-- [审查索引](docs/V3_REVIEW_INDEX.md) / [初始进度快照](docs/V3_PROGRESS_SNAPSHOT.md)
-- [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) / [离线 HTML](experiments/scene_rsi_v3/reports/index.html)
-- [核心原始表格](experiments/scene_rsi_v3/metrics/) / [图表及来源](experiments/scene_rsi_v3/figures/)
-- [完整产物索引与上传状态](artifacts_index_v3.csv) / [归档和离线重画入口](docs/archive_tools_v3/COMMANDS.md)
+H请求模型 gpt-6.1-terra / medium；M与共享编码 gpt-6-astra / medium；独立judge gpt-6-astra。
+全部通过Codex CLI。observed_model与请求模型分开；没有元数据则unknown，本地费用未知，不宣称降本。
+CPU 8，内存上限 32 GB，Blender 1×8线程，CPU-only，未使用GPU（数量0）。
+H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样下界，阶段时长不相加作总墙钟。
 
-已完成的准备证据：真实 Terra 图像输入、SceneAct 场景构建/保存/渲染；8个已知正确/错误功能夹具；实际 Astra 新动作在两张开发图执行并将观测返回 M；20/20 独立评价校准完成，A02同产物重复评分最大差1.875 BW分、按既定公式冻结晋升门槛2 BW分（旧版2.5与原评分保留）。以下是真实功能夹具渲染，**不是十轮改进结果**。
 
-![真实结构与编辑夹具](experiments/scene_rsi_v3/preparation/functional_fixtures/functional_contact_sheet.png)
+独立来源配对：0/6 来源、0 对双方成功且已评分的生成；来源等权条件BW差 pending/null。全预定来源的端到端BW效用差 pending/null；完整效用覆盖 0/6。重复和视角不作为独立场景。
 
-主要评分为 **BW-style / CLI-adapted**，不是官方排行榜。正式 Selection/Test 固定8评价视角+作者视角、1024²/64 samples/Cycles，Q仅辅助。未知和pending保持null；机械编辑与文字编辑分开。没有真实冻结元回放前，不展示元能力提升曲线。
+![历史开发图全体面板](experiments/scene_rsi_v3/figures/development_contact_sheet.png)
+![真实候选与实际保留版本](experiments/scene_rsi_v3/figures/evolution.png)
+![真实研究动作与负结果](experiments/scene_rsi_v3/figures/shared_patch_case.png)
+![终测原始重复与独立来源配对](experiments/scene_rsi_v3/figures/final_test_pairs.png)
+![实际成本与耗时](experiments/scene_rsi_v3/figures/cost_and_timing.png)
 
-完整日志和 `.blend` 将按运行分包发布，当前是否已上传以索引为准。BW参考媒体单独分发许可未确认，不重新公开原参考或附件；本地保留完整原件。正式进程仍在运行时的归档是进度快照，不是实验完成声明。
-
-A02 于 2026-11-06 23:46 UTC 在首个正式 M 提案前冻结：12开发来源、每轮3图、每轮至多3个研究会话、3/3验证绝对资格、6个最终测试来源，仍连续10轮。调整依据实测token预算，不依据候选或Test表现。14个已生成基线工程复用，不重新采样。[A02协议](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_02.md) · [完整冻结源码](experiments/scene_rsi_v3/code_snapshots/platform_A02/) · [冻结记录](experiments/scene_rsi_v3/configs/amendment_02.json)
-
-以下保留 V2.4 原有报告，数值不属于 V3。
+BW-style / CLI-adapted，不是官方榜单。开发历史图为研发已暴露数据；失败、服务故障、缺测与pending分开。没有真实冻结元回放就不宣称元能力提升。
+以下V2.4原文逐字保留，其数值不属于V3。
 
 ---
-
 # Scene-RSI V2.4：自然图像共享 H 诊断与修复先导实验
 
 研究问题：三维主动实验的真实观测是否帮助修改跨图像复用的重建流程，而不仅是修好某张图的 P？

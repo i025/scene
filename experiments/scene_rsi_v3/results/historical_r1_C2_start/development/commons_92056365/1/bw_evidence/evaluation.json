@@ -1,0 +1,199 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 55.0,
+  "S_BW": 77.5,
+  "started": 1794004698.7632184,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_92056365/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794004719.1473684,
+  "seconds": 20.38415002822876,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "Recognizable restaurant reconstruction includes booth rows, pedestal tables and chairs, pendant lights, ceiling seams, tiled floor, corner windows and plants. Furniture and vegetation are simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Left booths, central aisle, center/right dining furniture and rear/right window walls retain the main spatial arrangement. Spacing is more regular and open than the target.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Tables, seats and room height have plausible relative proportions. Chair backs and floor tiles are oversized relative to target details, without destroying functional recognition.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Light ceiling and tables contrast with darker seating, floor and pendant shades. Rectangular furniture and suspended dark fixtures preserve the main style, despite simplified silhouettes and uniform surface response.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "Bright window regions and visible interior furniture broadly match the daylight setting. Heavy grain and flat illumination reduce quality, but major content remains identifiable.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views reveal furniture sides, pedestal supports and changing occlusion across a volumetric room, establishing genuine three-dimensional construction.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual hierarchy links locate architecture, booths, chairs and lamps with valid mesh children. Box.139 and Box.143 have nonempty mesh geometry and assigned tabletop/seating materials; Rod.010 supplies pedestal geometry and Ball supplies lamp volume. Materials contain connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Restaurant].children",
+        "scene_facts.json.objects[object_id=table_0_1].children",
+        "scene_facts.json.objects[object_id=Box.139].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.139].material_slots",
+        "scene_facts.json.objects[object_id=Box.143].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.143].material_slots",
+        "scene_facts.json.objects[object_id=Rod.010].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Ball].finite_nonempty_mesh",
+        "scene_facts.json.materials.SceneActSurface_10.links",
+        "scene_facts.json.materials.SceneActSurface_13.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "Main restaurant identity is retained, but the elevated composition, sparse vegetation, blank windows and blocky furniture lose much of the target's specificity.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 5,
+      "evidence": "Individual chairs and tables show pedestal supports and lamps have suspension cords. Booth benches have inadequately explained support, and some furniture connections appear detached.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "Grayscale tonal organization corresponds well; boxy seats, square bases and flattened lamp bodies approximate rather than reproduce the characteristic silhouettes.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Consistent perspective supports a believable room, but heavy render noise, primitive furniture, sticklike foliage and blank window panels produce a rough blockout appearance.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Booths and dining tables occupy corresponding sides around an aisle and adjacent window walls. Repetitive alignment, broader gaps and reduced planting simplify the spatial character.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Furniture heights and table-to-seat relationships are generally usable. Tall planar backs, large floor modules and short pendant drops weaken proportional similarity.",
+      "source_evidence": [
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Scene remains legible with bright perimeter windows, but illumination is flat and noisy; glazing, upholstery and metal supports have weak visual differentiation.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Major architectural and furniture categories are present in substantial numbers. Dense planting, exterior window detail and finer furniture construction are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/development/commons_92056365/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 347764,
+    "output_tokens": 1466,
+    "observed_model": "unknown",
+    "seconds": 52.31077591981739
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

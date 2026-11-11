@@ -1,0 +1,178 @@
+{
+  "dataset": {
+    "manifest": "__EXPERIMENT_ROOT__/manifest.json",
+    "historical_exposure": "Custom exploratory source-group split; see configs/data_exposure.csv. Historical test photographs used for development remain permanently exposed.",
+    "seed": 42
+  },
+  "model": {
+    "name": "gpt-6.1-terra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "selection_basis": "User explicitly selected gpt-6.1-terra during preparation; cost_unknown; medium fixed for formal run"
+  },
+  "proposer": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "__SERVER_USER_ROOT__/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4
+  },
+  "blender": {
+    "executable": "__BLENDERWORLD_ROOT__/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 1200,
+    "threads": 8,
+    "build_timeout": 1200,
+    "render_timeout": 600
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 16,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 8,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false,
+    "gpu_uuid": null,
+    "gpu_index": null,
+    "gpu_bus_id": null,
+    "gpu_backend": "CUDA",
+    "gpu_kernel_root": null,
+    "actual_device_path": "__EXPERIMENT_ROOT__/results/H01/selection/bw_0031/1/functional/actual_device.json"
+  },
+  "budget": {
+    "model_calls": 4,
+    "executions": 3,
+    "seconds": 3600,
+    "reserve_final_seconds": 900
+  },
+  "benchmark": {
+    "concurrency": 1
+  },
+  "metrics": {
+    "device": "cpu",
+    "dino_model": "__SCENEEVOLVE_REPRO__/work/model-cache/dinov2-base",
+    "lpips_net": "alex",
+    "timeout": 600,
+    "alexnet_weights": "__SCENEEVOLVE_REPRO__/work/model-cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth",
+    "lpips_model_path": "__SCENEEVOLVE_REPRO__/work/.venv/lib/python3.11/site-packages/lpips/weights/v0.1/alex.pth"
+  },
+  "results_dir": "__EXPERIMENT_ROOT__",
+  "pilot": {
+    "name": "scene_rsi_v3",
+    "rounds": 10,
+    "max_cli_sessions": 1200,
+    "max_render_frames": 3000,
+    "max_input_tokens": 40000000,
+    "max_output_tokens": 3000000,
+    "research_sessions_per_round": 3,
+    "diagnostic_frames_per_round": 16,
+    "research_seconds_per_round": 7200,
+    "reserve_fraction": 0.3,
+    "status": "A02_frozen_before_first_formal_M",
+    "retry_limit": 1,
+    "semantic_edit_subset": [
+      "commons_109923183",
+      "commons_104864364"
+    ],
+    "semantic_edit_instruction": "\u5c06\u753b\u9762\u4e2d\u5fc3\u7684\u4e00\u4ef6\u72ec\u7acb\u5bb6\u5177\u8868\u9762\u6539\u4e3a\u84dd\u8272\uff0c\u4fdd\u6301\u5b83\u7684\u51e0\u4f55\u53ca\u5176\u4f59\u5bf9\u8c61\u4e0d\u53d8",
+    "checkpoint_development_subset_size": 3,
+    "forecast": {
+      "maximum_new_reconstructions": 136,
+      "H_cli_upper": 544,
+      "M_cli_upper": 40,
+      "judge_planned_upper_with_boundary": 180,
+      "preparation_allowance": 60,
+      "semantic_editor_cli": 4,
+      "small_replay_allowance": 100,
+      "all_cli_forecast_upper": 928,
+      "render_forecast_upper": 2300,
+      "input_token_forecast_approx": 38000000,
+      "output_token_forecast_approx": 2200000,
+      "basis": "Two real development smokes: Terra first visual/code 70s; full H_start 3 H calls, preview Q+functional+BW complete. Native scene facts dominate judge input (~204k tokens on bedroom). Open-M packet capped/projection explicit. Independent dev BW restricted to full endpoints, Selection/Test unchanged. Actual token safety cap enforced; usage absence not counted as zero.",
+      "wall_time_scope": "CPU8 exact official 9-view smoke ~9 minutes rendering per complex scene; full worst-case trajectory may require overnight/multiple hours; no speed superiority inferred.",
+      "guaranteed_primary_test": "6 sources x H_start/H_best x1 independent generation; preferred x2 selected by frozen budget-only threshold before Test",
+      "superseded_by": "configs/budget_pre_M_A02.json; original forecast retained in before_A02_config.json"
+    },
+    "final_test": {
+      "primary_repeats": 1,
+      "preferred_repeats": 2,
+      "decision_before_any_test_generation": true,
+      "repeat2_requires_remaining": {
+        "cli_sessions": 200,
+        "render_attempts": 600,
+        "input_tokens": 11000000,
+        "output_tokens": 600000
+      },
+      "rule": "After full dev endpoint/checkpoint generation, before any Final Test, select ALL six scenes x BOTH endpoints x two repeats iff all fixed remaining-budget conditions hold; otherwise fixed primary one repeat. Never use Test scores, no partial second-repeat group."
+    },
+    "platform_version": "V3_A02_delivery_native_facts_and_budgeted_10rounds",
+    "development_panel_size": 3,
+    "selection_size": 3,
+    "boundary_case_limit": 2,
+    "max_M_prompt_bytes": 480000
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "User explicitly authorized 8 CPU cores and 32 GB in current session; benchmark 2/4/8 threads; CPU only",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 8,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 8,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "candidate_validation": {
+    "version": "v3_type_name_logging",
+    "allowed_imports": [
+      "ast",
+      "json",
+      "re",
+      "math",
+      "random",
+      "statistics",
+      "collections",
+      "itertools",
+      "pathlib"
+    ],
+    "amendment": "Common v2 rules plus narrowly allow type(value).__name__ for ordinary logging; revalidate all original raw proposals without model resampling",
+    "source_snapshot": "validation_correction_v3"
+  },
+  "evaluation": {
+    "label": "BW-style / CLI-adapted",
+    "views": 8,
+    "width": 1024,
+    "height": 1024,
+    "samples": 64,
+    "preview_width": 512,
+    "preview_samples": 16,
+    "minimum_bw_gain": 2,
+    "judge_model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "boundary_width": 1,
+    "development_frequency": "Independent preview BW only full H_start/H_best endpoints. Research panels use actual reference/render, Q and native functional evidence; no per-version preview judge unless already cached. Selection/Test always complete official-quality BW-style evaluation.",
+    "promotion_delta": 2,
+    "calibration_report": "preparation/bw_calibration_A02/calibration.json"
+  }
+}

@@ -1,0 +1,266 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "eval_failed",
+  "S_rubric": null,
+  "S_dimension": null,
+  "S_BW": null,
+  "started": 1794009241.6901221,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/selection/bw_0045/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": "external_judge_failure",
+  "finished": 1794009430.7873068,
+  "seconds": 189.09718465805054,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "evaluation_error": "R06 cannot be fully evaluated: scene_facts.json records light-object transforms but omits light energy, color, and world illumination settings needed to establish dominant cool overhead illumination.",
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "Repeated metallic pipes are present, but the dividers are extremely long, narrow hook structures rather than credible broad free-stall loops. Approximately 4.28-unit length and 0.94-unit spacing compare poorly with the approximately 1.82-unit adult figure. The equipment also continues into and beyond the rear wall.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Rod.001].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Ball].matrix_world",
+        "scene_facts.json.objects[object_id=Ball.008].matrix_world",
+        "scene_facts.json.objects[object_id=Rod.081].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.001].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Ball.254].world_aabb_approx",
+        "scene_facts.json.materials.SceneActSurface_12.nodes",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The raised slab and curb have matte concrete materials, but recognizable sparse straw is on the lower aisle, not on the lying beds. The authored view shows bare bed surfaces.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.024].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.025].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Rod.117].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Rod.140].world_aabb_approx",
+        "scene_facts.json.materials.SceneActSurface_8.nodes",
+        "author.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Multiple patterned cow figures exist, but their ellipsoid anatomy and suspended folded limbs do not establish credible resting contact. Cow 00's lowest udder bound is z=0.1924 above the bed at z=0.15, with legs higher still. A smoother nose material exists, but a clearly wet muzzle is not readable in the finished view.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Ball.090].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Ball.092].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Ball.094].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.024].world_aabb_approx",
+        "scene_facts.json.materials.SceneActSurface_16.nodes",
+        "scene_facts.json.materials.Irregular Holstein hide.links",
+        "author.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The reconstruction has one backdrop wall and an oversized platform. The stall row runs perpendicular to the curb and continues beyond the rear wall, rather than alongside the reference aisle. The door is placed in front of an uninterrupted wall slab, with no actual opening.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.001].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.020].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.021].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.024].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Box.025].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Rod.090].world_aabb_approx",
+        "author.png",
+        "wide_05.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "A substantial gray lower wall and framed blue door-like panel are visible. However, the blue element overlays the solid wall rather than occupying a retained opening; its construction does not establish the required installed metal door.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.001].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.020].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.021].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.022].world_aabb_approx",
+        "scene_facts.json.materials.SceneActSurface_6.nodes",
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": null,
+      "evidence": "Two elevated light objects are recorded at z=7 and z=5, and the render is neutral-cool. Their energy and color, and world illumination settings, were not supplied, preventing confirmation of the required principal lighting configuration.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=SceneActArea].matrix_world",
+        "scene_facts.json.objects[object_id=SceneActArea.001].matrix_world",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "The active 49 mm perspective camera corresponds to the delivered composition and gives clear row recession. However, visibly primitive cow and worker anatomy and uniform simplified surfaces make the result strongly stylized rather than realistic.",
+      "source_evidence": [
+        "scene_facts.json.camera",
+        "scene_facts.json.authored_cameras[0].is_active_camera",
+        "scene_facts.json.objects[object_id=Ball.080].dimensions_scene_units",
+        "scene_facts.json.objects[object_id=Ball.084].dimensions_scene_units",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "Original final.png exists, fully decodes as a 512×285 PNG, and depicts the requested barn subject. This criterion specifies no minimum resolution.",
+      "source_evidence": [
+        "scene_facts.json.delivered_artifacts[0].exists",
+        "scene_facts.json.delivered_artifacts[0].full_decode_success",
+        "scene_facts.json.delivered_artifacts[0].format",
+        "scene_facts.json.delivered_artifacts[0].snapshot_filename",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R09",
+      "score": 1,
+      "evidence": "The Blender project opened successfully and contains editable architecture, divider meshes, raised slab, cow parts, assigned node materials, elevated lights, and the active camera matching the delivered view.",
+      "source_evidence": [
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id=Box.024]",
+        "scene_facts.json.objects[object_id=Rod.001]",
+        "scene_facts.json.objects[object_id=Ball.080]",
+        "scene_facts.json.objects[object_id=SceneActArea]",
+        "scene_facts.json.materials",
+        "scene_facts.json.authored_cameras[0]",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 4,
+      "evidence": "Barn equipment, Holstein markings, blue door, and raised concrete remain recognizable, but stall orientation, enclosure, and anatomy depart substantially from the target.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Pipes have visible upright supports, but animal contact is weak and the equipment extends through the rear wall.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "scene_facts.json.objects[object_id=Rod.081].world_aabb_approx",
+        "scene_facts.json.objects[object_id=Box.001].world_aabb_approx"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Blue, gray, silver, and black-white colors broadly match; cow silhouettes and repetitive simplified parts look toy-like.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Ellipsoid livestock, mannequin worker, sparse stick straw, and flat oval damp marks undermine realism despite coherent shading.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 4,
+      "evidence": "Clear recession and open walking space exist, but the broad slab, perpendicular curb relationship, and backdrop-only architecture weaken spatial fidelity.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_05.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 4,
+      "evidence": "The worker helps explain height, but elongated stalls, tightly packed cows, and excessive empty platform area give misleading equipment proportions.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "scene_facts.json.objects[object_id=Box.024].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Neutral-cool illumination and soft contact shadows are coherent, and pipes have highlights. Concrete and coats lack surface variation; wet noses are not clearly communicated.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "scene_facts.json.materials.SceneActSurface_12.nodes",
+        "scene_facts.json.materials.SceneActSurface_16.nodes"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Repeated equipment, eight cows, platform, curb, wall, blue door element, worker, and both deliverables exist. Bed bedding and a convincing enclosed architectural bay are missing.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.delivered_artifacts[0]"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/selection/bw_0045/1/judge_A02_1",
+  "judge_usage": {
+    "input_tokens": 324631,
+    "output_tokens": 2639,
+    "observed_model": "unknown",
+    "seconds": 71.87312196893618
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

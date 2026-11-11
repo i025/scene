@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": [
+        "action",
+        "propose",
+        "stop"
+      ]
+    },
+    "scene_id": {
+      "type": "string"
+    },
+    "action_name": {
+      "type": "string"
+    },
+    "parameters_json": {
+      "type": "string"
+    },
+    "expectation": {
+      "type": "string"
+    },
+    "analysis": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "new_action_source": {
+      "type": "string"
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": [
+              "H",
+              "M"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "rationale": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "target",
+          "path",
+          "content",
+          "rationale"
+        ]
+      }
+    }
+  },
+  "required": [
+    "decision",
+    "scene_id",
+    "action_name",
+    "parameters_json",
+    "expectation",
+    "analysis",
+    "scope",
+    "new_action_source",
+    "changes"
+  ]
+}

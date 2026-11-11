@@ -1,0 +1,203 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 88.88888888888889,
+  "S_dimension": 57.5,
+  "S_BW": 73.19444444444444,
+  "started": 1794354395.8060288,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_96943062/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794354412.9351435,
+  "seconds": 17.129114627838135,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The empty classroom is recognizable through its partition, suspended ceiling with missing panels, right-wall whiteboard, rear fixtures and flag, and scattered floor debris.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The left partition, right whiteboard, rear fixtures, overhead ceiling damage, left-side debris and right-side yellow sheets retain the principal spatial relationships.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "The whiteboard is substantially oversized vertically and reaches the ceiling, unlike the reference's board with a substantial wall band above it.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Light walls and ceiling, dark flooring and baseboards, gray debris, yellow sheets and the colored flag preserve the principal color organization. Shapes and surfaces are heavily simplified.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_03.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The interior and principal objects remain visible under broadly compatible soft illumination. Heavy grain and flatter lighting reduce quality without obscuring the main content.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary viewpoints show consistent room depth, wall orientation, ceiling structure and volumetric debris, establishing a genuine three-dimensional scene.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "Actual mesh objects provide separately addressable floor, walls, ceiling, board and debris geometry. Their finite meshes, parent chains and assigned materials are recorded, with valid shader connections.",
+      "source_evidence": [
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id=Box].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.001].material_slots",
+        "scene_facts.json.objects[object_id=Box.006].parent_chain",
+        "scene_facts.json.objects[object_id=Box.065].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.106].material_slots",
+        "scene_facts.json.objects[object_id=whiteboard].children",
+        "scene_facts.json.materials.SceneActSurface_12.links",
+        "scene_facts.json.materials.SceneActSurface_31.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 6,
+      "evidence": "The distinctive room contents are recognizable, but oversized board geometry, simplified damage and altered framing weaken the match.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 6,
+      "evidence": "The enclosure and ceiling read coherently, and debris lies near the floor. Rigid stacked sheets and minimally represented fixture attachments reduce physical credibility.",
+      "source_evidence": [
+        "wide_03.png",
+        "detail_01.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 6,
+      "evidence": "The principal palette survives, but walls appear less warm, yellow sheets are pale, and damaged materials have overly regular rectangular silhouettes.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Severe visible render grain, uniformly clean surfaces, rigid flag geometry and block-like debris undermine realism.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "The principal left-right and front-back arrangement is preserved, although the yellow sheets sit farther from the wall and the authored framing changes the room's apparent depth.",
+      "source_evidence": [
+        "author.png",
+        "wide_03.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Most fixtures and debris have plausible relative sizes, but the whiteboard is too tall and the ceiling grid appears coarse.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Lighting keeps the room legible and provides contact shading, but grain and weak surface differentiation diminish the carpet, wall and debris materials.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_03.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major visible elements are present, including damaged ceiling sections, partition, whiteboard, flag, rear fixtures and debris. Ceiling light panels and finer damage details are not clearly reproduced.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png",
+        "wide_03.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_96943062/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 113295,
+    "output_tokens": 1435,
+    "observed_model": "unknown",
+    "seconds": 41.02966179093346
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

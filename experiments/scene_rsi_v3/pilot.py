@@ -69,7 +69,7 @@ def run_scene(scene,h,m,repeat=1,*,preparation=False,evaluate_bw=True):
         cached=read(folder/'record.json')
         if not evaluate_bw:return cached
         current_evidence=(cached['bw'].get('delivery_evidence_version')=='original_delivery_metadata_A02'
-                          and cached['bw'].get('native_evidence_version')=='authored_native_project_facts_A02')
+                          and cached['bw'].get('native_evidence_version')==c['evaluation']['native_evidence_version'])
         if current_evidence and cached['bw']['evaluation_status']!='not_requested_preview':return cached
         write_json(folder/'record_before_endpoint_evaluation.json',cached)
     if scene['split']=='test' and not (ROOT/'final_selection_freeze.json').exists():raise RuntimeError('Final Test sealed until ten rounds and H selection frozen')
@@ -84,6 +84,7 @@ def run_scene(scene,h,m,repeat=1,*,preparation=False,evaluate_bw=True):
         with (folder/'runner_stdout.log').open('w') as out,(folder/'runner_stderr.log').open('w') as err:
             process=run_measured(cmd,timeout=c['budget']['seconds']+15,measurement_path=folder/'generation_process.json',memory_limit_bytes=c['resources']['memory_limit_gb']*1024**3,stdout=out,stderr=err,env=settings_env())
         if not (folder/'status.json').exists():write_json(folder/'status.json',{'error':'outer_timeout' if process['timed_out'] else 'missing_inner_status','seconds':process['seconds']})
+    check_service_pause()
     from evaluate import score
     import torch
     torch.set_num_threads(c['resources']['threads_per_metric'])
@@ -97,10 +98,10 @@ def run_scene(scene,h,m,repeat=1,*,preparation=False,evaluate_bw=True):
         if (evidence/'evaluation.json').exists():bw=read(evidence/'evaluation.json')
         else:
             rubric=read(Path(scene['rubric_path']))
-            bw=judge_artifact(task['image'],evidence,rubric,c,folder/'judge_A02_1')
+            bw=judge_artifact(task['image'],evidence,rubric,c,folder/(c['evaluation']['judge_revision']+'_1'))
             if bw['evaluation_status']=='eval_failed':
                 write_json(evidence/'evaluation_attempt1.json',bw)
-                bw=judge_artifact(task['image'],evidence,rubric,c,folder/'judge_A02_2')
+                bw=judge_artifact(task['image'],evidence,rubric,c,folder/(c['evaluation']['judge_revision']+'_2'))
     if generation_valid and not evaluate_bw:bw['evaluation_status']='not_requested_preview'
     failure_type=None
     if not generation_valid:
@@ -186,7 +187,9 @@ def exercise_meta_interface(m,packet):
     if not isinstance(result,dict) or 'changes' not in result:raise ValueError('M returned invalid proposal contract')
     return {'executed':True,'model_calls':0,'fixture':'fixed stop response, not ability evidence'}
 
-def selection(h,m):return [run_scene(s,h,m) for s in manifest('selection')]
+def selection(h,m):
+    repeats=read(ROOT/'configs/selection_repeats.json')[h]
+    return [run_scene(s,h,m,repeats[s['scene_id']]) for s in manifest('selection')]
 
 def request_boundary_case(comparison_id):
     path=ROOT/'selection_boundary_cases.json'
@@ -329,7 +332,8 @@ def run_round(t,state):
         write_json(folder/'error.json',{'error':reason,'traceback':traceback.format_exc(),'phase':'proposal_or_validation'})
     row={'round':t,'H_parent':h,'M_parent':m,'H_candidate':h_candidate if kind in ['H-only','H+M'] else None,'M_candidate':m_candidate if kind in ['M-only','H+M'] else None,'proposal_returned':proposal is not None,'new_source_candidate':kind!='unchanged',
          'candidate_type':kind,'H_accepted':h_ok,'M_accepted':m_ok,'H_retained':h_candidate if h_ok else h,'M_retained':m_candidate if m_ok else m,
-         'status':status,'selection':selected,'reason':reason,'usage':current(),'M_program_used':str(mpath(m)/'meta.py'),'action_count':len(api.executed_actions),'sessions':api.sessions,'frames':api.frames,'proposal_path':str(folder/'proposal.json')}
+         'status':status,'selection':selected,'reason':reason,'usage':current(),'M_program_used':str(mpath(m)/'meta.py'),'action_count':len(api.executed_actions),'sessions':api.sessions,'frames':api.frames,'proposal_path':str(folder/'proposal.json'),
+         'platform_snapshot':c['pilot']['platform_snapshot'],'research_packet_version':c['pilot']['research_packet_version']}
     write_json(dest/'record.json',row)
     print(json.dumps(row,ensure_ascii=False),flush=True);return row
 
@@ -341,7 +345,8 @@ def run_10_rounds():
     if not (ROOT/'round0.json').exists():
         dev=[run_scene(s,H_START,'M000',evaluate_bw=False) for s in manifest('development')]
         baseline=selection(H_START,'M000')
-        write_json(ROOT/'round0.json',{'H':H_START,'development':len(dev),'selection':aggregate(baseline),'ledger':current()})
+        write_json(ROOT/'round0.json',{'H':H_START,'development':len(dev),'selection':aggregate(baseline),'ledger':current(),
+                                     'platform_version':cfg()['pilot']['platform_version']})
     for t in range(1,11):
         row=run_round(t,state);state.update(round_completed=t,H_retained=row['H_retained'],M_retained=row['M_retained'],phase='round_complete')
         write_json(ROOT/'state.json',state)

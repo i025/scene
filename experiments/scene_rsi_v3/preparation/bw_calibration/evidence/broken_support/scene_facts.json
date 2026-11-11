@@ -1,7 +1,7 @@
 {
   "blend_opened": true,
   "blender_version": "4.2.10 LTS",
-  "native_evidence_version": "authored_native_project_facts_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
   "objects": [
     {
       "object_id": "A_unrelated_part",
@@ -471,6 +471,112 @@
       "hide_render": false
     }
   ],
+  "authored_lights": [
+    {
+      "object_id": "Area",
+      "data_name": "Area.003",
+      "type": "AREA",
+      "linked_to_active_scene": true,
+      "hide_render": false,
+      "matrix_world": [
+        [
+          0.9701424837112427,
+          0.19988897442817688,
+          -0.1373605728149414,
+          0.0
+        ],
+        [
+          -0.24253562092781067,
+          0.7995558977127075,
+          -0.5494422912597656,
+          -4.0
+        ],
+        [
+          9.546864632170582e-09,
+          0.566352128982544,
+          0.8241633772850037,
+          7.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "energy": 1200.0,
+      "use_nodes": false,
+      "use_shadow": true,
+      "size": 5.0,
+      "size_y": null,
+      "shape": "SQUARE",
+      "angle": null,
+      "shadow_soft_size": null,
+      "node_tree_present": false,
+      "nodes": [],
+      "links": [],
+      "node_inspection_scope": "Saved top-level lighting nodes and actual links; nested node groups are identified, not recursively inspected"
+    }
+  ],
+  "authored_world": {
+    "name": "World",
+    "color": [
+      0.05087608844041824,
+      0.05087608844041824,
+      0.05087608844041824
+    ],
+    "use_nodes": true,
+    "node_tree_present": true,
+    "nodes": [
+      {
+        "name": "Background",
+        "type": "ShaderNodeBackground",
+        "muted": false,
+        "inputs": {
+          "Color": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            1.0
+          ],
+          "Strength": 0.4000000059604645,
+          "Weight": 0.0
+        },
+        "outputs": {},
+        "input_linked": {
+          "Color": false,
+          "Strength": false,
+          "Weight": false
+        }
+      },
+      {
+        "name": "World Output",
+        "type": "ShaderNodeOutputWorld",
+        "muted": false,
+        "inputs": {},
+        "outputs": {},
+        "input_linked": {
+          "Surface": true,
+          "Volume": false
+        },
+        "is_active_output": true
+      }
+    ],
+    "links": [
+      [
+        "Background",
+        "Background",
+        "World Output",
+        "Surface"
+      ]
+    ],
+    "node_inspection_scope": "Saved top-level lighting nodes and actual links; nested node groups are identified, not recursively inspected"
+  },
   "collections": [
     {
       "name": "Collection",

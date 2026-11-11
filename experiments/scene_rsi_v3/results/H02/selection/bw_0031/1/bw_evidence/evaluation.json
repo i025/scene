@@ -1,0 +1,222 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 0.0,
+  "S_dimension": 46.25,
+  "S_BW": 23.125,
+  "started": 1794331353.1080837,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H02/selection/bw_0031/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794331629.6669374,
+  "seconds": 276.5588536262512,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "The shell contains a floor and three walls but no ceiling mesh. The rear-right feature is a plain doorway assembly, without the required vertical pattern. Instrument arrays and six horizontal grille slats are present.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Architecture].children",
+        "scene_facts.json.objects[object_id=Rear doorway].children",
+        "scene_facts.json.objects[object_id=Box.123]",
+        "scene_facts.json.objects[object_id=Box.091]",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 0,
+      "evidence": "The main console has an actual writing ledge, inclined face, and numerous controls; the separate small console occupies the back-right area. However, console meters are plain single-material slabs without lighter instrument faces and surrounding bezels, and the smaller console lacks instruments.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.099]",
+        "scene_facts.json.objects[object_id=Box.101]",
+        "scene_facts.json.objects[object_id=Box.104]",
+        "scene_facts.json.objects[object_id=Small independent console].children",
+        "author.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "The wall board has yellow backing, black trunk and loops, red round indicators, amber rectangular lamps, emissive assignments, and three German labels. Selector assemblies are plain cylinders on blank rectangular plates, without dial scales or tick marks; the required complete interface is not achieved.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Box.143]",
+        "scene_facts.json.objects[object_id=Rod.144]",
+        "scene_facts.json.objects[object_id=Rod.135]",
+        "scene_facts.json.objects[object_id=Fault label].text_body",
+        "scene_facts.json.materials.SceneActSurface_12.nodes",
+        "scene_facts.json.materials.SceneActSurface_14.nodes",
+        "author.png",
+        "wide_04.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "Three overhead fixture slabs and broad area lights exist, with muted matte material assignments. There is no ceiling or fixture mounting structure, and the washed-out, uniformly plain presentation lacks the requested subtly aged institutional surface treatment.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Architecture].children",
+        "scene_facts.json.objects[object_id=Box.004]",
+        "scene_facts.json.authored_lights",
+        "scene_facts.json.materials.SceneActSurface_1.nodes",
+        "delivered_final.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "Two distinct cameras exist and the overview axis points modestly downward. The actual overview devotes substantial space to the open gray background, crops the long console, and obscures much of the smaller console behind it, failing the required clear overview of every key assembly.",
+      "source_evidence": [
+        "scene_facts.json.authored_cameras",
+        "scene_facts.json.camera.matrix_world",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 0,
+      "evidence": "The original final.png is a valid decoded PNG depicting the reconstruction, but its measured 374×512 dimensions fail both minimum dimensions.",
+      "source_evidence": [
+        "scene_facts.json.delivered_artifacts[0].width",
+        "scene_facts.json.delivered_artifacts[0].height",
+        "scene_facts.json.delivered_artifacts[0].png_magic_valid",
+        "scene_facts.json.delivered_artifacts[0].full_decode_success",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "The project opens with editable meshes, two cameras, and Cycles. However, the saved view transform is AgX rather than Filmic, and all objects occupy one master collection; named empty parents do not provide the required component collection hierarchy.",
+      "source_evidence": [
+        "scene_facts.json.blend_opened",
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.authored_render_configuration.engine",
+        "scene_facts.json.color_management.view_transform",
+        "scene_facts.json.collections"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The main equipment arrangement is recognizable, but the architecture and interfaces are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Cabinet bases support the overall equipment, but the inclined slab has a conspicuous unsupported gap above its base and overhead fixtures lack mounting.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_03.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Neutral cream-gray surfaces and a yellow board fit the broad palette, but low contrast and generic repeated controls weaken period character.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Blank meters, identical pointers, simple cylinders, unfinished enclosure, and visible render noise make the room read as a blockout.",
+      "source_evidence": [
+        "detail_01.png",
+        "wide_01.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 6,
+      "evidence": "Rear instrument banks, central grille, foreground long console, and back-right smaller console retain the principal spatial relationships.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Console heights and relative equipment sizes are broadly plausible, though the main control surface is deep and the room feels sparsely occupied.",
+      "source_evidence": [
+        "wide_01.png",
+        "wide_04.png",
+        "scene_facts.json.objects[object_id=Box.101].dimensions_scene_units"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 4,
+      "evidence": "Broad soft illumination keeps equipment visible, but washed-out surfaces, weak material differentiation, and noisy shadows reduce quality.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 4,
+      "evidence": "Major equipment masses are present, but the ceiling, patterned inset, functional console meter faces, and selector scales are missing.",
+      "source_evidence": [
+        "scene_facts.json.objects[object_id=Architecture].children",
+        "author.png",
+        "wide_04.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H02/selection/bw_0031/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 231576,
+    "output_tokens": 1705,
+    "observed_model": "unknown",
+    "seconds": 56.51922687795013
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

@@ -1,0 +1,254 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": false,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 46.15384615384615,
+  "S_dimension": 47.5,
+  "S_BW": 46.82692307692308,
+  "started": 1794353288.7479799,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_02.png",
+    "wide_03.png",
+    "wide_04.png",
+    "wide_05.png",
+    "wide_06.png",
+    "detail_01.png",
+    "detail_02.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H10/selection/bw_0045/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 9,
+  "renders_completed": 9,
+  "failure_type": null,
+  "finished": 1794353525.6422405,
+  "seconds": 236.89426064491272,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 0,
+      "evidence": "Repeated metallic pipe dividers have plausible bay spacing and height, but the two outer longitudinal rails float beyond the supports, so the equipment is not a credibly connected installation.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Rod.009].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Rod.091].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Rod.092].world_aabb_approx",
+        "scene_facts.json:materials.SceneActSurface_9.nodes",
+        "wide_02.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "The platform stands approximately 0.20 scene units above the aisle with a visible fascia. Thin scattered straw pieces leave nearly all concrete exposed; concrete shaders have roughness 0.83 and render diffusely.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.001].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.002].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.025].dimensions_scene_units",
+        "scene_facts.json:materials.SceneActSurface_1.nodes",
+        "scene_facts.json:materials.SceneActSurface_3.nodes",
+        "author.png",
+        "wide_05.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R03",
+      "score": 0,
+      "evidence": "Seven animal assemblies occupy the bed, but their faceted ellipsoidal bodies, disc ears and rudimentary limbs lack credible dairy-cow anatomy. Nose surfaces do not visibly convey wetness and share the black coat's 0.30 roughness.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Ball].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Ball.007].dimensions_scene_units",
+        "scene_facts.json:objects[object_id=Ball.009].dimensions_scene_units",
+        "scene_facts.json:materials.SceneActSurface_11.nodes",
+        "scene_facts.json:materials.SceneActSurface_13.nodes",
+        "author.png",
+        "wide_02.png",
+        "wide_04.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R04",
+      "score": 0,
+      "evidence": "The long platform, curb and adjacent circulation area are present. However, architecture is a single rear-wall backdrop without an enclosed bay, and the blue element sits in front of an uninterrupted solid wall rather than occupying a door opening.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=architecture].children",
+        "scene_facts.json:objects[object_id=Box.003].vertices",
+        "scene_facts.json:objects[object_id=Box.003].world_aabb_approx",
+        "scene_facts.json:objects[object_id=Box.005].world_aabb_approx",
+        "author.png",
+        "wide_06.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R05",
+      "score": 0,
+      "evidence": "A substantial matte gray wall is present, but the blue element consists of two plain stacked boxes against the solid wall. Its inset rectangle lacks convincing industrial-door construction or operational cues.",
+      "source_evidence": [
+        "scene_facts.json:objects[object_id=Box.005]",
+        "scene_facts.json:objects[object_id=Box.006]",
+        "scene_facts.json:materials.SceneActSurface_5.nodes",
+        "scene_facts.json:materials.SceneActSurface_6.nodes",
+        "detail_01.png",
+        "author.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "The principal 1600-energy area light is overhead at z=7 with blue-biased color, supplemented by a weaker elevated light. The finished image shows cool, soft illumination from above.",
+      "source_evidence": [
+        "scene_facts.json:authored_lights[0].matrix_world",
+        "scene_facts.json:authored_lights[0].color",
+        "scene_facts.json:authored_lights[0].energy",
+        "scene_facts.json:authored_lights[1].energy",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R07",
+      "score": 0,
+      "evidence": "The saved perspective camera corresponds to the delivered composition and provides readable recession. However, primitive faceted animals and simplified construction make the treatment strongly stylized rather than realistic.",
+      "source_evidence": [
+        "scene_facts.json:camera",
+        "scene_facts.json:objects[object_id=Ball].polygons",
+        "scene_facts.json:objects[object_id=Ball].modifiers",
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R08",
+      "score": 1,
+      "evidence": "The original final.png exists, fully decodes as PNG, and depicts the requested barn reconstruction. No minimum resolution is specified by this criterion.",
+      "source_evidence": [
+        "scene_facts.json:delivered_artifacts[0].exists",
+        "scene_facts.json:delivered_artifacts[0].full_decode_success",
+        "scene_facts.json:delivered_artifacts[0].format",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    },
+    {
+      "id": "R09",
+      "score": 1,
+      "evidence": "The Blender project opens and contains editable architecture, platform, divider meshes, animal assemblies, assigned materials, overhead lights and the matching active camera.",
+      "source_evidence": [
+        "scene_facts.json:blend_opened",
+        "scene_facts.json:mesh_count",
+        "scene_facts.json:objects[object_id=Box.001]",
+        "scene_facts.json:objects[object_id=Rod]",
+        "scene_facts.json:objects[object_id=Ball]",
+        "scene_facts.json:material_dependencies",
+        "scene_facts.json:authored_lights",
+        "scene_facts.json:camera",
+        "delivered_final.png"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 5,
+      "evidence": "The stall row, resting animals, raised edge and blue architectural accents match the broad subject, but enclosure and animal forms are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "Divider posts meet the platform and animals appear near its surface, but unsupported longitudinal rails and crude pipe junctions weaken structural credibility.",
+      "source_evidence": [
+        "wide_02.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 5,
+      "evidence": "Silver pipes, blue accents and black-white coats preserve the main palette; mottled markings and bulbous animal silhouettes depart from the target.",
+      "source_evidence": [
+        "author.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 3,
+      "evidence": "Faceted primitive animals, repetitive poses, plain architectural surfaces and visible noise make the result look like an early scene blockout.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_02.png",
+        "wide_04.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 5,
+      "evidence": "Regular bays, a continuous platform edge and open aisle communicate basic circulation, but the enclosing barn and functional opening are not reconstructed.",
+      "source_evidence": [
+        "author.png",
+        "wide_06.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 5,
+      "evidence": "Bay spacing and rail heights are broadly plausible relative to the door and worker cue. Animal proportions and the worker's incomplete lower body undermine scale credibility.",
+      "source_evidence": [
+        "wide_04.png",
+        "wide_05.png",
+        "author.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Cool lighting, metallic pipe highlights and matte concrete are distinguishable. Concrete lacks surface character, coats look procedural, and noses lack convincing moisture.",
+      "source_evidence": [
+        "author.png",
+        "wide_02.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 6,
+      "evidence": "Multiple dividers and seven animals, bedding, platform, wall and blue panel are included. Enclosure, functional door construction and developed animal anatomy remain incomplete.",
+      "source_evidence": [
+        "author.png",
+        "wide_05.png",
+        "wide_06.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H10/selection/bw_0045/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 201651,
+    "output_tokens": 2213,
+    "observed_model": "unknown",
+    "seconds": 62.70991499302909
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}

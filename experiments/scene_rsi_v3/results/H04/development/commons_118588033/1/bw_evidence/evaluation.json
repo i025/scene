@@ -1,0 +1,199 @@
+{
+  "label": "BW-style / CLI-adapted",
+  "preview": true,
+  "execution_status": "completed",
+  "evaluation_status": "completed",
+  "S_rubric": 100.0,
+  "S_dimension": 58.75,
+  "S_BW": 79.375,
+  "started": 1794353753.4649096,
+  "images": [
+    "author.png",
+    "wide_01.png",
+    "wide_03.png",
+    "detail_01.png"
+  ],
+  "source": "__EXPERIMENT_ROOT__/results/H04/development/commons_118588033/1/scene.blend",
+  "device": "CPU",
+  "threads": 8,
+  "renders_attempted": 4,
+  "renders_completed": 4,
+  "failure_type": null,
+  "finished": 1794353771.3151455,
+  "seconds": 17.85023593902588,
+  "delivered_images": [
+    "delivered_final.png"
+  ],
+  "delivery_evidence_version": "original_delivery_metadata_A02",
+  "native_evidence_version": "authored_native_project_facts_A03_lighting",
+  "evaluation_error": null,
+  "rubric_scores": [
+    {
+      "id": "R01",
+      "score": 1,
+      "evidence": "The compartment is recognizable through the triple bunk, lockers, equipment cabinet, benches, column, wall equipment, exposed beams and hanging lamps. Details are substantially simplified.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R02",
+      "score": 1,
+      "evidence": "Left foreground equipment and bunks, rear lockers and desk, and the right foreground column retain the principal spatial ordering. The room appears less cramped than the reference.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R03",
+      "score": 1,
+      "evidence": "Major furniture and architectural proportions remain functionally recognizable, although the bunks look broad and the desk and chair comparatively small.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R04",
+      "score": 1,
+      "evidence": "Reddish flooring, pale walls, dark frames and equipment, green benches, white bedding and the red wall fixture preserve the main color organization.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png",
+        "wide_01.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R05",
+      "score": 1,
+      "evidence": "The interior and main furnishings remain legible with coherent shading. Lighting is flatter and less atmospheric than the reference, and substantial noise reduces surface clarity.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ],
+      "evidence_route": "render"
+    },
+    {
+      "id": "R06",
+      "score": 1,
+      "evidence": "Complementary views reveal furniture thickness, cylindrical rails, room depth and changing occlusion, establishing actual three-dimensional construction.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "wide_03.png",
+        "detail_01.png"
+      ],
+      "evidence_route": "either"
+    },
+    {
+      "id": "R07",
+      "score": 1,
+      "evidence": "The scene contains 153 meshes with addressable hierarchies. Architectural Box meshes, mattress Box.009, locker Box.015 and column Rod have valid nonempty geometry and assigned materials with connected surface shaders.",
+      "source_evidence": [
+        "scene_facts.json.mesh_count",
+        "scene_facts.json.objects[object_id=Box].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Box.009].parent_chain",
+        "scene_facts.json.objects[object_id=Box.009].material_slots",
+        "scene_facts.json.objects[object_id=Box.015].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=Rod].finite_nonempty_mesh",
+        "scene_facts.json.objects[object_id=architecture].children",
+        "scene_facts.json.materials.SceneActSurface_8.links"
+      ],
+      "evidence_route": "scene_summary"
+    }
+  ],
+  "dimension_scores": [
+    {
+      "id": "scene_fidelity",
+      "score": 7,
+      "evidence": "Strong correspondence of major furnishings and colors; simplified ceiling services and reduced clutter weaken the shipboard character.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "physics",
+      "score": 4,
+      "evidence": "The bunk frame is coherent, but mattresses appear inset from supporting rails without visible platforms, and the left bench passes into the equipment cabinet.",
+      "source_evidence": [
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "style_color",
+      "score": 7,
+      "evidence": "The characteristic palette is retained, but bedding, heater and furniture silhouettes are very boxy and simplified.",
+      "source_evidence": [
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "realism",
+      "score": 4,
+      "evidence": "Heavy render noise, rigid rectangular bedding and sparse construction details make the scene look like a rough model.",
+      "source_evidence": [
+        "delivered_final.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "layout_spatial",
+      "score": 7,
+      "evidence": "Principal left/right and front/rear relationships correspond, while the open floor and simplified background reduce the reference's dense enclosure.",
+      "source_evidence": [
+        "author.png",
+        "delivered_final.png"
+      ]
+    },
+    {
+      "id": "proportion_scale",
+      "score": 6,
+      "evidence": "Column and room proportions are plausible; broad bunks and comparatively small seating weaken relative scale consistency.",
+      "source_evidence": [
+        "wide_01.png",
+        "author.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "lighting_material",
+      "score": 5,
+      "evidence": "Readable illumination and consistent shadows support the forms, but noisy, similar surface responses and weak lamp emphasis reduce material distinction and atmosphere.",
+      "source_evidence": [
+        "delivered_final.png",
+        "detail_01.png"
+      ]
+    },
+    {
+      "id": "completeness",
+      "score": 7,
+      "evidence": "Most major objects are represented, including three bunk levels, lockers, benches, desk, chair and wall fixtures. Smaller equipment and overhead service complexity are sparse.",
+      "source_evidence": [
+        "author.png",
+        "wide_01.png",
+        "detail_01.png"
+      ]
+    }
+  ],
+  "judge_session": "__EXPERIMENT_ROOT__/results/H04/development/commons_118588033/1/judge_A03_1",
+  "judge_usage": {
+    "input_tokens": 140588,
+    "output_tokens": 1352,
+    "observed_model": "unknown",
+    "seconds": 41.24754654010758
+  },
+  "same_model_bias_limit": "Research and independent judge use Astra; separate sessions do not establish human independence."
+}
