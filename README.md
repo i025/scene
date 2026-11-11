@@ -1,5 +1,7 @@
 # Scene-RSI V3：十轮连续演化的实际状态
 
+[最终审查附记：完整终测、M07与回放预算](docs/V3_FINAL_AUDIT_APPENDIX_ZH.md)
+
 本区依据保存的运行与候选记录整理；不把退出码0、会话结束或旧state单独当成全部实验完成。
 [完整收尾摘要](UPLOAD_SUMMARY_V3.md) · [审查索引](docs/V3_REVIEW_INDEX.md) · [中文报告](experiments/scene_rsi_v3/reports/REPORT_ZH.md) · [离线HTML](experiments/scene_rsi_v3/reports/index.html)
 

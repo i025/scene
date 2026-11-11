@@ -102,3 +102,9 @@ python docs/archive_tools_v3/offline_v3.py --experiment experiments/scene_rsi_v3
 python outputs/scene_rsi_v3/launch.py finish_test
 ```
 resume仅补未完成任务，不重抽终态失败、不启动第11轮。完整完成时无须续跑；不足部分明确保留pending。
+
+## 最终离线审查补充（2026-11-11T22:34:34+08:00）
+
+24项终态：22项评分成功，2项原调用超时；六来源匹配BW差−0.012995，区间[−4.434870,4.068024]，Selection增益未复现。A07原程序重放后4/4机械通过，原失败保留，无新模型。基础13+更新2个有效附件均已验证；中间starter不算完整。元回放条件满足但预算不足：剩4,905,018可见输入token，冻结保守估计28,876,596，未运行、无MetaImp。来源含截图/信息图等，不是新盲测。
+
+[完整审查附记](docs/V3_FINAL_AUDIT_APPENDIX_ZH.md) · [回放当前检查](docs/V3_META_REPLAY_FINAL_READINESS.json)。此补充不修改科学产物，科学数据提交仍指向既定归档提交，避免自指。

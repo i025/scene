@@ -25,3 +25,7 @@
 | 修正外部BW耗时覆盖 | [报告修订说明](../experiments/scene_rsi_v3/REPORT_ADAPTATION_FINAL_COMPLETION.md) | [耗时](../experiments/scene_rsi_v3/metrics/timing.csv) / [角色成本](../experiments/scene_rsi_v3/metrics/final_cost_by_role.csv) → [成本图](../experiments/scene_rsi_v3/figures/cost_and_timing.png) | 旧汇总漏读*_timing.json，旧表图保留；不叠加父子进程作用域，不把补日志解释成速度收益 |
 
 归档只整理已存在产物，不调用模型/Blender、不补采样。实际执行H/M与冻结源码保留，整理版分析脚本单列。BW未获分发许可的原始参考及附件不公开；完整许可与上传状态见[附件索引](../artifacts_index_v3.csv)。
+
+## 归档后离线审查
+
+[完整终测解读、M07/A07、预算与数据边界](V3_FINAL_AUDIT_APPENDIX_ZH.md)；[回放当前检查](V3_META_REPLAY_FINAL_READINESS.json)。不改原评分、程序或选择。
