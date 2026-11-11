@@ -36,8 +36,9 @@ H整场3600秒、CLI900秒、build1200秒、render600秒。进程树RSS为采样
 [终测逐来源配对数据](experiments/scene_rsi_v3/metrics/paired_test_sources.csv) / [逐生成点](experiments/scene_rsi_v3/metrics/paired_test_generations.csv)。
 
 实际CLI会话 406；usage可见 402/406；已知输入/输出token 35094982/1313761（不是缺失部分的估计）。
-主根渲染预算扣额 1117；主根+独立回放根联合扣额 1117，包括保守预扣；精确实际attempt/completed仍unknown，分来源证据见render_evidence.csv。
-文字编辑状态：{"failed": 4}；机械结构/编辑检查不等于语义目标正确。
+主根渲染预算扣额 1125；主根+独立回放根联合扣额 1125，包括保守预扣；精确实际attempt/completed仍unknown，分来源证据见render_evidence.csv。
+文字编辑状态：{"completed": 4}；机械结构/编辑检查不等于语义目标正确。
+[A07公共文字编辑执行器恢复](experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_07.md)：四项原程序外层校验通过，Blender重复导入模型适配器后缺少yaml导致平台失败；保留四次失败，各用原程序额外执行一次，未新增模型调用、修改目标或编辑程序。原单次执行协议与恢复后的累计两次分列；语义身份未独立验证。
 冻结元回放状态：pending_budget_and_actual_descendant_check，优先读取真实独立收据；原state中的历史字段：pending_budget_and_actual_descendant_check。本工具不从H分数曲线推断元能力，未完成真实回放就不作元能力提升结论。
 
 | round | 实际H / M父代 | 类型 | H接受 / M接受 | 保留H / M | 状态 |
@@ -77,7 +78,7 @@ Release实际收据链接：尚无上传成功收据。未获分发许可的BW�
 可选回放入口：not_started；入口是否执行：False；前后保存request计数差 0 次CLI会话。精确底层model_requests=null，不将整条收尾链称为零调用。归档自身模型/Blender调用为0，回放另计。入口退出码0也不自动证明回放完成或元能力提高，实际结果仍以独立回放记录为准。
 改动M内容参与后续研发的保存证据：[{"M_version": "M07", "round": 8, "executed_changed_files": ["actions/appearance_audit.py"]}, {"M_version": "M07", "round": 9, "executed_changed_files": ["actions/appearance_audit.py"]}]；审计状态：changed_content_execution_observed。证据仅到改动入口/模块/动作的实际参与，不是语句覆盖或能力提升。详见[源码与执行关联审计](experiments/scene_rsi_v3/metrics/M_changed_content_execution_audit.json)。
 
-实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/452fa223460cb1db9dbd115fb96ff2c43b8696a6)。此链接指向已确定的数据提交，摘要的后续提交不自指。
+实验数据归档提交：[查看提交](https://github.com/i025/scene/commit/e54d0a42cacce486b4be0475615ba08f47408643)。此链接指向已确定的数据提交，摘要的后续提交不自指。
 
 ## 六来源终测与M07专项审查
 
