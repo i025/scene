@@ -3,7 +3,7 @@
 [A01实际平台修订](../PROTOCOL_AMENDMENT_01.md)：公开附件已统一转发，原偏离文档保留为历史；M0未变，修订在首个BW正式任务和首轮正式M前完成，10个已生成H产物按相同信息条件复用。
 
 
-本轮状态：generation；正式研发完成 10/10 轮。保存了 63 条正式场景记录、当前有效评价协议 56 次BW测量；修订前已测BW记录 12 条另行保留。终测 partially_completed（已完成记录 6）。另有 1 个已开始但未写入最终任务记录的终测中断，不作not_started。实际CLI会话 332 次（包括准备阶段），usage可见 329/332。
+本轮状态：generation；正式研发完成 10/10 轮。保存了 65 条正式场景记录、当前有效评价协议 56 次BW测量；修订前已测BW记录 12 条另行保留。终测 partially_completed（已完成记录 8）。另有 0 个已开始但未写入最终任务记录的终测中断，不作not_started。实际CLI会话 336 次（包括准备阶段），usage可见 332/336。
 
 当前manifest来源数：development=12、selection=3、reserved_unused_budget_A02=1、test=6、meta_replay=2；Selection绝对覆盖按实际冻结配置，不沿用旧4图口径。
 
@@ -11,7 +11,7 @@
 
 独立来源配对：2/6 来源有双方成功且实测的生成对，合计 2 对生成；来源等权条件BW差 -3.312。全预定来源的端到端BW效用差 pending，完整效用覆盖 1/6；缺失评价和pending不当零。
 
-主根渲染预算扣额 render_budget_charged=858，主根+独立回放根联合扣额=858，分别读取两根render_attempts.jsonl且不重复相加；functional()一次保守预扣3帧，N/A时实际可能更少，因此不将原render_attempts字段解释为精确帧数。实际全局尝试数和完成数保持unknown/null。render_evidence.csv逐目录选择一种记录来源，避免stage事件、逐视角metadata与ledger重复相加。 早期CPU基准6次命令（3次成功、3次初始导入失败）已在冻结前补扣，原补扣证据保留。
+主根渲染预算扣额 render_budget_charged=873，主根+独立回放根联合扣额=873，分别读取两根render_attempts.jsonl且不重复相加；functional()一次保守预扣3帧，N/A时实际可能更少，因此不将原render_attempts字段解释为精确帧数。实际全局尝试数和完成数保持unknown/null。render_evidence.csv逐目录选择一种记录来源，避免stage事件、逐视角metadata与ledger重复相加。 早期CPU基准6次命令（3次成功、3次初始导入失败）已在冻结前补扣，原补扣证据保留。
 
 所有结果均为 BW-style / CLI-adapted，不是官方榜单分数。开发历史图已暴露；同模型研发与评审存在偏差。未完成项保留pending/null；没有真实冻结元回放时不宣称元能力改善。进程树RSS为0.1秒采样下界；嵌套阶段墙钟和CPU作用域有重叠，不相加冒充总耗时。
 
@@ -68,7 +68,7 @@ A02评价器修订保留14条前后记录；旧状态{'completed': 12, 'eval_fai
 
 ![真实实验图](../figures/cost_and_timing.png)
 
-实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为858，主根+独立回放根联合扣额为858，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。
+实际会话、阶段/进程墙钟原始点和可见token总量。timing.csv中进程树与metric阶段可能嵌套，不加和。主根渲染预算扣额为873，主根+独立回放根联合扣额为873，包含功能检查的保守预扣；它不是精确实际帧数。实际总尝试/完成数未知，分来源记录见render_evidence.csv。parent RSS是生命周期高水位；费用未知。
 
 来源：[metrics/cli_audit.csv](../metrics/cli_audit.csv)、[metrics/timing.csv](../metrics/timing.csv)、[metrics/render_evidence.csv](../metrics/render_evidence.csv)、[render_attempts.jsonl](../render_attempts.jsonl)、[preparation/cpu_benchmark_budget_correction.json](../preparation/cpu_benchmark_budget_correction.json)；生成脚本：[analyze.py](../analyze.py)。
 

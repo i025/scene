@@ -327,7 +327,7 @@ def review_text():
 | A03评价器修复与中断重跑 | [A03修订](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_03.md) / [固定原生收集器](../experiments/scene_rsi_v3/eval_blend.py) | 旧score/facts/record全部保留，scenes.csv的primary_analysis区分原attempt；成本含全部失败与中断 | 发生在首个H-only提案后，不冒充pre-M；A03照明字段的评分抖动未重测 |
 | A04研究证据编码修复 | [实际源码](../experiments/scene_rsi_v3/code_snapshots/platform_A04/) / [修订](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_04.md) | 第7轮失败包428577字节→无损紧凑JSON405383字节，9个实际面板与stub通过；0模型/Blender调用 | 原6轮、H/M、原始证据、评分与硬预算不变；不是自动M后代 |
 | A05终测服务中断与续跑 | [续跑快照](../experiments/scene_rsi_v3/code_snapshots/platform_A05_postten_resume/) / [原始恢复证据](../experiments/scene_rsi_v3/preparation/service_recovery_01/) | [服务事件](../experiments/scene_rsi_v3/metrics/cli_service_events.csv) / [协议](../experiments/scene_rsi_v3/PROTOCOL_AMENDMENT_05.md) | Connection refused后900秒超时保留；不重抽失败，不将传输失败归因为几何退化 |
-| 结构与编辑保持 | [固定回归](../experiments/scene_rsi_v3/regression.py) / [文字编辑器](../experiments/scene_rsi_v3/semantic_edit.py) | [机械检查](../experiments/scene_rsi_v3/metrics/scenes.csv) / [文字编辑](../experiments/scene_rsi_v3/metrics/semantic_edit_summary.csv) → [实际前后图](../experiments/scene_rsi_v3/figures/semantic_edit_results.png) / [校准夹具](../experiments/scene_rsi_v3/preparation/functional_fixtures/index.html) | 文字编辑流程真实执行；中心家具语义身份未独立验证，无自然图像3D真值 |
+| 结构与编辑保持 | [固定回归](../experiments/scene_rsi_v3/regression.py) / [文字编辑器](../experiments/scene_rsi_v3/semantic_edit.py) | [机械检查](../experiments/scene_rsi_v3/metrics/scenes.csv) / [文字编辑](../experiments/scene_rsi_v3/metrics/semantic_edit_summary.csv) → [实际前后图](../experiments/scene_rsi_v3/figures/semantic_edit_results.png) / [校准夹具](../experiments/scene_rsi_v3/preparation/functional_fixtures/index.html) | 文字编辑是否实际执行以逐任务状态为准；未完成不作通过结论，中心家具语义身份未独立验证，无自然图像3D真值 |
 | 成本与失败来源 | [固定运行时](../experiments/scene_rsi_v3/backend/runtime.py) | [CLI](../experiments/scene_rsi_v3/metrics/cli_audit.csv) / [时序](../experiments/scene_rsi_v3/metrics/timing.csv) / [渲染证据](../experiments/scene_rsi_v3/metrics/render_evidence.csv) → [成本图](../experiments/scene_rsi_v3/figures/cost_and_timing.png) | 全局frame字段为预算扣额，实际精确帧总量未知；缺失usage不计为零 |
 
 归档只整理已存在产物，不调用模型/Blender、不补采样。实际执行H/M与冻结源码保留，整理版分析脚本单列。BW未获分发许可的原始参考及附件不公开；完整许可与上传状态见[附件索引](../artifacts_index_v3.csv)。
@@ -368,36 +368,59 @@ def finalize(args):
     source,repo = args.source.resolve(),args.repo.resolve()
     snapshot = args.snapshot_id or datetime.now(timezone.utc).strftime('S%Y%m%dT%H%M%SZ')
     if not snapshot.replace('_','').replace('-','').isalnum():raise ValueError('Invalid snapshot ID')
-    folder = WORK/'finalizations'/snapshot;folder.mkdir(parents=True,exist_ok=False)
+    folder = WORK/'finalizations'/snapshot
+    if args.resume_publication:
+        if args.snapshot_id is None:raise ValueError('Publication resume needs an explicit snapshot ID')
+        receipt = read(folder/'FINALIZATION.json')
+        if receipt['status']!='pack_all_groups':raise ValueError('This resume entry only accepts a completed pack awaiting publication')
+        bundles=Path(receipt['bundles'])
+        packed=read(bundles/'PACK_RECEIPT.json')
+        rows=[json.loads(line) for line in (folder/'pack_all_groups.stdout.log').read_text().splitlines()]
+        if {row['group'] for row in rows}!=set(packed['groups']):raise ValueError('Pack log does not cover every planned group')
+        for row in rows:
+            if Path(row['path']).parent!=bundles or Path(row['path']).stat().st_size!=row['bytes']:
+                raise ValueError('Recorded archive path or byte size differs')
+        if source_busy(source) or read(source/'state.json')!=packed['source_status']:
+            raise RuntimeError('The live experiment changed or is active; do not mix it into this snapshot')
+    else:
+        folder.mkdir(parents=True,exist_ok=False)
     args.receipt_path = folder/'FINALIZATION.json'
-    receipt = {'snapshot_id':snapshot,'source':str(source),'repo':str(repo),'launch':str(args.launch),
+    if not args.resume_publication:receipt = {'snapshot_id':snapshot,'source':str(source),'repo':str(repo),'launch':str(args.launch),
                'status':'waiting_launch','archive_model_calls':0,'archive_Blender_jobs':0,
                'replay_entry_requested':args.replay_entry is not None,'experiment_restarted':False,
                'cpu_affinity':sorted(os.sched_getaffinity(0)),'numeric_threads':1,
                'resume_command_not_executed':[sys.executable,str(source/'launch.py'),'resume']}
     def stage(status,**values):
         receipt.update(status=status,**values);write(args.receipt_path,receipt)
-    stage('waiting_launch')
-    launch = wait_launch(args.launch.resolve(),source,args.wait,args.wait_hours)
-    stage('launch_terminal',launch_status=launch)
+    if args.resume_publication:
+        launch=receipt['launch_status']
+        if not launch['terminal']:raise ValueError('Recorded experiment launch is not terminal')
+        stage('publication_resumed_from_completed_pack',publication_resume=True)
+    else:
+        stage('waiting_launch')
+        launch = wait_launch(args.launch.resolve(),source,args.wait,args.wait_hours)
+        stage('launch_terminal',launch_status=launch)
     branch = subprocess.check_output(git(repo,'branch','--show-current'),text=True).strip()
     if branch!=BRANCH:raise ValueError('Refuse Git mutation on another branch')
     staged = subprocess.check_output(git(repo,'diff','--cached','--name-only','-z')).decode().split('\0')
     if any(path for path in staged):raise RuntimeError('Pre-existing staged changes must be reviewed; nothing was staged by this tool')
-    stage('optional_replay_preparation')
-    replay = optional_replay(args.replay_entry,folder,source)
-    stage('offline_report',replay=replay)
-    required([sys.executable,str(source/'analyze.py'),'report'],folder,'offline_report')
-    data = facts(source)
-    write(source/'metrics/M_changed_content_execution_audit.json',data['M_changed_content_execution_audit'])
-    stage('offline_report_completed',M_changed_content_execution_audit=data['M_changed_content_execution_audit'])
-    tag = args.tag or 'scene-rsi-v3-10rounds-'+snapshot
-    bundles = WORK/'bundles'/snapshot
-    common = [sys.executable,str(WORK/'prepare_archive.py'),'--source',str(source),'--repo',str(repo),'--bundles',str(bundles),'--tag',tag]
-    stage('prepare_core',tag=tag,bundles=str(bundles))
-    required(common,folder,'prepare_core')
-    stage('pack_all_groups')
-    required(common+['--pack'],folder,'pack_all_groups',timeout=7200)
+    if args.resume_publication:
+        replay=receipt['replay'];data=facts(source);tag=receipt['tag']
+    else:
+        stage('optional_replay_preparation')
+        replay = optional_replay(args.replay_entry,folder,source)
+        stage('offline_report',replay=replay)
+        required([sys.executable,str(source/'analyze.py'),'report'],folder,'offline_report')
+        data = facts(source)
+        write(source/'metrics/M_changed_content_execution_audit.json',data['M_changed_content_execution_audit'])
+        stage('offline_report_completed',M_changed_content_execution_audit=data['M_changed_content_execution_audit'])
+        tag = args.tag or 'scene-rsi-v3-10rounds-'+snapshot
+        bundles = WORK/'bundles'/snapshot
+        common = [sys.executable,str(WORK/'prepare_archive.py'),'--source',str(source),'--repo',str(repo),'--bundles',str(bundles),'--tag',tag]
+        stage('prepare_core',tag=tag,bundles=str(bundles))
+        required(common,folder,'prepare_core')
+        stage('pack_all_groups')
+        required(common+['--pack'],folder,'pack_all_groups',timeout=7200)
     publication = {'git':'not_pushed','release':'not_uploaded','verification':'not_run','release_url':None}
     text = summary_text(data,launch,publication,None,replay)
     (repo/'README.md').write_text(replace_readme((repo/'README.md').read_text(),text))
@@ -430,7 +453,7 @@ def finalize(args):
             tracked = set(subprocess.check_output(git(repo,'ls-tree','-r','--name-only',core),text=True).splitlines())
             mark_git_uploaded(repo/'artifacts_index_v3.csv',core,tracked)
             stage('release_upload')
-            release_ok = run(publisher+['release'],folder,'release_upload')==0
+            release_ok = run(publisher+['release'],folder,'release_upload',timeout=7200)==0
             publication['release'] = 'uploaded' if release_ok else 'upload_failed_or_partial'
             state_path = repo/release_state
             if state_path.exists():publication['release_url']=read(state_path)['release_url']
@@ -576,6 +599,7 @@ def main():
     parser.add_argument('--launch',type=Path,default=PROJECT/'outputs/scene_rsi_v3/launches/006_resume.json')
     parser.add_argument('--wait',action='store_true');parser.add_argument('--wait-hours',type=float,default=36)
     parser.add_argument('--snapshot-id');parser.add_argument('--tag');parser.add_argument('--publish',action='store_true')
+    parser.add_argument('--resume-publication',action='store_true',help='Reuse a recorded completed pack; no model, render, report or pack rerun')
     parser.add_argument('--replay-entry',type=Path,help='Explicit root-reviewed Python entry; prepare checks real eligibility after main terminal')
     parser.add_argument('--auth',choices=['git','bashrc'],default='git');parser.add_argument('--self-test',action='store_true')
     args=parser.parse_args()

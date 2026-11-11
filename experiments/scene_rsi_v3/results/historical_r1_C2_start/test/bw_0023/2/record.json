@@ -1,0 +1,74 @@
+{
+  "method": "scene_rsi_v3",
+  "run_id": "continuous_10",
+  "scene_id": "bw_0023",
+  "source_id": "bw_0023",
+  "split": "test",
+  "H_version": "historical_r1_C2_start",
+  "M_version": "M07",
+  "repeat": 2,
+  "status": "failed",
+  "evaluation_status": "not_started",
+  "failure_type": "model_call_timeout",
+  "valid": false,
+  "eligible": false,
+  "loaded_H_modules": [
+    "__EXPERIMENT_ROOT__/fixed_h/historical_r1_C2_start/policy.py"
+  ],
+  "metrics": {
+    "valid": false,
+    "ssim": null,
+    "lpips": null,
+    "dino": null,
+    "psnr": null,
+    "overall": null,
+    "error": "Missing scene.blend or final.png"
+  },
+  "bw": {
+    "evaluation_status": "not_started",
+    "S_BW": null,
+    "S_rubric": null,
+    "S_dimension": null
+  },
+  "functional": {
+    "checks": {
+      "structure": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      },
+      "material": {
+        "required": true,
+        "applicable": false,
+        "measured_pass": null,
+        "gate_pass": false
+      }
+    },
+    "functional_pass": false
+  },
+  "e2e_utility": 0,
+  "folder": "__EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0023/2",
+  "seconds": 0.0011154483072459698,
+  "generation_seconds": 900.4111551879905,
+  "evaluation_scope": "seconds is current evaluation/generation invocation wall; resumed evaluation is recorded separately; see timing.csv for every process",
+  "device": "CPU",
+  "threads": 8,
+  "model_roles": {
+    "H": "gpt-6.1-terra",
+    "M": "gpt-6-astra",
+    "judge": "gpt-6-astra"
+  },
+  "cost": {
+    "calls": 1,
+    "input_tokens": "unknown",
+    "output_tokens": "unknown",
+    "cached_input_tokens": "unknown",
+    "total_tokens": "unknown",
+    "seconds": 900.3822220861912,
+    "cost_usd": "unknown",
+    "runtime_ask_attempts": 1,
+    "cli_sessions": 1,
+    "executions": 0
+  }
+}

@@ -1,17 +1,1 @@
 H_version,split,scene_id,repeat,status,raw_generation_error,generation_seconds,CLI_statuses,scene_blend_exists,final_image_exists,BW,Q,utility,source,interpretation
-historical_r1_C2_start,test,bw_0023,2,interrupted,"Traceback (most recent call last):
-  File ""__EXPERIMENT_ROOT__/backend/inner_loop.py"", line 23, in run
-    policy.solve(task, runtime)
-  File ""__EXPERIMENT_ROOT__/fixed_h/historical_r1_C2_start/policy.py"", line 13, in solve
-    response = runtime.ask(messages)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File ""__EXPERIMENT_ROOT__/backend/runtime.py"", line 61, in ask
-    return self.llm(messages)
-           ^^^^^^^^^^^^^^^^^^
-  File ""__EXPERIMENT_ROOT__/backend/llm.py"", line 74, in __call__
-    text, session = call(prompt, self.settings, folder, images, role='H',
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""__EXPERIMENT_ROOT__/backend/codex_wrapper.py"", line 120, in call
-    raise RuntimeError(f""CLI {session['status']}: {folder}; {error}"")
-RuntimeError: CLI timeout: __EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0023/2/student_calls/001_1794362610834392265; TimeoutExpired(['__SERVER_USER_ROOT__/.local/bin/codex', 'exec', '--ephemeral', '--json', '--skip-git-repo-check', '--sandbox', 'read-only', '--cd', '__EXPERIMENT_ROOT__/session_staging/S1794362610965102123', '--model', 'gpt-6.1-terra', '--output-last-message', '__EXPERIMENT_ROOT__/results/historical_r1_C2_start/test/bw_0023/2/student_calls/001_1794362610834392265/response.txt', '-c', 'model_reasoning_effort=""medium""', '-c', 'approval_policy=""never""', '-c', 'web_search=""disabled""', '-c', 'mcp_servers={}', '-c', 'project_doc_max_bytes=0', '--disable', 'shell_tool', '--disable', 'unified_exec', '--disable', 'apps', '--disable', 'plugins', '--disable', 'hooks', '--disable', 'multi_agent', '--disable', 'browser_use', '--disable', 'browser_use_external', '--disable', 'browser_use_full_cdp_access', '--disable', 'computer_use', '--disable', 'image_generation', '--disable', 'memories', '--disable', 'skill_search', '--disable', 'workspace_dependencies', '--disable', 'sleep_tool', '--disable', 'view_image', '--image', '__EXPERIMENT_ROOT__/session_staging/S1794362610965102123/image_000.png', '-'], 900)
-",900.4111551879905,"[""timeout""]",False,False,null,null,null,results/historical_r1_C2_start/test/bw_0023/2/status.json,Saved generation error; final task record was not written. Not an unstarted sample or a measured geometry score.

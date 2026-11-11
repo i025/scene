@@ -60,7 +60,8 @@ def main():
                    'scene-v3-auth', str(askpass), *command]
     # In Git mode the user configured helper remains in charge. This program
     # never reads the shell file, credential values, or a Codex auth file.
-    result = subprocess.run(command, cwd=args.repo, env=environment, text=True, timeout=1800)
+    result = subprocess.run(command, cwd=args.repo, env=environment, text=True,
+                            timeout=7200 if args.action == 'release' else 1800)
     raise SystemExit(result.returncode)
 
 

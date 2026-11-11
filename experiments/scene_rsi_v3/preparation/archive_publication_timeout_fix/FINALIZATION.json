@@ -1,0 +1,280 @@
+{
+  "snapshot_id": "S20261111T030449Z",
+  "source": "__EXPERIMENT_ROOT__",
+  "repo": "__PROJECT_ROOT__/archive/scene",
+  "launch": "outputs/scene_rsi_v3/launches/006_resume.json",
+  "status": "publish_attempt_finished",
+  "archive_model_calls": 0,
+  "archive_Blender_jobs": 0,
+  "replay_entry_requested": true,
+  "experiment_restarted": false,
+  "cpu_affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "numeric_threads": 1,
+  "resume_command_not_executed": [
+    "__SCENEEVOLVE_REPRO__/work/.venv/bin/python",
+    "__EXPERIMENT_ROOT__/launch.py",
+    "resume"
+  ],
+  "launch_status": {
+    "terminal": true,
+    "status": "failed",
+    "returncode": 1,
+    "pid": 2562819,
+    "finished": 1794363512.2575226,
+    "launch_record": {
+      "status": "failed",
+      "pid": 2562819,
+      "command": [
+        "__SCENEEVOLVE_REPRO__/work/.venv/bin/python",
+        "__EXPERIMENT_ROOT__/pilot.py",
+        "resume"
+      ],
+      "started": 1794357873.3411412,
+      "finished": 1794363512.2575226,
+      "seconds": 5638.916382058989,
+      "returncode": 1,
+      "timed_out": false,
+      "timeout_seconds": 129600,
+      "memory_limit_exceeded": false,
+      "memory_limit_bytes": 34359738368,
+      "cpu_user_seconds": 18709.44,
+      "cpu_system_seconds": 2860.96,
+      "peak_individual_rss_kib": 1159740,
+      "sampled_peak_tree_rss_kib_lower_bound": 1659780.0,
+      "sample_interval_seconds": 0.1,
+      "sampled_process_count": 190,
+      "cpu_scope": "GNU time waited child and reaped descendants",
+      "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+    }
+  },
+  "replay": {
+    "entry": "__PROJECT_ROOT__/work/scene_v3_archive/replay_stage/entry.json",
+    "entry_status": "pending",
+    "executed": false,
+    "eligibility": {
+      "eligible": false,
+      "reason": "Main ten rounds and scheduled endpoint work are not terminal"
+    },
+    "budget": {
+      "allowed": false,
+      "reason": "Observed token remainder below max-historical-per-role plan: input_tokens"
+    },
+    "status": "skipped_not_ready",
+    "actual_cli_sessions_delta": 0,
+    "model_requests": null,
+    "usage_before": {
+      "recorded_cli_sessions": 332,
+      "model_requests": null,
+      "render_budget_charged_by_root": {
+        "main": 858,
+        "replay_stage": null
+      },
+      "combined_render_budget_charged": 858,
+      "actual_render_attempts_exact": null,
+      "actual_render_completed_exact": null
+    },
+    "usage_after": {
+      "recorded_cli_sessions": 332,
+      "model_requests": null,
+      "render_budget_charged_by_root": {
+        "main": 858,
+        "replay_stage": null
+      },
+      "combined_render_budget_charged": 858,
+      "actual_render_attempts_exact": null,
+      "actual_render_completed_exact": null
+    },
+    "accounting_note": "Unique saved request.json paths, not exact underlying model requests; render values are conservative budget charges"
+  },
+  "M_changed_content_execution_audit": {
+    "recorded_at": 1794366304.0749962,
+    "M0_source": "__EXPERIMENT_ROOT__/code_snapshots/platform_frozen/initial_m",
+    "descendant_uses": [
+      {
+        "source": "__EXPERIMENT_ROOT__/candidates/C07/M",
+        "compared_to": "__EXPERIMENT_ROOT__/code_snapshots/platform_frozen/initial_m",
+        "changed_source_files": [
+          "actions/appearance_audit.py"
+        ],
+        "changed_python_files": [
+          "actions/appearance_audit.py"
+        ],
+        "execution_record": "__EXPERIMENT_ROOT__/candidates/C08/M_program_execution.json",
+        "trace_folder": "__EXPERIMENT_ROOT__/meta_traces/round08",
+        "source_diff": "--- M0/actions/appearance_audit.py\n+++ M_descendant/actions/appearance_audit.py\n@@ -0,0 +1,39 @@\n+\"\"\"Read-only shader and illumination facts for explicitly selected objects.\"\"\"\n+def run(context):\n+    import bpy\n+    sc = bpy.context.scene\n+    rows = []\n+    for name in context['parameters']['object_ids']:\n+        root = sc.objects.get(name)\n+        if root is None:\n+            rows.append({'object_id': name, 'status': 'missing'})\n+            continue\n+        meshes = [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']\n+        materials = {}\n+        for obj in meshes:\n+            for slot in obj.material_slots:\n+                mat = slot.material\n+                if mat is None:\n+                    continue\n+                if mat.name not in materials:\n+                    nodes = []\n+                    if mat.use_nodes and mat.node_tree:\n+                        for node in mat.node_tree.nodes:\n+                            if node.type not in ('BSDF_PRINCIPLED', 'EMISSION'):\n+                                continue\n+                            inputs = {}\n+                            for key in ('Base Color', 'Color', 'Roughness', 'Metallic', 'Emission', 'Emission Color', 'Emission Strength', 'Strength'):\n+                                socket = node.inputs.get(key)\n+                                if socket is not None:\n+                                    value = socket.default_value\n+                                    inputs[key] = {'value': float(value) if isinstance(value, (int, float)) else list(value), 'linked': bool(socket.is_linked)}\n+                            nodes.append({'type': node.type, 'inputs': inputs})\n+                    materials[mat.name] = {'name': mat.name, 'mesh_count': 0, 'shader_nodes': nodes}\n+                materials[mat.name]['mesh_count'] += 1\n+        rows.append({'object_id': name, 'mesh_count': len(meshes), 'materials': list(materials.values())})\n+    world = []\n+    if sc.world and sc.world.use_nodes and sc.world.node_tree:\n+        for node in sc.world.node_tree.nodes:\n+            if node.type == 'BACKGROUND':\n+                world.append({'color': list(node.inputs['Color'].default_value), 'strength': float(node.inputs['Strength'].default_value), 'color_linked': bool(node.inputs['Color'].is_linked)})\n+    return {'status': 'ok', 'objects': rows, 'lights': [{'name': o.name, 'type': o.data.type, 'energy': float(o.data.energy), 'color': list(o.data.color), 'position': list(o.matrix_world.translation)} for o in sc.objects if o.type == 'LIGHT'], 'world_backgrounds': world, 'view_transform': sc.view_settings.view_transform, 'exposure': float(sc.view_settings.exposure), 'gamma': float(sc.view_settings.gamma), 'limitation': 'Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution.'}\n",
+        "execution_evidence": [
+          {
+            "file": "actions/appearance_audit.py",
+            "kind": "completed_changed_action",
+            "record": "__EXPERIMENT_ROOT__/meta_traces/round08/actions/01/observation.json",
+            "source_snapshot": "__EXPERIMENT_ROOT__/meta_traces/round08/actions/01/action.py",
+            "scene_id": "commons_192968130",
+            "exact_action_name_and_source_match": true
+          },
+          {
+            "file": "actions/appearance_audit.py",
+            "kind": "completed_changed_action",
+            "record": "__EXPERIMENT_ROOT__/meta_traces/round08/actions/02/observation.json",
+            "source_snapshot": "__EXPERIMENT_ROOT__/meta_traces/round08/actions/02/action.py",
+            "scene_id": "commons_92056365",
+            "exact_action_name_and_source_match": true
+          }
+        ],
+        "eligible": true,
+        "comparison": "Exact source text/name/path comparison, no hashes; execution is not an ability claim",
+        "executed_changed_files": [
+          "actions/appearance_audit.py"
+        ],
+        "unexecuted_changed_python_files": [],
+        "reason": "Changed Python entry/helper/action participated in this completed later research trace",
+        "M_version": "M07",
+        "executed_in_round": 8,
+        "accepted_in_earlier_rounds": [
+          7
+        ],
+        "research_request": "__EXPERIMENT_ROOT__/candidates/C08/research_request.json"
+      },
+      {
+        "source": "__EXPERIMENT_ROOT__/candidates/C07/M",
+        "compared_to": "__EXPERIMENT_ROOT__/code_snapshots/platform_frozen/initial_m",
+        "changed_source_files": [
+          "actions/appearance_audit.py"
+        ],
+        "changed_python_files": [
+          "actions/appearance_audit.py"
+        ],
+        "execution_record": "__EXPERIMENT_ROOT__/candidates/C09/M_program_execution.json",
+        "trace_folder": "__EXPERIMENT_ROOT__/meta_traces/round09",
+        "source_diff": "--- M0/actions/appearance_audit.py\n+++ M_descendant/actions/appearance_audit.py\n@@ -0,0 +1,39 @@\n+\"\"\"Read-only shader and illumination facts for explicitly selected objects.\"\"\"\n+def run(context):\n+    import bpy\n+    sc = bpy.context.scene\n+    rows = []\n+    for name in context['parameters']['object_ids']:\n+        root = sc.objects.get(name)\n+        if root is None:\n+            rows.append({'object_id': name, 'status': 'missing'})\n+            continue\n+        meshes = [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']\n+        materials = {}\n+        for obj in meshes:\n+            for slot in obj.material_slots:\n+                mat = slot.material\n+                if mat is None:\n+                    continue\n+                if mat.name not in materials:\n+                    nodes = []\n+                    if mat.use_nodes and mat.node_tree:\n+                        for node in mat.node_tree.nodes:\n+                            if node.type not in ('BSDF_PRINCIPLED', 'EMISSION'):\n+                                continue\n+                            inputs = {}\n+                            for key in ('Base Color', 'Color', 'Roughness', 'Metallic', 'Emission', 'Emission Color', 'Emission Strength', 'Strength'):\n+                                socket = node.inputs.get(key)\n+                                if socket is not None:\n+                                    value = socket.default_value\n+                                    inputs[key] = {'value': float(value) if isinstance(value, (int, float)) else list(value), 'linked': bool(socket.is_linked)}\n+                            nodes.append({'type': node.type, 'inputs': inputs})\n+                    materials[mat.name] = {'name': mat.name, 'mesh_count': 0, 'shader_nodes': nodes}\n+                materials[mat.name]['mesh_count'] += 1\n+        rows.append({'object_id': name, 'mesh_count': len(meshes), 'materials': list(materials.values())})\n+    world = []\n+    if sc.world and sc.world.use_nodes and sc.world.node_tree:\n+        for node in sc.world.node_tree.nodes:\n+            if node.type == 'BACKGROUND':\n+                world.append({'color': list(node.inputs['Color'].default_value), 'strength': float(node.inputs['Strength'].default_value), 'color_linked': bool(node.inputs['Color'].is_linked)})\n+    return {'status': 'ok', 'objects': rows, 'lights': [{'name': o.name, 'type': o.data.type, 'energy': float(o.data.energy), 'color': list(o.data.color), 'position': list(o.matrix_world.translation)} for o in sc.objects if o.type == 'LIGHT'], 'world_backgrounds': world, 'view_transform': sc.view_settings.view_transform, 'exposure': float(sc.view_settings.exposure), 'gamma': float(sc.view_settings.gamma), 'limitation': 'Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution.'}\n",
+        "execution_evidence": [
+          {
+            "file": "actions/appearance_audit.py",
+            "kind": "completed_changed_action",
+            "record": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/01/observation.json",
+            "source_snapshot": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/01/action.py",
+            "scene_id": "commons_105241439",
+            "exact_action_name_and_source_match": true
+          },
+          {
+            "file": "actions/appearance_audit.py",
+            "kind": "completed_changed_action",
+            "record": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/02/observation.json",
+            "source_snapshot": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/02/action.py",
+            "scene_id": "commons_118588033",
+            "exact_action_name_and_source_match": true
+          }
+        ],
+        "eligible": true,
+        "comparison": "Exact source text/name/path comparison, no hashes; execution is not an ability claim",
+        "executed_changed_files": [
+          "actions/appearance_audit.py"
+        ],
+        "unexecuted_changed_python_files": [],
+        "reason": "Changed Python entry/helper/action participated in this completed later research trace",
+        "M_version": "M07",
+        "executed_in_round": 9,
+        "accepted_in_earlier_rounds": [
+          7
+        ],
+        "research_request": "__EXPERIMENT_ROOT__/candidates/C09/research_request.json"
+      },
+      {
+        "source": "__EXPERIMENT_ROOT__/candidates/C07/M",
+        "compared_to": "__EXPERIMENT_ROOT__/code_snapshots/platform_frozen/initial_m",
+        "changed_source_files": [
+          "actions/appearance_audit.py"
+        ],
+        "changed_python_files": [
+          "actions/appearance_audit.py"
+        ],
+        "execution_record": "__EXPERIMENT_ROOT__/candidates/C10/M_program_execution.json",
+        "trace_folder": "__EXPERIMENT_ROOT__/meta_traces/round10",
+        "source_diff": "--- M0/actions/appearance_audit.py\n+++ M_descendant/actions/appearance_audit.py\n@@ -0,0 +1,39 @@\n+\"\"\"Read-only shader and illumination facts for explicitly selected objects.\"\"\"\n+def run(context):\n+    import bpy\n+    sc = bpy.context.scene\n+    rows = []\n+    for name in context['parameters']['object_ids']:\n+        root = sc.objects.get(name)\n+        if root is None:\n+            rows.append({'object_id': name, 'status': 'missing'})\n+            continue\n+        meshes = [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']\n+        materials = {}\n+        for obj in meshes:\n+            for slot in obj.material_slots:\n+                mat = slot.material\n+                if mat is None:\n+                    continue\n+                if mat.name not in materials:\n+                    nodes = []\n+                    if mat.use_nodes and mat.node_tree:\n+                        for node in mat.node_tree.nodes:\n+                            if node.type not in ('BSDF_PRINCIPLED', 'EMISSION'):\n+                                continue\n+                            inputs = {}\n+                            for key in ('Base Color', 'Color', 'Roughness', 'Metallic', 'Emission', 'Emission Color', 'Emission Strength', 'Strength'):\n+                                socket = node.inputs.get(key)\n+                                if socket is not None:\n+                                    value = socket.default_value\n+                                    inputs[key] = {'value': float(value) if isinstance(value, (int, float)) else list(value), 'linked': bool(socket.is_linked)}\n+                            nodes.append({'type': node.type, 'inputs': inputs})\n+                    materials[mat.name] = {'name': mat.name, 'mesh_count': 0, 'shader_nodes': nodes}\n+                materials[mat.name]['mesh_count'] += 1\n+        rows.append({'object_id': name, 'mesh_count': len(meshes), 'materials': list(materials.values())})\n+    world = []\n+    if sc.world and sc.world.use_nodes and sc.world.node_tree:\n+        for node in sc.world.node_tree.nodes:\n+            if node.type == 'BACKGROUND':\n+                world.append({'color': list(node.inputs['Color'].default_value), 'strength': float(node.inputs['Strength'].default_value), 'color_linked': bool(node.inputs['Color'].is_linked)})\n+    return {'status': 'ok', 'objects': rows, 'lights': [{'name': o.name, 'type': o.data.type, 'energy': float(o.data.energy), 'color': list(o.data.color), 'position': list(o.matrix_world.translation)} for o in sc.objects if o.type == 'LIGHT'], 'world_backgrounds': world, 'view_transform': sc.view_settings.view_transform, 'exposure': float(sc.view_settings.exposure), 'gamma': float(sc.view_settings.gamma), 'limitation': 'Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution.'}\n",
+        "execution_evidence": [],
+        "eligible": false,
+        "comparison": "Exact source text/name/path comparison, no hashes; execution is not an ability claim",
+        "executed_changed_files": [],
+        "unexecuted_changed_python_files": [
+          "actions/appearance_audit.py"
+        ],
+        "reason": "Changed M content only available as text/library, removed, or lacks actual later execution evidence",
+        "M_version": "M07",
+        "executed_in_round": 10,
+        "accepted_in_earlier_rounds": [
+          7
+        ],
+        "research_request": "__EXPERIMENT_ROOT__/candidates/C10/research_request.json"
+      }
+    ],
+    "final_executed_descendant": {
+      "source": "__EXPERIMENT_ROOT__/candidates/C07/M",
+      "compared_to": "__EXPERIMENT_ROOT__/code_snapshots/platform_frozen/initial_m",
+      "changed_source_files": [
+        "actions/appearance_audit.py"
+      ],
+      "changed_python_files": [
+        "actions/appearance_audit.py"
+      ],
+      "execution_record": "__EXPERIMENT_ROOT__/candidates/C09/M_program_execution.json",
+      "trace_folder": "__EXPERIMENT_ROOT__/meta_traces/round09",
+      "source_diff": "--- M0/actions/appearance_audit.py\n+++ M_descendant/actions/appearance_audit.py\n@@ -0,0 +1,39 @@\n+\"\"\"Read-only shader and illumination facts for explicitly selected objects.\"\"\"\n+def run(context):\n+    import bpy\n+    sc = bpy.context.scene\n+    rows = []\n+    for name in context['parameters']['object_ids']:\n+        root = sc.objects.get(name)\n+        if root is None:\n+            rows.append({'object_id': name, 'status': 'missing'})\n+            continue\n+        meshes = [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']\n+        materials = {}\n+        for obj in meshes:\n+            for slot in obj.material_slots:\n+                mat = slot.material\n+                if mat is None:\n+                    continue\n+                if mat.name not in materials:\n+                    nodes = []\n+                    if mat.use_nodes and mat.node_tree:\n+                        for node in mat.node_tree.nodes:\n+                            if node.type not in ('BSDF_PRINCIPLED', 'EMISSION'):\n+                                continue\n+                            inputs = {}\n+                            for key in ('Base Color', 'Color', 'Roughness', 'Metallic', 'Emission', 'Emission Color', 'Emission Strength', 'Strength'):\n+                                socket = node.inputs.get(key)\n+                                if socket is not None:\n+                                    value = socket.default_value\n+                                    inputs[key] = {'value': float(value) if isinstance(value, (int, float)) else list(value), 'linked': bool(socket.is_linked)}\n+                            nodes.append({'type': node.type, 'inputs': inputs})\n+                    materials[mat.name] = {'name': mat.name, 'mesh_count': 0, 'shader_nodes': nodes}\n+                materials[mat.name]['mesh_count'] += 1\n+        rows.append({'object_id': name, 'mesh_count': len(meshes), 'materials': list(materials.values())})\n+    world = []\n+    if sc.world and sc.world.use_nodes and sc.world.node_tree:\n+        for node in sc.world.node_tree.nodes:\n+            if node.type == 'BACKGROUND':\n+                world.append({'color': list(node.inputs['Color'].default_value), 'strength': float(node.inputs['Strength'].default_value), 'color_linked': bool(node.inputs['Color'].is_linked)})\n+    return {'status': 'ok', 'objects': rows, 'lights': [{'name': o.name, 'type': o.data.type, 'energy': float(o.data.energy), 'color': list(o.data.color), 'position': list(o.matrix_world.translation)} for o in sc.objects if o.type == 'LIGHT'], 'world_backgrounds': world, 'view_transform': sc.view_settings.view_transform, 'exposure': float(sc.view_settings.exposure), 'gamma': float(sc.view_settings.gamma), 'limitation': 'Node defaults and lighting configuration only; linked inputs may override defaults. No rendered brightness, visibility, or causal attribution.'}\n",
+      "execution_evidence": [
+        {
+          "file": "actions/appearance_audit.py",
+          "kind": "completed_changed_action",
+          "record": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/01/observation.json",
+          "source_snapshot": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/01/action.py",
+          "scene_id": "commons_105241439",
+          "exact_action_name_and_source_match": true
+        },
+        {
+          "file": "actions/appearance_audit.py",
+          "kind": "completed_changed_action",
+          "record": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/02/observation.json",
+          "source_snapshot": "__EXPERIMENT_ROOT__/meta_traces/round09/actions/02/action.py",
+          "scene_id": "commons_118588033",
+          "exact_action_name_and_source_match": true
+        }
+      ],
+      "eligible": true,
+      "comparison": "Exact source text/name/path comparison, no hashes; execution is not an ability claim",
+      "executed_changed_files": [
+        "actions/appearance_audit.py"
+      ],
+      "unexecuted_changed_python_files": [],
+      "reason": "Changed Python entry/helper/action participated in this completed later research trace",
+      "M_version": "M07",
+      "executed_in_round": 9,
+      "accepted_in_earlier_rounds": [
+        7
+      ],
+      "research_request": "__EXPERIMENT_ROOT__/candidates/C09/research_request.json"
+    },
+    "status": "changed_content_execution_observed",
+    "evidence_limit": "File/module entry or logged import/action execution, not line/branch coverage or proof that the changed statements improved decisions",
+    "ability_improvement_verified": false,
+    "new_model_calls": 0,
+    "new_Blender_jobs": 0
+  },
+  "tag": "scene-rsi-v3-10rounds-S20261111T030449Z",
+  "bundles": "__PROJECT_ROOT__/work/scene_v3_archive/bundles/S20261111T030449Z",
+  "core_commit": "77b454cd96330ab3766cb4063cfc6f7f2ff12650",
+  "latest_commit": "bf6aa7a8b1f2fd5d2b32c7a46092a408fc8f707b",
+  "publication": {
+    "git": "data_and_readability_receipt_pushed",
+    "release": "upload_failed_or_partial",
+    "verification": "passed",
+    "release_url": "https://github.com/i025/scene/releases/tag/scene-rsi-v3-10rounds-S20261111T030449Z",
+    "verified_commit": "916c4e87e8f11cc7525f8f4954e2d140d097ff56",
+    "final_branch_head_verified": true
+  }
+}

@@ -1,0 +1,11 @@
+--- before/finalize.py
++++ after/finalize.py
+@@ -430,7 +430,7 @@
+             tracked = set(subprocess.check_output(git(repo,'ls-tree','-r','--name-only',core),text=True).splitlines())
+             mark_git_uploaded(repo/'artifacts_index_v3.csv',core,tracked)
+             stage('release_upload')
+-            release_ok = run(publisher+['release'],folder,'release_upload')==0
++            release_ok = run(publisher+['release'],folder,'release_upload',timeout=7200)==0
+             publication['release'] = 'uploaded' if release_ok else 'upload_failed_or_partial'
+             state_path = repo/release_state
+             if state_path.exists():publication['release_url']=read(state_path)['release_url']
