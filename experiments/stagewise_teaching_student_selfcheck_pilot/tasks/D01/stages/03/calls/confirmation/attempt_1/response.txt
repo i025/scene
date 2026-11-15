@@ -1,0 +1,19 @@
+{
+  "decision": "advance_with_issue",
+  "findings": [
+    {
+      "id": "stage3_plants",
+      "target": "Foreground ficus (obj_00538) and rear ficus canopy (obj_00623)",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "Foreground foliage frames the lower-left corner; the rear plant has broad, dense foliage extending down toward the pot.",
+      "render_evidence": "The foreground plant now clearly frames the lower-left edge. The rear canopy is fuller than the previous checkpoint but remains narrow and transparent, with prominent exposed stems. The radiator remains identifiable.",
+      "proposed_change": "No further patch requested; carry the remaining rear-canopy mismatch forward.",
+      "preserve": "Keep the restored foreground crop, rear pot placement, visible radiator, and fixture placement.",
+      "check_after": "Verification confirms both plants are visible and the radiator remains unobscured; rear foliage density is only partly matched.",
+      "uncertainty": "Render noise limits fine leaf assessment. No extra view requested.",
+      "status": "partially_resolved"
+    }
+  ],
+  "summary": "The single correction restores the foreground plant and improves rear foliage. Advance with the remaining canopy-density issue recorded."
+}

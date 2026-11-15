@@ -1,0 +1,29 @@
+{
+  "task_id": "D01",
+  "split": "development",
+  "stage_id": 4,
+  "action_type": "initial",
+  "role": "student",
+  "targets": [
+    "computer",
+    "desk accessories",
+    "small decor",
+    "architectural trim"
+  ],
+  "images": [
+    "sources/D01.jpg",
+    "tasks/D01/stages/03/visual_revision_build/final.png"
+  ],
+  "ok": false,
+  "status": "failed",
+  "failure_type": "blender_build_error",
+  "parent_checkpoint": "tasks/D01/stages/03/visual_revision_build/scene.blend",
+  "checkpoint": null,
+  "render": null,
+  "patch": "tasks/D01/stages/04/initial_build/patch.py",
+  "inventory": "tasks/D01/stages/04/initial_build/inventory.json",
+  "seconds": 1.4238874660804868,
+  "error": "Traceback (most recent call last):\n  File \"${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/incremental_blender.py\", line 263, in <module>\n    main()\n  File \"${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/incremental_blender.py\", line 235, in main\n    runpy.run_path(str(args.patch), run_name='__sceneact_patch__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/tasks/D01/stages/04/initial_build/patch.py\", line 8, in <module>\n    computer.include('monitor stand foot', fillet_box((0.34, 0.23, 0.025), radius=0.015, center=(1.48, 2.19, 0.88), color=(0.78, 0.79, 0.78)))\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n",
+  "build_ok": false,
+  "render_ok": false
+}

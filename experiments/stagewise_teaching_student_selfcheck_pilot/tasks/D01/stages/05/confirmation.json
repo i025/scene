@@ -1,0 +1,39 @@
+{
+  "decision": "advance_with_issue",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "SceneActView; room and furniture framing",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "The reference shows a broad left foreground wall, furniture filling the lower right, and a modest foreground plant.",
+      "render_evidence": "Furniture is larger and farther right than in attachment 3, but the broad left wall remains absent. The foreground plant now dominates the lower left and obscures the radiator; the right chair is clipped. The dark top strip persists.",
+      "proposed_change": "Retain as an unresolved framing limitation; no further patch in this verification.",
+      "preserve": "Keep the desk behind both visitor chairs and the monitor to the office chair's right.",
+      "check_after": "Verification confirms changed framing, but wall width, plant coverage, chair cropping, and ceiling coverage still miss the reference.",
+      "uncertainty": "The dark strip's cause remains uncertain. A single view does not establish unique camera parameters or room dimensions. No extra view requested.",
+      "status": "partially_resolved"
+    },
+    {
+      "id": "F2",
+      "target": "Global lighting; floor, right wall, and upholstery appearance",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "The reference separates the grey floor, white desk, taupe wall, and darker olive right chair with soft directional shading.",
+      "render_evidence": "Attachment 2 now shows a distinctly darker olive right chair and warmer right wall. The floor remains pale and heavy noise still obscures textures and subtle shadows.",
+      "proposed_change": "Accept the visible tonal improvement and carry the remaining appearance limitation forward without another patch.",
+      "preserve": "Preserve the chair color distinction, warm right wall, and bright white desk.",
+      "check_after": "Verification supports improved color separation, but does not confirm clean surface detail or reference-level floor contrast.",
+      "uncertainty": "Render noise prevents reliable assessment of oak grain, fabric texture, and contact shadows.",
+      "status": "partially_resolved"
+    }
+  ],
+  "summary": "The single correction visibly improved chair colors and changed framing, but composition and render clarity remain unresolved. Advance with these issues recorded.",
+  "input_images": [
+    "sources/D01.jpg",
+    "tasks/D01/stages/05/visual_revision_build/final.png",
+    "tasks/D01/stages/05/initial_build/final.png"
+  ],
+  "role": "teacher_verification",
+  "code_entry": "prompts.py:TEACHER"
+}

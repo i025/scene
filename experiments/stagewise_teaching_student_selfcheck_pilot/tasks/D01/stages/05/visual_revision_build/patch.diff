@@ -1,0 +1,109 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -1,55 +1,60 @@
+ import bpy
+ 
+-# Extend the existing ceiling toward the camera to cover the exposed strip.
++# Tighten the view and move it toward the left foreground wall.
++cam = bpy.data.objects.get('SceneActView')
++if cam and cam.type == 'CAMERA':
++    cam.location.x = -0.85
++    cam.location.y = -4.35
++    cam.data.lens = 26.0
++
++# Extend the existing ceiling laterally and toward the camera to cover the frame.
+ ceiling = bpy.data.objects.get('Box.006')
+ if ceiling:
+-    ceiling.scale.y *= 1.5
+-    ceiling.location.y -= 2.0
++    ceiling.scale.x *= 1.35
++    ceiling.scale.y *= 1.25
+ 
+-# Give the floor a distinct, subdued grey finish.
+-floor = bpy.data.objects.get('Box')
+-if floor and floor.type == 'MESH':
+-    mat = bpy.data.materials.new('Floor - warm grey stone')
+-    mat.diffuse_color = (0.29, 0.31, 0.30, 1.0)
+-    mat.use_nodes = True
+-    bsdf = mat.node_tree.nodes.get('Principled BSDF')
+-    bsdf.inputs['Base Color'].default_value = (0.29, 0.31, 0.30, 1.0)
+-    bsdf.inputs['Roughness'].default_value = 0.78
+-    floor.data.materials.clear()
+-    floor.data.materials.append(mat)
++def set_surface(name, color, roughness=None):
++    mat = bpy.data.materials.get(name)
++    if not mat:
++        return
++    mat.diffuse_color = (*color, 1.0)
++    if mat.use_nodes:
++        shader = next((n for n in mat.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
++        if shader:
++            shader.inputs['Base Color'].default_value = (*color, 1.0)
++            if roughness is not None:
++                shader.inputs['Roughness'].default_value = roughness
+ 
+-# Subtle procedural grain keeps the cabinet fronts editable geometry.
+-wood = bpy.data.materials.new('Cabinet - natural oak grain')
+-wood.use_nodes = True
+-nodes = wood.node_tree.nodes
+-links = wood.node_tree.links
+-bsdf = nodes.get('Principled BSDF')
+-bsdf.inputs['Roughness'].default_value = 0.58
+-tex = nodes.new('ShaderNodeTexNoise')
+-tex.inputs['Scale'].default_value = 4.0
+-tex.inputs['Detail'].default_value = 3.0
+-tex.inputs['Roughness'].default_value = 0.7
+-coord = nodes.new('ShaderNodeTexCoord')
+-mapping = nodes.new('ShaderNodeVectorMath')
+-mapping.operation = 'MULTIPLY'
+-mapping.inputs[1].default_value = (3.0, 2.0, 45.0)
+-ramp = nodes.new('ShaderNodeValToRGB')
+-ramp.color_ramp.elements[0].position = 0.23
+-ramp.color_ramp.elements[0].color = (0.29, 0.15, 0.075, 1)
+-ramp.color_ramp.elements[1].position = 0.78
+-ramp.color_ramp.elements[1].color = (0.63, 0.40, 0.22, 1)
+-links.new(coord.outputs['Generated'], mapping.inputs[0])
+-links.new(mapping.outputs[0], tex.inputs['Vector'])
+-links.new(tex.outputs['Fac'], ramp.inputs['Fac'])
+-links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])
+-for name in ('Box.051', 'Box.052', 'Box.053', 'Box.054', 'Box.055', 'Box.056', 'Box.057', 'Box.058', 'Box.049'):
+-    obj = bpy.data.objects.get(name)
+-    if obj and obj.type == 'MESH':
+-        obj.data.materials.clear()
+-        obj.data.materials.append(wood)
++set_surface('Floor - warm grey stone', (0.30, 0.32, 0.31), 0.82)
++set_surface('SceneActSurface_2', (0.55, 0.45, 0.39), 0.9)
+ 
+-# Reduce the broad fill slightly so upholstery and architectural edges read clearly.
+-for name, energy in (('SceneActArea', 360.0), ('SceneActArea.001', 300.0), ('SceneActArea.002', 150.0)):
++# Give the right visitor chair its own darker olive upholstery.
++chair = bpy.data.objects.get('visitor chair right')
++if chair:
++    copies = {}
++    stack = list(chair.children)
++    while stack:
++        obj = stack.pop()
++        stack.extend(obj.children)
++        if obj.type != 'MESH':
++            continue
++        for slot in obj.material_slots:
++            mat = slot.material
++            if mat and mat.name in ('SceneActSurface_3.001', 'SceneActSurface_4.001'):
++                if mat.name not in copies:
++                    new = mat.copy()
++                    new.name = 'Right visitor chair olive ' + mat.name
++                    new.diffuse_color = (0.24, 0.28, 0.025, 1.0)
++                    if new.use_nodes:
++                        shader = next((n for n in new.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)
++                        if shader:
++                            shader.inputs['Base Color'].default_value = (0.24, 0.28, 0.025, 1.0)
++                            shader.inputs['Roughness'].default_value = 0.88
++                    copies[mat.name] = new
++                slot.material = copies[mat.name]
++
++# Retain left-side daylight while moderating broad fill.
++for name, factor in [('SceneActArea', 0.78), ('SceneActArea.001', 0.88)]:
+     light = bpy.data.objects.get(name)
+     if light and light.type == 'LIGHT':
+-        light.data.energy = energy
++        light.data.energy *= factor

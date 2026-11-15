@@ -1,0 +1,95 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -1,88 +1,7 @@
+ import bpy
+ 
+-# Procedural finishes remain editable and do not depend on image files.
+-def wood_material(name, dark, light, mapping_scale, noise_scale=4.0, roughness=0.4):
+-    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+-    mat.use_nodes = True
+-    nodes = mat.node_tree.nodes
+-    nodes.clear()
+-    links = mat.node_tree.links
+-    out = nodes.new('ShaderNodeOutputMaterial')
+-    bsdf = nodes.new('ShaderNodeBsdfPrincipled')
+-    bsdf.inputs['Roughness'].default_value = roughness
+-    tex = nodes.new('ShaderNodeTexCoord')
+-    mapping = nodes.new('ShaderNodeVectorMath')
+-    mapping.operation = 'MULTIPLY'
+-    mapping.inputs[1].default_value = mapping_scale
+-    noise = nodes.new('ShaderNodeTexNoise')
+-    noise.inputs['Scale'].default_value = noise_scale
+-    noise.inputs['Detail'].default_value = 3.0
+-    noise.inputs['Roughness'].default_value = 0.7
+-    ramp = nodes.new('ShaderNodeValToRGB')
+-    ramp.color_ramp.elements[0].position = 0.24
+-    ramp.color_ramp.elements[0].color = (*dark, 1.0)
+-    ramp.color_ramp.elements[1].position = 0.76
+-    ramp.color_ramp.elements[1].color = (*light, 1.0)
+-    bump = nodes.new('ShaderNodeBump')
+-    bump.inputs['Strength'].default_value = 0.12
+-    bump.inputs['Distance'].default_value = 0.025
+-    links.new(tex.outputs['Generated'], mapping.inputs[0])
+-    links.new(mapping.outputs['Vector'], noise.inputs['Vector'])
+-    links.new(noise.outputs['Fac'], ramp.inputs['Fac'])
+-    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])
+-    links.new(noise.outputs['Fac'], bump.inputs['Height'])
+-    links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])
+-    links.new(bsdf.outputs['BSDF'], out.inputs['Surface'])
+-    return mat
+-
+-counter = wood_material('Finish - honey oak island top', (0.30, 0.145, 0.055), (0.58, 0.36, 0.16), (1.2, 22.0, 3.0), 3.0, 0.34)
+-cabinet = wood_material('Finish - dark stained cabinet oak', (0.075, 0.036, 0.018), (0.24, 0.13, 0.065), (9.0, 4.0, 1.2), 3.2, 0.4)
+-inset = wood_material('Finish - recessed oak panels', (0.065, 0.030, 0.015), (0.19, 0.095, 0.045), (9.0, 4.0, 1.2), 3.2, 0.44)
+-backtop = wood_material('Finish - dark perimeter counter', (0.065, 0.038, 0.025), (0.18, 0.105, 0.065), (1.2, 18.0, 3.0), 3.0, 0.36)
+-floors = []
+-for i, factor in enumerate((0.91, 0.97, 1.02, 1.06, 0.95)):
+-    floors.append(wood_material('Finish - floor oak %02d' % i, tuple(v * factor for v in (0.25, 0.13, 0.065)), tuple(v * factor for v in (0.48, 0.29, 0.145)), (5.0, 0.65, 4.0), 3.0, 0.48))
+-
+-glass = bpy.data.materials.get('Finish - reflective muted glass') or bpy.data.materials.new('Finish - reflective muted glass')
+-glass.use_nodes = True
+-p = glass.node_tree.nodes.get('Principled BSDF')
+-if p:
+-    p.inputs['Base Color'].default_value = (0.36, 0.49, 0.47, 1.0)
+-    p.inputs['Roughness'].default_value = 0.22
+-    p.inputs['Metallic'].default_value = 0.16
+-    if 'Coat Weight' in p.inputs:
+-        p.inputs['Coat Weight'].default_value = 0.35
+-
+-def assign(obj, material):
+-    if obj.type == 'MESH':
+-        if obj.data.materials:
+-            obj.data.materials[0] = material
+-        else:
+-            obj.data.materials.append(material)
+-
+-for obj in bpy.data.objects:
+-    if obj.type != 'MESH':
+-        continue
+-    parent_name = obj.parent.name if obj.parent else ''
+-    if parent_name.startswith('Floorboard_'):
+-        try:
+-            assign(obj, floors[int(parent_name.split('_')[-1]) % len(floors)])
+-        except ValueError:
+-            pass
+-    elif obj.name == 'Solid oak countertop':
+-        assign(obj, counter)
+-    elif obj.name == 'Right dark countertop':
+-        assign(obj, backtop)
+-    elif 'glazed door' in obj.name.lower() and 'inset' in obj.name.lower():
+-        assign(obj, glass)
+-    elif parent_name in {'Central work island', 'Left tall display cabinet', 'Right wall and base cabinets'}:
+-        original = obj.data.materials[0].name if obj.data.materials else ''
+-        if original in {'Island dark stained oak', 'Perimeter cabinet stained oak'}:
+-            assign(obj, cabinet)
+-        elif original in {'Island recessed panels', 'Perimeter cabinet inset oak'}:
+-            assign(obj, inset)
+-
+-# Extend the existing wall beyond the camera view to remove the black void at the left edge.
++# Extend the existing back wall horizontally to cover the remaining left-edge void.
+ wall = bpy.data.objects.get('Box.042')
+-if wall:
+-    wall.scale.x *= 1.5
++if wall is None:
++    raise RuntimeError('Existing back wall mesh Box.042 was not found')
++wall.scale.x *= 2.0

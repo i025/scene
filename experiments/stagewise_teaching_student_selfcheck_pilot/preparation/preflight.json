@@ -1,0 +1,103 @@
+{
+  "status": "completed",
+  "started": 1794733186.5706513,
+  "finished": 1794733189.6889439,
+  "seconds": 3.118293046951294,
+  "checks": {
+    "clear_rejected": true,
+    "reset_rejected": true,
+    "load_rejected": true,
+    "file_io_rejected": true,
+    "existing_ids_preserved": true,
+    "incremental_transform_measured": true,
+    "appended_object_measured": true,
+    "no_existing_object_deleted": true,
+    "failed_patch_did_not_save": true,
+    "parent_path_size_mtime_unchanged": true,
+    "parent_reopened_after_failure": true,
+    "actual_renders_available": true
+  },
+  "scope": "Deterministic synthetic checkpoint fixture; excluded from the two formal scene tasks.",
+  "build_attempts": 3,
+  "intentional_build_failures": 1,
+  "render_attempts": 2,
+  "model_calls": 0,
+  "automatic_quality_evaluation": false,
+  "image_paths": [
+    "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/preparation/fixture/initial/final.png",
+    "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/preparation/fixture/incremental/final.png"
+  ],
+  "next_cli_picture_check_attachments": [
+    "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/preparation/fixture/initial/final.png",
+    "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/preparation/fixture/incremental/final.png"
+  ],
+  "next_cli_picture_check_status": "pending",
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "Existing explicit user allocation: 8 CPU cores and 32 GB. No scheduler allocation grants 16; use first eight currently allowed CPUs, discovered rather than hardcoded.",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 8,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 1,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "render_configuration": {
+    "width": 256,
+    "height": 192,
+    "samples": 4
+  },
+  "parent_before_failure": {
+    "path": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/preparation/fixture/incremental/scene.blend",
+    "size": 501724,
+    "mtime_ns": 1794733188445245957
+  },
+  "parent_after_failure": {
+    "path": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/preparation/fixture/incremental/scene.blend",
+    "size": 501724,
+    "mtime_ns": 1794733188445245957
+  },
+  "budget_before": {
+    "cli_sessions": 0,
+    "render_attempts": 0,
+    "build_attempts": 0,
+    "development_cli": 0,
+    "test_cli": 0,
+    "preparation_cli": 0,
+    "known_input_tokens": 0,
+    "known_output_tokens": 0,
+    "usage_known_sessions": 0,
+    "usage_unknown_sessions": 0,
+    "observable_tool_calls": 0
+  },
+  "budget_after": {
+    "cli_sessions": 0,
+    "render_attempts": 2,
+    "build_attempts": 3,
+    "development_cli": 0,
+    "test_cli": 0,
+    "preparation_cli": 0,
+    "known_input_tokens": 0,
+    "known_output_tokens": 0,
+    "usage_known_sessions": 0,
+    "usage_unknown_sessions": 0,
+    "observable_tool_calls": 0
+  }
+}

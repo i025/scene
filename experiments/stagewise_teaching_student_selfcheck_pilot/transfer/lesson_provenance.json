@@ -1,0 +1,133 @@
+{
+  "rules": [
+    {
+      "rule_id": "R1",
+      "rule": "Bound review and correction by completed scope, permitted operation, and the execution contract.",
+      "origin": "preexisting_general_rule",
+      "evidence": [
+        {
+          "stage_id": 2,
+          "feedback_id": "S2-01",
+          "observed_issue": "The review targeted visitor-chair proportions while requiring other furniture to be preserved. Scope and preservation obligations already existed in the public contract.",
+          "actual_student_change": "The executed revision transformed existing chair backs, seats, arms, and stems. The measured changes included no creations, deletions, camera changes, or material changes.",
+          "outcome_and_limit": "Verification marked the proportion finding resolved. This illustrates compliance with a preexisting rule; it does not establish that scope discipline was newly learned."
+        }
+      ],
+      "applicability_limit": "Use the current task's permissions and stage boundaries; do not transfer the development stage schedule or correction budget."
+    },
+    {
+      "rule_id": "R2",
+      "rule": "Measure framing landmarks and recheck all visible relationships after viewpoint changes.",
+      "origin": "development_derived",
+      "evidence": [
+        {
+          "stage_id": 1,
+          "feedback_id": "F1",
+          "observed_issue": "Feedback identified an upper black strip, insufficient back-wall image coverage, and excessive foreground floor.",
+          "actual_student_change": "The executed patch changed the existing camera location, aim, and focal length; the measured scene change was limited to the camera.",
+          "outcome_and_limit": "Confirmation reported removal of the black strip and a changed back-floor junction, but the glazing reached the left edge and the foreground wall was largely lost. The finding remained partially resolved."
+        },
+        {
+          "stage_id": 5,
+          "feedback_id": "F1",
+          "observed_issue": "Feedback again identified wall-width, furniture-scale, ceiling-light-position, and top-edge mismatches.",
+          "actual_student_change": "The executed revision moved the camera left and back, increased focal length, and scaled the existing ceiling.",
+          "outcome_and_limit": "Verification reported larger furniture farther right, but also a clipped chair and foreground foliage obscuring the radiator. The wall-width mismatch and dark strip persisted. These mixed outcomes support regression checks, not a particular camera adjustment."
+        }
+      ],
+      "applicability_limit": "Landmarks and desired coverage must come from current evidence. A single view does not determine unique camera or room parameters."
+    },
+    {
+      "rule_id": "R3",
+      "rule": "Distinguish inventory presence from rendered recognition and compare silhouette coverage.",
+      "origin": "development_derived",
+      "evidence": [
+        {
+          "stage_id": 3,
+          "feedback_id": "stage3_plants",
+          "observed_issue": "A foreground plant existed in the inventory but was not visible; rear foliage appeared sparse with exposed stems.",
+          "actual_student_change": "The executed patch translated the existing foreground parent and added foliage meshes under both existing plant parents.",
+          "outcome_and_limit": "Confirmation found foreground foliage visible and the radiator identifiable, while the rear canopy remained narrow and transparent. The original cause of invisibility was not uniquely established."
+        }
+      ],
+      "applicability_limit": "Apply density checks only where current reference evidence makes silhouette density relevant. Do not treat invisibility as proof of missing geometry."
+    },
+    {
+      "rule_id": "R4",
+      "rule": "Inspect part proportions and support relationships while preserving selected anchors.",
+      "origin": "development_derived",
+      "evidence": [
+        {
+          "stage_id": 2,
+          "feedback_id": "S2-01",
+          "observed_issue": "Upholstery extended too close to the floor, leaving short exposed stems.",
+          "actual_student_change": "The patch shortened backs around their upper anchor, raised seats and arms, and extended stems from their lower anchor while leaving cross bases unchanged.",
+          "outcome_and_limit": "Verification reported higher upholstery bottoms and longer exposed stems with stable back tops and base positions. Fine base detail and exact floor contact remained limited by noise."
+        },
+        {
+          "stage_id": 4,
+          "feedback_id": "stage4_monitor",
+          "observed_issue": "The monitor panel and support were difficult to distinguish.",
+          "actual_student_change": "The revision changed housing material and rotated the panel and bezel while retaining the existing support.",
+          "outcome_and_limit": "The panel became identifiable according to confirmation, but support contact remained unverified. Panel recognition did not establish correct support contact."
+        }
+      ],
+      "applicability_limit": "Choose anchors and proportions from current visible evidence; do not infer exact physical dimensions or hidden contacts."
+    },
+    {
+      "rule_id": "R5",
+      "rule": "Check relative tonal separation and explicitly limit fine-detail judgments under noisy evidence.",
+      "origin": "development_derived",
+      "evidence": [
+        {
+          "stage_id": 4,
+          "feedback_id": "stage4_monitor",
+          "observed_issue": "The panel did not clearly separate from its pale surroundings; feedback could not reliably distinguish washout from occlusion.",
+          "actual_student_change": "The executed patch assigned a contrasting housing material and changed panel orientation.",
+          "outcome_and_limit": "Confirmation reported clear panel separation, while the lower edge and support still blended into the desktop. Material and orientation changed together, so their separate effects are unknown."
+        },
+        {
+          "stage_id": 5,
+          "feedback_id": "F2",
+          "observed_issue": "Pale surfaces and heavy noise limited tonal and texture assessment.",
+          "actual_student_change": "The revision changed floor and wall materials, assigned separate darker upholstery materials to one chair, and reduced two area-light energies.",
+          "outcome_and_limit": "Verification reported a darker chair and warmer wall, but a pale floor and persistent noise. Texture and subtle contact-shadow fidelity remained unconfirmed."
+        }
+      ],
+      "applicability_limit": "No universal brightness, material, or lighting adjustment follows. Use current reference relationships and respect fixed rendering settings."
+    },
+    {
+      "rule_id": "R6",
+      "rule": "Verify actual outcomes, retain partial findings, and check regressions before closing issues.",
+      "origin": "development_derived",
+      "evidence": [
+        {
+          "stage_id": 3,
+          "feedback_id": "stage3_plants",
+          "observed_issue": "The finding combined missing foreground visibility with insufficient rear foliage density.",
+          "actual_student_change": "The executed revision moved the foreground plant and added foliage to both plants.",
+          "outcome_and_limit": "Confirmation resolved foreground visibility but retained the rear-density mismatch and advanced with an issue after the correction pass."
+        },
+        {
+          "stage_id": 5,
+          "feedback_id": "F1",
+          "observed_issue": "Framing remained mismatched despite earlier work, and ceiling extension had no clear visible effect.",
+          "actual_student_change": "The revision altered camera framing and ceiling dimensions.",
+          "outcome_and_limit": "Measured changes confirmed execution, but verification still reported the dark strip and new cropping and occlusion problems. The finding remained partially resolved; executed intent was not accepted as proof of resolution."
+        }
+      ],
+      "applicability_limit": "Status must follow current verification evidence. Advancing is a workflow decision and does not imply visual correctness."
+    }
+  ],
+  "not_transferred": [
+    "The previous technical-validity rule is excluded from the frozen policy and code because its cited initial build error and technical_repair have no supplied feedback ID. The descriptive phrase previously placed in feedback_id was not an actual feedback identifier. The supplied repair record remains a technical observation, without an invented feedback link.",
+    "Development object names, counts, colors, coordinates, camera values, source identifiers, paths, and construction recipes are excluded from the policy and code.",
+    "The particular camera movements and ceiling extensions are not general fixes; their outcomes were mixed and the dark strip's cause remained uncertain.",
+    "Increasing foliage by a fixed amount is not a validated general solution; rear density remained only partially matched.",
+    "The request to produce a cleaner render does not authorize changing fixed runner settings. The student explicitly left render cleanliness under runner control.",
+    "Procedural grain, fine fabric detail, and precise contact shadows were not visually verified; their implementation is not evidence of fidelity.",
+    "No universal darkening, fill reduction, or orientation change is transferred from combined edits.",
+    "No automatic quality metric, unique hidden geometry, or claim of improved student capability is inferred."
+  ],
+  "limitations": "This correction removes the rule with an unsupported feedback identifier and renumbers the remaining verification rule; it adds no evidence. The procedure is extracted from one supplied development trajectory. Outcomes are attributed to its recorded verification, not independent quality measurement. Several edits changed multiple factors, and noisy views left substantial uncertainty. No test evidence was accessed. The Python entry only constructs a prompt from frozen rules and JSON-serializable context; it does not inspect geometry, perform measurements, or verify execution. This is language strategy extraction, not weight distillation, teacher evolution, or verified capability improvement."
+}

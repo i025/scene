@@ -1,3 +1,33 @@
+# 阶段式教师纠错 → 学生自主检查：两个持续场景
+
+本轮完成 D01 办公室开发、T01 厨房测试，共 **2/2 个任务、10/10 个阶段**。每个任务从空场景开始一次，后续加载上一 `.blend` 并执行增量补丁。开发教师在实际渲染后纠错，开发结束提炼并冻结6条通用检查规则；测试教师退出，由同一个学生看测试原图和自己的真实渲染自主检查。
+
+[中文结果报告](experiments/stagewise_teaching_student_selfcheck_pilot/reports/REPORT_ZH.md) · [完整过程说明](experiments/stagewise_teaching_student_selfcheck_pilot/reports/CASE_STUDY_ZH.md) · [离线HTML](experiments/stagewise_teaching_student_selfcheck_pilot/reports/index.html) · [审查索引](docs/STAGEWISE_REVIEW_INDEX.md) · [逐步原始表](experiments/stagewise_teaching_student_selfcheck_pilot/metrics/steps.csv) · [成本](experiments/stagewise_teaching_student_selfcheck_pilot/metrics/cost_by_role.csv) · [上传状态](UPLOAD_SUMMARY_STAGEWISE.md)
+
+|任务|阶段处理|视觉纠错|技术修复|CLI完成／总数|构建成功／尝试|渲染|教师调用|
+|---|---:|---:|---:|---:|---:|---:|---:|
+|D01 开发办公室|5/5|5|1|22/22|10/11|11|10|
+|T01 测试厨房|5/5|5|0|21/22|10/10|11|0|
+
+T01原路由失败没有返回程序，用户确认连接恢复后仅重试一次；所有成功步骤复用。开发还有2次提炼调用，准备有2次CLI、3次构建、2帧渲染，因此本轮累计 **48/60 CLI、24/36 构建尝试、24/80 渲染**。构建失败包含准备时主动注入的1次错误及D01的1次生成参数错误。测试5阶段全部带未解决问题结束，技术交付不能解释成视觉通过。
+
+![D01 所有阶段，含程序失败空位](experiments/stagewise_teaching_student_selfcheck_pilot/figures/D01_contact.png)
+![T01 所有阶段，含第二阶段相机修改造成的黑图](experiments/stagewise_teaching_student_selfcheck_pilot/figures/T01_contact.png)
+
+**实际结果和负面证据：** D01教师让学生修改相机、椅子支杆、植物可见性和显示器对比，最后仍有裁切及遮挡。T01第二阶段相机修订导致近黑图，学生复核识别了退化；第三阶段关闭右墙的渲染可见性后才恢复。最后仍有黑边、视角和外观差异。学生两次声称图像宽高比不同，但原图1280×960、预览768×576均为4:3；这些错误原文保留。R6要求保留问题，实际结构化历史只传给同阶段复核，跨阶段问题记忆未实现。
+
+学生 `gpt-6.1-terra / medium`；开发教师及提炼 `gpt-6-astra / medium`。模型侧英文、用户说明中文。测试 Astra/教师调用 **0**，冻结入口执行10次；日志可见内部工具调用0。实际路由、底层精确请求数与费用未知。可见输入4,643,621、输出42,948 tokens，usage覆盖47/48会话，失败用量不填0。CPU8核/内存上限32GB，单Blender×8，GPU0；叶子进程CPU user/system约1015.62/31.15秒，远端等待计入CLI墙钟。
+
+这是一条在线教学与语言检查策略迁移的可行性轨迹。两图历史已曝光，无同题无教师对照、无独立重复、无自动质量评分或已完成人工验证，不证明泛化更强、权重训练或教师自进化。
+
+完整离线包包含许可允许再分发的两张原图、全部检查点 `.blend`、原始日志、失败及冻结代码。[本轮Release](https://github.com/i025/scene/releases/tag/stagewise-teaching-student-selfcheck-pilot-2026-11-15) · [完整包](https://github.com/i025/scene/releases/download/stagewise-teaching-student-selfcheck-pilot-2026-11-15/stagewise_teaching_student_selfcheck_pilot_full.tar.gz)；**是否已上传以[产物索引](artifacts_index_stagewise.csv)及上传摘要为准**。解压后打开 `stagewise_teaching_student_selfcheck_pilot/reports/index.html`，不要只下载HTML。原图归属和许可见 [SOURCE_ATTRIBUTION](experiments/stagewise_teaching_student_selfcheck_pilot/SOURCE_ATTRIBUTION.md)，没有为第三方材料添加覆盖性新许可。
+
+离线重画：在完整实验目录运行 `python report.py`。已有任务续跑：`python launch.py resume`，完成后不会新增任务或重抽结果。本服务器实际环境路径、迁移说明及恢复记录见[实验README](experiments/stagewise_teaching_student_selfcheck_pilot/README.md)。
+
+以下历史README原文保留，数值不属于这次两个持续场景任务。
+
+---
+
 # 教师 M 一次自修改：固定学生，人工看图
 
 本分支 `research/teacher-self-evolution-human-pilot` 完成一次教师共享程序修改：4项开发后产生M1，再进行8项比较。固定学生、4张原图、12/12技术交付；没有新增H演化或自动质量评分。

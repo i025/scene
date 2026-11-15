@@ -1,0 +1,2240 @@
+You are the DEVELOPMENT teacher. All output is English. You provide brief natural-language feedback only; never write scene code or change the scene. Attachment 1 is the current task's reference, attachment 2 is the actual current render; attachment 3, if supplied, is the previous checkpoint render. Review only completed stage content and its dependencies: do not penalize objects scheduled for a future stage. Identify zero to three important issues with direct reference/render evidence, target objects/relationships, what to change, what to preserve, what to check afterward, and uncertainty. Never infer unique focal length or physical dimensions from a single view. Record requested extra views in uncertainty; do not pretend unavailable views were observed.
+Return the REVIEW schema. problem_source=development_observation; rule_source=teacher_observation. Choose revise if one visual correction is available and useful, advance if ready, or advance_with_issue if unresolved within the budget. On verification, judge the actual changed image, mark findings resolved/partially_resolved/unresolved/cannot_determine as supported, and never request another patch beyond the single correction. This is process feedback, not an external quality score or guarantee of faithful geometry.
+EXPLICIT CONTEXT:
+{
+  "stage": {
+    "stage_id": 1,
+    "title": "Room and viewpoint",
+    "targets": [
+      "room shell",
+      "window and door opening",
+      "camera",
+      "basic lighting"
+    ],
+    "completed_scope": "The room has its floor, walls, ceiling and beam, left glazed opening, approximate camera framing, and broad illumination."
+  },
+  "completed_scope": "The room has its floor, walls, ceiling and beam, left glazed opening, approximate camera framing, and broad illumination.",
+  "inventory": {
+    "objects": [
+      {
+        "object_id": "obj_00001",
+        "name": "Office room",
+        "type": "EMPTY",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00002",
+        "name": "room",
+        "type": "EMPTY",
+        "parent_id": "obj_00001",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00003",
+        "name": "floor",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00004",
+        "name": "Box",
+        "type": "MESH",
+        "parent_id": "obj_00003",
+        "matrix_world": [
+          [
+            6.400000095367432,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            8.199999809265137,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.11999999731779099,
+            -0.05999999865889549
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          6.400000095367432,
+          8.199999809265137,
+          0.11999999731779099
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00005",
+        "name": "back wall",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00006",
+        "name": "Box.001",
+        "type": "MESH",
+        "parent_id": "obj_00005",
+        "matrix_world": [
+          [
+            6.400000095367432,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.1599999964237213,
+            0.0,
+            4.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.3499999046325684,
+            1.6749999523162842
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          6.400000095367432,
+          0.1599999964237213,
+          3.3499999046325684
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00007",
+        "name": "right wall",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00008",
+        "name": "Box.002",
+        "type": "MESH",
+        "parent_id": "obj_00007",
+        "matrix_world": [
+          [
+            0.1599999964237213,
+            0.0,
+            0.0,
+            3.200000047683716
+          ],
+          [
+            0.0,
+            8.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            3.3499999046325684,
+            1.6749999523162842
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.1599999964237213,
+          8.0,
+          3.3499999046325684
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00009",
+        "name": "left wall front",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00010",
+        "name": "Box.003",
+        "type": "MESH",
+        "parent_id": "obj_00009",
+        "matrix_world": [
+          [
+            0.1599999964237213,
+            0.0,
+            0.0,
+            -3.200000047683716
+          ],
+          [
+            0.0,
+            3.4000000953674316,
+            0.0,
+            -2.299999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            3.3499999046325684,
+            1.6749999523162842
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.1599999964237213,
+          3.4000000953674316,
+          3.3499999046325684
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00011",
+        "name": "left wall rear",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00012",
+        "name": "Box.004",
+        "type": "MESH",
+        "parent_id": "obj_00011",
+        "matrix_world": [
+          [
+            0.1599999964237213,
+            0.0,
+            0.0,
+            -3.200000047683716
+          ],
+          [
+            0.0,
+            1.25,
+            0.0,
+            3.375
+          ],
+          [
+            0.0,
+            0.0,
+            3.3499999046325684,
+            1.6749999523162842
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.1599999964237213,
+          1.25,
+          3.3499999046325684
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00013",
+        "name": "left opening header",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00014",
+        "name": "Box.005",
+        "type": "MESH",
+        "parent_id": "obj_00013",
+        "matrix_world": [
+          [
+            0.1599999964237213,
+            0.0,
+            0.0,
+            -3.200000047683716
+          ],
+          [
+            0.0,
+            3.3499999046325684,
+            0.0,
+            1.024999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            0.41999998688697815,
+            3.140000104904175
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.1599999964237213,
+          3.3499999046325684,
+          0.41999998688697815
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00015",
+        "name": "ceiling",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00016",
+        "name": "Box.006",
+        "type": "MESH",
+        "parent_id": "obj_00015",
+        "matrix_world": [
+          [
+            6.400000095367432,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            8.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.11999999731779099,
+            3.4100000858306885
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          6.400000095367432,
+          8.0,
+          0.11999999731779099
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00017",
+        "name": "ceiling beam",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00018",
+        "name": "Box.007",
+        "type": "MESH",
+        "parent_id": "obj_00017",
+        "matrix_world": [
+          [
+            6.400000095367432,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.46000000834465027,
+            0.0,
+            -1.7999999523162842
+          ],
+          [
+            0.0,
+            0.0,
+            0.4300000071525574,
+            3.134999990463257
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          6.400000095367432,
+          0.46000000834465027,
+          0.4300000071525574
+        ],
+        "material_slots": [
+          "SceneActSurface_5"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00019",
+        "name": "back skirting",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00020",
+        "name": "Box.008",
+        "type": "MESH",
+        "parent_id": "obj_00019",
+        "matrix_world": [
+          [
+            6.25,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.05999999865889549,
+            0.0,
+            3.880000114440918
+          ],
+          [
+            0.0,
+            0.0,
+            0.12999999523162842,
+            0.06499999761581421
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          6.25,
+          0.05999999865889549,
+          0.12999999523162842
+        ],
+        "material_slots": [
+          "SceneActSurface_6"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00021",
+        "name": "left front skirting",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00022",
+        "name": "Box.009",
+        "type": "MESH",
+        "parent_id": "obj_00021",
+        "matrix_world": [
+          [
+            0.05999999865889549,
+            0.0,
+            0.0,
+            -3.0799999237060547
+          ],
+          [
+            0.0,
+            3.3499999046325684,
+            0.0,
+            -2.299999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            0.12999999523162842,
+            0.06499999761581421
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.05999999865889549,
+          3.3499999046325684,
+          0.12999999523162842
+        ],
+        "material_slots": [
+          "SceneActSurface_6"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00023",
+        "name": "left rear skirting",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00024",
+        "name": "Box.010",
+        "type": "MESH",
+        "parent_id": "obj_00023",
+        "matrix_world": [
+          [
+            0.05999999865889549,
+            0.0,
+            0.0,
+            -3.0799999237060547
+          ],
+          [
+            0.0,
+            1.1799999475479126,
+            0.0,
+            3.380000114440918
+          ],
+          [
+            0.0,
+            0.0,
+            0.12999999523162842,
+            0.06499999761581421
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.05999999865889549,
+          1.1799999475479126,
+          0.12999999523162842
+        ],
+        "material_slots": [
+          "SceneActSurface_6"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00025",
+        "name": "right skirting",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00026",
+        "name": "Box.011",
+        "type": "MESH",
+        "parent_id": "obj_00025",
+        "matrix_world": [
+          [
+            0.05999999865889549,
+            0.0,
+            0.0,
+            3.0799999237060547
+          ],
+          [
+            0.0,
+            7.900000095367432,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.12999999523162842,
+            0.06499999761581421
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.05999999865889549,
+          7.900000095367432,
+          0.12999999523162842
+        ],
+        "material_slots": [
+          "SceneActSurface_6"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00027",
+        "name": "glazed opening",
+        "type": "EMPTY",
+        "parent_id": "obj_00001",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00028",
+        "name": "glass",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00029",
+        "name": "Box.012",
+        "type": "MESH",
+        "parent_id": "obj_00028",
+        "matrix_world": [
+          [
+            0.03500000014901161,
+            0.0,
+            0.0,
+            -3.190000057220459
+          ],
+          [
+            0.0,
+            3.25,
+            0.0,
+            1.024999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            2.819999933242798,
+            1.4600000381469727
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.03500000014901161,
+          3.25,
+          2.819999933242798
+        ],
+        "material_slots": [
+          "SceneActSurface_7"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00030",
+        "name": "front jamb",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00031",
+        "name": "Box.013",
+        "type": "MESH",
+        "parent_id": "obj_00030",
+        "matrix_world": [
+          [
+            0.11999999731779099,
+            0.0,
+            0.0,
+            -3.0999999046325684
+          ],
+          [
+            0.0,
+            0.07500000298023224,
+            0.0,
+            -0.5899999737739563
+          ],
+          [
+            0.0,
+            0.0,
+            2.9000000953674316,
+            1.4800000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.11999999731779099,
+          0.07500000298023224,
+          2.9000000953674316
+        ],
+        "material_slots": [
+          "SceneActSurface_8"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00032",
+        "name": "rear jamb",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00033",
+        "name": "Box.014",
+        "type": "MESH",
+        "parent_id": "obj_00032",
+        "matrix_world": [
+          [
+            0.11999999731779099,
+            0.0,
+            0.0,
+            -3.0999999046325684
+          ],
+          [
+            0.0,
+            0.07500000298023224,
+            0.0,
+            2.640000104904175
+          ],
+          [
+            0.0,
+            0.0,
+            2.9000000953674316,
+            1.4800000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.11999999731779099,
+          0.07500000298023224,
+          2.9000000953674316
+        ],
+        "material_slots": [
+          "SceneActSurface_8"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00034",
+        "name": "center mullion",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00035",
+        "name": "Box.015",
+        "type": "MESH",
+        "parent_id": "obj_00034",
+        "matrix_world": [
+          [
+            0.11999999731779099,
+            0.0,
+            0.0,
+            -3.0999999046325684
+          ],
+          [
+            0.0,
+            0.07500000298023224,
+            0.0,
+            0.9800000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            2.9000000953674316,
+            1.4800000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.11999999731779099,
+          0.07500000298023224,
+          2.9000000953674316
+        ],
+        "material_slots": [
+          "SceneActSurface_8"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00036",
+        "name": "top frame",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00037",
+        "name": "Box.016",
+        "type": "MESH",
+        "parent_id": "obj_00036",
+        "matrix_world": [
+          [
+            0.11999999731779099,
+            0.0,
+            0.0,
+            -3.0999999046325684
+          ],
+          [
+            0.0,
+            3.3399999141693115,
+            0.0,
+            1.024999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            2.9100000858306885
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.11999999731779099,
+          3.3399999141693115,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_8"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00038",
+        "name": "bottom frame",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00039",
+        "name": "Box.017",
+        "type": "MESH",
+        "parent_id": "obj_00038",
+        "matrix_world": [
+          [
+            0.11999999731779099,
+            0.0,
+            0.0,
+            -3.0999999046325684
+          ],
+          [
+            0.0,
+            3.3399999141693115,
+            0.0,
+            1.024999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            0.054999999701976776
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.11999999731779099,
+          3.3399999141693115,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_8"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00040",
+        "name": "blind housing",
+        "type": "EMPTY",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00041",
+        "name": "Box.018",
+        "type": "MESH",
+        "parent_id": "obj_00040",
+        "matrix_world": [
+          [
+            0.20000000298023224,
+            0.0,
+            0.0,
+            -3.049999952316284
+          ],
+          [
+            0.0,
+            3.4800000190734863,
+            0.0,
+            1.024999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            0.1599999964237213,
+            3.0199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.20000000298023224,
+          3.4800000190734863,
+          0.1599999964237213
+        ],
+        "material_slots": [
+          "SceneActSurface_9"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00042",
+        "name": "ceiling light",
+        "type": "EMPTY",
+        "parent_id": "obj_00001",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00043",
+        "name": "rim",
+        "type": "EMPTY",
+        "parent_id": "obj_00042",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00044",
+        "name": "Box.019",
+        "type": "MESH",
+        "parent_id": "obj_00043",
+        "matrix_world": [
+          [
+            1.0499999523162842,
+            0.0,
+            0.0,
+            -0.30000001192092896
+          ],
+          [
+            0.0,
+            0.800000011920929,
+            0.0,
+            2.049999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            0.03500000014901161,
+            3.3350000381469727
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          1.0499999523162842,
+          0.800000011920929,
+          0.03500000014901161
+        ],
+        "material_slots": [
+          "SceneActSurface_10"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00045",
+        "name": "diffuser",
+        "type": "EMPTY",
+        "parent_id": "obj_00042",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00046",
+        "name": "Box.020",
+        "type": "MESH",
+        "parent_id": "obj_00045",
+        "matrix_world": [
+          [
+            0.949999988079071,
+            0.0,
+            0.0,
+            -0.30000001192092896
+          ],
+          [
+            0.0,
+            0.699999988079071,
+            0.0,
+            2.049999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            0.017999999225139618,
+            3.309999942779541
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.699999988079071,
+          0.017999999225139618
+        ],
+        "material_slots": [
+          "SceneActSurface_11"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00047",
+        "name": "SceneActView",
+        "type": "CAMERA",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.04896073043346405,
+            -0.9988006949424744,
+            -7.800000190734863
+          ],
+          [
+            0.0,
+            0.9988006949424744,
+            0.04896073043346405,
+            2.049999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": {
+          "type": "PERSP",
+          "lens": 26.0,
+          "sensor_width": 36.0,
+          "ortho_scale": 6.0,
+          "shift_x": 0.0,
+          "shift_y": 0.0,
+          "clip_start": 0.10000000149011612,
+          "clip_end": 1000.0
+        },
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00048",
+        "name": "SceneActArea",
+        "type": "LIGHT",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.49026116728782654,
+            -0.8715755939483643,
+            -2.0
+          ],
+          [
+            0.0,
+            0.8715755939483643,
+            0.49026116728782654,
+            3.049999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": {
+          "type": "AREA",
+          "energy": 500.0,
+          "color": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00049",
+        "name": "SceneActArea.001",
+        "type": "LIGHT",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            0.36652448773384094,
+            0.36240506172180176,
+            -0.8569261431694031,
+            -2.799999952316284
+          ],
+          [
+            -0.9304084181785583,
+            0.14276568591594696,
+            -0.33757689595222473,
+            1.0
+          ],
+          [
+            6.957193221523994e-08,
+            0.9210214614868164,
+            0.3895118236541748,
+            2.5
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": {
+          "type": "AREA",
+          "energy": 420.0,
+          "color": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00050",
+        "name": "SceneActArea.002",
+        "type": "LIGHT",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            2.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            3.2200000286102295
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": {
+          "type": "AREA",
+          "energy": 200.0,
+          "color": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hide_render": false
+      }
+    ],
+    "active_camera_id": "obj_00047",
+    "world": null
+  },
+  "previous_findings": [],
+  "verification": false,
+  "visual_correction_available": true,
+  "operation": {
+    "decision": "apply",
+    "code": "from sceneact import *\n\nscene = Scene('Office room')\n\n# The open front of the room faces the camera; the back wall is at positive Y.\nroom = Asset('Room shell')\nroom.include('floor', box((6.4, 8.2, 0.12), center=(0, 0.0, -0.06), color=(0.37, 0.39, 0.38)))\nroom.include('back wall', box((6.4, 0.16, 3.35), center=(0, 4.0, 1.675), color=(0.86, 0.87, 0.85)))\nroom.include('right wall', box((0.16, 8.0, 3.35), center=(3.2, 0, 1.675), color=(0.70, 0.61, 0.55)))\n# Split the left wall around the full-height glazed opening.\nroom.include('left wall front', box((0.16, 3.4, 3.35), center=(-3.2, -2.3, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left wall rear', box((0.16, 1.25, 3.35), center=(-3.2, 3.375, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left opening header', box((0.16, 3.35, 0.42), center=(-3.2, 1.025, 3.14), color=(0.86, 0.86, 0.84)))\nroom.include('ceiling', box((6.4, 8.0, 0.12), center=(0, 0, 3.41), color=(0.89, 0.89, 0.87)))\nroom.include('ceiling beam', box((6.4, 0.46, 0.43), center=(0, -1.8, 3.135), color=(0.87, 0.87, 0.85)))\nroom.include('back skirting', box((6.25, 0.06, 0.13), center=(0, 3.88, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left front skirting', box((0.06, 3.35, 0.13), center=(-3.08, -2.3, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left rear skirting', box((0.06, 1.18, 0.13), center=(-3.08, 3.38, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('right skirting', box((0.06, 7.9, 0.13), center=(3.08, 0, 0.065), color=(0.26, 0.27, 0.26)))\nscene.include('room', room)\n\nopening = Asset('Left glazed opening')\nopening.include('glass', box((0.035, 3.25, 2.82), center=(-3.19, 1.025, 1.46), color=(0.77, 0.86, 0.87)))\nfor y, name in [(-0.59, 'front jamb'), (2.64, 'rear jamb'), (0.98, 'center mullion')]:\n    opening.include(name, box((0.12, 0.075, 2.9), center=(-3.10, y, 1.48), color=(0.91, 0.92, 0.90)))\nopening.include('top frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 2.91), color=(0.91, 0.92, 0.90)))\nopening.include('bottom frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 0.055), color=(0.91, 0.92, 0.90)))\nopening.include('blind housing', box((0.20, 3.48, 0.16), center=(-3.05, 1.025, 3.02), color=(0.85, 0.84, 0.81)))\nscene.include('glazed opening', opening)\n\n# A flush ceiling light contributes a recognizable architectural feature.\nfixture = Asset('Ceiling light panel')\nfixture.include('rim', box((1.05, 0.80, 0.035), center=(-0.3, 2.05, 3.335), color=(0.82, 0.83, 0.81)))\nfixture.include('diffuser', box((0.95, 0.70, 0.018), center=(-0.3, 2.05, 3.31), color=(1.0, 1.0, 0.98)))\nscene.include('ceiling light', fixture)\n\nrealize(scene)\nset_view((0, -7.8, 2.05), (0, 2.4, 1.55), lens=26, sensor=36)\narea_emitter((0, -2.0, 3.05), power=500, size=5, target=(0, 2, 0.8))\narea_emitter((-2.8, 1.0, 2.5), power=420, size=3.0, target=(0.5, 2.3, 1.0))\narea_emitter((0, 2.0, 3.22), power=200, size=1.8, target=(0, 2.0, 0))",
+    "reason": "Initialize the room shell, glazed opening, camera, and broad lighting for the first stage.",
+    "changes": "Added a three-sided office room with a gray floor, white ceiling and beam, beige right wall, framed left glazing, ceiling light panel, camera, and area lights.",
+    "advice_implementation": [],
+    "completed_scope": "Room shell, left glazed opening, approximate camera framing, and basic lighting are established for the next render.",
+    "actual_executed_patch": "tasks/D01/stages/01/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [
+        "obj_00001",
+        "obj_00002",
+        "obj_00003",
+        "obj_00004",
+        "obj_00005",
+        "obj_00006",
+        "obj_00007",
+        "obj_00008",
+        "obj_00009",
+        "obj_00010",
+        "obj_00011",
+        "obj_00012",
+        "obj_00013",
+        "obj_00014",
+        "obj_00015",
+        "obj_00016",
+        "obj_00017",
+        "obj_00018",
+        "obj_00019",
+        "obj_00020",
+        "obj_00021",
+        "obj_00022",
+        "obj_00023",
+        "obj_00024",
+        "obj_00025",
+        "obj_00026",
+        "obj_00027",
+        "obj_00028",
+        "obj_00029",
+        "obj_00030",
+        "obj_00031",
+        "obj_00032",
+        "obj_00033",
+        "obj_00034",
+        "obj_00035",
+        "obj_00036",
+        "obj_00037",
+        "obj_00038",
+        "obj_00039",
+        "obj_00040",
+        "obj_00041",
+        "obj_00042",
+        "obj_00043",
+        "obj_00044",
+        "obj_00045",
+        "obj_00046",
+        "obj_00047",
+        "obj_00048",
+        "obj_00049",
+        "obj_00050"
+      ],
+      "deleted": [],
+      "modified": [],
+      "camera_changes": {
+        "object_ids": [
+          "obj_00047"
+        ],
+        "active_before": null,
+        "active_after": "obj_00047"
+      },
+      "material_changes": [
+        "SceneActSurface_0",
+        "SceneActSurface_1",
+        "SceneActSurface_10",
+        "SceneActSurface_11",
+        "SceneActSurface_2",
+        "SceneActSurface_3",
+        "SceneActSurface_4",
+        "SceneActSurface_5",
+        "SceneActSurface_6",
+        "SceneActSurface_7",
+        "SceneActSurface_8",
+        "SceneActSurface_9"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "from sceneact import *\n\nscene = Scene('Office room')\n\n# The open front of the room faces the camera; the back wall is at positive Y.\nroom = Asset('Room shell')\nroom.include('floor', box((6.4, 8.2, 0.12), center=(0, 0.0, -0.06), color=(0.37, 0.39, 0.38)))\nroom.include('back wall', box((6.4, 0.16, 3.35), center=(0, 4.0, 1.675), color=(0.86, 0.87, 0.85)))\nroom.include('right wall', box((0.16, 8.0, 3.35), center=(3.2, 0, 1.675), color=(0.70, 0.61, 0.55)))\n# Split the left wall around the full-height glazed opening.\nroom.include('left wall front', box((0.16, 3.4, 3.35), center=(-3.2, -2.3, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left wall rear', box((0.16, 1.25, 3.35), center=(-3.2, 3.375, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left opening header', box((0.16, 3.35, 0.42), center=(-3.2, 1.025, 3.14), color=(0.86, 0.86, 0.84)))\nroom.include('ceiling', box((6.4, 8.0, 0.12), center=(0, 0, 3.41), color=(0.89, 0.89, 0.87)))\nroom.include('ceiling beam', box((6.4, 0.46, 0.43), center=(0, -1.8, 3.135), color=(0.87, 0.87, 0.85)))\nroom.include('back skirting', box((6.25, 0.06, 0.13), center=(0, 3.88, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left front skirting', box((0.06, 3.35, 0.13), center=(-3.08, -2.3, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left rear skirting', box((0.06, 1.18, 0.13), center=(-3.08, 3.38, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('right skirting', box((0.06, 7.9, 0.13), center=(3.08, 0, 0.065), color=(0.26, 0.27, 0.26)))\nscene.include('room', room)\n\nopening = Asset('Left glazed opening')\nopening.include('glass', box((0.035, 3.25, 2.82), center=(-3.19, 1.025, 1.46), color=(0.77, 0.86, 0.87)))\nfor y, name in [(-0.59, 'front jamb'), (2.64, 'rear jamb'), (0.98, 'center mullion')]:\n    opening.include(name, box((0.12, 0.075, 2.9), center=(-3.10, y, 1.48), color=(0.91, 0.92, 0.90)))\nopening.include('top frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 2.91), color=(0.91, 0.92, 0.90)))\nopening.include('bottom frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 0.055), color=(0.91, 0.92, 0.90)))\nopening.include('blind housing', box((0.20, 3.48, 0.16), center=(-3.05, 1.025, 3.02), color=(0.85, 0.84, 0.81)))\nscene.include('glazed opening', opening)\n\n# A flush ceiling light contributes a recognizable architectural feature.\nfixture = Asset('Ceiling light panel')\nfixture.include('rim', box((1.05, 0.80, 0.035), center=(-0.3, 2.05, 3.335), color=(0.82, 0.83, 0.81)))\nfixture.include('diffuser', box((0.95, 0.70, 0.018), center=(-0.3, 2.05, 3.31), color=(1.0, 1.0, 0.98)))\nscene.include('ceiling light', fixture)\n\nrealize(scene)\nset_view((0, -7.8, 2.05), (0, 2.4, 1.55), lens=26, sensor=36)\narea_emitter((0, -2.0, 3.05), power=500, size=5, target=(0, 2, 0.8))\narea_emitter((-2.8, 1.0, 2.5), power=420, size=3.0, target=(0.5, 2.3, 1.0))\narea_emitter((0, 2.0, 3.22), power=200, size=1.8, target=(0, 2.0, 0))"
+  }
+}

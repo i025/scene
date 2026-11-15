@@ -1,0 +1,99 @@
+{
+  "model": {
+    "name": "gpt-6.1-terra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "${USER_HOME}/.local/bin/codex",
+    "selection_basis": "User explicitly selected gpt-6.1-terra during preparation; cost_unknown; medium fixed for formal run",
+    "language": "English"
+  },
+  "proposer": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "${USER_HOME}/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4,
+    "language": "English"
+  },
+  "blender": {
+    "executable": "${USER_HOME}/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 1200,
+    "threads": 8,
+    "build_timeout": 1200,
+    "render_timeout": 600
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 16,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 8,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "Existing explicit user allocation: 8 CPU cores and 32 GB. No scheduler allocation grants 16; use first eight currently allowed CPUs, discovered rather than hardcoded.",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 8,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 1,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "pilot": {
+    "name": "stagewise_teaching_student_selfcheck_pilot",
+    "max_cli_sessions": 60,
+    "max_render_frames": 80,
+    "max_build_attempts": 36,
+    "development_cli_limit": 30,
+    "test_cli_limit": 28,
+    "preparation_cli_limit": 2
+  },
+  "student_version": "S_stagewise_fixed_01",
+  "automatic_quality_evaluation": false,
+  "extra_views": 0,
+  "source_version": "e85adef03cab8333d817610820a3e7d5a431957c",
+  "preview": {
+    "long_edge": 768,
+    "samples": 16
+  },
+  "final": {
+    "long_edge": 1024,
+    "samples": 32
+  },
+  "stage_limits": {
+    "max_stages": 5,
+    "min_stages": 4,
+    "visual_revisions": 1,
+    "technical_repairs": 1,
+    "task_active_seconds": 5400
+  },
+  "languages": {
+    "model_input": "en",
+    "model_output": "en",
+    "presentation": "zh-CN"
+  },
+  "python": "${USER_STORAGE}/Documents/Codex/2026-11-02/files-pasted-by-the-user-sceneevolve/work/.venv/bin/python"
+}

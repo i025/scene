@@ -1,0 +1,80 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -1,59 +1,22 @@
+-from sceneact import *
++import bpy
++from mathutils import Matrix
+ 
+-scene = Scene('Office furniture additions')
+-white = (0.88, 0.88, 0.86)
+-white_edge = (0.96, 0.96, 0.94)
+-green = (0.43, 0.47, 0.045)
+-green_side = (0.34, 0.39, 0.035)
+-metal = (0.30, 0.32, 0.31)
+-dark = (0.12, 0.13, 0.12)
+-wood = (0.56, 0.36, 0.21)
+-wood_edge = (0.39, 0.25, 0.15)
++# Shorten each upholstered back from below while retaining its top height.
++for name in ('upholstered back', 'upholstered back.001'):
++    obj = bpy.data.objects.get(name)
++    if obj:
++        top = 1.38
++        obj.matrix_world = Matrix.Translation((0, 0, top)) @ Matrix.Diagonal((1, 1, 0.76, 1)) @ Matrix.Translation((0, 0, -top)) @ obj.matrix_world
+ 
+-# The broad desk faces the camera, with a solid modesty panel and slab ends.
+-desk = Asset('White office desk')
+-desk.include('desktop', box((2.75, 1.02, 0.09), center=(0.90, 2.05, 0.82), color=white_edge))
+-desk.include('front modesty panel', box((2.56, 0.075, 0.68), center=(0.90, 1.64, 0.43), color=white))
+-desk.include('left end panel', box((0.10, 0.89, 0.72), center=(-0.39, 2.05, 0.40), color=white))
+-desk.include('right end panel', box((0.10, 0.89, 0.72), center=(2.19, 2.05, 0.40), color=white))
+-desk.include('recessed plinth', box((2.46, 0.64, 0.07), center=(0.90, 2.06, 0.045), color=(0.62, 0.62, 0.59)))
+-scene.include('desk', desk)
++# Raise the seats and arms to expose more of each pedestal.
++for name in ('seat cushion', 'arm left', 'arm right', 'seat cushion.001', 'arm left.001', 'arm right.001'):
++    obj = bpy.data.objects.get(name)
++    if obj:
++        obj.matrix_world = Matrix.Translation((0, 0, 0.20)) @ obj.matrix_world
+ 
+-# Two upholstered swivel visitor chairs, with their backs toward the camera.
+-def visitor_chair(name, x, y):
+-    chair = Asset(name)
+-    chair.include('upholstered back', fillet_box((0.92, 0.18, 0.94), radius=0.09, center=(x, y-0.30, 0.91), color=green))
+-    chair.include('seat cushion', fillet_box((0.86, 0.70, 0.16), radius=0.08, center=(x, y+0.01, 0.48), color=green))
+-    for side in (-1, 1):
+-        arm = fillet_box((0.12, 0.63, 0.33), radius=0.055, center=(x+side*0.47, y-0.02, 0.64), color=green_side)
+-        arm.turn('y', side * -10)
+-        chair.include('arm left' if side < 0 else 'arm right', arm)
+-    chair.include('central stem', rod(0.045, start=(x,y,0.12), end=(x,y,0.46), color=metal))
+-    chair.include('base left right', box((0.98, 0.055, 0.045), center=(x,y,0.055), color=metal))
+-    chair.include('base front back', box((0.055, 0.86, 0.045), center=(x,y,0.055), color=metal))
+-    return chair
+-scene.include('visitor chair left', visitor_chair('Left visitor chair', 0.20, 0.38))
+-scene.include('visitor chair right', visitor_chair('Right visitor chair', 1.90, 0.35))
+-
+-# Taller, subdued upholstered chair behind the desk.
+-office = Asset('Rear office chair')
+-office.include('high back', fillet_box((0.70, 0.20, 0.98), radius=0.10, center=(0.56, 2.75, 1.16), color=(0.35,0.34,0.31)))
+-office.include('seat', fillet_box((0.70, 0.62, 0.14), radius=0.07, center=(0.56, 2.62, 0.65), color=(0.30,0.29,0.27)))
+-office.include('stem', rod(0.04, start=(0.56,2.68,0.12), end=(0.56,2.68,0.62), color=dark))
+-for dx,dy in ((0.37,0),(-0.37,0),(0,0.33),(0,-0.33)):
+-    office.include('base spoke %s %s' % (dx,dy), rod(0.025, start=(0.56,2.68,0.10), end=(0.56+dx,2.68+dy,0.05), color=dark))
+-scene.include('office chair', office)
+-
+-# Long low wood cabinetry runs along the right wall; individual fronts retain seams.
+-cabinet = Asset('Right wall wood cabinetry')
+-cabinet.include('cabinet body', box((0.48, 4.65, 1.07), center=(2.88, 1.55, 0.64), color=wood_edge))
+-cabinet.include('top cap', box((0.52, 4.72, 0.045), center=(2.85, 1.55, 1.19), color=wood))
+-cabinet.include('toe kick', box((0.38, 4.62, 0.12), center=(2.94, 1.55, 0.06), color=(0.23,0.22,0.20)))
+-for j in range(4):
+-    yy = -0.18 + j*1.16
+-    for row in range(2):
+-        zz = 0.40 + row*0.50
+-        cabinet.include('wood front %d %d' % (j,row), box((0.035, 1.145, 0.485), center=(2.625, yy, zz), color=wood if (j+row)%2 == 0 else (0.59,0.39,0.23)))
+-scene.include('wall cabinetry', cabinet)
+-
+-realize(scene, clear=False)+# Extend each stem upward from its existing foot; leave the cross bases on the floor.
++for name in ('central stem', 'central stem.001'):
++    obj = bpy.data.objects.get(name)
++    if obj:
++        bottom = 0.12
++        obj.matrix_world = Matrix.Translation((0, 0, bottom)) @ Matrix.Diagonal((1, 1, 1.59, 1)) @ Matrix.Translation((0, 0, -bottom)) @ obj.matrix_world

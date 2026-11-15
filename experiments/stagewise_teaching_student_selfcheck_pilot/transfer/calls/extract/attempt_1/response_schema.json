@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "properties": {
+    "policy_markdown": {
+      "type": "string"
+    },
+    "student_self_review_py": {
+      "type": "string"
+    },
+    "lesson_provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "development_derived",
+              "preexisting_general_rule"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stage_id": {
+                  "type": "integer"
+                },
+                "feedback_id": {
+                  "type": "string"
+                },
+                "observed_issue": {
+                  "type": "string"
+                },
+                "actual_student_change": {
+                  "type": "string"
+                },
+                "outcome_and_limit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "stage_id",
+                "feedback_id",
+                "observed_issue",
+                "actual_student_change",
+                "outcome_and_limit"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "applicability_limit": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "rule",
+          "origin",
+          "evidence",
+          "applicability_limit"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 5,
+      "maxItems": 8
+    },
+    "not_transferred": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "limitations": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "policy_markdown",
+    "student_self_review_py",
+    "lesson_provenance",
+    "not_transferred",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

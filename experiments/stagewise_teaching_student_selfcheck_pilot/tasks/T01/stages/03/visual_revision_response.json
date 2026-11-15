@@ -1,0 +1,21 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nfrom mathutils import Vector\n\n# Move toward a more frontal view of the back wall and widen the field of view\n# so both perimeter cabinet groups fit around the island.\ncam = bpy.data.objects.get('SceneActView')\nif cam is not None and cam.type == 'CAMERA':\n    cam.location = (3.7, -10.0, 4.0)\n    target = Vector((0.0, 1.15, 1.35))\n    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\n    cam.data.lens = 43.0\n",
+  "reason": "The supplied render shows that the current oblique framing crops the right cabinets and leaves a large black area. This patch changes only the existing camera for a wider, more frontal view.",
+  "changes": "Repositions and re-aims the existing camera and widens its field of view. Cabinet and island geometry and materials are preserved.",
+  "advice_implementation": [
+    {
+      "finding_id": "F1",
+      "status": "implemented",
+      "actual_change": "Adjusted camera position, aim, and lens to include more of the back wall and perimeter cabinetry.",
+      "code_evidence": "SceneActView is moved to (3.7, -10.0, 4.0), aimed at (0.0, 1.15, 1.35), and given a 43 mm lens."
+    },
+    {
+      "finding_id": "F2",
+      "status": "not_implemented",
+      "actual_change": "Deferred the tonal assessment until the corrected view is rendered, as proposed.",
+      "code_evidence": "The patch changes only SceneActView and does not alter materials or lighting."
+    }
+  ],
+  "completed_scope": "Perimeter cabinetry remains intact; the camera adjustment awaits the runner's visual review."
+}

@@ -1,0 +1,19 @@
+{
+  "decision": "advance_with_issue",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "SceneActView camera and room-shell framing",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "The reference has a broad left foreground wall, glazing around 23–32% image width, and a visible ceiling panel below the beam.",
+      "render_evidence": "The black upper strip is gone and the back-floor junction has moved from roughly 63% to 75% image height, improving back-wall scale. However, the glazing now reaches the left edge instead of moving right, the foreground wall is largely lost, and the ceiling panel is not distinguishable.",
+      "proposed_change": "Record the remaining framing mismatch and advance; no further correction is requested within this verification pass.",
+      "preserve": "Preserve the improved back-wall scale, removal of the black strip, upright verticals, room shell, and left glazing.",
+      "check_after": "Carry forward the unresolved opening position and ceiling-panel visibility as framing dependencies for subsequent stages.",
+      "uncertainty": "Noise and bright ceiling values limit assessment of the panel. This view cannot uniquely determine camera parameters or room dimensions. No extra view is requested.",
+      "status": "partially_resolved"
+    }
+  ],
+  "summary": "The camera correction improves interior coverage and back-wall scale, but opening placement and ceiling-panel visibility remain unresolved. Advance with the issue recorded; the single correction pass is complete."
+}

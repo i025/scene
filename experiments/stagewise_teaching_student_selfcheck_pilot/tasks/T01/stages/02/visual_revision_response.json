@@ -1,0 +1,15 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nfrom mathutils import Vector\n\ncamera = bpy.data.objects.get('SceneActView')\nif camera is None or camera.type != 'CAMERA':\n    raise RuntimeError('Existing SceneActView camera was not found')\ncamera.location = (7.0, -6.0, 4.3)\ntarget = Vector((0.0, 0.0, 0.68))\ncamera.rotation_euler = (target - camera.location).to_track_quat('-Z', 'Y').to_euler()\ncamera.data.lens = 52.0\nbpy.context.scene.camera = camera",
+  "reason": "The existing camera gives the island too little of the frame and shows only a narrow end. The patch moves the view toward the island’s short end and increases the lens length.",
+  "changes": "Adjusted the existing camera position, aim, and lens while retaining the island and room geometry.",
+  "advice_implementation": [
+    {
+      "finding_id": "F1",
+      "status": "implemented",
+      "actual_change": "Moved the existing camera toward the positive-X end, aimed it at the island, and increased its lens to 52 mm.",
+      "code_evidence": "camera.location = (7.0, -6.0, 4.3); target = Vector((0.0, 0.0, 0.68)); camera.data.lens = 52.0"
+    }
+  ],
+  "completed_scope": "Camera adjustment for the central work island; framing and floor contacts remain subject to the next actual render."
+}

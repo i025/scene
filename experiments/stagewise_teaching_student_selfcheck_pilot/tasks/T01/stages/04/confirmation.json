@@ -1,0 +1,26 @@
+{
+  "decision": "advance_with_issue",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "Framing and visibility of cabinet joinery",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The island countertop spans about 70% of the image width; the left cabinet's lower door and the island's near end are visible.",
+      "render_evidence": "The current countertop spans about 59% of the image width, up from approximately 49% in the previous checkpoint. The black wedge remains at the left edge, the island still hides nearly all of the left lower doors, and the right cabinetry is now cropped at the image edge.",
+      "proposed_change": "Carry the remaining framing and visibility issue forward; no further visual correction is available in this review.",
+      "preserve": "Preserve the established furniture proportions, cabinet divisions, glazing, hardware, and recess uprights.",
+      "check_after": "No additional patch or render is permitted in this verification cycle.",
+      "uncertainty": "The different viewing angles affect projected dimensions. The inventory contains the left lower door panels and frames, but their visible details and obscured contacts cannot be verified in this view.",
+      "status": "partially_resolved"
+    }
+  ],
+  "summary": "The executed camera change enlarged the furniture, but did not remove the black edge or reveal the left lower doors, and it cropped the right cabinetry. Advance with the remaining framing issue.",
+  "input_images": [
+    "sources/T01.jpg",
+    "tasks/T01/stages/04/visual_revision_build/final.png",
+    "tasks/T01/stages/04/initial_build/final.png"
+  ],
+  "role": "student_self_verification",
+  "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+}

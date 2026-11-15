@@ -1,0 +1,383 @@
+{
+  "task_id": "T01",
+  "split": "test",
+  "stage_id": 3,
+  "title": "Perimeter cabinetry",
+  "targets": [
+    "left display cabinet",
+    "right wall cabinet",
+    "right base cabinet"
+  ],
+  "completed_scope": "The tall glazed cabinet on the left and the upper and lower cabinetry along the right wall establish the surrounding furniture arrangement.",
+  "status": "advance_with_issue",
+  "parent_checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+  "initial_checkpoint": "tasks/T01/stages/03/initial_build/scene.blend",
+  "final_checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+  "initial_render": "tasks/T01/stages/03/initial_build/final.png",
+  "final_render": "tasks/T01/stages/03/visual_revision_build/final.png",
+  "attempts": [
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 3,
+      "action_type": "initial",
+      "role": "student",
+      "targets": [
+        "left display cabinet",
+        "right wall cabinet",
+        "right base cabinet"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/02/visual_revision_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/03/initial_build/scene.blend",
+      "render": "tasks/T01/stages/03/initial_build/final.png",
+      "patch": "tasks/T01/stages/03/initial_build/patch.py",
+      "inventory": "tasks/T01/stages/03/initial_build/inventory.json",
+      "seconds": 5.711709337309003,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    },
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 3,
+      "action_type": "visual_revision",
+      "role": "student",
+      "targets": [
+        "left display cabinet",
+        "right wall cabinet",
+        "right base cabinet"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/03/initial_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/03/initial_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+      "render": "tasks/T01/stages/03/visual_revision_build/final.png",
+      "patch": "tasks/T01/stages/03/visual_revision_build/patch.py",
+      "inventory": "tasks/T01/stages/03/visual_revision_build/inventory.json",
+      "seconds": 4.3184730489738286,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    }
+  ],
+  "review": {
+    "decision": "revise",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Framing and visibility of perimeter cabinetry",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The left display cabinet spans roughly x=0.04–0.46 of the reference, while the right cabinetry begins around x=0.50; substantial portions of both are visible behind the island.",
+        "render_evidence": "The left cabinet is compressed into roughly x=0.49–0.76, its lower section is mostly hidden by the island, and the right cabinetry starts around x=0.72 and is heavily cropped at the right edge. A black region occupies much of the upper left.",
+        "proposed_change": "Use the available visual correction to adjust the camera framing and viewpoint toward the reference, bringing more of both perimeter cabinet groups into view and reducing the exposed black region.",
+        "preserve": "Keep the existing cabinet assemblies, their parts, and the island intact; preserve the visible distinction between upper and lower right cabinets.",
+        "check_after": "Compare cabinet extents, island overlap, right-edge cropping, and room coverage in the resulting render across the completed scope.",
+        "uncertainty": "The reference and render have different aspect ratios, and some lower cabinet contacts are obscured by the island. The exact camera adjustment cannot be determined from the images alone.",
+        "status": "new"
+      },
+      {
+        "id": "F2",
+        "target": "Perimeter cabinet tonal appearance",
+        "problem_source": "test_observation",
+        "rule_source": "R5",
+        "reference_evidence": "The cabinet wood and right countertop read as dark brown against the pale wall and lighter island top; glazing shows varied reflections.",
+        "render_evidence": "The visible perimeter cabinet frames and fronts appear pale tan, and the glazing reads as almost uniform pale panels. The right countertop is also much lighter than the reference.",
+        "proposed_change": "Carry the tonal mismatch forward for assessment after the framing correction; no separate change is proposed in this correction.",
+        "preserve": "Keep cabinet frames, door divisions, and hardware recognizable.",
+        "check_after": "Reassess wood, countertop, and glazing contrast in the corrected view.",
+        "uncertainty": "Lighting, exposure, and the limited visible area may contribute; the render does not establish a unique material cause.",
+        "status": "new"
+      }
+    ],
+    "summary": "The cabinetry is present in the inventory and recognizable in the render, but its framing and visibility differ substantially from the reference. One visual correction is available; no prior findings were supplied.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/03/initial_build/final.png",
+      "tasks/T01/stages/02/visual_revision_build/final.png"
+    ],
+    "role": "student_self_review",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "confirmation": {
+    "decision": "advance_with_issue",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Framing and visibility of perimeter cabinetry",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The left cabinet spans approximately x=0.04–0.46, and the right cabinetry begins near x=0.50; both extend beyond the top edge.",
+        "render_evidence": "Compared with the previous checkpoint, the left cabinet has moved to approximately x=0.27–0.50 and the right cabinets now fit within x=0.51–0.92. The black left margin has narrowed, but still covers about 20% of the image width at mid-height; the island hides most of the left lower cabinet.",
+        "proposed_change": "Carry the remaining framing and visibility mismatch forward; no further visual correction is available.",
+        "preserve": "Preserve the recognizable cabinet assemblies, island, and separation between the right upper and base cabinets.",
+        "check_after": "No additional patch cycle is permitted in this verification.",
+        "uncertainty": "Different aspect ratios and viewpoints limit direct position comparisons. The island obscures lower cabinet contacts.",
+        "status": "partially_resolved"
+      },
+      {
+        "id": "F2",
+        "target": "Perimeter cabinet tonal appearance",
+        "problem_source": "test_observation",
+        "rule_source": "R5",
+        "reference_evidence": "The perimeter cabinet wood and right countertop are dark brown against the pale wall; the glazing has varied reflections.",
+        "render_evidence": "The newly visible cabinet frames and fronts remain light tan, the right countertop appears medium brown, and the glazing looks largely uniform and pale.",
+        "proposed_change": "Carry the tonal mismatch forward; no further visual correction is available.",
+        "preserve": "Preserve the visible door divisions and hardware.",
+        "check_after": "No additional patch cycle is permitted in this verification.",
+        "uncertainty": "Lighting and materials may both influence the appearance; render noise and the small projected details limit assessment of glazing and hardware.",
+        "status": "unresolved"
+      }
+    ],
+    "summary": "The executed camera-only revision improved cabinet coverage and right-edge cropping, but framing and tonal differences remain. The lower cabinet contacts are obscured, and no further visual correction is available.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/03/visual_revision_build/final.png",
+      "tasks/T01/stages/03/initial_build/final.png"
+    ],
+    "role": "student_self_verification",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "student_revision": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Vector\n\n# Move toward a more frontal view of the back wall and widen the field of view\n# so both perimeter cabinet groups fit around the island.\ncam = bpy.data.objects.get('SceneActView')\nif cam is not None and cam.type == 'CAMERA':\n    cam.location = (3.7, -10.0, 4.0)\n    target = Vector((0.0, 1.15, 1.35))\n    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\n    cam.data.lens = 43.0\n",
+    "reason": "The supplied render shows that the current oblique framing crops the right cabinets and leaves a large black area. This patch changes only the existing camera for a wider, more frontal view.",
+    "changes": "Repositions and re-aims the existing camera and widens its field of view. Cabinet and island geometry and materials are preserved.",
+    "advice_implementation": [
+      {
+        "finding_id": "F1",
+        "status": "implemented",
+        "actual_change": "Adjusted camera position, aim, and lens to include more of the back wall and perimeter cabinetry.",
+        "code_evidence": "SceneActView is moved to (3.7, -10.0, 4.0), aimed at (0.0, 1.15, 1.35), and given a 43 mm lens."
+      },
+      {
+        "finding_id": "F2",
+        "status": "not_implemented",
+        "actual_change": "Deferred the tonal assessment until the corrected view is rendered, as proposed.",
+        "code_evidence": "The patch changes only SceneActView and does not alter materials or lighting."
+      }
+    ],
+    "completed_scope": "Perimeter cabinetry remains intact; the camera adjustment awaits the runner's visual review.",
+    "actual_executed_patch": "tasks/T01/stages/03/visual_revision_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00095",
+          "name": "SceneActView",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "camera"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [
+          "obj_00095"
+        ],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Vector\n\n# Move toward a more frontal view of the back wall and widen the field of view\n# so both perimeter cabinet groups fit around the island.\ncam = bpy.data.objects.get('SceneActView')\nif cam is not None and cam.type == 'CAMERA':\n    cam.location = (3.7, -10.0, 4.0)\n    target = Vector((0.0, 1.15, 1.35))\n    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\n    cam.data.lens = 43.0\n"
+  },
+  "initial_response": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Vector\n\n# The camera is outside the right wall, which otherwise blocks its view into the room.\nwall = bpy.data.objects.get('Box.043')\nif wall:\n    wall.hide_render = True\n\ndef material(name, color, roughness=0.6, metallic=0.0):\n    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)\n    mat.diffuse_color = (*color, 1.0)\n    mat.use_nodes = True\n    bsdf = mat.node_tree.nodes.get('Principled BSDF')\n    bsdf.inputs['Base Color'].default_value = (*color, 1.0)\n    bsdf.inputs['Roughness'].default_value = roughness\n    bsdf.inputs['Metallic'].default_value = metallic\n    return mat\n\nwood = material('Perimeter cabinet stained oak', (0.19, 0.105, 0.055))\npanel = material('Perimeter cabinet inset oak', (0.145, 0.078, 0.039))\nglass = material('Display cabinet muted glazing', (0.33, 0.43, 0.41), 0.24)\nmetal = material('Perimeter cabinet dark hardware', (0.045, 0.041, 0.035), 0.32, 0.65)\n\ndef group(name):\n    ob = bpy.data.objects.new(name, None)\n    bpy.context.scene.collection.objects.link(ob)\n    return ob\n\ndef cube(name, loc, size, mat, parent):\n    bpy.ops.mesh.primitive_cube_add(size=1, location=loc)\n    ob = bpy.context.object\n    ob.name = name\n    ob.dimensions = size\n    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)\n    ob.data.materials.append(mat)\n    ob.parent = parent\n    return ob\n\ndef pull(name, x, y, z, parent, width=0.16):\n    cube(name, (x, y, z), (width, 0.025, 0.025), metal, parent)\n    for dx in (-width * 0.4, width * 0.4):\n        cube(name + ' mount', (x + dx, y + 0.017, z), (0.018, 0.04, 0.018), metal, parent)\n\ndef framed_panel(parent, label, x, y, z, width, height, inset_mat=panel):\n    cube(label + ' inset', (x, y + 0.012, z), (width - 0.10, 0.025, height - 0.10), inset_mat, parent)\n    for dx in (-width / 2 + 0.035, width / 2 - 0.035):\n        cube(label + ' stile', (x + dx, y - 0.008, z), (0.07, 0.055, height), wood, parent)\n    for dz in (-height / 2 + 0.035, height / 2 - 0.035):\n        cube(label + ' rail', (x, y - 0.008, z + dz), (width, 0.055, 0.07), wood, parent)\n\n# Tall hutch against the back wall, with a bank of four glazed doors.\nleft = group('Left tall display cabinet')\ncube('Left cabinet lower body', (-2.15, 3.27, 0.54), (2.65, 0.66, 1.08), wood, left)\ncube('Left cabinet plinth', (-2.15, 3.21, 0.07), (2.76, 0.77, 0.14), wood, left)\ncube('Left cabinet divider ledge', (-2.15, 3.20, 1.10), (2.77, 0.78, 0.10), wood, left)\ncube('Left display backing', (-2.15, 3.54, 2.08), (2.62, 0.08, 1.90), panel, left)\nfor x in (-3.43, -0.87):\n    cube('Left display side', (x, 3.27, 2.08), (0.09, 0.57, 1.94), wood, left)\nfor z in (1.16, 2.99):\n    cube('Left display horizontal case', (-2.15, 3.27, z), (2.65, 0.57, 0.08), wood, left)\nfor i in range(4):\n    x = -3.12 + i * 0.645\n    framed_panel(left, 'Left glazed door %d' % (i + 1), x, 2.96, 2.08, 0.62, 1.80, glass)\n    for z in (1.78, 2.38):\n        cube('Left glazed door crossbar', (x, 2.92, z), (0.59, 0.055, 0.045), wood, left)\n    cube('Left glazing latch', (x + 0.23, 2.91, 1.66), (0.025, 0.025, 0.10), metal, left)\n    cube('Left lower drawer', (x, 2.91, 0.91), (0.60, 0.055, 0.20), wood, left)\n    pull('Left drawer pull', x, 2.87, 0.91, left, 0.13)\nfor i in range(2):\n    x = -2.79 + i * 1.28\n    framed_panel(left, 'Left lower door %d' % (i + 1), x, 2.91, 0.49, 1.22, 0.63)\n    cube('Left lower door knob', (x + 0.43, 2.85, 0.54), (0.045, 0.04, 0.05), metal, left)\n\n# Long base cabinet and the shallower glazed wall cupboard above its open backsplash.\nright = group('Right wall and base cabinets')\ncube('Right base carcass', (1.77, 3.24, 0.52), (4.24, 0.73, 1.04), wood, right)\ncube('Right base plinth', (1.77, 3.17, 0.07), (4.36, 0.84, 0.14), wood, right)\ncube('Right dark countertop', (1.77, 3.14, 1.08), (4.38, 0.90, 0.10), panel, right)\nfor i in range(4):\n    x = 0.20 + i * 1.045\n    cube('Right drawer front', (x, 2.85, 0.87), (0.98, 0.055, 0.22), wood, right)\n    pull('Right drawer pull', x, 2.81, 0.87, right, 0.16)\n    framed_panel(right, 'Right base door %d' % (i + 1), x, 2.85, 0.45, 0.98, 0.60)\n    cube('Right base door knob', (x + 0.32, 2.79, 0.52), (0.04, 0.04, 0.045), metal, right)\n\ncube('Right upper cabinet backing', (1.77, 3.55, 2.60), (4.24, 0.08, 1.02), panel, right)\nfor x in (-0.32, 3.86):\n    cube('Right upper cabinet side', (x, 3.34, 2.60), (0.09, 0.50, 1.06), wood, right)\nfor z in (2.10, 3.10):\n    cube('Right upper cabinet rail', (1.77, 3.34, z), (4.25, 0.50, 0.09), wood, right)\nfor i in range(4):\n    x = 0.20 + i * 1.045\n    framed_panel(right, 'Right glazed door %d' % (i + 1), x, 3.07, 2.60, 1.00, 0.94, glass)\n    cube('Right upper door latch', (x + 0.35, 3.02, 2.38), (0.025, 0.025, 0.10), metal, right)\n",
+    "reason": "Adds the perimeter cabinetry for stage 3 and removes the existing right wall from the camera view because the supplied camera is positioned outside it.",
+    "changes": "Adds a tall glazed display cabinet with drawers and lower doors, plus a long base cabinet, countertop, and glazed upper cabinet. Existing island, room geometry, camera, and lights are retained.",
+    "advice_implementation": [],
+    "completed_scope": "Perimeter cabinetry geometry has been added; its appearance remains subject to the runner's next render.",
+    "actual_executed_patch": "tasks/T01/stages/03/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [
+        "obj_00138",
+        "obj_00139",
+        "obj_00140",
+        "obj_00141",
+        "obj_00142",
+        "obj_00143",
+        "obj_00144",
+        "obj_00145",
+        "obj_00146",
+        "obj_00147",
+        "obj_00148",
+        "obj_00149",
+        "obj_00150",
+        "obj_00151",
+        "obj_00152",
+        "obj_00153",
+        "obj_00154",
+        "obj_00155",
+        "obj_00156",
+        "obj_00157",
+        "obj_00158",
+        "obj_00159",
+        "obj_00160",
+        "obj_00161",
+        "obj_00162",
+        "obj_00163",
+        "obj_00164",
+        "obj_00165",
+        "obj_00166",
+        "obj_00167",
+        "obj_00168",
+        "obj_00169",
+        "obj_00170",
+        "obj_00171",
+        "obj_00172",
+        "obj_00173",
+        "obj_00174",
+        "obj_00175",
+        "obj_00176",
+        "obj_00177",
+        "obj_00178",
+        "obj_00179",
+        "obj_00180",
+        "obj_00181",
+        "obj_00182",
+        "obj_00183",
+        "obj_00184",
+        "obj_00185",
+        "obj_00186",
+        "obj_00187",
+        "obj_00188",
+        "obj_00189",
+        "obj_00190",
+        "obj_00191",
+        "obj_00192",
+        "obj_00193",
+        "obj_00194",
+        "obj_00195",
+        "obj_00196",
+        "obj_00197",
+        "obj_00198",
+        "obj_00199",
+        "obj_00200",
+        "obj_00201",
+        "obj_00202",
+        "obj_00203",
+        "obj_00204",
+        "obj_00205",
+        "obj_00206",
+        "obj_00207",
+        "obj_00208",
+        "obj_00209",
+        "obj_00210",
+        "obj_00211",
+        "obj_00212",
+        "obj_00213",
+        "obj_00214",
+        "obj_00215",
+        "obj_00216",
+        "obj_00217",
+        "obj_00218",
+        "obj_00219",
+        "obj_00220",
+        "obj_00221",
+        "obj_00222",
+        "obj_00223",
+        "obj_00224",
+        "obj_00225",
+        "obj_00226",
+        "obj_00227",
+        "obj_00228",
+        "obj_00229",
+        "obj_00230",
+        "obj_00231",
+        "obj_00232",
+        "obj_00233",
+        "obj_00234",
+        "obj_00235",
+        "obj_00236",
+        "obj_00237",
+        "obj_00238",
+        "obj_00239",
+        "obj_00240",
+        "obj_00241",
+        "obj_00242",
+        "obj_00243",
+        "obj_00244",
+        "obj_00245",
+        "obj_00246",
+        "obj_00247",
+        "obj_00248",
+        "obj_00249",
+        "obj_00250",
+        "obj_00251",
+        "obj_00252",
+        "obj_00253",
+        "obj_00254",
+        "obj_00255",
+        "obj_00256",
+        "obj_00257",
+        "obj_00258",
+        "obj_00259",
+        "obj_00260",
+        "obj_00261",
+        "obj_00262",
+        "obj_00263",
+        "obj_00264",
+        "obj_00265",
+        "obj_00266",
+        "obj_00267",
+        "obj_00268",
+        "obj_00269",
+        "obj_00270",
+        "obj_00271",
+        "obj_00272",
+        "obj_00273",
+        "obj_00274",
+        "obj_00275",
+        "obj_00276",
+        "obj_00277",
+        "obj_00278",
+        "obj_00279"
+      ],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00090",
+          "name": "Box.043",
+          "fields": [
+            "hide_render"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [
+        "Display cabinet muted glazing",
+        "Perimeter cabinet dark hardware",
+        "Perimeter cabinet inset oak",
+        "Perimeter cabinet stained oak"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Vector\n\n# The camera is outside the right wall, which otherwise blocks its view into the room.\nwall = bpy.data.objects.get('Box.043')\nif wall:\n    wall.hide_render = True\n\ndef material(name, color, roughness=0.6, metallic=0.0):\n    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)\n    mat.diffuse_color = (*color, 1.0)\n    mat.use_nodes = True\n    bsdf = mat.node_tree.nodes.get('Principled BSDF')\n    bsdf.inputs['Base Color'].default_value = (*color, 1.0)\n    bsdf.inputs['Roughness'].default_value = roughness\n    bsdf.inputs['Metallic'].default_value = metallic\n    return mat\n\nwood = material('Perimeter cabinet stained oak', (0.19, 0.105, 0.055))\npanel = material('Perimeter cabinet inset oak', (0.145, 0.078, 0.039))\nglass = material('Display cabinet muted glazing', (0.33, 0.43, 0.41), 0.24)\nmetal = material('Perimeter cabinet dark hardware', (0.045, 0.041, 0.035), 0.32, 0.65)\n\ndef group(name):\n    ob = bpy.data.objects.new(name, None)\n    bpy.context.scene.collection.objects.link(ob)\n    return ob\n\ndef cube(name, loc, size, mat, parent):\n    bpy.ops.mesh.primitive_cube_add(size=1, location=loc)\n    ob = bpy.context.object\n    ob.name = name\n    ob.dimensions = size\n    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)\n    ob.data.materials.append(mat)\n    ob.parent = parent\n    return ob\n\ndef pull(name, x, y, z, parent, width=0.16):\n    cube(name, (x, y, z), (width, 0.025, 0.025), metal, parent)\n    for dx in (-width * 0.4, width * 0.4):\n        cube(name + ' mount', (x + dx, y + 0.017, z), (0.018, 0.04, 0.018), metal, parent)\n\ndef framed_panel(parent, label, x, y, z, width, height, inset_mat=panel):\n    cube(label + ' inset', (x, y + 0.012, z), (width - 0.10, 0.025, height - 0.10), inset_mat, parent)\n    for dx in (-width / 2 + 0.035, width / 2 - 0.035):\n        cube(label + ' stile', (x + dx, y - 0.008, z), (0.07, 0.055, height), wood, parent)\n    for dz in (-height / 2 + 0.035, height / 2 - 0.035):\n        cube(label + ' rail', (x, y - 0.008, z + dz), (width, 0.055, 0.07), wood, parent)\n\n# Tall hutch against the back wall, with a bank of four glazed doors.\nleft = group('Left tall display cabinet')\ncube('Left cabinet lower body', (-2.15, 3.27, 0.54), (2.65, 0.66, 1.08), wood, left)\ncube('Left cabinet plinth', (-2.15, 3.21, 0.07), (2.76, 0.77, 0.14), wood, left)\ncube('Left cabinet divider ledge', (-2.15, 3.20, 1.10), (2.77, 0.78, 0.10), wood, left)\ncube('Left display backing', (-2.15, 3.54, 2.08), (2.62, 0.08, 1.90), panel, left)\nfor x in (-3.43, -0.87):\n    cube('Left display side', (x, 3.27, 2.08), (0.09, 0.57, 1.94), wood, left)\nfor z in (1.16, 2.99):\n    cube('Left display horizontal case', (-2.15, 3.27, z), (2.65, 0.57, 0.08), wood, left)\nfor i in range(4):\n    x = -3.12 + i * 0.645\n    framed_panel(left, 'Left glazed door %d' % (i + 1), x, 2.96, 2.08, 0.62, 1.80, glass)\n    for z in (1.78, 2.38):\n        cube('Left glazed door crossbar', (x, 2.92, z), (0.59, 0.055, 0.045), wood, left)\n    cube('Left glazing latch', (x + 0.23, 2.91, 1.66), (0.025, 0.025, 0.10), metal, left)\n    cube('Left lower drawer', (x, 2.91, 0.91), (0.60, 0.055, 0.20), wood, left)\n    pull('Left drawer pull', x, 2.87, 0.91, left, 0.13)\nfor i in range(2):\n    x = -2.79 + i * 1.28\n    framed_panel(left, 'Left lower door %d' % (i + 1), x, 2.91, 0.49, 1.22, 0.63)\n    cube('Left lower door knob', (x + 0.43, 2.85, 0.54), (0.045, 0.04, 0.05), metal, left)\n\n# Long base cabinet and the shallower glazed wall cupboard above its open backsplash.\nright = group('Right wall and base cabinets')\ncube('Right base carcass', (1.77, 3.24, 0.52), (4.24, 0.73, 1.04), wood, right)\ncube('Right base plinth', (1.77, 3.17, 0.07), (4.36, 0.84, 0.14), wood, right)\ncube('Right dark countertop', (1.77, 3.14, 1.08), (4.38, 0.90, 0.10), panel, right)\nfor i in range(4):\n    x = 0.20 + i * 1.045\n    cube('Right drawer front', (x, 2.85, 0.87), (0.98, 0.055, 0.22), wood, right)\n    pull('Right drawer pull', x, 2.81, 0.87, right, 0.16)\n    framed_panel(right, 'Right base door %d' % (i + 1), x, 2.85, 0.45, 0.98, 0.60)\n    cube('Right base door knob', (x + 0.32, 2.79, 0.52), (0.04, 0.04, 0.045), metal, right)\n\ncube('Right upper cabinet backing', (1.77, 3.55, 2.60), (4.24, 0.08, 1.02), panel, right)\nfor x in (-0.32, 3.86):\n    cube('Right upper cabinet side', (x, 3.34, 2.60), (0.09, 0.50, 1.06), wood, right)\nfor z in (2.10, 3.10):\n    cube('Right upper cabinet rail', (1.77, 3.34, z), (4.25, 0.50, 0.09), wood, right)\nfor i in range(4):\n    x = 0.20 + i * 1.045\n    framed_panel(right, 'Right glazed door %d' % (i + 1), x, 3.07, 2.60, 1.00, 0.94, glass)\n    cube('Right upper door latch', (x + 0.35, 3.02, 2.38), (0.025, 0.025, 0.10), metal, right)\n"
+  }
+}

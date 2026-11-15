@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": [
+        "revise",
+        "advance",
+        "advance_with_issue"
+      ]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "problem_source": {
+            "type": "string"
+          },
+          "rule_source": {
+            "type": "string"
+          },
+          "reference_evidence": {
+            "type": "string"
+          },
+          "render_evidence": {
+            "type": "string"
+          },
+          "proposed_change": {
+            "type": "string"
+          },
+          "preserve": {
+            "type": "string"
+          },
+          "check_after": {
+            "type": "string"
+          },
+          "uncertainty": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "new",
+              "resolved",
+              "partially_resolved",
+              "unresolved",
+              "cannot_determine",
+              "not_applicable"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "target",
+          "problem_source",
+          "rule_source",
+          "reference_evidence",
+          "render_evidence",
+          "proposed_change",
+          "preserve",
+          "check_after",
+          "uncertainty",
+          "status"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 3
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "findings",
+    "summary"
+  ],
+  "additionalProperties": false
+}

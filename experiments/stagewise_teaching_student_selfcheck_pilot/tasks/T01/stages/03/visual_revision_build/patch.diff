@@ -1,0 +1,105 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -1,94 +1,11 @@
+ import bpy
+ from mathutils import Vector
+ 
+-# The camera is outside the right wall, which otherwise blocks its view into the room.
+-wall = bpy.data.objects.get('Box.043')
+-if wall:
+-    wall.hide_render = True
+-
+-def material(name, color, roughness=0.6, metallic=0.0):
+-    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+-    mat.diffuse_color = (*color, 1.0)
+-    mat.use_nodes = True
+-    bsdf = mat.node_tree.nodes.get('Principled BSDF')
+-    bsdf.inputs['Base Color'].default_value = (*color, 1.0)
+-    bsdf.inputs['Roughness'].default_value = roughness
+-    bsdf.inputs['Metallic'].default_value = metallic
+-    return mat
+-
+-wood = material('Perimeter cabinet stained oak', (0.19, 0.105, 0.055))
+-panel = material('Perimeter cabinet inset oak', (0.145, 0.078, 0.039))
+-glass = material('Display cabinet muted glazing', (0.33, 0.43, 0.41), 0.24)
+-metal = material('Perimeter cabinet dark hardware', (0.045, 0.041, 0.035), 0.32, 0.65)
+-
+-def group(name):
+-    ob = bpy.data.objects.new(name, None)
+-    bpy.context.scene.collection.objects.link(ob)
+-    return ob
+-
+-def cube(name, loc, size, mat, parent):
+-    bpy.ops.mesh.primitive_cube_add(size=1, location=loc)
+-    ob = bpy.context.object
+-    ob.name = name
+-    ob.dimensions = size
+-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+-    ob.data.materials.append(mat)
+-    ob.parent = parent
+-    return ob
+-
+-def pull(name, x, y, z, parent, width=0.16):
+-    cube(name, (x, y, z), (width, 0.025, 0.025), metal, parent)
+-    for dx in (-width * 0.4, width * 0.4):
+-        cube(name + ' mount', (x + dx, y + 0.017, z), (0.018, 0.04, 0.018), metal, parent)
+-
+-def framed_panel(parent, label, x, y, z, width, height, inset_mat=panel):
+-    cube(label + ' inset', (x, y + 0.012, z), (width - 0.10, 0.025, height - 0.10), inset_mat, parent)
+-    for dx in (-width / 2 + 0.035, width / 2 - 0.035):
+-        cube(label + ' stile', (x + dx, y - 0.008, z), (0.07, 0.055, height), wood, parent)
+-    for dz in (-height / 2 + 0.035, height / 2 - 0.035):
+-        cube(label + ' rail', (x, y - 0.008, z + dz), (width, 0.055, 0.07), wood, parent)
+-
+-# Tall hutch against the back wall, with a bank of four glazed doors.
+-left = group('Left tall display cabinet')
+-cube('Left cabinet lower body', (-2.15, 3.27, 0.54), (2.65, 0.66, 1.08), wood, left)
+-cube('Left cabinet plinth', (-2.15, 3.21, 0.07), (2.76, 0.77, 0.14), wood, left)
+-cube('Left cabinet divider ledge', (-2.15, 3.20, 1.10), (2.77, 0.78, 0.10), wood, left)
+-cube('Left display backing', (-2.15, 3.54, 2.08), (2.62, 0.08, 1.90), panel, left)
+-for x in (-3.43, -0.87):
+-    cube('Left display side', (x, 3.27, 2.08), (0.09, 0.57, 1.94), wood, left)
+-for z in (1.16, 2.99):
+-    cube('Left display horizontal case', (-2.15, 3.27, z), (2.65, 0.57, 0.08), wood, left)
+-for i in range(4):
+-    x = -3.12 + i * 0.645
+-    framed_panel(left, 'Left glazed door %d' % (i + 1), x, 2.96, 2.08, 0.62, 1.80, glass)
+-    for z in (1.78, 2.38):
+-        cube('Left glazed door crossbar', (x, 2.92, z), (0.59, 0.055, 0.045), wood, left)
+-    cube('Left glazing latch', (x + 0.23, 2.91, 1.66), (0.025, 0.025, 0.10), metal, left)
+-    cube('Left lower drawer', (x, 2.91, 0.91), (0.60, 0.055, 0.20), wood, left)
+-    pull('Left drawer pull', x, 2.87, 0.91, left, 0.13)
+-for i in range(2):
+-    x = -2.79 + i * 1.28
+-    framed_panel(left, 'Left lower door %d' % (i + 1), x, 2.91, 0.49, 1.22, 0.63)
+-    cube('Left lower door knob', (x + 0.43, 2.85, 0.54), (0.045, 0.04, 0.05), metal, left)
+-
+-# Long base cabinet and the shallower glazed wall cupboard above its open backsplash.
+-right = group('Right wall and base cabinets')
+-cube('Right base carcass', (1.77, 3.24, 0.52), (4.24, 0.73, 1.04), wood, right)
+-cube('Right base plinth', (1.77, 3.17, 0.07), (4.36, 0.84, 0.14), wood, right)
+-cube('Right dark countertop', (1.77, 3.14, 1.08), (4.38, 0.90, 0.10), panel, right)
+-for i in range(4):
+-    x = 0.20 + i * 1.045
+-    cube('Right drawer front', (x, 2.85, 0.87), (0.98, 0.055, 0.22), wood, right)
+-    pull('Right drawer pull', x, 2.81, 0.87, right, 0.16)
+-    framed_panel(right, 'Right base door %d' % (i + 1), x, 2.85, 0.45, 0.98, 0.60)
+-    cube('Right base door knob', (x + 0.32, 2.79, 0.52), (0.04, 0.04, 0.045), metal, right)
+-
+-cube('Right upper cabinet backing', (1.77, 3.55, 2.60), (4.24, 0.08, 1.02), panel, right)
+-for x in (-0.32, 3.86):
+-    cube('Right upper cabinet side', (x, 3.34, 2.60), (0.09, 0.50, 1.06), wood, right)
+-for z in (2.10, 3.10):
+-    cube('Right upper cabinet rail', (1.77, 3.34, z), (4.25, 0.50, 0.09), wood, right)
+-for i in range(4):
+-    x = 0.20 + i * 1.045
+-    framed_panel(right, 'Right glazed door %d' % (i + 1), x, 3.07, 2.60, 1.00, 0.94, glass)
+-    cube('Right upper door latch', (x + 0.35, 3.02, 2.38), (0.025, 0.025, 0.10), metal, right)
++# Move toward a more frontal view of the back wall and widen the field of view
++# so both perimeter cabinet groups fit around the island.
++cam = bpy.data.objects.get('SceneActView')
++if cam is not None and cam.type == 'CAMERA':
++    cam.location = (3.7, -10.0, 4.0)
++    target = Vector((0.0, 1.15, 1.35))
++    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()
++    cam.data.lens = 43.0

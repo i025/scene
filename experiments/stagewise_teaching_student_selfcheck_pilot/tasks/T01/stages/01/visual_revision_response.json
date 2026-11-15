@@ -1,0 +1,21 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nimport random\n\n# Extend the existing back wall beyond the camera's field of view.\nwall = bpy.data.objects.get('Box.042')\nif wall:\n    wall.dimensions.x = 30.0\n    wall.dimensions.z = 12.0\n    wall.location.z = 6.0\n\n# Give the existing plank materials a warm, subtly varied wood appearance.\nfor i in range(5):\n    mat = bpy.data.materials.get('SceneActSurface_' + str(i))\n    if not mat:\n        continue\n    mat.use_nodes = True\n    nodes = mat.node_tree.nodes\n    links = mat.node_tree.links\n    bsdf = nodes.get('Principled BSDF')\n    if not bsdf:\n        continue\n    for link in list(bsdf.inputs['Base Color'].links):\n        links.remove(link)\n    geometry = nodes.new('ShaderNodeNewGeometry')\n    geometry.label = 'World position for wood grain'\n    stretch = nodes.new('ShaderNodeVectorMath')\n    stretch.operation = 'MULTIPLY'\n    stretch.inputs[1].default_value = (10.0, 0.65, 3.0)\n    noise = nodes.new('ShaderNodeTexNoise')\n    noise.inputs['Scale'].default_value = 3.0\n    noise.inputs['Detail'].default_value = 3.0\n    noise.inputs['Roughness'].default_value = 0.68\n    ramp = nodes.new('ShaderNodeValToRGB')\n    shade = (i - 2) * 0.012\n    ramp.color_ramp.elements[0].position = 0.22\n    ramp.color_ramp.elements[0].color = (0.19 + shade, 0.075 + shade * 0.5, 0.027 + shade * 0.2, 1)\n    ramp.color_ramp.elements[1].position = 0.78\n    ramp.color_ramp.elements[1].color = (0.48 + shade, 0.255 + shade, 0.105 + shade * 0.5, 1)\n    links.new(geometry.outputs['Position'], stretch.inputs[0])\n    links.new(stretch.outputs['Vector'], noise.inputs['Vector'])\n    links.new(noise.outputs['Fac'], ramp.inputs['Fac'])\n    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])\n    bsdf.inputs['Roughness'].default_value = 0.62\n\n# Short cross-grain joints mark staggered board ends without changing coverage.\nseam_mat = bpy.data.materials.get('Floor board end joints')\nif seam_mat is None:\n    seam_mat = bpy.data.materials.new('Floor board end joints')\n    seam_mat.diffuse_color = (0.16, 0.085, 0.043, 1.0)\n    seam_mat.use_nodes = True\n    seam_bsdf = seam_mat.node_tree.nodes.get('Principled BSDF')\n    seam_bsdf.inputs['Base Color'].default_value = (0.16, 0.085, 0.043, 1.0)\n    seam_bsdf.inputs['Roughness'].default_value = 0.8\nrandom.seed(19)\nverts = []\nfaces = []\nfor i in range(42):\n    x = -5.04 + i * 0.24\n    offset = random.uniform(-1.0, 1.0)\n    for j in range(-3, 4):\n        y = j * 1.65 + offset\n        if not -4.98 < y < 4.98:\n            continue\n        n = len(verts)\n        verts.extend([(x-0.116,y-0.003,0.001), (x+0.116,y-0.003,0.001), (x+0.116,y+0.003,0.001), (x-0.116,y+0.003,0.001)])\n        faces.append((n,n+1,n+2,n+3))\nmesh = bpy.data.meshes.new('Staggered floor joint mesh')\nmesh.from_pydata(verts, [], faces)\nmesh.update()\njoints = bpy.data.objects.new('Staggered floor board joints', mesh)\nbpy.context.collection.objects.link(joints)\njoints.data.materials.append(seam_mat)\njoints.parent = bpy.data.objects.get('Room.001')\n",
+  "reason": "The existing stage-one room needs broader wall coverage and a warmer, more varied floor, while retaining the established camera and lighting.",
+  "changes": "Extended the back wall, added procedural wood variation to the existing floor materials, and added staggered plank-end joints.",
+  "advice_implementation": [
+    {
+      "finding_id": "F1",
+      "status": "implemented",
+      "actual_change": "Extended the existing back wall to 30 units wide and 12 units high while preserving the camera and floor.",
+      "code_evidence": "The Box.042 dimensions and vertical location are updated."
+    },
+    {
+      "finding_id": "F2",
+      "status": "implemented",
+      "actual_change": "Added warm procedural grain to the five existing floor materials and a combined mesh of staggered board-end joints.",
+      "code_evidence": "The SceneActSurface material nodes use stretched position-driven noise; Staggered floor board joints supplies the end seams."
+    }
+  ],
+  "completed_scope": "Stage-one visual correction for the room shell and floor. The revised appearance awaits the runner's render."
+}

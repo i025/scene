@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "properties": {
+    "rationale": {
+      "type": "string"
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage_id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completed_scope": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "stage_id",
+          "title",
+          "targets",
+          "completed_scope"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 4,
+      "maxItems": 5
+    }
+  },
+  "required": [
+    "rationale",
+    "stages"
+  ],
+  "additionalProperties": false
+}

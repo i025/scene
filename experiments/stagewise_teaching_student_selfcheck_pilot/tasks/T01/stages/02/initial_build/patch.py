@@ -1,0 +1,98 @@
+import bpy
+from mathutils import Vector
+
+# Build this stage as a named, editable group within the existing room.
+root = bpy.data.objects.new('Central work island', None)
+bpy.context.collection.objects.link(root)
+
+def wood_material(name, dark, light, scale):
+    mat = bpy.data.materials.new(name)
+    mat.diffuse_color = (*light, 1)
+    mat.use_nodes = True
+    nodes = mat.node_tree.nodes
+    links = mat.node_tree.links
+    bsdf = nodes.get('Principled BSDF')
+    bsdf.inputs['Roughness'].default_value = 0.4
+    tex = nodes.new('ShaderNodeTexNoise')
+    tex.inputs['Scale'].default_value = 3.2
+    tex.inputs['Detail'].default_value = 3.0
+    tex.inputs['Roughness'].default_value = 0.7
+    coords = nodes.new('ShaderNodeTexCoord')
+    mapping = nodes.new('ShaderNodeVectorMath')
+    mapping.operation = 'MULTIPLY'
+    mapping.inputs[1].default_value = scale
+    ramp = nodes.new('ShaderNodeValToRGB')
+    ramp.color_ramp.elements[0].position = 0.22
+    ramp.color_ramp.elements[0].color = (*dark, 1)
+    ramp.color_ramp.elements[1].position = 0.78
+    ramp.color_ramp.elements[1].color = (*light, 1)
+    links.new(coords.outputs['Generated'], mapping.inputs[0])
+    links.new(mapping.outputs[0], tex.inputs['Vector'])
+    links.new(tex.outputs['Fac'], ramp.inputs[0])
+    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])
+    return mat
+
+topwood = wood_material('Island honey oak', (0.30, 0.15, 0.055), (0.58, 0.36, 0.15), (1.2, 32.0, 4.0))
+bodywood = wood_material('Island dark stained oak', (0.075, 0.038, 0.018), (0.24, 0.13, 0.065), (2.0, 18.0, 3.0))
+panelwood = wood_material('Island recessed panels', (0.065, 0.032, 0.016), (0.19, 0.095, 0.044), (3.0, 15.0, 2.0))
+metal = bpy.data.materials.new('Aged dark metal hardware')
+metal.diffuse_color = (0.075, 0.07, 0.06, 1)
+metal.use_nodes = True
+metal.node_tree.nodes.get('Principled BSDF').inputs['Metallic'].default_value = 0.7
+metal.node_tree.nodes.get('Principled BSDF').inputs['Roughness'].default_value = 0.32
+
+def block(name, location, size, material, bevel=0.0):
+    bpy.ops.mesh.primitive_cube_add(size=1, location=location)
+    obj = bpy.context.object
+    obj.name = name
+    obj.dimensions = size
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+    obj.parent = root
+    obj.data.materials.append(material)
+    if bevel:
+        mod = obj.modifiers.new('Soft worn edges', 'BEVEL')
+        mod.width = bevel
+        mod.segments = 2
+        obj.modifiers.new('Weighted normals', 'WEIGHTED_NORMAL')
+    return obj
+
+def bar(name, a, b, radius, material):
+    midpoint = (Vector(a) + Vector(b)) / 2
+    delta = Vector(b) - Vector(a)
+    bpy.ops.mesh.primitive_cylinder_add(vertices=12, radius=radius, depth=delta.length, location=midpoint)
+    obj = bpy.context.object
+    obj.name = name
+    obj.rotation_euler = delta.to_track_quat('Z', 'Y').to_euler()
+    obj.parent = root
+    obj.data.materials.append(material)
+    return obj
+
+# The thick light top projects beyond the darker cabinet on every side.
+block('Solid oak countertop', (0, 0, 1.19), (4.05, 1.95, 0.12), topwood, 0.018)
+block('Cabinet carcass', (0, 0, 0.635), (3.32, 1.43, 1.0), bodywood, 0.012)
+block('Lower cabinet rail', (0, -0.73, 0.20), (3.30, 0.08, 0.16), bodywood, 0.009)
+block('Upper cabinet rail', (0, -0.73, 1.02), (3.30, 0.08, 0.12), bodywood, 0.008)
+
+# Four square posts continue to the floor, leaving the cabinet slightly raised.
+for x in (-1.60, 1.60):
+    for y in (-0.67, 0.67):
+        block('Corner support post', (x, y, 0.56), (0.14, 0.14, 1.12), bodywood, 0.008)
+
+# Framed drawer and door fronts on the camera-facing long side.
+for i, x in enumerate((-1.05, 0.0, 1.05)):
+    block('Drawer front %d' % (i+1), (x, -0.728, 0.91), (0.95, 0.035, 0.20), bodywood, 0.006)
+    block('Door inset %d' % (i+1), (x, -0.729, 0.52), (0.84, 0.025, 0.49), panelwood, 0.004)
+    for xx in (x-0.45, x+0.45):
+        block('Door vertical frame', (xx, -0.75, 0.52), (0.07, 0.045, 0.62), bodywood, 0.004)
+    for zz in (0.235, 0.805):
+        block('Door horizontal frame', (x, -0.75, zz), (0.95, 0.045, 0.07), bodywood, 0.004)
+    bar('Drawer pull', (x-0.075, -0.765, 0.91), (x+0.075, -0.765, 0.91), 0.012, metal)
+    bar('Door handle', (x+0.32, -0.778, 0.48), (x+0.32, -0.778, 0.60), 0.009, metal)
+
+# Framed broad panel on the visible short end.
+block('End recessed panel', (1.674, 0, 0.59), (0.03, 1.13, 0.72), panelwood, 0.005)
+for y in (-0.61, 0.61):
+    block('End panel stile', (1.70, y, 0.59), (0.07, 0.09, 0.88), bodywood, 0.005)
+for z in (0.19, 0.99):
+    block('End panel rail', (1.70, 0, z), (0.07, 1.30, 0.09), bodywood, 0.005)
+block('End panel center stile', (1.70, 0, 0.59), (0.07, 0.07, 0.72), bodywood, 0.004)

@@ -1,0 +1,2689 @@
+{
+  "audit_time": 1794735517.8945887,
+  "scope": "Final read-only T01 audit after the explicitly authorized single routing recovery and saved final delivery. No model or Blender calls; source, frozen policy, state and raw records unchanged by this audit.",
+  "overall_state": {
+    "status": "completed",
+    "started": 1794735388.3060565,
+    "experiment": "stagewise_teaching_student_selfcheck_pilot",
+    "finished": 1794735450.7714932,
+    "budget": {
+      "cli_sessions": 48,
+      "render_attempts": 24,
+      "build_attempts": 24,
+      "development_cli": 24,
+      "test_cli": 22,
+      "preparation_cli": 2,
+      "known_input_tokens": 4643621,
+      "known_output_tokens": 42948,
+      "usage_known_sessions": 47,
+      "usage_unknown_sessions": 1,
+      "observable_tool_calls": 0
+    }
+  },
+  "task_state": {
+    "task_id": "T01",
+    "split": "test",
+    "status": "completed",
+    "stage_index": 5,
+    "last_checkpoint": "tasks/T01/stages/05/visual_revision_build/scene.blend",
+    "active_seconds": 654.6935486937873
+  },
+  "counts": {
+    "independent_scenes": 1,
+    "stages_scheduled": 5,
+    "stages_with_saved_records": 5,
+    "stage_statuses": {
+      "advance_with_issue": 5
+    },
+    "cli_attempts": 22,
+    "cli_completed": 21,
+    "cli_failed": 1,
+    "cli_running": 0,
+    "routing_failure_attempts": 1,
+    "teacher_or_non_Terra_calls": 0,
+    "actual_completed_build_records": 10,
+    "build_successes": 10,
+    "build_failures": 0,
+    "known_input_tokens": 1192390,
+    "known_output_tokens": 17689,
+    "usage_known_sessions": 21,
+    "usage_unknown_sessions": 1,
+    "self_check_entry_events": 10,
+    "saved_self_reviews": 10,
+    "false_aspect_ratio_claims": 2,
+    "cached_input_tokens": 91392,
+    "render_frames": 11,
+    "visual_revision_builds": 5,
+    "technical_repairs": 0,
+    "finding_statuses": {
+      "new": 10,
+      "partially_resolved": 5,
+      "unresolved": 4
+    }
+  },
+  "checks": {
+    "all_requested_student_model_Terra_medium": true,
+    "all_calls_after_transfer_freeze": true,
+    "fresh_sessions": true,
+    "only_actual_test_attachments": true,
+    "no_D01_context_markers": true,
+    "no_CJK_in_completed_prompts_responses": true,
+    "English_requested_every_call": true,
+    "no_visible_inner_tools": true,
+    "all_findings_test_observation": true,
+    "all_findings_valid_rule_ids": true,
+    "all_findings_have_reference_render_evidence": true,
+    "frozen_policy_unchanged": true,
+    "frozen_code_unchanged": true,
+    "all_actual_image_aspect_ratios_equal": true,
+    "fresh_stage_reviews_have_empty_previous_findings": true,
+    "all_parent_chains_correct": true,
+    "every_stage_got_real_initial_and_postpatch_image_review": true,
+    "final_delivery_completed": true
+  },
+  "requests": [
+    {
+      "path": "tasks/T01/calls/plan/attempt_1",
+      "role": "student_plan",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734466.6916502,
+      "seconds": 16.440862088929862,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 12162,
+      "output_tokens": 356,
+      "cached_input_tokens": 8192,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734466690556747/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734483.1325111
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/confirmation/attempt_1",
+      "role": "student_self_verification",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734573.9266129,
+      "seconds": 19.40418535703793,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 35861,
+      "output_tokens": 422,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734573923897796/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/01/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734573923897796/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/01/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734573923897796/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 2,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734593.330797
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/initial/attempt_1",
+      "role": "student_initial",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734483.1554897,
+      "seconds": 26.096747676841915,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 13203,
+      "output_tokens": 881,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734483154582311/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734509.2522366
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/review/attempt_1",
+      "role": "student_self_review",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734513.0772846,
+      "seconds": 18.46634377911687,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 32403,
+      "output_tokens": 432,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734513075531988/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/01/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734513075531988/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 0,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734531.5436273
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/visual_revision/attempt_1",
+      "role": "student_visual_revision",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734531.5723584,
+      "seconds": 38.32568672019988,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 37125,
+      "output_tokens": 1456,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734531570665843/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/01/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734531570665843/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734569.898044
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/confirmation/attempt_1",
+      "role": "student_self_verification",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734695.5287519,
+      "seconds": 19.066170732025057,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 39866,
+      "output_tokens": 531,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734695526277294/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/02/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734695526277294/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/02/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734695526277294/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 1,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734714.5949216
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/initial/attempt_1",
+      "role": "student_initial",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734593.36182,
+      "seconds": 50.928631170187145,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 36787,
+      "output_tokens": 2190,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734593359969836/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/01/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734593359969836/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734644.29045
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/review/attempt_1",
+      "role": "student_self_review",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734648.7950652,
+      "seconds": 20.587286376859993,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 42737,
+      "output_tokens": 403,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734648792118590/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/02/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734648792118590/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/01/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734648792118590/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 0,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734669.3823504
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/visual_revision/attempt_1",
+      "role": "student_visual_revision",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734669.420832,
+      "seconds": 23.711597234010696,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 47028,
+      "output_tokens": 526,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734669418957358/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/02/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734669418957358/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734693.1324286
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/confirmation/attempt_1",
+      "role": "student_self_verification",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734826.8276935,
+      "seconds": 17.788847061339766,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 67825,
+      "output_tokens": 442,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734826824412877/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/03/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734826824412877/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/03/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734826824412877/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 2,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734844.6165395
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/initial/attempt_1",
+      "role": "student_initial",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734714.64367,
+      "seconds": 58.63320067105815,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 46597,
+      "output_tokens": 2565,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734714642089327/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/02/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734714642089327/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734773.2768695
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/review/attempt_1",
+      "role": "student_self_review",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734779.0860217,
+      "seconds": 23.15089036617428,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 71504,
+      "output_tokens": 503,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734779083702094/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/03/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734779083702094/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/02/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734779083702094/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 0,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734802.236911
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/visual_revision/attempt_1",
+      "role": "student_visual_revision",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734802.2873433,
+      "seconds": 20.10987239703536,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 83286,
+      "output_tokens": 585,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734802284905458/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/03/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734802284905458/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734822.397215
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/confirmation/attempt_1",
+      "role": "student_self_verification",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734931.6598554,
+      "seconds": 14.899378192145377,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 68930,
+      "output_tokens": 288,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734931656655674/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/04/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734931656655674/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/04/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734931656655674/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 1,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734946.5592325
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/initial/attempt_1",
+      "role": "student_initial",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734844.67146,
+      "seconds": 36.33085138909519,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 82650,
+      "output_tokens": 1347,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734844668884018/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/03/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734844668884018/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734881.00231
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/review/attempt_1",
+      "role": "student_self_review",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734885.3681915,
+      "seconds": 17.37607918214053,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 71613,
+      "output_tokens": 369,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734885364876809/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/04/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734885364876809/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/03/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734885364876809/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 0,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734902.7442696
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/visual_revision/attempt_1",
+      "role": "student_visual_revision",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734902.8021185,
+      "seconds": 24.295229855924845,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 84650,
+      "output_tokens": 797,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734902799821701/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/04/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734902799821701/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734927.0973475
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/confirmation/attempt_1",
+      "role": "student_self_verification",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794735413.564094,
+      "seconds": 23.390976453665644,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 69377,
+      "output_tokens": 618,
+      "cached_input_tokens": 0,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735413561166482/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/05/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735413561166482/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/05/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735413561166482/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 3,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794735436.955069
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/initial/attempt_1",
+      "role": "student_initial",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734946.616661,
+      "seconds": 45.77147805178538,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 84262,
+      "output_tokens": 1710,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734946614151870/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/04/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734946614151870/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794734992.388138
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/review/attempt_1",
+      "role": "student_self_review",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794734997.5204744,
+      "seconds": 26.458231291733682,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 79244,
+      "output_tokens": 822,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734997517358427/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/05/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734997517358427/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/04/visual_revision_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794734997517358427/image_002.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": true,
+      "previous_finding_count": 0,
+      "rule_ids_in_context": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "student_prior_judgment"
+      ],
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794735023.9787047
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/visual_revision/attempt_1",
+      "role": "student_visual_revision",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "failed",
+      "started": 1794735024.036381,
+      "seconds": 34.87167585082352,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": null,
+      "output_tokens": null,
+      "cached_input_tokens": null,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": null,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735024034011069/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/05/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735024034011069/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": true,
+      "model_generation_output_present": false,
+      "visible_reconnecting_events": 9,
+      "failure_stderr": "Reading prompt from stdin...\n2026-11-15T09:30:29.250984Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out\n",
+      "finished": 1794735058.9080558
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/visual_revision/attempt_2",
+      "role": "student_visual_revision",
+      "requested_model": "gpt-6.1-terra",
+      "observed_model": "unknown",
+      "reasoning_effort": "medium",
+      "status": "completed",
+      "started": 1794735388.4011204,
+      "seconds": 19.820225313771516,
+      "after_freeze": true,
+      "fresh_session": true,
+      "input_tokens": 85280,
+      "output_tokens": 446,
+      "cached_input_tokens": 8320,
+      "tools": 0,
+      "cjk_in_prompt": false,
+      "cjk_in_response": false,
+      "English_requested": true,
+      "attachments": [
+        {
+          "original": "sources/T01.jpg",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735388398260373/image_000.jpg",
+          "original_dimensions": [
+            1280,
+            960
+          ],
+          "staged_dimensions": [
+            1280,
+            960
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        },
+        {
+          "original": "tasks/T01/stages/05/initial_build/final.png",
+          "staged_attachment": "${PROJECT_ROOT}/outputs/stagewise_teaching_student_selfcheck_pilot/session_staging/S1794735388398260373/image_001.png",
+          "original_dimensions": [
+            768,
+            576
+          ],
+          "staged_dimensions": [
+            768,
+            576
+          ],
+          "staged_image_exists": true,
+          "same_dimensions": true,
+          "only_test_image": true
+        }
+      ],
+      "development_context_markers": [],
+      "frozen_entry_prompt_present": false,
+      "previous_finding_count": null,
+      "rule_ids_in_context": null,
+      "routing_failure": false,
+      "model_generation_output_present": true,
+      "visible_reconnecting_events": 0,
+      "failure_stderr": null,
+      "finished": 1794735408.2213445
+    }
+  ],
+  "reviews": [
+    {
+      "path": "tasks/T01/stages/01/review.json",
+      "stage_id": 1,
+      "kind": "review",
+      "role": "student_self_review",
+      "decision": "revise",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/01/initial_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The reference furnishings obscure much of the wall and floor boundary, so the exact shell dimensions and camera position cannot be determined."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R5",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Lighting and material both affect the rendered color; the image alone does not isolate their contributions. Furnishings obscure part of the reference floor."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/01/confirmation.json",
+      "stage_id": 1,
+      "kind": "confirmation",
+      "role": "student_self_verification",
+      "decision": "advance_with_issue",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/01/visual_revision_build/final.png",
+        "tasks/T01/stages/01/initial_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "partially_resolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Furnishings obscure much of the reference wall-floor boundary, so exact shell dimensions and camera position remain uncertain."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R5",
+          "status": "partially_resolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Reference furnishings and shadows obscure or darken parts of the floor, and the image alone does not separate material from lighting effects."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/02/review.json",
+      "stage_id": 2,
+      "kind": "review",
+      "role": "student_self_review",
+      "decision": "revise",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/02/initial_build/final.png",
+        "tasks/T01/stages/01/visual_revision_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The reference and render may differ in both camera angle and island proportions, so the exact camera adjustment cannot be inferred from the images alone. Some support contacts are obscured."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/02/confirmation.json",
+      "stage_id": 2,
+      "kind": "confirmation",
+      "role": "student_self_verification",
+      "decision": "advance_with_issue",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/02/visual_revision_build/final.png",
+        "tasks/T01/stages/02/initial_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "unresolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The current image does not reveal whether the island is outside the camera view or obscured."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R6",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The image alone does not establish the cause of the black foreground or verify any support contact."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/03/review.json",
+      "stage_id": 3,
+      "kind": "review",
+      "role": "student_self_review",
+      "decision": "revise",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/03/initial_build/final.png",
+        "tasks/T01/stages/02/visual_revision_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The reference and render have different aspect ratios, and some lower cabinet contacts are obscured by the island. The exact camera adjustment cannot be determined from the images alone."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R5",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Lighting, exposure, and the limited visible area may contribute; the render does not establish a unique material cause."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/03/confirmation.json",
+      "stage_id": 3,
+      "kind": "confirmation",
+      "role": "student_self_verification",
+      "decision": "advance_with_issue",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/03/visual_revision_build/final.png",
+        "tasks/T01/stages/03/initial_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "partially_resolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Different aspect ratios and viewpoints limit direct position comparisons. The island obscures lower cabinet contacts."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R5",
+          "status": "unresolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Lighting and materials may both influence the appearance; render noise and the small projected details limit assessment of glazing and hardware."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/04/review.json",
+      "stage_id": 4,
+      "kind": "review",
+      "role": "student_self_review",
+      "decision": "revise",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/04/initial_build/final.png",
+        "tasks/T01/stages/03/visual_revision_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The reference and render use different viewing angles, so projected widths alone do not establish a geometry mismatch. The left lower doors exist in the inventory but their visible details cannot be assessed through the island."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/04/confirmation.json",
+      "stage_id": 4,
+      "kind": "confirmation",
+      "role": "student_self_verification",
+      "decision": "advance_with_issue",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/04/visual_revision_build/final.png",
+        "tasks/T01/stages/04/initial_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "partially_resolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The different viewing angles affect projected dimensions. The inventory contains the left lower door panels and frames, but their visible details and obscured contacts cannot be verified in this view."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/05/review.json",
+      "stage_id": 5,
+      "kind": "review",
+      "role": "student_self_review",
+      "decision": "revise",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/05/initial_build/final.png",
+        "tasks/T01/stages/04/visual_revision_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The image does not establish the exact world-space extension needed."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R2",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Differences in viewpoint and geometry cannot be separated reliably from the images alone; obscured support contacts remain unverified."
+        },
+        {
+          "id": "F3",
+          "source": "test_observation",
+          "rule_source": "R5",
+          "status": "new",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Render noise and lighting limit assessment of subtle grain and glass reflections; the inventory lists interior shelves, but their visibility through the glass is uncertain."
+        }
+      ]
+    },
+    {
+      "path": "tasks/T01/stages/05/confirmation.json",
+      "stage_id": 5,
+      "kind": "confirmation",
+      "role": "student_self_verification",
+      "decision": "advance_with_issue",
+      "input_images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/05/visual_revision_build/final.png",
+        "tasks/T01/stages/05/initial_build/final.png"
+      ],
+      "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "findings": [
+        {
+          "id": "F1",
+          "source": "test_observation",
+          "rule_source": "R6",
+          "status": "partially_resolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "The images do not establish the cause or world-space extent of the remaining black region."
+        },
+        {
+          "id": "F2",
+          "source": "test_observation",
+          "rule_source": "R6",
+          "status": "unresolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Viewpoint and geometry effects cannot be separated reliably from the images; obscured support contacts remain unverified."
+        },
+        {
+          "id": "F3",
+          "source": "test_observation",
+          "rule_source": "R6",
+          "status": "unresolved",
+          "reference_evidence_present": true,
+          "render_evidence_present": true,
+          "uncertainty": "Noise and lighting limit assessment of subtle grain and reflections. Interior shelves are listed in the inventory, but their visibility through the glass remains uncertain."
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "path": "sources/T01.jpg",
+      "width": 1280,
+      "height": 960,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/delivery/final.png",
+      "width": 1024,
+      "height": 768,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/01/initial_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/01/visual_revision_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/02/initial_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/02/visual_revision_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/03/initial_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/03/visual_revision_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/04/initial_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/04/visual_revision_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/05/initial_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    },
+    {
+      "path": "tasks/T01/stages/05/visual_revision_build/final.png",
+      "width": 768,
+      "height": 576,
+      "aspect_ratio": 1.3333333333333333,
+      "same_4_to_3_as_reference": true
+    }
+  ],
+  "stages": [
+    {
+      "stage_id": 1,
+      "status": "advance_with_issue",
+      "parent_checkpoint": null,
+      "final_checkpoint": "tasks/T01/stages/01/visual_revision_build/scene.blend",
+      "parent_chain_correct": true,
+      "review_received_actual_initial_render": true,
+      "verification_received_actual_final_render": true,
+      "attempts": [
+        {
+          "action_type": "initial",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": null,
+          "checkpoint": "tasks/T01/stages/01/initial_build/scene.blend",
+          "render": "tasks/T01/stages/01/initial_build/final.png"
+        },
+        {
+          "action_type": "visual_revision",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/01/initial_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/01/visual_revision_build/scene.blend",
+          "render": "tasks/T01/stages/01/visual_revision_build/final.png"
+        }
+      ]
+    },
+    {
+      "stage_id": 2,
+      "status": "advance_with_issue",
+      "parent_checkpoint": "tasks/T01/stages/01/visual_revision_build/scene.blend",
+      "final_checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+      "parent_chain_correct": true,
+      "review_received_actual_initial_render": true,
+      "verification_received_actual_final_render": true,
+      "attempts": [
+        {
+          "action_type": "initial",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/01/visual_revision_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/02/initial_build/scene.blend",
+          "render": "tasks/T01/stages/02/initial_build/final.png"
+        },
+        {
+          "action_type": "visual_revision",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/02/initial_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+          "render": "tasks/T01/stages/02/visual_revision_build/final.png"
+        }
+      ]
+    },
+    {
+      "stage_id": 3,
+      "status": "advance_with_issue",
+      "parent_checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+      "final_checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+      "parent_chain_correct": true,
+      "review_received_actual_initial_render": true,
+      "verification_received_actual_final_render": true,
+      "attempts": [
+        {
+          "action_type": "initial",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/03/initial_build/scene.blend",
+          "render": "tasks/T01/stages/03/initial_build/final.png"
+        },
+        {
+          "action_type": "visual_revision",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/03/initial_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+          "render": "tasks/T01/stages/03/visual_revision_build/final.png"
+        }
+      ]
+    },
+    {
+      "stage_id": 4,
+      "status": "advance_with_issue",
+      "parent_checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+      "final_checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+      "parent_chain_correct": true,
+      "review_received_actual_initial_render": true,
+      "verification_received_actual_final_render": true,
+      "attempts": [
+        {
+          "action_type": "initial",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/04/initial_build/scene.blend",
+          "render": "tasks/T01/stages/04/initial_build/final.png"
+        },
+        {
+          "action_type": "visual_revision",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/04/initial_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+          "render": "tasks/T01/stages/04/visual_revision_build/final.png"
+        }
+      ]
+    },
+    {
+      "stage_id": 5,
+      "status": "advance_with_issue",
+      "parent_checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+      "final_checkpoint": "tasks/T01/stages/05/visual_revision_build/scene.blend",
+      "parent_chain_correct": true,
+      "review_received_actual_initial_render": true,
+      "verification_received_actual_final_render": true,
+      "attempts": [
+        {
+          "action_type": "initial",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/05/initial_build/scene.blend",
+          "render": "tasks/T01/stages/05/initial_build/final.png"
+        },
+        {
+          "action_type": "visual_revision",
+          "ok": true,
+          "failure_type": null,
+          "parent_checkpoint": "tasks/T01/stages/05/initial_build/scene.blend",
+          "checkpoint": "tasks/T01/stages/05/visual_revision_build/scene.blend",
+          "render": "tasks/T01/stages/05/visual_revision_build/final.png"
+        }
+      ]
+    }
+  ],
+  "entry_events": [
+    {
+      "time": 1794734513.0604813,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 1,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": false
+    },
+    {
+      "time": 1794734573.9086664,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 1,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": true
+    },
+    {
+      "time": 1794734648.773962,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 2,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": false
+    },
+    {
+      "time": 1794734695.5071108,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 2,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": true
+    },
+    {
+      "time": 1794734779.0655582,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 3,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": false
+    },
+    {
+      "time": 1794734826.8036342,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 3,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": true
+    },
+    {
+      "time": 1794734885.3428767,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 4,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": false
+    },
+    {
+      "time": 1794734931.633698,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 4,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": true
+    },
+    {
+      "time": 1794734997.4962344,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 5,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": false
+    },
+    {
+      "time": 1794735413.5386312,
+      "event": "frozen_self_check_executed",
+      "task_id": "T01",
+      "stage_id": 5,
+      "entry": "transfer/frozen/student_self_review.py:build_review_prompt",
+      "verification": true
+    }
+  ],
+  "aspect_ratio_claim_audit": [
+    {
+      "record": "tasks/T01/stages/03/confirmation.json",
+      "finding_id": "F1",
+      "claim": "Different aspect ratios and viewpoints limit direct position comparisons. The island obscures lower cabinet contacts.",
+      "assessment": "Contradicted by actual image dimensions: reference 1280x960 and previews 768x576 are both exactly 4:3. Viewpoint differences may exist, but aspect-ratio differences do not. Raw model records remain unchanged."
+    },
+    {
+      "record": "tasks/T01/stages/03/review.json",
+      "finding_id": "F1",
+      "claim": "The reference and render have different aspect ratios, and some lower cabinet contacts are obscured by the island. The exact camera adjustment cannot be determined from the images alone.",
+      "assessment": "Contradicted by actual image dimensions: reference 1280x960 and previews 768x576 are both exactly 4:3. Viewpoint differences may exist, but aspect-ratio differences do not. Raw model records remain unchanged."
+    }
+  ],
+  "delivery": {
+    "status": "completed",
+    "checkpoint": "tasks/T01/stages/05/visual_revision_build/scene.blend",
+    "final_render": "tasks/T01/delivery/final.png",
+    "quality_verdict": null,
+    "teacher_review_of_final_quality_render": false,
+    "student_review_of_final_quality_render": false,
+    "blend": "tasks/T01/delivery/scene.blend"
+  },
+  "limitations": [
+    "Teacher call count is zero based on requested roles/models and observable CLI records; backend model route remains unknown.",
+    "The failed attempt reached workspace routing discovery errors before producing a program; this is service/routing failure, not evidence of a Blender or geometric failure. Usage for that attempt is unknown, not zero.",
+    "The CLI itself recorded reconnect events inside one session. They are not counted as fresh experimental CLI sessions; exact underlying model requests remain unknown.",
+    "Frozen rule R6 does not create structured cross-stage memory: each new-stage self-review actually received previous_findings=[], while verification receives findings from its own stage. Remaining issues are recorded and images persist, but carryover is not supplied as a cross-stage issue archive.",
+    "Student claims of different image aspect ratios in stage3 review and verification are contradicted by file dimensions. Keep the claims as fallible model observations, never report them as measured facts.",
+    "No automatic quality metrics or independent quality verdict were added.",
+    "All five test stages end advance_with_issue. Final delivery completed denotes a saved scene and render, not visual correctness. The final 1024x768/32-sample delivery was not reviewed again by a model. The service-pause interval is outside active task time; CLI wall time still includes inseparable remote waiting."
+  ],
+  "previous_live_snapshot_audit_time": 1794735420.8142877,
+  "recovery": {
+    "record": {
+      "status": "acknowledged",
+      "time": 1794735388.305242,
+      "failed_attempt": "tasks/T01/stages/05/calls/visual_revision/attempt_1",
+      "authorized_attempt": "tasks/T01/stages/05/calls/visual_revision/attempt_2",
+      "reason": "workspace routing discovery failed",
+      "original_pause": "recovery/R1794735388304401547/service_pause.json",
+      "acknowledgement": "Explicit resume --service-recovered invocation",
+      "service_health_verified": false,
+      "maximum_additional_attempts": 1,
+      "protocol_effect": "One service retry for this saved failed call; no scene, model, quality, or budget change"
+    },
+    "addendum": "reports/RECOVERY_ADDENDUM.md",
+    "original_failed_session_preserved": true,
+    "original_error_preserved": true,
+    "original_program_absent": true,
+    "exact_saved_prompt_reused": true,
+    "same_schema": true,
+    "same_reference_and_render_attachments": true,
+    "same_model_role_effort": true,
+    "retry_completed": true,
+    "only_one_additional_attempt": true,
+    "no_other_call_retries": true,
+    "protocol_revision_explicitly_recorded": true
+  },
+  "processes": [
+    {
+      "path": "tasks/T01/calls/plan/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 16.439831249881536,
+      "cpu_user_seconds": 0.34,
+      "cpu_system_seconds": 0.37,
+      "sampled_peak_tree_rss_kib_lower_bound": 167324.0
+    },
+    {
+      "path": "tasks/T01/delivery/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 13.780959978234023,
+      "cpu_user_seconds": 97.33,
+      "cpu_system_seconds": 0.22,
+      "sampled_peak_tree_rss_kib_lower_bound": 368840.0
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/confirmation/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 19.403144400101155,
+      "cpu_user_seconds": 0.45,
+      "cpu_system_seconds": 0.37,
+      "sampled_peak_tree_rss_kib_lower_bound": 177152.0
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/initial/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 26.095736814197153,
+      "cpu_user_seconds": 0.4,
+      "cpu_system_seconds": 0.31,
+      "sampled_peak_tree_rss_kib_lower_bound": 167396.0
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/review/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 18.46538284001872,
+      "cpu_user_seconds": 0.39,
+      "cpu_system_seconds": 0.36,
+      "sampled_peak_tree_rss_kib_lower_bound": 170176.0
+    },
+    {
+      "path": "tasks/T01/stages/01/calls/visual_revision/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 38.32471677381545,
+      "cpu_user_seconds": 0.47,
+      "cpu_system_seconds": 0.33,
+      "sampled_peak_tree_rss_kib_lower_bound": 173524.0
+    },
+    {
+      "path": "tasks/T01/stages/01/initial_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.80978012830019,
+      "cpu_user_seconds": 0.69,
+      "cpu_system_seconds": 0.23,
+      "sampled_peak_tree_rss_kib_lower_bound": 295612.0
+    },
+    {
+      "path": "tasks/T01/stages/01/initial_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 2.9501161873340607,
+      "cpu_user_seconds": 17.78,
+      "cpu_system_seconds": 0.18,
+      "sampled_peak_tree_rss_kib_lower_bound": 314364.0
+    },
+    {
+      "path": "tasks/T01/stages/01/visual_revision_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.6390295960009098,
+      "cpu_user_seconds": 0.36,
+      "cpu_system_seconds": 0.17,
+      "sampled_peak_tree_rss_kib_lower_bound": 278376.0
+    },
+    {
+      "path": "tasks/T01/stages/01/visual_revision_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 3.320707576815039,
+      "cpu_user_seconds": 20.7,
+      "cpu_system_seconds": 0.14,
+      "sampled_peak_tree_rss_kib_lower_bound": 317952.0
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/confirmation/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 19.06508949911222,
+      "cpu_user_seconds": 0.44,
+      "cpu_system_seconds": 0.34,
+      "sampled_peak_tree_rss_kib_lower_bound": 181900.0
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/initial/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 50.92763905227184,
+      "cpu_user_seconds": 0.5,
+      "cpu_system_seconds": 0.35,
+      "sampled_peak_tree_rss_kib_lower_bound": 172392.0
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/review/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 20.586200105026364,
+      "cpu_user_seconds": 0.43,
+      "cpu_system_seconds": 0.36,
+      "sampled_peak_tree_rss_kib_lower_bound": 186032.0
+    },
+    {
+      "path": "tasks/T01/stages/02/calls/visual_revision/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 23.710738244000822,
+      "cpu_user_seconds": 0.43,
+      "cpu_system_seconds": 0.35,
+      "sampled_peak_tree_rss_kib_lower_bound": 175212.0
+    },
+    {
+      "path": "tasks/T01/stages/02/initial_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.983402191195637,
+      "cpu_user_seconds": 0.85,
+      "cpu_system_seconds": 0.3,
+      "sampled_peak_tree_rss_kib_lower_bound": 297740.0
+    },
+    {
+      "path": "tasks/T01/stages/02/initial_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 3.4397349641658366,
+      "cpu_user_seconds": 22.38,
+      "cpu_system_seconds": 0.21,
+      "sampled_peak_tree_rss_kib_lower_bound": 343600.0
+    },
+    {
+      "path": "tasks/T01/stages/02/visual_revision_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.6472503980621696,
+      "cpu_user_seconds": 0.44,
+      "cpu_system_seconds": 0.18,
+      "sampled_peak_tree_rss_kib_lower_bound": 312496.0
+    },
+    {
+      "path": "tasks/T01/stages/02/visual_revision_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 1.6676891981624067,
+      "cpu_user_seconds": 8.81,
+      "cpu_system_seconds": 0.2,
+      "sampled_peak_tree_rss_kib_lower_bound": 352212.0
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/confirmation/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 17.78781375521794,
+      "cpu_user_seconds": 0.48,
+      "cpu_system_seconds": 0.34,
+      "sampled_peak_tree_rss_kib_lower_bound": 186536.0
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/initial/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 58.63231495115906,
+      "cpu_user_seconds": 0.5,
+      "cpu_system_seconds": 0.36,
+      "sampled_peak_tree_rss_kib_lower_bound": 170492.0
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/review/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 23.149936027359217,
+      "cpu_user_seconds": 0.44,
+      "cpu_system_seconds": 0.31,
+      "sampled_peak_tree_rss_kib_lower_bound": 187288.0
+    },
+    {
+      "path": "tasks/T01/stages/03/calls/visual_revision/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 20.108960028272122,
+      "cpu_user_seconds": 0.43,
+      "cpu_system_seconds": 0.33,
+      "sampled_peak_tree_rss_kib_lower_bound": 177224.0
+    },
+    {
+      "path": "tasks/T01/stages/03/initial_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 2.527530092280358,
+      "cpu_user_seconds": 3.19,
+      "cpu_system_seconds": 0.63,
+      "sampled_peak_tree_rss_kib_lower_bound": 319400.0
+    },
+    {
+      "path": "tasks/T01/stages/03/initial_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 3.184179245028645,
+      "cpu_user_seconds": 20.45,
+      "cpu_system_seconds": 0.2,
+      "sampled_peak_tree_rss_kib_lower_bound": 384816.0
+    },
+    {
+      "path": "tasks/T01/stages/03/visual_revision_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.8357763718813658,
+      "cpu_user_seconds": 0.53,
+      "cpu_system_seconds": 0.21,
+      "sampled_peak_tree_rss_kib_lower_bound": 317576.0
+    },
+    {
+      "path": "tasks/T01/stages/03/visual_revision_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 3.482696677092463,
+      "cpu_user_seconds": 21.62,
+      "cpu_system_seconds": 0.17,
+      "sampled_peak_tree_rss_kib_lower_bound": 374896.0
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/confirmation/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 14.898391293361783,
+      "cpu_user_seconds": 0.42,
+      "cpu_system_seconds": 0.4,
+      "sampled_peak_tree_rss_kib_lower_bound": 189916.0
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/initial/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 36.32976138824597,
+      "cpu_user_seconds": 0.48,
+      "cpu_system_seconds": 0.34,
+      "sampled_peak_tree_rss_kib_lower_bound": 179912.0
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/review/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 17.374997526872903,
+      "cpu_user_seconds": 0.55,
+      "cpu_system_seconds": 0.27,
+      "sampled_peak_tree_rss_kib_lower_bound": 186852.0
+    },
+    {
+      "path": "tasks/T01/stages/04/calls/visual_revision/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 24.294334448873997,
+      "cpu_user_seconds": 0.46,
+      "cpu_system_seconds": 0.31,
+      "sampled_peak_tree_rss_kib_lower_bound": 181456.0
+    },
+    {
+      "path": "tasks/T01/stages/04/initial_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.7942844438366592,
+      "cpu_user_seconds": 0.64,
+      "cpu_system_seconds": 0.19,
+      "sampled_peak_tree_rss_kib_lower_bound": 327192.0
+    },
+    {
+      "path": "tasks/T01/stages/04/initial_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 3.452201522886753,
+      "cpu_user_seconds": 21.79,
+      "cpu_system_seconds": 0.17,
+      "sampled_peak_tree_rss_kib_lower_bound": 357904.0
+    },
+    {
+      "path": "tasks/T01/stages/04/visual_revision_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.8050686637870967,
+      "cpu_user_seconds": 0.51,
+      "cpu_system_seconds": 0.23,
+      "sampled_peak_tree_rss_kib_lower_bound": 317512.0
+    },
+    {
+      "path": "tasks/T01/stages/04/visual_revision_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 3.6434378470294178,
+      "cpu_user_seconds": 23.23,
+      "cpu_system_seconds": 0.18,
+      "sampled_peak_tree_rss_kib_lower_bound": 344428.0
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/confirmation/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 23.39002868719399,
+      "cpu_user_seconds": 0.51,
+      "cpu_system_seconds": 0.3,
+      "sampled_peak_tree_rss_kib_lower_bound": 186588.0
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/initial/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 45.7704457892105,
+      "cpu_user_seconds": 0.55,
+      "cpu_system_seconds": 0.33,
+      "sampled_peak_tree_rss_kib_lower_bound": 180776.0
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/review/attempt_1/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 26.457329800818115,
+      "cpu_user_seconds": 0.53,
+      "cpu_system_seconds": 0.3,
+      "sampled_peak_tree_rss_kib_lower_bound": 186352.0
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/visual_revision/attempt_1/process.json",
+      "phase": "cli",
+      "status": "failed",
+      "seconds": 34.870640822686255,
+      "cpu_user_seconds": 0.75,
+      "cpu_system_seconds": 0.4,
+      "sampled_peak_tree_rss_kib_lower_bound": 169636.0
+    },
+    {
+      "path": "tasks/T01/stages/05/calls/visual_revision/attempt_2/process.json",
+      "phase": "cli",
+      "status": "completed",
+      "seconds": 19.80880378279835,
+      "cpu_user_seconds": 0.45,
+      "cpu_system_seconds": 0.35,
+      "sampled_peak_tree_rss_kib_lower_bound": 179384.0
+    },
+    {
+      "path": "tasks/T01/stages/05/initial_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.803943803999573,
+      "cpu_user_seconds": 0.51,
+      "cpu_system_seconds": 0.2,
+      "sampled_peak_tree_rss_kib_lower_bound": 321116.0
+    },
+    {
+      "path": "tasks/T01/stages/05/initial_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 4.212465255986899,
+      "cpu_user_seconds": 27.25,
+      "cpu_system_seconds": 0.19,
+      "sampled_peak_tree_rss_kib_lower_bound": 360232.0
+    },
+    {
+      "path": "tasks/T01/stages/05/visual_revision_build/build_process.json",
+      "phase": "build",
+      "status": "completed",
+      "seconds": 0.7917102589271963,
+      "cpu_user_seconds": 0.46,
+      "cpu_system_seconds": 0.24,
+      "sampled_peak_tree_rss_kib_lower_bound": 320184.0
+    },
+    {
+      "path": "tasks/T01/stages/05/visual_revision_build/render_process.json",
+      "phase": "render",
+      "status": "completed",
+      "seconds": 4.424028885085136,
+      "cpu_user_seconds": 27.91,
+      "cpu_system_seconds": 0.22,
+      "sampled_peak_tree_rss_kib_lower_bound": 358140.0
+    }
+  ],
+  "timing": {
+    "build": {
+      "processes": 10,
+      "summed_wall_seconds": 9.637775948271155,
+      "cpu_user_seconds": 8.18,
+      "cpu_system_seconds": 2.58,
+      "max_sampled_tree_rss_kib_lower_bound": 327192.0
+    },
+    "cli": {
+      "processes": 22,
+      "summed_wall_seconds": 595.8922372804955,
+      "cpu_user_seconds": 10.399999999999999,
+      "cpu_system_seconds": 7.4799999999999995,
+      "max_sampled_tree_rss_kib_lower_bound": 189916.0
+    },
+    "render": {
+      "processes": 11,
+      "summed_wall_seconds": 47.55821733782068,
+      "cpu_user_seconds": 309.25,
+      "cpu_system_seconds": 2.0799999999999996,
+      "max_sampled_tree_rss_kib_lower_bound": 384816.0
+    }
+  }
+}

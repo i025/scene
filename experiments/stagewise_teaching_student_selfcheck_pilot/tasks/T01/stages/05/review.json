@@ -1,0 +1,52 @@
+{
+  "decision": "revise",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "Left edge of the room backdrop",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The reference has wall and floor coverage across the left edge, with no black void.",
+      "render_evidence": "A black wedge remains at the upper left of the current render, extending roughly 6% of the image width at its widest point. The previous checkpoint shows a larger black region, so the executed wall extension reduced but did not eliminate it.",
+      "proposed_change": "Extend or reposition the existing back wall enough to cover the remaining black wedge within the current camera view.",
+      "preserve": "Preserve the camera, island and cabinet placement, floor, materials, and lighting.",
+      "check_after": "Verify that the entire left edge has room coverage and that the wall does not obscure the cabinets or floor.",
+      "uncertainty": "The image does not establish the exact world-space extension needed.",
+      "status": "new"
+    },
+    {
+      "id": "F2",
+      "target": "Scene framing and island viewpoint",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The island top spans approximately 70% of the reference width and has a strongly receding diagonal; its near end panel is prominent. The tall cabinet occupies roughly 40% of the image width.",
+      "render_evidence": "The island top spans about 60% of the render width and reads more horizontally, while its end panel is narrow. The tall cabinet occupies about 25% of the width, and the right cabinetry is cut off by the image edge.",
+      "proposed_change": "Carry this framing discrepancy forward; use the available correction for backdrop coverage.",
+      "preserve": "Preserve the recognizable island and both cabinet groups.",
+      "check_after": "After the backdrop correction, confirm that cabinet visibility and cropping have not regressed.",
+      "uncertainty": "Differences in viewpoint and geometry cannot be separated reliably from the images alone; obscured support contacts remain unverified.",
+      "status": "new"
+    },
+    {
+      "id": "F3",
+      "target": "Wood and glass appearance",
+      "problem_source": "test_observation",
+      "rule_source": "R5",
+      "reference_evidence": "The reference has a warm honey-colored island top with visible broad grain, dark cabinetry, and glass with varied reflections and visible shelving.",
+      "render_evidence": "The current island top is very pale and its grain is faint; the glass panels appear mostly uniform cyan. The countertop, cabinetry, and floor remain distinguishable, and the floor and cabinet surfaces show some variation.",
+      "proposed_change": "Carry the remaining appearance differences forward after the backdrop correction.",
+      "preserve": "Preserve the existing tonal separation between the island, cabinetry, and floor.",
+      "check_after": "Confirm that the backdrop correction leaves material readability unchanged.",
+      "uncertainty": "Render noise and lighting limit assessment of subtle grain and glass reflections; the inventory lists interior shelves, but their visibility through the glass is uncertain.",
+      "status": "new"
+    }
+  ],
+  "summary": "One visual correction is available. The remaining black backdrop wedge is the proposed local correction; framing and appearance differences remain recorded for carryover. No prior findings were supplied.",
+  "input_images": [
+    "sources/T01.jpg",
+    "tasks/T01/stages/05/initial_build/final.png",
+    "tasks/T01/stages/04/visual_revision_build/final.png"
+  ],
+  "role": "student_self_review",
+  "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+}

@@ -1,0 +1,32 @@
+{
+  "decision": "advance_with_issue",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "Island framing and viewing angle",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The island spans about 70% of the image width and 55% of its height, with a broad countertop and a prominent foreground end panel.",
+      "render_evidence": "The current render contains no recognizable island. The previous checkpoint showed it at about 49% of image width and 30% of image height, so the requested framing improvement is not confirmed.",
+      "proposed_change": "No further correction is available under the current contract; carry the framing issue forward.",
+      "preserve": "Preserve the island geometry, countertop overhang, cabinet relationships, supports, and room geometry.",
+      "check_after": "No additional patch cycle is permitted.",
+      "uncertainty": "The current image does not reveal whether the island is outside the camera view or obscured.",
+      "status": "unresolved"
+    },
+    {
+      "id": "F2",
+      "target": "Island visibility after camera revision",
+      "problem_source": "test_observation",
+      "rule_source": "R6",
+      "reference_evidence": "The countertop, dark cabinet body, and floor-contacting supports are clearly recognizable in the central foreground.",
+      "render_evidence": "The current render is almost entirely black, with only a bright upper area and a diagonal gray strip; no countertop, cabinet body, or support contacts can be identified. All were recognizable in the previous checkpoint. The inventory still lists the countertop, carcass, and four support posts as render-enabled.",
+      "proposed_change": "Carry this visibility regression forward; no further visual correction is available.",
+      "preserve": "Retain the existing island and room objects.",
+      "check_after": "No additional execution is permitted.",
+      "uncertainty": "The image alone does not establish the cause of the black foreground or verify any support contact.",
+      "status": "new"
+    }
+  ],
+  "summary": "The camera patch executed, but the resulting render no longer shows the island. The previous framing issue remains unresolved, and no further correction is available."
+}

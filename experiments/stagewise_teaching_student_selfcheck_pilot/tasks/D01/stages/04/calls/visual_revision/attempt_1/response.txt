@@ -1,0 +1,15 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nfrom math import radians\nfrom mathutils import Matrix, Vector\n\n# Give the existing monitor housing its own contrasting finish.\nhousing = bpy.data.objects.get('silver monitor back')\nbezel = bpy.data.objects.get('monitor lower bezel')\nmat = bpy.data.materials.get('Monitor back - contrasting silver')\nif mat is None:\n    mat = bpy.data.materials.new('Monitor back - contrasting silver')\n    mat.diffuse_color = (0.31, 0.32, 0.33, 1.0)\n    mat.use_nodes = True\n    shader = mat.node_tree.nodes.get('Principled BSDF')\n    if shader:\n        shader.inputs['Base Color'].default_value = (0.31, 0.32, 0.33, 1.0)\n        shader.inputs['Metallic'].default_value = 0.25\n        shader.inputs['Roughness'].default_value = 0.48\n\ndef descendants(root):\n    for child in root.children:\n        yield child\n        yield from descendants(child)\n\nif housing:\n    for obj in descendants(housing):\n        if obj.type == 'MESH':\n            obj.data.materials.clear()\n            obj.data.materials.append(mat)\n\n# Turn and gently tilt the panel as a unit, keeping its support on the desk.\npivot = Vector((1.48, 2.22, 1.06))\ntransform = (Matrix.Translation(pivot) @ Matrix.Rotation(radians(-8), 4, 'Z') @ Matrix.Rotation(radians(-7), 4, 'X') @ Matrix.Translation(-pivot))\nfor panel in (housing, bezel):\n    if panel:\n        panel.matrix_world = transform @ panel.matrix_world\n",
+  "reason": "The supplied visual feedback identifies the monitor as the priority for this stage's correction.",
+  "changes": "Assigns a darker silver finish to the existing monitor housing and turns and tilts the panel and lower bezel together while retaining the existing desktop support.",
+  "advice_implementation": [
+    {
+      "finding_id": "stage4_monitor",
+      "status": "implemented",
+      "actual_change": "Adds a contrasting monitor material and adjusts the panel orientation around its lower edge.",
+      "code_evidence": "The patch assigns 'Monitor back - contrasting silver' to housing meshes and applies a shared rotation to 'silver monitor back' and 'monitor lower bezel'."
+    }
+  ],
+  "completed_scope": "Desktop details and architectural trim remain in place; the monitor correction is ready for the runner's visual review."
+}

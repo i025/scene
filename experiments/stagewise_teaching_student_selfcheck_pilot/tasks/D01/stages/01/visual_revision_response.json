@@ -1,0 +1,15 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nfrom mathutils import Vector\n\n# Move the existing camera inside the room and reframe the back wall.\ncam = bpy.data.objects.get('SceneActView')\nif cam is None or cam.type != 'CAMERA':\n    raise RuntimeError('Existing SceneActView camera not found')\ncam.location = (-0.30, -3.90, 2.15)\ntarget = Vector((0.0, 4.0, 2.15))\ncam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\ncam.data.lens = 22.5\nbpy.context.scene.camera = cam",
+  "reason": "The supplied render shows exterior black above the room and a distant back wall. This patch adjusts the existing viewpoint while preserving the room and lighting.",
+  "changes": "Moves the camera inside the room, lowers the focal length to retain a broad view, and aims toward the back wall.",
+  "advice_implementation": [
+    {
+      "finding_id": "F1",
+      "status": "implemented",
+      "actual_change": "Repositioned and reframed the existing camera to enlarge the back wall, shift the opening, and bring the ceiling into the upper frame.",
+      "code_evidence": "SceneActView location is set to (-0.30, -3.90, 2.15), aimed toward (0.0, 4.0, 2.15), with lens 22.5."
+    }
+  ],
+  "completed_scope": "Room shell, glazed opening, basic lighting, and revised camera framing. The revised framing awaits the runner's render."
+}

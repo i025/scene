@@ -1,0 +1,261 @@
+{
+  "task_id": "D01",
+  "split": "development",
+  "stage_id": 1,
+  "title": "Room and viewpoint",
+  "targets": [
+    "room shell",
+    "window and door opening",
+    "camera",
+    "basic lighting"
+  ],
+  "completed_scope": "The room has its floor, walls, ceiling and beam, left glazed opening, approximate camera framing, and broad illumination.",
+  "status": "advance_with_issue",
+  "parent_checkpoint": null,
+  "initial_checkpoint": "tasks/D01/stages/01/initial_build/scene.blend",
+  "final_checkpoint": "tasks/D01/stages/01/visual_revision_build/scene.blend",
+  "initial_render": "tasks/D01/stages/01/initial_build/final.png",
+  "final_render": "tasks/D01/stages/01/visual_revision_build/final.png",
+  "attempts": [
+    {
+      "task_id": "D01",
+      "split": "development",
+      "stage_id": 1,
+      "action_type": "initial",
+      "role": "student",
+      "targets": [
+        "room shell",
+        "window and door opening",
+        "camera",
+        "basic lighting"
+      ],
+      "images": [
+        "sources/D01.jpg"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": null,
+      "checkpoint": "tasks/D01/stages/01/initial_build/scene.blend",
+      "render": "tasks/D01/stages/01/initial_build/final.png",
+      "patch": "tasks/D01/stages/01/initial_build/patch.py",
+      "inventory": "tasks/D01/stages/01/initial_build/inventory.json",
+      "seconds": 6.081932391505688,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    },
+    {
+      "task_id": "D01",
+      "split": "development",
+      "stage_id": 1,
+      "action_type": "visual_revision",
+      "role": "student",
+      "targets": [
+        "room shell",
+        "window and door opening",
+        "camera",
+        "basic lighting"
+      ],
+      "images": [
+        "sources/D01.jpg",
+        "tasks/D01/stages/01/initial_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/D01/stages/01/initial_build/scene.blend",
+      "checkpoint": "tasks/D01/stages/01/visual_revision_build/scene.blend",
+      "render": "tasks/D01/stages/01/visual_revision_build/final.png",
+      "patch": "tasks/D01/stages/01/visual_revision_build/patch.py",
+      "inventory": "tasks/D01/stages/01/visual_revision_build/inventory.json",
+      "seconds": 6.910717173013836,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    }
+  ],
+  "review": {
+    "decision": "revise",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "SceneActView camera and room-shell framing",
+        "problem_source": "development_observation",
+        "rule_source": "teacher_observation",
+        "reference_evidence": "The reference fills the frame with the interior; the back-wall ceiling junction is near 28% image height and the visible back-floor junction near 73%.",
+        "render_evidence": "A black strip appears above the shell. The back wall occupies only roughly 30–63% image height, making the room appear distant and the foreground floor disproportionately large.",
+        "proposed_change": "Use the single correction pass to bring the viewpoint forward into the shell and adjust framing so the back wall occupies more image height, the opening sits farther right, and the ceiling fills the upper edge.",
+        "preserve": "Preserve upright verticals, the left glazing, beige right wall, gray floor, and overhead beam.",
+        "check_after": "Compare normalized back-wall corners and opening position against the reference; confirm no exterior black strip remains and the ceiling panel is visible below the beam.",
+        "uncertainty": "Camera position, aim, and room proportions jointly affect these landmarks; the reference does not determine unique dimensions or focal length. No extra view is requested.",
+        "status": "new"
+      }
+    ],
+    "summary": "Correct the viewpoint before advancing. Future furniture and decoration are outside this review.",
+    "input_images": [
+      "sources/D01.jpg",
+      "tasks/D01/stages/01/initial_build/final.png"
+    ],
+    "role": "teacher_feedback",
+    "code_entry": "prompts.py:TEACHER"
+  },
+  "confirmation": {
+    "decision": "advance_with_issue",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "SceneActView camera and room-shell framing",
+        "problem_source": "development_observation",
+        "rule_source": "teacher_observation",
+        "reference_evidence": "The reference has a broad left foreground wall, glazing around 23–32% image width, and a visible ceiling panel below the beam.",
+        "render_evidence": "The black upper strip is gone and the back-floor junction has moved from roughly 63% to 75% image height, improving back-wall scale. However, the glazing now reaches the left edge instead of moving right, the foreground wall is largely lost, and the ceiling panel is not distinguishable.",
+        "proposed_change": "Record the remaining framing mismatch and advance; no further correction is requested within this verification pass.",
+        "preserve": "Preserve the improved back-wall scale, removal of the black strip, upright verticals, room shell, and left glazing.",
+        "check_after": "Carry forward the unresolved opening position and ceiling-panel visibility as framing dependencies for subsequent stages.",
+        "uncertainty": "Noise and bright ceiling values limit assessment of the panel. This view cannot uniquely determine camera parameters or room dimensions. No extra view is requested.",
+        "status": "partially_resolved"
+      }
+    ],
+    "summary": "The camera correction improves interior coverage and back-wall scale, but opening placement and ceiling-panel visibility remain unresolved. Advance with the issue recorded; the single correction pass is complete.",
+    "input_images": [
+      "sources/D01.jpg",
+      "tasks/D01/stages/01/visual_revision_build/final.png",
+      "tasks/D01/stages/01/initial_build/final.png"
+    ],
+    "role": "teacher_verification",
+    "code_entry": "prompts.py:TEACHER"
+  },
+  "student_revision": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Vector\n\n# Move the existing camera inside the room and reframe the back wall.\ncam = bpy.data.objects.get('SceneActView')\nif cam is None or cam.type != 'CAMERA':\n    raise RuntimeError('Existing SceneActView camera not found')\ncam.location = (-0.30, -3.90, 2.15)\ntarget = Vector((0.0, 4.0, 2.15))\ncam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\ncam.data.lens = 22.5\nbpy.context.scene.camera = cam",
+    "reason": "The supplied render shows exterior black above the room and a distant back wall. This patch adjusts the existing viewpoint while preserving the room and lighting.",
+    "changes": "Moves the camera inside the room, lowers the focal length to retain a broad view, and aims toward the back wall.",
+    "advice_implementation": [
+      {
+        "finding_id": "F1",
+        "status": "implemented",
+        "actual_change": "Repositioned and reframed the existing camera to enlarge the back wall, shift the opening, and bring the ceiling into the upper frame.",
+        "code_evidence": "SceneActView location is set to (-0.30, -3.90, 2.15), aimed toward (0.0, 4.0, 2.15), with lens 22.5."
+      }
+    ],
+    "completed_scope": "Room shell, glazed opening, basic lighting, and revised camera framing. The revised framing awaits the runner's render.",
+    "actual_executed_patch": "tasks/D01/stages/01/visual_revision_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00047",
+          "name": "SceneActView",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "camera"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [
+          "obj_00047"
+        ],
+        "active_before": "obj_00047",
+        "active_after": "obj_00047"
+      },
+      "material_changes": [],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Vector\n\n# Move the existing camera inside the room and reframe the back wall.\ncam = bpy.data.objects.get('SceneActView')\nif cam is None or cam.type != 'CAMERA':\n    raise RuntimeError('Existing SceneActView camera not found')\ncam.location = (-0.30, -3.90, 2.15)\ntarget = Vector((0.0, 4.0, 2.15))\ncam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\ncam.data.lens = 22.5\nbpy.context.scene.camera = cam"
+  },
+  "initial_response": {
+    "decision": "apply",
+    "code": "from sceneact import *\n\nscene = Scene('Office room')\n\n# The open front of the room faces the camera; the back wall is at positive Y.\nroom = Asset('Room shell')\nroom.include('floor', box((6.4, 8.2, 0.12), center=(0, 0.0, -0.06), color=(0.37, 0.39, 0.38)))\nroom.include('back wall', box((6.4, 0.16, 3.35), center=(0, 4.0, 1.675), color=(0.86, 0.87, 0.85)))\nroom.include('right wall', box((0.16, 8.0, 3.35), center=(3.2, 0, 1.675), color=(0.70, 0.61, 0.55)))\n# Split the left wall around the full-height glazed opening.\nroom.include('left wall front', box((0.16, 3.4, 3.35), center=(-3.2, -2.3, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left wall rear', box((0.16, 1.25, 3.35), center=(-3.2, 3.375, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left opening header', box((0.16, 3.35, 0.42), center=(-3.2, 1.025, 3.14), color=(0.86, 0.86, 0.84)))\nroom.include('ceiling', box((6.4, 8.0, 0.12), center=(0, 0, 3.41), color=(0.89, 0.89, 0.87)))\nroom.include('ceiling beam', box((6.4, 0.46, 0.43), center=(0, -1.8, 3.135), color=(0.87, 0.87, 0.85)))\nroom.include('back skirting', box((6.25, 0.06, 0.13), center=(0, 3.88, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left front skirting', box((0.06, 3.35, 0.13), center=(-3.08, -2.3, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left rear skirting', box((0.06, 1.18, 0.13), center=(-3.08, 3.38, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('right skirting', box((0.06, 7.9, 0.13), center=(3.08, 0, 0.065), color=(0.26, 0.27, 0.26)))\nscene.include('room', room)\n\nopening = Asset('Left glazed opening')\nopening.include('glass', box((0.035, 3.25, 2.82), center=(-3.19, 1.025, 1.46), color=(0.77, 0.86, 0.87)))\nfor y, name in [(-0.59, 'front jamb'), (2.64, 'rear jamb'), (0.98, 'center mullion')]:\n    opening.include(name, box((0.12, 0.075, 2.9), center=(-3.10, y, 1.48), color=(0.91, 0.92, 0.90)))\nopening.include('top frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 2.91), color=(0.91, 0.92, 0.90)))\nopening.include('bottom frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 0.055), color=(0.91, 0.92, 0.90)))\nopening.include('blind housing', box((0.20, 3.48, 0.16), center=(-3.05, 1.025, 3.02), color=(0.85, 0.84, 0.81)))\nscene.include('glazed opening', opening)\n\n# A flush ceiling light contributes a recognizable architectural feature.\nfixture = Asset('Ceiling light panel')\nfixture.include('rim', box((1.05, 0.80, 0.035), center=(-0.3, 2.05, 3.335), color=(0.82, 0.83, 0.81)))\nfixture.include('diffuser', box((0.95, 0.70, 0.018), center=(-0.3, 2.05, 3.31), color=(1.0, 1.0, 0.98)))\nscene.include('ceiling light', fixture)\n\nrealize(scene)\nset_view((0, -7.8, 2.05), (0, 2.4, 1.55), lens=26, sensor=36)\narea_emitter((0, -2.0, 3.05), power=500, size=5, target=(0, 2, 0.8))\narea_emitter((-2.8, 1.0, 2.5), power=420, size=3.0, target=(0.5, 2.3, 1.0))\narea_emitter((0, 2.0, 3.22), power=200, size=1.8, target=(0, 2.0, 0))",
+    "reason": "Initialize the room shell, glazed opening, camera, and broad lighting for the first stage.",
+    "changes": "Added a three-sided office room with a gray floor, white ceiling and beam, beige right wall, framed left glazing, ceiling light panel, camera, and area lights.",
+    "advice_implementation": [],
+    "completed_scope": "Room shell, left glazed opening, approximate camera framing, and basic lighting are established for the next render.",
+    "actual_executed_patch": "tasks/D01/stages/01/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [
+        "obj_00001",
+        "obj_00002",
+        "obj_00003",
+        "obj_00004",
+        "obj_00005",
+        "obj_00006",
+        "obj_00007",
+        "obj_00008",
+        "obj_00009",
+        "obj_00010",
+        "obj_00011",
+        "obj_00012",
+        "obj_00013",
+        "obj_00014",
+        "obj_00015",
+        "obj_00016",
+        "obj_00017",
+        "obj_00018",
+        "obj_00019",
+        "obj_00020",
+        "obj_00021",
+        "obj_00022",
+        "obj_00023",
+        "obj_00024",
+        "obj_00025",
+        "obj_00026",
+        "obj_00027",
+        "obj_00028",
+        "obj_00029",
+        "obj_00030",
+        "obj_00031",
+        "obj_00032",
+        "obj_00033",
+        "obj_00034",
+        "obj_00035",
+        "obj_00036",
+        "obj_00037",
+        "obj_00038",
+        "obj_00039",
+        "obj_00040",
+        "obj_00041",
+        "obj_00042",
+        "obj_00043",
+        "obj_00044",
+        "obj_00045",
+        "obj_00046",
+        "obj_00047",
+        "obj_00048",
+        "obj_00049",
+        "obj_00050"
+      ],
+      "deleted": [],
+      "modified": [],
+      "camera_changes": {
+        "object_ids": [
+          "obj_00047"
+        ],
+        "active_before": null,
+        "active_after": "obj_00047"
+      },
+      "material_changes": [
+        "SceneActSurface_0",
+        "SceneActSurface_1",
+        "SceneActSurface_10",
+        "SceneActSurface_11",
+        "SceneActSurface_2",
+        "SceneActSurface_3",
+        "SceneActSurface_4",
+        "SceneActSurface_5",
+        "SceneActSurface_6",
+        "SceneActSurface_7",
+        "SceneActSurface_8",
+        "SceneActSurface_9"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "from sceneact import *\n\nscene = Scene('Office room')\n\n# The open front of the room faces the camera; the back wall is at positive Y.\nroom = Asset('Room shell')\nroom.include('floor', box((6.4, 8.2, 0.12), center=(0, 0.0, -0.06), color=(0.37, 0.39, 0.38)))\nroom.include('back wall', box((6.4, 0.16, 3.35), center=(0, 4.0, 1.675), color=(0.86, 0.87, 0.85)))\nroom.include('right wall', box((0.16, 8.0, 3.35), center=(3.2, 0, 1.675), color=(0.70, 0.61, 0.55)))\n# Split the left wall around the full-height glazed opening.\nroom.include('left wall front', box((0.16, 3.4, 3.35), center=(-3.2, -2.3, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left wall rear', box((0.16, 1.25, 3.35), center=(-3.2, 3.375, 1.675), color=(0.86, 0.86, 0.84)))\nroom.include('left opening header', box((0.16, 3.35, 0.42), center=(-3.2, 1.025, 3.14), color=(0.86, 0.86, 0.84)))\nroom.include('ceiling', box((6.4, 8.0, 0.12), center=(0, 0, 3.41), color=(0.89, 0.89, 0.87)))\nroom.include('ceiling beam', box((6.4, 0.46, 0.43), center=(0, -1.8, 3.135), color=(0.87, 0.87, 0.85)))\nroom.include('back skirting', box((6.25, 0.06, 0.13), center=(0, 3.88, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left front skirting', box((0.06, 3.35, 0.13), center=(-3.08, -2.3, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('left rear skirting', box((0.06, 1.18, 0.13), center=(-3.08, 3.38, 0.065), color=(0.26, 0.27, 0.26)))\nroom.include('right skirting', box((0.06, 7.9, 0.13), center=(3.08, 0, 0.065), color=(0.26, 0.27, 0.26)))\nscene.include('room', room)\n\nopening = Asset('Left glazed opening')\nopening.include('glass', box((0.035, 3.25, 2.82), center=(-3.19, 1.025, 1.46), color=(0.77, 0.86, 0.87)))\nfor y, name in [(-0.59, 'front jamb'), (2.64, 'rear jamb'), (0.98, 'center mullion')]:\n    opening.include(name, box((0.12, 0.075, 2.9), center=(-3.10, y, 1.48), color=(0.91, 0.92, 0.90)))\nopening.include('top frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 2.91), color=(0.91, 0.92, 0.90)))\nopening.include('bottom frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 0.055), color=(0.91, 0.92, 0.90)))\nopening.include('blind housing', box((0.20, 3.48, 0.16), center=(-3.05, 1.025, 3.02), color=(0.85, 0.84, 0.81)))\nscene.include('glazed opening', opening)\n\n# A flush ceiling light contributes a recognizable architectural feature.\nfixture = Asset('Ceiling light panel')\nfixture.include('rim', box((1.05, 0.80, 0.035), center=(-0.3, 2.05, 3.335), color=(0.82, 0.83, 0.81)))\nfixture.include('diffuser', box((0.95, 0.70, 0.018), center=(-0.3, 2.05, 3.31), color=(1.0, 1.0, 0.98)))\nscene.include('ceiling light', fixture)\n\nrealize(scene)\nset_view((0, -7.8, 2.05), (0, 2.4, 1.55), lens=26, sensor=36)\narea_emitter((0, -2.0, 3.05), power=500, size=5, target=(0, 2, 0.8))\narea_emitter((-2.8, 1.0, 2.5), power=420, size=3.0, target=(0.5, 2.3, 1.0))\narea_emitter((0, 2.0, 3.22), power=200, size=1.8, target=(0, 2.0, 0))"
+  }
+}

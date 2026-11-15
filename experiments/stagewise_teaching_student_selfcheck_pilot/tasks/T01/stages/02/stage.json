@@ -1,0 +1,252 @@
+{
+  "task_id": "T01",
+  "split": "test",
+  "stage_id": 2,
+  "title": "Central work island",
+  "targets": [
+    "island countertop",
+    "island cabinet body",
+    "island supports"
+  ],
+  "completed_scope": "The large rectangular wood countertop and its darker supporting cabinet establish the central silhouette, overhang, and floor contact.",
+  "status": "advance_with_issue",
+  "parent_checkpoint": "tasks/T01/stages/01/visual_revision_build/scene.blend",
+  "initial_checkpoint": "tasks/T01/stages/02/initial_build/scene.blend",
+  "final_checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+  "initial_render": "tasks/T01/stages/02/initial_build/final.png",
+  "final_render": "tasks/T01/stages/02/visual_revision_build/final.png",
+  "attempts": [
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 2,
+      "action_type": "initial",
+      "role": "student",
+      "targets": [
+        "island countertop",
+        "island cabinet body",
+        "island supports"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/01/visual_revision_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/01/visual_revision_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/02/initial_build/scene.blend",
+      "render": "tasks/T01/stages/02/initial_build/final.png",
+      "patch": "tasks/T01/stages/02/initial_build/patch.py",
+      "inventory": "tasks/T01/stages/02/initial_build/inventory.json",
+      "seconds": 4.423137155361474,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    },
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 2,
+      "action_type": "visual_revision",
+      "role": "student",
+      "targets": [
+        "island countertop",
+        "island cabinet body",
+        "island supports"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/02/initial_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/02/initial_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/02/visual_revision_build/scene.blend",
+      "render": "tasks/T01/stages/02/visual_revision_build/final.png",
+      "patch": "tasks/T01/stages/02/visual_revision_build/patch.py",
+      "inventory": "tasks/T01/stages/02/visual_revision_build/inventory.json",
+      "seconds": 2.3149395962245762,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    }
+  ],
+  "review": {
+    "decision": "revise",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Island framing and viewing angle",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The island spans approximately 70% of the image width and 55% of its height. Its countertop has substantial visible depth, and the broad end panel is prominent in the foreground.",
+        "render_evidence": "The island spans approximately 49% of the image width and 30% of its height. The long cabinet face dominates, while the short end is a narrow sliver; much more empty floor and wall surrounds it.",
+        "proposed_change": "Adjust the camera position, aim, and lens to bring the island closer in frame and make its short end more visible, while retaining the complete countertop and floor contacts.",
+        "preserve": "Preserve the island geometry, its countertop overhang, cabinet-to-top relationship, floor contacts, and existing room geometry.",
+        "check_after": "Compare the island's projected width, height, tabletop depth, and visible end face with the reference; check that the countertop and supports remain uncropped.",
+        "uncertainty": "The reference and render may differ in both camera angle and island proportions, so the exact camera adjustment cannot be inferred from the images alone. Some support contacts are obscured.",
+        "status": "new"
+      }
+    ],
+    "summary": "The countertop, cabinet body, and support posts are present in the inventory and recognizable in the render. One visual correction is available; the largest observed mismatch is the island's small projected size and different viewing angle.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/02/initial_build/final.png",
+      "tasks/T01/stages/01/visual_revision_build/final.png"
+    ],
+    "role": "student_self_review",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "confirmation": {
+    "decision": "advance_with_issue",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Island framing and viewing angle",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The island spans about 70% of the image width and 55% of its height, with a broad countertop and a prominent foreground end panel.",
+        "render_evidence": "The current render contains no recognizable island. The previous checkpoint showed it at about 49% of image width and 30% of image height, so the requested framing improvement is not confirmed.",
+        "proposed_change": "No further correction is available under the current contract; carry the framing issue forward.",
+        "preserve": "Preserve the island geometry, countertop overhang, cabinet relationships, supports, and room geometry.",
+        "check_after": "No additional patch cycle is permitted.",
+        "uncertainty": "The current image does not reveal whether the island is outside the camera view or obscured.",
+        "status": "unresolved"
+      },
+      {
+        "id": "F2",
+        "target": "Island visibility after camera revision",
+        "problem_source": "test_observation",
+        "rule_source": "R6",
+        "reference_evidence": "The countertop, dark cabinet body, and floor-contacting supports are clearly recognizable in the central foreground.",
+        "render_evidence": "The current render is almost entirely black, with only a bright upper area and a diagonal gray strip; no countertop, cabinet body, or support contacts can be identified. All were recognizable in the previous checkpoint. The inventory still lists the countertop, carcass, and four support posts as render-enabled.",
+        "proposed_change": "Carry this visibility regression forward; no further visual correction is available.",
+        "preserve": "Retain the existing island and room objects.",
+        "check_after": "No additional execution is permitted.",
+        "uncertainty": "The image alone does not establish the cause of the black foreground or verify any support contact.",
+        "status": "new"
+      }
+    ],
+    "summary": "The camera patch executed, but the resulting render no longer shows the island. The previous framing issue remains unresolved, and no further correction is available.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/02/visual_revision_build/final.png",
+      "tasks/T01/stages/02/initial_build/final.png"
+    ],
+    "role": "student_self_verification",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "student_revision": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Vector\n\ncamera = bpy.data.objects.get('SceneActView')\nif camera is None or camera.type != 'CAMERA':\n    raise RuntimeError('Existing SceneActView camera was not found')\ncamera.location = (7.0, -6.0, 4.3)\ntarget = Vector((0.0, 0.0, 0.68))\ncamera.rotation_euler = (target - camera.location).to_track_quat('-Z', 'Y').to_euler()\ncamera.data.lens = 52.0\nbpy.context.scene.camera = camera",
+    "reason": "The existing camera gives the island too little of the frame and shows only a narrow end. The patch moves the view toward the island’s short end and increases the lens length.",
+    "changes": "Adjusted the existing camera position, aim, and lens while retaining the island and room geometry.",
+    "advice_implementation": [
+      {
+        "finding_id": "F1",
+        "status": "implemented",
+        "actual_change": "Moved the existing camera toward the positive-X end, aimed it at the island, and increased its lens to 52 mm.",
+        "code_evidence": "camera.location = (7.0, -6.0, 4.3); target = Vector((0.0, 0.0, 0.68)); camera.data.lens = 52.0"
+      }
+    ],
+    "completed_scope": "Camera adjustment for the central work island; framing and floor contacts remain subject to the next actual render.",
+    "actual_executed_patch": "tasks/T01/stages/02/visual_revision_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00095",
+          "name": "SceneActView",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "camera"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [
+          "obj_00095"
+        ],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Vector\n\ncamera = bpy.data.objects.get('SceneActView')\nif camera is None or camera.type != 'CAMERA':\n    raise RuntimeError('Existing SceneActView camera was not found')\ncamera.location = (7.0, -6.0, 4.3)\ntarget = Vector((0.0, 0.0, 0.68))\ncamera.rotation_euler = (target - camera.location).to_track_quat('-Z', 'Y').to_euler()\ncamera.data.lens = 52.0\nbpy.context.scene.camera = camera"
+  },
+  "initial_response": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Vector\n\n# Build this stage as a named, editable group within the existing room.\nroot = bpy.data.objects.new('Central work island', None)\nbpy.context.collection.objects.link(root)\n\ndef wood_material(name, dark, light, scale):\n    mat = bpy.data.materials.new(name)\n    mat.diffuse_color = (*light, 1)\n    mat.use_nodes = True\n    nodes = mat.node_tree.nodes\n    links = mat.node_tree.links\n    bsdf = nodes.get('Principled BSDF')\n    bsdf.inputs['Roughness'].default_value = 0.4\n    tex = nodes.new('ShaderNodeTexNoise')\n    tex.inputs['Scale'].default_value = 3.2\n    tex.inputs['Detail'].default_value = 3.0\n    tex.inputs['Roughness'].default_value = 0.7\n    coords = nodes.new('ShaderNodeTexCoord')\n    mapping = nodes.new('ShaderNodeVectorMath')\n    mapping.operation = 'MULTIPLY'\n    mapping.inputs[1].default_value = scale\n    ramp = nodes.new('ShaderNodeValToRGB')\n    ramp.color_ramp.elements[0].position = 0.22\n    ramp.color_ramp.elements[0].color = (*dark, 1)\n    ramp.color_ramp.elements[1].position = 0.78\n    ramp.color_ramp.elements[1].color = (*light, 1)\n    links.new(coords.outputs['Generated'], mapping.inputs[0])\n    links.new(mapping.outputs[0], tex.inputs['Vector'])\n    links.new(tex.outputs['Fac'], ramp.inputs[0])\n    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])\n    return mat\n\ntopwood = wood_material('Island honey oak', (0.30, 0.15, 0.055), (0.58, 0.36, 0.15), (1.2, 32.0, 4.0))\nbodywood = wood_material('Island dark stained oak', (0.075, 0.038, 0.018), (0.24, 0.13, 0.065), (2.0, 18.0, 3.0))\npanelwood = wood_material('Island recessed panels', (0.065, 0.032, 0.016), (0.19, 0.095, 0.044), (3.0, 15.0, 2.0))\nmetal = bpy.data.materials.new('Aged dark metal hardware')\nmetal.diffuse_color = (0.075, 0.07, 0.06, 1)\nmetal.use_nodes = True\nmetal.node_tree.nodes.get('Principled BSDF').inputs['Metallic'].default_value = 0.7\nmetal.node_tree.nodes.get('Principled BSDF').inputs['Roughness'].default_value = 0.32\n\ndef block(name, location, size, material, bevel=0.0):\n    bpy.ops.mesh.primitive_cube_add(size=1, location=location)\n    obj = bpy.context.object\n    obj.name = name\n    obj.dimensions = size\n    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)\n    obj.parent = root\n    obj.data.materials.append(material)\n    if bevel:\n        mod = obj.modifiers.new('Soft worn edges', 'BEVEL')\n        mod.width = bevel\n        mod.segments = 2\n        obj.modifiers.new('Weighted normals', 'WEIGHTED_NORMAL')\n    return obj\n\ndef bar(name, a, b, radius, material):\n    midpoint = (Vector(a) + Vector(b)) / 2\n    delta = Vector(b) - Vector(a)\n    bpy.ops.mesh.primitive_cylinder_add(vertices=12, radius=radius, depth=delta.length, location=midpoint)\n    obj = bpy.context.object\n    obj.name = name\n    obj.rotation_euler = delta.to_track_quat('Z', 'Y').to_euler()\n    obj.parent = root\n    obj.data.materials.append(material)\n    return obj\n\n# The thick light top projects beyond the darker cabinet on every side.\nblock('Solid oak countertop', (0, 0, 1.19), (4.05, 1.95, 0.12), topwood, 0.018)\nblock('Cabinet carcass', (0, 0, 0.635), (3.32, 1.43, 1.0), bodywood, 0.012)\nblock('Lower cabinet rail', (0, -0.73, 0.20), (3.30, 0.08, 0.16), bodywood, 0.009)\nblock('Upper cabinet rail', (0, -0.73, 1.02), (3.30, 0.08, 0.12), bodywood, 0.008)\n\n# Four square posts continue to the floor, leaving the cabinet slightly raised.\nfor x in (-1.60, 1.60):\n    for y in (-0.67, 0.67):\n        block('Corner support post', (x, y, 0.56), (0.14, 0.14, 1.12), bodywood, 0.008)\n\n# Framed drawer and door fronts on the camera-facing long side.\nfor i, x in enumerate((-1.05, 0.0, 1.05)):\n    block('Drawer front %d' % (i+1), (x, -0.728, 0.91), (0.95, 0.035, 0.20), bodywood, 0.006)\n    block('Door inset %d' % (i+1), (x, -0.729, 0.52), (0.84, 0.025, 0.49), panelwood, 0.004)\n    for xx in (x-0.45, x+0.45):\n        block('Door vertical frame', (xx, -0.75, 0.52), (0.07, 0.045, 0.62), bodywood, 0.004)\n    for zz in (0.235, 0.805):\n        block('Door horizontal frame', (x, -0.75, zz), (0.95, 0.045, 0.07), bodywood, 0.004)\n    bar('Drawer pull', (x-0.075, -0.765, 0.91), (x+0.075, -0.765, 0.91), 0.012, metal)\n    bar('Door handle', (x+0.32, -0.778, 0.48), (x+0.32, -0.778, 0.60), 0.009, metal)\n\n# Framed broad panel on the visible short end.\nblock('End recessed panel', (1.674, 0, 0.59), (0.03, 1.13, 0.72), panelwood, 0.005)\nfor y in (-0.61, 0.61):\n    block('End panel stile', (1.70, y, 0.59), (0.07, 0.09, 0.88), bodywood, 0.005)\nfor z in (0.19, 0.99):\n    block('End panel rail', (1.70, 0, z), (0.07, 1.30, 0.09), bodywood, 0.005)\nblock('End panel center stile', (1.70, 0, 0.59), (0.07, 0.07, 0.72), bodywood, 0.004)\n",
+    "reason": "Adds the current stage's central island to the existing room without changing the camera or prior geometry.",
+    "changes": "Adds an editable honey-oak countertop, darker framed cabinet body, floor-contact support posts, inset panels, drawers, and simple metal hardware. The wood uses procedural materials rather than reference imagery.",
+    "advice_implementation": [],
+    "completed_scope": "Central work island: countertop, cabinet body, and supports. The patch awaits the runner's render for visual review.",
+    "actual_executed_patch": "tasks/T01/stages/02/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [
+        "obj_00099",
+        "obj_00100",
+        "obj_00101",
+        "obj_00102",
+        "obj_00103",
+        "obj_00104",
+        "obj_00105",
+        "obj_00106",
+        "obj_00107",
+        "obj_00108",
+        "obj_00109",
+        "obj_00110",
+        "obj_00111",
+        "obj_00112",
+        "obj_00113",
+        "obj_00114",
+        "obj_00115",
+        "obj_00116",
+        "obj_00117",
+        "obj_00118",
+        "obj_00119",
+        "obj_00120",
+        "obj_00121",
+        "obj_00122",
+        "obj_00123",
+        "obj_00124",
+        "obj_00125",
+        "obj_00126",
+        "obj_00127",
+        "obj_00128",
+        "obj_00129",
+        "obj_00130",
+        "obj_00131",
+        "obj_00132",
+        "obj_00133",
+        "obj_00134",
+        "obj_00135",
+        "obj_00136",
+        "obj_00137"
+      ],
+      "deleted": [],
+      "modified": [],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [
+        "Aged dark metal hardware",
+        "Island dark stained oak",
+        "Island honey oak",
+        "Island recessed panels"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Vector\n\n# Build this stage as a named, editable group within the existing room.\nroot = bpy.data.objects.new('Central work island', None)\nbpy.context.collection.objects.link(root)\n\ndef wood_material(name, dark, light, scale):\n    mat = bpy.data.materials.new(name)\n    mat.diffuse_color = (*light, 1)\n    mat.use_nodes = True\n    nodes = mat.node_tree.nodes\n    links = mat.node_tree.links\n    bsdf = nodes.get('Principled BSDF')\n    bsdf.inputs['Roughness'].default_value = 0.4\n    tex = nodes.new('ShaderNodeTexNoise')\n    tex.inputs['Scale'].default_value = 3.2\n    tex.inputs['Detail'].default_value = 3.0\n    tex.inputs['Roughness'].default_value = 0.7\n    coords = nodes.new('ShaderNodeTexCoord')\n    mapping = nodes.new('ShaderNodeVectorMath')\n    mapping.operation = 'MULTIPLY'\n    mapping.inputs[1].default_value = scale\n    ramp = nodes.new('ShaderNodeValToRGB')\n    ramp.color_ramp.elements[0].position = 0.22\n    ramp.color_ramp.elements[0].color = (*dark, 1)\n    ramp.color_ramp.elements[1].position = 0.78\n    ramp.color_ramp.elements[1].color = (*light, 1)\n    links.new(coords.outputs['Generated'], mapping.inputs[0])\n    links.new(mapping.outputs[0], tex.inputs['Vector'])\n    links.new(tex.outputs['Fac'], ramp.inputs[0])\n    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])\n    return mat\n\ntopwood = wood_material('Island honey oak', (0.30, 0.15, 0.055), (0.58, 0.36, 0.15), (1.2, 32.0, 4.0))\nbodywood = wood_material('Island dark stained oak', (0.075, 0.038, 0.018), (0.24, 0.13, 0.065), (2.0, 18.0, 3.0))\npanelwood = wood_material('Island recessed panels', (0.065, 0.032, 0.016), (0.19, 0.095, 0.044), (3.0, 15.0, 2.0))\nmetal = bpy.data.materials.new('Aged dark metal hardware')\nmetal.diffuse_color = (0.075, 0.07, 0.06, 1)\nmetal.use_nodes = True\nmetal.node_tree.nodes.get('Principled BSDF').inputs['Metallic'].default_value = 0.7\nmetal.node_tree.nodes.get('Principled BSDF').inputs['Roughness'].default_value = 0.32\n\ndef block(name, location, size, material, bevel=0.0):\n    bpy.ops.mesh.primitive_cube_add(size=1, location=location)\n    obj = bpy.context.object\n    obj.name = name\n    obj.dimensions = size\n    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)\n    obj.parent = root\n    obj.data.materials.append(material)\n    if bevel:\n        mod = obj.modifiers.new('Soft worn edges', 'BEVEL')\n        mod.width = bevel\n        mod.segments = 2\n        obj.modifiers.new('Weighted normals', 'WEIGHTED_NORMAL')\n    return obj\n\ndef bar(name, a, b, radius, material):\n    midpoint = (Vector(a) + Vector(b)) / 2\n    delta = Vector(b) - Vector(a)\n    bpy.ops.mesh.primitive_cylinder_add(vertices=12, radius=radius, depth=delta.length, location=midpoint)\n    obj = bpy.context.object\n    obj.name = name\n    obj.rotation_euler = delta.to_track_quat('Z', 'Y').to_euler()\n    obj.parent = root\n    obj.data.materials.append(material)\n    return obj\n\n# The thick light top projects beyond the darker cabinet on every side.\nblock('Solid oak countertop', (0, 0, 1.19), (4.05, 1.95, 0.12), topwood, 0.018)\nblock('Cabinet carcass', (0, 0, 0.635), (3.32, 1.43, 1.0), bodywood, 0.012)\nblock('Lower cabinet rail', (0, -0.73, 0.20), (3.30, 0.08, 0.16), bodywood, 0.009)\nblock('Upper cabinet rail', (0, -0.73, 1.02), (3.30, 0.08, 0.12), bodywood, 0.008)\n\n# Four square posts continue to the floor, leaving the cabinet slightly raised.\nfor x in (-1.60, 1.60):\n    for y in (-0.67, 0.67):\n        block('Corner support post', (x, y, 0.56), (0.14, 0.14, 1.12), bodywood, 0.008)\n\n# Framed drawer and door fronts on the camera-facing long side.\nfor i, x in enumerate((-1.05, 0.0, 1.05)):\n    block('Drawer front %d' % (i+1), (x, -0.728, 0.91), (0.95, 0.035, 0.20), bodywood, 0.006)\n    block('Door inset %d' % (i+1), (x, -0.729, 0.52), (0.84, 0.025, 0.49), panelwood, 0.004)\n    for xx in (x-0.45, x+0.45):\n        block('Door vertical frame', (xx, -0.75, 0.52), (0.07, 0.045, 0.62), bodywood, 0.004)\n    for zz in (0.235, 0.805):\n        block('Door horizontal frame', (x, -0.75, zz), (0.95, 0.045, 0.07), bodywood, 0.004)\n    bar('Drawer pull', (x-0.075, -0.765, 0.91), (x+0.075, -0.765, 0.91), 0.012, metal)\n    bar('Door handle', (x+0.32, -0.778, 0.48), (x+0.32, -0.778, 0.60), 0.009, metal)\n\n# Framed broad panel on the visible short end.\nblock('End recessed panel', (1.674, 0, 0.59), (0.03, 1.13, 0.72), panelwood, 0.005)\nfor y in (-0.61, 0.61):\n    block('End panel stile', (1.70, y, 0.59), (0.07, 0.09, 0.88), bodywood, 0.005)\nfor z in (0.19, 0.99):\n    block('End panel rail', (1.70, 0, z), (0.07, 1.30, 0.09), bodywood, 0.005)\nblock('End panel center stile', (1.70, 0, 0.59), (0.07, 0.07, 0.72), bodywood, 0.004)\n"
+  }
+}

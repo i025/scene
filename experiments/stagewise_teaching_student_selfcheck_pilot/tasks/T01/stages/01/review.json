@@ -1,0 +1,38 @@
+{
+  "decision": "revise",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "Room shell and camera framing",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The room fills the reference frame to every edge; no exterior background is visible.",
+      "render_evidence": "Black background occupies the upper-left region, extending about 31% across the top and down to about 59% of image height at the left edge. The visible wall also ends at about 10% of image height.",
+      "proposed_change": "Extend the room shell beyond the camera view, or adjust the camera and wall coverage together, so the rendered room fills the frame.",
+      "preserve": "Keep the continuous floor, visible wall-floor contact, and broadly downward-looking perspective.",
+      "check_after": "Confirm that no black exterior remains at any edge and recheck floor coverage and wall-floor contact.",
+      "uncertainty": "The reference furnishings obscure much of the wall and floor boundary, so the exact shell dimensions and camera position cannot be determined.",
+      "status": "new"
+    },
+    {
+      "id": "F2",
+      "target": "Floor appearance",
+      "problem_source": "test_observation",
+      "rule_source": "R5",
+      "reference_evidence": "The exposed floor is a medium warm brown with visible variation and wood grain.",
+      "render_evidence": "The floor is much paler and more uniform, with long uninterrupted parallel seams; individual wood grain and staggered board ends are not readily visible.",
+      "proposed_change": "Adjust the floor material and lighting balance toward a warmer, deeper wood tone with restrained variation and visible board character.",
+      "preserve": "Preserve the floor coverage and readable plank direction.",
+      "check_after": "Check that the floor remains distinct from the pale wall and that its warmth and variation are visible without obscuring seams.",
+      "uncertainty": "Lighting and material both affect the rendered color; the image alone does not isolate their contributions. Furnishings obscure part of the reference floor.",
+      "status": "new"
+    }
+  ],
+  "summary": "The stage-one shell and lighting are present, but the room does not cover the frame and the floor reads substantially paler than the reference. One visual correction is available.",
+  "input_images": [
+    "sources/T01.jpg",
+    "tasks/T01/stages/01/initial_build/final.png"
+  ],
+  "role": "student_self_review",
+  "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+}

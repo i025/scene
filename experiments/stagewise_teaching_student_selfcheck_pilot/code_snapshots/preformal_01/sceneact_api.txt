@@ -1,0 +1,58 @@
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene, clear=True) settles constraints and creates Blender geometry; default clears Blender.
+Use that default ONLY for the initial empty scene. Continuations must use realize(new_scene, clear=False)
+to append new groups to the loaded checkpoint, or directly modify existing bpy objects.
+Python variables from old patches do not persist. Existing named bpy objects and their stable IDs do.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+For initialization, call realize before setting camera and lights. During continuation, preserve existing
+camera/lights unless the current evidence warrants a change; do not add duplicate cameras/lights casually.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)

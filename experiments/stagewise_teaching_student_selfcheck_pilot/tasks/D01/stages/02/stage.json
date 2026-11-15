@@ -1,0 +1,3660 @@
+{
+  "task_id": "D01",
+  "split": "development",
+  "stage_id": 2,
+  "title": "Office furniture",
+  "targets": [
+    "desk",
+    "visitor chairs",
+    "office chair",
+    "right wall cabinetry"
+  ],
+  "completed_scope": "The main white desk, two green visitor chairs, rear office chair, and wood wall cabinetry are present in their reference positions.",
+  "status": "completed",
+  "parent_checkpoint": "tasks/D01/stages/01/visual_revision_build/scene.blend",
+  "initial_checkpoint": "tasks/D01/stages/02/initial_build/scene.blend",
+  "final_checkpoint": "tasks/D01/stages/02/visual_revision_build/scene.blend",
+  "initial_render": "tasks/D01/stages/02/initial_build/final.png",
+  "final_render": "tasks/D01/stages/02/visual_revision_build/final.png",
+  "attempts": [
+    {
+      "task_id": "D01",
+      "split": "development",
+      "stage_id": 2,
+      "action_type": "initial",
+      "role": "student",
+      "targets": [
+        "desk",
+        "visitor chairs",
+        "office chair",
+        "right wall cabinetry"
+      ],
+      "images": [
+        "sources/D01.jpg",
+        "tasks/D01/stages/01/visual_revision_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/D01/stages/01/visual_revision_build/scene.blend",
+      "checkpoint": "tasks/D01/stages/02/initial_build/scene.blend",
+      "render": "tasks/D01/stages/02/initial_build/final.png",
+      "patch": "tasks/D01/stages/02/initial_build/patch.py",
+      "inventory": "tasks/D01/stages/02/initial_build/inventory.json",
+      "seconds": 11.89441876579076,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    },
+    {
+      "task_id": "D01",
+      "split": "development",
+      "stage_id": 2,
+      "action_type": "visual_revision",
+      "role": "student",
+      "targets": [
+        "desk",
+        "visitor chairs",
+        "office chair",
+        "right wall cabinetry"
+      ],
+      "images": [
+        "sources/D01.jpg",
+        "tasks/D01/stages/02/initial_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/D01/stages/02/initial_build/scene.blend",
+      "checkpoint": "tasks/D01/stages/02/visual_revision_build/scene.blend",
+      "render": "tasks/D01/stages/02/visual_revision_build/final.png",
+      "patch": "tasks/D01/stages/02/visual_revision_build/patch.py",
+      "inventory": "tasks/D01/stages/02/visual_revision_build/inventory.json",
+      "seconds": 10.290417192038149,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    }
+  ],
+  "review": {
+    "decision": "revise",
+    "findings": [
+      {
+        "id": "S2-01",
+        "target": "Both visitor chairs: upholstery-to-pedestal proportions",
+        "problem_source": "development_observation",
+        "rule_source": "teacher_observation",
+        "reference_evidence": "The reference chairs have substantial exposed metal stems beneath their upholstered bodies, with clearly spread cross bases.",
+        "render_evidence": "Both rendered chairs have upholstery extending close to the floor, leaving very short visible stems and compressed-looking bases.",
+        "proposed_change": "Use the single correction to raise the seat and lower upholstery edges and lengthen the exposed pedestal stems, keeping the chair-back tops near their current height.",
+        "preserve": "Keep two green chairs in front of the white desk, their rounded backs, and the rear office chair and right-wall cabinetry.",
+        "check_after": "Confirm both chairs show a clear stem between upholstery and cross base, with bases resting on the floor and proportions closer to the reference.",
+        "uncertainty": "Render noise limits base detail. This is a visible proportion judgment, not an inference of physical dimensions; no extra view is requested.",
+        "status": "new"
+      }
+    ],
+    "summary": "All four furniture targets are present. One correction to visitor-chair pedestal proportions would improve this stage before advancing.",
+    "input_images": [
+      "sources/D01.jpg",
+      "tasks/D01/stages/02/initial_build/final.png",
+      "tasks/D01/stages/01/visual_revision_build/final.png"
+    ],
+    "role": "teacher_feedback",
+    "code_entry": "prompts.py:TEACHER"
+  },
+  "confirmation": {
+    "decision": "advance",
+    "findings": [
+      {
+        "id": "S2-01",
+        "target": "Both visitor chairs: upholstery-to-pedestal proportions",
+        "problem_source": "development_observation",
+        "rule_source": "teacher_observation",
+        "reference_evidence": "Both reference chairs show exposed metal stems separating their upholstered bodies from spread cross bases.",
+        "render_evidence": "Attachment 2 shows higher upholstery bottoms and substantially longer exposed stems than attachment 3, while chair-back tops and base positions remain stable.",
+        "proposed_change": "Accept the completed correction; no further patch requested.",
+        "preserve": "Keep the revised chair proportions, green upholstery, floor-level bases, and existing furniture arrangement.",
+        "check_after": "The current render confirms clear separation between upholstery and bases on both chairs.",
+        "uncertainty": "Noise limits inspection of fine base detail and exact floor contact. No extra view requested.",
+        "status": "resolved"
+      }
+    ],
+    "summary": "The chair proportion correction is visibly effective. Advance from the office furniture stage.",
+    "input_images": [
+      "sources/D01.jpg",
+      "tasks/D01/stages/02/visual_revision_build/final.png",
+      "tasks/D01/stages/02/initial_build/final.png"
+    ],
+    "role": "teacher_verification",
+    "code_entry": "prompts.py:TEACHER"
+  },
+  "student_revision": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Matrix\n\n# Shorten each upholstered back from below while retaining its top height.\nfor name in ('upholstered back', 'upholstered back.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        top = 1.38\n        obj.matrix_world = Matrix.Translation((0, 0, top)) @ Matrix.Diagonal((1, 1, 0.76, 1)) @ Matrix.Translation((0, 0, -top)) @ obj.matrix_world\n\n# Raise the seats and arms to expose more of each pedestal.\nfor name in ('seat cushion', 'arm left', 'arm right', 'seat cushion.001', 'arm left.001', 'arm right.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        obj.matrix_world = Matrix.Translation((0, 0, 0.20)) @ obj.matrix_world\n\n# Extend each stem upward from its existing foot; leave the cross bases on the floor.\nfor name in ('central stem', 'central stem.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        bottom = 0.12\n        obj.matrix_world = Matrix.Translation((0, 0, bottom)) @ Matrix.Diagonal((1, 1, 1.59, 1)) @ Matrix.Translation((0, 0, -bottom)) @ obj.matrix_world\n",
+    "reason": "The supplied render shows too little exposed pedestal below both visitor chairs.",
+    "changes": "Raised the seats and arms, shortened the backs from below while preserving their top height, and extended the pedestal stems without moving the floor-level bases.",
+    "advice_implementation": [
+      {
+        "finding_id": "S2-01",
+        "status": "implemented",
+        "actual_change": "Adjusted both visitor-chair upholstery groups and lengthened their central stems; existing bases and unrelated furniture are preserved.",
+        "code_evidence": "The patch transforms the two upholstered back groups around z=1.38, raises both seat and arm groups by 0.20, and scales both central stem groups from z=0.12."
+      }
+    ],
+    "completed_scope": "The existing desk, two visitor chairs, office chair, and right-wall cabinetry remain in place. The chair proportion correction awaits the runner's render.",
+    "actual_executed_patch": "tasks/D01/stages/02/visual_revision_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00064",
+          "name": "upholstered back",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00065",
+          "name": "0",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00066",
+          "name": "Ball",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00067",
+          "name": "1",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00068",
+          "name": "Ball.001",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00069",
+          "name": "2",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00070",
+          "name": "Ball.002",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00071",
+          "name": "3",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00072",
+          "name": "Ball.003",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00073",
+          "name": "4",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00074",
+          "name": "Ball.004",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00075",
+          "name": "5",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00076",
+          "name": "Ball.005",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00077",
+          "name": "6",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00078",
+          "name": "Ball.006",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00079",
+          "name": "7",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00080",
+          "name": "Ball.007",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00081",
+          "name": "8",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00082",
+          "name": "Rod",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00083",
+          "name": "9",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00084",
+          "name": "Rod.001",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00085",
+          "name": "10",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00086",
+          "name": "Rod.002",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00087",
+          "name": "11",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00088",
+          "name": "Rod.003",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00089",
+          "name": "12",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00090",
+          "name": "Rod.004",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00091",
+          "name": "13",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00092",
+          "name": "Rod.005",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00093",
+          "name": "14",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00094",
+          "name": "Rod.006",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00095",
+          "name": "15",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00096",
+          "name": "Rod.007",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00097",
+          "name": "16",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00098",
+          "name": "Box.026",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00099",
+          "name": "seat cushion",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00100",
+          "name": "0.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00101",
+          "name": "Ball.008",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00102",
+          "name": "1.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00103",
+          "name": "Ball.009",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00104",
+          "name": "2.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00105",
+          "name": "Ball.010",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00106",
+          "name": "3.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00107",
+          "name": "Ball.011",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00108",
+          "name": "4.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00109",
+          "name": "Ball.012",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00110",
+          "name": "5.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00111",
+          "name": "Ball.013",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00112",
+          "name": "6.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00113",
+          "name": "Ball.014",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00114",
+          "name": "7.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00115",
+          "name": "Ball.015",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00116",
+          "name": "8.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00117",
+          "name": "Rod.008",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00118",
+          "name": "9.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00119",
+          "name": "Rod.009",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00120",
+          "name": "10.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00121",
+          "name": "Rod.010",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00122",
+          "name": "11.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00123",
+          "name": "Rod.011",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00124",
+          "name": "12.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00125",
+          "name": "Rod.012",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00126",
+          "name": "13.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00127",
+          "name": "Rod.013",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00128",
+          "name": "14.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00129",
+          "name": "Rod.014",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00130",
+          "name": "15.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00131",
+          "name": "Rod.015",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00132",
+          "name": "16.001",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00133",
+          "name": "Box.027",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00134",
+          "name": "arm left",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00135",
+          "name": "0.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00136",
+          "name": "Ball.016",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00137",
+          "name": "1.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00138",
+          "name": "Ball.017",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00139",
+          "name": "2.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00140",
+          "name": "Ball.018",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00141",
+          "name": "3.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00142",
+          "name": "Ball.019",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00143",
+          "name": "4.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00144",
+          "name": "Ball.020",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00145",
+          "name": "5.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00146",
+          "name": "Ball.021",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00147",
+          "name": "6.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00148",
+          "name": "Ball.022",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00149",
+          "name": "7.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00150",
+          "name": "Ball.023",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00151",
+          "name": "8.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00152",
+          "name": "Rod.016",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00153",
+          "name": "9.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00154",
+          "name": "Rod.017",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00155",
+          "name": "10.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00156",
+          "name": "Rod.018",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00157",
+          "name": "11.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00158",
+          "name": "Rod.019",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00159",
+          "name": "12.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00160",
+          "name": "Rod.020",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00161",
+          "name": "13.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00162",
+          "name": "Rod.021",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00163",
+          "name": "14.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00164",
+          "name": "Rod.022",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00165",
+          "name": "15.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00166",
+          "name": "Rod.023",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00167",
+          "name": "16.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00168",
+          "name": "Rod.024",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00169",
+          "name": "17",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00170",
+          "name": "Rod.025",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00171",
+          "name": "18",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00172",
+          "name": "Rod.026",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00173",
+          "name": "19",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00174",
+          "name": "Rod.027",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00175",
+          "name": "20",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00176",
+          "name": "Box.028",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00177",
+          "name": "21",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00178",
+          "name": "Box.029",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00179",
+          "name": "22",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00180",
+          "name": "Box.030",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00181",
+          "name": "arm right",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00182",
+          "name": "0.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00183",
+          "name": "Ball.024",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00184",
+          "name": "1.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00185",
+          "name": "Ball.025",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00186",
+          "name": "2.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00187",
+          "name": "Ball.026",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00188",
+          "name": "3.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00189",
+          "name": "Ball.027",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00190",
+          "name": "4.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00191",
+          "name": "Ball.028",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00192",
+          "name": "5.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00193",
+          "name": "Ball.029",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00194",
+          "name": "6.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00195",
+          "name": "Ball.030",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00196",
+          "name": "7.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00197",
+          "name": "Ball.031",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00198",
+          "name": "8.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00199",
+          "name": "Rod.028",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00200",
+          "name": "9.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00201",
+          "name": "Rod.029",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00202",
+          "name": "10.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00203",
+          "name": "Rod.030",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00204",
+          "name": "11.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00205",
+          "name": "Rod.031",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00206",
+          "name": "12.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00207",
+          "name": "Rod.032",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00208",
+          "name": "13.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00209",
+          "name": "Rod.033",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00210",
+          "name": "14.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00211",
+          "name": "Rod.034",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00212",
+          "name": "15.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00213",
+          "name": "Rod.035",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00214",
+          "name": "16.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00215",
+          "name": "Rod.036",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00216",
+          "name": "17.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00217",
+          "name": "Rod.037",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00218",
+          "name": "18.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00219",
+          "name": "Rod.038",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00220",
+          "name": "19.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00221",
+          "name": "Rod.039",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00222",
+          "name": "20.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00223",
+          "name": "Box.031",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00224",
+          "name": "21.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00225",
+          "name": "Box.032",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00226",
+          "name": "22.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00227",
+          "name": "Box.033",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00228",
+          "name": "central stem",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00229",
+          "name": "Rod.040",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00235",
+          "name": "upholstered back.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00236",
+          "name": "0.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00237",
+          "name": "Ball.032",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00238",
+          "name": "1.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00239",
+          "name": "Ball.033",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00240",
+          "name": "2.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00241",
+          "name": "Ball.034",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00242",
+          "name": "3.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00243",
+          "name": "Ball.035",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00244",
+          "name": "4.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00245",
+          "name": "Ball.036",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00246",
+          "name": "5.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00247",
+          "name": "Ball.037",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00248",
+          "name": "6.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00249",
+          "name": "Ball.038",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00250",
+          "name": "7.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00251",
+          "name": "Ball.039",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00252",
+          "name": "8.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00253",
+          "name": "Rod.041",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00254",
+          "name": "9.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00255",
+          "name": "Rod.042",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00256",
+          "name": "10.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00257",
+          "name": "Rod.043",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00258",
+          "name": "11.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00259",
+          "name": "Rod.044",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00260",
+          "name": "12.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00261",
+          "name": "Rod.045",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00262",
+          "name": "13.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00263",
+          "name": "Rod.046",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00264",
+          "name": "14.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00265",
+          "name": "Rod.047",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00266",
+          "name": "15.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00267",
+          "name": "Rod.048",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00268",
+          "name": "16.004",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00269",
+          "name": "Box.036",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00270",
+          "name": "seat cushion.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00271",
+          "name": "0.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00272",
+          "name": "Ball.040",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00273",
+          "name": "1.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00274",
+          "name": "Ball.041",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00275",
+          "name": "2.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00276",
+          "name": "Ball.042",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00277",
+          "name": "3.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00278",
+          "name": "Ball.043",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00279",
+          "name": "4.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00280",
+          "name": "Ball.044",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00281",
+          "name": "5.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00282",
+          "name": "Ball.045",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00283",
+          "name": "6.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00284",
+          "name": "Ball.046",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00285",
+          "name": "7.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00286",
+          "name": "Ball.047",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00287",
+          "name": "8.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00288",
+          "name": "Rod.049",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00289",
+          "name": "9.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00290",
+          "name": "Rod.050",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00291",
+          "name": "10.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00292",
+          "name": "Rod.051",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00293",
+          "name": "11.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00294",
+          "name": "Rod.052",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00295",
+          "name": "12.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00296",
+          "name": "Rod.053",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00297",
+          "name": "13.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00298",
+          "name": "Rod.054",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00299",
+          "name": "14.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00300",
+          "name": "Rod.055",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00301",
+          "name": "15.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00302",
+          "name": "Rod.056",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00303",
+          "name": "16.005",
+          "fields": [
+            "matrix_world"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00304",
+          "name": "Box.037",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00305",
+          "name": "arm left.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00306",
+          "name": "0.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00307",
+          "name": "Ball.048",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00308",
+          "name": "1.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00309",
+          "name": "Ball.049",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00310",
+          "name": "2.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00311",
+          "name": "Ball.050",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00312",
+          "name": "3.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00313",
+          "name": "Ball.051",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00314",
+          "name": "4.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00315",
+          "name": "Ball.052",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00316",
+          "name": "5.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00317",
+          "name": "Ball.053",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00318",
+          "name": "6.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00319",
+          "name": "Ball.054",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00320",
+          "name": "7.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00321",
+          "name": "Ball.055",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00322",
+          "name": "8.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00323",
+          "name": "Rod.057",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00324",
+          "name": "9.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00325",
+          "name": "Rod.058",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00326",
+          "name": "10.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00327",
+          "name": "Rod.059",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00328",
+          "name": "11.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00329",
+          "name": "Rod.060",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00330",
+          "name": "12.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00331",
+          "name": "Rod.061",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00332",
+          "name": "13.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00333",
+          "name": "Rod.062",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00334",
+          "name": "14.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00335",
+          "name": "Rod.063",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00336",
+          "name": "15.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00337",
+          "name": "Rod.064",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00338",
+          "name": "16.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00339",
+          "name": "Rod.065",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00340",
+          "name": "17.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00341",
+          "name": "Rod.066",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00342",
+          "name": "18.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00343",
+          "name": "Rod.067",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00344",
+          "name": "19.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00345",
+          "name": "Rod.068",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00346",
+          "name": "20.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00347",
+          "name": "Box.038",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00348",
+          "name": "21.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00349",
+          "name": "Box.039",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00350",
+          "name": "22.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00351",
+          "name": "Box.040",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00352",
+          "name": "arm right.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00353",
+          "name": "0.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00354",
+          "name": "Ball.056",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00355",
+          "name": "1.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00356",
+          "name": "Ball.057",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00357",
+          "name": "2.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00358",
+          "name": "Ball.058",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00359",
+          "name": "3.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00360",
+          "name": "Ball.059",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00361",
+          "name": "4.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00362",
+          "name": "Ball.060",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00363",
+          "name": "5.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00364",
+          "name": "Ball.061",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00365",
+          "name": "6.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00366",
+          "name": "Ball.062",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00367",
+          "name": "7.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00368",
+          "name": "Ball.063",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00369",
+          "name": "8.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00370",
+          "name": "Rod.069",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00371",
+          "name": "9.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00372",
+          "name": "Rod.070",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00373",
+          "name": "10.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00374",
+          "name": "Rod.071",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00375",
+          "name": "11.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00376",
+          "name": "Rod.072",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00377",
+          "name": "12.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00378",
+          "name": "Rod.073",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00379",
+          "name": "13.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00380",
+          "name": "Rod.074",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00381",
+          "name": "14.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00382",
+          "name": "Rod.075",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00383",
+          "name": "15.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00384",
+          "name": "Rod.076",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00385",
+          "name": "16.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00386",
+          "name": "Rod.077",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00387",
+          "name": "17.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00388",
+          "name": "Rod.078",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00389",
+          "name": "18.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00390",
+          "name": "Rod.079",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00391",
+          "name": "19.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00392",
+          "name": "Rod.080",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00393",
+          "name": "20.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00394",
+          "name": "Box.041",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00395",
+          "name": "21.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00396",
+          "name": "Box.042",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00397",
+          "name": "22.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00398",
+          "name": "Box.043",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00399",
+          "name": "central stem.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00400",
+          "name": "Rod.081",
+          "fields": [
+            "matrix_world",
+            "dimensions"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00047",
+        "active_after": "obj_00047"
+      },
+      "material_changes": [],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Matrix\n\n# Shorten each upholstered back from below while retaining its top height.\nfor name in ('upholstered back', 'upholstered back.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        top = 1.38\n        obj.matrix_world = Matrix.Translation((0, 0, top)) @ Matrix.Diagonal((1, 1, 0.76, 1)) @ Matrix.Translation((0, 0, -top)) @ obj.matrix_world\n\n# Raise the seats and arms to expose more of each pedestal.\nfor name in ('seat cushion', 'arm left', 'arm right', 'seat cushion.001', 'arm left.001', 'arm right.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        obj.matrix_world = Matrix.Translation((0, 0, 0.20)) @ obj.matrix_world\n\n# Extend each stem upward from its existing foot; leave the cross bases on the floor.\nfor name in ('central stem', 'central stem.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        bottom = 0.12\n        obj.matrix_world = Matrix.Translation((0, 0, bottom)) @ Matrix.Diagonal((1, 1, 1.59, 1)) @ Matrix.Translation((0, 0, -bottom)) @ obj.matrix_world\n"
+  },
+  "initial_response": {
+    "decision": "apply",
+    "code": "from sceneact import *\n\nscene = Scene('Office furniture additions')\nwhite = (0.88, 0.88, 0.86)\nwhite_edge = (0.96, 0.96, 0.94)\ngreen = (0.43, 0.47, 0.045)\ngreen_side = (0.34, 0.39, 0.035)\nmetal = (0.30, 0.32, 0.31)\ndark = (0.12, 0.13, 0.12)\nwood = (0.56, 0.36, 0.21)\nwood_edge = (0.39, 0.25, 0.15)\n\n# The broad desk faces the camera, with a solid modesty panel and slab ends.\ndesk = Asset('White office desk')\ndesk.include('desktop', box((2.75, 1.02, 0.09), center=(0.90, 2.05, 0.82), color=white_edge))\ndesk.include('front modesty panel', box((2.56, 0.075, 0.68), center=(0.90, 1.64, 0.43), color=white))\ndesk.include('left end panel', box((0.10, 0.89, 0.72), center=(-0.39, 2.05, 0.40), color=white))\ndesk.include('right end panel', box((0.10, 0.89, 0.72), center=(2.19, 2.05, 0.40), color=white))\ndesk.include('recessed plinth', box((2.46, 0.64, 0.07), center=(0.90, 2.06, 0.045), color=(0.62, 0.62, 0.59)))\nscene.include('desk', desk)\n\n# Two upholstered swivel visitor chairs, with their backs toward the camera.\ndef visitor_chair(name, x, y):\n    chair = Asset(name)\n    chair.include('upholstered back', fillet_box((0.92, 0.18, 0.94), radius=0.09, center=(x, y-0.30, 0.91), color=green))\n    chair.include('seat cushion', fillet_box((0.86, 0.70, 0.16), radius=0.08, center=(x, y+0.01, 0.48), color=green))\n    for side in (-1, 1):\n        arm = fillet_box((0.12, 0.63, 0.33), radius=0.055, center=(x+side*0.47, y-0.02, 0.64), color=green_side)\n        arm.turn('y', side * -10)\n        chair.include('arm left' if side < 0 else 'arm right', arm)\n    chair.include('central stem', rod(0.045, start=(x,y,0.12), end=(x,y,0.46), color=metal))\n    chair.include('base left right', box((0.98, 0.055, 0.045), center=(x,y,0.055), color=metal))\n    chair.include('base front back', box((0.055, 0.86, 0.045), center=(x,y,0.055), color=metal))\n    return chair\nscene.include('visitor chair left', visitor_chair('Left visitor chair', 0.20, 0.38))\nscene.include('visitor chair right', visitor_chair('Right visitor chair', 1.90, 0.35))\n\n# Taller, subdued upholstered chair behind the desk.\noffice = Asset('Rear office chair')\noffice.include('high back', fillet_box((0.70, 0.20, 0.98), radius=0.10, center=(0.56, 2.75, 1.16), color=(0.35,0.34,0.31)))\noffice.include('seat', fillet_box((0.70, 0.62, 0.14), radius=0.07, center=(0.56, 2.62, 0.65), color=(0.30,0.29,0.27)))\noffice.include('stem', rod(0.04, start=(0.56,2.68,0.12), end=(0.56,2.68,0.62), color=dark))\nfor dx,dy in ((0.37,0),(-0.37,0),(0,0.33),(0,-0.33)):\n    office.include('base spoke %s %s' % (dx,dy), rod(0.025, start=(0.56,2.68,0.10), end=(0.56+dx,2.68+dy,0.05), color=dark))\nscene.include('office chair', office)\n\n# Long low wood cabinetry runs along the right wall; individual fronts retain seams.\ncabinet = Asset('Right wall wood cabinetry')\ncabinet.include('cabinet body', box((0.48, 4.65, 1.07), center=(2.88, 1.55, 0.64), color=wood_edge))\ncabinet.include('top cap', box((0.52, 4.72, 0.045), center=(2.85, 1.55, 1.19), color=wood))\ncabinet.include('toe kick', box((0.38, 4.62, 0.12), center=(2.94, 1.55, 0.06), color=(0.23,0.22,0.20)))\nfor j in range(4):\n    yy = -0.18 + j*1.16\n    for row in range(2):\n        zz = 0.40 + row*0.50\n        cabinet.include('wood front %d %d' % (j,row), box((0.035, 1.145, 0.485), center=(2.625, yy, zz), color=wood if (j+row)%2 == 0 else (0.59,0.39,0.23)))\nscene.include('wall cabinetry', cabinet)\n\nrealize(scene, clear=False)",
+    "reason": "The checkpoint contains the room shell but none of the furniture targeted by this stage.",
+    "changes": "Added the white desk, two green swivel visitor chairs, a rear office chair, and paneled wood cabinetry along the right wall. Existing room, camera, and lighting are preserved.",
+    "advice_implementation": [],
+    "completed_scope": "Stage 2 furniture geometry has been added; its appearance and placement await the next runner render.",
+    "actual_executed_patch": "tasks/D01/stages/02/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [
+        "obj_00051",
+        "obj_00052",
+        "obj_00053",
+        "obj_00054",
+        "obj_00055",
+        "obj_00056",
+        "obj_00057",
+        "obj_00058",
+        "obj_00059",
+        "obj_00060",
+        "obj_00061",
+        "obj_00062",
+        "obj_00063",
+        "obj_00064",
+        "obj_00065",
+        "obj_00066",
+        "obj_00067",
+        "obj_00068",
+        "obj_00069",
+        "obj_00070",
+        "obj_00071",
+        "obj_00072",
+        "obj_00073",
+        "obj_00074",
+        "obj_00075",
+        "obj_00076",
+        "obj_00077",
+        "obj_00078",
+        "obj_00079",
+        "obj_00080",
+        "obj_00081",
+        "obj_00082",
+        "obj_00083",
+        "obj_00084",
+        "obj_00085",
+        "obj_00086",
+        "obj_00087",
+        "obj_00088",
+        "obj_00089",
+        "obj_00090",
+        "obj_00091",
+        "obj_00092",
+        "obj_00093",
+        "obj_00094",
+        "obj_00095",
+        "obj_00096",
+        "obj_00097",
+        "obj_00098",
+        "obj_00099",
+        "obj_00100",
+        "obj_00101",
+        "obj_00102",
+        "obj_00103",
+        "obj_00104",
+        "obj_00105",
+        "obj_00106",
+        "obj_00107",
+        "obj_00108",
+        "obj_00109",
+        "obj_00110",
+        "obj_00111",
+        "obj_00112",
+        "obj_00113",
+        "obj_00114",
+        "obj_00115",
+        "obj_00116",
+        "obj_00117",
+        "obj_00118",
+        "obj_00119",
+        "obj_00120",
+        "obj_00121",
+        "obj_00122",
+        "obj_00123",
+        "obj_00124",
+        "obj_00125",
+        "obj_00126",
+        "obj_00127",
+        "obj_00128",
+        "obj_00129",
+        "obj_00130",
+        "obj_00131",
+        "obj_00132",
+        "obj_00133",
+        "obj_00134",
+        "obj_00135",
+        "obj_00136",
+        "obj_00137",
+        "obj_00138",
+        "obj_00139",
+        "obj_00140",
+        "obj_00141",
+        "obj_00142",
+        "obj_00143",
+        "obj_00144",
+        "obj_00145",
+        "obj_00146",
+        "obj_00147",
+        "obj_00148",
+        "obj_00149",
+        "obj_00150",
+        "obj_00151",
+        "obj_00152",
+        "obj_00153",
+        "obj_00154",
+        "obj_00155",
+        "obj_00156",
+        "obj_00157",
+        "obj_00158",
+        "obj_00159",
+        "obj_00160",
+        "obj_00161",
+        "obj_00162",
+        "obj_00163",
+        "obj_00164",
+        "obj_00165",
+        "obj_00166",
+        "obj_00167",
+        "obj_00168",
+        "obj_00169",
+        "obj_00170",
+        "obj_00171",
+        "obj_00172",
+        "obj_00173",
+        "obj_00174",
+        "obj_00175",
+        "obj_00176",
+        "obj_00177",
+        "obj_00178",
+        "obj_00179",
+        "obj_00180",
+        "obj_00181",
+        "obj_00182",
+        "obj_00183",
+        "obj_00184",
+        "obj_00185",
+        "obj_00186",
+        "obj_00187",
+        "obj_00188",
+        "obj_00189",
+        "obj_00190",
+        "obj_00191",
+        "obj_00192",
+        "obj_00193",
+        "obj_00194",
+        "obj_00195",
+        "obj_00196",
+        "obj_00197",
+        "obj_00198",
+        "obj_00199",
+        "obj_00200",
+        "obj_00201",
+        "obj_00202",
+        "obj_00203",
+        "obj_00204",
+        "obj_00205",
+        "obj_00206",
+        "obj_00207",
+        "obj_00208",
+        "obj_00209",
+        "obj_00210",
+        "obj_00211",
+        "obj_00212",
+        "obj_00213",
+        "obj_00214",
+        "obj_00215",
+        "obj_00216",
+        "obj_00217",
+        "obj_00218",
+        "obj_00219",
+        "obj_00220",
+        "obj_00221",
+        "obj_00222",
+        "obj_00223",
+        "obj_00224",
+        "obj_00225",
+        "obj_00226",
+        "obj_00227",
+        "obj_00228",
+        "obj_00229",
+        "obj_00230",
+        "obj_00231",
+        "obj_00232",
+        "obj_00233",
+        "obj_00234",
+        "obj_00235",
+        "obj_00236",
+        "obj_00237",
+        "obj_00238",
+        "obj_00239",
+        "obj_00240",
+        "obj_00241",
+        "obj_00242",
+        "obj_00243",
+        "obj_00244",
+        "obj_00245",
+        "obj_00246",
+        "obj_00247",
+        "obj_00248",
+        "obj_00249",
+        "obj_00250",
+        "obj_00251",
+        "obj_00252",
+        "obj_00253",
+        "obj_00254",
+        "obj_00255",
+        "obj_00256",
+        "obj_00257",
+        "obj_00258",
+        "obj_00259",
+        "obj_00260",
+        "obj_00261",
+        "obj_00262",
+        "obj_00263",
+        "obj_00264",
+        "obj_00265",
+        "obj_00266",
+        "obj_00267",
+        "obj_00268",
+        "obj_00269",
+        "obj_00270",
+        "obj_00271",
+        "obj_00272",
+        "obj_00273",
+        "obj_00274",
+        "obj_00275",
+        "obj_00276",
+        "obj_00277",
+        "obj_00278",
+        "obj_00279",
+        "obj_00280",
+        "obj_00281",
+        "obj_00282",
+        "obj_00283",
+        "obj_00284",
+        "obj_00285",
+        "obj_00286",
+        "obj_00287",
+        "obj_00288",
+        "obj_00289",
+        "obj_00290",
+        "obj_00291",
+        "obj_00292",
+        "obj_00293",
+        "obj_00294",
+        "obj_00295",
+        "obj_00296",
+        "obj_00297",
+        "obj_00298",
+        "obj_00299",
+        "obj_00300",
+        "obj_00301",
+        "obj_00302",
+        "obj_00303",
+        "obj_00304",
+        "obj_00305",
+        "obj_00306",
+        "obj_00307",
+        "obj_00308",
+        "obj_00309",
+        "obj_00310",
+        "obj_00311",
+        "obj_00312",
+        "obj_00313",
+        "obj_00314",
+        "obj_00315",
+        "obj_00316",
+        "obj_00317",
+        "obj_00318",
+        "obj_00319",
+        "obj_00320",
+        "obj_00321",
+        "obj_00322",
+        "obj_00323",
+        "obj_00324",
+        "obj_00325",
+        "obj_00326",
+        "obj_00327",
+        "obj_00328",
+        "obj_00329",
+        "obj_00330",
+        "obj_00331",
+        "obj_00332",
+        "obj_00333",
+        "obj_00334",
+        "obj_00335",
+        "obj_00336",
+        "obj_00337",
+        "obj_00338",
+        "obj_00339",
+        "obj_00340",
+        "obj_00341",
+        "obj_00342",
+        "obj_00343",
+        "obj_00344",
+        "obj_00345",
+        "obj_00346",
+        "obj_00347",
+        "obj_00348",
+        "obj_00349",
+        "obj_00350",
+        "obj_00351",
+        "obj_00352",
+        "obj_00353",
+        "obj_00354",
+        "obj_00355",
+        "obj_00356",
+        "obj_00357",
+        "obj_00358",
+        "obj_00359",
+        "obj_00360",
+        "obj_00361",
+        "obj_00362",
+        "obj_00363",
+        "obj_00364",
+        "obj_00365",
+        "obj_00366",
+        "obj_00367",
+        "obj_00368",
+        "obj_00369",
+        "obj_00370",
+        "obj_00371",
+        "obj_00372",
+        "obj_00373",
+        "obj_00374",
+        "obj_00375",
+        "obj_00376",
+        "obj_00377",
+        "obj_00378",
+        "obj_00379",
+        "obj_00380",
+        "obj_00381",
+        "obj_00382",
+        "obj_00383",
+        "obj_00384",
+        "obj_00385",
+        "obj_00386",
+        "obj_00387",
+        "obj_00388",
+        "obj_00389",
+        "obj_00390",
+        "obj_00391",
+        "obj_00392",
+        "obj_00393",
+        "obj_00394",
+        "obj_00395",
+        "obj_00396",
+        "obj_00397",
+        "obj_00398",
+        "obj_00399",
+        "obj_00400",
+        "obj_00401",
+        "obj_00402",
+        "obj_00403",
+        "obj_00404",
+        "obj_00405",
+        "obj_00406",
+        "obj_00407",
+        "obj_00408",
+        "obj_00409",
+        "obj_00410",
+        "obj_00411",
+        "obj_00412",
+        "obj_00413",
+        "obj_00414",
+        "obj_00415",
+        "obj_00416",
+        "obj_00417",
+        "obj_00418",
+        "obj_00419",
+        "obj_00420",
+        "obj_00421",
+        "obj_00422",
+        "obj_00423",
+        "obj_00424",
+        "obj_00425",
+        "obj_00426",
+        "obj_00427",
+        "obj_00428",
+        "obj_00429",
+        "obj_00430",
+        "obj_00431",
+        "obj_00432",
+        "obj_00433",
+        "obj_00434",
+        "obj_00435",
+        "obj_00436",
+        "obj_00437",
+        "obj_00438",
+        "obj_00439",
+        "obj_00440",
+        "obj_00441",
+        "obj_00442",
+        "obj_00443",
+        "obj_00444",
+        "obj_00445",
+        "obj_00446",
+        "obj_00447",
+        "obj_00448",
+        "obj_00449",
+        "obj_00450",
+        "obj_00451",
+        "obj_00452",
+        "obj_00453",
+        "obj_00454",
+        "obj_00455",
+        "obj_00456",
+        "obj_00457",
+        "obj_00458",
+        "obj_00459",
+        "obj_00460",
+        "obj_00461",
+        "obj_00462",
+        "obj_00463",
+        "obj_00464",
+        "obj_00465",
+        "obj_00466",
+        "obj_00467",
+        "obj_00468",
+        "obj_00469",
+        "obj_00470",
+        "obj_00471",
+        "obj_00472",
+        "obj_00473",
+        "obj_00474",
+        "obj_00475",
+        "obj_00476",
+        "obj_00477",
+        "obj_00478",
+        "obj_00479",
+        "obj_00480",
+        "obj_00481",
+        "obj_00482",
+        "obj_00483",
+        "obj_00484",
+        "obj_00485",
+        "obj_00486",
+        "obj_00487",
+        "obj_00488",
+        "obj_00489",
+        "obj_00490",
+        "obj_00491",
+        "obj_00492",
+        "obj_00493",
+        "obj_00494",
+        "obj_00495",
+        "obj_00496",
+        "obj_00497",
+        "obj_00498",
+        "obj_00499",
+        "obj_00500",
+        "obj_00501",
+        "obj_00502",
+        "obj_00503",
+        "obj_00504",
+        "obj_00505",
+        "obj_00506",
+        "obj_00507",
+        "obj_00508"
+      ],
+      "deleted": [],
+      "modified": [],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00047",
+        "active_after": "obj_00047"
+      },
+      "material_changes": [
+        "SceneActSurface_0.001",
+        "SceneActSurface_1.001",
+        "SceneActSurface_10.001",
+        "SceneActSurface_11.001",
+        "SceneActSurface_12",
+        "SceneActSurface_2.001",
+        "SceneActSurface_3.001",
+        "SceneActSurface_4.001",
+        "SceneActSurface_5.001",
+        "SceneActSurface_6.001",
+        "SceneActSurface_7.001",
+        "SceneActSurface_8.001",
+        "SceneActSurface_9.001"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "from sceneact import *\n\nscene = Scene('Office furniture additions')\nwhite = (0.88, 0.88, 0.86)\nwhite_edge = (0.96, 0.96, 0.94)\ngreen = (0.43, 0.47, 0.045)\ngreen_side = (0.34, 0.39, 0.035)\nmetal = (0.30, 0.32, 0.31)\ndark = (0.12, 0.13, 0.12)\nwood = (0.56, 0.36, 0.21)\nwood_edge = (0.39, 0.25, 0.15)\n\n# The broad desk faces the camera, with a solid modesty panel and slab ends.\ndesk = Asset('White office desk')\ndesk.include('desktop', box((2.75, 1.02, 0.09), center=(0.90, 2.05, 0.82), color=white_edge))\ndesk.include('front modesty panel', box((2.56, 0.075, 0.68), center=(0.90, 1.64, 0.43), color=white))\ndesk.include('left end panel', box((0.10, 0.89, 0.72), center=(-0.39, 2.05, 0.40), color=white))\ndesk.include('right end panel', box((0.10, 0.89, 0.72), center=(2.19, 2.05, 0.40), color=white))\ndesk.include('recessed plinth', box((2.46, 0.64, 0.07), center=(0.90, 2.06, 0.045), color=(0.62, 0.62, 0.59)))\nscene.include('desk', desk)\n\n# Two upholstered swivel visitor chairs, with their backs toward the camera.\ndef visitor_chair(name, x, y):\n    chair = Asset(name)\n    chair.include('upholstered back', fillet_box((0.92, 0.18, 0.94), radius=0.09, center=(x, y-0.30, 0.91), color=green))\n    chair.include('seat cushion', fillet_box((0.86, 0.70, 0.16), radius=0.08, center=(x, y+0.01, 0.48), color=green))\n    for side in (-1, 1):\n        arm = fillet_box((0.12, 0.63, 0.33), radius=0.055, center=(x+side*0.47, y-0.02, 0.64), color=green_side)\n        arm.turn('y', side * -10)\n        chair.include('arm left' if side < 0 else 'arm right', arm)\n    chair.include('central stem', rod(0.045, start=(x,y,0.12), end=(x,y,0.46), color=metal))\n    chair.include('base left right', box((0.98, 0.055, 0.045), center=(x,y,0.055), color=metal))\n    chair.include('base front back', box((0.055, 0.86, 0.045), center=(x,y,0.055), color=metal))\n    return chair\nscene.include('visitor chair left', visitor_chair('Left visitor chair', 0.20, 0.38))\nscene.include('visitor chair right', visitor_chair('Right visitor chair', 1.90, 0.35))\n\n# Taller, subdued upholstered chair behind the desk.\noffice = Asset('Rear office chair')\noffice.include('high back', fillet_box((0.70, 0.20, 0.98), radius=0.10, center=(0.56, 2.75, 1.16), color=(0.35,0.34,0.31)))\noffice.include('seat', fillet_box((0.70, 0.62, 0.14), radius=0.07, center=(0.56, 2.62, 0.65), color=(0.30,0.29,0.27)))\noffice.include('stem', rod(0.04, start=(0.56,2.68,0.12), end=(0.56,2.68,0.62), color=dark))\nfor dx,dy in ((0.37,0),(-0.37,0),(0,0.33),(0,-0.33)):\n    office.include('base spoke %s %s' % (dx,dy), rod(0.025, start=(0.56,2.68,0.10), end=(0.56+dx,2.68+dy,0.05), color=dark))\nscene.include('office chair', office)\n\n# Long low wood cabinetry runs along the right wall; individual fronts retain seams.\ncabinet = Asset('Right wall wood cabinetry')\ncabinet.include('cabinet body', box((0.48, 4.65, 1.07), center=(2.88, 1.55, 0.64), color=wood_edge))\ncabinet.include('top cap', box((0.52, 4.72, 0.045), center=(2.85, 1.55, 1.19), color=wood))\ncabinet.include('toe kick', box((0.38, 4.62, 0.12), center=(2.94, 1.55, 0.06), color=(0.23,0.22,0.20)))\nfor j in range(4):\n    yy = -0.18 + j*1.16\n    for row in range(2):\n        zz = 0.40 + row*0.50\n        cabinet.include('wood front %d %d' % (j,row), box((0.035, 1.145, 0.485), center=(2.625, yy, zz), color=wood if (j+row)%2 == 0 else (0.59,0.39,0.23)))\nscene.include('wall cabinetry', cabinet)\n\nrealize(scene, clear=False)"
+  }
+}

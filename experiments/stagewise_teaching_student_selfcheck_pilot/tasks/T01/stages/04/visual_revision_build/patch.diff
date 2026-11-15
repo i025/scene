@@ -1,0 +1,77 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -1,62 +1,14 @@
+ import bpy
++from mathutils import Vector
+ 
+-# Butt the horizontal door rails into the stiles. The existing overlapping
+-# faces occupy the same plane and produce dark artifacts at their corners.
+-for obj in bpy.data.objects:
+-    if obj.type != 'MESH':
+-        continue
+-    n = obj.name
+-    if n.startswith('Door horizontal frame'):
+-        obj.dimensions.x = 0.83
+-    elif n.startswith('Left glazed door crossbar'):
+-        obj.dimensions.x = 0.48
+-    elif n.startswith('Left glazed door') and ' rail' in n:
+-        obj.dimensions.x = 0.48
+-    elif n.startswith('Left lower door') and ' rail' in n:
+-        obj.dimensions.x = 1.08
+-    elif n.startswith('Right base door') and ' rail' in n:
+-        obj.dimensions.x = 0.84
+-    elif n.startswith('Right glazed door') and ' rail' in n:
+-        obj.dimensions.x = 0.86
+-
+-# Give the existing glazing a restrained translucent, reflective finish.
+-glass = bpy.data.materials.get('Display cabinet muted glazing')
+-if glass:
+-    glass.use_nodes = True
+-    bsdf = glass.node_tree.nodes.get('Principled BSDF')
+-    if bsdf:
+-        bsdf.inputs['Base Color'].default_value = (0.48, 0.66, 0.64, 1.0)
+-        bsdf.inputs['Roughness'].default_value = 0.22
+-        if 'Transmission Weight' in bsdf.inputs:
+-            bsdf.inputs['Transmission Weight'].default_value = 0.58
+-        elif 'Transmission' in bsdf.inputs:
+-            bsdf.inputs['Transmission'].default_value = 0.58
+-        bsdf.inputs['IOR'].default_value = 1.45
+-
+-wood = bpy.data.materials.get('Perimeter cabinet stained oak')
+-inset = bpy.data.materials.get('Perimeter cabinet inset oak') or wood
+-
+-def add_box(name, center, size, material, parent):
+-    bpy.ops.mesh.primitive_cube_add(size=1, location=center)
+-    obj = bpy.context.object
+-    obj.name = name
+-    obj.dimensions = size
+-    if material:
+-        obj.data.materials.append(material)
+-    if parent:
+-        obj.parent = parent
+-        obj.matrix_parent_inverse = parent.matrix_world.inverted()
+-    return obj
+-
+-left = bpy.data.objects.get('Left tall display cabinet')
+-right = bpy.data.objects.get('Right wall and base cabinets')
+-# Shelves sit behind the glass and supply the horizontal depth visible in the reference.
+-for i, z in enumerate((1.78, 2.38), 1):
+-    add_box('Left display interior shelf %d' % i, (-2.15, 3.30, z),
+-            (2.49, 0.43, 0.045), inset, left)
+-add_box('Right upper interior shelf', (1.77, 3.35, 2.58),
+-        (4.06, 0.38, 0.045), inset, right)
+-# Upright end boards connect the upper cupboard to the counter, framing its open recess.
+-for label, x in (('left', -0.32), ('right', 3.86)):
+-    add_box('Right recess %s upright' % label, (x, 3.47, 1.61),
+-            (0.09, 0.29, 0.94), wood, right)
++# Tighten the existing view around the furniture and look down enough to reveal
++# more of the cabinet fronts behind the work island.
++cam = bpy.data.objects.get('SceneActView')
++if cam is not None and cam.type == 'CAMERA':
++    cam.location = (4.8, -7.8, 4.2)
++    target = Vector((0.0, 1.25, 1.35))
++    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()
++    cam.data.lens = 46.0
++    cam.data.shift_x = 0.0
++    cam.data.shift_y = 0.0
++    bpy.context.scene.camera = cam

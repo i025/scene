@@ -1,0 +1,15 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nfrom mathutils import Matrix\n\n# Shorten each upholstered back from below while retaining its top height.\nfor name in ('upholstered back', 'upholstered back.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        top = 1.38\n        obj.matrix_world = Matrix.Translation((0, 0, top)) @ Matrix.Diagonal((1, 1, 0.76, 1)) @ Matrix.Translation((0, 0, -top)) @ obj.matrix_world\n\n# Raise the seats and arms to expose more of each pedestal.\nfor name in ('seat cushion', 'arm left', 'arm right', 'seat cushion.001', 'arm left.001', 'arm right.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        obj.matrix_world = Matrix.Translation((0, 0, 0.20)) @ obj.matrix_world\n\n# Extend each stem upward from its existing foot; leave the cross bases on the floor.\nfor name in ('central stem', 'central stem.001'):\n    obj = bpy.data.objects.get(name)\n    if obj:\n        bottom = 0.12\n        obj.matrix_world = Matrix.Translation((0, 0, bottom)) @ Matrix.Diagonal((1, 1, 1.59, 1)) @ Matrix.Translation((0, 0, -bottom)) @ obj.matrix_world\n",
+  "reason": "The supplied render shows too little exposed pedestal below both visitor chairs.",
+  "changes": "Raised the seats and arms, shortened the backs from below while preserving their top height, and extended the pedestal stems without moving the floor-level bases.",
+  "advice_implementation": [
+    {
+      "finding_id": "S2-01",
+      "status": "implemented",
+      "actual_change": "Adjusted both visitor-chair upholstery groups and lengthened their central stems; existing bases and unrelated furniture are preserved.",
+      "code_evidence": "The patch transforms the two upholstered back groups around z=1.38, raises both seat and arm groups by 0.20, and scales both central stem groups from z=0.12."
+    }
+  ],
+  "completed_scope": "The existing desk, two visitor chairs, office chair, and right-wall cabinetry remain in place. The chair proportion correction awaits the runner's render."
+}

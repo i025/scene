@@ -1,0 +1,44 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -0,0 +1,41 @@
++from sceneact import *
++
++scene = Scene('Office room')
++
++# The open front of the room faces the camera; the back wall is at positive Y.
++room = Asset('Room shell')
++room.include('floor', box((6.4, 8.2, 0.12), center=(0, 0.0, -0.06), color=(0.37, 0.39, 0.38)))
++room.include('back wall', box((6.4, 0.16, 3.35), center=(0, 4.0, 1.675), color=(0.86, 0.87, 0.85)))
++room.include('right wall', box((0.16, 8.0, 3.35), center=(3.2, 0, 1.675), color=(0.70, 0.61, 0.55)))
++# Split the left wall around the full-height glazed opening.
++room.include('left wall front', box((0.16, 3.4, 3.35), center=(-3.2, -2.3, 1.675), color=(0.86, 0.86, 0.84)))
++room.include('left wall rear', box((0.16, 1.25, 3.35), center=(-3.2, 3.375, 1.675), color=(0.86, 0.86, 0.84)))
++room.include('left opening header', box((0.16, 3.35, 0.42), center=(-3.2, 1.025, 3.14), color=(0.86, 0.86, 0.84)))
++room.include('ceiling', box((6.4, 8.0, 0.12), center=(0, 0, 3.41), color=(0.89, 0.89, 0.87)))
++room.include('ceiling beam', box((6.4, 0.46, 0.43), center=(0, -1.8, 3.135), color=(0.87, 0.87, 0.85)))
++room.include('back skirting', box((6.25, 0.06, 0.13), center=(0, 3.88, 0.065), color=(0.26, 0.27, 0.26)))
++room.include('left front skirting', box((0.06, 3.35, 0.13), center=(-3.08, -2.3, 0.065), color=(0.26, 0.27, 0.26)))
++room.include('left rear skirting', box((0.06, 1.18, 0.13), center=(-3.08, 3.38, 0.065), color=(0.26, 0.27, 0.26)))
++room.include('right skirting', box((0.06, 7.9, 0.13), center=(3.08, 0, 0.065), color=(0.26, 0.27, 0.26)))
++scene.include('room', room)
++
++opening = Asset('Left glazed opening')
++opening.include('glass', box((0.035, 3.25, 2.82), center=(-3.19, 1.025, 1.46), color=(0.77, 0.86, 0.87)))
++for y, name in [(-0.59, 'front jamb'), (2.64, 'rear jamb'), (0.98, 'center mullion')]:
++    opening.include(name, box((0.12, 0.075, 2.9), center=(-3.10, y, 1.48), color=(0.91, 0.92, 0.90)))
++opening.include('top frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 2.91), color=(0.91, 0.92, 0.90)))
++opening.include('bottom frame', box((0.12, 3.34, 0.09), center=(-3.10, 1.025, 0.055), color=(0.91, 0.92, 0.90)))
++opening.include('blind housing', box((0.20, 3.48, 0.16), center=(-3.05, 1.025, 3.02), color=(0.85, 0.84, 0.81)))
++scene.include('glazed opening', opening)
++
++# A flush ceiling light contributes a recognizable architectural feature.
++fixture = Asset('Ceiling light panel')
++fixture.include('rim', box((1.05, 0.80, 0.035), center=(-0.3, 2.05, 3.335), color=(0.82, 0.83, 0.81)))
++fixture.include('diffuser', box((0.95, 0.70, 0.018), center=(-0.3, 2.05, 3.31), color=(1.0, 1.0, 0.98)))
++scene.include('ceiling light', fixture)
++
++realize(scene)
++set_view((0, -7.8, 2.05), (0, 2.4, 1.55), lens=26, sensor=36)
++area_emitter((0, -2.0, 3.05), power=500, size=5, target=(0, 2, 0.8))
++area_emitter((-2.8, 1.0, 2.5), power=420, size=3.0, target=(0.5, 2.3, 1.0))
++area_emitter((0, 2.0, 3.22), power=200, size=1.8, target=(0, 2.0, 0))

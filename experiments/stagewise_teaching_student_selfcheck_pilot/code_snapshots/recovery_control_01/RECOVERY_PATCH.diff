@@ -1,0 +1,113 @@
+--- a/outputs/stagewise_teaching_student_selfcheck_pilot/runner.py
++++ b/outputs/stagewise_teaching_student_selfcheck_pilot/runner.py
+@@ -53,6 +53,42 @@
+ def english_output(value):
+     if re.search(r'[\u4e00-\u9fff]',json.dumps(value,ensure_ascii=False)):
+         raise RunStopped('Output language violation: raw response retained; no unbudgeted translation retry')
++
++
++def acknowledge_service_recovery():
++    """Acknowledge one saved routing failure; this does not certify service health."""
++    if (ROOT/'protocol_pause.json').exists():
++        raise RunStopped('Protocol pause cannot be cleared by service recovery')
++    pause_path = ROOT/'service_pause.json'
++    if not pause_path.exists():
++        raise RunStopped('No service pause exists to acknowledge')
++    pause = read(pause_path)
++    attempt = Path(pause['session']).resolve()
++    failed_attempt = rel(attempt)
++    if pause['reason']!='workspace routing discovery failed' or attempt.name!='attempt_1':
++        raise RunStopped('Recovery applies only to a first-attempt workspace routing failure')
++    session = read(attempt/'session.json')
++    raw = (attempt/'stderr.log').read_text()+(attempt/'events.jsonl').read_text()
++    response = attempt/'response.txt'
++    if session['status']!='failed' or 'workspace routing discovery failed' not in raw:
++        raise RunStopped('Saved session does not confirm the routing failure')
++    if response.exists() and response.read_text().strip():
++        raise RunStopped('Routing recovery cannot resample a saved model response')
++    receipt_path = attempt.parent/'service_recovery.json'
++    if (attempt.parent/'attempt_2').exists() or receipt_path.exists():
++        raise RunStopped('The single recovery opportunity is already recorded or used')
++    recovery = ROOT/'recovery'/('R'+str(time.time_ns()))
++    recovery.mkdir(parents=True)
++    receipt = {'status':'acknowledged','time':time.time(),
++               'failed_attempt':failed_attempt,'authorized_attempt':rel(attempt.parent/'attempt_2'),
++               'reason':pause['reason'],'original_pause':rel(recovery/'service_pause.json'),
++               'acknowledgement':'Explicit resume --service-recovered invocation',
++               'service_health_verified':False,'maximum_additional_attempts':1,
++               'protocol_effect':'One service retry for this saved failed call; no scene, model, quality, or budget change'}
++    write_json(recovery/'acknowledgement.json',receipt)
++    write_json(receipt_path,receipt)
++    pause_path.rename(recovery/'service_pause.json')
++    event('service_recovery_acknowledged',**receipt)
+ 
+ 
+ def invoke(prompt, folder, images, role, schema, partition, model=None):
+@@ -99,6 +135,23 @@
+                 return response
+         check_service_pause()
+         raw = (attempt/'stderr.log').read_text()+(attempt/'events.jsonl').read_text()
++        if 'workspace routing discovery failed' in raw:
++            receipt_path = folder/'service_recovery.json'
++            receipt = read(receipt_path) if receipt_path.exists() else None
++            if (n!=1 or receipt is None or receipt['status']!='acknowledged'
++                    or receipt['failed_attempt']!=rel(attempt)
++                    or receipt['authorized_attempt']!=rel(folder/'attempt_2')):
++                raise RunStopped('Routing failure needs explicit one-time service recovery: '+rel(attempt))
++            # Retry the original request, not a newly reconstructed prompt/context.
++            request = read(attempt/'request.json')
++            if (request['requested_model']!=settings.get('model',settings.get('name'))
++                    or request['reasoning_effort']!=settings['reasoning_effort'] or request['role']!=role):
++                raise RunStopped('Routing retry configuration differs from the failed request')
++            prompt = (attempt/'prompt.txt').read_text()
++            schema = read(attempt/'response_schema.json')
++            images = [Path(path) for path in request['original_images_for_audit']]
++            event('routing_retry_authorized',previous=rel(attempt),next_attempt=2,receipt=rel(receipt_path))
++            continue
+         transient = any(x in raw.lower() for x in ['service unavailable','rate limit','502','503','connection reset','overloaded'])
+         if n==2 or not transient:
+             raise RunStopped('model_call_timeout' if session['status']=='timeout' else 'model_service_error: '+rel(attempt))
+@@ -523,13 +576,20 @@
+ 
+ 
+ def main():
+-    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['run','resume','report','model_checks']);args=parser.parse_args()
++    parser=argparse.ArgumentParser();parser.add_argument('command',choices=['run','resume','report','model_checks'])
++    parser.add_argument('--service-recovered',action='store_true',help='Acknowledge one saved routing failure and allow its one remaining retry')
++    args=parser.parse_args()
++    if args.service_recovered and args.command!='resume':
++        parser.error('--service-recovered is valid only with resume')
+     os.sched_setaffinity(0,set(CONFIG['resources']['cpu_affinity']))
+     if args.command=='report':
+         import report
+         report.generate();return
+     with (ROOT/'experiment.lock').open('a') as lock:
+         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
++        if args.service_recovered:
++            acknowledge_service_recovery()
++        check_service_pause()
+         if args.command=='model_checks':model_checks()
+         else:run()
+ 
+--- a/outputs/stagewise_teaching_student_selfcheck_pilot/launch.py
++++ b/outputs/stagewise_teaching_student_selfcheck_pilot/launch.py
+@@ -10,13 +10,17 @@
+ from processes import cpu_environment,run_measured
+ 
+ if __name__=='__main__':
+-    p=argparse.ArgumentParser();p.add_argument('command',choices=['run','resume','report','model_checks']);a=p.parse_args()
++    p=argparse.ArgumentParser();p.add_argument('command',choices=['run','resume','report','model_checks'])
++    p.add_argument('--service-recovered',action='store_true');a=p.parse_args()
++    if a.service_recovered and a.command!='resume':
++        p.error('--service-recovered is valid only with resume')
+     c=json.loads((ROOT/'config.json').read_text())
+     os.sched_setaffinity(0,set(c['resources']['cpu_affinity']))
+     folder=ROOT/'launches';folder.mkdir(exist_ok=True)
+     number=len(list(folder.glob('*.json')))+1
++    command=[sys.executable,'-u',str(ROOT/'runner.py'),a.command]+(['--service-recovered'] if a.service_recovered else [])
+     with (folder/f'{number:03d}.stdout.log').open('w') as out,(folder/f'{number:03d}.stderr.log').open('w') as err:
+-        result=run_measured([sys.executable,'-u',str(ROOT/'runner.py'),a.command],timeout=4*3600,
++        result=run_measured(command,timeout=4*3600,
+                             measurement_path=folder/f'{number:03d}.json',
+                             memory_limit_bytes=c['resources']['memory_limit_gb']*1024**3,
+                             env=cpu_environment(threads=c['resources']['threads_per_blender']),stdout=out,stderr=err)

@@ -1,0 +1,19 @@
+{
+  "decision": "revise",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "Island framing and viewing angle",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The island spans approximately 70% of the image width and 55% of its height. Its countertop has substantial visible depth, and the broad end panel is prominent in the foreground.",
+      "render_evidence": "The island spans approximately 49% of the image width and 30% of its height. The long cabinet face dominates, while the short end is a narrow sliver; much more empty floor and wall surrounds it.",
+      "proposed_change": "Adjust the camera position, aim, and lens to bring the island closer in frame and make its short end more visible, while retaining the complete countertop and floor contacts.",
+      "preserve": "Preserve the island geometry, its countertop overhang, cabinet-to-top relationship, floor contacts, and existing room geometry.",
+      "check_after": "Compare the island's projected width, height, tabletop depth, and visible end face with the reference; check that the countertop and supports remain uncropped.",
+      "uncertainty": "The reference and render may differ in both camera angle and island proportions, so the exact camera adjustment cannot be inferred from the images alone. Some support contacts are obscured.",
+      "status": "new"
+    }
+  ],
+  "summary": "The countertop, cabinet body, and support posts are present in the inventory and recognizable in the render. One visual correction is available; the largest observed mismatch is the island's small projected size and different viewing angle."
+}

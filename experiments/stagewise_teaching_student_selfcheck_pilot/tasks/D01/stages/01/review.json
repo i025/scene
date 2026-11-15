@@ -1,0 +1,25 @@
+{
+  "decision": "revise",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "SceneActView camera and room-shell framing",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "The reference fills the frame with the interior; the back-wall ceiling junction is near 28% image height and the visible back-floor junction near 73%.",
+      "render_evidence": "A black strip appears above the shell. The back wall occupies only roughly 30–63% image height, making the room appear distant and the foreground floor disproportionately large.",
+      "proposed_change": "Use the single correction pass to bring the viewpoint forward into the shell and adjust framing so the back wall occupies more image height, the opening sits farther right, and the ceiling fills the upper edge.",
+      "preserve": "Preserve upright verticals, the left glazing, beige right wall, gray floor, and overhead beam.",
+      "check_after": "Compare normalized back-wall corners and opening position against the reference; confirm no exterior black strip remains and the ceiling panel is visible below the beam.",
+      "uncertainty": "Camera position, aim, and room proportions jointly affect these landmarks; the reference does not determine unique dimensions or focal length. No extra view is requested.",
+      "status": "new"
+    }
+  ],
+  "summary": "Correct the viewpoint before advancing. Future furniture and decoration are outside this review.",
+  "input_images": [
+    "sources/D01.jpg",
+    "tasks/D01/stages/01/initial_build/final.png"
+  ],
+  "role": "teacher_feedback",
+  "code_entry": "prompts.py:TEACHER"
+}

@@ -1,0 +1,32 @@
+{
+  "decision": "revise",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "SceneActView; room and furniture framing",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "The reference has a broad left foreground wall, larger furniture in the lower right, and a ceiling light near the upper fifth.",
+      "render_evidence": "The left wall is largely absent, the furniture appears smaller and farther away, and the ceiling light sits near the upper third. A dark strip remains across the top.",
+      "proposed_change": "Use the single correction pass to adjust camera framing against these visible landmarks and ensure ceiling coverage across the top edge.",
+      "preserve": "Keep both visitor chairs before the desk, the monitor on its right, and the rear plant beside the radiator.",
+      "check_after": "Compare wall width, chair size, ceiling-light position, and top-edge coverage in the resulting render.",
+      "uncertainty": "This view does not determine a unique focal length or room dimensions. The dark strip's cause is uncertain; the reported ceiling extension has no clear visible effect.",
+      "status": "new"
+    },
+    {
+      "id": "F2",
+      "target": "Global lighting; floor, right wall, and upholstery appearance",
+      "problem_source": "development_observation",
+      "rule_source": "teacher_observation",
+      "reference_evidence": "The reference separates a medium-grey floor, taupe right wall, white desk, and darker olive chair through clear tonal contrast and soft shadows.",
+      "render_evidence": "The floor and walls remain very pale, both chairs read similarly bright yellow-green, and heavy noise obscures surface detail and contact shadows.",
+      "proposed_change": "Within that correction pass, reduce broad fill or exposure to restore tonal separation, and produce a cleaner render for evaluation.",
+      "preserve": "Keep soft daylight from the left and the white desk's brightness.",
+      "check_after": "Confirm that the floor stays visibly darker than the desk, the right wall reads taupe, and chair shading remains legible without crushed shadows.",
+      "uncertainty": "Noise prevents reliable assessment of oak grain and fabric texture. Current and previous attachments appear visually unchanged, so the reported material and light edits are not visually confirmed.",
+      "status": "new"
+    }
+  ],
+  "summary": "One correction pass is useful: prioritize framing and tonal separation, then verify the actual resulting render."
+}

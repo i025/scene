@@ -1,0 +1,39 @@
+{
+  "decision": "advance_with_issue",
+  "findings": [
+    {
+      "id": "F1",
+      "target": "Room shell and camera framing",
+      "problem_source": "test_observation",
+      "rule_source": "R2",
+      "reference_evidence": "The room fills the reference frame without a black exterior area.",
+      "render_evidence": "The wall now reaches the top edge, but black remains over the upper-left region, about 29% of the frame width at the top and 59% of its height at the left edge. The floor and wall-floor contact remain visible.",
+      "proposed_change": "Carry forward the need for room coverage across the upper-left area; no further visual correction is available in this verification.",
+      "preserve": "Preserve the continuous floor, wall-floor contact, and downward-looking viewpoint.",
+      "check_after": "No further patch cycle is permitted at this stage.",
+      "uncertainty": "Furnishings obscure much of the reference wall-floor boundary, so exact shell dimensions and camera position remain uncertain.",
+      "status": "partially_resolved"
+    },
+    {
+      "id": "F2",
+      "target": "Floor appearance",
+      "problem_source": "test_observation",
+      "rule_source": "R5",
+      "reference_evidence": "The exposed reference floor is warm medium brown with wood variation and visible board joints.",
+      "render_evidence": "Compared with the previous checkpoint, the current floor is warmer and more textured, and staggered end joints are visible. It remains lighter and more uniform than much of the reference floor.",
+      "proposed_change": "Carry forward the remaining floor tone and variation difference; no further visual correction is available in this verification.",
+      "preserve": "Preserve floor coverage, readable plank direction, and visible staggered joints.",
+      "check_after": "No further patch cycle is permitted at this stage.",
+      "uncertainty": "Reference furnishings and shadows obscure or darken parts of the floor, and the image alone does not separate material from lighting effects.",
+      "status": "partially_resolved"
+    }
+  ],
+  "summary": "The executed revision improved wall coverage and floor character, but the upper-left black area and a floor appearance difference remain. Visual correction is unavailable, so advance with these issues carried forward.",
+  "input_images": [
+    "sources/T01.jpg",
+    "tasks/T01/stages/01/visual_revision_build/final.png",
+    "tasks/T01/stages/01/initial_build/final.png"
+  ],
+  "role": "student_self_verification",
+  "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+}

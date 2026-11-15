@@ -1,0 +1,709 @@
+{
+  "task_id": "T01",
+  "split": "test",
+  "stage_id": 4,
+  "title": "Cabinet joinery",
+  "targets": [
+    "doors and drawers",
+    "frames and panels",
+    "glass",
+    "hardware",
+    "trim"
+  ],
+  "completed_scope": "Visible cabinet divisions, recessed panels, glazed door frames, handles, and base trim make the furniture groups recognizable while preserving their established proportions.",
+  "status": "advance_with_issue",
+  "parent_checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+  "initial_checkpoint": "tasks/T01/stages/04/initial_build/scene.blend",
+  "final_checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+  "initial_render": "tasks/T01/stages/04/initial_build/final.png",
+  "final_render": "tasks/T01/stages/04/visual_revision_build/final.png",
+  "attempts": [
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 4,
+      "action_type": "initial",
+      "role": "student",
+      "targets": [
+        "doors and drawers",
+        "frames and panels",
+        "glass",
+        "hardware",
+        "trim"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/03/visual_revision_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/03/visual_revision_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/04/initial_build/scene.blend",
+      "render": "tasks/T01/stages/04/initial_build/final.png",
+      "patch": "tasks/T01/stages/04/initial_build/patch.py",
+      "inventory": "tasks/T01/stages/04/initial_build/inventory.json",
+      "seconds": 4.246485966723412,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    },
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 4,
+      "action_type": "visual_revision",
+      "role": "student",
+      "targets": [
+        "doors and drawers",
+        "frames and panels",
+        "glass",
+        "hardware",
+        "trim"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/04/initial_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/04/initial_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+      "render": "tasks/T01/stages/04/visual_revision_build/final.png",
+      "patch": "tasks/T01/stages/04/visual_revision_build/patch.py",
+      "inventory": "tasks/T01/stages/04/visual_revision_build/inventory.json",
+      "seconds": 4.4485065108165145,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    }
+  ],
+  "review": {
+    "decision": "revise",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Framing and visibility of cabinet joinery",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The island countertop spans approximately 70% of the image width, and the furniture fills most of the frame. Its near end and the left cabinet's lower doors are visible.",
+        "render_evidence": "The island countertop spans approximately 49% of the image width, with substantial empty floor and a black wedge along the left edge. The island also obscures nearly all of the left cabinet's lower doors, although the inventory contains their panels and frames.",
+        "proposed_change": "Adjust the camera framing and viewpoint to bring the furniture closer in frame and improve visibility of the cabinet fronts.",
+        "preserve": "Preserve the established furniture proportions, cabinet divisions, glazing, hardware, and the right recess uprights.",
+        "check_after": "Compare the new render's island size and cabinet visibility with the reference; check that the furniture remains recognizably framed and that the black edge is eliminated.",
+        "uncertainty": "The reference and render use different viewing angles, so projected widths alone do not establish a geometry mismatch. The left lower doors exist in the inventory but their visible details cannot be assessed through the island.",
+        "status": "new"
+      }
+    ],
+    "summary": "The completed joinery is recognizable, but the current framing makes it much smaller and obscures more of the left lower cabinet than the reference. One visual correction is available.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/04/initial_build/final.png",
+      "tasks/T01/stages/03/visual_revision_build/final.png"
+    ],
+    "role": "student_self_review",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "confirmation": {
+    "decision": "advance_with_issue",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Framing and visibility of cabinet joinery",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The island countertop spans about 70% of the image width; the left cabinet's lower door and the island's near end are visible.",
+        "render_evidence": "The current countertop spans about 59% of the image width, up from approximately 49% in the previous checkpoint. The black wedge remains at the left edge, the island still hides nearly all of the left lower doors, and the right cabinetry is now cropped at the image edge.",
+        "proposed_change": "Carry the remaining framing and visibility issue forward; no further visual correction is available in this review.",
+        "preserve": "Preserve the established furniture proportions, cabinet divisions, glazing, hardware, and recess uprights.",
+        "check_after": "No additional patch or render is permitted in this verification cycle.",
+        "uncertainty": "The different viewing angles affect projected dimensions. The inventory contains the left lower door panels and frames, but their visible details and obscured contacts cannot be verified in this view.",
+        "status": "partially_resolved"
+      }
+    ],
+    "summary": "The executed camera change enlarged the furniture, but did not remove the black edge or reveal the left lower doors, and it cropped the right cabinetry. Advance with the remaining framing issue.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/04/visual_revision_build/final.png",
+      "tasks/T01/stages/04/initial_build/final.png"
+    ],
+    "role": "student_self_verification",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "student_revision": {
+    "decision": "apply",
+    "code": "import bpy\nfrom mathutils import Vector\n\n# Tighten the existing view around the furniture and look down enough to reveal\n# more of the cabinet fronts behind the work island.\ncam = bpy.data.objects.get('SceneActView')\nif cam is not None and cam.type == 'CAMERA':\n    cam.location = (4.8, -7.8, 4.2)\n    target = Vector((0.0, 1.25, 1.35))\n    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\n    cam.data.lens = 46.0\n    cam.data.shift_x = 0.0\n    cam.data.shift_y = 0.0\n    bpy.context.scene.camera = cam\n",
+    "reason": "The supplied render shows the furniture occupying too little of the frame, with a black edge and obscured lower cabinetry. The patch adjusts only the existing camera; the fixed runner must render the result to assess visibility.",
+    "changes": "Moves the camera closer and slightly higher, aims it across the furniture, and modestly increases its focal length.",
+    "advice_implementation": [
+      {
+        "finding_id": "F1",
+        "status": "implemented",
+        "actual_change": "Adjusted the existing camera position, aim, and lens to enlarge the furniture and improve the view of the cabinet fronts.",
+        "code_evidence": "Sets SceneActView to (4.8, -7.8, 4.2), aims at (0.0, 1.25, 1.35), and sets its lens to 46 mm."
+      }
+    ],
+    "completed_scope": "Cabinet joinery and existing furniture geometry are preserved. Camera framing is revised pending the next actual render.",
+    "actual_executed_patch": "tasks/T01/stages/04/visual_revision_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00095",
+          "name": "SceneActView",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "camera"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [
+          "obj_00095"
+        ],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\nfrom mathutils import Vector\n\n# Tighten the existing view around the furniture and look down enough to reveal\n# more of the cabinet fronts behind the work island.\ncam = bpy.data.objects.get('SceneActView')\nif cam is not None and cam.type == 'CAMERA':\n    cam.location = (4.8, -7.8, 4.2)\n    target = Vector((0.0, 1.25, 1.35))\n    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\n    cam.data.lens = 46.0\n    cam.data.shift_x = 0.0\n    cam.data.shift_y = 0.0\n    bpy.context.scene.camera = cam\n"
+  },
+  "initial_response": {
+    "decision": "apply",
+    "code": "import bpy\n\n# Butt the horizontal door rails into the stiles. The existing overlapping\n# faces occupy the same plane and produce dark artifacts at their corners.\nfor obj in bpy.data.objects:\n    if obj.type != 'MESH':\n        continue\n    n = obj.name\n    if n.startswith('Door horizontal frame'):\n        obj.dimensions.x = 0.83\n    elif n.startswith('Left glazed door crossbar'):\n        obj.dimensions.x = 0.48\n    elif n.startswith('Left glazed door') and ' rail' in n:\n        obj.dimensions.x = 0.48\n    elif n.startswith('Left lower door') and ' rail' in n:\n        obj.dimensions.x = 1.08\n    elif n.startswith('Right base door') and ' rail' in n:\n        obj.dimensions.x = 0.84\n    elif n.startswith('Right glazed door') and ' rail' in n:\n        obj.dimensions.x = 0.86\n\n# Give the existing glazing a restrained translucent, reflective finish.\nglass = bpy.data.materials.get('Display cabinet muted glazing')\nif glass:\n    glass.use_nodes = True\n    bsdf = glass.node_tree.nodes.get('Principled BSDF')\n    if bsdf:\n        bsdf.inputs['Base Color'].default_value = (0.48, 0.66, 0.64, 1.0)\n        bsdf.inputs['Roughness'].default_value = 0.22\n        if 'Transmission Weight' in bsdf.inputs:\n            bsdf.inputs['Transmission Weight'].default_value = 0.58\n        elif 'Transmission' in bsdf.inputs:\n            bsdf.inputs['Transmission'].default_value = 0.58\n        bsdf.inputs['IOR'].default_value = 1.45\n\nwood = bpy.data.materials.get('Perimeter cabinet stained oak')\ninset = bpy.data.materials.get('Perimeter cabinet inset oak') or wood\n\ndef add_box(name, center, size, material, parent):\n    bpy.ops.mesh.primitive_cube_add(size=1, location=center)\n    obj = bpy.context.object\n    obj.name = name\n    obj.dimensions = size\n    if material:\n        obj.data.materials.append(material)\n    if parent:\n        obj.parent = parent\n        obj.matrix_parent_inverse = parent.matrix_world.inverted()\n    return obj\n\nleft = bpy.data.objects.get('Left tall display cabinet')\nright = bpy.data.objects.get('Right wall and base cabinets')\n# Shelves sit behind the glass and supply the horizontal depth visible in the reference.\nfor i, z in enumerate((1.78, 2.38), 1):\n    add_box('Left display interior shelf %d' % i, (-2.15, 3.30, z),\n            (2.49, 0.43, 0.045), inset, left)\nadd_box('Right upper interior shelf', (1.77, 3.35, 2.58),\n        (4.06, 0.38, 0.045), inset, right)\n# Upright end boards connect the upper cupboard to the counter, framing its open recess.\nfor label, x in (('left', -0.32), ('right', 3.86)):\n    add_box('Right recess %s upright' % label, (x, 3.47, 1.61),\n            (0.09, 0.29, 0.94), wood, right)\n",
+    "reason": "The checkpoint already contains the main doors, panels, glazing, hardware, and trim. This patch refines their visible joinery and adds interior and recess details.",
+    "changes": "Shortens overlapping frame rails, adjusts the existing glazing material, and adds cabinet shelves and two recess uprights. The camera and established furniture proportions are preserved.",
+    "advice_implementation": [],
+    "completed_scope": "Cabinet joinery refinement for the existing island and perimeter cabinets; visual results await the fixed runner.",
+    "actual_executed_patch": "tasks/T01/stages/04/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [
+        "obj_00280",
+        "obj_00281",
+        "obj_00282",
+        "obj_00283",
+        "obj_00284"
+      ],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00112",
+          "name": "Door horizontal frame",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00113",
+          "name": "Door horizontal frame.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00120",
+          "name": "Door horizontal frame.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00121",
+          "name": "Door horizontal frame.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00128",
+          "name": "Door horizontal frame.004",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00129",
+          "name": "Door horizontal frame.005",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00147",
+          "name": "Left glazed door 1 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00150",
+          "name": "Left glazed door 1 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00151",
+          "name": "Left glazed door 1 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00152",
+          "name": "Left glazed door crossbar",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00153",
+          "name": "Left glazed door crossbar.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00159",
+          "name": "Left glazed door 2 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00162",
+          "name": "Left glazed door 2 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00163",
+          "name": "Left glazed door 2 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00164",
+          "name": "Left glazed door crossbar.002",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00165",
+          "name": "Left glazed door crossbar.003",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00171",
+          "name": "Left glazed door 3 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00174",
+          "name": "Left glazed door 3 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00175",
+          "name": "Left glazed door 3 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00176",
+          "name": "Left glazed door crossbar.004",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00177",
+          "name": "Left glazed door crossbar.005",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00183",
+          "name": "Left glazed door 4 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00186",
+          "name": "Left glazed door 4 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00187",
+          "name": "Left glazed door 4 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00188",
+          "name": "Left glazed door crossbar.006",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00189",
+          "name": "Left glazed door crossbar.007",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00198",
+          "name": "Left lower door 1 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00199",
+          "name": "Left lower door 1 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00204",
+          "name": "Left lower door 2 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00205",
+          "name": "Left lower door 2 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00218",
+          "name": "Right base door 1 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00219",
+          "name": "Right base door 1 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00228",
+          "name": "Right base door 2 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00229",
+          "name": "Right base door 2 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00238",
+          "name": "Right base door 3 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00239",
+          "name": "Right base door 3 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00248",
+          "name": "Right base door 4 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00249",
+          "name": "Right base door 4 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00256",
+          "name": "Right glazed door 1 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00259",
+          "name": "Right glazed door 1 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00260",
+          "name": "Right glazed door 1 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00262",
+          "name": "Right glazed door 2 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00265",
+          "name": "Right glazed door 2 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00266",
+          "name": "Right glazed door 2 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00268",
+          "name": "Right glazed door 3 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00271",
+          "name": "Right glazed door 3 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00272",
+          "name": "Right glazed door 3 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00274",
+          "name": "Right glazed door 4 inset",
+          "fields": [
+            "material_content"
+          ],
+          "changed_materials": [
+            "Display cabinet muted glazing"
+          ]
+        },
+        {
+          "object_id": "obj_00277",
+          "name": "Right glazed door 4 rail",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00278",
+          "name": "Right glazed door 4 rail.001",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [
+        "Display cabinet muted glazing"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\n\n# Butt the horizontal door rails into the stiles. The existing overlapping\n# faces occupy the same plane and produce dark artifacts at their corners.\nfor obj in bpy.data.objects:\n    if obj.type != 'MESH':\n        continue\n    n = obj.name\n    if n.startswith('Door horizontal frame'):\n        obj.dimensions.x = 0.83\n    elif n.startswith('Left glazed door crossbar'):\n        obj.dimensions.x = 0.48\n    elif n.startswith('Left glazed door') and ' rail' in n:\n        obj.dimensions.x = 0.48\n    elif n.startswith('Left lower door') and ' rail' in n:\n        obj.dimensions.x = 1.08\n    elif n.startswith('Right base door') and ' rail' in n:\n        obj.dimensions.x = 0.84\n    elif n.startswith('Right glazed door') and ' rail' in n:\n        obj.dimensions.x = 0.86\n\n# Give the existing glazing a restrained translucent, reflective finish.\nglass = bpy.data.materials.get('Display cabinet muted glazing')\nif glass:\n    glass.use_nodes = True\n    bsdf = glass.node_tree.nodes.get('Principled BSDF')\n    if bsdf:\n        bsdf.inputs['Base Color'].default_value = (0.48, 0.66, 0.64, 1.0)\n        bsdf.inputs['Roughness'].default_value = 0.22\n        if 'Transmission Weight' in bsdf.inputs:\n            bsdf.inputs['Transmission Weight'].default_value = 0.58\n        elif 'Transmission' in bsdf.inputs:\n            bsdf.inputs['Transmission'].default_value = 0.58\n        bsdf.inputs['IOR'].default_value = 1.45\n\nwood = bpy.data.materials.get('Perimeter cabinet stained oak')\ninset = bpy.data.materials.get('Perimeter cabinet inset oak') or wood\n\ndef add_box(name, center, size, material, parent):\n    bpy.ops.mesh.primitive_cube_add(size=1, location=center)\n    obj = bpy.context.object\n    obj.name = name\n    obj.dimensions = size\n    if material:\n        obj.data.materials.append(material)\n    if parent:\n        obj.parent = parent\n        obj.matrix_parent_inverse = parent.matrix_world.inverted()\n    return obj\n\nleft = bpy.data.objects.get('Left tall display cabinet')\nright = bpy.data.objects.get('Right wall and base cabinets')\n# Shelves sit behind the glass and supply the horizontal depth visible in the reference.\nfor i, z in enumerate((1.78, 2.38), 1):\n    add_box('Left display interior shelf %d' % i, (-2.15, 3.30, z),\n            (2.49, 0.43, 0.045), inset, left)\nadd_box('Right upper interior shelf', (1.77, 3.35, 2.58),\n        (4.06, 0.38, 0.045), inset, right)\n# Upright end boards connect the upper cupboard to the counter, framing its open recess.\nfor label, x in (('left', -0.32), ('right', 3.86)):\n    add_box('Right recess %s upright' % label, (x, 3.47, 1.61),\n            (0.09, 0.29, 0.94), wood, right)\n"
+  }
+}

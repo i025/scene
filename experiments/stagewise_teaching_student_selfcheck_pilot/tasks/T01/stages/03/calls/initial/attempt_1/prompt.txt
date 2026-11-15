@@ -1,0 +1,5902 @@
+All model-facing input and all natural-language output must be English.
+Reconstruct the attached reference as editable three-dimensional geometry. Use only the staged images and supplied context. Do not call tools, run Blender, access files, use external models, or inspect other tasks. The fixed runner alone executes code and supplies actual renders. Do not use reference imagery as a texture, background, projection, or flat reproduction. No automatic quality scores. Hidden geometry has no unique ground truth.
+The scene persists within this task. The first patch initializes it; later patches operate on the loaded previous .blend. Python variables and functions from earlier patches DO NOT persist; named Blender objects, materials and object IDs DO persist. Import required modules and define local helpers in each patch. Use stable names and edit existing objects through bpy; do not rebuild the entire scene. SceneAct realize(new_scene, clear=False) can append new groups. Initial realize(scene) is allowed only when no checkpoint exists. Never delete all prior objects, call reset/read_factory_settings/open/save/render, change render resolution/samples/device/threads, read files, or use network. Fixed CPU Cycles settings are outside your control.
+Use compact geometry, meaningful object and part names, and parent related parts. Make only the current stage's meaningful additions; do not finish the entire scene in stage one. Preserve already completed unrelated objects and camera unless the actual evidence warrants changing them. Coordinates are scene units, not measured real-world dimensions.
+Write one incremental Python patch for the current stage/feedback, not a replacement whole-scene program. Return PATCH JSON. decision=apply requires complete executable patch code, including imports. decision=decline requires empty code and a specific reason. For each supplied feedback finding, state implemented/partially_implemented/not_implemented/not_applicable and point to actual code changes; these are your claims awaiting the next real render, not verified success. Do not claim a new result has been observed before the runner executes it. There is at most one visual correction patch and one additional technical-error repair per stage. Technical repair does not substitute for an actual visual review. Do not use further calls or rendering inside the CLI.
+PUBLIC SCENEACT API:
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene, clear=True) settles constraints and creates Blender geometry; default clears Blender.
+Use that default ONLY for the initial empty scene. Continuations must use realize(new_scene, clear=False)
+to append new groups to the loaded checkpoint, or directly modify existing bpy objects.
+Python variables from old patches do not persist. Existing named bpy objects and their stable IDs do.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+For initialization, call realize before setting camera and lights. During continuation, preserve existing
+camera/lights unless the current evidence warrants a change; do not add duplicate cameras/lights casually.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+EXPLICIT CONTEXT:
+{
+  "stage": {
+    "stage_id": 3,
+    "title": "Perimeter cabinetry",
+    "targets": [
+      "left display cabinet",
+      "right wall cabinet",
+      "right base cabinet"
+    ],
+    "completed_scope": "The tall glazed cabinet on the left and the upper and lower cabinetry along the right wall establish the surrounding furniture arrangement."
+  },
+  "previous_checkpoint_exists": true,
+  "inventory": {
+    "objects": [
+      {
+        "object_id": "obj_00001",
+        "name": "Room",
+        "type": "EMPTY",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00002",
+        "name": "Room.001",
+        "type": "EMPTY",
+        "parent_id": "obj_00001",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00003",
+        "name": "Floorboard_00",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00004",
+        "name": "Box",
+        "type": "MESH",
+        "parent_id": "obj_00003",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -5.039999961853027
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00005",
+        "name": "Floorboard_01",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00006",
+        "name": "Box.001",
+        "type": "MESH",
+        "parent_id": "obj_00005",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -4.800000190734863
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00007",
+        "name": "Floorboard_02",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00008",
+        "name": "Box.002",
+        "type": "MESH",
+        "parent_id": "obj_00007",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -4.559999942779541
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00009",
+        "name": "Floorboard_03",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00010",
+        "name": "Box.003",
+        "type": "MESH",
+        "parent_id": "obj_00009",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -4.320000171661377
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00011",
+        "name": "Floorboard_04",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00012",
+        "name": "Box.004",
+        "type": "MESH",
+        "parent_id": "obj_00011",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -4.079999923706055
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00013",
+        "name": "Floorboard_05",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00014",
+        "name": "Box.005",
+        "type": "MESH",
+        "parent_id": "obj_00013",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -3.8399999141693115
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00015",
+        "name": "Floorboard_06",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00016",
+        "name": "Box.006",
+        "type": "MESH",
+        "parent_id": "obj_00015",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -3.5999999046325684
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00017",
+        "name": "Floorboard_07",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00018",
+        "name": "Box.007",
+        "type": "MESH",
+        "parent_id": "obj_00017",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -3.359999895095825
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00019",
+        "name": "Floorboard_08",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00020",
+        "name": "Box.008",
+        "type": "MESH",
+        "parent_id": "obj_00019",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -3.119999885559082
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00021",
+        "name": "Floorboard_09",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00022",
+        "name": "Box.009",
+        "type": "MESH",
+        "parent_id": "obj_00021",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -2.880000114440918
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00023",
+        "name": "Floorboard_10",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00024",
+        "name": "Box.010",
+        "type": "MESH",
+        "parent_id": "obj_00023",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -2.640000104904175
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00025",
+        "name": "Floorboard_11",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00026",
+        "name": "Box.011",
+        "type": "MESH",
+        "parent_id": "obj_00025",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -2.4000000953674316
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00027",
+        "name": "Floorboard_12",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00028",
+        "name": "Box.012",
+        "type": "MESH",
+        "parent_id": "obj_00027",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -2.1600000858306885
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00029",
+        "name": "Floorboard_13",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00030",
+        "name": "Box.013",
+        "type": "MESH",
+        "parent_id": "obj_00029",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -1.9199999570846558
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00031",
+        "name": "Floorboard_14",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00032",
+        "name": "Box.014",
+        "type": "MESH",
+        "parent_id": "obj_00031",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -1.6799999475479126
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00033",
+        "name": "Floorboard_15",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00034",
+        "name": "Box.015",
+        "type": "MESH",
+        "parent_id": "obj_00033",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -1.440000057220459
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00035",
+        "name": "Floorboard_16",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00036",
+        "name": "Box.016",
+        "type": "MESH",
+        "parent_id": "obj_00035",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -1.2000000476837158
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00037",
+        "name": "Floorboard_17",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00038",
+        "name": "Box.017",
+        "type": "MESH",
+        "parent_id": "obj_00037",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -0.9599999785423279
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00039",
+        "name": "Floorboard_18",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00040",
+        "name": "Box.018",
+        "type": "MESH",
+        "parent_id": "obj_00039",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -0.7200000286102295
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00041",
+        "name": "Floorboard_19",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00042",
+        "name": "Box.019",
+        "type": "MESH",
+        "parent_id": "obj_00041",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -0.47999998927116394
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00043",
+        "name": "Floorboard_20",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00044",
+        "name": "Box.020",
+        "type": "MESH",
+        "parent_id": "obj_00043",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            -0.23999999463558197
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00045",
+        "name": "Floorboard_21",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00046",
+        "name": "Box.021",
+        "type": "MESH",
+        "parent_id": "obj_00045",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00047",
+        "name": "Floorboard_22",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00048",
+        "name": "Box.022",
+        "type": "MESH",
+        "parent_id": "obj_00047",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            0.23999999463558197
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00049",
+        "name": "Floorboard_23",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00050",
+        "name": "Box.023",
+        "type": "MESH",
+        "parent_id": "obj_00049",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            0.47999998927116394
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00051",
+        "name": "Floorboard_24",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00052",
+        "name": "Box.024",
+        "type": "MESH",
+        "parent_id": "obj_00051",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            0.7200000286102295
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00053",
+        "name": "Floorboard_25",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00054",
+        "name": "Box.025",
+        "type": "MESH",
+        "parent_id": "obj_00053",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            0.9599999785423279
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00055",
+        "name": "Floorboard_26",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00056",
+        "name": "Box.026",
+        "type": "MESH",
+        "parent_id": "obj_00055",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            1.2000000476837158
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00057",
+        "name": "Floorboard_27",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00058",
+        "name": "Box.027",
+        "type": "MESH",
+        "parent_id": "obj_00057",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            1.440000057220459
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00059",
+        "name": "Floorboard_28",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00060",
+        "name": "Box.028",
+        "type": "MESH",
+        "parent_id": "obj_00059",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            1.6799999475479126
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00061",
+        "name": "Floorboard_29",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00062",
+        "name": "Box.029",
+        "type": "MESH",
+        "parent_id": "obj_00061",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            1.9199999570846558
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00063",
+        "name": "Floorboard_30",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00064",
+        "name": "Box.030",
+        "type": "MESH",
+        "parent_id": "obj_00063",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            2.1600000858306885
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00065",
+        "name": "Floorboard_31",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00066",
+        "name": "Box.031",
+        "type": "MESH",
+        "parent_id": "obj_00065",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            2.4000000953674316
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00067",
+        "name": "Floorboard_32",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00068",
+        "name": "Box.032",
+        "type": "MESH",
+        "parent_id": "obj_00067",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            2.640000104904175
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00069",
+        "name": "Floorboard_33",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00070",
+        "name": "Box.033",
+        "type": "MESH",
+        "parent_id": "obj_00069",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            2.880000114440918
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00071",
+        "name": "Floorboard_34",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00072",
+        "name": "Box.034",
+        "type": "MESH",
+        "parent_id": "obj_00071",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            3.119999885559082
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00073",
+        "name": "Floorboard_35",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00074",
+        "name": "Box.035",
+        "type": "MESH",
+        "parent_id": "obj_00073",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            3.359999895095825
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00075",
+        "name": "Floorboard_36",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00076",
+        "name": "Box.036",
+        "type": "MESH",
+        "parent_id": "obj_00075",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            3.5999999046325684
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00077",
+        "name": "Floorboard_37",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00078",
+        "name": "Box.037",
+        "type": "MESH",
+        "parent_id": "obj_00077",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            3.8399999141693115
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_2"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00079",
+        "name": "Floorboard_38",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00080",
+        "name": "Box.038",
+        "type": "MESH",
+        "parent_id": "obj_00079",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            4.079999923706055
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_3"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00081",
+        "name": "Floorboard_39",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00082",
+        "name": "Box.039",
+        "type": "MESH",
+        "parent_id": "obj_00081",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            4.320000171661377
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_4"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00083",
+        "name": "Floorboard_40",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00084",
+        "name": "Box.040",
+        "type": "MESH",
+        "parent_id": "obj_00083",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            4.559999942779541
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_0"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00085",
+        "name": "Floorboard_41",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00086",
+        "name": "Box.041",
+        "type": "MESH",
+        "parent_id": "obj_00085",
+        "matrix_world": [
+          [
+            0.23600000143051147,
+            0.0,
+            0.0,
+            4.800000190734863
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.09000000357627869,
+            -0.04500000178813934
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.23600000143051147,
+          10.0,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "SceneActSurface_1"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00087",
+        "name": "Back wall",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00088",
+        "name": "Box.042",
+        "type": "MESH",
+        "parent_id": "obj_00087",
+        "matrix_world": [
+          [
+            10.199999809265137,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.11999999731779099,
+            0.0,
+            3.700000047683716
+          ],
+          [
+            0.0,
+            0.0,
+            12.0,
+            6.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          10.199999809265137,
+          0.11999999731779099,
+          12.0
+        ],
+        "material_slots": [
+          "SceneActSurface_5"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00089",
+        "name": "Right wall",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00090",
+        "name": "Box.043",
+        "type": "MESH",
+        "parent_id": "obj_00089",
+        "matrix_world": [
+          [
+            0.11999999731779099,
+            0.0,
+            0.0,
+            5.050000190734863
+          ],
+          [
+            0.0,
+            10.0,
+            0.0,
+            -1.2999999523162842
+          ],
+          [
+            0.0,
+            0.0,
+            3.799999952316284,
+            1.899999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.11999999731779099,
+          10.0,
+          3.799999952316284
+        ],
+        "material_slots": [
+          "SceneActSurface_5"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00091",
+        "name": "Back baseboard",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00092",
+        "name": "Box.044",
+        "type": "MESH",
+        "parent_id": "obj_00091",
+        "matrix_world": [
+          [
+            10.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.07999999821186066,
+            0.0,
+            3.5999999046325684
+          ],
+          [
+            0.0,
+            0.0,
+            0.2199999988079071,
+            0.10999999940395355
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          10.0,
+          0.07999999821186066,
+          0.2199999988079071
+        ],
+        "material_slots": [
+          "SceneActSurface_6"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00093",
+        "name": "Right baseboard",
+        "type": "EMPTY",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00094",
+        "name": "Box.045",
+        "type": "MESH",
+        "parent_id": "obj_00093",
+        "matrix_world": [
+          [
+            0.07999999821186066,
+            0.0,
+            0.0,
+            4.949999809265137
+          ],
+          [
+            0.0,
+            7.199999809265137,
+            0.0,
+            0.05000000074505806
+          ],
+          [
+            0.0,
+            0.0,
+            0.2199999988079071,
+            0.10999999940395355
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07999999821186066,
+          7.199999809265137,
+          0.2199999988079071
+        ],
+        "material_slots": [
+          "SceneActSurface_6"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00095",
+        "name": "SceneActView",
+        "type": "CAMERA",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            0.650791347026825,
+            -0.2774934470653534,
+            0.7067305445671082,
+            7.0
+          ],
+          [
+            0.7592566609382629,
+            0.2378515601158142,
+            -0.6057689189910889,
+            -6.0
+          ],
+          [
+            -5.1261665134916257e-08,
+            0.930819034576416,
+            0.3654804527759552,
+            4.300000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": {
+          "type": "PERSP",
+          "lens": 52.0,
+          "sensor_width": 36.0,
+          "ortho_scale": 6.0,
+          "shift_x": 0.0,
+          "shift_y": 0.0,
+          "clip_start": 0.10000000149011612,
+          "clip_end": 1000.0
+        },
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00096",
+        "name": "SceneActArea",
+        "type": "LIGHT",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.82451331615448,
+            -0.5658425092697144,
+            -2.799999952316284
+          ],
+          [
+            0.0,
+            0.5658425092697144,
+            0.82451331615448,
+            5.5
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": {
+          "type": "AREA",
+          "energy": 1000.0,
+          "color": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00097",
+        "name": "SceneActArea.001",
+        "type": "LIGHT",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            0.3939191997051239,
+            0.5688154101371765,
+            -0.721994936466217,
+            -3.5
+          ],
+          [
+            -0.9191450476646423,
+            0.2437780350446701,
+            -0.3094262480735779,
+            0.0
+          ],
+          [
+            9.28332113403485e-08,
+            0.7855070233345032,
+            0.6188527345657349,
+            3.799999952316284
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": {
+          "type": "AREA",
+          "energy": 500.0,
+          "color": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00098",
+        "name": "Staggered floor board joints",
+        "type": "MESH",
+        "parent_id": "obj_00002",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          10.072000503540039,
+          9.906000137329102,
+          0.0
+        ],
+        "material_slots": [
+          "Floor board end joints"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00099",
+        "name": "Central work island",
+        "type": "EMPTY",
+        "parent_id": null,
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "material_slots": [],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00100",
+        "name": "Solid oak countertop",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.190000057220459
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          4.050000190734863,
+          1.9500000476837158,
+          0.11999999731779099
+        ],
+        "material_slots": [
+          "Island honey oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00101",
+        "name": "Cabinet carcass",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.6349999904632568
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          3.319999933242798,
+          1.4299999475479126,
+          1.0
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00102",
+        "name": "Lower cabinet rail",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7300000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.20000000298023224
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          3.299999952316284,
+          0.07999999821186066,
+          0.1599999964237213
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00103",
+        "name": "Upper cabinet rail",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7300000190734863
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            1.0199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          3.299999952316284,
+          0.07999999821186066,
+          0.11999999731779099
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00104",
+        "name": "Corner support post",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.600000023841858
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.6700000166893005
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5600000023841858
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.14000000059604645,
+          0.14000000059604645,
+          1.1200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00105",
+        "name": "Corner support post.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.600000023841858
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.6700000166893005
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5600000023841858
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.14000000059604645,
+          0.14000000059604645,
+          1.1200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00106",
+        "name": "Corner support post.002",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.600000023841858
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.6700000166893005
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5600000023841858
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.14000000059604645,
+          0.14000000059604645,
+          1.1200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00107",
+        "name": "Corner support post.003",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.600000023841858
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.6700000166893005
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5600000023841858
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.14000000059604645,
+          0.14000000059604645,
+          1.1200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00108",
+        "name": "Drawer front 1",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7279999852180481
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.9100000262260437
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.03500000014901161,
+          0.20000000298023224
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00109",
+        "name": "Door inset 1",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7289999723434448
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.8399999737739563,
+          0.02500000037252903,
+          0.49000000953674316
+        ],
+        "material_slots": [
+          "Island recessed panels"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00110",
+        "name": "Door vertical frame",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.04500000178813934,
+          0.6200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00111",
+        "name": "Door vertical frame.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.6000000238418579
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.04500000178813934,
+          0.6200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00112",
+        "name": "Door horizontal frame",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.23499999940395355
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.04500000178813934,
+          0.07000000029802322
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00113",
+        "name": "Door horizontal frame.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.8050000071525574
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.04500000178813934,
+          0.07000000029802322
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00114",
+        "name": "Drawer pull",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            7.549790126404332e-08,
+            -7.549790126404332e-08,
+            1.0,
+            -1.0499999523162842
+          ],
+          [
+            1.0,
+            5.6999328827277325e-15,
+            -7.549790126404332e-08,
+            -0.7649999856948853
+          ],
+          [
+            0.0,
+            1.0,
+            7.549790126404332e-08,
+            0.9100000262260437
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.024000000208616257,
+          0.024000000208616257,
+          0.1499999761581421
+        ],
+        "material_slots": [
+          "Aged dark metal hardware"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00115",
+        "name": "Door handle",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            -1.0,
+            1.5099580252808664e-07,
+            0.0,
+            -0.7300000190734863
+          ],
+          [
+            -1.5099580252808664e-07,
+            -1.0,
+            0.0,
+            -0.777999997138977
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5400000214576721
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.017999999225139618,
+          0.017999999225139618,
+          0.12000003457069397
+        ],
+        "material_slots": [
+          "Aged dark metal hardware"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00116",
+        "name": "Drawer front 2",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7279999852180481
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.9100000262260437
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.03500000014901161,
+          0.20000000298023224
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00117",
+        "name": "Door inset 2",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7289999723434448
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.8399999737739563,
+          0.02500000037252903,
+          0.49000000953674316
+        ],
+        "material_slots": [
+          "Island recessed panels"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00118",
+        "name": "Door vertical frame.002",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.44999998807907104
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.04500000178813934,
+          0.6200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00119",
+        "name": "Door vertical frame.003",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.44999998807907104
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.04500000178813934,
+          0.6200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00120",
+        "name": "Door horizontal frame.002",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.23499999940395355
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.04500000178813934,
+          0.07000000029802322
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00121",
+        "name": "Door horizontal frame.003",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.8050000071525574
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.04500000178813934,
+          0.07000000029802322
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00122",
+        "name": "Drawer pull.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            7.549790126404332e-08,
+            -7.549790126404332e-08,
+            1.0,
+            0.0
+          ],
+          [
+            1.0,
+            5.6999328827277325e-15,
+            -7.549790126404332e-08,
+            -0.7649999856948853
+          ],
+          [
+            0.0,
+            1.0,
+            7.549790126404332e-08,
+            0.9100000262260437
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.024000000208616257,
+          0.024000000208616257,
+          0.15000000596046448
+        ],
+        "material_slots": [
+          "Aged dark metal hardware"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00123",
+        "name": "Door handle.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            -1.0,
+            1.5099580252808664e-07,
+            0.0,
+            0.3199999928474426
+          ],
+          [
+            -1.5099580252808664e-07,
+            -1.0,
+            0.0,
+            -0.777999997138977
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5400000214576721
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.017999999225139618,
+          0.017999999225139618,
+          0.12000003457069397
+        ],
+        "material_slots": [
+          "Aged dark metal hardware"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00124",
+        "name": "Drawer front 3",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7279999852180481
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.9100000262260437
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.03500000014901161,
+          0.20000000298023224
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00125",
+        "name": "Door inset 3",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.7289999723434448
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.8399999737739563,
+          0.02500000037252903,
+          0.49000000953674316
+        ],
+        "material_slots": [
+          "Island recessed panels"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00126",
+        "name": "Door vertical frame.004",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.6000000238418579
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.04500000178813934,
+          0.6200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00127",
+        "name": "Door vertical frame.005",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.5
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5199999809265137
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.04500000178813934,
+          0.6200000047683716
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00128",
+        "name": "Door horizontal frame.004",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.23499999940395355
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.04500000178813934,
+          0.07000000029802322
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00129",
+        "name": "Door horizontal frame.005",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.0499999523162842
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.75
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.8050000071525574
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.949999988079071,
+          0.04500000178813934,
+          0.07000000029802322
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00130",
+        "name": "Drawer pull.002",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            7.549790126404332e-08,
+            -7.549790126404332e-08,
+            1.0,
+            1.0499999523162842
+          ],
+          [
+            1.0,
+            5.6999328827277325e-15,
+            -7.549790126404332e-08,
+            -0.7649999856948853
+          ],
+          [
+            0.0,
+            1.0,
+            7.549790126404332e-08,
+            0.9100000262260437
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.024000000208616257,
+          0.024000000208616257,
+          0.1499999761581421
+        ],
+        "material_slots": [
+          "Aged dark metal hardware"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00131",
+        "name": "Door handle.002",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            -1.0,
+            1.5099580252808664e-07,
+            0.0,
+            1.3700000047683716
+          ],
+          [
+            -1.5099580252808664e-07,
+            -1.0,
+            0.0,
+            -0.777999997138977
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5400000214576721
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.017999999225139618,
+          0.017999999225139618,
+          0.12000003457069397
+        ],
+        "material_slots": [
+          "Aged dark metal hardware"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00132",
+        "name": "End recessed panel",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.6740000247955322
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5899999737739563
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.029999999329447746,
+          1.1299999952316284,
+          0.7200000286102295
+        ],
+        "material_slots": [
+          "Island recessed panels"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00133",
+        "name": "End panel stile",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.7000000476837158
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            -0.6100000143051147
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5899999737739563
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.09000000357627869,
+          0.8799999952316284
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00134",
+        "name": "End panel stile.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.7000000476837158
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.6100000143051147
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5899999737739563
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.09000000357627869,
+          0.8799999952316284
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00135",
+        "name": "End panel rail",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.7000000476837158
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.1899999976158142
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          1.2999999523162842,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00136",
+        "name": "End panel rail.001",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.7000000476837158
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.9900000095367432
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          1.2999999523162842,
+          0.09000000357627869
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      },
+      {
+        "object_id": "obj_00137",
+        "name": "End panel center stile",
+        "type": "MESH",
+        "parent_id": "obj_00099",
+        "matrix_world": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            1.7000000476837158
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.5899999737739563
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "dimensions": [
+          0.07000000029802322,
+          0.07000000029802322,
+          0.7200000286102295
+        ],
+        "material_slots": [
+          "Island dark stained oak"
+        ],
+        "camera": null,
+        "light": null,
+        "hide_render": false
+      }
+    ],
+    "active_camera_id": "obj_00095",
+    "world": null
+  },
+  "feedback": null,
+  "execution_error": null,
+  "operation": "initial",
+  "completed_scope": "The tall glazed cabinet on the left and the upper and lower cabinetry along the right wall establish the surrounding furniture arrangement.",
+  "remaining_active_seconds": 5152
+}

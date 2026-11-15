@@ -1,0 +1,66 @@
+{
+  "type": "object",
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": [
+        "apply",
+        "decline"
+      ]
+    },
+    "code": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "changes": {
+      "type": "string"
+    },
+    "advice_implementation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "implemented",
+              "partially_implemented",
+              "not_implemented",
+              "not_applicable"
+            ]
+          },
+          "actual_change": {
+            "type": "string"
+          },
+          "code_evidence": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "finding_id",
+          "status",
+          "actual_change",
+          "code_evidence"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "completed_scope": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "code",
+    "reason",
+    "changes",
+    "advice_implementation",
+    "completed_scope"
+  ],
+  "additionalProperties": false
+}

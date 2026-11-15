@@ -1,0 +1,16 @@
+import json
+
+
+def build_review_prompt(context):
+    return (
+        "Review the current supplied evidence in English. Apply the frozen questions below; do not infer answers from the questions.\n\n"
+        "1. Scope and authority [preexisting_general_rule]: What is completed at this stage, what operation is permitted, and is visual correction available? Review that scope, preserve unrelated work, and respect the execution contract.\n"
+        "2. Framing [development_derived]: How do normalized landmark positions, projected sizes, margins, and edge coverage compare with the reference? After a framing change, recheck cropping and occlusion across the completed scope.\n"
+        "3. Presence and visibility [development_derived]: Which required elements exist in the inventory, and which are actually recognizable in the render? Compare silhouette coverage and density; distinguish absence from uncertain visibility.\n"
+        "4. Part relationships [development_derived]: Do visible part proportions, gaps, overlaps, and support contacts match the reference? Identify anchors to preserve during a local correction and mark obscured contacts unverified.\n"
+        "5. Tonal readability [development_derived]: Do important adjacent surfaces and silhouettes remain distinguishable? Compare relative brightness and shading before judging fine detail, and state what noise or washout prevents assessing.\n"
+        "6. Verification and carryover [development_derived]: What actually changed, what does the resulting render confirm, and what regressed? Revisit prior findings, label each resolved, partially resolved, unresolved, or unverified, and carry remaining issues forward when correction is unavailable.\n\n"
+        "Use stage and completed_scope to bound the review, inventory for existence evidence, previous_findings for continuity, verification for available outcomes, and operation and visual_correction_available to determine the permitted next step. Missing evidence remains unknown. For each material finding, give reference evidence, current evidence, an approximate measurement when supportable, uncertainty, and status. If correction is permitted, identify a scoped change, preservation anchors, and a visible check afterward. During verification, assess actual outcomes without assuming that an executed patch resolved its target. Do not request additional execution or changes forbidden by the current contract. Do not produce automatic quality scores or assert unique hidden geometry.\n\n"
+        "Current context JSON:\n" + json.dumps(context)
+    )
+

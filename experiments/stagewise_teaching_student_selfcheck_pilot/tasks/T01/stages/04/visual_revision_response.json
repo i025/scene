@@ -1,0 +1,15 @@
+{
+  "decision": "apply",
+  "code": "import bpy\nfrom mathutils import Vector\n\n# Tighten the existing view around the furniture and look down enough to reveal\n# more of the cabinet fronts behind the work island.\ncam = bpy.data.objects.get('SceneActView')\nif cam is not None and cam.type == 'CAMERA':\n    cam.location = (4.8, -7.8, 4.2)\n    target = Vector((0.0, 1.25, 1.35))\n    cam.rotation_euler = (target - cam.location).to_track_quat('-Z', 'Y').to_euler()\n    cam.data.lens = 46.0\n    cam.data.shift_x = 0.0\n    cam.data.shift_y = 0.0\n    bpy.context.scene.camera = cam\n",
+  "reason": "The supplied render shows the furniture occupying too little of the frame, with a black edge and obscured lower cabinetry. The patch adjusts only the existing camera; the fixed runner must render the result to assess visibility.",
+  "changes": "Moves the camera closer and slightly higher, aims it across the furniture, and modestly increases its focal length.",
+  "advice_implementation": [
+    {
+      "finding_id": "F1",
+      "status": "implemented",
+      "actual_change": "Adjusted the existing camera position, aim, and lens to enlarge the furniture and improve the view of the cabinet fronts.",
+      "code_evidence": "Sets SceneActView to (4.8, -7.8, 4.2), aims at (0.0, 1.25, 1.35), and sets its lens to 46 mm."
+    }
+  ],
+  "completed_scope": "Cabinet joinery and existing furniture geometry are preserved. Camera framing is revised pending the next actual render."
+}

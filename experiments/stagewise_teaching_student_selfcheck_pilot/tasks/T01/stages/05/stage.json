@@ -1,0 +1,2283 @@
+{
+  "task_id": "T01",
+  "split": "test",
+  "stage_id": 5,
+  "title": "Appearance and global check",
+  "targets": [
+    "wood materials",
+    "glass appearance",
+    "lighting balance",
+    "scene-wide verification"
+  ],
+  "completed_scope": "Wood tones and surface variation distinguish the countertop, cabinetry, and floor; a final render checks framing, visibility, contacts, and tonal readability across the completed scene, with obscured details recorded as uncertain.",
+  "status": "advance_with_issue",
+  "parent_checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+  "initial_checkpoint": "tasks/T01/stages/05/initial_build/scene.blend",
+  "final_checkpoint": "tasks/T01/stages/05/visual_revision_build/scene.blend",
+  "initial_render": "tasks/T01/stages/05/initial_build/final.png",
+  "final_render": "tasks/T01/stages/05/visual_revision_build/final.png",
+  "attempts": [
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 5,
+      "action_type": "initial",
+      "role": "student",
+      "targets": [
+        "wood materials",
+        "glass appearance",
+        "lighting balance",
+        "scene-wide verification"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/04/visual_revision_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/04/visual_revision_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/05/initial_build/scene.blend",
+      "render": "tasks/T01/stages/05/initial_build/final.png",
+      "patch": "tasks/T01/stages/05/initial_build/patch.py",
+      "inventory": "tasks/T01/stages/05/initial_build/inventory.json",
+      "seconds": 5.016409059986472,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    },
+    {
+      "task_id": "T01",
+      "split": "test",
+      "stage_id": 5,
+      "action_type": "visual_revision",
+      "role": "student",
+      "targets": [
+        "wood materials",
+        "glass appearance",
+        "lighting balance",
+        "scene-wide verification"
+      ],
+      "images": [
+        "sources/T01.jpg",
+        "tasks/T01/stages/05/initial_build/final.png"
+      ],
+      "ok": true,
+      "status": "completed",
+      "failure_type": null,
+      "parent_checkpoint": "tasks/T01/stages/05/initial_build/scene.blend",
+      "checkpoint": "tasks/T01/stages/05/visual_revision_build/scene.blend",
+      "render": "tasks/T01/stages/05/visual_revision_build/final.png",
+      "patch": "tasks/T01/stages/05/visual_revision_build/patch.py",
+      "inventory": "tasks/T01/stages/05/visual_revision_build/inventory.json",
+      "seconds": 5.215739144012332,
+      "error": "\n",
+      "build_ok": true,
+      "render_ok": true
+    }
+  ],
+  "review": {
+    "decision": "revise",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Left edge of the room backdrop",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The reference has wall and floor coverage across the left edge, with no black void.",
+        "render_evidence": "A black wedge remains at the upper left of the current render, extending roughly 6% of the image width at its widest point. The previous checkpoint shows a larger black region, so the executed wall extension reduced but did not eliminate it.",
+        "proposed_change": "Extend or reposition the existing back wall enough to cover the remaining black wedge within the current camera view.",
+        "preserve": "Preserve the camera, island and cabinet placement, floor, materials, and lighting.",
+        "check_after": "Verify that the entire left edge has room coverage and that the wall does not obscure the cabinets or floor.",
+        "uncertainty": "The image does not establish the exact world-space extension needed.",
+        "status": "new"
+      },
+      {
+        "id": "F2",
+        "target": "Scene framing and island viewpoint",
+        "problem_source": "test_observation",
+        "rule_source": "R2",
+        "reference_evidence": "The island top spans approximately 70% of the reference width and has a strongly receding diagonal; its near end panel is prominent. The tall cabinet occupies roughly 40% of the image width.",
+        "render_evidence": "The island top spans about 60% of the render width and reads more horizontally, while its end panel is narrow. The tall cabinet occupies about 25% of the width, and the right cabinetry is cut off by the image edge.",
+        "proposed_change": "Carry this framing discrepancy forward; use the available correction for backdrop coverage.",
+        "preserve": "Preserve the recognizable island and both cabinet groups.",
+        "check_after": "After the backdrop correction, confirm that cabinet visibility and cropping have not regressed.",
+        "uncertainty": "Differences in viewpoint and geometry cannot be separated reliably from the images alone; obscured support contacts remain unverified.",
+        "status": "new"
+      },
+      {
+        "id": "F3",
+        "target": "Wood and glass appearance",
+        "problem_source": "test_observation",
+        "rule_source": "R5",
+        "reference_evidence": "The reference has a warm honey-colored island top with visible broad grain, dark cabinetry, and glass with varied reflections and visible shelving.",
+        "render_evidence": "The current island top is very pale and its grain is faint; the glass panels appear mostly uniform cyan. The countertop, cabinetry, and floor remain distinguishable, and the floor and cabinet surfaces show some variation.",
+        "proposed_change": "Carry the remaining appearance differences forward after the backdrop correction.",
+        "preserve": "Preserve the existing tonal separation between the island, cabinetry, and floor.",
+        "check_after": "Confirm that the backdrop correction leaves material readability unchanged.",
+        "uncertainty": "Render noise and lighting limit assessment of subtle grain and glass reflections; the inventory lists interior shelves, but their visibility through the glass is uncertain.",
+        "status": "new"
+      }
+    ],
+    "summary": "One visual correction is available. The remaining black backdrop wedge is the proposed local correction; framing and appearance differences remain recorded for carryover. No prior findings were supplied.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/05/initial_build/final.png",
+      "tasks/T01/stages/04/visual_revision_build/final.png"
+    ],
+    "role": "student_self_review",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "confirmation": {
+    "decision": "advance_with_issue",
+    "findings": [
+      {
+        "id": "F1",
+        "target": "Left edge of the room backdrop",
+        "problem_source": "test_observation",
+        "rule_source": "R6",
+        "reference_evidence": "The reference has continuous wall and floor coverage at the left edge, with no black void.",
+        "render_evidence": "The current render fills the previous checkpoint's upper-left black wedge, but a black triangular region remains below the wall at the left edge, extending about 21% of the image width at its widest point.",
+        "proposed_change": "Carry the remaining backdrop coverage issue forward; no further visual correction is available.",
+        "preserve": "Preserve the camera, furnishings, floor, materials, and lighting.",
+        "check_after": "No additional patch cycle is permitted.",
+        "uncertainty": "The images do not establish the cause or world-space extent of the remaining black region.",
+        "status": "partially_resolved"
+      },
+      {
+        "id": "F2",
+        "target": "Scene framing and island viewpoint",
+        "problem_source": "test_observation",
+        "rule_source": "R6",
+        "reference_evidence": "The reference island top spans roughly 70% of the image width, with a prominent near end; the tall cabinet spans about 40%.",
+        "render_evidence": "The current island top spans about 60% of the width and its end is narrow; the tall cabinet spans about 25%, and the right cabinetry remains cropped. These relationships appear unchanged from the previous checkpoint.",
+        "proposed_change": "Carry the framing discrepancy forward without another correction.",
+        "preserve": "Preserve the recognizable island and both cabinet groups.",
+        "check_after": "No additional patch cycle is permitted.",
+        "uncertainty": "Viewpoint and geometry effects cannot be separated reliably from the images; obscured support contacts remain unverified.",
+        "status": "unresolved"
+      },
+      {
+        "id": "F3",
+        "target": "Wood and glass appearance",
+        "problem_source": "test_observation",
+        "rule_source": "R6",
+        "reference_evidence": "The reference shows a warm honey-colored island top with broad grain, dark cabinetry, and glass with varied reflections.",
+        "render_evidence": "The current top remains pale with faint grain, and the glass remains mostly uniform cyan. The island, cabinets, and floor remain tonally distinguishable, with no obvious appearance regression from the previous checkpoint.",
+        "proposed_change": "Carry the appearance differences forward without another correction.",
+        "preserve": "Preserve the existing tonal separation between the island, cabinetry, and floor.",
+        "check_after": "No additional patch cycle is permitted.",
+        "uncertainty": "Noise and lighting limit assessment of subtle grain and reflections. Interior shelves are listed in the inventory, but their visibility through the glass remains uncertain.",
+        "status": "unresolved"
+      }
+    ],
+    "summary": "The executed wall extension removed the upper-left wedge but did not eliminate the black region at the left edge. Framing and appearance differences remain; visual correction is no longer available.",
+    "input_images": [
+      "sources/T01.jpg",
+      "tasks/T01/stages/05/visual_revision_build/final.png",
+      "tasks/T01/stages/05/initial_build/final.png"
+    ],
+    "role": "student_self_verification",
+    "code_entry": "transfer/frozen/student_self_review.py:build_review_prompt"
+  },
+  "student_revision": {
+    "decision": "apply",
+    "code": "import bpy\n\n# Extend the existing back wall horizontally to cover the remaining left-edge void.\nwall = bpy.data.objects.get('Box.042')\nif wall is None:\n    raise RuntimeError('Existing back wall mesh Box.042 was not found')\nwall.scale.x *= 2.0\n",
+    "reason": "The available visual correction targets the remaining black wedge at the left edge. The existing back wall is extended without changing the camera, furnishings, materials, or lights.",
+    "changes": "Doubled the horizontal extent of the existing back wall while retaining its position and height.",
+    "advice_implementation": [
+      {
+        "finding_id": "F1",
+        "status": "implemented",
+        "actual_change": "Extended the existing back wall horizontally to cover more of the camera view.",
+        "code_evidence": "wall = bpy.data.objects.get('Box.042'); wall.scale.x *= 2.0"
+      },
+      {
+        "finding_id": "F2",
+        "status": "not_implemented",
+        "actual_change": "Framing and island viewpoint are carried forward as requested; the camera and furniture are preserved.",
+        "code_evidence": "The patch modifies only Box.042 and does not alter the camera or furniture."
+      },
+      {
+        "finding_id": "F3",
+        "status": "not_implemented",
+        "actual_change": "Wood and glass appearance differences are carried forward as requested; existing materials and lighting are preserved.",
+        "code_evidence": "The patch changes only the wall object's horizontal scale."
+      }
+    ],
+    "completed_scope": "The backdrop correction is ready for the runner's render. Full left-edge coverage and unchanged cabinet visibility remain to be verified; obscured support contacts and shelf visibility remain uncertain.",
+    "actual_executed_patch": "tasks/T01/stages/05/visual_revision_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00088",
+          "name": "Box.042",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\n\n# Extend the existing back wall horizontally to cover the remaining left-edge void.\nwall = bpy.data.objects.get('Box.042')\nif wall is None:\n    raise RuntimeError('Existing back wall mesh Box.042 was not found')\nwall.scale.x *= 2.0\n"
+  },
+  "initial_response": {
+    "decision": "apply",
+    "code": "import bpy\n\n# Procedural finishes remain editable and do not depend on image files.\ndef wood_material(name, dark, light, mapping_scale, noise_scale=4.0, roughness=0.4):\n    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)\n    mat.use_nodes = True\n    nodes = mat.node_tree.nodes\n    nodes.clear()\n    links = mat.node_tree.links\n    out = nodes.new('ShaderNodeOutputMaterial')\n    bsdf = nodes.new('ShaderNodeBsdfPrincipled')\n    bsdf.inputs['Roughness'].default_value = roughness\n    tex = nodes.new('ShaderNodeTexCoord')\n    mapping = nodes.new('ShaderNodeVectorMath')\n    mapping.operation = 'MULTIPLY'\n    mapping.inputs[1].default_value = mapping_scale\n    noise = nodes.new('ShaderNodeTexNoise')\n    noise.inputs['Scale'].default_value = noise_scale\n    noise.inputs['Detail'].default_value = 3.0\n    noise.inputs['Roughness'].default_value = 0.7\n    ramp = nodes.new('ShaderNodeValToRGB')\n    ramp.color_ramp.elements[0].position = 0.24\n    ramp.color_ramp.elements[0].color = (*dark, 1.0)\n    ramp.color_ramp.elements[1].position = 0.76\n    ramp.color_ramp.elements[1].color = (*light, 1.0)\n    bump = nodes.new('ShaderNodeBump')\n    bump.inputs['Strength'].default_value = 0.12\n    bump.inputs['Distance'].default_value = 0.025\n    links.new(tex.outputs['Generated'], mapping.inputs[0])\n    links.new(mapping.outputs['Vector'], noise.inputs['Vector'])\n    links.new(noise.outputs['Fac'], ramp.inputs['Fac'])\n    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])\n    links.new(noise.outputs['Fac'], bump.inputs['Height'])\n    links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])\n    links.new(bsdf.outputs['BSDF'], out.inputs['Surface'])\n    return mat\n\ncounter = wood_material('Finish - honey oak island top', (0.30, 0.145, 0.055), (0.58, 0.36, 0.16), (1.2, 22.0, 3.0), 3.0, 0.34)\ncabinet = wood_material('Finish - dark stained cabinet oak', (0.075, 0.036, 0.018), (0.24, 0.13, 0.065), (9.0, 4.0, 1.2), 3.2, 0.4)\ninset = wood_material('Finish - recessed oak panels', (0.065, 0.030, 0.015), (0.19, 0.095, 0.045), (9.0, 4.0, 1.2), 3.2, 0.44)\nbacktop = wood_material('Finish - dark perimeter counter', (0.065, 0.038, 0.025), (0.18, 0.105, 0.065), (1.2, 18.0, 3.0), 3.0, 0.36)\nfloors = []\nfor i, factor in enumerate((0.91, 0.97, 1.02, 1.06, 0.95)):\n    floors.append(wood_material('Finish - floor oak %02d' % i, tuple(v * factor for v in (0.25, 0.13, 0.065)), tuple(v * factor for v in (0.48, 0.29, 0.145)), (5.0, 0.65, 4.0), 3.0, 0.48))\n\nglass = bpy.data.materials.get('Finish - reflective muted glass') or bpy.data.materials.new('Finish - reflective muted glass')\nglass.use_nodes = True\np = glass.node_tree.nodes.get('Principled BSDF')\nif p:\n    p.inputs['Base Color'].default_value = (0.36, 0.49, 0.47, 1.0)\n    p.inputs['Roughness'].default_value = 0.22\n    p.inputs['Metallic'].default_value = 0.16\n    if 'Coat Weight' in p.inputs:\n        p.inputs['Coat Weight'].default_value = 0.35\n\ndef assign(obj, material):\n    if obj.type == 'MESH':\n        if obj.data.materials:\n            obj.data.materials[0] = material\n        else:\n            obj.data.materials.append(material)\n\nfor obj in bpy.data.objects:\n    if obj.type != 'MESH':\n        continue\n    parent_name = obj.parent.name if obj.parent else ''\n    if parent_name.startswith('Floorboard_'):\n        try:\n            assign(obj, floors[int(parent_name.split('_')[-1]) % len(floors)])\n        except ValueError:\n            pass\n    elif obj.name == 'Solid oak countertop':\n        assign(obj, counter)\n    elif obj.name == 'Right dark countertop':\n        assign(obj, backtop)\n    elif 'glazed door' in obj.name.lower() and 'inset' in obj.name.lower():\n        assign(obj, glass)\n    elif parent_name in {'Central work island', 'Left tall display cabinet', 'Right wall and base cabinets'}:\n        original = obj.data.materials[0].name if obj.data.materials else ''\n        if original in {'Island dark stained oak', 'Perimeter cabinet stained oak'}:\n            assign(obj, cabinet)\n        elif original in {'Island recessed panels', 'Perimeter cabinet inset oak'}:\n            assign(obj, inset)\n\n# Extend the existing wall beyond the camera view to remove the black void at the left edge.\nwall = bpy.data.objects.get('Box.042')\nif wall:\n    wall.scale.x *= 1.5\n",
+    "reason": "The current render shows pale, nearly uniform finishes and a black area beyond the left edge of the wall. This patch introduces distinct procedural wood and reflective glazing finishes and extends the existing wall.",
+    "changes": "Adds editable procedural finishes for the island top, cabinet wood, recessed panels, perimeter counter, and floorboards; adjusts glazing and extends the existing back wall. Existing camera and lights are preserved.",
+    "advice_implementation": [],
+    "completed_scope": "Appearance adjustments are prepared for the fixed runner. Framing, contacts, lighting balance, and tonal readability require review of its next render; obscured cabinet details remain uncertain.",
+    "actual_executed_patch": "tasks/T01/stages/05/initial_build/patch.py",
+    "actual_execution_ok": true,
+    "measured_scene_changes": {
+      "created": [],
+      "deleted": [],
+      "modified": [
+        {
+          "object_id": "obj_00004",
+          "name": "Box",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00006",
+          "name": "Box.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00008",
+          "name": "Box.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00010",
+          "name": "Box.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00012",
+          "name": "Box.004",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00014",
+          "name": "Box.005",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00016",
+          "name": "Box.006",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00018",
+          "name": "Box.007",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00020",
+          "name": "Box.008",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00022",
+          "name": "Box.009",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00024",
+          "name": "Box.010",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00026",
+          "name": "Box.011",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00028",
+          "name": "Box.012",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00030",
+          "name": "Box.013",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00032",
+          "name": "Box.014",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00034",
+          "name": "Box.015",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00036",
+          "name": "Box.016",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00038",
+          "name": "Box.017",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00040",
+          "name": "Box.018",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00042",
+          "name": "Box.019",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00044",
+          "name": "Box.020",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00046",
+          "name": "Box.021",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00048",
+          "name": "Box.022",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00050",
+          "name": "Box.023",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00052",
+          "name": "Box.024",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00054",
+          "name": "Box.025",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00056",
+          "name": "Box.026",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00058",
+          "name": "Box.027",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00060",
+          "name": "Box.028",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00062",
+          "name": "Box.029",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00064",
+          "name": "Box.030",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00066",
+          "name": "Box.031",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00068",
+          "name": "Box.032",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00070",
+          "name": "Box.033",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00072",
+          "name": "Box.034",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00074",
+          "name": "Box.035",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00076",
+          "name": "Box.036",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00078",
+          "name": "Box.037",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 02"
+          ]
+        },
+        {
+          "object_id": "obj_00080",
+          "name": "Box.038",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 03"
+          ]
+        },
+        {
+          "object_id": "obj_00082",
+          "name": "Box.039",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 04"
+          ]
+        },
+        {
+          "object_id": "obj_00084",
+          "name": "Box.040",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 00"
+          ]
+        },
+        {
+          "object_id": "obj_00086",
+          "name": "Box.041",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - floor oak 01"
+          ]
+        },
+        {
+          "object_id": "obj_00088",
+          "name": "Box.042",
+          "fields": [
+            "matrix_world",
+            "matrix_local",
+            "dimensions"
+          ],
+          "changed_materials": []
+        },
+        {
+          "object_id": "obj_00100",
+          "name": "Solid oak countertop",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - honey oak island top"
+          ]
+        },
+        {
+          "object_id": "obj_00101",
+          "name": "Cabinet carcass",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00102",
+          "name": "Lower cabinet rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00103",
+          "name": "Upper cabinet rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00104",
+          "name": "Corner support post",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00105",
+          "name": "Corner support post.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00106",
+          "name": "Corner support post.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00107",
+          "name": "Corner support post.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00108",
+          "name": "Drawer front 1",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00109",
+          "name": "Door inset 1",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00110",
+          "name": "Door vertical frame",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00111",
+          "name": "Door vertical frame.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00112",
+          "name": "Door horizontal frame",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00113",
+          "name": "Door horizontal frame.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00116",
+          "name": "Drawer front 2",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00117",
+          "name": "Door inset 2",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00118",
+          "name": "Door vertical frame.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00119",
+          "name": "Door vertical frame.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00120",
+          "name": "Door horizontal frame.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00121",
+          "name": "Door horizontal frame.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00124",
+          "name": "Drawer front 3",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00125",
+          "name": "Door inset 3",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00126",
+          "name": "Door vertical frame.004",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00127",
+          "name": "Door vertical frame.005",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00128",
+          "name": "Door horizontal frame.004",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00129",
+          "name": "Door horizontal frame.005",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00132",
+          "name": "End recessed panel",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00133",
+          "name": "End panel stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00134",
+          "name": "End panel stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00135",
+          "name": "End panel rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00136",
+          "name": "End panel rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00137",
+          "name": "End panel center stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00139",
+          "name": "Left cabinet lower body",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00140",
+          "name": "Left cabinet plinth",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00141",
+          "name": "Left cabinet divider ledge",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00142",
+          "name": "Left display backing",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00143",
+          "name": "Left display side",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00144",
+          "name": "Left display side.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00145",
+          "name": "Left display horizontal case",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00146",
+          "name": "Left display horizontal case.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00147",
+          "name": "Left glazed door 1 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00148",
+          "name": "Left glazed door 1 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00149",
+          "name": "Left glazed door 1 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00150",
+          "name": "Left glazed door 1 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00151",
+          "name": "Left glazed door 1 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00152",
+          "name": "Left glazed door crossbar",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00153",
+          "name": "Left glazed door crossbar.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00155",
+          "name": "Left lower drawer",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00159",
+          "name": "Left glazed door 2 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00160",
+          "name": "Left glazed door 2 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00161",
+          "name": "Left glazed door 2 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00162",
+          "name": "Left glazed door 2 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00163",
+          "name": "Left glazed door 2 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00164",
+          "name": "Left glazed door crossbar.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00165",
+          "name": "Left glazed door crossbar.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00167",
+          "name": "Left lower drawer.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00171",
+          "name": "Left glazed door 3 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00172",
+          "name": "Left glazed door 3 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00173",
+          "name": "Left glazed door 3 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00174",
+          "name": "Left glazed door 3 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00175",
+          "name": "Left glazed door 3 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00176",
+          "name": "Left glazed door crossbar.004",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00177",
+          "name": "Left glazed door crossbar.005",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00179",
+          "name": "Left lower drawer.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00183",
+          "name": "Left glazed door 4 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00184",
+          "name": "Left glazed door 4 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00185",
+          "name": "Left glazed door 4 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00186",
+          "name": "Left glazed door 4 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00187",
+          "name": "Left glazed door 4 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00188",
+          "name": "Left glazed door crossbar.006",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00189",
+          "name": "Left glazed door crossbar.007",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00191",
+          "name": "Left lower drawer.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00195",
+          "name": "Left lower door 1 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00196",
+          "name": "Left lower door 1 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00197",
+          "name": "Left lower door 1 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00198",
+          "name": "Left lower door 1 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00199",
+          "name": "Left lower door 1 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00201",
+          "name": "Left lower door 2 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00202",
+          "name": "Left lower door 2 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00203",
+          "name": "Left lower door 2 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00204",
+          "name": "Left lower door 2 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00205",
+          "name": "Left lower door 2 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00208",
+          "name": "Right base carcass",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00209",
+          "name": "Right base plinth",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00210",
+          "name": "Right dark countertop",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark perimeter counter"
+          ]
+        },
+        {
+          "object_id": "obj_00211",
+          "name": "Right drawer front",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00215",
+          "name": "Right base door 1 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00216",
+          "name": "Right base door 1 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00217",
+          "name": "Right base door 1 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00218",
+          "name": "Right base door 1 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00219",
+          "name": "Right base door 1 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00221",
+          "name": "Right drawer front.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00225",
+          "name": "Right base door 2 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00226",
+          "name": "Right base door 2 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00227",
+          "name": "Right base door 2 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00228",
+          "name": "Right base door 2 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00229",
+          "name": "Right base door 2 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00231",
+          "name": "Right drawer front.002",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00235",
+          "name": "Right base door 3 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00236",
+          "name": "Right base door 3 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00237",
+          "name": "Right base door 3 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00238",
+          "name": "Right base door 3 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00239",
+          "name": "Right base door 3 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00241",
+          "name": "Right drawer front.003",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00245",
+          "name": "Right base door 4 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00246",
+          "name": "Right base door 4 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00247",
+          "name": "Right base door 4 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00248",
+          "name": "Right base door 4 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00249",
+          "name": "Right base door 4 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00251",
+          "name": "Right upper cabinet backing",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00252",
+          "name": "Right upper cabinet side",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00253",
+          "name": "Right upper cabinet side.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00254",
+          "name": "Right upper cabinet rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00255",
+          "name": "Right upper cabinet rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00256",
+          "name": "Right glazed door 1 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00257",
+          "name": "Right glazed door 1 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00258",
+          "name": "Right glazed door 1 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00259",
+          "name": "Right glazed door 1 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00260",
+          "name": "Right glazed door 1 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00262",
+          "name": "Right glazed door 2 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00263",
+          "name": "Right glazed door 2 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00264",
+          "name": "Right glazed door 2 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00265",
+          "name": "Right glazed door 2 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00266",
+          "name": "Right glazed door 2 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00268",
+          "name": "Right glazed door 3 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00269",
+          "name": "Right glazed door 3 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00270",
+          "name": "Right glazed door 3 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00271",
+          "name": "Right glazed door 3 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00272",
+          "name": "Right glazed door 3 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00274",
+          "name": "Right glazed door 4 inset",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - reflective muted glass"
+          ]
+        },
+        {
+          "object_id": "obj_00275",
+          "name": "Right glazed door 4 stile",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00276",
+          "name": "Right glazed door 4 stile.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00277",
+          "name": "Right glazed door 4 rail",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00278",
+          "name": "Right glazed door 4 rail.001",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00280",
+          "name": "Left display interior shelf 1",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00281",
+          "name": "Left display interior shelf 2",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00282",
+          "name": "Right upper interior shelf",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - recessed oak panels"
+          ]
+        },
+        {
+          "object_id": "obj_00283",
+          "name": "Right recess left upright",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        },
+        {
+          "object_id": "obj_00284",
+          "name": "Right recess right upright",
+          "fields": [
+            "material_slots",
+            "material_content"
+          ],
+          "changed_materials": [
+            "Finish - dark stained cabinet oak"
+          ]
+        }
+      ],
+      "camera_changes": {
+        "object_ids": [],
+        "active_before": "obj_00095",
+        "active_after": "obj_00095"
+      },
+      "material_changes": [
+        "Display cabinet muted glazing",
+        "Finish - dark perimeter counter",
+        "Finish - dark stained cabinet oak",
+        "Finish - floor oak 00",
+        "Finish - floor oak 01",
+        "Finish - floor oak 02",
+        "Finish - floor oak 03",
+        "Finish - floor oak 04",
+        "Finish - honey oak island top",
+        "Finish - recessed oak panels",
+        "Finish - reflective muted glass",
+        "Island dark stained oak",
+        "Island honey oak",
+        "Island recessed panels",
+        "Perimeter cabinet inset oak",
+        "Perimeter cabinet stained oak",
+        "SceneActSurface_0",
+        "SceneActSurface_1",
+        "SceneActSurface_2",
+        "SceneActSurface_3",
+        "SceneActSurface_4"
+      ],
+      "world_changed": false
+    },
+    "actual_executed_code": "import bpy\n\n# Procedural finishes remain editable and do not depend on image files.\ndef wood_material(name, dark, light, mapping_scale, noise_scale=4.0, roughness=0.4):\n    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)\n    mat.use_nodes = True\n    nodes = mat.node_tree.nodes\n    nodes.clear()\n    links = mat.node_tree.links\n    out = nodes.new('ShaderNodeOutputMaterial')\n    bsdf = nodes.new('ShaderNodeBsdfPrincipled')\n    bsdf.inputs['Roughness'].default_value = roughness\n    tex = nodes.new('ShaderNodeTexCoord')\n    mapping = nodes.new('ShaderNodeVectorMath')\n    mapping.operation = 'MULTIPLY'\n    mapping.inputs[1].default_value = mapping_scale\n    noise = nodes.new('ShaderNodeTexNoise')\n    noise.inputs['Scale'].default_value = noise_scale\n    noise.inputs['Detail'].default_value = 3.0\n    noise.inputs['Roughness'].default_value = 0.7\n    ramp = nodes.new('ShaderNodeValToRGB')\n    ramp.color_ramp.elements[0].position = 0.24\n    ramp.color_ramp.elements[0].color = (*dark, 1.0)\n    ramp.color_ramp.elements[1].position = 0.76\n    ramp.color_ramp.elements[1].color = (*light, 1.0)\n    bump = nodes.new('ShaderNodeBump')\n    bump.inputs['Strength'].default_value = 0.12\n    bump.inputs['Distance'].default_value = 0.025\n    links.new(tex.outputs['Generated'], mapping.inputs[0])\n    links.new(mapping.outputs['Vector'], noise.inputs['Vector'])\n    links.new(noise.outputs['Fac'], ramp.inputs['Fac'])\n    links.new(ramp.outputs['Color'], bsdf.inputs['Base Color'])\n    links.new(noise.outputs['Fac'], bump.inputs['Height'])\n    links.new(bump.outputs['Normal'], bsdf.inputs['Normal'])\n    links.new(bsdf.outputs['BSDF'], out.inputs['Surface'])\n    return mat\n\ncounter = wood_material('Finish - honey oak island top', (0.30, 0.145, 0.055), (0.58, 0.36, 0.16), (1.2, 22.0, 3.0), 3.0, 0.34)\ncabinet = wood_material('Finish - dark stained cabinet oak', (0.075, 0.036, 0.018), (0.24, 0.13, 0.065), (9.0, 4.0, 1.2), 3.2, 0.4)\ninset = wood_material('Finish - recessed oak panels', (0.065, 0.030, 0.015), (0.19, 0.095, 0.045), (9.0, 4.0, 1.2), 3.2, 0.44)\nbacktop = wood_material('Finish - dark perimeter counter', (0.065, 0.038, 0.025), (0.18, 0.105, 0.065), (1.2, 18.0, 3.0), 3.0, 0.36)\nfloors = []\nfor i, factor in enumerate((0.91, 0.97, 1.02, 1.06, 0.95)):\n    floors.append(wood_material('Finish - floor oak %02d' % i, tuple(v * factor for v in (0.25, 0.13, 0.065)), tuple(v * factor for v in (0.48, 0.29, 0.145)), (5.0, 0.65, 4.0), 3.0, 0.48))\n\nglass = bpy.data.materials.get('Finish - reflective muted glass') or bpy.data.materials.new('Finish - reflective muted glass')\nglass.use_nodes = True\np = glass.node_tree.nodes.get('Principled BSDF')\nif p:\n    p.inputs['Base Color'].default_value = (0.36, 0.49, 0.47, 1.0)\n    p.inputs['Roughness'].default_value = 0.22\n    p.inputs['Metallic'].default_value = 0.16\n    if 'Coat Weight' in p.inputs:\n        p.inputs['Coat Weight'].default_value = 0.35\n\ndef assign(obj, material):\n    if obj.type == 'MESH':\n        if obj.data.materials:\n            obj.data.materials[0] = material\n        else:\n            obj.data.materials.append(material)\n\nfor obj in bpy.data.objects:\n    if obj.type != 'MESH':\n        continue\n    parent_name = obj.parent.name if obj.parent else ''\n    if parent_name.startswith('Floorboard_'):\n        try:\n            assign(obj, floors[int(parent_name.split('_')[-1]) % len(floors)])\n        except ValueError:\n            pass\n    elif obj.name == 'Solid oak countertop':\n        assign(obj, counter)\n    elif obj.name == 'Right dark countertop':\n        assign(obj, backtop)\n    elif 'glazed door' in obj.name.lower() and 'inset' in obj.name.lower():\n        assign(obj, glass)\n    elif parent_name in {'Central work island', 'Left tall display cabinet', 'Right wall and base cabinets'}:\n        original = obj.data.materials[0].name if obj.data.materials else ''\n        if original in {'Island dark stained oak', 'Perimeter cabinet stained oak'}:\n            assign(obj, cabinet)\n        elif original in {'Island recessed panels', 'Perimeter cabinet inset oak'}:\n            assign(obj, inset)\n\n# Extend the existing wall beyond the camera view to remove the black void at the left edge.\nwall = bpy.data.objects.get('Box.042')\nif wall:\n    wall.scale.x *= 1.5\n"
+  }
+}

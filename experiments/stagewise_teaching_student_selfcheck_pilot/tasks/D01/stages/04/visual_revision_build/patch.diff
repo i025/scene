@@ -1,0 +1,68 @@
+--- previous_incremental_script
++++ current_incremental_script
+@@ -1,34 +1,35 @@
+-from sceneact import *
++import bpy
++from math import radians
++from mathutils import Matrix, Vector
+ 
+-scene = Scene('Desktop details and trim')
+-computer = Asset('Desktop computer')
+-computer.include('silver monitor back', fillet_box((0.82, 0.055, 0.53), radius=0.025, center=(1.48, 2.22, 1.30), color=(0.58, 0.59, 0.59)))
+-computer.include('monitor lower bezel', box((0.80, 0.015, 0.055), center=(1.48, 2.185, 1.065), color=(0.78, 0.79, 0.78)))
+-computer.include('monitor stand upright', box((0.075, 0.075, 0.23), center=(1.48, 2.25, 0.98), color=(0.70, 0.71, 0.70)))
+-computer.include('monitor stand foot', fillet_box((0.34, 0.23, 0.025), radius=0.012, center=(1.48, 2.19, 0.88), color=(0.78, 0.79, 0.78)))
+-computer.include('keyboard', fillet_box((0.52, 0.15, 0.018), radius=0.008, center=(1.38, 1.83, 0.879), color=(0.84, 0.85, 0.83)))
+-computer.include('mouse', fillet_box((0.075, 0.12, 0.035), radius=0.017, center=(1.76, 1.84, 0.89), color=(0.82, 0.83, 0.82)))
+-scene.include('computer', computer)
++# Give the existing monitor housing its own contrasting finish.
++housing = bpy.data.objects.get('silver monitor back')
++bezel = bpy.data.objects.get('monitor lower bezel')
++mat = bpy.data.materials.get('Monitor back - contrasting silver')
++if mat is None:
++    mat = bpy.data.materials.new('Monitor back - contrasting silver')
++    mat.diffuse_color = (0.31, 0.32, 0.33, 1.0)
++    mat.use_nodes = True
++    shader = mat.node_tree.nodes.get('Principled BSDF')
++    if shader:
++        shader.inputs['Base Color'].default_value = (0.31, 0.32, 0.33, 1.0)
++        shader.inputs['Metallic'].default_value = 0.25
++        shader.inputs['Roughness'].default_value = 0.48
+ 
+-accessories = Asset('Desk accessories')
+-accessories.include('paper stack', box((0.37, 0.25, 0.015), center=(0.76, 1.89, 0.877), color=(0.91, 0.91, 0.87)))
+-accessories.include('flower vase', rod(0.075, length=0.19, center=(0.35, 1.91, 0.96), color=(0.32, 0.39, 0.35)))
+-for i, (dx, dy, h, col) in enumerate([(-0.045,0.0,0.21,(0.87,0.34,0.52)), (0.0,0.018,0.25,(0.95,0.75,0.83)), (0.04,-0.015,0.20,(0.93,0.88,0.85)), (0.015,-0.04,0.19,(0.78,0.20,0.40))]):
+-    x, y = 0.35 + dx, 1.91 + dy
+-    accessories.include('flower stem %d' % i, rod(0.006, start=(0.35, 1.91, 0.99), end=(x, y, 0.99+h), color=(0.18, 0.33, 0.12)))
+-    accessories.include('flower blossom %d' % i, ball(0.039, center=(x, y, 0.99+h), color=col))
+-accessories.include('small green ceramic pot', rod(0.075, length=0.13, center=(0.88, 1.92, 0.935), color=(0.29, 0.38, 0.29)))
+-accessories.include('ornament base', box((0.25, 0.13, 0.025), center=(0.60, 1.94, 0.881), color=(0.43, 0.28, 0.12)))
+-for i, (dx, dz) in enumerate([(-0.08,0.12),(-0.04,0.18),(0,0.20),(0.04,0.16),(0.08,0.11)]):
+-    accessories.include('ornamental twig %d' % i, rod(0.006, start=(0.60,1.94,0.89), end=(0.60+dx,1.94,0.89+dz), color=(0.25,0.22,0.12)))
+-    accessories.include('ornamental leaf %d' % i, ball(0.025, center=(0.60+dx,1.94,0.89+dz), color=(0.29,0.36,0.15)))
+-scene.include('desk accessories', accessories)
++def descendants(root):
++    for child in root.children:
++        yield child
++        yield from descendants(child)
+ 
+-trim = Asset('Window hardware and wall switch')
+-trim.include('blind lower rail', box((0.06,3.30,0.035), center=(-3.02,1.025,2.89), color=(0.70,0.68,0.63)))
+-trim.include('window handle plate', box((0.025,0.055,0.14), center=(-3.025,0.91,1.33), color=(0.80,0.82,0.81)))
+-trim.include('window handle', box((0.035,0.025,0.12), center=(-3.005,0.91,1.38), color=(0.72,0.74,0.73)))
+-trim.include('wall switch surround', box((0.025,0.16,0.16), center=(-3.105,-0.88,1.28), color=(0.83,0.83,0.80)))
+-trim.include('wall switch rocker', box((0.02,0.10,0.10), center=(-3.087,-0.88,1.28), color=(0.93,0.93,0.90)))
+-scene.include('architectural trim', trim)
+-realize(scene, clear=False)+if housing:
++    for obj in descendants(housing):
++        if obj.type == 'MESH':
++            obj.data.materials.clear()
++            obj.data.materials.append(mat)
++
++# Turn and gently tilt the panel as a unit, keeping its support on the desk.
++pivot = Vector((1.48, 2.22, 1.06))
++transform = (Matrix.Translation(pivot) @ Matrix.Rotation(radians(-8), 4, 'Z') @ Matrix.Rotation(radians(-7), 4, 'X') @ Matrix.Translation(-pivot))
++for panel in (housing, bezel):
++    if panel:
++        panel.matrix_world = transform @ panel.matrix_world

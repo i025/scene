@@ -1,0 +1,21 @@
+{
+  "decision": "apply",
+  "code": "import bpy\n\n# Tighten the view and move it toward the left foreground wall.\ncam = bpy.data.objects.get('SceneActView')\nif cam and cam.type == 'CAMERA':\n    cam.location.x = -0.85\n    cam.location.y = -4.35\n    cam.data.lens = 26.0\n\n# Extend the existing ceiling laterally and toward the camera to cover the frame.\nceiling = bpy.data.objects.get('Box.006')\nif ceiling:\n    ceiling.scale.x *= 1.35\n    ceiling.scale.y *= 1.25\n\ndef set_surface(name, color, roughness=None):\n    mat = bpy.data.materials.get(name)\n    if not mat:\n        return\n    mat.diffuse_color = (*color, 1.0)\n    if mat.use_nodes:\n        shader = next((n for n in mat.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)\n        if shader:\n            shader.inputs['Base Color'].default_value = (*color, 1.0)\n            if roughness is not None:\n                shader.inputs['Roughness'].default_value = roughness\n\nset_surface('Floor - warm grey stone', (0.30, 0.32, 0.31), 0.82)\nset_surface('SceneActSurface_2', (0.55, 0.45, 0.39), 0.9)\n\n# Give the right visitor chair its own darker olive upholstery.\nchair = bpy.data.objects.get('visitor chair right')\nif chair:\n    copies = {}\n    stack = list(chair.children)\n    while stack:\n        obj = stack.pop()\n        stack.extend(obj.children)\n        if obj.type != 'MESH':\n            continue\n        for slot in obj.material_slots:\n            mat = slot.material\n            if mat and mat.name in ('SceneActSurface_3.001', 'SceneActSurface_4.001'):\n                if mat.name not in copies:\n                    new = mat.copy()\n                    new.name = 'Right visitor chair olive ' + mat.name\n                    new.diffuse_color = (0.24, 0.28, 0.025, 1.0)\n                    if new.use_nodes:\n                        shader = next((n for n in new.node_tree.nodes if n.type == 'BSDF_PRINCIPLED'), None)\n                        if shader:\n                            shader.inputs['Base Color'].default_value = (0.24, 0.28, 0.025, 1.0)\n                            shader.inputs['Roughness'].default_value = 0.88\n                    copies[mat.name] = new\n                slot.material = copies[mat.name]\n\n# Retain left-side daylight while moderating broad fill.\nfor name, factor in [('SceneActArea', 0.78), ('SceneActArea.001', 0.88)]:\n    light = bpy.data.objects.get(name)\n    if light and light.type == 'LIGHT':\n        light.data.energy *= factor\n",
+  "reason": "The supplied render supports a framing and tonal correction; the revised result awaits the runner's render.",
+  "changes": "Adjusted the existing camera and ceiling, darkened the floor and right wall, gave the right visitor chair darker olive upholstery, and moderated broad fill while preserving the existing furniture relationships.",
+  "advice_implementation": [
+    {
+      "finding_id": "F1",
+      "status": "partially_implemented",
+      "actual_change": "Moved the camera left and back, increased its focal length, and extended the existing ceiling.",
+      "code_evidence": "SceneActView location and lens edits; Box.006 scale edits."
+    },
+    {
+      "finding_id": "F2",
+      "status": "partially_implemented",
+      "actual_change": "Adjusted floor and wall colors, differentiated the right chair upholstery, and reduced two existing area lights. Render cleanliness remains controlled by the fixed runner.",
+      "code_evidence": "set_surface calls, right-chair material copies, and SceneActArea energy adjustments."
+    }
+  ],
+  "completed_scope": "Prepared the stage-five appearance and framing correction for visual review; its outcome has not yet been rendered."
+}
