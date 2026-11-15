@@ -2,9 +2,11 @@
 
 分支：`research/teacher-self-evolution-human-pilot`。本轮只做一次M0→M1，学生S固定，没有第11轮H/M、M2或自动质量评价。
 
-实验归档提交：等待本次提交生成。
+实验归档提交：[b6283ac8a120f71ade1386eb30757dde9015573a](https://github.com/i025/scene/commit/b6283ac8a120f71ade1386eb30757dde9015573a)。该提交已推送；最终上传收据单独提交，不制造提交自引用。
 
-Release：本地包已生成，远端上传待确认。
+Release：[完整离线资源包](https://github.com/i025/scene/releases/download/teacher-self-evolution-human-pilot-2026-11-15/teacher_self_evolution_human_pilot_full.tar.gz)，114,888,215字节。远端资产状态`uploaded`，公开下载确认HTTP 200；完整附件1/1已上传。包含31个.blend文件（19个成功内部构建及12份最终交付副本），不把副本算成独立重建。
+
+[上传收据](docs/TEACHER_HUMAN_RELEASE.json) · [远端读取收据](docs/TEACHER_HUMAN_REMOTE_READ.json)。可公开科学产物无待上传项；刻意排除的缓存/重复暂存文件见下文。README、代码、CSV/JSON、PNG与HTML共7项公开回读均HTTP200。附加匿名Release API曾返回403限流，保留该记录；附件确认采用已经成功的认证资产列表与公开下载HEAD，不将限流当成上传或实验失败。
 
 ## 实际完成
 
