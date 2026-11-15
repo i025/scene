@@ -34,3 +34,6 @@
 先看 `reports/index.html` 的 A/B/C 过程，再读 `reports/CASE_STUDY_ZH.md` 和 `reports/REPORT_ZH.md`；核对主张时进入上表原始文件。历史局部审计如 `TRANSFER_AUDIT.json` 保留其实际审计时间与范围，不把当时仅观察到的测试调用数当成最终计数。最终调用与产物数量以终态数据表和真实交付为准。
 
 公开包脱敏只处理用户目录及必要敏感字段，模型角色、失败、预算、选择与恢复事实应完整保留。原图各自许可和署名见 `SOURCE_ATTRIBUTION.md`，不为第三方代码和媒体统一添加覆盖性新许可。
+
+
+最终独立测试轨迹审计：[T01_AUDIT](../experiments/stagewise_teaching_student_selfcheck_pilot/reports/T01_AUDIT.json)。上传后核对：[Release收据](STAGEWISE_RELEASE.json)、[远端核心文件读取](STAGEWISE_REMOTE_CORE_READ.json)、[上传摘要](../UPLOAD_SUMMARY_STAGEWISE.md)。

@@ -20,7 +20,7 @@ T01原路由失败没有返回程序，用户确认连接恢复后仅重试一�
 
 这是一条在线教学与语言检查策略迁移的可行性轨迹。两图历史已曝光，无同题无教师对照、无独立重复、无自动质量评分或已完成人工验证，不证明泛化更强、权重训练或教师自进化。
 
-完整离线包包含许可允许再分发的两张原图、全部检查点 `.blend`、原始日志、失败及冻结代码。[本轮Release](https://github.com/i025/scene/releases/tag/stagewise-teaching-student-selfcheck-pilot-2026-11-15) · [完整包](https://github.com/i025/scene/releases/download/stagewise-teaching-student-selfcheck-pilot-2026-11-15/stagewise_teaching_student_selfcheck_pilot_full.tar.gz)；**是否已上传以[产物索引](artifacts_index_stagewise.csv)及上传摘要为准**。解压后打开 `stagewise_teaching_student_selfcheck_pilot/reports/index.html`，不要只下载HTML。原图归属和许可见 [SOURCE_ATTRIBUTION](experiments/stagewise_teaching_student_selfcheck_pilot/SOURCE_ATTRIBUTION.md)，没有为第三方材料添加覆盖性新许可。
+完整离线包包含许可允许再分发的两张原图、全部检查点 `.blend`、原始日志、失败及冻结代码。[本轮Release](https://github.com/i025/scene/releases/tag/stagewise-teaching-student-selfcheck-pilot-2026-11-15) · [完整包](https://github.com/i025/scene/releases/download/stagewise-teaching-student-selfcheck-pilot-2026-11-15/stagewise_teaching_student_selfcheck_pilot_full.tar.gz)；完整包80,912,142字节，已确认上传且公开下载HTTP200；[产物索引](artifacts_index_stagewise.csv)及上传摘要保留收据。解压后打开 `stagewise_teaching_student_selfcheck_pilot/reports/index.html`，不要只下载HTML。原图归属和许可见 [SOURCE_ATTRIBUTION](experiments/stagewise_teaching_student_selfcheck_pilot/SOURCE_ATTRIBUTION.md)，没有为第三方材料添加覆盖性新许可。
 
 离线重画：在完整实验目录运行 `python report.py`。已有任务续跑：`python launch.py resume`，完成后不会新增任务或重抽结果。本服务器实际环境路径、迁移说明及恢复记录见[实验README](experiments/stagewise_teaching_student_selfcheck_pilot/README.md)。
 
