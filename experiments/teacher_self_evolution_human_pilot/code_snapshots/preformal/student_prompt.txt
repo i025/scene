@@ -1,0 +1,22 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.

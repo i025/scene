@@ -1,0 +1,87 @@
+{
+  "model": {
+    "name": "gpt-6.1-terra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "${USER_HOME}/.local/bin/codex",
+    "selection_basis": "User explicitly selected gpt-6.1-terra during preparation; cost_unknown; medium fixed for formal run"
+  },
+  "proposer": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "medium",
+    "timeout": 900,
+    "command": "${USER_HOME}/.local/bin/codex",
+    "contact_sheet_size": 256,
+    "contact_sheet_rows": 4
+  },
+  "blender": {
+    "executable": "${USER_HOME}/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender",
+    "timeout": 1200,
+    "threads": 8,
+    "build_timeout": 1200,
+    "render_timeout": 600
+  },
+  "render": {
+    "engine": "CYCLES",
+    "samples": 32,
+    "seed": 42,
+    "device": "CPU",
+    "threads": 8,
+    "view_transform": "AgX",
+    "look": "None",
+    "exposure": 0,
+    "gamma": 1,
+    "denoise": false
+  },
+  "resources": {
+    "policy": "cpu_only",
+    "user_authorized_idle_gpu": false,
+    "authorization": "User explicitly authorized 8 CPU cores and 32 GB in current session; benchmark 2/4/8 threads; CPU only",
+    "gpu_allowlist": [],
+    "max_gpus": 0,
+    "cpu_threads": 8,
+    "heavy_concurrency": 1,
+    "metrics_device": "cpu",
+    "cpu_total": 8,
+    "blender_workers": 1,
+    "threads_per_blender": 8,
+    "metric_workers": 1,
+    "threads_per_metric": 8,
+    "memory_limit_gb": 32,
+    "max_cli_concurrency": 1,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "budget": {
+    "model_calls": 2,
+    "executions": 2,
+    "seconds": 3600,
+    "reserve_final_seconds": 900
+  },
+  "pilot": {
+    "name": "teacher_self_evolution_human_pilot",
+    "max_cli_sessions": 60,
+    "max_render_frames": 24
+  },
+  "teacher": {
+    "hint_max_chars": 1200,
+    "max_calls_per_hint": 2,
+    "max_self_modify_calls": 2,
+    "trace_max_chars": 10000,
+    "code_excerpt_chars": 4000,
+    "timeout": 900
+  },
+  "long_edge": 768,
+  "student_version": "S_fixed_01",
+  "automatic_quality_evaluation": false,
+  "extra_views": 0,
+  "source_version": "V3 acc7f92839c935dca6716eb456b5a66d2f54ac00 local executed backend"
+}
