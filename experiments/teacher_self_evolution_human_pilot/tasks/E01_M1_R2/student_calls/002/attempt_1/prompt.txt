@@ -1,0 +1,249 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+PUBLIC TASK:
+依据参考原图重建可编辑的三维室内环境。匹配原图视角、构图、可见主要物体、相对比例、遮挡、色彩和灯光；使用独立命名的几何与部件。未知背面不编造唯一真值。禁止把参考图片当背景、投影或材质。没有额外隐藏rubric，不要求文字标识完全复刻。
+
+TEACHER LANGUAGE HINT:
+先用房间和家具简体确定构图，再做轮廓、明暗色块，最后补小物纹理；核对限于既有流程，不增加调用、试渲染或渲染资源。
+后墙顶线从左上偏内向右下倾斜，在画面右侧约三分之二处接右墙顶线，再向右上延伸。衣柜占左侧约四分之一至三分之一宽度，左外轮廓与画框留窄条绿墙，柜顶完整，柜脚贴近底边。宽阔左侧板朝向观者，带门框把手的正面向右后方收缩，保留两面的宽度差和曲线柜冠；右缘遮住后方直背椅的一部分，仍露椅背、浅座面和腿。中央前景保留大片浅灰木地板，长缝向后墙收拢。
+椭圆木桌和两把古典椅集中在右侧中下部。桌面长轴近横向、右端略低，可见上表面、薄桌沿、中央雕花柱和弯曲分叉脚。左椅在右窗前、桌子左侧，窄靠背接近侧视，座面斜向观者并与桌沿局部重叠。右椅更靠前，与右边框留空；靠背在座面的右后方，浅色座面向左前伸，露出镂空靠背内侧，腿落点更低。两椅朝向不同，保留收腰曲线、弯腿与深木框浅软垫的组合。
+两扇完整尖拱窗位于后墙，左窗稍大稍高、右窗较窄。灰卷帘横跨拱脚附近，上方明亮拱窗内有分叉窗棂，下方有矩形窗格和淡化室外景物；窗框有厚度，拱边连续。各窗下有白暖气片，左片较完整，右片被桌椅遮挡。两窗最亮，灰绿墙、浅灰天花和地板层次清楚，深棕家具带温暖木色和适度反光，接地阴影柔和。
+补桌后细杆灯、右墙小横画、浅色纸张和小器皿，小透明绿灰花瓶插红花绿叶。主要几何与部件独立命名且可编辑，未知背面合理简化，禁止将参考图用作背景、投影或材质。
+Return JSON string fields decision, reason, observation, code. This is the one allowed internal review of YOUR CURRENT reconstruction only. No valid current render exists; diagnose the actual error only. Choose revise with a complete repair or stop. 
+CURRENT PROGRAM:
+from sceneact import *
+import bpy, math, random
+from mathutils import Vector
+random.seed(8)
+scene = Scene('Sage room')
+wall=(0.43,0.49,0.40); trim=(0.50,0.44,0.36); dark=(0.17,0.065,0.025); wood=(0.28,0.12,0.045); edge=(0.095,0.038,0.018); ivory=(0.70,0.69,0.63)
+scene.include('floor',box((8,8,.12),center=(0,0,-.08),color=(.65,.64,.60)))
+scene.include('back wall',box((8,.16,3.7),center=(0,3.15,1.85),color=wall))
+scene.include('right wall',box((.16,8,3.7),center=(4,0,1.85),color=(.46,.51,.42)))
+scene.include('left wall',box((.16,8,3.7),center=(-4,0,1.85),color=(.48,.53,.42)))
+scene.include('ceiling',box((8,8,.12),center=(0,0,3.76),color=(.69,.69,.65)))
+for x in [i*.32-3.84 for i in range(25)]:
+    scene.include('floorboard seam %02d'%int((x+4)*100),box((.009,8,.004),center=(x,0,-.015),color=(.45,.45,.42)))
+for y in (-2.5,-.2,2):
+    for i in range(12):
+        x=-3.7+i*.64
+        scene.include('board joint %.1f %d'%(y,i),box((.32,.008,.003),center=(x,y+(i%3)*.65,-.012),color=(.52,.51,.48)))
+scene.include('back skirting',box((8,.09,.17),center=(0,3.03,.09),color=trim))
+scene.include('right skirting',box((.09,8,.17),center=(3.91,0,.09),color=trim))
+scene.include('back cornice',box((8,.07,.045),center=(0,3.03,3.67),color=(.35,.36,.31)))
+scene.include('right cornice',box((.07,8,.045),center=(3.91,0,3.67),color=(.35,.36,.31)))
+# Gothic windows are modeled as luminous inset surfaces with continuous pointed arches.
+def window(name,x,width,top,bottom):
+    spring=top-width*.60
+    y=3.045
+    scene.include(name+' lower light',box((width-.09,.035,spring-bottom),center=(x,y-.025,(spring+bottom)/2),color=(.81,.86,.80)))
+    # pointed arch light is supplied as an editable mesh after realization
+    arch_specs.append((name,x,width,top,spring,y-.05))
+    c=(.53,.49,.42)
+    scene.include(name+' left jamb',box((.075,.11,spring-bottom+.05),center=(x-width/2,y-.06,(spring+bottom)/2),color=c))
+    scene.include(name+' right jamb',box((.075,.11,spring-bottom+.05),center=(x+width/2,y-.06,(spring+bottom)/2),color=c))
+    pts=[]
+    for i in range(13):
+        t=i/12
+        pts.append((x-width/2+width*.5*t,y-.06,spring+(top-spring)*(1-(1-t)**1.6)))
+    for i in range(1,13):
+        t=i/12
+        pts.append((x+width*.5*t,y-.06,top-(top-spring)*t**1.6))
+    scene.include(name+' pointed arch frame',sweep_tube(pts,radius=.038,color=c))
+    scene.include(name+' sill',box((width+.19,.20,.075),center=(x,y-.10,bottom),color=(.60,.57,.50)))
+    scene.include(name+' central mullion',box((.035,.06,spring-bottom),center=(x,y-.10,(spring+bottom)/2),color=(.45,.43,.38)))
+    scene.include(name+' cross mullion',box((width,.06,.035),center=(x,y-.10,bottom+(spring-bottom)*.46),color=(.47,.45,.40)))
+    scene.include(name+' blind',box((width-.035,.065,.48),center=(x,y-.13,spring-.19),color=(.52,.52,.48)))
+    scene.include(name+' blind lower rail',box((width,.07,.025),center=(x,y-.17,spring-.43),color=(.70,.69,.63)))
+    for side in (-1,1):
+        scene.include(name+' upper branching mullion '+str(side),sweep_tube([(x,y-.11,spring+.02),(x+side*width*.10,y-.11,spring+(top-spring)*.45),(x+side*width*.30,y-.11,spring+(top-spring)*.76)],radius=.017,color=(.48,.46,.42)))
+    scene.include(name+' radiator',box((width+.24,.13,.72),center=(x,2.90,bottom-.46),color=(.76,.76,.72)))
+    scene.include(name+' radiator top',box((width+.26,.16,.035),center=(x,2.90,bottom-.09),color=(.85,.84,.78)))
+arch_specs=[]
+window('left window',-1.15,1.10,3.03,1.13)
+window('right window',.75,.91,2.90,1.13)
+# Tall wardrobe, with a broad near side and its doors facing into the room.
+ward=Asset('antique wardrobe')
+ward.include('main cabinet',box((1.40,1.05,3.03),center=(-3.02,1.15,1.53),color=wood))
+ward.include('left side broad panel',box((1.43,.045,2.85),center=(-3.02,.61,1.57),color=(.30,.12,.035)))
+for x in (-3.66,-2.39):
+    ward.include('side upright '+str(x),box((.075,.07,2.96),center=(x,.57,1.57),color=dark))
+for z in (.23,2.85):
+    ward.include('side rail '+str(z),box((1.42,.07,.09),center=(-3.02,.57,z),color=dark))
+# front is the right-facing side, divided into two recessed doors
+for y in (.88,1.42):
+    ward.include('door panel '+str(y),box((.045,.48,2.49),center=(-2.30,y,1.57),color=(.38,.19,.07)))
+    for yy in (y-.21,y+.21):
+        ward.include('door vertical molding %.2f'%yy,box((.07,.035,2.35),center=(-2.265,yy,1.58),color=(.16,.07,.025)))
+    for z in (.43,2.73):
+        ward.include('door horizontal molding %.2f %.2f'%(y,z),box((.07,.44,.04),center=(-2.265,y,z),color=(.18,.075,.025)))
+    ward.include('brass handle '+str(y),ball(.025,center=(-2.22,y+.12,1.5),color=(.65,.48,.18)))
+ward.include('heavy cornice',box((1.52,1.15,.14),center=(-3.02,1.15,3.08),color=edge))
+ward.include('lower plinth',box((1.49,1.13,.16),center=(-3.02,1.15,.18),color=edge))
+for x in (-3.56,-2.48):
+    for y in (.76,1.55):
+        ward.include('foot %.2f %.2f'%(x,y),box((.20,.20,.24),center=(x,y,.12),color=edge))
+scene.include('wardrobe',ward)
+# Simple straight chair visible behind wardrobe.
+backchair=Asset('straight chair')
+backchair.include('seat',box((.66,.60,.10),center=(-1.98,1.62,.77),color=(.62,.55,.43)))
+for x in (-2.26,-1.70):
+    for y in (1.37,1.87):
+        backchair.include('leg %.2f %.2f'%(x,y),box((.055,.055,.77),center=(x,y,.39),color=edge))
+for x in (-2.26,-1.70):
+    backchair.include('back post '+str(x),box((.055,.055,.90),center=(x,1.88,1.16),color=edge))
+backchair.include('back top',box((.62,.06,.07),center=(-1.98,1.88,1.59),color=edge))
+for x in (-2.12,-1.98,-1.84):
+    backchair.include('back slat '+str(x),box((.045,.05,.65),center=(x,1.88,1.23),color=edge))
+scene.include('straight chair behind cabinet',backchair)
+# Elliptical pedestal table.
+table=Asset('oval pedestal table')
+table.include('oval table edge',resized(ball(1,center=(1.40,.65,.91),color=edge),(1.13,.62,.105)))
+table.include('polished oval top',resized(ball(1,center=(1.40,.65,.97),color=(.37,.20,.09)),(1.12,.61,.065)))
+table.include('central pedestal',rod(.12,start=(1.4,.65,.23),end=(1.4,.65,.89),color=dark))
+for z,r in ((.28,.18),(.40,.14),(.72,.16),(.84,.19)):
+    table.include('turned pedestal %.2f'%z,resized(ball(r,center=(1.4,.65,z),color=wood),(1,1,.45)))
+for i,a in enumerate((0,90,180,270)):
+    a=math.radians(a); dx=math.cos(a); dy=math.sin(a)
+    table.include('curved foot %d'%i,sweep_tube([(1.4,.65,.36),(1.4+dx*.20,.65+dy*.20,.23),(1.4+dx*.43,.65+dy*.43,.12),(1.4+dx*.58,.65+dy*.58,.09)],radius=.065,color=dark))
+    table.include('foot tip %d'%i,ball(.075,center=(1.4+dx*.58,.65+dy*.58,.09),color=edge))
+scene.include('table',table)
+# Upholstered antique chairs; each assembly is rotated as a whole.
+def chair(name,cx,cy,angle):
+    a=Asset(name)
+    a.include('seat wooden apron',box((.64,.58,.12),center=(cx,cy,.55),color=dark))
+    a.include('pale upholstered cushion',fillet_box((.63,.57,.14),radius=.08,center=(cx,cy,.64),color=(.66,.65,.59)))
+    for dx in (-.27,.27):
+        for dy in (-.23,.23):
+            a.include('curved leg %.2f %.2f'%(dx,dy),sweep_tube([(cx+dx,cy+dy,.53),(cx+dx*1.06,cy+dy,.30),(cx+dx*1.15,cy+dy-.035,.06)],radius=.035,color=dark))
+    for dx in (-.29,.29):
+        a.include('back upright '+str(dx),sweep_tube([(cx+dx,cy+.25,.57),(cx+dx*.93,cy+.27,1.05),(cx+dx*.84,cy+.27,1.45),(cx+dx*.72,cy+.27,1.58)],radius=.038,color=dark))
+    a.include('carved top rail',sweep_tube([(cx-.21,cy+.27,1.56),(cx-.12,cy+.27,1.61),(cx,cy+.27,1.57),(cx+.12,cy+.27,1.61),(cx+.21,cy+.27,1.56)],radius=.045,color=dark))
+    a.include('back splat',sweep_tube([(cx,cy+.27,.90),(cx-.08,cy+.27,1.12),(cx+.07,cy+.27,1.33),(cx,cy+.27,1.55)],radius=.035,color=wood))
+    a.turn('+z',angle,pivot=(cx,cy,0))
+    scene.include(name,a)
+chair('left upholstered chair',.25,.48,-30)
+chair('right upholstered chair',2.87,-.30,-30)
+# Small framed picture on right wall.
+scene.include('picture frame',box((.055,.83,.58),center=(3.89,1.53,2.38),color=(.46,.30,.13)))
+scene.include('picture mat',box((.02,.73,.48),center=(3.85,1.53,2.38),color=(.79,.77,.67)))
+scene.include('picture image',box((.015,.53,.29),center=(3.835,1.53,2.38),color=(.56,.62,.51)))
+# Lamp, papers and vase.
+scene.include('lamp stem',rod(.018,start=(1.47,2.58,.12),end=(1.47,2.58,1.91),color=(.42,.42,.38)))
+scene.include('lamp angled arm',rod(.018,start=(1.47,2.58,1.65),end=(1.25,2.58,2.03),color=(.42,.42,.38)))
+scene.include('lamp shade',resized(ball(.13,center=(1.24,2.58,2.04),color=(.66,.67,.63)),(1,1,.45)))
+scene.include('paper on table',box((.56,.31,.008),center=(1.32,.65,1.043),color=(.83,.81,.72)))
+scene.include('second paper',box((.38,.23,.009),center=(1.64,.62,1.048),color=(.76,.75,.67)))
+scene.include('small dish',resized(ball(.10,center=(.93,.83,1.045),color=(.68,.67,.59)),(1,.75,.18)))
+scene.include('vase body',resized(ball(.085,center=(1.31,.84,1.13),color=(.29,.40,.31)),(.78,.78,1.25)))
+scene.include('vase neck',rod(.035,start=(1.31,.84,1.18),end=(1.31,.84,1.29),color=(.30,.42,.32)))
+for i in range(4):
+    x=1.31+(i-1.5)*.035; z=1.48+(i%2)*.07
+    scene.include('flower stem '+str(i),rod(.008,start=(1.31,.84,1.24),end=(x,.84,z),color=(.16,.34,.12)))
+    scene.include('red flower '+str(i),resized(ball(.038,center=(x,.84,z),color=(.63,.07,.09)),(.7,.7,1.5)))
+    scene.include('leaf '+str(i),resized(ball(.06,center=(1.31+(i-1.5)*.045,.84,1.34+i*.025),color=(.20,.40,.13)),(.35,.3,1)))
+realize(scene)
+# Add simple editable pointed glass meshes, independent of the wall.
+def mat(name,color,emission=0):
+    m=bpy.data.materials.new(name); m.diffuse_color=(*color,1); m.use_nodes=True
+    p=m.node_tree.nodes.get('Principled BSDF'); p.inputs['Base Color'].default_value=(*color,1)
+    if emission:
+        p.inputs['Emission Color'].default_value=(*color,1); p.inputs['Emission Strength'].default_value=emission
+    return m
+glass=mat('soft daylight glass',(.83,.91,.86),.7)
+for name,x,w,top,spring,y in arch_specs:
+    coords=[(x-w/2,y,spring)]
+    for i in range(1,13):
+        t=i/12; coords.append((x-w/2+w*.5*t,y,spring+(top-spring)*(1-(1-t)**1.6)))
+    for i in range(1,13):
+        t=i/12; coords.append((x+w*.5*t,y,top-(top-spring)*t**1.6))
+    mesh=bpy.data.meshes.new(name+' arch glass mesh'); mesh.from_pydata(coords,[],[list(range(len(coords)))]); mesh.materials.append(glass)
+    obj=bpy.data.objects.new(name+' arch glass',mesh); bpy.context.collection.objects.link(obj)
+# Gentle daylight and broad interior fill.
+if bpy.context.scene.world is None:
+    bpy.context.scene.world=bpy.data.worlds.new('Room world')
+bpy.context.scene.world.use_nodes=True
+bpy.context.scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.63,.69,.64,1)
+bpy.context.scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.45
+set_view((0,-7.7,2.65),(0,2.2,1.60),lens=27,sensor=36)
+area_emitter((0,-3.0,3.3),power=450,size=5,target=(0,1,1.1))
+area_emitter((-1.2,2.6,2.5),power=350,size=2,target=(0,-1,1))
+area_emitter((2,2.7,2.5),power=260,size=2,target=(1,-1,1))
+CURRENT EXECUTION:
+{"ok": false, "failure_type": "blender_build_error", "error": "build exited 1", "stderr": "[build]\nTraceback (most recent call last):\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py\", line 129, in <module>\n    main()\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py\", line 104, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001/build.py\", line 112, in <module>\n    chair('left upholstered chair',.25,.48,-30)\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001/build.py\", line 102, in chair\n    a.include('pale upholstered cushion',fillet_box((.63,.57,.14),radius=.08,center=(cx,cy,.64),color=(.66,.65,.59)))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n"}

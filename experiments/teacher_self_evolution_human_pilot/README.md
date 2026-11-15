@@ -33,3 +33,20 @@ python launch.py resume
 原始 task status.json 中 `state` 字段继承了冻结计划的初始值；实际运行状态看 `status`。派生表仅使用 `status`，不将尚未运行、失败或交付混淆。日志原样保留。
 
 图像附件的匿名暂存副本不重复打包；每次 request.json 保留真实 `--image` 参数及 `original_images_for_audit`，对应原图和当前任务渲染均已归档。公开文本仅替换本机用户路径前缀，原日志留在服务器；模型角色、调用、失败、预算和科学数据不删改。
+
+CLI原始日志沿用适配器的 `role=H` 标识；在本轮它专指固定学生 S，不表示共享重建流程发生演化。教师指导、自修改与技术修复使用独立role；成本表保留原标识。
+
+依赖版本见 preparation/environment_versions.json。离线报告需要Python、Pillow及PyYAML（由复用data模块导入）；真实执行还使用既有psutil、Blender 4.2.10、SceneAct和Codex CLI。无需下载任何模型权重；本轮没有安装或升级包。公开配置中的 `${PROJECT_ROOT}` / `${USER_HOME}` 为本机路径脱敏标记，实际可执行续跑使用服务器原目录；跨机器重新实验必须明确配置本地工具路径并建立新记录，不能覆盖这份冻结结果。
+
+成本由全部 request.json、session.json 和 render_attempts.jsonl 重新计算；ledger.json 是调用前的预算检查快照，不应单独当作最终消费量。重画入口不会调用模型或重新构建场景。
+
+## 本次实际交付
+
+计划12、启动12、交付12，终态失败0；内部构建24次，其中失败5次，均按相同的一次修复额度处理并保留。7/12项的第二次学生调用实际附带中间渲染，其余首建失败后仅做代码错误修复。所有最终版本为第二次构建，没有第三次学生看图机会。
+
+M0唯一一次提案生成可执行M1，无技术修复；M1已执行4次比较指导。实际改动是共享提示策略，尚待人工判断。模型调用37/60，渲染19/24，没有自动质量分数。
+
+![全部开发结果](figures/development_contact.png)
+![全部匿名比较结果](figures/comparison_contact.png)
+
+图像按冻结顺序展示；全部原始点为四个来源和12次反馈相关的逻辑任务，不当作12个独立来源。[完整离线附件](https://github.com/i025/scene/releases/download/teacher-self-evolution-human-pilot-2026-11-15/teacher_self_evolution_human_pilot_full.tar.gz)（发布确认以仓库上传摘要及收据为准）。

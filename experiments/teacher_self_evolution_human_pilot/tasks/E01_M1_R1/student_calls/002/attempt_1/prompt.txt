@@ -1,0 +1,272 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+PUBLIC TASK:
+依据参考原图重建可编辑的三维室内环境。匹配原图视角、构图、可见主要物体、相对比例、遮挡、色彩和灯光；使用独立命名的几何与部件。未知背面不编造唯一真值。禁止把参考图片当背景、投影或材质。没有额外隐藏rubric，不要求文字标识完全复刻。
+
+TEACHER LANGUAGE HINT:
+先用房间和家具简体建立相机关系，再做轮廓、明暗色块，最后补小物与纹理。在既有流程的核对环节优先检查以下关系，不新增试渲染或修改渲染资源。
+左侧深棕衣柜从画面上部延伸到下边缘附近，占左侧约四分之一宽度，柜顶完整、柜脚贴近底边。宽阔可见面是左侧板，带门框和把手的正面向右后方收缩，两面须区分；柜子右缘遮住靠后墙直背椅的一部分，仍露出椅背、浅座面与腿。
+后墙两扇完整尖拱窗是中景锚点，左窗略大略高，右窗较窄；灰色卷帘横跨拱脚附近，上方保留分叉窗棂，下方保留矩形窗格。白色暖气片各在窗下，左片较完整，右片被桌椅遮挡。后墙与右墙交界偏右；后墙顶线向右下倾斜，右墙顶线再向右上延伸。
+椭圆木桌和两把雕花椅集中于右侧中下部，中央前景留下大片浅色木地板。桌面长轴近横向、右端略低，可见桌面上表面、薄桌沿与中央柱分叉脚。左椅靠近右窗，窄靠背与桌沿局部重叠；右椅更靠前，靠背在右上、座面向左前伸，露出座面和镂空靠背内侧，腿落点更低，与右边框留有空隙。不要把两椅做成同向并排。
+灰绿墙、浅灰天花和地板围住深棕家具，两窗最亮，接地阴影柔和。地板长缝向后墙收拢。保留柜顶曲线、尖拱窗、椭圆桌和镂空椅背；桌后细杆灯、右墙小画、桌面红花瓶插花及浅色纸张小器皿可简化。
+主要几何与部件独立命名且可编辑，未知背面合理简化，不把参考图用作背景、投影或材质。
+Return JSON string fields decision, reason, observation, code. This is the one allowed internal review of YOUR CURRENT reconstruction only. Attachment 2 is the actual current render. Inspect it against reference attachment 1. Choose keep (empty code) or revise (complete replacement program). Explain observation and reason. 
+CURRENT PROGRAM:
+from sceneact import *
+import bpy, math
+from mathutils import Vector
+
+scene = Scene('Sage room')
+wall = (0.43, 0.49, 0.39)
+ceiling = (0.72, 0.72, 0.68)
+trim = (0.52, 0.47, 0.39)
+floorcol = (0.66, 0.65, 0.61)
+wood = (0.20, 0.075, 0.025)
+woodlight = (0.31, 0.13, 0.045)
+dark = (0.10, 0.045, 0.025)
+white = (0.78, 0.78, 0.73)
+
+def add(name, node):
+    scene.include(name, node)
+
+def beam(name, a, b, radius, color):
+    add(name, rod(radius, start=a, end=b, color=color))
+
+# Room shell, with separately modeled boards and unobstructed front.
+add('ceiling', box((8.2, 7.4, 0.12), center=(0, 0, 3.76), color=ceiling))
+add('right sage wall', box((0.12, 7.4, 3.75), center=(4.06, 0, 1.875), color=wall))
+add('left sage wall', box((0.12, 7.4, 3.75), center=(-4.06, 0, 1.875), color=wall))
+add('floor foundation', box((8.2, 7.4, 0.10), center=(0, 0, -0.09), color=(0.54,0.53,0.50)))
+for i in range(22):
+    x = -3.97 + i * 0.37
+    c = (0.67 + (i%4)*0.008, 0.66 + (i%4)*0.007, 0.62 + (i%4)*0.006)
+    add('floor plank %02d' % i, box((0.364, 7.4, 0.045), center=(x,0,-0.022), color=c))
+add('right baseboard', box((0.07,7.3,0.18), center=(3.97,0,0.10), color=trim))
+add('back baseboard', box((8.0,0.07,0.18), center=(0,3.63,0.10), color=trim))
+add('right ceiling molding', box((0.035,7.2,0.035), center=(3.96,0,3.67), color=(0.33,0.34,0.29)))
+add('back ceiling molding', box((8,0.035,0.035), center=(0,3.56,3.67), color=(0.33,0.34,0.29)))
+
+# Build the back wall as narrow horizontal courses around the two arched openings.
+windows = [(-1.65,0.68,1.18,2.35,3.17), (0.75,0.55,1.18,2.34,2.99)]
+def half_width(z, w, bottom, spring, peak):
+    if z < bottom or z > peak:
+        return 0.0
+    if z <= spring:
+        return w
+    t = (z-spring)/(peak-spring)
+    return w * math.sqrt(max(0, 1-t))
+levels = sorted(set([0, 1.18, 2.34, 2.35, 2.99, 3.17, 3.72] + [1.18+i*0.055 for i in range(38)]))
+levels = [z for z in levels if z <= 3.72]
+if levels[-1] < 3.72: levels.append(3.72)
+for j in range(len(levels)-1):
+    lo, hi = levels[j], levels[j+1]
+    mid=(lo+hi)/2
+    openings=[]
+    for cx,w,bot,spring,peak in windows:
+        h=half_width(mid,w,bot,spring,peak)
+        if h>0: openings.append((cx-h,cx+h))
+    cursor=-4.0
+    for left,right in sorted(openings):
+        if left>cursor:
+            add('back wall course %02d %.2f' % (j,cursor), box((left-cursor,0.13,hi-lo+0.003), center=((left+cursor)/2,3.65,mid), color=wall))
+        cursor=max(cursor,right)
+    if cursor<4:
+        add('back wall course %02d end' % j, box((4-cursor,0.13,hi-lo+0.003), center=((cursor+4)/2,3.65,mid), color=wall))
+
+for k,(cx,w,bot,spring,peak) in enumerate(windows):
+    # Bright opening and thin stone-colored pointed arch surround.
+    add('window %d bright lower glazing' % k, box((2*w,0.035,spring-bot), center=(cx,3.70,(bot+spring)/2), color=(0.85,0.89,0.84)))
+    for n in range(14):
+        z0=spring+(peak-spring)*n/14
+        z1=spring+(peak-spring)*(n+1)/14
+        hw=half_width((z0+z1)/2,w,bot,spring,peak)
+        add('window %d upper glass %02d' % (k,n), box((2*hw,0.025,z1-z0+0.005), center=(cx,3.70,(z0+z1)/2), color=(0.91,0.94,0.89)))
+    outline=[(cx-w,3.53,bot),(cx-w,3.53,spring)]
+    for n in range(1,13):
+        z=spring+(peak-spring)*n/12
+        outline.append((cx-half_width(z,w,bot,spring,peak),3.53,z))
+    for n in range(11,-1,-1):
+        z=spring+(peak-spring)*n/12
+        outline.append((cx+half_width(z,w,bot,spring,peak),3.53,z))
+    outline.append((cx+w,3.53,bot))
+    add('window %d pointed outer frame' % k, sweep_tube(points=outline,radius=0.045,color=(0.49,0.46,0.39)))
+    add('window %d sill' % k, box((2*w+0.22,0.26,0.075),center=(cx,3.48,bot-0.03),color=(0.66,0.65,0.58)))
+    beam('window %d lower central mullion' % k,(cx,3.49,bot),(cx,3.49,spring-0.12),0.018,(0.50,0.49,0.44))
+    beam('window %d lower crossbar' % k,(cx-w,3.49,1.68),(cx+w,3.49,1.68),0.018,(0.50,0.49,0.44))
+    # Forked tracery is visible above the roller blind.
+    beam('window %d left fork' % k,(cx,3.50,spring+0.01),(cx-w*0.53,3.50,peak-0.22),0.018,(0.43,0.42,0.38))
+    beam('window %d right fork' % k,(cx,3.50,spring+0.01),(cx+w*0.53,3.50,peak-0.22),0.018,(0.43,0.42,0.38))
+    add('window %d grey roller blind' % k, box((2*w-0.07,0.045,0.39),center=(cx,3.44,2.20),color=(0.49,0.49,0.46)))
+    add('radiator %d' % k, fillet_box((2*w+0.20,0.13,0.76),radius=0.035,center=(cx,3.40,0.58),color=(0.78,0.79,0.76)))
+    add('radiator %d top lip' % k, box((2*w+0.20,0.16,0.035),center=(cx,3.39,0.98),color=(0.65,0.67,0.64)))
+
+# Wardrobe: broad side faces the viewer, paneled doors face into the room.
+wardrobe=Asset('large antique wardrobe')
+wardrobe.include('main cabinet', box((1.45,1.65,3.22),center=(-3.12,-0.15,1.70),color=woodlight))
+wardrobe.include('visible broad side', box((1.41,0.035,3.04),center=(-3.12,-0.99,1.72),color=(0.29,0.12,0.035)))
+wardrobe.include('top cornice', box((1.57,1.76,0.13),center=(-3.12,-0.15,3.35),color=dark))
+wardrobe.include('upper cornice trim', box((1.58,1.77,0.045),center=(-3.12,-0.15,3.43),color=(0.32,0.14,0.055)))
+wardrobe.include('lower plinth', box((1.50,1.72,0.18),center=(-3.12,-0.15,0.19),color=dark))
+for y in (-0.58,0.23):
+    wardrobe.include('door panel %.2f' % y, box((0.035,0.73,2.60),center=(-2.37,y,1.76),color=(0.27,0.105,0.028)))
+    for yy in (y-0.31,y+0.31):
+        wardrobe.include('door vertical molding %.2f' % yy,box((0.055,0.035,2.48),center=(-2.34,yy,1.76),color=(0.43,0.23,0.095)))
+    for zz in (0.53,2.98):
+        wardrobe.include('door horizontal molding %.2f %.2f' % (y,zz),box((0.055,0.65,0.035),center=(-2.34,y,zz),color=(0.43,0.23,0.095)))
+    wardrobe.include('door handle %.2f' % y,ball(0.04,center=(-2.29,y+0.23,1.65),color=(0.67,0.52,0.26)))
+for xx in (-3.68,-2.58):
+    for yy in (-0.77,0.49):
+        wardrobe.include('foot %.2f %.2f' % (xx,yy),box((0.18,0.18,0.20),center=(xx,yy,0.10),color=dark))
+scene.include('wardrobe',wardrobe)
+add('wardrobe curved crest', sweep_tube(points=[(-2.34,-0.94,3.25),(-2.34,-0.65,3.31),(-2.34,-0.35,3.43),(-2.34,-0.05,3.48),(-2.34,0.25,3.41),(-2.34,0.60,3.23)],radius=0.055,color=(0.22,0.09,0.035)))
+
+# Small straight chair partially concealed behind the wardrobe.
+add('back chair seat',box((0.70,0.65,0.10),center=(-2.10,2.08,0.77),color=(0.68,0.62,0.50)))
+for x in (-2.40,-1.80):
+    for y in (1.83,2.32):
+        beam('back chair leg %.2f %.2f' % (x,y),(x,y,0.05),(x,y,0.78),0.035,dark)
+for x in (-2.40,-1.80):
+    beam('back chair back post %.2f' % x,(x,2.34,0.74),(x,2.34,1.52),0.04,dark)
+beam('back chair top rail',(-2.40,2.34,1.52),(-1.80,2.34,1.52),0.045,dark)
+for x in (-2.26,-2.10,-1.94):
+    beam('back chair back slat %.2f' % x,(x,2.34,0.84),(x,2.34,1.47),0.018,dark)
+
+# Oval tabletop and central pedestal.
+tx,ty=1.50,0.77
+top=ball(1,center=(tx,ty,1.02),color=woodlight)
+top.resize((1.22,0.63,0.075),pivot=(tx,ty,1.02))
+add('oval polished tabletop',top)
+rim=ball(1,center=(tx,ty,0.985),color=dark)
+rim.resize((1.24,0.65,0.055),pivot=(tx,ty,0.985))
+add('oval table dark edge',rim)
+beam('table pedestal',(tx,ty,0.22),(tx,ty,0.98),0.115,wood)
+for z,r in [(0.31,0.17),(0.43,0.15),(0.79,0.14),(0.91,0.17)]:
+    add('pedestal turning %.2f' % z,ball(r,center=(tx,ty,z),color=wood))
+for a in (25,115,205,295):
+    q=math.radians(a)
+    p=[(tx,ty,0.32),(tx+0.25*math.cos(q),ty+0.25*math.sin(q),0.23),(tx+0.53*math.cos(q),ty+0.53*math.sin(q),0.09)]
+    add('table curved foot %d' % a,sweep_tube(points=p,radius=0.065,color=dark))
+    add('table foot tip %d' % a,ball(0.075,center=p[-1],color=dark))
+
+# Two carved chairs with different headings. Local y points toward the backrest.
+def chair(name, cx, cy, angle, cloth):
+    a=math.radians(angle)
+    def tr(x,y,z): return (cx+x*math.cos(a)-y*math.sin(a),cy+x*math.sin(a)+y*math.cos(a),z)
+    def stick(label,p,q,r=0.035): beam(name+' '+label,tr(*p),tr(*q),r,dark)
+    cushion=fillet_box((0.68,0.62,0.15),radius=0.07,center=(cx,cy,0.64),color=cloth)
+    cushion.turn('+z',angle,pivot=(cx,cy,0.64))
+    add(name+' upholstered seat',cushion)
+    for x in (-0.27,0.27):
+        for y in (-0.24,0.24):
+            stick('leg %.2f %.2f' % (x,y),(x*1.12,y*1.16,0.04),(x,y,0.59),0.037)
+    for x in (-0.27,0.27):
+        stick('back upright %.2f' % x,(x,0.24,0.63),(x*0.88,0.30,1.40),0.045)
+    stick('upper carved rail',(-0.24,0.30,1.39),(0.24,0.30,1.39),0.048)
+    stick('lower back rail',(-0.25,0.26,0.85),(0.25,0.26,0.85),0.032)
+    add(name+' pierced back ornament',sweep_tube(points=[tr(-0.17,0.29,1.34),tr(-0.10,0.28,1.19),tr(0,0.28,1.07),tr(0.10,0.28,1.19),tr(0.17,0.29,1.34)],radius=0.025,color=woodlight))
+    add(name+' crest',ball(0.065,center=tr(0,0.30,1.41),color=woodlight))
+chair('left dining chair',0.37,0.55,-18,(0.57,0.55,0.52))
+chair('right dining chair',3.05,-0.20,-35,(0.58,0.58,0.53))
+
+# Slender floor lamp, framed print, and small tabletop accessories.
+beam('floor lamp pole',(1.63,2.58,0.08),(1.63,2.58,1.96),0.018,(0.38,0.39,0.35))
+add('floor lamp foot',ball(0.17,center=(1.63,2.58,0.05),color=(0.37,0.38,0.34)))
+add('floor lamp shade',ball(1,center=(1.63,2.58,1.99),color=(0.75,0.76,0.70)).resize((0.18,0.18,0.09),pivot=(1.63,2.58,1.99)))
+add('right wall picture frame',box((0.08,0.85,0.58),center=(3.94,2.10,2.43),color=(0.39,0.28,0.14)))
+add('right wall picture mat',box((0.025,0.72,0.45),center=(3.89,2.10,2.43),color=(0.83,0.81,0.72)))
+add('right wall picture image',box((0.02,0.52,0.29),center=(3.87,2.10,2.43),color=(0.57,0.63,0.52)))
+add('table papers',box((0.64,0.39,0.012),center=(1.50,0.80,1.105),color=(0.82,0.81,0.74)))
+add('small dish',ball(1,center=(0.98,0.90,1.11),color=(0.73,0.72,0.65)).resize((0.13,0.10,0.025),pivot=(0.98,0.90,1.11)))
+add('flower vase',ball(1,center=(1.64,0.98,1.20),color=(0.40,0.42,0.31)).resize((0.075,0.075,0.14),pivot=(1.64,0.98,1.20)))
+for i,(dx,dy,h) in enumerate([(-0.06,0,0.42),(0.03,0.02,0.49),(0.08,-0.01,0.37)]):
+    beam('flower stem %d' % i,(1.64,0.98,1.27),(1.64+dx,0.98+dy,1.27+h),0.008,(0.18,0.34,0.12))
+    add('red flower %d' % i,ball(0.042,center=(1.64+dx,0.98+dy,1.27+h),color=(0.65,0.05,0.07)))
+
+realize(scene)
+set_view((0.1,-9.4,3.05),(0.15,2.2,1.65),lens=27,sensor=36)
+if bpy.context.scene.world is None:
+    bpy.context.scene.world=bpy.data.worlds.new('Soft daylight world')
+world=bpy.context.scene.world
+world.use_nodes=True
+world.node_tree.nodes['Background'].inputs['Color'].default_value=(0.72,0.77,0.72,1)
+world.node_tree.nodes['Background'].inputs['Strength'].default_value=0.55
+area_emitter((0,-3,5.2),power=500,size=7,target=(0,1,0),color=(1.0,0.96,0.88))
+area_emitter((-1.0,3.0,2.7),power=280,size=3,target=(0,0,1),color=(0.85,0.91,1.0))
+CURRENT EXECUTION:
+{"ok": true, "failure_type": null, "error": null, "stderr": "[build]\n\n[render]\n"}

@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sys
 from collections import Counter
+from PIL import Image, ImageOps, ImageDraw
 
 ROOT=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT/'backend'))
@@ -33,11 +34,12 @@ def generate():
         sessions=[read(p) for p in folder.glob('**/session.json')]
         row={**row,'cli_sessions':len(sessions),'known_input_tokens':sum(s['input_tokens'] for s in sessions if isinstance(s.get('input_tokens'),int)),
              'known_output_tokens':sum(s['output_tokens'] for s in sessions if isinstance(s.get('output_tokens'),int)),
-             'unknown_usage_sessions':sum(s.get('input_tokens') is None for s in sessions)}
+             'unknown_usage_sessions':sum(s.get('input_tokens') is None for s in sessions),
+             'reviewed_intermediate_render':bool(row.get('render_attached_for_student_review',[])) if row['status'] in {'completed','failed'} else None}
         rows.append(row)
     fields=['task_id','scene','teacher','round','status','student_started','selected_step','build_attempts',
             'main_student_calls','restored_checkpoint','final_seen_by_student','failure_reason','internal_failure',
-            'seconds','cli_sessions','known_input_tokens','known_output_tokens','unknown_usage_sessions']
+            'seconds','cli_sessions','known_input_tokens','known_output_tokens','unknown_usage_sessions','reviewed_intermediate_render']
     csv_write(metrics/'tasks.csv',rows,fields);write_json(metrics/'tasks.json',rows)
     chains=[]
     for item in plan:
@@ -57,9 +59,12 @@ def generate():
     sessions=[]
     for base in [ROOT/'tasks',ROOT/'self_modification']:
         for path in base.glob('**/session.json'):
-            s=read(path);sessions.append({**s,'path':str(path.relative_to(ROOT))})
+            s=read(path);sessions.append({**s,'path':str(path.relative_to(ROOT)),
+                'image_attachments':len(s['original_images_for_audit']),**s['observable_tool_counts']})
     csv_write(metrics/'cli_calls.csv',sessions,['path','role','requested_model','observed_model','reasoning_effort','status','seconds',
-              'input_tokens','output_tokens','cached_input_tokens','observable_cli_turns','tool_calls','exact_model_requests','cost_usd'])
+              'input_tokens','output_tokens','cached_input_tokens','observable_cli_turns','tool_calls',
+              'image_attachments','command_execution','file_change','image_view','collab_tool_call',
+              'observable_model_requests_lower_bound','exact_model_requests','cost_usd'])
     costs=[]
     for role in sorted({s['role'] for s in sessions}):
         selected=[s for s in sessions if s['role']==role]
@@ -76,12 +81,58 @@ def generate():
             x=read(p);timing.append({**x,'path':str(p.relative_to(ROOT))})
     csv_write(metrics/'timing.csv',timing,['path','status','seconds','cpu_user_seconds','cpu_system_seconds',
                    'peak_individual_rss_kib','sampled_peak_tree_rss_kib_lower_bound','timed_out'])
+    stage_costs=[]
+    for stage in ('student_cli','teacher_cli','self_modification_cli','blender_build','blender_render'):
+        selected=[]
+        for x in timing:
+            path=x['path']
+            actual=('blender_build' if path.endswith('/build_process.json') else
+                    'blender_render' if path.endswith('/render_process.json') else
+                    'self_modification_cli' if path.startswith('self_modification/') else
+                    'teacher_cli' if '/teacher_calls/' in path else 'student_cli')
+            if actual==stage:selected.append(x)
+        stage_costs.append({'stage':stage,'processes':len(selected),
+             'wall_seconds_sum':sum(x['seconds'] for x in selected if 'seconds' in x),
+             'cpu_user_seconds_sum':sum(x['cpu_user_seconds'] for x in selected if x.get('cpu_user_seconds') is not None),
+             'cpu_system_seconds_sum':sum(x['cpu_system_seconds'] for x in selected if x.get('cpu_system_seconds') is not None),
+             'cpu_measurement_count':sum(x.get('cpu_user_seconds') is not None for x in selected),
+             'peak_individual_rss_kib':max((x['peak_individual_rss_kib'] for x in selected if x.get('peak_individual_rss_kib') is not None),default=None)})
+    csv_write(metrics/'cost_by_stage.csv',stage_costs,['stage','processes','wall_seconds_sum','cpu_user_seconds_sum',
+              'cpu_system_seconds_sum','cpu_measurement_count','peak_individual_rss_kib'])
+    builds=[]
+    for p in sorted((ROOT/'tasks').glob('*/steps/*/result.json')):
+        result=read(p);lines=[line for line in result['stderr'].splitlines() if line.strip()]
+        builds.append({'task_id':p.parents[2].name,'step':result['step'],'ok':result['ok'],
+                       'failure_type':result['failure_type'],'seconds':result['seconds'],
+                       'exception_summary':lines[-1] if lines and not result['ok'] else None,
+                       'raw_record':str(p.relative_to(ROOT))})
+    csv_write(metrics/'build_attempts.csv',builds,['task_id','step','ok','failure_type','seconds','exception_summary','raw_record'])
     summary={'planned':12,'started':sum(r['student_started'] for r in rows),'delivered':sum(r['status']=='completed' for r in rows),
              'statuses':dict(Counter(r['status'] for r in rows)),
              'build_attempts':sum(r.get('build_attempts',0) for r in rows),'budget':current(),
-             'automatic_quality_evaluation':False,'human_quality_verdict':None}
+             'automatic_quality_evaluation':False,'human_quality_verdict':None,
+             'student_reviewed_render_tasks':sum(r['reviewed_intermediate_render'] is True for r in rows),
+             'internal_build_failures':sum(not read(p)['ok'] for p in (ROOT/'tasks').glob('*/steps/*/result.json'))}
     write_json(metrics/'summary.json',summary)
     by_id={r['task_id']:r for r in rows}
+    figures=ROOT/'figures';figures.mkdir(exist_ok=True)
+    for split,columns in [('development',3),('comparison',5)]:
+        sources=[s for s in manifest if s['split']==split]
+        sheet=Image.new('RGB',(columns*420,len(sources)*360),'#f4f5f7');draw=ImageDraw.Draw(sheet)
+        for row_index,s in enumerate(sources):
+            sid=s['id'];panels=[(ROOT/s['image_path'],sid+' Reference','original')]
+            aliases={'M0':'M0'} if split=='development' else mapping[sid]
+            for alias,teacher in aliases.items():
+                for n in (1,2):
+                    tid=f'{sid}_{teacher}_R{n}';record=by_id[tid]
+                    panels.append((ROOT/'tasks'/tid/'final.png',f'{sid} {alias} R{n}',record['status']))
+            for col,(path,label,status) in enumerate(panels):
+                x=col*420;y=row_index*360;draw.text((x+12,y+9),label+' | '+status,fill='#202a35')
+                if path.exists():
+                    with Image.open(path) as source_image:im=ImageOps.contain(source_image.convert('RGB'),(404,310))
+                    sheet.paste(im,(x+(420-im.width)//2,y+35+(310-im.height)//2))
+                else:draw.text((x+20,y+130),'No delivered render: '+status,fill='#803030')
+        sheet.save(figures/f'{split}_contact.png')
 
     def picture(path,label,reference=None):
         link='../'+str(path.relative_to(ROOT))
@@ -94,6 +145,8 @@ def generate():
         if row['status']=='completed':media=picture(folder/'final.png',label,reference)
         else:media=f'<figure><figcaption>{esc(label)}</figcaption><div class="missing">{esc(row["status"])}<p>{esc(row.get("failure_reason") or "尚无交付")}</p></div></figure>'
         media+=f'<div class="identity" hidden>{esc(tid)} · {esc(version)}</div>'
+        if row['status']=='completed':
+            media+='<p>学生内部看图：'+('有实际渲染附件' if row['reviewed_intermediate_render'] else '无；首建错误修复后交付，无第三次调用')+'</p>'
         detail=[]
         for name,title in [('guidance.json','实际交付 Hint / 观察 / 更新原因'),('guidance_draft.json','原始指导草稿'),('teacher_context.json','教师允许看到的本题上下文'),('status.json','执行事实')]:
             p=folder/name
@@ -131,7 +184,7 @@ def generate():
 <h1>一次教师自修改 · 人工看图</h1><p>同一固定学生，从零重建；A/B 身份在运行前确定。这里没有自动质量分数或预设赢家。点击图片可打开原尺寸；展开区保留内部版本及真实错误。</p>
 <button onclick="document.querySelectorAll('.identity').forEach(e=>e.hidden=!e.hidden)">显示／隐藏教师版本</button><button onclick="exportOpinions()">导出本地人工意见 JSON</button>'''
     document+=''.join(sections)
-    document+=f'<section><h2>技术完成情况</h2><p>预定12项 · 已启动{summary["started"]} · 已交付{summary["delivered"]} · 内部构建{summary["build_attempts"]}次。交付不等于质量合格。</p><div class="scroll"><table>{table}</table></div><h3>调用与成本</h3><pre>{esc(json.dumps(summary["budget"],ensure_ascii=False,indent=2))}</pre><a href="../metrics/tasks.csv">逐项CSV</a> · <a href="../metrics/cli_calls.csv">CLI记录CSV</a> · <a href="../metrics/timing.csv">阶段耗时CSV</a><details><summary>M0 → M1 真实源码 diff</summary><pre>{esc(changes)}</pre></details></section>'
+    document+=f'<section><h2>技术完成情况</h2><p>预定12项 · 已启动{summary["started"]} · 已交付{summary["delivered"]} · 内部构建{summary["build_attempts"]}次。交付不等于质量合格。</p><details><summary>展开逐任务技术状态（包含教师身份）</summary><div class="scroll"><table>{table}</table></div></details><h3>调用与成本</h3><pre>{esc(json.dumps(summary["budget"],ensure_ascii=False,indent=2))}</pre><a href="../metrics/tasks.csv">逐项CSV</a> · <a href="../metrics/cli_calls.csv">CLI记录CSV</a> · <a href="../metrics/timing.csv">阶段耗时CSV</a><details><summary>M0 → M1 真实源码 diff</summary><pre>{esc(changes)}</pre></details></section>'
     document+='''<script>
 function toggleImages(button,reference){button.closest('section').querySelectorAll('img[data-render]').forEach(img=>{img.src=reference?img.dataset.reference:img.dataset.render;img.parentNode.href=img.src})}
 function exportOpinions(){let opinions=[];document.querySelectorAll('select[data-scene]').forEach(e=>opinions.push({scene:e.dataset.scene,opinion:e.value||null,note:document.querySelector('textarea[data-scene="'+e.dataset.scene+'"]').value}));let data={recorded_at:new Date().toISOString(),human_entered:true,automatic_score:null,opinions};let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='human_opinions.json';a.click();URL.revokeObjectURL(a.href)}
@@ -141,9 +194,13 @@ function exportOpinions(){let opinions=[];document.querySelectorAll('select[data
         '', '学生 S 固定：gpt-6.1-terra / medium；教师及自修改：gpt-6-astra / medium。全部通过现有 Codex CLI。',
         '四个来源、两题开发、两题比较、单条教师演化轨迹。历史暴露见 manifest；本次隔离不代表从未见过的盲测。',
         '关闭 BW、VLM judge、Q、SSIM、LPIPS、DINO。没有自动质量接受或晋升。M1 可执行不等于更强，质量等待用户看图判断。',
+        f'学生实际收到本任务中间渲染的任务数：{summary["student_reviewed_render_tasks"]}。内部构建失败数：{summary["internal_build_failures"]}；失败程序与日志保留。首建失败时第二次调用用于错误修复，不能声称学生已经看过修复后final；不额外补第三次调用。',
         '', '|任务|状态|选择构建|内部构建|','|---|---|---|---|']
     md += [f'|{r["task_id"]}|{r["status"]}|{r.get("selected_step")}|{r.get("build_attempts") }|' for r in rows]
     md += ['', '完整原图、渲染、Hint、内部 checkpoint 与源码 diff：[离线HTML](index.html)。',
+           '全部真实联系表：[开发](../figures/development_contact.png) · [匿名比较](../figures/comparison_contact.png)。',
+           '联系表来自 plan.json、display_mapping.json、metrics/tasks.json 与原始PNG；重画脚本 report.py，按冻结顺序展示全部四题，没有按质量筛选。',
+           '阶段耗时与进程CPU：[cost_by_stage.csv](../metrics/cost_by_stage.csv)；模型等待无法拆为纯推理时间，底层请求数未知。',
            '', '成本（usage 缺失不作零，底层模型请求数及货币费用未知）：','```json',json.dumps(summary['budget'],indent=2),'```']
     (reports/'REPORT_ZH.md').write_text('\n'.join(md)+'\n')
     print(json.dumps(summary,ensure_ascii=False),flush=True)

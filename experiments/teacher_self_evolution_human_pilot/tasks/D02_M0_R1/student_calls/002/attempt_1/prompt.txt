@@ -1,0 +1,222 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+PUBLIC TASK:
+依据参考原图重建可编辑的三维室内环境。匹配原图视角、构图、可见主要物体、相对比例、遮挡、色彩和灯光；使用独立命名的几何与部件。未知背面不编造唯一真值。禁止把参考图片当背景、投影或材质。没有额外隐藏rubric，不要求文字标识完全复刻。
+
+TEACHER LANGUAGE HINT:
+先匹配相机与大体块：从入口望向后墙，竖线基本竖直，桌椅集中右半部，左侧留出通道。左近景白墙面积大，左下大盆绿植被边框裁切；左侧中段是高窄白框玻璃门窗。后墙白色，右墙上部暖米色，下部为延伸至画外的浅木纹长柜。前景铺灰色大块地砖，天花有明显横向宽梁和中央偏左的明亮方灯。用墙角、柜顶和门窗边校准透视。
+优先做好两把访客椅和白办公桌的遮挡：左椅亮黄绿、背面朝镜头，右椅深橄榄绿、略转向桌子，内侧扶手清楚可见。两椅均为厚软包宽背与包覆扶手，下接中央金属柱和向外伸展的扁平金属脚，底脚部分出画。椅背占据画面中下部，遮住桌身；白桌面薄而宽，正面为大白挡板。桌后露出灰褐色高背办公椅，底部被桌遮住。
+桌面右侧显示器露出浅灰背板与支架，不做成面向镜头的发光屏幕；少量纸张、小花瓶和杯状摆件保持小尺度。后墙椅子上方挂竖幅深框抽象花叶画。桌左后方有黑盆高绿植，细干与分簇叶团明显；其左侧靠墙放低矮白色设备，底部灰色格栅、顶部暗缝。前景绿植更大、更近，与后方盆栽形成层次。
+用左侧柔和日光配合顶灯，保持墙面明亮与桌下、椅脚柔软接触阴影。重点区分哑光墙漆、灰砖、织物、暖木纹和金属脚。独立命名墙体、梁、窗框、桌椅部件、柜板、盆干叶与灯画，保持可编辑。遮挡处和背面只合理简化；禁止将参考图作背景、投影或材质。
+Return JSON string fields decision, reason, observation, code. This is the one allowed internal review of YOUR CURRENT reconstruction only. No valid current render exists; diagnose the actual error only. Choose revise with a complete repair or stop. 
+CURRENT PROGRAM:
+from sceneact import *
+import bpy, math, random
+from mathutils import Vector
+random.seed(12)
+scene = Scene('Bright consultation office')
+white=(0.88,0.89,0.87); wall=(0.84,0.85,0.83); beige=(0.69,0.60,0.54); floor=(0.37,0.39,0.38); wood=(0.60,0.40,0.25); dark=(0.10,0.11,0.10); metal=(0.34,0.36,0.35)
+# Architecture: the open front permits the entrance view.
+room=Asset('Room architecture')
+room.include('large grey tiled floor',box((7.4,9,.12),center=(0,1,-.08),color=floor))
+room.include('white rear wall',box((7.4,.15,3.55),center=(0,5,1.72),color=wall))
+room.include('right warm wall',box((.15,9,3.55),center=(3.7,.5,1.72),color=beige))
+room.include('left entrance wall',box((.16,3.5,3.55),center=(-3.7,-2.25,1.72),color=white))
+room.include('left rear wall',box((.16,1.15,3.55),center=(-3.7,4.48,1.72),color=white))
+room.include('ceiling',box((7.4,9,.12),center=(0,.5,3.55),color=(.90,.90,.87)))
+room.include('wide ceiling cross beam',box((7.4,.66,.35),center=(0,-1.2,3.37),color=(.88,.88,.85)))
+room.include('right skirting',box((.07,8.8,.14),center=(3.59,.55,.09),color=(.27,.28,.27)))
+room.include('rear skirting',box((7.2,.06,.14),center=(0,4.88,.09),color=(.28,.29,.28)))
+for x in (-2.45,-1.22,0,1.22,2.45): room.include('floor joint x '+str(x),box((.012,9,.003),center=(x,.5,-.017),color=(.30,.32,.31)))
+for y in (-3,-1.6,-.2,1.2,2.6,4): room.include('floor joint y '+str(y),box((7.4,.012,.003),center=(0,y,-.016),color=(.30,.32,.31)))
+scene.include('Architecture',room)
+# Window and glass doors on the left wall.
+windows=Asset('Tall glazed doors')
+windows.include('blue grey glazing',box((.035,3.0,2.55),center=(-3.68,2.15,1.58),color=(.67,.78,.80)))
+for y in (.62,1.62,2.64,3.66): windows.include('vertical white frame '+str(y),box((.11,.075,2.66),center=(-3.60,y,1.58),color=(.93,.94,.91)))
+for z in (.28,2.90): windows.include('horizontal white frame '+str(z),box((.11,3.12,.09),center=(-3.60,2.15,z),color=(.93,.94,.91)))
+windows.include('blind housing',box((.22,3.16,.16),center=(-3.57,2.15,3.05),color=(.83,.82,.77)))
+windows.include('door handle',rod(.022,start=(-3.49,1.57,1.05),end=(-3.49,1.57,1.34),color=metal))
+scene.include('Window and door frames',windows)
+# Long low timber cabinetry on the right.
+cab=Asset('Long timber cabinet')
+cab.include('cabinet body',box((.60,6.1,1.18),center=(3.30,2.0,.65),color=wood))
+cab.include('cabinet top',box((.68,6.2,.06),center=(3.29,2,1.27),color=(.68,.48,.31)))
+for y in (-.95,.25,1.45,2.65,3.85,4.95): cab.include('vertical panel joint '+str(y),box((.008,.018,1.13),center=(2.991,y,.65),color=(.25,.19,.14)))
+for z in (.42,.83): cab.include('horizontal drawer reveal '+str(z),box((.009,6.08,.012),center=(2.99,2,z),color=(.29,.22,.16)))
+# sparse fine horizontal grain lines
+for i in range(22):
+ y=random.uniform(-.9,4.9); z=random.uniform(.15,1.2); length=random.uniform(.25,1.1)
+ cab.include('wood grain %02d'%i,box((.005,length,.006),center=(2.983,y,z),color=(.48,.30,.18)))
+scene.include('Right wall cabinets',cab)
+# Desk with broad white modesty panel.
+desk=Asset('White office desk')
+desk.include('thin wide desktop',box((2.75,1.02,.09),center=(.85,2.52,1.22),color=(.94,.94,.91)))
+desk.include('front modesty panel',box((2.53,.08,1.08),center=(.85,2.08,.65),color=(.87,.88,.85)))
+for x in (-.35,2.05): desk.include('desk end support '+str(x),box((.10,.85,1.08),center=(x,2.54,.65),color=(.88,.89,.87)))
+scene.include('Desk',desk)
+# Chair behind desk.
+office=Asset('Manager chair')
+office.include('high taupe back',fillet_box((.69,.16,1.12),radius=.12,center=(.35,3.22,1.39),color=(.35,.33,.30)))
+office.include('upper back cushion',fillet_box((.63,.06,.44),radius=.10,center=(.35,3.12,1.68),color=(.40,.38,.35)))
+office.include('seat',fillet_box((.68,.57,.15),radius=.08,center=(.35,3.06,.85),color=(.31,.30,.28)))
+scene.include('Desk chair',office)
+# Monitor is viewed from its grey back.
+monitor=Asset('Monitor and stand')
+monitor.include('grey display back',box((.84,.075,.53),center=(1.55,2.75,1.77),color=(.65,.66,.66)))
+monitor.include('lower display edge',box((.84,.08,.06),center=(1.55,2.75,1.49),color=(.77,.78,.77)))
+monitor.include('stand stem',box((.07,.07,.30),center=(1.55,2.75,1.38),color=(.72,.73,.72)))
+monitor.include('stand foot',box((.42,.24,.025),center=(1.55,2.70,1.275),color=(.75,.76,.74)))
+scene.include('Monitor',monitor)
+# Desk accessories kept small.
+items=Asset('Desk accessories')
+items.include('paper stack',box((.48,.31,.018),center=(.95,2.31,1.28),color=(.96,.96,.92)))
+items.include('cup',fillet_box((.13,.13,.16),radius=.025,center=(.72,2.27,1.37),color=(.31,.38,.33)))
+items.include('flower pot',box((.14,.14,.16),center=(.19,2.31,1.36),color=(.67,.67,.60)))
+for i in range(7):
+ x=.19+random.uniform(-.1,.1); y=2.31+random.uniform(-.07,.07); z=1.58+random.uniform(-.02,.13)
+ items.include('flower stem %d'%i,rod(.007,start=(.19,2.31,1.42),end=(x,y,z),color=(.20,.35,.13)))
+ items.include('flower blossom %d'%i,ball(.035,center=(x,y,z),color=(.93,.45+.06*(i%3),.69)))
+scene.include('Desktop items',items)
+# Foreground upholstered visitors chairs, with stems and splayed metal feet.
+def visitor(name,x,y,col,angle):
+ a=Asset(name)
+ a.include('wide padded back',fillet_box((1.03,.21,1.06),radius=.13,center=(x,y,.99),color=col))
+ a.include('padded seat',fillet_box((.97,.76,.18),radius=.10,center=(x,y+.34,.57),color=col))
+ for side in (-1,1):
+  a.include('upholstered arm '+str(side),fillet_box((.18,.72,.40),radius=.09,center=(x+side*.53,y+.32,.76),color=col))
+ a.include('central chrome column',rod(.045,start=(x,y+.26,.12),end=(x,y+.26,.56),color=metal))
+ for k in range(4):
+  t=math.pi/4+k*math.pi/2
+  a.include('splayed foot %d'%k,rod(.037,start=(x,y+.26,.12),end=(x+.64*math.cos(t),y+.26+.64*math.sin(t),.045),color=metal))
+ a.turn('+z',angle,pivot=(x,y+.2,0))
+ scene.include(name,a)
+visitor('Left lime visitor chair',.25,.02,(.61,.64,.08),-3)
+visitor('Right olive visitor chair',1.98,.08,(.37,.42,.035),-12)
+# Low heater on back wall.
+heater=Asset('Low white heater')
+heater.include('heater casing',box((1.12,.27,.82),center=(-2.05,4.73,.47),color=(.88,.89,.87)))
+heater.include('dark top slot',box((.83,.04,.012),center=(-2.05,4.57,.89),color=(.18,.19,.18)))
+heater.include('lower grille',box((.87,.015,.16),center=(-2.05,4.58,.22),color=(.55,.57,.57)))
+for i in range(9): heater.include('grille bar %d'%i,box((.008,.009,.14),center=(-2.44+i*.098,4.565,.22),color=(.79,.80,.78)))
+scene.include('Heater',heater)
+# Framed abstract floral artwork, made as layered editable shapes.
+art=Asset('Framed abstract flower painting')
+art.include('dark outer frame',box((.84,.09,1.10),center=(.43,4.89,2.40),color=(.22,.13,.09)))
+art.include('canvas',box((.74,.025,1.00),center=(.43,4.83,2.40),color=(.18,.16,.14)))
+for i in range(5):
+ x=.14+i*.14
+ art.include('painted vertical line %d'%i,box((.025,.012,.92),center=(x,4.81,2.40),color=(.40,.25,.17)))
+for i in range(12):
+ x=.43+random.uniform(-.25,.25); z=2.4+random.uniform(-.38,.38)
+ petal=ball(.12,center=(x,4.79,z),color=random.choice([(0.76,.67,.52),(.49,.37,.22),(.73,.40,.17),(.55,.57,.47)]))
+ petal.resize((.7,.12,1.25)); art.include('abstract petal %d'%i,petal)
+scene.include('Wall artwork',art)
+# Two layered potted trees; leaves are individual flattened ellipsoids.
+def plant(name,x,y,scale):
+ a=Asset(name)
+ a.include('dark planter',fillet_box((.52*scale,.52*scale,.53*scale),radius=.07*scale,center=(x,y,.265*scale),color=(.08,.10,.085)))
+ for j in range(4):
+  dx=random.uniform(-.17,.17)*scale; dy=random.uniform(-.13,.13)*scale
+  end=(x+dx,y+dy,1.85*scale)
+  a.include('slender trunk %d'%j,rod(.025*scale,start=(x,y,.48*scale),end=end,color=(.24,.19,.12)))
+ for j in range(13):
+  t=random.uniform(0,6.283); h=random.uniform(.9,2.12)*scale; reach=random.uniform(.20,.65)*scale
+  ex=x+math.cos(t)*reach; ey=y+math.sin(t)*reach
+  a.include('branch %d'%j,rod(.009*scale,start=(x,y,h*.65),end=(ex,ey,h),color=(.24,.21,.13)))
+  for k in range(4):
+   lx=ex+random.uniform(-.17,.17)*scale; ly=ey+random.uniform(-.17,.17)*scale; lz=h+random.uniform(-.12,.17)*scale
+   leaf=ball(.13*scale,center=(lx,ly,lz),color=random.choice([(.12,.30,.08),(.17,.38,.09),(.24,.44,.12),(.10,.25,.08)]))
+   leaf.resize((1.0,.43,.22)); leaf.turn('+z',random.uniform(0,180)); leaf.turn('+y',random.uniform(-40,40)); a.include('leaf %d %d'%(j,k),leaf)
+ scene.include(name,a)
+plant('Rear potted tree',-1.05,4.05,.95)
+plant('Large foreground plant',-3.45,-2.40,1.30)
+# Bright square ceiling panel.
+scene.include('Ceiling light panel',box((1.0,.85,.025),center=(-.35,2.1,3.47),color=(1,1,.96)))
+realize(scene)
+# Add soft light after realization.
+if bpy.context.scene.world is None: bpy.context.scene.world=bpy.data.worlds.new('Office world')
+bpy.context.scene.world.use_nodes=True
+bg=bpy.context.scene.world.node_tree.nodes.get('Background'); bg.inputs['Color'].default_value=(0.80,0.85,0.89,1); bg.inputs['Strength'].default_value=.45
+set_view((0,-7.8,2.35),(0,2.4,1.55),lens=30,sensor=36)
+area_emitter((-3.1,1.2,2.8),power=650,size=4.0,target=(0,2,1.0),color=(.83,.90,1.0))
+area_emitter((-.3,2.0,3.35),power=500,size=2.3,target=(0,2,0),color=(1.0,.96,.89))
+area_emitter((1,-4,3.0),power=300,size=5,target=(0,2,1),color=(1,1,1))
+CURRENT EXECUTION:
+{"ok": false, "failure_type": "blender_build_error", "error": "build exited 1", "stderr": "[build]\nTraceback (most recent call last):\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py\", line 129, in <module>\n    main()\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py\", line 104, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/D02_M0_R1/steps/001/build.py\", line 48, in <module>\n    office.include('high taupe back',fillet_box((.69,.16,1.12),radius=.12,center=(.35,3.22,1.39),color=(.35,.33,.30)))\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n"}

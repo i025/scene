@@ -1,0 +1,231 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+PUBLIC TASK:
+依据参考原图重建可编辑的三维室内环境。匹配原图视角、构图、可见主要物体、相对比例、遮挡、色彩和灯光；使用独立命名的几何与部件。未知背面不编造唯一真值。禁止把参考图片当背景、投影或材质。没有额外隐藏rubric，不要求文字标识完全复刻。
+
+TEACHER LANGUAGE HINT:
+先用相机和大体块建立五组关系，再做细节。中央工作岛、左后玻璃高柜、右后上下柜和木地板必须保留，部件独立命名且可编辑。
+一，斜上方看工作岛，浅木台面占中央大块区域，深色底座落在下部中央；岛体完整入画，前方留出宽阔地板，左侧保留地面通道。
+二，台面是明显四边形，远边在中上部较短；左侧边向右下方到中央偏下的近角，右侧边向右下方到右侧中部的最右角，近角至最右角的边向右上倾斜。一起匹配四角与顶面露出量，不猜唯一焦距。
+三，底座偏在台面左下方，台面向右伸出明显悬挑。画面左侧斜向后退的立面带门、抽屉和五金，下方偏右的宽立面是框架嵌板端面，不是另一排抽屉或背面。顶板遮住立面上缘，柜脚接地。
+四，左后高柜顶部被画框裁切，玻璃门格位于上部，下面是抽屉与木门；工作岛遮住下柜右侧，左侧柜底和一段地面仍可见。
+五，右后长柜延伸到右边框，玻璃上柜被画面上缘截断，与深色操作台之间留出浅色墙带；岛体遮住下柜中央，右侧端部和底部仍露出。不要把墙带做成木柜。
+随后处理厚台面的平直轮廓、小倒角、柜门框与端面嵌板。浅蜂蜜色台面、深棕柜体、青白墙与玻璃、暖木地板构成主要色块；光线柔和，左侧较亮，台下与右侧较暗。最后补木地板长条错缝、轻木纹、拉手和铰链，低影响细节可简化。在既有流程内先核对四角、悬挑、可见面、裁切和遮挡，再核对材质；不新增试渲染或修改资源。参考图不可作背景、投影或材质，未知背面合理简化。
+Return JSON string fields decision, reason, observation, code. This is the one allowed internal review of YOUR CURRENT reconstruction only. Attachment 2 is the actual current render. Inspect it against reference attachment 1. Choose keep (empty code) or revise (complete replacement program). Explain observation and reason. 
+CURRENT PROGRAM:
+from sceneact import *
+import bpy
+import random
+
+random.seed(12)
+scene = Scene('Woodworking interior')
+
+wall = (0.73, 0.82, 0.79)
+dark = (0.19, 0.115, 0.068)
+dark_edge = (0.135, 0.078, 0.045)
+midwood = (0.24, 0.15, 0.09)
+panelwood = (0.215, 0.13, 0.075)
+topwood = (0.57, 0.38, 0.19)
+glass = (0.48, 0.65, 0.62)
+metal = (0.12, 0.12, 0.105)
+
+def addbox(parent, name, size, center, color):
+    parent.include(name, box(size=size, center=center, color=color))
+
+def bar(parent, name, a, b, radius=0.012, color=metal):
+    parent.include(name, rod(radius=radius, start=a, end=b, color=color))
+
+# The floor consists of individually editable, staggered boards.
+floor = Asset('Warm plank floor')
+for j in range(28):
+    y = -3.9 + j * 0.29
+    x = -5.1 - (j % 3) * 0.72
+    k = 0
+    while x < 6.0:
+        length = min(2.15 + random.uniform(-0.3, 0.3), 6.1-x)
+        if length > 0.08:
+            shade = random.uniform(0.91, 1.09)
+            addbox(floor, 'board_%02d_%02d' % (j,k), (length-0.012,0.282,0.07), (x+length/2,y,-0.045), (0.47*shade,0.30*shade,0.17*shade))
+        x += length
+        k += 1
+scene.include('floor', floor)
+
+architecture = Asset('Room walls and baseboard')
+addbox(architecture, 'back wall', (0.12,8.2,3.8), (-3.19,0,1.9), wall)
+addbox(architecture, 'left return wall', (5.5,0.12,3.8), (-0.5,-4.02,1.9), (0.76,0.84,0.80))
+addbox(architecture, 'back wall skirting', (0.10,8.0,0.22), (-3.09,0,0.11), dark)
+addbox(architecture, 'left wall skirting', (5.5,0.10,0.22), (-0.5,-3.94,0.11), dark)
+scene.include('architecture', architecture)
+
+# Central island: its long drawer side is toward the camera and its near end is panelled.
+island = Asset('Central work island')
+addbox(island, 'cabinet carcass', (2.70,1.38,0.74), (0,0,0.47), dark)
+addbox(island, 'thick honey oak worktop', (3.35,1.94,0.14), (0,0.09,0.91), topwood)
+addbox(island, 'worktop lower edge', (3.32,1.92,0.025), (0,0.09,0.837), (0.43,0.27,0.13))
+for x in (-1.30,1.30):
+    for y in (-0.64,0.64):
+        addbox(island, 'corner post %.2f %.2f' % (x,y), (0.10,0.10,0.87), (x,y,0.435), midwood)
+# The long visible side is the negative Y face.
+addbox(island, 'side lower rail', (2.55,0.055,0.12), (0,-0.711,0.16), midwood)
+addbox(island, 'side upper rail', (2.55,0.055,0.09), (0,-0.711,0.77), midwood)
+for x in (-0.88,0.0,0.88):
+    addbox(island, 'side divider %.2f' % x, (0.065,0.06,0.60), (x,-0.718,0.46), midwood)
+for i,x in enumerate((-0.45,0.44)):
+    addbox(island, 'side drawer %d' % i, (0.77,0.045,0.18), (x,-0.746,0.665), panelwood)
+    addbox(island, 'side door %d' % i, (0.77,0.045,0.42), (x,-0.746,0.355), midwood)
+    addbox(island, 'side inset panel %d' % i, (0.64,0.018,0.30), (x,-0.776,0.355), panelwood)
+    bar(island, 'drawer pull %d' % i, (x-0.09,-0.79,0.67), (x+0.09,-0.79,0.67), 0.015)
+    bar(island, 'door pull %d' % i, (x+0.25,-0.793,0.37), (x+0.25,-0.793,0.47), 0.012)
+# Wide near end, framed as a single inset panel.
+addbox(island, 'end recessed field', (0.035,1.15,0.50), (1.373,0,0.43), panelwood)
+for y in (-0.60,0.60):
+    addbox(island, 'end vertical frame %.2f' % y, (0.065,0.095,0.63), (1.40,y,0.45), midwood)
+for z in (0.17,0.73):
+    addbox(island, 'end horizontal frame %.2f' % z, (0.065,1.25,0.10), (1.40,0,z), midwood)
+scene.include('work island', island)
+
+# Tall left-hand cabinet, with a drawer and door base and glass upper doors.
+left = Asset('Left tall glass cabinet')
+ly0, ly1 = -3.25, -0.52
+lc = (ly0+ly1)/2
+lw = ly1-ly0
+addbox(left, 'lower cabinet body', (0.58,lw,0.89), (-2.79,lc,0.47), dark)
+addbox(left, 'cabinet plinth', (0.66,lw+0.06,0.12), (-2.76,lc,0.08), dark_edge)
+addbox(left, 'lower cabinet top molding', (0.68,lw+0.10,0.09), (-2.74,lc,0.94), midwood)
+for i in range(4):
+    y = ly0 + (i+0.5)*lw/4
+    w = lw/4-0.035
+    addbox(left, 'lower drawer %d' % i, (0.035,w,0.18), (-2.477,y,0.79), midwood)
+    addbox(left, 'lower door %d' % i, (0.04,w,0.55), (-2.473,y,0.395), midwood)
+    addbox(left, 'lower recessed panel %d' % i, (0.018,w-0.12,0.42), (-2.447,y,0.395), panelwood)
+    bar(left, 'lower drawer handle %d' % i, (-2.438,y-0.075,0.79), (-2.438,y+0.075,0.79), 0.013)
+    bar(left, 'lower door handle %d' % i, (-2.435,y+w*0.30,0.43), (-2.435,y+w*0.30,0.52), 0.011)
+addbox(left, 'upper cabinet back', (0.12,lw,1.94), (-3.02,lc,1.95), midwood)
+for i in range(4):
+    y = ly0 + (i+0.5)*lw/4
+    w = lw/4
+    addbox(left, 'upper glass %d' % i, (0.035,w-0.09,1.76), (-2.52,y,1.96), glass)
+    for yy in (y-w/2+0.025,y+w/2-0.025):
+        addbox(left, 'glass stile %d %.2f' % (i,yy), (0.085,0.055,1.88), (-2.48,yy,1.96), midwood)
+    for z in (1.04,1.61,2.21,2.88):
+        addbox(left, 'glass rail %d %.2f' % (i,z), (0.085,w,0.055), (-2.48,y,z), midwood)
+    bar(left, 'upper handle %d' % i, (-2.425,y+w*0.33,1.30), (-2.425,y+w*0.33,1.43), 0.009, (0.50,0.46,0.35))
+scene.include('left tall cabinet', left)
+
+# Long rear cabinet: a pale backsplash separates the two cabinet runs.
+rear = Asset('Right back wall cabinetry')
+ry0, ry1 = -0.18, 3.80
+rc = (ry0+ry1)/2
+rw = ry1-ry0
+addbox(rear, 'lower cabinet carcass', (0.68,rw,0.88), (-2.77,rc,0.47), dark)
+addbox(rear, 'lower cabinet toe plinth', (0.72,rw+0.04,0.12), (-2.75,rc,0.075), dark_edge)
+addbox(rear, 'dark countertop', (0.83,rw+0.10,0.10), (-2.72,rc,0.95), (0.19,0.13,0.09))
+for i in range(6):
+    y = ry0+(i+0.5)*rw/6
+    w = rw/6-0.025
+    addbox(rear, 'base drawer %d' % i, (0.035,w,0.19), (-2.408,y,0.78), midwood)
+    addbox(rear, 'base door %d' % i, (0.035,w,0.51), (-2.408,y,0.38), midwood)
+    addbox(rear, 'base inset %d' % i, (0.018,w-0.10,0.38), (-2.383,y,0.38), panelwood)
+    bar(rear, 'base pull %d' % i, (-2.37,y-0.075,0.78), (-2.37,y+0.075,0.78), 0.012)
+# Back and glass upper cabinet stop above an exposed light wall strip.
+addbox(rear, 'upper cabinet back', (0.10,rw,1.19), (-3.03,rc,2.39), dark)
+for i in range(6):
+    y = ry0+(i+0.5)*rw/6
+    w = rw/6
+    addbox(rear, 'upper glass %d' % i, (0.035,w-0.09,1.08), (-2.69,y,2.39), glass)
+    for yy in (y-w/2+0.025,y+w/2-0.025):
+        addbox(rear, 'upper stile %d %.2f' % (i,yy), (0.075,0.055,1.18), (-2.65,yy,2.39), midwood)
+    for z in (1.81,2.94):
+        addbox(rear, 'upper rail %d %.2f' % (i,z), (0.075,w,0.065), (-2.65,y,z), midwood)
+    bar(rear, 'upper glass pull %d' % i, (-2.60,y+w*0.33,2.08), (-2.60,y+w*0.33,2.19), 0.009, (0.48,0.43,0.32))
+addbox(rear, 'right tall cabinet side', (0.78,0.12,2.95), (-2.73,ry1,1.475), dark)
+scene.include('right rear cabinetry', rear)
+
+realize(scene)
+if bpy.context.scene.world is None:
+    bpy.context.scene.world = bpy.data.worlds.new('Soft interior world')
+world = bpy.context.scene.world
+world.use_nodes = True
+world.node_tree.nodes['Background'].inputs['Color'].default_value = (0.72,0.78,0.75,1)
+world.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.55
+set_view((6.7,-8.8,5.6), (-0.35,0.0,0.85), lens=42)
+area_emitter((1.0,-4.5,6.5), power=1100, size=5.0, target=(-0.5,0,0.6), color=(1.0,0.91,0.78))
+area_emitter((-1.5,1.5,5.0), power=500, size=4.0, target=(-1,0,1), color=(0.82,0.92,1.0))
+CURRENT EXECUTION:
+{"ok": true, "failure_type": null, "error": null, "stderr": "[build]\n\n[render]\n"}

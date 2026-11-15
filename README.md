@@ -1,3 +1,22 @@
+# 教师 M 一次自修改：固定学生，人工看图
+
+本分支 `research/teacher-self-evolution-human-pilot` 完成一次教师共享程序修改：4项开发后产生M1，再进行8项比较。固定学生、4张原图、12/12技术交付；没有新增H演化或自动质量评分。
+
+[中文报告](experiments/teacher_self_evolution_human_pilot/reports/REPORT_ZH.md) · [离线HTML](experiments/teacher_self_evolution_human_pilot/reports/index.html) · [审查索引](docs/TEACHER_HUMAN_REVIEW_INDEX.md) · [逐项状态](experiments/teacher_self_evolution_human_pilot/metrics/tasks.csv) · [教师变化](experiments/teacher_self_evolution_human_pilot/reports/M_SELF_MODIFICATION_REVIEW_ZH.md) · [Release](https://github.com/i025/scene/releases/tag/teacher-self-evolution-human-pilot-2026-11-15)
+
+![所有比较图，匿名A/B按预先映射](experiments/teacher_self_evolution_human_pilot/figures/comparison_contact.png)
+![所有开发图](experiments/teacher_self_evolution_human_pilot/figures/development_contact.png)
+
+24次内部构建、5次内部错误均保留；7/12项学生实际收到中间渲染，其余首建失败后按既定额度修复。最终工程可交付，不代表内容正确。M1实际改的是共享提示策略，已用于4次比较指导，质量仍待人工判断；没有普遍元能力提升结论。
+
+实际CLI 37/60：学生gpt-6.1-terra/medium，教师gpt-6-astra/medium；可见输入566,940、输出117,152 tokens，费用和实际路由未知。CPU8核/32GB、GPU0。完整离线资源包含原图、所有渲染与.blend；解压后打开 `teacher_self_evolution_human_pilot/reports/index.html`。页面支持放大、同步原图、展开Hint和内部版本、揭示A/B、导出可选人工意见。
+
+[完整附件](https://github.com/i025/scene/releases/download/teacher-self-evolution-human-pilot-2026-11-15/teacher_self_evolution_human_pilot_full.tar.gz) · [上传摘要](UPLOAD_SUMMARY_TEACHER_HUMAN.md)。上传是否完成以摘要与远端收据为准。图片许可与历史暴露见本轮manifest；不冒称全新盲测。
+
+以下旧README原样保留，数值不属于本次教师先导实验。
+
+---
+
 # Scene-RSI V3：十轮连续演化的实际状态
 
 [最终审查附记：完整终测、M07与回放预算](docs/V3_FINAL_AUDIT_APPENDIX_ZH.md)

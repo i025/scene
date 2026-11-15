@@ -1,0 +1,239 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+PUBLIC TASK:
+依据参考原图重建可编辑的三维室内环境。匹配原图视角、构图、可见主要物体、相对比例、遮挡、色彩和灯光；使用独立命名的几何与部件。未知背面不编造唯一真值。禁止把参考图片当背景、投影或材质。没有额外隐藏rubric，不要求文字标识完全复刻。
+
+TEACHER LANGUAGE HINT:
+先搭中央木质工作岛、后方左右两组高柜、浅色墙与木地板。相机在岛台前方偏左、较高处向下看，同时看到完整台面、左侧储物长面和近端封板。台面占画面中部，前景留大量地板，背景柜顶被裁切，不必补天花板。先对齐台面四角、柜体轮廓与遮挡。
+岛台是核心：浅蜂蜜色厚长方形木台面，边缘平直、轻微倒角；深棕底柜明显小于台面，尤其画面右侧悬挑较大，下面留空。左侧储物面有抽屉、框架柜门、暗色拉手和细长金属合页；近端是宽大框架嵌板，边柱落地形成短脚。不要做成四腿餐桌，也别用实心箱体填满台面下方。
+左后高柜上部为多扇窄高木框玻璃门，带横向分格，下部是抽屉与木门。右后长柜有深色下柜台面和上方玻璃柜，两者之间留宽阔浅色墙面带，端部有木侧板。两柜之间保留窄浅墙和竖向木构件，不能合并成整面木墙。
+木地板用长条铺板，板缝遵循透视，加克制的色差与磨损。台面偏金黄，柜体偏深棕；木纹方向随板件变化。玻璃呈青白半透与柔和反射。采用左侧较亮的柔和自然光，柜下与悬挑下压暗，避免强硬聚光。
+台面、框架、门板、抽屉、五金、玻璃、左右柜组、墙地分别独立命名并保持可编辑。优先保证比例、视角、悬挑与明暗，细节其次。不可见结构只做合理简化；禁止将参考图用作背景、投影或材质。
+Return JSON string fields decision, reason, observation, code. This is the one allowed internal review of YOUR CURRENT reconstruction only. Attachment 2 is the actual current render. Inspect it against reference attachment 1. Choose keep (empty code) or revise (complete replacement program). Explain observation and reason. 
+CURRENT PROGRAM:
+from sceneact import *
+import bpy, math, random
+from mathutils import Vector
+random.seed(11)
+scene = Scene('Woodworking room')
+wood = (0.19,0.105,0.060)
+frame = (0.23,0.135,0.078)
+panel = (0.255,0.155,0.092)
+edge = (0.13,0.075,0.045)
+gold = (0.56,0.36,0.17)
+metal = (0.12,0.115,0.105)
+wall = (0.72,0.80,0.77)
+glass = (0.53,0.72,0.70)
+
+def add(parent, name, size, center, color):
+    parent.include(name, box(size=size, center=center, color=color))
+
+def framed_panel(parent, name, axis, pos, u, z, width, height, depth=0.025, color=frame):
+    # axis identifies the face normal; u is the horizontal world coordinate
+    rail=0.055
+    if axis=='y':
+        add(parent,name+'_inset',(width-0.07,depth,height-0.07),(u,pos,z),panel)
+        for side in (-1,1):
+            add(parent,name+'_stile_'+str(side),(rail,depth+0.02,height),(u+side*(width-rail)/2,pos-0.012,z),color)
+            add(parent,name+'_rail_'+str(side),(width-2*rail,depth+0.02,rail),(u,pos-0.012,z+side*(height-rail)/2),color)
+    else:
+        add(parent,name+'_inset',(depth,width-0.07,height-0.07),(pos,u,z),panel)
+        for side in (-1,1):
+            add(parent,name+'_stile_'+str(side),(depth+0.02,rail,height),(pos+0.012,u+side*(width-rail)/2,z),color)
+            add(parent,name+'_rail_'+str(side),(depth+0.02,width-2*rail,rail),(pos+0.012,u,z+side*(height-rail)/2),color)
+
+def knob(parent,name,center):
+    parent.include(name, ball(0.026,center=center,color=metal))
+
+def drawer(parent,name,x,y,z,w,h):
+    add(parent,name+'_face',(w,0.035,h),(x,y,z),frame)
+    add(parent,name+'_inset',(w-0.045,0.018,h-0.04),(x,y-0.023,z),panel)
+    # dark small curved-pull impression
+    add(parent,name+'_pull',(0.13,0.027,0.018),(x,y-0.047,z),metal)
+    for dx in (-0.06,0.06):
+        add(parent,name+'_pull_end_'+str(dx),(0.017,0.027,0.035),(x+dx,y-0.047,z+0.008),metal)
+
+# floorboards run into the scene; thin dark seams remain individually editable
+floor = Asset('Long plank wood floor')
+for i in range(20):
+    x=-5.7+i*0.6
+    c=random.uniform(-0.035,0.035)
+    add(floor,'floorboard_%02d'%i,(0.594,11,0.045),(x,0,-0.035),(0.48+c,0.315+c,0.18+c))
+    for j in range(3):
+        y=-4.5+j*3.2+(i%2)*1.5
+        add(floor,'end_joint_%02d_%02d'%(i,j),(0.59,0.009,0.003),(x,y,-0.011),(0.28,0.17,0.09))
+scene.include('floor',floor)
+add(scene,'back plaster wall',(11,0.12,4.0),(0,3.15,2),(0.71,0.80,0.77))
+add(scene,'left plaster wall',(0.12,7,4),(-4.8,-0.3,2),(0.71,0.80,0.77))
+add(scene,'back baseboard',(11,0.07,0.20),(0,3.06,0.1),edge)
+add(scene,'left baseboard',(0.07,7,0.2),(-4.73,-0.3,0.1),edge)
+
+# Central island: overhanging slab and smaller raised cabinet carcass
+island=Asset('Central wood work island')
+add(island,'honey oak thick worktop',(3.85,1.75,0.12),(0,-0.45,0.99),gold)
+# slight edge strips articulate its thickness
+add(island,'worktop near long edge',(3.85,0.018,0.105),(0,-1.333,0.987),(0.48,0.29,0.13))
+add(island,'worktop near end edge',(0.018,1.75,0.105),(1.93,-0.45,0.987),(0.50,0.31,0.14))
+# dark inset carcass, raised above floor
+add(island,'cabinet body',(2.87,1.30,0.69),(-0.32,-0.45,0.49),wood)
+# side frame, legs and feet
+for x in (-1.73,1.08):
+    for y in (-1.10,0.20):
+        add(island,'corner_post_%.2f_%.2f'%(x,y),(0.105,0.105,0.87),(x,y,0.435),frame)
+add(island,'long lower side rail',(2.79,0.07,0.105),(-0.32,-1.13,0.18),frame)
+add(island,'long upper side rail',(2.79,0.07,0.10),(-0.32,-1.13,0.88),frame)
+# three storage bays, drawers above framed doors
+for i,x in enumerate((-1.25,-0.32,0.61)):
+    drawer(island,'island drawer %d'%i,x,-1.145,0.77,0.83,0.18)
+    framed_panel(island,'island cupboard door %d'%i,'y',-1.15,x,0.445,0.83,0.48)
+    knob(island,'island door knob %d'%i,(x+0.28,-1.20,0.48))
+    for z in (0.31,0.55):
+        add(island,'island hinge %d %.2f'%(i,z),(0.014,0.02,0.09),(x-0.375,-1.19,z),(0.56,0.56,0.51))
+# broad near-end panel and leg framing
+framed_panel(island,'island near end panel','x',1.135,-0.45,0.49,1.22,0.66,0.035)
+add(island,'end bottom rail',(0.08,1.30,0.12),(1.14,-0.45,0.19),frame)
+scene.include('island',island)
+
+# Left rear hutch, glass upper and low drawers/doors
+left=Asset('Left rear glass hutch')
+add(left,'lower cabinet body',(2.48,0.65,0.93),(-2.30,2.70,0.48),wood)
+add(left,'lower plinth',(2.58,0.72,0.10),(-2.30,2.68,0.08),edge)
+add(left,'counter molding',(2.58,0.73,0.09),(-2.30,2.67,0.97),frame)
+for i,x in enumerate((-3.20,-2.60,-2.00,-1.40)):
+    drawer(left,'left hutch drawer %d'%i,x,2.35,0.82,0.57,0.17)
+    framed_panel(left,'left hutch lower door %d'%i,'y',2.34,x,0.45,0.56,0.54)
+    knob(left,'left lower handle %d'%i,(x+0.19,2.29,0.48))
+# back and top panels of the glazed upper hutch
+add(left,'upper cabinet back',(2.48,0.08,1.95),(-2.30,3.02,1.98),(0.39,0.52,0.48))
+for x in (-3.56,-2.94,-2.30,-1.66,-1.04):
+    add(left,'upper vertical frame %.2f'%x,(0.075,0.12,1.98),(x,2.48,1.98),frame)
+for z in (1.01,2.95):
+    add(left,'upper horizontal frame %.2f'%z,(2.60,0.12,0.09),(-2.30,2.48,z),frame)
+for i,x in enumerate((-3.25,-2.62,-1.98,-1.34)):
+    add(left,'glass panel %d'%i,(0.54,0.025,1.82),(x,2.52,1.98),glass)
+    add(left,'glass crossbar %d'%i,(0.54,0.09,0.055),(x,2.45,1.90),frame)
+    add(left,'upper handle %d'%i,(0.018,0.025,0.11),(x+0.23,2.42,1.43),metal)
+scene.include('left hutch',left)
+
+# Right hutch has a wide pale wall gap between upper and lower cabinets
+right=Asset('Right rear long cabinet')
+add(right,'lower cabinet body',(3.20,0.68,0.92),(1.69,2.72,0.48),wood)
+add(right,'lower plinth',(3.32,0.75,0.10),(1.69,2.68,0.07),edge)
+add(right,'dark long counter',(3.36,0.78,0.09),(1.69,2.64,0.97),(0.16,0.10,0.065))
+for i,x in enumerate((0.39,1.04,1.69,2.34,2.99)):
+    drawer(right,'right drawer %d'%i,x,2.36,0.79,0.60,0.20)
+    framed_panel(right,'right lower door %d'%i,'y',2.35,x,0.43,0.60,0.52)
+    knob(right,'right door knob %d'%i,(x+0.20,2.30,0.44))
+# upright end boards and bridge framing
+for x in (0.02,3.36):
+    add(right,'full height end board %.2f'%x,(0.12,0.78,3.18),(x,2.70,1.59),frame)
+add(right,'upper cabinet back',(3.20,0.08,0.93),(1.69,3.03,2.70),(0.31,0.40,0.36))
+for x in (0.08,0.72,1.36,2.00,2.64,3.30):
+    add(right,'upper vertical stile %.2f'%x,(0.075,0.13,1.05),(x,2.50,2.72),frame)
+for z in (2.22,3.20):
+    add(right,'upper rail %.2f'%z,(3.3,0.13,0.10),(1.69,2.50,z),frame)
+for i,x in enumerate((0.40,1.04,1.68,2.32,2.97)):
+    add(right,'upper glass door %d'%i,(0.56,0.025,0.91),(x,2.54,2.72),glass)
+    add(right,'upper cabinet pull %d'%i,(0.015,0.025,0.105),(x+0.24,2.42,2.58),metal)
+scene.include('right hutch',right)
+# narrow light wall break with a vertical timber between groups
+add(scene,'separating wall strip',(0.21,0.08,3.5),(-0.88,3.06,1.75),wall)
+add(scene,'vertical timber between hutches',(0.12,0.13,3.5),(-0.72,2.98,1.75),frame)
+
+realize(scene)
+# Set a matte, subtly varied finish; all scene parts remain separate meshes.
+for mat in bpy.data.materials:
+    if mat.use_nodes:
+        bs=mat.node_tree.nodes.get('Principled BSDF')
+        if bs:
+            bs.inputs['Roughness'].default_value=0.58
+if bpy.context.scene.world is None:
+    bpy.context.scene.world=bpy.data.worlds.new('Room world')
+world=bpy.context.scene.world
+world.use_nodes=True
+world.node_tree.nodes['Background'].inputs['Color'].default_value=(0.72,0.79,0.78,1)
+world.node_tree.nodes['Background'].inputs['Strength'].default_value=0.38
+set_view((6.8,-8.8,5.15),(-0.15,0.35,0.9),lens=39)
+area_emitter((-3.8,-4.0,6.8),power=1000,size=5.0,target=(0,0,0.5),color=(1.0,0.88,0.73))
+area_emitter((2.8,0.0,5.0),power=380,size=4.0,target=(0,1,1),color=(0.82,0.9,1.0))
+bpy.context.scene.render.resolution_x=1280
+bpy.context.scene.render.resolution_y=960
+bpy.context.scene.render.resolution_percentage=100
+CURRENT EXECUTION:
+{"ok": true, "failure_type": null, "error": null, "stderr": "[build]\n\n[render]\n"}

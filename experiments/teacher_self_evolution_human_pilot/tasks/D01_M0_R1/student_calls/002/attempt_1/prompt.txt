@@ -1,0 +1,258 @@
+You are the fixed student reconstructing a real interior reference as editable 3D.
+Use the attached original image, the common task, and the teacher's natural-language hint.
+Only the external runner executes Blender. Do not use tools, external files, networking,
+models or historical scene outputs. SceneAct and bpy are available; build actual geometry.
+Do not project the reference, use it as a texture/background, or reproduce the image on a plane.
+Build a complete scene with a matching camera, meaningful object/part names and editable assets.
+Use SceneAct for geometry/hierarchy, bpy for material/light/camera customization.
+Return JSON with string fields decision, reason, observation, code. Code must be complete
+Python without Markdown fences. Do not save or render; the runner does that with your camera.
+Each build uses a fresh Blender scene. realize(scene) clears Blender; set camera and lights
+AFTER realize, and explicitly create a world before configuring it when none exists.
+Use modest geometric complexity and compact material palettes. Avoid thousands of primitives
+and repeated expensive booleans. Never access filesystem or change rendering/resources.
+The entire student task has at most two main model calls and two builds (initial + one revision),
+3600 seconds active wall time; single CLI <=900 seconds, build <=1200 and render <=600,
+each constrained by total remaining time. A failed first build can use the one remaining revision.
+On the second call the runner supplies only this task's current code and real render or error.
+Actually inspect that image. Choose keep or revise based on your observations, without scores.
+Keep returns empty code; revise returns one complete replacement program. State the reason.
+If a revision fails, the earlier successful checkpoint from this same task is submitted and labeled.
+There is no third model review; the second build's image is delivered to the human and teacher.
+Different reconstruction tasks have no prior student code, render, scene parameters or conversation.
+
+SceneAct API (all coordinates in a world frame with Z up; angles in degrees):
+from sceneact import *
+Scene(name='Scene'), Asset(name='Asset'), Part(name, *nodes)
+parent.include(name, node) attaches an asset/part while preserving its world position.
+parent.members[name] retrieves a child; parent.remove(name) detaches it.
+node.clone() returns an independent subtree. scene.replicate(name, new_name) duplicates an asset.
+box(size=(x,y,z), center=(x,y,z), color=(r,g,b), opacity=1)
+ball(radius, center=(0,0,0), color=(1,1,1), opacity=1)
+rod(radius, start=(x,y,z), end=(x,y,z), color=(1,1,1))
+rod(radius, length=h, center=(0,0,0), axis='+z', color=(1,1,1))
+fillet_box(size=(x,y,z), radius=r, center=(x,y,z), color=(1,1,1))
+sweep_tube(points=[(x,y,z), ...], radius=.03, color=(1,1,1))
+assemble(nodes, name='Assembly') groups shapes without merging their meshes.
+fuse(*nodes), subtract(base,*cutters), overlap(*nodes), exclusive(left,right) construct solids.
+node.move(offset), node.turn(axis, degrees, pivot=None), node.resize(factors, pivot=None)
+modify a node and its descendants. node.turn(euler=(rx,ry,rz)) applies X, then Y, then Z.
+Default rotation/scale pivot is the geometry's world-space bounding-box center.
+shifted(node, offset), turned(node, axis, degrees, pivot=None, euler=None),
+resized(node, factors, pivot=None) perform the same operations on independent copies.
+node.paint(color, opacity=1) applies color to the subtree; node.rgba reads its finish.
+node.centroid, node.dimensions, node.limits give AABB center, size, (minimum,maximum).
+node.landmark('top'), node.landmark('front_left_bottom') return bounding-box anchors.
+node.extreme(direction) returns a support point; projected_span(node,direction) returns bounds
+along a unit direction; projected_width(node,direction) returns their difference.
+snap(node, target, source_anchor='bottom', target_anchor='top', offset=(0,0,0)) returns a copy.
+A target can also be a world point; then omit target_anchor.
+abut(node, target, axis='+z', gap=0) places a copy after a target boundary.
+center_on(node, target, axes=('x','y','z')) aligns selected center coordinates.
+offset_at(node, reference, offsets) positions selected coordinates; None preserves a coordinate.
+repeat_line(nodes, axis='+x', spacing=1) uses equal center spacing, keeping the first fixed.
+pile(nodes, axis='+z', gap=0) spaces bounding surfaces, keeping the first fixed.
+lattice(nodes, rows=None, columns=None, spacing=(1,1), plane='xy', center=(0,0,0), order='row-major')
+orbit(nodes, radius, axis='+z', center=(0,0,0), start=0, sweep=360, orient=False, rotation_offset=0)
+Layout functions return assemblies of independent copies.
+scene.bind(source,target,source_anchor='bottom',target_anchor='top',offset=(0,0,0))
+registers a persistent relation between scene members; scene.settle() updates dependencies.
+realize(scene) settles constraints and creates Blender geometry, clearing Blender first.
+set_view(position,target,lens=35,sensor=36,shift=(0,0)) creates the active camera.
+area_emitter(position,power=500,size=5,target=(0,0,0),color=(1,1,1)) creates an area light.
+Call realize before setting the camera and lighting. Estimate the input viewpoint yourself.
+
+Example:
+from sceneact import *
+scene = Scene()
+table = Asset('table')
+table.include('top', box((1.4,.8,.08), center=(0,0,.75), color=(.4,.2,.1)))
+for x in (-.6,.6):
+    for y in (-.3,.3):
+        table.include(f'leg_{x}_{y}', box((.07,.07,.7), center=(x,y,.35)))
+scene.include('table', table)
+scene.include('floor', box((6,6,.1), center=(0,0,-.05), color=(.6,.6,.6)))
+realize(scene)
+set_view((3,-4,2), (0,0,.7), lens=40)
+area_emitter((0,-2,4), power=1000)
+
+PUBLIC TASK:
+依据参考原图重建可编辑的三维室内环境。匹配原图视角、构图、可见主要物体、相对比例、遮挡、色彩和灯光；使用独立命名的几何与部件。未知背面不编造唯一真值。禁止把参考图片当背景、投影或材质。没有额外隐藏rubric，不要求文字标识完全复刻。
+
+TEACHER LANGUAGE HINT:
+先用大体块匹配横幅构图与相机：焦糖黄沙发占据后方大部分宽度，深棕近黑长方茶几横跨前景，从中部偏左延伸至右侧画外，桌腿被下缘裁切。视角略向下，可见桌面、杯口和座面；保留桌边的透视倾斜。先核对靠背上沿、扶手外轮廓与桌面位置，确保茶几遮挡部分沙发座面和底座，桌下仍露出底座及灰地毯。
+沙发用厚软包塑形：宽厚方扶手带圆边，两块大靠背之间有竖缝，座垫前缘鼓起，下方是厚底座。左右各有浅金方抱枕，左枕明显倾斜，右枕被花束部分遮挡。按可见缝线分块，不凭空增加座位。材质呈暖黄绒面观感，褶皱集中在枕边、接缝和座垫前缘，避免亮面皮革。
+茶几用简洁木质桌板、桌下边框和方截面直腿。桌上两组白瓷杯碟分居左右：杯口较宽、底部收窄，略有竖向棱面；左杯把手朝左，右杯把手朝右。各组下铺浅色餐巾，带淡绿灰、淡粉图案及伸出的布角。中央偏右、两杯之间偏后放深灰粗糙花盆，盆底略收，绿叶密集，上方错落伸出数朵淡蓝紫球状花簇。花束是桌上最高物，伸至靠背前方；先匹配整体轮廓，再做花叶细节。
+背景上方保留大面积浅暖灰墙，底部是灰色短绒地毯；右上角深灰窗帘有宽厚垂褶，最右侧是明亮窗边，不强行补出未见的完整窗框。主光从右上方进入，阴影柔和，桌下及左扶手较暗。杯碟和盆花较清晰，沙发稍虚化。
+优先级为视角与遮挡、主要比例和色块、软包与桌体结构、桌上物轮廓，最后再做纹理。各家具部件与杯、柄、碟、布、盆、枝叶、花簇独立命名并保持可编辑。背面仅作合理补全，不认定唯一形状；禁止用参考图作背景、投影或材质。
+Return JSON string fields decision, reason, observation, code. This is the one allowed internal review of YOUR CURRENT reconstruction only. Attachment 2 is the actual current render. Inspect it against reference attachment 1. Choose keep (empty code) or revise (complete replacement program). Explain observation and reason. 
+CURRENT PROGRAM:
+from sceneact import *
+import bpy, math, random
+from mathutils import Vector
+
+random.seed(12)
+scene = Scene('Warm living room')
+wall = (0.72, 0.70, 0.68)
+carpet = (0.31, 0.30, 0.30)
+sofa = (0.67, 0.34, 0.105)
+sofa_light = (0.73, 0.40, 0.15)
+pillow = (0.88, 0.61, 0.29)
+darkwood = (0.075, 0.045, 0.032)
+scene.include('Warm gray wall', box((12, .12, 5), center=(0, 1.05, 2.5), color=wall))
+scene.include('Gray carpet', box((12, 10, .08), center=(0, -1, -.05), color=carpet))
+
+couch = Asset('Caramel upholstered sofa')
+couch.include('Lower upholstered base', fillet_box((3.65, .87, .47), radius=.10, center=(0, .16, .29), color=sofa))
+couch.include('Left broad arm', fillet_box((.43, 1.05, 1.02), radius=.085, center=(-1.72, .05, .57), color=sofa))
+couch.include('Right broad arm', fillet_box((.43, 1.05, 1.02), radius=.085, center=(1.72, .05, .57), color=sofa_light))
+for i, x in enumerate((-.78, .78)):
+    couch.include('Back cushion %d' % i, fillet_box((1.53, .30, .78), radius=.10, center=(x, .56, 1.20), color=sofa_light if i else sofa))
+for i, x in enumerate((-.78, .78)):
+    couch.include('Seat cushion %d' % i, fillet_box((1.52, .82, .34), radius=.12, center=(x, -.08, .72), color=sofa_light if i else sofa))
+leftp = fillet_box((.57, .17, .57), radius=.075, center=(-1.25, .20, 1.20), color=pillow)
+leftp.turn(axis='+y', degrees=-18)
+leftp.turn(axis='+z', degrees=-7)
+couch.include('Left tilted pillow', leftp)
+rightp = fillet_box((.52, .17, .51), radius=.07, center=(1.27, .24, 1.20), color=(.83,.56,.28))
+rightp.turn(axis='+y', degrees=12)
+couch.include('Right pillow', rightp)
+scene.include('Sofa', couch)
+
+# Long low coffee table, closer to the viewer than the sofa.
+table = Asset('Dark wood coffee table')
+table.include('Thick rectangular tabletop', box((3.45, 1.12, .13), center=(.38, -1.02, .70), color=darkwood))
+table.include('Front apron', box((3.23,.08,.19), center=(.38,-1.51,.56), color=(.045,.029,.022)))
+table.include('Rear apron', box((3.23,.08,.19), center=(.38,-.53,.56), color=(.045,.029,.022)))
+for x in (-1.19, 1.95):
+    for y in (-1.48, -.56):
+        table.include('Square leg %.2f %.2f' % (x,y), box((.14,.14,.61), center=(x,y,.30), color=(.045,.027,.020)))
+scene.include('Coffee table', table)
+
+# Fabric napkins are layered flat pieces, with a few muted colored accents.
+for label,x in [('Left',-.46),('Right',.98)]:
+    cloth = Asset(label+' patterned napkin')
+    cloth.include('Main cloth', box((.83,.53,.012), center=(x,-1.03,.775), color=(.72,.77,.72)))
+    for j in range(3):
+        stripe = box((.70,.025,.004), center=(x,-1.22+j*.17,.784), color=(.67,.70,.66) if j != 1 else (.77,.69,.68))
+        stripe.turn(axis='+z', degrees=-5)
+        cloth.include('Woven stripe %d' % j, stripe)
+    scene.include(label+' napkin',cloth)
+
+# Window edge and broad dark pleated curtains.
+scene.include('Bright window strip', box((.38,.05,3.2), center=(2.13,1.00,1.76), color=(.87,.87,.84)))
+curtain = Asset('Charcoal window curtain')
+for i in range(8):
+    x=1.48+i*.095
+    curtain.include('Vertical curtain fold %d' % i, fillet_box((.14,.11,2.55), radius=.055, center=(x,.91,1.86), color=(.17+i%3*.025,.17+i%3*.025,.18+i%3*.025)))
+scene.include('Curtain',curtain)
+
+# Small tapered forms are constructed as editable meshes after the main scene is realized.
+realize(scene)
+
+def material(name,color,roughness=.7):
+    mat=bpy.data.materials.new(name)
+    mat.diffuse_color=(*color,1)
+    mat.use_nodes=True
+    p=mat.node_tree.nodes.get('Principled BSDF')
+    p.inputs['Base Color'].default_value=(*color,1)
+    p.inputs['Roughness'].default_value=roughness
+    return mat
+
+porcelain=material('Soft white porcelain',(.88,.88,.85),.22)
+inside=material('Cup interior shadow',(.58,.59,.57),.32)
+potmat=material('Rough charcoal ceramic',(.105,.11,.105),.95)
+leafmat=material('Sage green leaves',(.25,.37,.18),.88)
+leaflight=material('Light green leaves',(.39,.49,.25),.85)
+stemmat=material('Green stems',(.20,.30,.12),.9)
+flower=material('Pale lavender blue flowers',(.48,.50,.65),.86)
+flowerlight=material('Flower pale tips',(.64,.65,.75),.85)
+
+def lathe(name, x, y, profile, mat, segments=32):
+    verts=[]
+    for r,z in profile:
+        for i in range(segments):
+            a=2*math.pi*i/segments
+            verts.append((x+r*math.cos(a), y+r*math.sin(a), z))
+    faces=[]
+    for j in range(len(profile)-1):
+        for i in range(segments):
+            k=(i+1)%segments
+            faces.append((j*segments+i,j*segments+k,(j+1)*segments+k,(j+1)*segments+i))
+    mesh=bpy.data.meshes.new(name+' mesh')
+    mesh.from_pydata(verts,[],faces); mesh.update()
+    obj=bpy.data.objects.new(name,mesh); bpy.context.collection.objects.link(obj)
+    obj.data.materials.append(mat)
+    for poly in mesh.polygons: poly.use_smooth=True
+    return obj
+
+def curve_obj(name, points, radius, mat):
+    cu=bpy.data.curves.new(name+' curve','CURVE'); cu.dimensions='3D'; cu.resolution_u=12
+    cu.bevel_depth=radius; cu.bevel_resolution=3
+    sp=cu.splines.new('POLY'); sp.points.add(len(points)-1)
+    for p,co in zip(sp.points,points): p.co=(*co,1)
+    ob=bpy.data.objects.new(name,cu); bpy.context.collection.objects.link(ob); ob.data.materials.append(mat)
+    return ob
+
+for label,x,side in [('Left',-.46,-1),('Right',.98,1)]:
+    y=-1.03
+    lathe(label+' saucer',x,y,[(0,.799),(.15,.799),(.21,.805),(.24,.818),(.24,.825),(.18,.820),(0,.813)],porcelain)
+    lathe(label+' tapered cup',x,y,[(0,.824),(.10,.824),(.125,.84),(.16,1.055),(.155,1.060),(.142,1.048),(.112,.865),(0,.85)],porcelain)
+    points=[]
+    for i in range(25):
+        t=-math.pi/2+math.pi*i/24
+        points.append((x+side*(.145+.105*math.cos(t)),y, .945+.080*math.sin(t)))
+    curve_obj(label+' cup handle',points,.012,porcelain)
+
+px,py=.28,-.73
+lathe('Tapered charcoal flowerpot',px,py,[(0,.78),(.105,.78),(.14,.80),(.17,1.11),(.165,1.13),(.145,1.125),(.13,1.10),(0,1.10)],potmat)
+
+# Curved stems, elongated pointed leaves, and loose spherical flower heads.
+def leaf(name,start,end,width,mat):
+    a=Vector(start); b=Vector(end); d=b-a
+    perp=Vector((-d.y,d.x,0))
+    if perp.length<.0001: perp=Vector((1,0,0))
+    perp.normalize(); mid=a+d*.55+Vector((0,0,.025))
+    verts=[a,mid+perp*width,b,mid-perp*width,mid+Vector((0,0,.018))]
+    mesh=bpy.data.meshes.new(name+' mesh'); mesh.from_pydata(verts,[],[(0,1,4),(1,2,4),(2,3,4),(3,0,4)]); mesh.update()
+    ob=bpy.data.objects.new(name,mesh); bpy.context.collection.objects.link(ob); ob.data.materials.append(mat)
+
+for i in range(30):
+    angle=random.random()*math.tau
+    reach=random.uniform(.13,.38)
+    z=random.uniform(1.20,1.47)
+    end=(px+math.cos(angle)*reach,py+math.sin(angle)*reach,z)
+    start=(px+random.uniform(-.04,.04),py+random.uniform(-.04,.04),1.08)
+    curve_obj('Foliage stem %02d'%i,[start,end],.005,stemmat)
+    for k in (0.45,0.72):
+        base=Vector(start).lerp(Vector(end),k)
+        direction=Vector((math.cos(angle+(-1 if k<.6 else 1)*.8),math.sin(angle+(-1 if k<.6 else 1)*.8),.34))
+        tip=base+direction*random.uniform(.10,.18)
+        leaf('Leaf %02d %.2f'%(i,k),base,tip,random.uniform(.018,.032),leaflight if i%3==0 else leafmat)
+
+heads=[(-.27,.00,1.63),(-.10,.03,1.79),(.05,-.03,1.64),(.25,.04,1.57),(.12,.13,1.53)]
+for h,(dx,dy,z) in enumerate(heads):
+    center=Vector((px+dx,py+dy,z))
+    curve_obj('Flower stem %d'%h,[(px,py,1.09),(px+dx*.6,py+dy*.6,1.37),center],.007,stemmat)
+    for j in range(20):
+        theta=math.acos(1-2*(j+.5)/20); phi=j*2.39996
+        direction=Vector((math.sin(theta)*math.cos(phi),math.sin(theta)*math.sin(phi),math.cos(theta)))
+        pos=center+direction*.055
+        bpy.ops.mesh.primitive_ico_sphere_add(subdivisions=1,radius=.026,location=pos)
+        ob=bpy.context.object; ob.name='Lavender flower %d florets %02d'%(h,j); ob.data.materials.append(flowerlight if j%4==0 else flower)
+
+# Camera and illumination are configured after SceneAct realization.
+set_view((.05,-6.8,2.35),(.05,0,1.00),lens=45)
+area_emitter((3.4,-2.0,4.7),power=700,size=4.0,target=(0,0,.7),color=(1.0,.90,.78))
+area_emitter((-3.5,-2.5,3.3),power=260,size=4.5,target=(0,0,1),color=(.82,.86,1.0))
+if bpy.context.scene.world is None:
+    bpy.context.scene.world=bpy.data.worlds.new('Warm ambient world')
+bpy.context.scene.world.use_nodes=True
+bpy.context.scene.world.node_tree.nodes['Background'].inputs['Color'].default_value=(.68,.67,.65,1)
+bpy.context.scene.world.node_tree.nodes['Background'].inputs['Strength'].default_value=.32
+bpy.context.scene.render.resolution_x=1280
+bpy.context.scene.render.resolution_y=854
+bpy.context.scene.render.resolution_percentage=100
+
+CURRENT EXECUTION:
+{"ok": true, "failure_type": null, "error": null, "stderr": "[build]\n\n[render]\n"}

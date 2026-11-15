@@ -1,0 +1,126 @@
+--- M0/teacher.py
++++ M1/teacher.py
+@@ -1,49 +1,87 @@
+-"""Initial language teacher. These shared policy functions may self-modify once."""
++"""Shared language-teacher policy; no task memory or external effects."""
+ import json
+ 
+ 
++def _request(context, instruction):
++    return instruction + '\n输入上下文：\n' + json.dumps(context, ensure_ascii=False)
++
++
++def _output_rules():
++    return (
++        '返回JSON，draft、hint、observations、correction_record、change_reason均为字符串。'
++        'draft写出完整的独立指导，不只是相对旧稿的修改摘要。'
++        'hint最多1200个Unicode字符，只用自然语言，不含代码、文件路径、网址或数值参数表。'
++        '不输出质量分数。学生从零开始，只能看到原图、共同任务和hint，不能引用旧代码、旧图或纠错记录。'
++        '遵守固定学生与runner约束，不要求新增调用、额外试渲染或修改渲染资源。'
++        '保持主要几何与部件独立命名且可编辑，不将参考图用作背景、投影或材质；未知背面仅合理简化。'
++    )
++
++
++def _visual_policy():
++    return (
++        '先从原图选择少量决定画面匹配的可见关系，再组织物体细节。'
++        '关系应覆盖主体占幅与留白、画框裁切、主要边线方向、前后遮挡以及可见正背面；只选择本图确有证据的项。'
++        '用画面中的对象和边界作为锚点，必要时用粗略画面分区描述，不猜测唯一焦距或真实尺寸。'
++        '对关键对象把位置、大小、朝向与遮挡写在同一段，避免只要求放大或移动而丢失朝向和裁切。'
++        '指导先建立相机与大体块的这些关系，再处理轮廓和主要明暗色块，最后处理小物与纹理。'
++        '核对必须在既有学生流程内完成，不承诺额外验证机会。'
++    )
++
++
+ def initial_hint(context):
+-    return (
+-        '你是三维重建学生的教师。查看真实参考图，为从零重建生成可操作的自然语言指导。'
+-        '先辨认构图、可见环境与主要对象，再决定有限指导空间中最值得强调的事项。'
+-        '不要生成场景代码，不提供数值参数表，不把猜测当成确定几何事实。'
+-        '返回JSON：draft为完整指导草稿；hint为最多1200个Unicode字符的最终指导；'
+-        'observations为依据；correction_record为本题纠错记录；change_reason说明优先级依据。'
+-        '所有字段为字符串；没有历史时纠错记录可以为空。不得给质量分数。\n'
+-        +json.dumps(context,ensure_ascii=False))
++    return _request(context,
++        '你是三维重建学生的教师，依据真实参考图生成从零重建的指导。'
++        + _visual_policy()
++        + '先在observations区分直接可见事实与不确定解释。'
++        '为hint选取最重要的三至五条画面关系，并保留辨认场景所需的主要对象；不要写成等权物体清单。'
++        '明确容易混淆的可见面及边界关系，低影响细节可以简化。'
++        '没有实际历史时correction_record为空，不预设学生会犯某种错误。'
++        'change_reason说明为何这些关系比被省略的细节重要。'
++        + _output_rules())
+ 
+ 
+ def update_hint(context):
+-    return (
+-        '你是同一题的教师。附件按顺序是原图和上一学生最终渲染（若有效）。'
+-        '根据真实结果、有界执行轨迹和旧指导，更新本题纠错记录，然后压缩为新指导。'
+-        '若没有渲染，明确无图，只能诊断实际错误。下一学生完全从零开始，'
+-        '看不到旧代码、参数、渲染或对话；指导必须独立可理解。'
+-        '区分观察事实与可能解释，保留有用指导、纠正被证据否定的建议。'
+-        '返回JSON字符串字段draft、hint、observations、correction_record、change_reason；'
+-        'hint最多1200个Unicode字符，纯自然语言，不含代码、文件路径、网址或参数表。'
+-        '不输出质量分数或比较其他教师。\n'+json.dumps(context,ensure_ascii=False))
++    return _request(context,
++        '你是同一题的教师。附件按顺序为原图与上一学生最终渲染（若有效）。'
++        '先识别实际选中的交付结果；中间构建失败、后来修复与最终失败必须分开。'
++        '没有有效渲染时明确无图，只报告轨迹支持的执行问题，不能编造视觉偏差。'
++        '有图时以最终图对照原图，代码节选仅用于辅助解释；代码中存在对象不代表画面中可辨，节选未出现也不代表漏建。'
++        + _visual_policy()
++        + '先审核旧指导中的关键关系：哪些符合原图且需继续保留，哪些未被实现，哪些被反证，哪些没有证据判断。'
++        '区分建议错误与建议未被落实；不能因为结果不佳就反转原本正确的要求。'
++        '再选最多三项高影响纠错，每项包含原图目标关系、最终图偏差、下一次独立建模时的正向目标和需要同时保留的关系。'
++        '只把确定的目标写成要求，原因推测留在observations；不把画面偏差直接等同于某个相机、材质或灯光参数错误。'
++        'correction_record用简短条目记录：目标关系；依据来源；本轮状态（未落实、部分落实、已满足、反证撤回或待验证）；下一步。'
++        '状态必须来自实际结果，不能因新hint已写入要求就标成已解决。保留仍重要的约束，合并重复项，移除失效解释。'
++        '已修复的构建错误标为已修复；只有可复发且值得占用指导空间时，保留一句通用预防条件。'
++        '重写完整draft和hint：开头给主要布局与关键关系，集中说明当前优先目标，然后补充必要对象和外观。'
++        '压缩前检查是否为强调新纠错而遗漏朝向、遮挡或裁切；不得只写相对上一轮的修改。'
++        '若没有新增可靠证据，保留有效要求，不为变化而添加新诊断。'
++        + _output_rules())
+ 
+ 
+ def compress_hint(context):
+-    return ('把以下指导重新整理成最多1200个Unicode字符的独立自然语言Hint。'
+-            '保留对学生有用且有证据的优先级，删除重复和冲突，不能简单截断。'
+-            '返回相同JSON字段draft、hint、observations、correction_record、change_reason。\n'
+-            +json.dumps(context,ensure_ascii=False))
++    return _request(context,
++        '将上下文中的指导压缩为独立可执行的自然语言Hint，不添加新诊断。'
++        '优先保留主要布局、关键画面关系与当前最高影响纠错；位置、大小、可见面、遮挡和裁切作为关联要求一起保留。'
++        '先删除重复解释、历史过程、低影响细节和未经证实的成因，再缩短措辞，不机械截断。'
++        '不能把正背面或遮挡要求压成含糊的对象名称，也不能把局部纠错压成无限制的放大、缩小或增亮。'
++        '冲突以原图和有效最终图支持的事实为准；证据不足时保留不确定性，不自行补全结论。'
++        'observations与correction_record保留证据及状态，不将待验证建议改写成已取得效果。'
++        'draft仍为完整指导，change_reason说明压缩取舍。'
++        + _output_rules())
+ 
+ 
+ def self_modify(context):
+-    return (
+-        '你现在执行教师自身的单次共享程序研发。只依据以下两题各两轮实际开发记录，'
+-        '自行判断当前教师程序有什么通用问题，以及是否值得提出一个共享策略修改。'
+-        '不要假定必须修改某一策略；可以返回unchanged。学生固定，跨学生只传自然语言Hint。'
+-        '你可以改变教师诊断顺序、证据组织、纠错记录更新、压缩、停止或自修改策略。'
+-        '只能替换teacher.py，保持initial_hint(context)、update_hint(context)、'
+-        'compress_hint(context)、self_modify(context)四个纯Python函数，均返回调用提示字符串。'
+-        '可新增纯函数，允许json/re/math/textwrap/statistics/copy标准库；禁止文件读写、'
+-        '外部执行、网络、导入其他模块、修改学生或固定runner、预算、图片划分与Hint约束。'
+-        '不要硬编码题号、图像路径、特定场景答案或开发图专属分支。'
+-        'M1只携带共享源码，不携带开发题记忆。若仅改提示模板，change_type如实说明。'
+-        '返回JSON字符串字段decision（modify或unchanged）、teacher_py（完整文件）、'
+-        'evidence、expected_effect、change_type。不得宣称已有质量提升。\n'
+-        +json.dumps(context,ensure_ascii=False))
++    return _request(context,
++        '你执行教师自身的单次共享程序研发，只依据提供的两题各两轮实际记录。'
++        '分别检查指导意图、实际最终渲染和执行轨迹，寻找跨题共有的指导缺口；不要将运行成功视为视觉匹配。'
++        '区分可见变化、残留偏差和新偏差，不把两轮相关性宣称为提示策略的因果收益。'
++        '判断是否值得提出一个最小共享修改；已有策略覆盖问题或证据不足时可返回unchanged。'
++        '学生固定，跨学生只传自然语言Hint。可改变教师诊断顺序、证据组织、纠错记录更新、压缩、停止或自修改策略。'
++        '只能替换teacher.py，保持initial_hint(context)、update_hint(context)、compress_hint(context)、self_modify(context)四个纯Python函数，均返回调用提示字符串。'
++        '可新增纯函数，只允许json/re/math/textwrap/statistics/copy标准库；禁止文件读写、外部执行、网络或导入其他模块。'
++        '不得修改学生、固定runner、预算、图片划分或Hint约束。不得硬编码题号、路径、场景答案或开发图专属分支。'
++        'M1只携带共享源码，不携带开发题记忆。仅修改提示模板时change_type必须如实注明。'
++        '返回JSON字符串字段decision（modify或unchanged）、teacher_py（完整源码）、evidence、expected_effect、change_type。'
++        '指出证据局限与潜在副作用，不得宣称未经验证的质量提升。')

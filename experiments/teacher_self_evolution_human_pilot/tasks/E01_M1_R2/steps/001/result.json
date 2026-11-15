@@ -1,0 +1,53 @@
+{
+  "ok": false,
+  "step": 1,
+  "error": "build exited 1",
+  "failure_type": "blender_build_error",
+  "seconds": 0.5058997962623835,
+  "stages": {
+    "build": {
+      "status": "failed",
+      "pid": 3401939,
+      "command": [
+        "${USER_HOME}/projects/BlenderWorld/runtime/blender-4.2.10-linux-x64/blender",
+        "--background",
+        "-noaudio",
+        "--factory-startup",
+        "--disable-autoexec",
+        "--threads",
+        "8",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py",
+        "--",
+        "--settings",
+        "${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001/render_settings.json",
+        "--output-dir",
+        "${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001",
+        "--code",
+        "${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001/build.py",
+        "--build-only"
+      ],
+      "started": 1794728692.9941335,
+      "finished": 1794728693.498375,
+      "seconds": 0.5042432178743184,
+      "returncode": 1,
+      "timed_out": false,
+      "timeout_seconds": 1200,
+      "memory_limit_exceeded": false,
+      "memory_limit_bytes": 34359738368,
+      "cpu_user_seconds": 0.34,
+      "cpu_system_seconds": 0.17,
+      "peak_individual_rss_kib": 288080,
+      "sampled_peak_tree_rss_kib_lower_bound": 277884.0,
+      "sample_interval_seconds": 0.1,
+      "sampled_process_count": 2,
+      "cpu_scope": "GNU time waited child and reaped descendants",
+      "rss_scope": "sampled simultaneous sum of experiment process tree; lower bound"
+    }
+  },
+  "stdout": "[build]\n",
+  "stderr": "[build]\nTraceback (most recent call last):\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py\", line 129, in <module>\n    main()\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/render.py\", line 104, in main\n    runpy.run_path(str(args.code), run_name='__sceneact_build__')\n  File \"<frozen runpy>\", line 291, in run_path\n  File \"<frozen runpy>\", line 98, in _run_module_code\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001/build.py\", line 112, in <module>\n    chair('left upholstered chair',.25,.48,-30)\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/tasks/E01_M1_R2/steps/001/build.py\", line 102, in chair\n    a.include('pale upholstered cushion',fillet_box((.63,.57,.14),radius=.08,center=(cx,cy,.64),color=(.66,.65,.59)))\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"${PROJECT_ROOT}/outputs/teacher_self_evolution_human_pilot/backend/sceneact/construction.py\", line 43, in fillet_box\n    if r > min(dimensions)/2: raise ValueError('Fillet exceeds half the smallest dimension')\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: Fillet exceeds half the smallest dimension\n",
+  "image": null
+}
